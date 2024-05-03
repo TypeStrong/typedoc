@@ -46,8 +46,6 @@ export const translatable = {
         "The entrypoint glob {0} did not match any files.",
     failed_to_parse_json_0: `Failed to parse file at {0} as json.`,
 
-    block_and_modifier_tags_ignored_within_readme_0: `Block and modifier tags will be ignored within the readme:\n\t{0}`,
-
     converting_union_as_interface: `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
     converting_0_as_class_requires_value_declaration: `Converting {0} as a class requires a declaration which represents a non-type value.`,
     converting_0_as_class_without_construct_signatures: `{0} is being converted as a class, but does not have any construct signatures`,
@@ -135,8 +133,8 @@ export const translatable = {
         "Watch mode does not support 'merge' style entry points.",
     entry_point_0_not_in_program: `The entry point {0} is not referenced by the 'files' or 'include' option in your tsconfig.`,
     use_expand_or_glob_for_files_in_dir: `If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob.`,
-    entry_point_0_did_not_match_any_files: `The entry point glob {0} did not match any files.`,
-    entry_point_0_did_not_match_any_files_after_exclude: `The entry point glob {0} did not match any files after applying exclude patterns.`,
+    glob_0_did_not_match_any_files: `The glob {0} did not match any files.`,
+    entry_point_0_did_not_match_any_files_after_exclude: `The glob {0} did not match any files after applying exclude patterns.`,
     entry_point_0_did_not_exist: `Provided entry point {0} does not exist.`,
     entry_point_0_did_not_match_any_packages: `The entry point glob {0} did not match any directories containing package.json.`,
     file_0_not_an_object: `The file {0} is not an object.`,
@@ -183,6 +181,8 @@ export const translatable = {
     help_entryPoints: "The entry points of your documentation.",
     help_entryPointStrategy:
         "The strategy to be used to convert entry points into documentation modules.",
+    help_projectDocuments:
+        "Documents which should be added as children to the root of the generated documentation. Supports globs to match multiple files.",
     help_exclude:
         "Define patterns to be excluded when expanding a directory that was specified as an entry point.",
     help_externalPattern:
@@ -261,6 +261,8 @@ export const translatable = {
     help_cacheBust: "Include the generation time in links to static assets.",
     help_searchInComments:
         "If set, the search index will also include comments. This will greatly increase the size of the search index.",
+    help_searchInDocuments:
+        "If set, the search index will also include documents. This will greatly increase the size of the search index.",
     help_cleanOutputDir:
         "If set, TypeDoc will remove the output directory before writing output.",
     help_titleLink:
@@ -382,6 +384,7 @@ export const translatable = {
     kind_set_signature: "Set Signature",
     kind_type_alias: "Type Alias",
     kind_reference: "Reference",
+    kind_document: "Document",
 
     // ReflectionKind plural translations
     kind_plural_project: "Projects",
@@ -407,6 +410,7 @@ export const translatable = {
     kind_plural_set_signature: "Set Signatures",
     kind_plural_type_alias: "Type Aliases",
     kind_plural_reference: "References",
+    kind_plural_document: "Documents",
 
     // ==================================================================
     // Strings that show up in the default theme

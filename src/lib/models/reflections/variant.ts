@@ -1,4 +1,5 @@
 import type { DeclarationReflection } from "./declaration";
+import type { DocumentReflection } from "./document";
 import type { ParameterReflection } from "./parameter";
 import type { ProjectReflection } from "./project";
 import type { ReferenceReflection } from "./reference";
@@ -16,4 +17,5 @@ export interface ReflectionVariant {
     reference: ReferenceReflection;
     signature: SignatureReflection;
     typeParam: TypeParameterReflection;
+    document: DocumentReflection;
 }

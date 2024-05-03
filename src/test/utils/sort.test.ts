@@ -1,6 +1,7 @@
 import { deepStrictEqual as equal } from "assert";
 import {
     DeclarationReflection,
+    DocumentReflection,
     LiteralType,
     ProjectReflection,
     ReflectionFlag,
@@ -14,7 +15,7 @@ import { Internationalization } from "../../lib/internationalization/internation
 
 describe("Sort", () => {
     function sortReflections(
-        arr: DeclarationReflection[],
+        arr: Array<DeclarationReflection | DocumentReflection>,
         strategies: SortStrategy[],
     ) {
         const opts = new Options(new Internationalization(null).proxy);
@@ -331,6 +332,48 @@ describe("Sort", () => {
         equal(
             arr.map((r) => r.name),
             ["a", "c", "b", "d"],
+        );
+    });
+
+    it("Should handle documents-first ordering", () => {
+        const proj = new ProjectReflection("");
+        const a = new DocumentReflection("a", proj, []);
+        const b = new DocumentReflection("b", proj, []);
+        const c = new DeclarationReflection("c", ReflectionKind.Class, proj);
+
+        const arr = [a, b, c];
+        sortReflections(arr, ["documents-first", "alphabetical"]);
+        equal(
+            arr.map((r) => r.name),
+            ["a", "b", "c"],
+        );
+
+        const arr2 = [c, b, a];
+        sortReflections(arr2, ["documents-first", "alphabetical"]);
+        equal(
+            arr2.map((r) => r.name),
+            ["a", "b", "c"],
+        );
+    });
+
+    it("Should handle documents-last ordering", () => {
+        const proj = new ProjectReflection("");
+        const a = new DocumentReflection("a", proj, []);
+        const b = new DocumentReflection("b", proj, []);
+        const c = new DeclarationReflection("c", ReflectionKind.Class, proj);
+
+        const arr = [a, b, c];
+        sortReflections(arr, ["documents-last", "alphabetical"]);
+        equal(
+            arr.map((r) => r.name),
+            ["c", "a", "b"],
+        );
+
+        const arr2 = [a, c, b];
+        sortReflections(arr2, ["documents-last", "alphabetical"]);
+        equal(
+            arr2.map((r) => r.name),
+            ["c", "a", "b"],
         );
     });
 });

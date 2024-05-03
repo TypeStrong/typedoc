@@ -28,6 +28,10 @@ export enum ReflectionKind {
     SetSignature = 0x100000,
     TypeAlias = 0x200000,
     Reference = 0x400000,
+    /**
+     * Generic non-ts content to be included in the generated docs as its own page.
+     */
+    Document = 0x800000,
 }
 
 /** @category Reflections */

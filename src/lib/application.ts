@@ -271,7 +271,7 @@ export class Application extends ChildableComponent<
             } catch (error) {
                 ok(error instanceof Error);
                 if (reportErrors) {
-                    this.logger.error(error.message as TranslatedString); // GERRIT review
+                    this.logger.error(error.message as TranslatedString);
                 }
             }
         }
@@ -723,6 +723,13 @@ export class Application extends ChildableComponent<
             jsonProjects,
         );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
+
+        // If we only revived one project, the project documents were set for
+        // it when it was created. If we revived more than one project then
+        // it's convenient to be able to add more documents now.
+        if (jsonProjects.length > 1) {
+            this.converter.addProjectDocuments(result);
+        }
 
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;

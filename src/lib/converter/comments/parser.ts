@@ -1,4 +1,4 @@
-import { ok } from "assert";
+import assert, { ok } from "assert";
 import type { CommentParserConfig } from ".";
 import {
     Comment,
@@ -105,6 +105,75 @@ export function parseComment(
     function warningImpl(message: TranslatedString, token: Token) {
         logger.warn(message, token.pos, file);
     }
+}
+
+/**
+ * Intended for parsing markdown documents. This only parses code blocks and
+ * inline tags outside of code blocks, everything else is text.
+ *
+ * If you change this, also look at blockContent, as it likely needs similar
+ * modifications to ensure parsing is consistent.
+ */
+export function parseCommentString(
+    tokens: Generator<Token, undefined, undefined>,
+    config: CommentParserConfig,
+    file: MinimalSourceFile,
+    logger: Logger,
+) {
+    const suppressWarningsConfig: CommentParserConfig = {
+        ...config,
+        jsDocCompatibility: {
+            defaultTag: true,
+            exampleTag: true,
+            ignoreUnescapedBraces: true,
+            inheritDocTag: true,
+        },
+    };
+
+    const content: CommentDisplayPart[] = [];
+    const lexer = makeLookaheadGenerator(tokens);
+
+    while (!lexer.done()) {
+        let consume = true;
+        const next = lexer.peek();
+
+        switch (next.kind) {
+            case TokenSyntaxKind.TypeAnnotation:
+                // Shouldn't have been produced by our lexer
+                assert(false, "Should be unreachable");
+                break;
+            case TokenSyntaxKind.NewLine:
+            case TokenSyntaxKind.Text:
+            case TokenSyntaxKind.Tag:
+            case TokenSyntaxKind.CloseBrace:
+                content.push({ kind: "text", text: next.text });
+                break;
+
+            case TokenSyntaxKind.Code:
+                content.push({ kind: "code", text: next.text });
+                break;
+
+            case TokenSyntaxKind.OpenBrace:
+                inlineTag(
+                    lexer,
+                    content,
+                    suppressWarningsConfig,
+                    logger.i18n,
+                    (message, token) => logger.warn(message, token.pos, file),
+                );
+                consume = false;
+                break;
+
+            default:
+                assertNever(next.kind);
+        }
+
+        if (consume) {
+            lexer.take();
+        }
+    }
+
+    return content;
 }
 
 const HAS_USER_IDENTIFIER: `@${string}`[] = [
@@ -391,6 +460,10 @@ function exampleBlock(
     }
 }
 
+/**
+ * If you change this, also look at parseCommentString as it
+ * likely needs similar modifications to ensure parsing is consistent.
+ */
 function blockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,

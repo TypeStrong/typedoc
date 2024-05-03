@@ -6,6 +6,7 @@ import { ReflectionKind } from "./kind";
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 import type { ReflectionVariant } from "./variant";
 import type { DeclarationReflection } from "./declaration";
+import type { DocumentReflection } from "./document";
 import { NonEnumerable } from "../../utils/general";
 
 /**
@@ -212,6 +213,7 @@ export class ReflectionFlags extends Array<string> {
 
 export enum TraverseProperty {
     Children,
+    Documents,
     Parameters,
     TypeLiteral,
     TypeParameter,
@@ -466,6 +468,9 @@ export abstract class Reflection {
         return false;
     }
     isDeclaration(): this is DeclarationReflection {
+        return false;
+    }
+    isDocument(): this is DocumentReflection {
         return false;
     }
 

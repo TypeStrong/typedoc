@@ -2,6 +2,7 @@ import {
     ReflectionKind,
     ContainerReflection,
     type DeclarationReflection,
+    type DocumentReflection,
 } from "../../models/reflections/index";
 import { ReflectionGroup } from "../../models/ReflectionGroup";
 import { Component, ConverterComponent } from "../components";
@@ -40,7 +41,9 @@ const defaultGroupOrder = [
  */
 @Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
-    sortFunction!: (reflections: DeclarationReflection[]) => void;
+    sortFunction!: (
+        reflections: Array<DeclarationReflection | DocumentReflection>,
+    ) => void;
 
     @Option("searchGroupBoosts")
     accessor boosts!: Record<string, number>;
@@ -116,22 +119,26 @@ export class GroupPlugin extends ConverterComponent {
     }
 
     private group(reflection: ContainerReflection) {
-        if (
-            reflection.children &&
-            reflection.children.length > 0 &&
-            !reflection.groups
-        ) {
-            if (
-                this.sortEntryPoints ||
-                !reflection.children.some((c) =>
-                    c.kindOf(ReflectionKind.Module),
-                )
-            ) {
-                this.sortFunction(reflection.children);
+        if (reflection.childrenIncludingDocuments && !reflection.groups) {
+            if (reflection.children) {
+                if (
+                    this.sortEntryPoints ||
+                    !reflection.children.some((c) =>
+                        c.kindOf(ReflectionKind.Module),
+                    )
+                ) {
+                    this.sortFunction(reflection.children);
+                    this.sortFunction(reflection.documents || []);
+                    this.sortFunction(reflection.childrenIncludingDocuments!);
+                }
+            } else if (reflection.documents) {
+                this.sortFunction(reflection.documents);
+                this.sortFunction(reflection.childrenIncludingDocuments!);
             }
+
             reflection.groups = this.getReflectionGroups(
                 reflection,
-                reflection.children,
+                reflection.childrenIncludingDocuments,
             );
         }
     }
@@ -142,7 +149,7 @@ export class GroupPlugin extends ConverterComponent {
      * @privateRemarks
      * If you change this, also update extractCategories in CategoryPlugin accordingly.
      */
-    getGroups(reflection: DeclarationReflection) {
+    getGroups(reflection: DeclarationReflection | DocumentReflection) {
         const groups = new Set<string>();
         function extractGroupTags(comment: Comment | undefined) {
             if (!comment) return;
@@ -156,17 +163,20 @@ export class GroupPlugin extends ConverterComponent {
             });
         }
 
-        extractGroupTags(reflection.comment);
-        for (const sig of reflection.getNonIndexSignatures()) {
-            extractGroupTags(sig.comment);
-        }
-
-        if (reflection.type?.type === "reflection") {
-            extractGroupTags(reflection.type.declaration.comment);
-            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+        if (reflection.isDeclaration()) {
+            extractGroupTags(reflection.comment);
+            for (const sig of reflection.getNonIndexSignatures()) {
                 extractGroupTags(sig.comment);
             }
+
+            if (reflection.type?.type === "reflection") {
+                extractGroupTags(reflection.type.declaration.comment);
+                for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                    extractGroupTags(sig.comment);
+                }
+            }
         }
+        // GERRIT: YAML metadata to add group
 
         groups.delete("");
         if (groups.size === 0) {
@@ -198,7 +208,7 @@ export class GroupPlugin extends ConverterComponent {
      */
     getReflectionGroups(
         parent: ContainerReflection,
-        reflections: DeclarationReflection[],
+        reflections: Array<DeclarationReflection | DocumentReflection>,
     ): ReflectionGroup[] {
         const groups = new Map<string, ReflectionGroup>();
 

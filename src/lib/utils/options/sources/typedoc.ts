@@ -95,6 +95,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         map: EntryPointStrategy,
         defaultValue: EntryPointStrategy.Resolve,
     });
+    options.addDeclaration({
+        name: "projectDocuments",
+        help: (i18n) => i18n.help_projectDocuments(),
+        type: ParameterType.GlobArray,
+    });
 
     options.addDeclaration({
         name: "exclude",
@@ -462,6 +467,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "searchInComments",
         help: (i18n) => i18n.help_searchInComments(),
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
+        name: "searchInDocuments",
+        help: (i18n) => i18n.help_searchInDocuments(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({

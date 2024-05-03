@@ -176,6 +176,8 @@ export class Internationalization {
                 return this.proxy.kind_type_alias();
             case ReflectionKind.Reference:
                 return this.proxy.kind_reference();
+            case ReflectionKind.Document:
+                return this.proxy.kind_document();
         }
     }
 
@@ -227,6 +229,8 @@ export class Internationalization {
                 return this.proxy.kind_plural_type_alias();
             case ReflectionKind.Reference:
                 return this.proxy.kind_plural_reference();
+            case ReflectionKind.Document:
+                return this.proxy.kind_plural_document();
         }
     }
 

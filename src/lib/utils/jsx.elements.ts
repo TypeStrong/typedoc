@@ -122,6 +122,7 @@ export interface IntrinsicElements {
     ellipse: JsxEllipseElementProps;
     polygon: JsxPolygonElementProps;
     polyline: JsxPolylineElementProps;
+    line: JsxLineElementProps;
     use: JsxUseElementProps;
 }
 
@@ -1133,6 +1134,22 @@ export interface JsxPolylineElementProps
         JsxSvgConditionalProcessingProps,
         JsxSvgPresentationProps {
     points?: string;
+    pathLength?: number;
+}
+
+/** Properties permitted on the `<line>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line
+ */
+export interface JsxLineElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgConditionalProcessingProps,
+        JsxSvgPresentationProps {
+    x1?: string | number;
+    y1?: string | number;
+    x2?: string | number;
+    y2?: string | number;
     pathLength?: number;
 }
 

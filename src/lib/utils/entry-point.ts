@@ -45,6 +45,11 @@ export interface DocumentationEntryPoint {
     version?: string;
 }
 
+export interface DocumentEntryPoint {
+    displayName: string;
+    path: string;
+}
+
 export function getEntryPoints(
     logger: Logger,
     options: Options,
@@ -97,6 +102,42 @@ export function getEntryPoints(
     }
 
     return result;
+}
+
+/**
+ * Document entry points are markdown documents that the user has requested we include in the project with
+ * an option rather than a `@document` tag.
+ *
+ * @returns A list of `.md` files to include in the documentation as documents.
+ */
+export function getDocumentEntryPoints(
+    logger: Logger,
+    options: Options,
+): DocumentEntryPoint[] {
+    const docGlobs = options.getValue("projectDocuments");
+    if (docGlobs.length === 0) {
+        return [];
+    }
+
+    const docPaths = expandGlobs(docGlobs, [], logger);
+
+    // We might want to expand this in the future, there are quite a lot of extensions
+    // that have at some point or another been used for markdown: https://superuser.com/a/285878
+    const supportedFileRegex = /\.(md|markdown)$/;
+
+    const expanded = expandInputFiles(
+        logger,
+        docPaths,
+        options,
+        supportedFileRegex,
+    );
+    const baseDir = options.getValue("basePath") || deriveRootDir(expanded);
+    return expanded.map((path) => {
+        return {
+            displayName: relative(baseDir, path).replace(/\.[^.]+$/, ""),
+            path,
+        };
+    });
 }
 
 export function getWatchEntryPoints(
@@ -230,9 +271,15 @@ export function getExpandedEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
+    const compilerOptions = options.getCompilerOptions();
+    const supportedFileRegex =
+        compilerOptions.allowJs || compilerOptions.checkJs
+            ? /\.([cm][tj]s|[tj]sx?)$/
+            : /\.([cm]ts|tsx?)$/;
+
     return getEntryPointsForPaths(
         logger,
-        expandInputFiles(logger, inputFiles, options),
+        expandInputFiles(logger, inputFiles, options, supportedFileRegex),
         options,
         programs,
     );
@@ -254,9 +301,7 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
 
         if (result.length === 0) {
             logger.warn(
-                logger.i18n.entry_point_0_did_not_match_any_files(
-                    nicePath(entry),
-                ),
+                logger.i18n.glob_0_did_not_match_any_files(nicePath(entry)),
             );
         } else if (filtered.length === 0) {
             logger.warn(
@@ -338,16 +383,12 @@ function expandInputFiles(
     logger: Logger,
     entryPoints: string[],
     options: Options,
+    supportedFile: RegExp,
 ): string[] {
     const files: string[] = [];
 
     const exclude = createMinimatch(options.getValue("exclude"));
-    const compilerOptions = options.getCompilerOptions();
 
-    const supportedFileRegex =
-        compilerOptions.allowJs || compilerOptions.checkJs
-            ? /\.([cm][tj]s|[tj]sx?)$/
-            : /\.([cm]ts|tsx?)$/;
     function add(file: string, entryPoint: boolean) {
         let stats: FS.Stats;
         try {
@@ -365,7 +406,7 @@ function expandInputFiles(
             FS.readdirSync(file).forEach((next) => {
                 add(join(file, next), false);
             });
-        } else if (supportedFileRegex.test(file)) {
+        } else if (supportedFile.test(file)) {
             if (!entryPoint && matchesAny(exclude, file)) {
                 return;
             }

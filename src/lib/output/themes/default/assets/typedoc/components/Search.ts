@@ -120,12 +120,15 @@ function bindEvents(
     /**
      * Start searching by pressing slash.
      */
-    document.body.addEventListener("keyup", (e) => {
+    document.body.addEventListener("keypress", (e) => {
         if (e.altKey || e.ctrlKey || e.metaKey) return;
         if (!field.matches(":focus") && e.key === "/") {
             e.preventDefault();
             field.focus();
         }
+    });
+
+    document.body.addEventListener("keyup", (e) => {
         if (
             searchEl.classList.contains("has-focus") &&
             (e.key === "Escape" ||

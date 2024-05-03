@@ -8,6 +8,7 @@ import {
     DeclarationReflection,
     ReflectionKind,
     ReflectionFlag,
+    type DocumentReflection,
 } from "../models/index";
 
 import type { Converter } from "./converter";
@@ -228,10 +229,9 @@ export class Context {
         );
     }
 
-    addChild(reflection: DeclarationReflection) {
+    addChild(reflection: DeclarationReflection | DocumentReflection) {
         if (this.scope instanceof ContainerReflection) {
-            this.scope.children ??= [];
-            this.scope.children.push(reflection);
+            this.scope.addChild(reflection);
         }
     }
 

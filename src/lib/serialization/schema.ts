@@ -51,31 +51,33 @@ type _ModelToObject<T> =
                 ? ParameterReflection
                 : T extends M.DeclarationReflection
                   ? DeclarationReflection
-                  : T extends M.TypeParameterReflection
-                    ? TypeParameterReflection
-                    : T extends M.ProjectReflection
-                      ? ProjectReflection
-                      : T extends M.ContainerReflection
-                        ? ContainerReflection
-                        : T extends M.ReferenceReflection
-                          ? ReferenceReflection
-                          : T extends M.Reflection
-                            ? Reflection
-                            : // Types
-                              T extends M.SomeType
-                              ? TypeKindMap[T["type"]]
-                              : T extends M.Type
-                                ? SomeType
-                                : // Miscellaneous
-                                  T extends M.Comment
-                                  ? Comment
-                                  : T extends M.CommentTag
-                                    ? CommentTag
-                                    : T extends M.CommentDisplayPart
-                                      ? CommentDisplayPart
-                                      : T extends M.SourceReference
-                                        ? SourceReference
-                                        : never;
+                  : T extends M.DocumentReflection
+                    ? DocumentReflection
+                    : T extends M.TypeParameterReflection
+                      ? TypeParameterReflection
+                      : T extends M.ProjectReflection
+                        ? ProjectReflection
+                        : T extends M.ContainerReflection
+                          ? ContainerReflection
+                          : T extends M.ReferenceReflection
+                            ? ReferenceReflection
+                            : T extends M.Reflection
+                              ? Reflection
+                              : // Types
+                                T extends M.SomeType
+                                ? TypeKindMap[T["type"]]
+                                : T extends M.Type
+                                  ? SomeType
+                                  : // Miscellaneous
+                                    T extends M.Comment
+                                    ? Comment
+                                    : T extends M.CommentTag
+                                      ? CommentTag
+                                      : T extends M.CommentDisplayPart
+                                        ? CommentDisplayPart
+                                        : T extends M.SourceReference
+                                          ? SourceReference
+                                          : never;
 
 type Primitive = string | number | undefined | null | boolean;
 
@@ -117,6 +119,11 @@ export interface ReflectionCategory
 export type SomeReflection = {
     [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
 }[keyof M.ReflectionVariant];
+
+/** @category Reflections */
+export interface DocumentReflection
+    extends Omit<Reflection, "variant">,
+        S<M.DocumentReflection, "variant" | "content" | "relevanceBoost"> {}
 
 /** @category Reflections */
 export interface ReferenceReflection
@@ -203,7 +210,12 @@ export interface ProjectReflection
 /** @category Reflections */
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "children" | "groups" | "categories"> {}
+        S<
+            M.ContainerReflection,
+            "children" | "documents" | "groups" | "categories"
+        > {
+    childrenIncludingDocuments?: number[];
+}
 
 /** @category Reflections */
 export interface Reflection

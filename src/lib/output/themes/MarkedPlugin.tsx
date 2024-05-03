@@ -191,6 +191,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     private setupParser() {
         this.parser = markdown({
             ...(this.application.options.getValue("markdownItOptions") as {}),
+            html: true,
             highlight: (code, lang) => {
                 code = highlight(code, lang || "ts");
                 code = code.replace(/\n$/, "") + "\n";
@@ -222,7 +223,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 level,
             });
 
-            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag}>`;
+            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
             return `${renderElement(anchorIcon(this.renderContext, `md:${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;

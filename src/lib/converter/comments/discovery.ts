@@ -102,6 +102,8 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.NamespaceExport,
         ts.SyntaxKind.ExportSpecifier,
     ],
+    // Non-TS kind, will never have comments.
+    [ReflectionKind.Document]: [],
 };
 
 export interface DiscoveredComment {

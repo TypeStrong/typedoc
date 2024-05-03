@@ -103,6 +103,7 @@ export interface TypeDocOptionMap {
     // Input
     entryPoints: string[];
     entryPointStrategy: typeof EntryPointStrategy;
+    projectDocuments: string[];
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;
@@ -162,6 +163,7 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     hideParameterTypesInTitle: boolean;
     searchInComments: boolean;
+    searchInDocuments: boolean;
     cleanOutputDir: boolean;
     titleLink: string;
     navigationLinks: ManuallyValidatedOption<Record<string, string>>;

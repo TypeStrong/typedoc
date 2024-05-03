@@ -1,6 +1,11 @@
 import { ReflectionCategory } from "./ReflectionCategory";
 import { Comment } from "./comments";
-import type { CommentDisplayPart, DeclarationReflection, Reflection } from ".";
+import type {
+    CommentDisplayPart,
+    DeclarationReflection,
+    DocumentReflection,
+    Reflection,
+} from ".";
 import type { Serializer, JSONOutput, Deserializer } from "../serialization";
 
 /**
@@ -24,7 +29,7 @@ export class ReflectionGroup {
     /**
      * All reflections of this group.
      */
-    children: DeclarationReflection[] = [];
+    children: Array<DeclarationReflection | DocumentReflection> = [];
 
     /**
      * Categories contained within this group.

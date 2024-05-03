@@ -146,23 +146,11 @@ export class PackagePlugin extends ConverterComponent {
 
     private addEntries(project: ProjectReflection) {
         if (this.readmeFile && this.readmeContents) {
-            const comment = this.application.converter.parseRawComment(
+            const content = this.application.converter.parseRawComment(
                 new MinimalSourceFile(this.readmeContents, this.readmeFile),
             );
 
-            if (comment.blockTags.length || comment.modifierTags.size) {
-                const ignored = [
-                    ...comment.blockTags.map((tag) => tag.tag),
-                    ...comment.modifierTags,
-                ];
-                this.application.logger.warn(
-                    this.application.i18n.block_and_modifier_tags_ignored_within_readme_0(
-                        ignored.join("\n\t"),
-                    ),
-                );
-            }
-
-            project.readme = comment.summary;
+            project.readme = content;
         }
 
         if (this.packageJson) {

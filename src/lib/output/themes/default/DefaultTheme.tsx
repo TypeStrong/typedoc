@@ -10,6 +10,7 @@ import {
     ReflectionCategory,
     ReflectionGroup,
     TypeParameterReflection,
+    type DocumentReflection,
 } from "../../../models";
 import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
@@ -113,6 +114,9 @@ export class DefaultTheme extends Theme {
         return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
     }
 
+    documentTemplate = (pageEvent: PageEvent<DocumentReflection>) => {
+        return this.getRenderContext(pageEvent).documentTemplate(pageEvent);
+    };
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
         return this.getRenderContext(pageEvent).reflectionTemplate(pageEvent);
     };
@@ -126,7 +130,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
 
-    getReflectionClasses(reflection: DeclarationReflection) {
+    getReflectionClasses(reflection: DeclarationReflection | DocumentReflection) {
         const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         return getReflectionClasses(reflection, filters);
     }
@@ -169,6 +173,11 @@ export class DefaultTheme extends Theme {
             kind: [ReflectionKind.Variable],
             directory: "variables",
             template: this.reflectionTemplate,
+        },
+        {
+            kind: [ReflectionKind.Document],
+            directory: "variables",
+            template: this.documentTemplate,
         },
     ];
 
@@ -213,11 +222,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
-        project.children?.forEach((child: Reflection) => {
-            if (child instanceof DeclarationReflection) {
-                this.buildUrls(child, urls);
-            }
-        });
+        project.childrenIncludingDocuments?.forEach((child) => this.buildUrls(child, urls));
 
         return urls;
     }
@@ -246,7 +251,7 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    private getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+    private getMapping(reflection: DeclarationReflection | DocumentReflection): TemplateMapping | undefined {
         return this.mappings.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
@@ -257,7 +262,7 @@ export class DefaultTheme extends Theme {
      * @param urls        The array the url should be appended to.
      * @returns           The altered urls array.
      */
-    buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
+    buildUrls(reflection: DeclarationReflection | DocumentReflection, urls: UrlMapping[]): UrlMapping[] {
         const mapping = this.getMapping(reflection);
         if (mapping) {
             if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
@@ -270,7 +275,7 @@ export class DefaultTheme extends Theme {
             }
 
             reflection.traverse((child) => {
-                if (child instanceof DeclarationReflection) {
+                if (child.isDeclaration() || child.isDocument()) {
                     this.buildUrls(child, urls);
                 } else {
                     DefaultTheme.applyAnchorUrl(child, reflection);
@@ -313,7 +318,7 @@ export class DefaultTheme extends Theme {
         return getNavigationElements(project) || [];
 
         function toNavigation(
-            element: ReflectionCategory | ReflectionGroup | DeclarationReflection,
+            element: ReflectionCategory | ReflectionGroup | DeclarationReflection | DocumentReflection,
         ): NavigationElement {
             if (element instanceof ReflectionCategory || element instanceof ReflectionGroup) {
                 return {
@@ -332,7 +337,12 @@ export class DefaultTheme extends Theme {
         }
 
         function getNavigationElements(
-            parent: ReflectionCategory | ReflectionGroup | DeclarationReflection | ProjectReflection,
+            parent:
+                | ReflectionCategory
+                | ReflectionGroup
+                | DeclarationReflection
+                | ProjectReflection
+                | DocumentReflection,
         ): undefined | NavigationElement[] {
             if (parent instanceof ReflectionCategory) {
                 return parent.children.map(toNavigation);
@@ -349,7 +359,7 @@ export class DefaultTheme extends Theme {
                 return;
             }
 
-            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) || parent.isDocument()) {
                 return;
             }
 
@@ -363,16 +373,18 @@ export class DefaultTheme extends Theme {
 
             if (
                 opts.includeFolders &&
-                parent.children?.every((child) => child.kindOf(ReflectionKind.Module)) &&
-                parent.children.some((child) => child.name.includes("/"))
+                parent.childrenIncludingDocuments?.every((child) =>
+                    child.kindOf(ReflectionKind.Module | ReflectionKind.Document),
+                ) &&
+                parent.childrenIncludingDocuments.some((child) => child.name.includes("/"))
             ) {
-                return deriveModuleFolders(parent.children);
+                return deriveModuleFolders(parent.childrenIncludingDocuments);
             }
 
-            return parent.children?.map(toNavigation);
+            return parent.childrenIncludingDocuments?.map(toNavigation);
         }
 
-        function deriveModuleFolders(children: DeclarationReflection[]) {
+        function deriveModuleFolders(children: Array<DeclarationReflection | DocumentReflection>) {
             const result: NavigationElement[] = [];
 
             const resolveOrCreateParents = (
@@ -472,14 +484,17 @@ function hasReadme(readme: string) {
     return !readme.endsWith("none");
 }
 
-function getReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
+function getReflectionClasses(
+    reflection: DeclarationReflection | DocumentReflection,
+    filters: Record<string, boolean>,
+) {
     const classes: string[] = [];
 
     // Filter classes should match up with the settings function in
     // partials/navigation.tsx.
     for (const key of Object.keys(filters)) {
         if (key === "inherited") {
-            if (reflection.inheritedFrom) {
+            if (reflection.isDeclaration() && reflection.inheritedFrom) {
                 classes.push("tsd-is-inherited");
             }
         } else if (key === "protected") {

@@ -7,10 +7,12 @@ import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
 import { LiteralType } from "../models/types";
 import type { Options } from "./options";
+import type { DocumentReflection } from "../models";
 
 export const SORT_STRATEGIES = [
     "source-order",
     "alphabetical",
+    "alphabetical-ignoring-documents",
     "enum-value-ascending",
     "enum-value-descending",
     "enum-member-source-order",
@@ -20,11 +22,14 @@ export const SORT_STRATEGIES = [
     "required-first",
     "kind",
     "external-last",
+    "documents-first",
+    "documents-last",
 ] as const;
 
 export type SortStrategy = (typeof SORT_STRATEGIES)[number];
 
 const defaultKindSortOrder = [
+    ReflectionKind.Document,
     ReflectionKind.Reference,
     ReflectionKind.Project,
     ReflectionKind.Module,
@@ -56,8 +61,8 @@ const defaultKindSortOrder = [
 const sorts: Record<
     SortStrategy,
     (
-        a: DeclarationReflection,
-        b: DeclarationReflection,
+        a: DeclarationReflection | DocumentReflection,
+        b: DeclarationReflection | DocumentReflection,
         data: { kindSortOrder: ReflectionKind[] },
     ) => boolean
 > = {
@@ -88,15 +93,31 @@ const sorts: Record<
     alphabetical(a, b) {
         return a.name < b.name;
     },
+    "alphabetical-ignoring-documents"(a, b) {
+        if (
+            a.kindOf(ReflectionKind.Document) ||
+            b.kindOf(ReflectionKind.Document)
+        ) {
+            return false;
+        }
+        return a.name < b.name;
+    },
     "enum-value-ascending"(a, b) {
         if (
             a.kind == ReflectionKind.EnumMember &&
             b.kind == ReflectionKind.EnumMember
         ) {
+            const aRefl = a as DeclarationReflection;
+            const bRefl = b as DeclarationReflection;
+
             const aValue =
-                a.type instanceof LiteralType ? a.type.value : -Infinity;
+                aRefl.type instanceof LiteralType
+                    ? aRefl.type.value
+                    : -Infinity;
             const bValue =
-                b.type instanceof LiteralType ? b.type.value : -Infinity;
+                bRefl.type instanceof LiteralType
+                    ? bRefl.type.value
+                    : -Infinity;
 
             return aValue! < bValue!;
         }
@@ -107,10 +128,17 @@ const sorts: Record<
             a.kind == ReflectionKind.EnumMember &&
             b.kind == ReflectionKind.EnumMember
         ) {
+            const aRefl = a as DeclarationReflection;
+            const bRefl = b as DeclarationReflection;
+
             const aValue =
-                a.type instanceof LiteralType ? a.type.value : -Infinity;
+                aRefl.type instanceof LiteralType
+                    ? aRefl.type.value
+                    : -Infinity;
             const bValue =
-                b.type instanceof LiteralType ? b.type.value : -Infinity;
+                bRefl.type instanceof LiteralType
+                    ? bRefl.type.value
+                    : -Infinity;
 
             return bValue! < aValue!;
         }
@@ -155,6 +183,18 @@ const sorts: Record<
     "external-last"(a, b) {
         return !a.flags.isExternal && b.flags.isExternal;
     },
+    "documents-first"(a, b) {
+        return (
+            a.kindOf(ReflectionKind.Document) &&
+            !b.kindOf(ReflectionKind.Document)
+        );
+    },
+    "documents-last"(a, b) {
+        return (
+            !a.kindOf(ReflectionKind.Document) &&
+            b.kindOf(ReflectionKind.Document)
+        );
+    },
 };
 
 export function getSortFunction(opts: Options) {
@@ -171,7 +211,9 @@ export function getSortFunction(opts: Options) {
     const strategies = opts.getValue("sort");
     const data = { kindSortOrder };
 
-    return function sortReflections(reflections: DeclarationReflection[]) {
+    return function sortReflections(
+        reflections: (DeclarationReflection | DocumentReflection)[],
+    ) {
         reflections.sort((a, b) => {
             for (const s of strategies) {
                 if (sorts[s](a, b, data)) {

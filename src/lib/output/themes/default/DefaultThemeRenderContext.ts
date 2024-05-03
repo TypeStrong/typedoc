@@ -5,6 +5,7 @@ import type {
 } from "../../../internationalization/internationalization";
 import {
     Comment,
+    type DocumentReflection,
     type CommentDisplayPart,
     type DeclarationReflection,
     type Reflection,
@@ -49,6 +50,7 @@ import { type } from "./partials/type";
 import { typeAndParent } from "./partials/typeAndParent";
 import { typeParameters } from "./partials/typeParameters";
 import { indexTemplate } from "./templates";
+import { documentTemplate } from "./templates/document";
 import { hierarchyTemplate } from "./templates/hierarchy";
 import { reflectionTemplate } from "./templates/reflection";
 
@@ -104,7 +106,7 @@ export class DefaultThemeRenderContext {
     ) => {
         if (md instanceof Array) {
             return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo, false), // GERRIT come back here
+                Comment.displayPartsToMarkdown(md, this.urlTo, true), // GERRIT come back here
                 this.page,
                 this,
             );
@@ -116,9 +118,10 @@ export class DefaultThemeRenderContext {
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 
-    getReflectionClasses = (refl: DeclarationReflection) =>
+    getReflectionClasses = (refl: DeclarationReflection | DocumentReflection) =>
         this.theme.getReflectionClasses(refl);
 
+    documentTemplate = bind(documentTemplate, this);
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
     hierarchyTemplate = bind(hierarchyTemplate, this);

@@ -14,6 +14,7 @@ import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { DefaultMap, StableKeyMap } from "../../utils/map";
+import type { DocumentReflection } from "./document";
 
 /**
  * A reflection that represents the root of the project.
@@ -157,14 +158,13 @@ export class ProjectReflection extends ContainerReflection {
                 return true; // Continue iteration
             }
 
-            if (property === TraverseProperty.Children) {
-                removeIfPresent(
-                    parent.children,
-                    reflection as DeclarationReflection,
+            if (
+                property === TraverseProperty.Children ||
+                property == TraverseProperty.Documents
+            ) {
+                parent.removeChild(
+                    reflection as DeclarationReflection | DocumentReflection,
                 );
-                if (!parent.children?.length) {
-                    delete parent.children;
-                }
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
             } else if (property === TraverseProperty.IndexSignature) {

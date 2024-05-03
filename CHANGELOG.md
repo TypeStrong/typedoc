@@ -1,11 +1,17 @@
-# Beta
+# Beta (full release: 2024-06-18)
 
-Docs needing updating:
-@license, @import
-sitemapBaseUrl
-markedOptions -> markdownItOptions, markdownItLoader, navigation
+### To Do
 
-## Breaking Changes
+-   Handle YAML (ick, don't want to add a dependency for that, YAML-like?) frontmatter at the top of documents to set the category/group/title
+-   Handle `@document` tag to add documents to the tree anywhere
+-   Handle image and relative markdown links within documents
+-   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
+    `@license`, `@import`, sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
+    sort - documents-first, documents-last, alphabetical-ignoring-documents
+    searchInDocuments
+-   Correctly handle the `html` being set/not set in markdown-it (currently hardcoded to `true`)
+
+### Breaking Changes
 
 -   Drop support for Node 16.
 -   Moved from `marked` to `markdown-it` for parsing as marked has moved to an async model which supporting would significantly complicate TypeDoc's rendering code.
@@ -28,9 +34,11 @@ markedOptions -> markdownItOptions, markdownItLoader, navigation
 ### Features
 
 -   Added support for TypeScript 5.5.
+-   Added new `--projectDocuments` option to specify additional Markdown documents to be included in the generated site #247, #1870, #2288, #2565.
 -   TypeDoc now has the architecture in place to support localization. No languages besides English
     are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
+-   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 
 ### Bug Fixes
 

@@ -4,6 +4,7 @@ import type { Application } from "../application";
 import {
     Comment,
     type CommentDisplayPart,
+    DocumentReflection,
     ProjectReflection,
     type Reflection,
     ReflectionKind,
@@ -13,7 +14,13 @@ import {
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
-import { Option, MinimalSourceFile, readFile, unique } from "../utils";
+import {
+    Option,
+    MinimalSourceFile,
+    readFile,
+    unique,
+    getDocumentEntryPoints,
+} from "../utils";
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
@@ -26,7 +33,7 @@ import type {
     CommentStyle,
     ValidationOptions,
 } from "../utils/options/declaration";
-import { parseComment } from "./comments/parser";
+import { parseCommentString } from "./comments/parser";
 import { lexCommentString } from "./comments/rawLexer";
 import {
     resolvePartLinks,
@@ -236,6 +243,7 @@ export class Converter extends ChildableComponent<
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
+        this.addProjectDocuments(project);
         this.compile(entryPoints, context);
         this.resolve(context);
 
@@ -243,6 +251,24 @@ export class Converter extends ChildableComponent<
         this._config = undefined;
 
         return project;
+    }
+
+    addProjectDocuments(project: ProjectReflection) {
+        const projectDocuments = getDocumentEntryPoints(
+            this.application.logger,
+            this.application.options,
+        );
+        for (const { displayName, path } of projectDocuments) {
+            const file = new MinimalSourceFile(readFile(path), path);
+            const content = this.parseRawComment(file);
+            const docRefl = new DocumentReflection(
+                displayName,
+                project,
+                content,
+            );
+            project.addChild(docRefl);
+            project.registerReflection(docRefl);
+        }
     }
 
     /** @internal */
@@ -272,7 +298,7 @@ export class Converter extends ChildableComponent<
      * Parse the given file into a comment. Intended to be used with markdown files.
      */
     parseRawComment(file: MinimalSourceFile) {
-        return parseComment(
+        return parseCommentString(
             lexCommentString(file.text),
             this.config,
             file,
@@ -408,23 +434,10 @@ export class Converter extends ChildableComponent<
 
             if (entryPoint.readmeFile) {
                 const readme = readFile(entryPoint.readmeFile);
-                const comment = this.parseRawComment(
+                const content = this.parseRawComment(
                     new MinimalSourceFile(readme, entryPoint.readmeFile),
                 );
-
-                if (comment.blockTags.length || comment.modifierTags.size) {
-                    const ignored = [
-                        ...comment.blockTags.map((tag) => tag.tag),
-                        ...comment.modifierTags,
-                    ];
-                    context.logger.warn(
-                        this.application.i18n.block_and_modifier_tags_ignored_within_readme_0(
-                            ignored.join("\n\t"),
-                        ),
-                    );
-                }
-
-                reflection.readme = comment.summary;
+                reflection.readme = content;
             }
 
             reflection.packageVersion = entryPoint.version;
