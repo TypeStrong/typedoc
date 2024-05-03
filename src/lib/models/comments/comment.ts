@@ -4,6 +4,7 @@ import { ReflectionKind } from "../reflections/kind";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
+import { NonEnumerable } from "../../utils/general";
 
 /**
  * Represents a parsed piece of a comment.
@@ -395,6 +396,14 @@ export class Comment {
     label?: string;
 
     /**
+     * Internal discovery ID used to prevent symbol comments from
+     * being duplicated on signatures. Only set when the comment was created
+     * @internal
+     */
+    @NonEnumerable
+    discoveryId?: number;
+
+    /**
      * Creates a new Comment instance.
      */
     constructor(
@@ -412,11 +421,15 @@ export class Comment {
      * Create a deep clone of this comment.
      */
     clone() {
-        return new Comment(
+        const comment = new Comment(
             Comment.cloneDisplayParts(this.summary),
             this.blockTags.map((tag) => tag.clone()),
             new Set(this.modifierTags),
         );
+        if (this.discoveryId) {
+            comment.discoveryId = this.discoveryId;
+        }
+        return comment;
     }
 
     /**

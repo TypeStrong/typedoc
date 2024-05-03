@@ -27,7 +27,7 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
-import { getComment, getLinks, query, querySig } from "./utils";
+import { getComment, getLinks, getSigComment, query, querySig } from "./utils";
 import { DefaultTheme, PageEvent } from "..";
 
 const base = getConverter2Base();
@@ -891,9 +891,9 @@ describe("Issue Tests", () => {
         const project = convert();
         for (const [name, docs, sigDocs] of [
             ["built", "", "inner docs"],
-            ["built2", "outer docs", ""],
+            ["built2", "outer docs", "inner docs"],
             ["fn", "", "inner docs"],
-            ["fn2", "outer docs", ""],
+            ["fn2", "outer docs", "inner docs"],
         ]) {
             const refl = query(project, name);
             ok(refl.signatures?.[0]);
@@ -1465,6 +1465,18 @@ describe("Issue Tests", () => {
         equal(Comment.combineDisplayParts(cb2.comment?.summary), "Cb2");
         equal(cb2.type?.type, "reflection");
         equal(cb2.type.declaration.signatures![0].comment, undefined);
+    });
+
+    it("Specifying comment on variable still inherits signature comments, #2521", () => {
+        const project = convert();
+
+        equal(getComment(project, "fooWithoutComment"), "");
+        equal(getSigComment(project, "fooWithoutComment", 0), "Overload 1");
+        equal(getSigComment(project, "fooWithoutComment", 1), "Overload 2");
+
+        equal(getComment(project, "fooWithComment"), "New comment.");
+        equal(getSigComment(project, "fooWithComment", 0), "Overload 1");
+        equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
     it("Ignores @license and @import comments at the top of the file, #2552", () => {

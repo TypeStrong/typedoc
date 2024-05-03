@@ -8,7 +8,6 @@ import {
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
-    ConversionFlags,
 } from "../models";
 import {
     getEnumFlags,
@@ -697,7 +696,6 @@ function convertProperty(
         symbol,
         exportSymbol,
     );
-    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
 
     const declaration = symbol.getDeclarations()?.[0];
     let parameterType: ts.TypeNode | undefined;
@@ -1041,7 +1039,6 @@ function convertVariableAsFunction(
         exportSymbol,
     );
     setModifiers(symbol, accessDeclaration, reflection);
-    reflection.conversionFlags |= ConversionFlags.VariableOrPropertySource;
     context.finalizeDeclarationReflection(reflection);
 
     const reflectionContext = context.withScope(reflection);
