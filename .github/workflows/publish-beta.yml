@@ -11,7 +11,7 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
             - id: check
-              uses: EndBug/version-check@v1
+              uses: EndBug/version-check@v2.1.0
               with:
                   diff-search: true
             - name: Set up Node
