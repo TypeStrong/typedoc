@@ -46,6 +46,7 @@ export const translatable = {
         "The entrypoint glob {0} did not match any files.",
     failed_to_parse_json_0: `Failed to parse file at {0} as json.`,
 
+    failed_to_read_0_when_processing_document_tag_in_1: `Failed to read file {0} when processing @document tag for comment in {1}`,
     converting_union_as_interface: `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
     converting_0_as_class_requires_value_declaration: `Converting {0} as a class requires a declaration which represents a non-type value.`,
     converting_0_as_class_without_construct_signatures: `{0} is being converted as a class, but does not have any construct signatures`,
@@ -108,12 +109,7 @@ export const translatable = {
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist.`,
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}.`,
-    could_not_find_file_to_include_0: `Could not find file to include: {0}`,
-    could_not_find_media_file_0: `Could not find media file: {0}`,
-    could_not_find_includes_directory_0:
-        "Could not find provided includes directory: {0}",
-    could_not_find_media_directory_0:
-        "Could not find provided media directory: {0}",
+    yaml_frontmatter_not_an_object: `Expected YAML frontmatter to be an object.`,
 
     // renderer
     could_not_write_0: `Could not write {0}`,
@@ -244,7 +240,6 @@ export const translatable = {
         "Remove the listed block/modifier tags from doc comments.",
     help_readme:
         "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.",
-    help_stripYamlFrontmatter: "Strip YAML frontmatter from markdown files.",
     help_cname:
         "Set the CNAME file text, it's useful for custom domains on GitHub Pages.",
     help_sourceLinkExternal:

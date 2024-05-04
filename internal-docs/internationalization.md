@@ -1,3 +1,8 @@
+---
+title: "Adding Locales"
+group: Guides
+---
+
 # Internationalization
 
 TypeDoc 0.26 added support for internationalization in TypeDoc's output.

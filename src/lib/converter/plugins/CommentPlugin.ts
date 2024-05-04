@@ -246,6 +246,7 @@ export class CommentPlugin extends ConverterComponent {
             }
             if (tag) {
                 reflection.comment = new Comment(tag.content);
+                reflection.comment.sourcePath = comment.sourcePath;
                 removeIfPresent(comment.blockTags, tag);
             }
         }
@@ -375,6 +376,7 @@ export class CommentPlugin extends ConverterComponent {
                 const returnsTag = reflection.comment.getTag("@returns");
                 if (returnsTag) {
                     sigs[0].comment = new Comment();
+                    sigs[0].comment.sourcePath = reflection.comment.sourcePath;
                     sigs[0].comment.blockTags.push(returnsTag);
                     reflection.comment.removeTags("@returns");
                 }
@@ -411,6 +413,7 @@ export class CommentPlugin extends ConverterComponent {
                 parameter.comment = new Comment(
                     Comment.cloneDisplayParts(tag.content),
                 );
+                parameter.comment.sourcePath = comment.sourcePath;
             }
         });
 
@@ -423,6 +426,7 @@ export class CommentPlugin extends ConverterComponent {
                 parameter.comment = new Comment(
                     Comment.cloneDisplayParts(tag.content),
                 );
+                parameter.comment.sourcePath = comment.sourcePath;
             }
         }
 
@@ -571,7 +575,7 @@ export class CommentPlugin extends ConverterComponent {
             params.some((param) => param.name === tag.name),
         );
 
-        moveNestedParamTags(/* in-out */ paramTags, params);
+        moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
         if (paramTags.length) {
             for (const tag of paramTags) {
@@ -600,6 +604,7 @@ function inTypeLiteral(refl: Reflection | undefined) {
 function moveNestedParamTags(
     /* in-out */ paramTags: CommentTag[],
     parameters: ParameterReflection[],
+    sourcePath: string | undefined,
 ) {
     const used = new Set<number>();
 
@@ -619,6 +624,7 @@ function moveNestedParamTags(
                         child.comment = new Comment(
                             Comment.cloneDisplayParts(tag.content),
                         );
+                        child.comment.sourcePath = sourcePath;
                         used.add(paramTags.indexOf(tag));
                     }
                 }
@@ -659,12 +665,14 @@ function movePropertyTags(comment: Comment, container: Reflection) {
             child.comment = new Comment(
                 Comment.cloneDisplayParts(prop.content),
             );
+            child.comment.sourcePath = comment.sourcePath;
 
             if (child instanceof DeclarationReflection && child.signatures) {
                 for (const sig of child.signatures) {
                     sig.comment = new Comment(
                         Comment.cloneDisplayParts(prop.content),
                     );
+                    sig.comment.sourcePath = comment.sourcePath;
                 }
             }
         }

@@ -1,7 +1,9 @@
 import assert from "assert";
 import ts from "typescript";
 import {
+    Comment,
     DeclarationReflection,
+    DocumentReflection,
     IntrinsicType,
     LiteralType,
     ReferenceReflection,
@@ -26,6 +28,9 @@ import {
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc";
 import { getHeritageTypes } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
+import { basename, dirname, resolve } from "path";
+import { MinimalSourceFile, readFile } from "../utils";
+import { nicePath } from "../utils/paths";
 
 const symbolConverters: {
     [K in ts.SymbolFlags]?: (
@@ -292,6 +297,41 @@ function convertNamespace(
             exportSymbol,
         );
         context.finalizeDeclarationReflection(reflection);
+
+        let relativeTo = reflection.comment?.sourcePath;
+        if (relativeTo) {
+            relativeTo = dirname(relativeTo);
+            const tags = reflection.comment?.getTags("@document") || [];
+            reflection.comment?.removeTags("@document");
+            for (const tag of tags) {
+                const path = Comment.combineDisplayParts(tag.content);
+
+                let file: MinimalSourceFile;
+                try {
+                    const resolved = resolve(relativeTo, path);
+                    file = new MinimalSourceFile(readFile(resolved), resolved);
+                } catch {
+                    context.logger.warn(
+                        context.logger.i18n.failed_to_read_0_when_processing_document_tag_in_1(
+                            nicePath(path),
+                            nicePath(reflection.comment!.sourcePath!),
+                        ),
+                    );
+                    continue;
+                }
+
+                const { content, frontmatter } =
+                    context.converter.parseRawComment(file);
+                const docRefl = new DocumentReflection(
+                    basename(file.fileName).replace(/\.[^.]+$/, ""),
+                    reflection,
+                    content,
+                    frontmatter,
+                );
+                reflection.addChild(docRefl);
+                context.project.registerReflection(docRefl);
+            }
+        }
     }
 
     convertSymbols(

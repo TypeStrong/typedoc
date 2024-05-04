@@ -337,8 +337,8 @@ describe("Sort", () => {
 
     it("Should handle documents-first ordering", () => {
         const proj = new ProjectReflection("");
-        const a = new DocumentReflection("a", proj, []);
-        const b = new DocumentReflection("b", proj, []);
+        const a = new DocumentReflection("a", proj, [], {});
+        const b = new DocumentReflection("b", proj, [], {});
         const c = new DeclarationReflection("c", ReflectionKind.Class, proj);
 
         const arr = [a, b, c];
@@ -358,8 +358,8 @@ describe("Sort", () => {
 
     it("Should handle documents-last ordering", () => {
         const proj = new ProjectReflection("");
-        const a = new DocumentReflection("a", proj, []);
-        const b = new DocumentReflection("b", proj, []);
+        const a = new DocumentReflection("a", proj, [], {});
+        const b = new DocumentReflection("b", proj, [], {});
         const c = new DeclarationReflection("c", ReflectionKind.Class, proj);
 
         const arr = [a, b, c];

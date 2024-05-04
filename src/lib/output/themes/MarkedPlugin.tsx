@@ -1,10 +1,8 @@
-import * as fs from "fs";
-import * as Path from "path";
 import markdown from "markdown-it";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
-import { Option, readFile, copySync, isFile, type Logger, renderElement } from "../../utils";
+import { Option, type Logger, renderElement } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
@@ -28,12 +26,6 @@ function getDefaultSlugger(logger: Logger) {
  */
 @Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
-    @Option("includes")
-    accessor includeSource!: string;
-
-    @Option("media")
-    accessor mediaSource!: string;
-
     @Option("lightHighlightTheme")
     accessor lightTheme!: BundledTheme;
 
@@ -44,30 +36,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
-     * Revisit when adding support for arbitrary pages.
+     * Revisit when adding support for arbitrary pages in 0.26.
      */
     private renderContext: DefaultThemeRenderContext = null!;
     private lastHeaderSlug = "";
-
-    /**
-     * The path referenced files are located in.
-     */
-    private includes?: string;
-
-    /**
-     * Path to the output media directory.
-     */
-    private mediaDirectory?: string;
-
-    /**
-     * The pattern used to find references in markdown.
-     */
-    private includePattern = /\[\[include:([^\]]+?)\]\]/g;
-
-    /**
-     * The pattern used to find media links.
-     */
-    private mediaPattern = /media:\/\/([^ ")\]}]+)/g;
 
     /**
      * Create a new MarkedPlugin instance.
@@ -108,35 +80,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     public parseMarkdown(text: string, page: PageEvent<any>, context: DefaultThemeRenderContext) {
         this.renderContext = context;
-
-        if (this.includes) {
-            text = text.replace(this.includePattern, (_match, path) => {
-                path = Path.join(this.includes!, path.trim());
-                if (isFile(path)) {
-                    const contents = readFile(path);
-                    const event = new MarkdownEvent(MarkdownEvent.INCLUDE, page, contents, contents);
-                    this.owner.trigger(event);
-                    return event.parsedText;
-                } else {
-                    this.application.logger.warn(this.application.i18n.could_not_find_file_to_include_0(path));
-                    return "";
-                }
-            });
-        }
-
-        if (this.mediaDirectory) {
-            text = text.replace(this.mediaPattern, (match: string, path: string) => {
-                const fileName = Path.join(this.mediaDirectory!, path);
-
-                if (isFile(fileName)) {
-                    return this.getRelativeUrl("media") + "/" + path;
-                } else {
-                    this.application.logger.warn(this.application.i18n.could_not_find_media_file_0(fileName));
-                    return match;
-                }
-            });
-        }
-
         const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
 
         this.owner.trigger(event);
@@ -151,29 +94,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     protected override onBeginRenderer(event: RendererEvent) {
         super.onBeginRenderer(event);
-
         this.setupParser();
-
-        delete this.includes;
-        if (this.includeSource) {
-            if (fs.existsSync(this.includeSource) && fs.statSync(this.includeSource).isDirectory()) {
-                this.includes = this.includeSource;
-            } else {
-                this.application.logger.warn(
-                    this.application.i18n.could_not_find_includes_directory_0(this.includeSource),
-                );
-            }
-        }
-
-        if (this.mediaSource) {
-            if (fs.existsSync(this.mediaSource) && fs.statSync(this.mediaSource).isDirectory()) {
-                this.mediaDirectory = Path.join(event.outputDirectory, "media");
-                copySync(this.mediaSource, this.mediaDirectory);
-            } else {
-                this.mediaDirectory = undefined;
-                this.application.logger.warn(this.application.i18n.could_not_find_media_directory_0(this.mediaSource));
-            }
-        }
     }
 
     private getSlugger() {

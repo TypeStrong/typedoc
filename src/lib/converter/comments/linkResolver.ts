@@ -65,6 +65,15 @@ export function resolveLinks(
             options,
         );
     }
+
+    if (reflection.isDocument()) {
+        reflection.content = resolvePartLinks(
+            reflection,
+            reflection.content,
+            externalResolver,
+            options,
+        );
+    }
 }
 
 export function resolvePartLinks(

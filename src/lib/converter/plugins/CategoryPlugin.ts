@@ -239,6 +239,11 @@ export class CategoryPlugin extends ConverterComponent {
             }
         }
 
+        if (reflection.isDocument() && "category" in reflection.frontmatter) {
+            categories.add(String(reflection.frontmatter["category"]));
+            delete reflection.frontmatter["category"];
+        }
+
         categories.delete("");
 
         for (const cat of categories) {

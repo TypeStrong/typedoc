@@ -246,7 +246,9 @@ function getConstructorParamPropertyComment(
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
     if (paramTag) {
-        return new Comment(paramTag.content);
+        const result = new Comment(paramTag.content);
+        result.sourcePath = comment!.sourcePath;
+        return result;
     }
 }
 
@@ -305,7 +307,9 @@ export function getJsDocComment(
 
     // And pull out the tag we actually care about.
     if (ts.isJSDocEnumTag(declaration)) {
-        return new Comment(comment.getTag("@enum")?.content);
+        const result = new Comment(comment.getTag("@enum")?.content);
+        result.sourcePath = comment.sourcePath;
+        return result;
     }
 
     if (
@@ -343,6 +347,8 @@ export function getJsDocComment(
             declaration,
         );
     } else {
-        return new Comment(Comment.cloneDisplayParts(tag.content));
+        const result = new Comment(Comment.cloneDisplayParts(tag.content));
+        result.sourcePath = comment.sourcePath;
+        return result;
     }
 }

@@ -124,7 +124,6 @@ export interface TypeDocOptionMap {
     gitRevision: string;
     gitRemote: string;
     readme: string;
-    stripYamlFrontmatter: boolean;
 
     // Output
     out: string;
@@ -196,8 +195,6 @@ export interface TypeDocOptionMap {
     externalSymbolLinkMappings: ManuallyValidatedOption<
         Record<string, Record<string, string>>
     >;
-    media: string;
-    includes: string;
 
     // Organization
     categorizeByGroup: boolean;

@@ -68,7 +68,7 @@ export class Deserializer {
             return new DeclarationReflection(obj.name, obj.kind, parent);
         },
         document(parent, obj) {
-            return new DocumentReflection(obj.name, parent, []);
+            return new DocumentReflection(obj.name, parent, [], {});
         },
         param(parent, obj) {
             return new ParameterReflection(obj.name, obj.kind, parent);

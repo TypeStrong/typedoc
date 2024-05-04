@@ -1,15 +1,15 @@
-# Beta (full release: 2024-06-18)
+# Beta (full release: 2024-06-21)
 
 ### To Do
 
--   Handle YAML (ick, don't want to add a dependency for that, YAML-like?) frontmatter at the top of documents to set the category/group/title
--   Handle `@document` tag to add documents to the tree anywhere
+-   Handle `@document` tag to add documents to the tree for classes, interfaces, enums, functions, variables
 -   Handle image and relative markdown links within documents
 -   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
     `@license`, `@import`, sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
 -   Correctly handle the `html` being set/not set in markdown-it (currently hardcoded to `true`)
+-   Add option to always create a module, even for a single entry point site.
 
 ### Breaking Changes
 
@@ -17,9 +17,12 @@
 -   Moved from `marked` to `markdown-it` for parsing as marked has moved to an async model which supporting would significantly complicate TypeDoc's rendering code.
     This means that any projects setting `markedOptions` needs to be updated to use `markdownItOptions`.
     Unlike `marked@4`, `markdown-it` pushes lots of functionality to plugins. To use plugins, a JavaScript config file must be used with the `markdownItLoader` option.
--   Updated Shiki from 0.14 to 1.3. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
+-   Updated Shiki from 0.14 to 1.x. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
 -   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
+-   (WIP) Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.
+-   Removed `--includes` option, use the `@document` tag instead.
+-   Removed `--stripYamlFrontmatter` option, TypeDoc will always do this now.
 -   All function-likes may now have comments directly attached to them. This is a change from previous versions of TypeDoc where functions comments
     were always moved down to the signature level. This mostly worked, but caused problems with type aliases, so was partially changed in 0.25.13.
     This change was extended to apply not only to type aliases, but also other function-likes declared with variables and callable properties.
@@ -28,7 +31,7 @@
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
-    Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until 0.28.
+    Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until at least 0.27.
 -   API: `DefaultThemeRenderContext.iconsCache` has been removed as it is no longer needed.
 
 ### Features

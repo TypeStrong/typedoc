@@ -227,18 +227,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
-    options.addDeclaration({
-        name: "media",
-        help: (i18n) => i18n.help_media(),
-        type: ParameterType.Path,
-        hint: ParameterHint.Directory,
-    });
-    options.addDeclaration({
-        name: "includes",
-        help: (i18n) => i18n.help_includes(),
-        type: ParameterType.Path,
-        hint: ParameterHint.Directory,
-    });
 
     ///////////////////////////
     ///// Output Options //////
@@ -414,11 +402,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "readme",
         help: (i18n) => i18n.help_readme(),
         type: ParameterType.Path,
-    });
-    options.addDeclaration({
-        name: "stripYamlFrontmatter",
-        help: (i18n) => i18n.help_stripYamlFrontmatter(),
-        type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "cname",

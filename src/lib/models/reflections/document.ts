@@ -15,6 +15,11 @@ export class DocumentReflection extends Reflection {
     content: CommentDisplayPart[];
 
     /**
+     * Frontmatter included in document
+     */
+    frontmatter: Record<string, unknown>;
+
+    /**
      * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
      * boosting search relevance scores at runtime. May be modified by plugins.
      */
@@ -24,9 +29,16 @@ export class DocumentReflection extends Reflection {
         name: string,
         parent: Reflection,
         content: CommentDisplayPart[],
+        frontmatter: Record<string, unknown>,
     ) {
         super(name, ReflectionKind.Document, parent);
         this.content = content;
+        this.frontmatter = frontmatter;
+
+        if (typeof frontmatter["title"] === "string") {
+            this.name = frontmatter["title"];
+            delete frontmatter["title"];
+        }
     }
 
     override isDocument(): this is DocumentReflection {
@@ -42,6 +54,7 @@ export class DocumentReflection extends Reflection {
             ...super.toObject(serializer),
             variant: this.variant,
             content: Comment.serializeDisplayParts(serializer, this.content),
+            frontmatter: this.frontmatter,
             relevanceBoost: this.relevanceBoost,
         };
     }
@@ -49,6 +62,7 @@ export class DocumentReflection extends Reflection {
     override fromObject(de: Deserializer, obj: JSONOutput.DocumentReflection) {
         super.fromObject(de, obj);
         this.content = Comment.deserializeDisplayParts(de, obj.content);
+        this.frontmatter = obj.frontmatter;
         this.relevanceBoost = obj.relevanceBoost;
     }
 }

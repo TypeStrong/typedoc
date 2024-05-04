@@ -65,7 +65,7 @@ export function resolveDeclarationReference(
         } else if (high[0] !== reflection) {
             if (reflection.parent instanceof ContainerReflection) {
                 high.push(
-                    ...(reflection.parent.children?.filter(
+                    ...(reflection.parent.childrenIncludingDocuments?.filter(
                         (c) => c.name === reflection.name,
                     ) || []),
                 );
@@ -210,7 +210,10 @@ function resolveSymbolReferencePart(
     let high: Reflection[] = [];
     let low: Reflection[] = [];
 
-    if (!(refl instanceof ContainerReflection) || !refl.children) {
+    if (
+        !(refl instanceof ContainerReflection) ||
+        !refl.childrenIncludingDocuments
+    ) {
         return { high, low };
     }
 
@@ -220,12 +223,12 @@ function resolveSymbolReferencePart(
         // so that resolution doesn't behave very poorly with projects using JSDoc style resolution.
         // Also is more consistent with how TypeScript resolves link tags.
         case ".":
-            high = refl.children.filter(
+            high = refl.childrenIncludingDocuments.filter(
                 (r) =>
                     r.name === path.path &&
                     (r.kindOf(ReflectionKind.SomeExport) || r.flags.isStatic),
             );
-            low = refl.children.filter(
+            low = refl.childrenIncludingDocuments.filter(
                 (r) =>
                     r.name === path.path &&
                     (!r.kindOf(ReflectionKind.SomeExport) || !r.flags.isStatic),
@@ -235,13 +238,14 @@ function resolveSymbolReferencePart(
         // Resolve via "members", interface children, class instance properties/accessors/methods,
         // enum members, type literal properties
         case "#":
-            high = refl.children.filter((r) => {
-                return (
-                    r.name === path.path &&
-                    r.kindOf(ReflectionKind.SomeMember) &&
-                    !r.flags.isStatic
-                );
-            });
+            high =
+                refl.children?.filter((r) => {
+                    return (
+                        r.name === path.path &&
+                        r.kindOf(ReflectionKind.SomeMember) &&
+                        !r.flags.isStatic
+                    );
+                }) || [];
             break;
 
         // Resolve via "locals"... treat this as a stricter `.` which only supports traversing
@@ -250,7 +254,7 @@ function resolveSymbolReferencePart(
             if (
                 refl.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
             ) {
-                high = refl.children.filter((r) => r.name === path.path);
+                high = refl.children?.filter((r) => r.name === path.path) || [];
             }
             break;
     }

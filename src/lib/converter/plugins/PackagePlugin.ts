@@ -24,9 +24,6 @@ export class PackagePlugin extends ConverterComponent {
     @Option("readme")
     accessor readme!: string;
 
-    @Option("stripYamlFrontmatter")
-    accessor stripYamlFrontmatter!: boolean;
-
     @Option("entryPointStrategy")
     accessor entryPointStrategy!: EntryPointStrategy;
 
@@ -102,9 +99,7 @@ export class PackagePlugin extends ConverterComponent {
         if (this.readme) {
             // Readme path provided, read only that file.
             try {
-                this.readmeContents = this.processReadmeContents(
-                    readFile(this.readme),
-                );
+                this.readmeContents = readFile(this.readme);
                 this.readmeFile = this.readme;
             } catch {
                 this.application.logger.error(
@@ -123,21 +118,9 @@ export class PackagePlugin extends ConverterComponent {
 
             if (result) {
                 this.readmeFile = result.file;
-                this.readmeContents = this.processReadmeContents(
-                    result.content,
-                );
+                this.readmeContents = result.content;
             }
         }
-    }
-
-    private processReadmeContents(contents: string) {
-        if (this.stripYamlFrontmatter) {
-            return contents.replace(
-                /^\s*---\r?\n[\s\S]*?\r?\n---\s*?\r?\n\s*/,
-                "",
-            );
-        }
-        return contents;
     }
 
     private onBeginResolve(context: Context) {
@@ -146,7 +129,7 @@ export class PackagePlugin extends ConverterComponent {
 
     private addEntries(project: ProjectReflection) {
         if (this.readmeFile && this.readmeContents) {
-            const content = this.application.converter.parseRawComment(
+            const { content } = this.application.converter.parseRawComment(
                 new MinimalSourceFile(this.readmeContents, this.readmeFile),
             );
 

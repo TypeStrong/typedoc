@@ -12,10 +12,14 @@ export function* lexCommentString(
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
     for (const token of lexCommentString2(file)) {
-        if (token.kind === TokenSyntaxKind.Text) {
+        if (
+            token.kind === TokenSyntaxKind.Text ||
+            token.kind === TokenSyntaxKind.NewLine
+        ) {
             if (textToken) {
                 textToken.text += token.text;
             } else {
+                token.kind = TokenSyntaxKind.Text;
                 textToken = token;
             }
         } else {

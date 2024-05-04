@@ -123,7 +123,9 @@ export type SomeReflection = {
 /** @category Reflections */
 export interface DocumentReflection
     extends Omit<Reflection, "variant">,
-        S<M.DocumentReflection, "variant" | "content" | "relevanceBoost"> {}
+        S<M.DocumentReflection, "variant" | "content" | "relevanceBoost"> {
+    frontmatter: Record<string, unknown>;
+}
 
 /** @category Reflections */
 export interface ReferenceReflection

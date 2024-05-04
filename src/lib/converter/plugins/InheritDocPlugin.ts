@@ -224,6 +224,7 @@ function copySummaries(
 ) {
     for (const [s, t] of zip(source || [], target || [])) {
         t.comment = new Comment(s.comment?.summary);
+        t.comment.sourcePath = s.comment?.sourcePath;
     }
 }
 

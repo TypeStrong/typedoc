@@ -1,4 +1,5 @@
 import assert, { ok } from "assert";
+import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentParserConfig } from ".";
 import {
     Comment,
@@ -74,6 +75,7 @@ export function parseComment(
     const tok = lexer.done() || lexer.peek();
 
     const comment = new Comment();
+    comment.sourcePath = file.fileName;
     comment.summary = blockContent(
         comment,
         lexer,
@@ -173,7 +175,51 @@ export function parseCommentString(
         }
     }
 
-    return content;
+    // Check for frontmatter
+    let frontmatterData: Record<string, unknown> = {};
+    const firstBlock = content[0];
+    if (firstBlock.text.startsWith("---\n")) {
+        const end = firstBlock.text.indexOf("\n---\n");
+        if (end !== -1) {
+            const yamlText = firstBlock.text.slice("---\n".length, end);
+            firstBlock.text = firstBlock.text
+                .slice(end + "\n---\n".length)
+                .trimStart();
+
+            const frontmatter = parseYamlDoc(yamlText, { prettyErrors: false });
+            for (const warning of frontmatter.warnings) {
+                // Can't translate issues coming from external library...
+                logger.warn(
+                    warning.message as TranslatedString,
+                    warning.pos[0] + "---\n".length,
+                    file,
+                );
+            }
+            for (const error of frontmatter.errors) {
+                // Can't translate issues coming from external library...
+                logger.error(
+                    error.message as TranslatedString,
+                    error.pos[0] + "---\n".length,
+                    file,
+                );
+            }
+
+            if (frontmatter.errors.length === 0) {
+                const data = frontmatter.toJS();
+                if (typeof data === "object") {
+                    frontmatterData = data;
+                } else {
+                    logger.error(
+                        logger.i18n.yaml_frontmatter_not_an_object(),
+                        5,
+                        file,
+                    );
+                }
+            }
+        }
+    }
+
+    return { content, frontmatter: frontmatterData };
 }
 
 const HAS_USER_IDENTIFIER: `@${string}`[] = [

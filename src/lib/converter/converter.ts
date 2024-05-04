@@ -253,6 +253,7 @@ export class Converter extends ChildableComponent<
         return project;
     }
 
+    /** @internal */
     addProjectDocuments(project: ProjectReflection) {
         const projectDocuments = getDocumentEntryPoints(
             this.application.logger,
@@ -260,11 +261,12 @@ export class Converter extends ChildableComponent<
         );
         for (const { displayName, path } of projectDocuments) {
             const file = new MinimalSourceFile(readFile(path), path);
-            const content = this.parseRawComment(file);
+            const { content, frontmatter } = this.parseRawComment(file);
             const docRefl = new DocumentReflection(
                 displayName,
                 project,
                 content,
+                frontmatter,
             );
             project.addChild(docRefl);
             project.registerReflection(docRefl);
@@ -434,7 +436,7 @@ export class Converter extends ChildableComponent<
 
             if (entryPoint.readmeFile) {
                 const readme = readFile(entryPoint.readmeFile);
-                const content = this.parseRawComment(
+                const { content } = this.parseRawComment(
                     new MinimalSourceFile(readme, entryPoint.readmeFile),
                 );
                 reflection.readme = content;

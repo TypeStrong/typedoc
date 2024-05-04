@@ -927,9 +927,7 @@ describe("Raw Lexer", () => {
         const tokens = lex(" Comment\nNext line ");
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Comment", pos: 1 },
-            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 8 },
-            { kind: TokenSyntaxKind.Text, text: "Next line", pos: 9 },
+            { kind: TokenSyntaxKind.Text, text: "Comment\nNext line", pos: 1 },
         ]);
     });
 
@@ -1038,8 +1036,7 @@ describe("Raw Lexer", () => {
         );
 
         equal(tokens, [
-            { kind: TokenSyntaxKind.Text, text: "Text", pos: 0 },
-            { kind: TokenSyntaxKind.NewLine, text: "\n", pos: 4 },
+            { kind: TokenSyntaxKind.Text, text: "Text\n", pos: 0 },
             { kind: TokenSyntaxKind.Code, text: "```\nText", pos: 5 },
         ]);
     });

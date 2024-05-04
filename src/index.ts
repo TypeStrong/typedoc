@@ -106,12 +106,7 @@ export {
     SerializeEvent,
 } from "./lib/serialization";
 
-export {
-    type TranslationProxy,
-    type TranslatedString,
-    type TranslatableStrings,
-    Internationalization,
-} from "./lib/internationalization/internationalization";
+export * as Internationalization from "./lib/internationalization/index";
 
 import TypeScript from "typescript";
 export { TypeScript };

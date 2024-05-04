@@ -14,6 +14,7 @@ import { Comment } from "../../models";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
+    ReflectionKind.Document,
     ReflectionKind.Reference,
     // project is never a child so never added to a group
     ReflectionKind.Module,
@@ -176,7 +177,11 @@ export class GroupPlugin extends ConverterComponent {
                 }
             }
         }
-        // GERRIT: YAML metadata to add group
+
+        if (reflection.isDocument() && "group" in reflection.frontmatter) {
+            groups.add(String(reflection.frontmatter["group"]));
+            delete reflection.frontmatter["group"];
+        }
 
         groups.delete("");
         if (groups.size === 0) {

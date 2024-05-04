@@ -396,6 +396,15 @@ export class Comment {
     label?: string;
 
     /**
+     * Full path to the file where this comment originated from, if any.
+     * This field will not be serialized, so will not be present when handling JSON-revived reflections.
+     *
+     * Note: This field is non-enumerable to make testing comment contents with `deepEqual` easier.
+     */
+    @NonEnumerable
+    sourcePath?: string;
+
+    /**
      * Internal discovery ID used to prevent symbol comments from
      * being duplicated on signatures. Only set when the comment was created
      * @internal
@@ -426,9 +435,8 @@ export class Comment {
             this.blockTags.map((tag) => tag.clone()),
             new Set(this.modifierTags),
         );
-        if (this.discoveryId) {
-            comment.discoveryId = this.discoveryId;
-        }
+        comment.discoveryId = this.discoveryId;
+        comment.sourcePath = this.sourcePath;
         return comment;
     }
 
