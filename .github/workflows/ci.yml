@@ -27,7 +27,7 @@ jobs:
             - name: Lint
               run: npm run lint -- --max-warnings 0
             - name: Circular dependency check
-              uses: gerrit0/circular-dependency-check@v2
+              uses: gerrit0/circular-dependency-check@v2.0.1
               with:
                   entry: dist/index.js
     build-windows:
