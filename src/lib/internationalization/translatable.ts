@@ -199,10 +199,6 @@ export const translatable = {
         "If a symbol is exported multiple times, ignore all but the first export.",
     help_externalSymbolLinkMappings:
         "Define custom links for symbols not included in the documentation.",
-    help_media:
-        "Specify the location with media files that should be copied to the output directory.",
-    help_includes:
-        "Specify the location to look for included documents (use [[include:FILENAME]] in comments).",
     help_out: "Specify the location the documentation should be written to.",
     help_json:
         "Specify the location and filename a JSON file describing the project is written to.",
