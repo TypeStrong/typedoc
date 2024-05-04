@@ -9,14 +9,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - id: check
-              uses: EndBug/version-check@v2.1.0
+              uses: EndBug/version-check@v2.1.4
               with:
                   diff-search: true
             - name: Set up Node
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v4
               with:
                   node-version: "18"
             - name: Upgrade npm
