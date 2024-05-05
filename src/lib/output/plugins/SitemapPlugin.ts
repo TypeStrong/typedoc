@@ -8,8 +8,10 @@ import { Fragment } from "../../utils/jsx";
 
 @Component({ name: "sitemap" })
 export class SitemapPlugin extends RendererComponent {
-    @Option("hostedBaseUrl")
-    accessor hostedBaseUrl!: string;
+    private get hostedBaseUrl() {
+        const url = this.application.options.getValue("hostedBaseUrl");
+        return url.endsWith("/") ? url : url + "/";
+    }
 
     override initialize() {
         this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
