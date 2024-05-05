@@ -133,7 +133,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     return `<pre><code>${code}</code><button>Copy</button></pre>\n`;
                 }
 
-                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button>Copy</button></pre>\n`;
+                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">Copy</button></pre>\n`;
             },
         });
 

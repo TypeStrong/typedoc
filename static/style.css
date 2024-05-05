@@ -302,10 +302,6 @@ h6 {
     margin: 2.33rem 0;
 }
 
-.uppercase {
-    text-transform: uppercase;
-}
-
 dl,
 menu,
 ol,
@@ -579,13 +575,13 @@ dl.tsd-comment-tag-group p {
 }
 .tsd-filter-input {
     display: flex;
-    width: fit-content;
     width: -moz-fit-content;
+    width: fit-content;
     align-items: center;
-    user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    user-select: none;
     cursor: pointer;
 }
 .tsd-filter-input input[type="checkbox"] {
@@ -629,13 +625,18 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     stroke: var(--color-accent);
 }
 
-.tsd-theme-toggle {
-    padding-top: 0.75rem;
+.settings-label {
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
 }
-.tsd-theme-toggle > h4 {
-    display: inline;
-    vertical-align: middle;
-    margin-right: 0.75rem;
+
+.tsd-filter-visibility .settings-label {
+    margin: 0.75rem 0 0.5rem 0;
+}
+
+.tsd-theme-toggle .settings-label {
+    margin: 0.75rem 0.75rem 0 0;
 }
 
 .tsd-hierarchy {
@@ -814,10 +815,10 @@ a.tsd-index-link {
 }
 .tsd-accordion-summary,
 .tsd-accordion-summary a {
-    user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    user-select: none;
 
     cursor: pointer;
 }

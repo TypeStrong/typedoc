@@ -83,14 +83,14 @@ export function settings(context: DefaultThemeRenderContext) {
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
                         <div class="tsd-filter-visibility">
-                            <h4 class="uppercase">{context.i18n.theme_member_visibility()}</h4>
-                            <form>
-                                <ul id="tsd-filter-options">{...visibilityOptions}</ul>
-                            </form>
+                            <span class="settings-label">{context.i18n.theme_member_visibility()}</span>
+                            <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                         </div>
                     )}
                     <div class="tsd-theme-toggle">
-                        <h4 class="uppercase">{context.i18n.theme_theme()}</h4>
+                        <label class="settings-label" for="tsd-theme">
+                            {context.i18n.theme_theme()}
+                        </label>
                         <select id="tsd-theme">
                             <option value="os">{context.i18n.theme_os()}</option>
                             <option value="light">{context.i18n.theme_light()}</option>
