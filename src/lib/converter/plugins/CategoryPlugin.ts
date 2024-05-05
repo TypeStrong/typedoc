@@ -132,10 +132,13 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     private lumpCategorize(obj: ContainerReflection) {
-        if (!obj.children || obj.children.length === 0 || obj.categories) {
+        if (!obj.childrenIncludingDocuments || obj.categories) {
             return;
         }
-        obj.categories = this.getReflectionCategories(obj, obj.children);
+        obj.categories = this.getReflectionCategories(
+            obj,
+            obj.childrenIncludingDocuments,
+        );
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (

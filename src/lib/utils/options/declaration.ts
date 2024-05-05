@@ -103,6 +103,7 @@ export interface TypeDocOptionMap {
     // Input
     entryPoints: string[];
     entryPointStrategy: typeof EntryPointStrategy;
+    alwaysCreateEntryPointModule: boolean;
     projectDocuments: string[];
     exclude: string[];
     externalPattern: string[];
@@ -134,7 +135,7 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     customCss: string;
-    markdownItOptions: unknown;
+    markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**
      * Will be called when TypeDoc is setting up the markdown parser to use to render markdown.
      * Can be used to add markdown-it plugins to the parser with code like this:
@@ -143,7 +144,7 @@ export interface TypeDocOptionMap {
      * // typedoc.config.mjs
      * import iterator from "markdown-it-for-inline";
      * export default {
-     *     /** @type {MarkdownIt} *\/
+     *     /** @param {MarkdownIt} parser *\/
      *     markdownItLoader(parser) {
      *         parser.use(iterator, "foo_replace", "text", function(tokens, idx) {
      *             tokens[idx].content = tokens[idx].content.replace(/foo/g, 'bar');
@@ -151,8 +152,11 @@ export interface TypeDocOptionMap {
      *     }
      * }
      * ```
+     *
+     * Note: Unfortunately, markdown-it doesn't ship its own types, so `parser` isn't
+     * strictly typed here.
      */
-    markdownItLoader: ManuallyValidatedOption<(parser: MarkdownIt) => void>;
+    markdownItLoader: ManuallyValidatedOption<(parser: any) => void>;
     basePath: string;
     cname: string;
     githubPages: boolean;

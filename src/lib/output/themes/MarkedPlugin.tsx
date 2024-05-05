@@ -10,6 +10,7 @@ import type { DefaultTheme } from "..";
 import { Slugger } from "./default/DefaultTheme";
 import { anchorIcon } from "./default/partials/anchor-icon";
 import type { DefaultThemeRenderContext } from "..";
+import { Comment, type CommentDisplayPart } from "../../models";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -31,6 +32,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     @Option("darkHighlightTheme")
     accessor darkTheme!: BundledTheme;
+
+    @Option("markdownItOptions")
+    accessor markdownItOptions!: Record<string, unknown>;
 
     private parser?: MarkdownIt;
 
@@ -75,12 +79,21 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     /**
      * Parse the given markdown string and return the resulting html.
      *
-     * @param text  The markdown string that should be parsed.
+     * @param input  The markdown string that should be parsed.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string, page: PageEvent<any>, context: DefaultThemeRenderContext) {
+    public parseMarkdown(
+        input: string | readonly CommentDisplayPart[],
+        page: PageEvent<any>,
+        context: DefaultThemeRenderContext,
+    ) {
+        let markdown = input;
+        if (typeof markdown !== "string") {
+            markdown = Comment.displayPartsToMarkdown(markdown, context.urlTo, !!this.markdownItOptions["html"]);
+        }
+
         this.renderContext = context;
-        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
+        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, markdown, markdown);
 
         this.owner.trigger(event);
         this.renderContext = null!;
@@ -111,8 +124,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     private setupParser() {
         this.parser = markdown({
-            ...(this.application.options.getValue("markdownItOptions") as {}),
-            html: true,
+            ...this.markdownItOptions,
             highlight: (code, lang) => {
                 code = highlight(code, lang || "ts");
                 code = code.replace(/\n$/, "") + "\n";

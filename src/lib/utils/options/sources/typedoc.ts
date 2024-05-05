@@ -96,6 +96,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: EntryPointStrategy.Resolve,
     });
     options.addDeclaration({
+        name: "alwaysCreateEntryPointModule",
+        help: (i18n) => i18n.help_alwaysCreateEntryPointModule(),
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "projectDocuments",
         help: (i18n) => i18n.help_projectDocuments(),
         type: ParameterType.GlobArray,

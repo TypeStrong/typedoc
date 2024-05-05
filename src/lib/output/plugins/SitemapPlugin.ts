@@ -2,7 +2,7 @@ import Path from "path";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
-import { Option, writeFile } from "../../utils";
+import { writeFile } from "../../utils";
 import { escapeHtml } from "../../utils/html";
 import { Fragment } from "../../utils/jsx";
 
@@ -10,7 +10,7 @@ import { Fragment } from "../../utils/jsx";
 export class SitemapPlugin extends RendererComponent {
     private get hostedBaseUrl() {
         const url = this.application.options.getValue("hostedBaseUrl");
-        return url.endsWith("/") ? url : url + "/";
+        return !url || url.endsWith("/") ? url : url + "/";
     }
 
     override initialize() {

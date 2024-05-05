@@ -4,6 +4,7 @@ import type { Application } from "../application";
 import {
     Comment,
     type CommentDisplayPart,
+    type ContainerReflection,
     DocumentReflection,
     ProjectReflection,
     type Reflection,
@@ -24,7 +25,7 @@ import {
 import { convertType } from "./types";
 import { ConverterEvents } from "./converter-events";
 import { convertSymbol } from "./symbols";
-import { createMinimatch, matchesAny } from "../utils/paths";
+import { createMinimatch, matchesAny, nicePath } from "../utils/paths";
 import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag } from "../utils/enum";
 import type { DocumentationEntryPoint } from "../utils/entry-point";
@@ -42,6 +43,7 @@ import {
     type ExternalResolveResult,
 } from "./comments/linkResolver";
 import type { DeclarationReference } from "./comments/declarationReference";
+import { basename, dirname, resolve } from "path";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -382,12 +384,21 @@ export class Converter extends ChildableComponent<
                 context: undefined as Context | undefined,
             };
         });
+
+        let createModuleReflections = entries.length > 1;
+        if (!createModuleReflections) {
+            const opts = this.application.options;
+            createModuleReflections = opts.isSet("alwaysCreateEntryPointModule")
+                ? opts.getValue("alwaysCreateEntryPointModule")
+                : !!(context.scope as ProjectReflection).documents;
+        }
+
         entries.forEach((e) => {
             context.setActiveProgram(e.entryPoint.program);
             e.context = this.convertExports(
                 context,
                 e.entryPoint,
-                entries.length === 1,
+                createModuleReflections,
             );
         });
         for (const { entryPoint, context } of entries) {
@@ -403,20 +414,21 @@ export class Converter extends ChildableComponent<
     private convertExports(
         context: Context,
         entryPoint: DocumentationEntryPoint,
-        singleEntryPoint: boolean,
+        createModuleReflections: boolean,
     ) {
         const node = entryPoint.sourceFile;
         const entryName = entryPoint.displayName;
         const symbol = getSymbolForModuleLike(context, node);
         let moduleContext: Context;
 
-        if (singleEntryPoint) {
+        if (createModuleReflections === false) {
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
             context.project.comment = symbol
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
+            this.processDocumentTags(context.project);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project,
@@ -525,6 +537,42 @@ export class Converter extends ChildableComponent<
         return (symbol.getDeclarations() ?? []).some((node) =>
             matchesAny(cache, node.getSourceFile().fileName),
         );
+    }
+
+    processDocumentTags(reflection: ContainerReflection) {
+        let relativeTo = reflection.comment?.sourcePath;
+        if (relativeTo) {
+            relativeTo = dirname(relativeTo);
+            const tags = reflection.comment?.getTags("@document") || [];
+            reflection.comment?.removeTags("@document");
+            for (const tag of tags) {
+                const path = Comment.combineDisplayParts(tag.content);
+
+                let file: MinimalSourceFile;
+                try {
+                    const resolved = resolve(relativeTo, path);
+                    file = new MinimalSourceFile(readFile(resolved), resolved);
+                } catch {
+                    this.application.logger.warn(
+                        this.application.logger.i18n.failed_to_read_0_when_processing_document_tag_in_1(
+                            nicePath(path),
+                            nicePath(reflection.comment!.sourcePath!),
+                        ),
+                    );
+                    continue;
+                }
+
+                const { content, frontmatter } = this.parseRawComment(file);
+                const docRefl = new DocumentReflection(
+                    basename(file.fileName).replace(/\.[^.]+$/, ""),
+                    reflection,
+                    content,
+                    frontmatter,
+                );
+                reflection.addChild(docRefl);
+                reflection.project.registerReflection(docRefl);
+            }
+        }
     }
 
     private _buildCommentParserConfig() {

@@ -45,9 +45,9 @@ describe("Default Options", () => {
 
     describe("markdownItOptions", () => {
         it("Errors if given a non-object", () => {
-            throws(() => opts.setValue("markdownItOptions", null));
-            throws(() => opts.setValue("markdownItOptions", "bad"));
-            throws(() => opts.setValue("markdownItOptions", []));
+            throws(() => opts.setValue("markdownItOptions", null as any));
+            throws(() => opts.setValue("markdownItOptions", "bad" as any));
+            throws(() => opts.setValue("markdownItOptions", [] as any));
         });
     });
 

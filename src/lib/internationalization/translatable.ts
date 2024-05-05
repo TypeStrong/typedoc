@@ -177,6 +177,8 @@ export const translatable = {
     help_entryPoints: "The entry points of your documentation.",
     help_entryPointStrategy:
         "The strategy to be used to convert entry points into documentation modules.",
+    help_alwaysCreateEntryPointModule:
+        "When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.",
     help_projectDocuments:
         "Documents which should be added as children to the root of the generated documentation. Supports globs to match multiple files.",
     help_exclude:

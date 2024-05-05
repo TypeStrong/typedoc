@@ -3,12 +3,11 @@ import type {
     Internationalization,
     TranslationProxy,
 } from "../../../internationalization/internationalization";
-import {
-    Comment,
-    type DocumentReflection,
-    type CommentDisplayPart,
-    type DeclarationReflection,
-    type Reflection,
+import type {
+    DocumentReflection,
+    CommentDisplayPart,
+    DeclarationReflection,
+    Reflection,
 } from "../../../models";
 import { type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
@@ -104,16 +103,7 @@ export class DefaultThemeRenderContext {
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>,
     ) => {
-        if (md instanceof Array) {
-            return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo, true), // GERRIT come back here
-                this.page,
-                this,
-            );
-        }
-        return md
-            ? this.theme.markedPlugin.parseMarkdown(md, this.page, this)
-            : "";
+        return this.theme.markedPlugin.parseMarkdown(md || "", this.page, this);
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);

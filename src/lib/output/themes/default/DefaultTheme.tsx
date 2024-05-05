@@ -371,13 +371,7 @@ export class DefaultTheme extends Theme {
                 return parent.groups.map(toNavigation);
             }
 
-            if (
-                opts.includeFolders &&
-                parent.childrenIncludingDocuments?.every((child) =>
-                    child.kindOf(ReflectionKind.Module | ReflectionKind.Document),
-                ) &&
-                parent.childrenIncludingDocuments.some((child) => child.name.includes("/"))
-            ) {
+            if (opts.includeFolders && parent.childrenIncludingDocuments?.some((child) => child.name.includes("/"))) {
                 return deriveModuleFolders(parent.childrenIncludingDocuments);
             }
 

@@ -8,8 +8,6 @@
     `@license`, `@import`, sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
--   Correctly handle the `html` being set/not set in markdown-it (currently hardcoded to `true`)
--   Add option to always create a module, even for a single entry point site.
 
 ### Breaking Changes
 
@@ -42,6 +40,8 @@
     are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
+-   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
+    If `--projectDocuments` is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
 
 ### Bug Fixes
 
