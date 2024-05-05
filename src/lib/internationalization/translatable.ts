@@ -249,8 +249,7 @@ export const translatable = {
     help_gaID:
         "Set the Google Analytics tracking ID and activate tracking code.",
     help_hideGenerator: "Do not print the TypeDoc link at the end of the page.",
-    help_customFooterHtml:
-        "Do not print the TypeDoc link at the end of the page.",
+    help_customFooterHtml: "Custom footer after the TypeDoc link.",
     help_customFooterHtmlDisableWrapper:
         "If set, disables the wrapper element for customFooterHtml.",
     help_hideParameterTypesInTitle:
