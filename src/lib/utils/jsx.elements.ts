@@ -592,7 +592,7 @@ export interface JsxMetaElementProps extends JsxHtmlGlobalProps {
         | "default-style"
         | "x-ua-compatible"
         | "refresh";
-    charSet?: "utf-8";
+    charset?: "utf-8";
     content?: string;
     name?: string;
 }

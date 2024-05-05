@@ -12,7 +12,7 @@ export const defaultLayout = (
 ) => (
     <html class="default" lang={context.options.getValue("lang")}>
         <head>
-            <meta charSet="utf-8" />
+            <meta charset="utf-8" />
             {context.hook("head.begin")}
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
             <title>
