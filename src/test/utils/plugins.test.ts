@@ -1,13 +1,16 @@
-import { Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import type { Application } from "../../index";
 import { loadPlugins } from "../../lib/utils/plugins";
 import { TestLogger } from "../TestLogger";
 import { join, resolve } from "path";
+import { Internationalization } from "../../lib/internationalization/internationalization";
 
 describe("loadPlugins", () => {
     let project: Project;
     let logger: TestLogger;
-    const fakeApp = {} as any as Application;
+    const fakeApp = {
+        i18n: new Internationalization(null).proxy,
+    } as any as Application;
     beforeEach(() => {
         project = tempdirProject();
         logger = fakeApp.logger = new TestLogger();

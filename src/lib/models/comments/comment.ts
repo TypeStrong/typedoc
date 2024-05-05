@@ -4,6 +4,7 @@ import { ReflectionKind } from "../reflections/kind";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
+import { NonEnumerable } from "../../utils/general";
 
 /**
  * Represents a parsed piece of a comment.
@@ -122,12 +123,14 @@ export class Comment {
 
     /**
      * Helper function to convert an array of comment display parts into markdown suitable for
-     * passing into Marked. `urlTo` will be used to resolve urls to any reflections linked to with
-     * `@link` tags.
+     * passing into markdown-it.
+     * @param urlTo - Used to resolve urls to any reflections linked to with `@link` tags..
+     * @param useHtml - If set, will produce `<a>` links which can be colored according to the reflection type they are pointed at.
      */
     static displayPartsToMarkdown(
         parts: readonly CommentDisplayPart[],
         urlTo: (ref: Reflection) => string,
+        useHtml: boolean,
     ) {
         const result: string[] = [];
 
@@ -158,19 +161,30 @@ export class Comment {
                                         part.target.kind,
                                     );
                                 }
-                                const text =
-                                    part.tag === "@linkcode"
-                                        ? `<code>${part.text}</code>`
-                                        : part.text;
-                                result.push(
-                                    url
-                                        ? `<a href="${url}"${
-                                              kindClass
-                                                  ? ` class="${kindClass}"`
-                                                  : ""
-                                          }>${text}</a>`
-                                        : part.text,
-                                );
+
+                                if (useHtml) {
+                                    const text =
+                                        part.tag === "@linkcode"
+                                            ? `<code>${part.text}</code>`
+                                            : part.text;
+                                    result.push(
+                                        url
+                                            ? `<a href="${url}"${
+                                                  kindClass
+                                                      ? ` class="${kindClass}"`
+                                                      : ""
+                                              }>${text}</a>`
+                                            : part.text,
+                                    );
+                                } else {
+                                    const text =
+                                        part.tag === "@linkcode"
+                                            ? "`" + part.text + "`"
+                                            : part.text;
+                                    result.push(
+                                        url ? `[${text}](${url})` : text,
+                                    );
+                                }
                             } else {
                                 result.push(part.text);
                             }
@@ -294,7 +308,9 @@ export class Comment {
                     );
                     if (!part.target) {
                         de.logger.warn(
-                            `Serialized project contained a link to ${oldId} (${part.text}), which was not a part of the project.`,
+                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                                oldId.toString(),
+                            ),
                         );
                     }
                 }
@@ -380,6 +396,23 @@ export class Comment {
     label?: string;
 
     /**
+     * Full path to the file where this comment originated from, if any.
+     * This field will not be serialized, so will not be present when handling JSON-revived reflections.
+     *
+     * Note: This field is non-enumerable to make testing comment contents with `deepEqual` easier.
+     */
+    @NonEnumerable
+    sourcePath?: string;
+
+    /**
+     * Internal discovery ID used to prevent symbol comments from
+     * being duplicated on signatures. Only set when the comment was created
+     * @internal
+     */
+    @NonEnumerable
+    discoveryId?: number;
+
+    /**
      * Creates a new Comment instance.
      */
     constructor(
@@ -397,11 +430,14 @@ export class Comment {
      * Create a deep clone of this comment.
      */
     clone() {
-        return new Comment(
+        const comment = new Comment(
             Comment.cloneDisplayParts(this.summary),
             this.blockTags.map((tag) => tag.clone()),
             new Set(this.modifierTags),
         );
+        comment.discoveryId = this.discoveryId;
+        comment.sourcePath = this.sourcePath;
+        return comment;
     }
 
     /**

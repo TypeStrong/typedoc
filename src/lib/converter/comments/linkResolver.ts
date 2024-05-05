@@ -1,14 +1,14 @@
 import ts from "typescript";
 import {
-    Comment,
-    CommentDisplayPart,
+    type Comment,
+    type CommentDisplayPart,
     DeclarationReflection,
-    InlineTagDisplayPart,
-    Reflection,
+    type InlineTagDisplayPart,
+    type Reflection,
     ReflectionSymbolId,
 } from "../../models";
 import {
-    DeclarationReference,
+    type DeclarationReference,
     parseDeclarationReference,
 } from "./declarationReference";
 import { resolveDeclarationReference } from "./declarationReferenceResolver";
@@ -61,6 +61,15 @@ export function resolveLinks(
         reflection.readme = resolvePartLinks(
             reflection,
             reflection.readme,
+            externalResolver,
+            options,
+        );
+    }
+
+    if (reflection.isDocument()) {
+        reflection.content = resolvePartLinks(
+            reflection,
+            reflection.content,
             externalResolver,
             options,
         );

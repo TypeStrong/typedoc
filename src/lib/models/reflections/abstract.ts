@@ -6,6 +6,7 @@ import { ReflectionKind } from "./kind";
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
 import type { ReflectionVariant } from "./variant";
 import type { DeclarationReflection } from "./declaration";
+import type { DocumentReflection } from "./document";
 import { NonEnumerable } from "../../utils/general";
 
 /**
@@ -212,6 +213,7 @@ export class ReflectionFlags extends Array<string> {
 
 export enum TraverseProperty {
     Children,
+    Documents,
     Parameters,
     TypeLiteral,
     TypeParameter,
@@ -329,8 +331,10 @@ export abstract class Reflection {
      * Test whether this reflection is of the given kind.
      */
     kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
-        const kindArray = Array.isArray(kind) ? kind : [kind];
-        return kindArray.some((kind) => (this.kind & kind) !== 0);
+        const kindFlags = Array.isArray(kind)
+            ? kind.reduce((a, b) => a | b, 0)
+            : kind;
+        return (this.kind & kindFlags) !== 0;
     }
 
     /**
@@ -466,6 +470,9 @@ export abstract class Reflection {
     isDeclaration(): this is DeclarationReflection {
         return false;
     }
+    isDocument(): this is DocumentReflection {
+        return false;
+    }
 
     /**
      * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
@@ -476,8 +483,8 @@ export abstract class Reflection {
             declaration(decl) {
                 if (
                     decl.signatures?.length &&
-                    decl.signatures.every(
-                        (sig) => sig.comment?.getTag("@deprecated"),
+                    decl.signatures.every((sig) =>
+                        sig.comment?.getTag("@deprecated"),
                     )
                 ) {
                     signaturesDeprecated = true;
@@ -496,7 +503,7 @@ export abstract class Reflection {
      * Traverse most potential child reflections of this reflection.
      *
      * Note: This may not necessarily traverse child reflections contained within the `type` property
-     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.26.
+     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.27.
      *
      * The given callback will be invoked for all children, signatures and type parameters
      * attached to this reflection.

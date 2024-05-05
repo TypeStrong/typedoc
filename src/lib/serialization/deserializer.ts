@@ -4,6 +4,7 @@ import {
     ArrayType,
     ConditionalType,
     DeclarationReflection,
+    DocumentReflection,
     IndexedAccessType,
     InferredType,
     IntersectionType,
@@ -21,13 +22,13 @@ import {
     Reflection,
     ReflectionKind,
     ReflectionType,
-    ReflectionVariant,
+    type ReflectionVariant,
     RestType,
     SignatureReflection,
-    SomeType,
+    type SomeType,
     TemplateLiteralType,
     TupleType,
-    TypeKindMap,
+    type TypeKindMap,
     TypeOperatorType,
     TypeParameterReflection,
     UnionType,
@@ -51,10 +52,10 @@ export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
     private activeReflection: Reflection[] = [];
-    constructor(private app: Application) {}
+    constructor(readonly application: Application) {}
 
     get logger(): Logger {
-        return this.app.logger;
+        return this.application.logger;
     }
 
     reflectionBuilders: {
@@ -65,6 +66,9 @@ export class Deserializer {
     } = {
         declaration(parent, obj) {
             return new DeclarationReflection(obj.name, obj.kind, parent);
+        },
+        document(parent, obj) {
+            return new DocumentReflection(obj.name, parent, [], {});
         },
         param(parent, obj) {
             return new ParameterReflection(obj.name, obj.kind, parent);
@@ -259,7 +263,6 @@ export class Deserializer {
         }
 
         const project = new ProjectReflection(name);
-        project.children = [];
         this.project = project;
 
         for (const proj of projects) {
@@ -274,7 +277,7 @@ export class Deserializer {
                 project,
             );
             project.registerReflection(projModule);
-            project.children.push(projModule);
+            project.addChild(projModule);
             this.oldIdToNewId = { [proj.id]: projModule.id };
             this.fromObject(projModule, proj);
 

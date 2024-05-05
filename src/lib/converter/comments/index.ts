@@ -1,13 +1,13 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models";
-import { assertNever, Logger } from "../../utils";
+import { assertNever, type Logger } from "../../utils";
 import type {
     CommentStyle,
     JsDocCompatibility,
 } from "../../utils/options/declaration";
 import { lexBlockComment } from "./blockLexer";
 import {
-    DiscoveredComment,
+    type DiscoveredComment,
     discoverComment,
     discoverFileComments,
     discoverNodeComment,
@@ -31,6 +31,7 @@ const jsDocCommentKinds = [
     ts.SyntaxKind.JSDocEnumTag,
 ];
 
+let commentDiscoveryId = 0;
 let commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 
 // We need to do this for tests so that changing the tsLinkResolution option
@@ -38,6 +39,7 @@ let commentCache = new WeakMap<ts.SourceFile, Map<number, Comment>>();
 // have the TS symbols attached.
 export function clearCommentCache() {
     commentCache = new WeakMap();
+    commentDiscoveryId = 0;
 }
 
 function getCommentWithCache(
@@ -82,6 +84,7 @@ function getCommentWithCache(
             assertNever(ranges[0].kind);
     }
 
+    comment.discoveryId = ++commentDiscoveryId;
     cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 
@@ -243,7 +246,9 @@ function getConstructorParamPropertyComment(
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
     if (paramTag) {
-        return new Comment(paramTag.content);
+        const result = new Comment(paramTag.content);
+        result.sourcePath = comment!.sourcePath;
+        return result;
     }
 }
 
@@ -302,7 +307,9 @@ export function getJsDocComment(
 
     // And pull out the tag we actually care about.
     if (ts.isJSDocEnumTag(declaration)) {
-        return new Comment(comment.getTag("@enum")?.content);
+        const result = new Comment(comment.getTag("@enum")?.content);
+        result.sourcePath = comment.sourcePath;
+        return result;
     }
 
     if (
@@ -314,7 +321,7 @@ export function getJsDocComment(
         // we'd have to search for any @template with a name starting with the first type parameter's name
         // which feels horribly hacky.
         logger.warn(
-            `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment.`,
+            logger.i18n.multiple_type_parameters_on_template_tag_unsupported(),
             declaration,
         );
         return;
@@ -336,10 +343,12 @@ export function getJsDocComment(
 
     if (!tag) {
         logger.error(
-            `Failed to find JSDoc tag for ${name} after parsing comment, please file a bug report.`,
+            logger.i18n.failed_to_find_jsdoc_tag_for_name_0(name),
             declaration,
         );
     } else {
-        return new Comment(Comment.cloneDisplayParts(tag.content));
+        const result = new Comment(Comment.cloneDisplayParts(tag.content));
+        result.sourcePath = comment.sourcePath;
+        return result;
     }
 }

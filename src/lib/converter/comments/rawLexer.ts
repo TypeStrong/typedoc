@@ -1,15 +1,25 @@
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 
+/**
+ * Note: This lexer intentionally *only* recognizes inline tags and code blocks.
+ * This is because it is intended for use on markdown documents, and we shouldn't
+ * take some stray `@user` mention within a "Thanks" section of someone's changelog
+ * as starting a block!
+ */
 export function* lexCommentString(
     file: string,
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
     for (const token of lexCommentString2(file)) {
-        if (token.kind === TokenSyntaxKind.Text) {
+        if (
+            token.kind === TokenSyntaxKind.Text ||
+            token.kind === TokenSyntaxKind.NewLine
+        ) {
             if (textToken) {
                 textToken.text += token.text;
             } else {
+                token.kind = TokenSyntaxKind.Text;
                 textToken = token;
             }
         } else {
@@ -44,7 +54,7 @@ function* lexCommentString2(
     }
 
     let lineStart = true;
-    let braceStartsType = false;
+    let expectingTag = false;
 
     for (;;) {
         if (pos >= end) {
@@ -59,23 +69,17 @@ function* lexCommentString2(
             case "\n":
                 yield makeToken(TokenSyntaxKind.NewLine, 1);
                 lineStart = true;
+                expectingTag = false;
                 break;
 
             case "{":
-                if (braceStartsType && nextNonWs(pos + 1) !== "@") {
-                    yield makeToken(
-                        TokenSyntaxKind.TypeAnnotation,
-                        findEndOfType(pos) - pos,
-                    );
-                    braceStartsType = false;
-                } else {
-                    yield makeToken(TokenSyntaxKind.OpenBrace, 1);
-                }
+                yield makeToken(TokenSyntaxKind.OpenBrace, 1);
+                expectingTag = true;
                 break;
 
             case "}":
                 yield makeToken(TokenSyntaxKind.CloseBrace, 1);
-                braceStartsType = false;
+                expectingTag = false;
                 break;
 
             case "`": {
@@ -84,7 +88,6 @@ function* lexCommentString2(
                 // 2. Code block: <3 ticks><language, no ticks>\n<text>\n<3 ticks>\n
                 // 3. Unmatched tick(s), not code, but part of some text.
                 // We don't quite handle #2 correctly yet. PR welcome!
-                braceStartsType = false;
                 let tickCount = 1;
                 let lookahead = pos;
 
@@ -107,6 +110,7 @@ function* lexCommentString2(
                             text: codeText.join(""),
                             pos,
                         };
+                        expectingTag = false;
                         pos = lookahead;
                         break;
                     } else if (file[lookahead] === "`") {
@@ -141,9 +145,11 @@ function* lexCommentString2(
                             text: codeText.join(""),
                             pos,
                         };
+                        expectingTag = false;
                         pos = lookahead;
                     } else {
                         yield makeToken(TokenSyntaxKind.Text, tickCount);
+                        expectingTag = false;
                     }
                 }
 
@@ -166,10 +172,10 @@ function* lexCommentString2(
                 }
 
                 if (
+                    expectingTag &&
                     lookahead !== pos + 1 &&
                     (lookahead === end || /[\s}]/.test(file[lookahead]))
                 ) {
-                    braceStartsType = true;
                     yield makeToken(TokenSyntaxKind.Tag, lookahead - pos);
                     break;
                 }
@@ -212,7 +218,7 @@ function* lexCommentString2(
                 textParts.push(file.substring(lookaheadStart, lookahead));
 
                 if (textParts.some((part) => /\S/.test(part))) {
-                    braceStartsType = false;
+                    expectingTag = false;
                 }
 
                 // This piece of text had line continuations or escaped text
@@ -244,65 +250,5 @@ function* lexCommentString2(
         }
 
         return file.startsWith("`".repeat(n), pos) && file[pos + n] !== "`";
-    }
-
-    function findEndOfType(pos: number): number {
-        let openBraces = 0;
-
-        while (pos < end) {
-            if (file[pos] === "{") {
-                openBraces++;
-            } else if (file[pos] === "}") {
-                if (--openBraces === 0) {
-                    break;
-                }
-            } else if ("`'\"".includes(file[pos])) {
-                pos = findEndOfString(pos);
-            }
-
-            pos++;
-        }
-
-        if (pos < end && file[pos] === "}") {
-            pos++;
-        }
-
-        return pos;
-    }
-
-    function findEndOfString(pos: number): number {
-        const endOfString = file[pos];
-        pos++;
-        while (pos < end) {
-            if (file[pos] === endOfString) {
-                break;
-            } else if (file[pos] === "\\") {
-                pos++; // Skip escaped character
-            } else if (
-                endOfString === "`" &&
-                file[pos] === "$" &&
-                file[pos + 1] === "{"
-            ) {
-                // Template literal with data inside a ${}
-                while (pos < end && file[pos] !== "}") {
-                    if ("`'\"".includes(file[pos])) {
-                        pos = findEndOfString(pos) + 1;
-                    } else {
-                        pos++;
-                    }
-                }
-            }
-
-            pos++;
-        }
-
-        return pos;
-    }
-
-    function nextNonWs(pos: number): string | undefined {
-        while (pos < end && /\s/.test(file[pos])) {
-            pos++;
-        }
-        return file[pos];
     }
 }

@@ -1,12 +1,12 @@
 import type { Options } from "./options";
 import {
     ParameterHint,
-    StringDeclarationOption,
+    type StringDeclarationOption,
     ParameterType,
-    DeclarationOption,
+    type DeclarationOption,
 } from "./declaration";
-import { getSupportedLanguages } from "../highlighter";
-import { BUNDLED_THEMES } from "shiki";
+import { getSupportedLanguages, getSupportedThemes } from "../highlighter";
+import type { TranslationProxy } from "../../internationalization/internationalization";
 
 export interface ParameterHelp {
     names: string[];
@@ -29,7 +29,10 @@ function hasHint(
  * @param scope  The scope of the parameters whose help should be returned.
  * @returns The columns and lines for the help of the requested parameters.
  */
-function getParameterHelp(options: Options): ParameterHelp {
+function getParameterHelp(
+    options: Options,
+    i18n: TranslationProxy,
+): ParameterHelp {
     const parameters = options.getDeclarations();
     parameters.sort((a, b) =>
         a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
@@ -50,7 +53,11 @@ function getParameterHelp(options: Options): ParameterHelp {
         }
 
         names.push(name);
-        helps.push(parameter.help);
+        helps.push(
+            typeof parameter.help === "string"
+                ? parameter.help
+                : parameter.help(i18n),
+        );
         margin = Math.max(name.length, margin);
     }
 
@@ -61,7 +68,7 @@ function toEvenColumns(values: string[], maxLineWidth: number) {
     const columnWidth =
         values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
 
-    const numColumns = Math.max(1, Math.min(maxLineWidth / columnWidth));
+    const numColumns = Math.max(1, Math.floor(maxLineWidth / columnWidth));
     let line = "";
     const out: string[] = [];
 
@@ -79,10 +86,13 @@ function toEvenColumns(values: string[], maxLineWidth: number) {
     return out;
 }
 
-export function getOptionsHelp(options: Options): string {
-    const output = ["Usage:", "  typedoc path/to/entry.ts", "", "Options:"];
+export function getOptionsHelp(
+    options: Options,
+    i18n: TranslationProxy,
+): string {
+    const output = ["typedoc path/to/entry.ts", "", "Options:"];
 
-    const columns = getParameterHelp(options);
+    const columns = getParameterHelp(options, i18n);
     for (let i = 0; i < columns.names.length; i++) {
         const usage = columns.names[i];
         const description = columns.helps[i];
@@ -98,7 +108,7 @@ export function getOptionsHelp(options: Options): string {
     output.push(
         "",
         "Supported highlighting themes:",
-        ...toEvenColumns(BUNDLED_THEMES, 80),
+        ...toEvenColumns(getSupportedThemes(), 80),
     );
 
     return output.join("\n");

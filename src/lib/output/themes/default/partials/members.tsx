@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import { ContainerReflection, DeclarationReflection } from "../../../../models";
+import { type ContainerReflection, DeclarationReflection } from "../../../../models";
 import { classNames } from "../../lib";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {

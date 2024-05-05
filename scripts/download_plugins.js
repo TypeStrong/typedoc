@@ -30,14 +30,13 @@ async function getPlugins() {
     const plugins = JSON.parse(await exec("npm search --json typedocplugin"));
     const plugins2 = JSON.parse(await exec("npm search --json typedoc-plugin"));
     const plugins3 = JSON.parse(await exec("npm search --json typedoc-theme"));
-    const recentlyUpdated = [...plugins, ...plugins2, ...plugins3].filter(
-        (plugin) => Date.parse(plugin.date) > CUTOFF_MS,
-    );
-
-    return recentlyUpdated.filter(
-        (plugin, i) =>
-            i === recentlyUpdated.findIndex((p) => p.name === plugin.name),
-    );
+    return [...plugins, ...plugins2, ...plugins3]
+        .filter((plugin) => {
+            return Date.parse(plugin.date) > CUTOFF_MS;
+        })
+        .filter((plugin, index, arr) => {
+            return index === arr.findIndex((p) => p.name === plugin.name);
+        });
 }
 
 function getTarballUrl(package) {

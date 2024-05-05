@@ -1,17 +1,18 @@
 import { Theme } from "../../theme";
 import type { Renderer } from "../../renderer";
 import {
-    Reflection,
+    type Reflection,
     ReflectionKind,
     ProjectReflection,
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
     SignatureReflection,
     ReflectionCategory,
     ReflectionGroup,
     TypeParameterReflection,
+    type DocumentReflection,
 } from "../../../models";
-import { RenderTemplate, UrlMapping } from "../../models/UrlMapping";
+import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
 import type { MarkedPlugin } from "../../plugins";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext";
@@ -50,6 +51,43 @@ export interface NavigationElement {
 }
 
 /**
+ * Responsible for getting a unique anchor for elements within a page.
+ */
+export class Slugger {
+    private seen = new Map<string, number>();
+
+    private serialize(value: string) {
+        // Extracted from marked@4.3.0
+        return (
+            value
+                .toLowerCase()
+                .trim()
+                // remove html tags
+                .replace(/<[!/a-z].*?>/gi, "")
+                // remove unwanted chars
+                .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, "")
+                .replace(/\s/g, "-")
+        );
+    }
+
+    slug(value: string) {
+        const originalSlug = this.serialize(value);
+        let slug = originalSlug;
+        let count = 0;
+        if (this.seen.has(slug)) {
+            count = this.seen.get(originalSlug)!;
+            do {
+                count++;
+                slug = originalSlug + "-" + count;
+            } while (this.seen.has(slug));
+        }
+        this.seen.set(originalSlug, count);
+        this.seen.set(slug, 0);
+        return slug;
+    }
+}
+
+/**
  * Default theme implementation of TypeDoc. If a theme does not provide a custom
  * {@link Theme} implementation, this theme class will be used.
  */
@@ -76,6 +114,9 @@ export class DefaultTheme extends Theme {
         return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
     }
 
+    documentTemplate = (pageEvent: PageEvent<DocumentReflection>) => {
+        return this.getRenderContext(pageEvent).documentTemplate(pageEvent);
+    };
     reflectionTemplate = (pageEvent: PageEvent<ContainerReflection>) => {
         return this.getRenderContext(pageEvent).reflectionTemplate(pageEvent);
     };
@@ -89,7 +130,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
 
-    getReflectionClasses(reflection: DeclarationReflection) {
+    getReflectionClasses(reflection: DeclarationReflection | DocumentReflection) {
         const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         return getReflectionClasses(reflection, filters);
     }
@@ -133,6 +174,11 @@ export class DefaultTheme extends Theme {
             directory: "variables",
             template: this.reflectionTemplate,
         },
+        {
+            kind: [ReflectionKind.Document],
+            directory: "variables",
+            template: this.documentTemplate,
+        },
     ];
 
     static URL_PREFIX = /^(http|ftp)s?:\/\//;
@@ -156,6 +202,7 @@ export class DefaultTheme extends Theme {
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
+        this.sluggers.set(project, new Slugger());
 
         if (false == hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
@@ -175,11 +222,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
-        project.children?.forEach((child: Reflection) => {
-            if (child instanceof DeclarationReflection) {
-                this.buildUrls(child, urls);
-            }
-        });
+        project.childrenIncludingDocuments?.forEach((child) => this.buildUrls(child, urls));
 
         return urls;
     }
@@ -208,7 +251,7 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or undefined if no mapping could be found.
      */
-    private getMapping(reflection: DeclarationReflection): TemplateMapping | undefined {
+    private getMapping(reflection: DeclarationReflection | DocumentReflection): TemplateMapping | undefined {
         return this.mappings.find((mapping) => reflection.kindOf(mapping.kind));
     }
 
@@ -219,19 +262,20 @@ export class DefaultTheme extends Theme {
      * @param urls        The array the url should be appended to.
      * @returns           The altered urls array.
      */
-    buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
+    buildUrls(reflection: DeclarationReflection | DocumentReflection, urls: UrlMapping[]): UrlMapping[] {
         const mapping = this.getMapping(reflection);
         if (mapping) {
             if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
                 const url = [mapping.directory, DefaultTheme.getUrl(reflection) + ".html"].join("/");
                 urls.push(new UrlMapping(url, reflection, mapping.template));
+                this.sluggers.set(reflection, new Slugger());
 
                 reflection.url = url;
                 reflection.hasOwnDocument = true;
             }
 
             reflection.traverse((child) => {
-                if (child instanceof DeclarationReflection) {
+                if (child.isDeclaration() || child.isDocument()) {
                     this.buildUrls(child, urls);
                 } else {
                     DefaultTheme.applyAnchorUrl(child, reflection);
@@ -271,16 +315,10 @@ export class DefaultTheme extends Theme {
         const opts = this.application.options.getValue("navigation");
         const leaves = this.application.options.getValue("navigationLeaves");
 
-        if (opts.fullTree) {
-            this.application.logger.warn(
-                `The navigation.fullTree option no longer has any affect and will be removed in v0.26`,
-            );
-        }
-
         return getNavigationElements(project) || [];
 
         function toNavigation(
-            element: ReflectionCategory | ReflectionGroup | DeclarationReflection,
+            element: ReflectionCategory | ReflectionGroup | DeclarationReflection | DocumentReflection,
         ): NavigationElement {
             if (element instanceof ReflectionCategory || element instanceof ReflectionGroup) {
                 return {
@@ -299,7 +337,12 @@ export class DefaultTheme extends Theme {
         }
 
         function getNavigationElements(
-            parent: ReflectionCategory | ReflectionGroup | DeclarationReflection | ProjectReflection,
+            parent:
+                | ReflectionCategory
+                | ReflectionGroup
+                | DeclarationReflection
+                | ProjectReflection
+                | DocumentReflection,
         ): undefined | NavigationElement[] {
             if (parent instanceof ReflectionCategory) {
                 return parent.children.map(toNavigation);
@@ -316,7 +359,7 @@ export class DefaultTheme extends Theme {
                 return;
             }
 
-            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) || parent.isDocument()) {
                 return;
             }
 
@@ -328,18 +371,14 @@ export class DefaultTheme extends Theme {
                 return parent.groups.map(toNavigation);
             }
 
-            if (
-                opts.includeFolders &&
-                parent.children?.every((child) => child.kindOf(ReflectionKind.Module)) &&
-                parent.children.some((child) => child.name.includes("/"))
-            ) {
-                return deriveModuleFolders(parent.children);
+            if (opts.includeFolders && parent.childrenIncludingDocuments?.some((child) => child.name.includes("/"))) {
+                return deriveModuleFolders(parent.childrenIncludingDocuments);
             }
 
-            return parent.children?.map(toNavigation);
+            return parent.childrenIncludingDocuments?.map(toNavigation);
         }
 
-        function deriveModuleFolders(children: DeclarationReflection[]) {
+        function deriveModuleFolders(children: Array<DeclarationReflection | DocumentReflection>) {
             const result: NavigationElement[] = [];
 
             const resolveOrCreateParents = (
@@ -395,6 +434,16 @@ export class DefaultTheme extends Theme {
         }
     }
 
+    private sluggers = new Map<Reflection, Slugger>();
+
+    getSlugger(reflection: Reflection): Slugger {
+        if (this.sluggers.has(reflection)) {
+            return this.sluggers.get(reflection)!;
+        }
+        // A slugger should always be defined at least for the project
+        return this.getSlugger(reflection.parent!);
+    }
+
     /**
      * Generate an anchor url for the given reflection and all of its children.
      *
@@ -429,14 +478,17 @@ function hasReadme(readme: string) {
     return !readme.endsWith("none");
 }
 
-function getReflectionClasses(reflection: DeclarationReflection, filters: Record<string, boolean>) {
+function getReflectionClasses(
+    reflection: DeclarationReflection | DocumentReflection,
+    filters: Record<string, boolean>,
+) {
     const classes: string[] = [];
 
     // Filter classes should match up with the settings function in
     // partials/navigation.tsx.
     for (const key of Object.keys(filters)) {
         if (key === "inherited") {
-            if (reflection.inheritedFrom) {
+            if (reflection.isDeclaration() && reflection.inheritedFrom) {
                 classes.push("tsd-is-inherited");
             }
         } else if (key === "protected") {

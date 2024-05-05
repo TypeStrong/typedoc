@@ -137,9 +137,7 @@ export class GitRepository implements Repository {
                     remotesOut.stdout.split("\n"),
                 );
             } else {
-                logger.warn(
-                    `The provided git remote "${gitRemote}" was not valid. Source links will be broken.`,
-                );
+                logger.warn(logger.i18n.git_remote_0_not_valid(gitRemote));
             }
         }
 

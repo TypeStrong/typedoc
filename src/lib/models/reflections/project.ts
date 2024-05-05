@@ -1,4 +1,4 @@
-import { Reflection, TraverseProperty } from "./abstract";
+import { type Reflection, TraverseProperty } from "./abstract";
 import { ContainerReflection } from "./container";
 import { ReferenceReflection } from "./reference";
 import type { DeclarationReflection } from "./declaration";
@@ -9,11 +9,12 @@ import type { TypeParameterReflection } from "./type-parameter";
 import { removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
-import { Comment, CommentDisplayPart } from "../comments";
+import { Comment, type CommentDisplayPart } from "../comments";
 import { ReflectionSymbolId } from "./ReflectionSymbolId";
 import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { DefaultMap, StableKeyMap } from "../../utils/map";
+import type { DocumentReflection } from "./document";
 
 /**
  * A reflection that represents the root of the project.
@@ -157,18 +158,23 @@ export class ProjectReflection extends ContainerReflection {
                 return true; // Continue iteration
             }
 
-            if (property === TraverseProperty.Children) {
-                removeIfPresent(
-                    parent.children,
-                    reflection as DeclarationReflection,
+            if (
+                property === TraverseProperty.Children ||
+                property == TraverseProperty.Documents
+            ) {
+                parent.removeChild(
+                    reflection as DeclarationReflection | DocumentReflection,
                 );
-                if (!parent.children?.length) {
-                    delete parent.children;
-                }
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
             } else if (property === TraverseProperty.IndexSignature) {
-                delete parent.indexSignature;
+                removeIfPresent(
+                    parent.indexSignatures,
+                    reflection as SignatureReflection,
+                );
+                if (!parent.indexSignatures?.length) {
+                    delete parent.indexSignatures;
+                }
             } else if (property === TraverseProperty.Parameters) {
                 removeIfPresent(
                     (reflection.parent as SignatureReflection).parameters,
@@ -373,7 +379,9 @@ export class ProjectReflection extends ContainerReflection {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {
                     de.logger.warn(
-                        `Serialized project contained a reflection with id ${id} but it was not present in deserialized project.`,
+                        de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                            id.toString(),
+                        ),
                     );
                 }
             }

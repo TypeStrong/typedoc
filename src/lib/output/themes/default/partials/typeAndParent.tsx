@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { ArrayType, ReferenceType, SignatureReflection, Type } from "../../../../models";
+import { ArrayType, ReferenceType, SignatureReflection, type Type } from "../../../../models";
 import { JSX } from "../../../../utils";
 
 export const typeAndParent = (context: DefaultThemeRenderContext, props: Type): JSX.Element => {

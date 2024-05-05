@@ -6,7 +6,7 @@ function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
     if (!item.url) {
         return (
             <li>
-                Defined in {item.fileName}:{item.line}
+                {context.i18n.theme_defined_in()} {item.fileName}:{item.line}
             </li>
         );
     }
@@ -14,7 +14,7 @@ function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
     if (context.options.getValue("sourceLinkExternal")) {
         return (
             <li>
-                {"Defined in "}
+                {context.i18n.theme_defined_in()}{" "}
                 <a href={item.url} class="external" target="_blank">
                     {item.fileName}:{item.line}
                 </a>
@@ -24,7 +24,7 @@ function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
 
     return (
         <li>
-            {"Defined in "}
+            {context.i18n.theme_defined_in()}{" "}
             <a href={item.url}>
                 {item.fileName}:{item.line}
             </a>
@@ -41,24 +41,21 @@ export const memberSources = (
     if (props.implementationOf) {
         sources.push(
             <p>
-                {"Implementation of "}
-                {context.typeAndParent(props.implementationOf)}
+                {context.i18n.theme_implementation_of()} {context.typeAndParent(props.implementationOf)}
             </p>,
         );
     }
     if (props.inheritedFrom) {
         sources.push(
             <p>
-                {"Inherited from "}
-                {context.typeAndParent(props.inheritedFrom)}
+                {context.i18n.theme_inherited_from()} {context.typeAndParent(props.inheritedFrom)}
             </p>,
         );
     }
     if (props.overwrites) {
         sources.push(
             <p>
-                {"Overrides "}
-                {context.typeAndParent(props.overwrites)}
+                {context.i18n.theme_overrides()} {context.typeAndParent(props.overwrites)}
             </p>,
         );
     }

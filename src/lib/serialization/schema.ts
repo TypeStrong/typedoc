@@ -33,9 +33,8 @@ import type * as M from "../models";
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
  */
-export type ModelToObject<T> = T extends Array<infer U>
-    ? _ModelToObject<U>[]
-    : _ModelToObject<T>;
+export type ModelToObject<T> =
+    T extends Array<infer U> ? _ModelToObject<U>[] : _ModelToObject<T>;
 
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
@@ -43,40 +42,42 @@ type _ModelToObject<T> =
     T extends Primitive
         ? T
         : Required<T> extends Required<M.ReflectionGroup>
-        ? ReflectionGroup
-        : Required<T> extends Required<M.ReflectionCategory>
-        ? ReflectionCategory
-        : T extends M.SignatureReflection
-        ? SignatureReflection
-        : T extends M.ParameterReflection
-        ? ParameterReflection
-        : T extends M.DeclarationReflection
-        ? DeclarationReflection
-        : T extends M.TypeParameterReflection
-        ? TypeParameterReflection
-        : T extends M.ProjectReflection
-        ? ProjectReflection
-        : T extends M.ContainerReflection
-        ? ContainerReflection
-        : T extends M.ReferenceReflection
-        ? ReferenceReflection
-        : T extends M.Reflection
-        ? Reflection
-        : // Types
-        T extends M.SomeType
-        ? TypeKindMap[T["type"]]
-        : T extends M.Type
-        ? SomeType
-        : // Miscellaneous
-        T extends M.Comment
-        ? Comment
-        : T extends M.CommentTag
-        ? CommentTag
-        : T extends M.CommentDisplayPart
-        ? CommentDisplayPart
-        : T extends M.SourceReference
-        ? SourceReference
-        : never;
+          ? ReflectionGroup
+          : Required<T> extends Required<M.ReflectionCategory>
+            ? ReflectionCategory
+            : T extends M.SignatureReflection
+              ? SignatureReflection
+              : T extends M.ParameterReflection
+                ? ParameterReflection
+                : T extends M.DeclarationReflection
+                  ? DeclarationReflection
+                  : T extends M.DocumentReflection
+                    ? DocumentReflection
+                    : T extends M.TypeParameterReflection
+                      ? TypeParameterReflection
+                      : T extends M.ProjectReflection
+                        ? ProjectReflection
+                        : T extends M.ContainerReflection
+                          ? ContainerReflection
+                          : T extends M.ReferenceReflection
+                            ? ReferenceReflection
+                            : T extends M.Reflection
+                              ? Reflection
+                              : // Types
+                                T extends M.SomeType
+                                ? TypeKindMap[T["type"]]
+                                : T extends M.Type
+                                  ? SomeType
+                                  : // Miscellaneous
+                                    T extends M.Comment
+                                    ? Comment
+                                    : T extends M.CommentTag
+                                      ? CommentTag
+                                      : T extends M.CommentDisplayPart
+                                        ? CommentDisplayPart
+                                        : T extends M.SourceReference
+                                          ? SourceReference
+                                          : never;
 
 type Primitive = string | number | undefined | null | boolean;
 
@@ -84,8 +85,8 @@ type Primitive = string | number | undefined | null | boolean;
 type ToSerialized<T> = T extends Primitive
     ? T
     : T extends bigint
-    ? { value: string; negative: boolean }
-    : ModelToObject<T>;
+      ? { value: string; negative: boolean }
+      : ModelToObject<T>;
 
 /**
  * Helper to describe a set of serialized properties. Primitive types are returned
@@ -118,6 +119,13 @@ export interface ReflectionCategory
 export type SomeReflection = {
     [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
 }[keyof M.ReflectionVariant];
+
+/** @category Reflections */
+export interface DocumentReflection
+    extends Omit<Reflection, "variant">,
+        S<M.DocumentReflection, "variant" | "content" | "relevanceBoost"> {
+    frontmatter: Record<string, unknown>;
+}
 
 /** @category Reflections */
 export interface ReferenceReflection
@@ -165,7 +173,7 @@ export interface DeclarationReflection
             | "relevanceBoost"
             | "type"
             | "signatures"
-            | "indexSignature"
+            | "indexSignatures"
             | "defaultValue"
             | "overwrites"
             | "inheritedFrom"
@@ -178,7 +186,10 @@ export interface DeclarationReflection
             | "setSignature"
             | "typeParameters"
             | "readme"
-        > {}
+        > {
+    /** @deprecated moved to {@link indexSignatures} with 0.26. */
+    indexSignature?: SignatureReflection;
+}
 
 /** @category Reflections */
 export interface TypeParameterReflection
@@ -201,7 +212,12 @@ export interface ProjectReflection
 /** @category Reflections */
 export interface ContainerReflection
     extends Reflection,
-        S<M.ContainerReflection, "children" | "groups" | "categories"> {}
+        S<
+            M.ContainerReflection,
+            "children" | "documents" | "groups" | "categories"
+        > {
+    childrenIncludingDocuments?: number[];
+}
 
 /** @category Reflections */
 export interface Reflection

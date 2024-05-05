@@ -5,7 +5,7 @@ export function anchorIcon(context: DefaultThemeRenderContext, anchor: string | 
     if (!anchor) return <></>;
 
     return (
-        <a href={`#${anchor}`} aria-label="Permalink" class="tsd-anchor-icon">
+        <a href={`#${anchor}`} aria-label={context.i18n.theme_permalink()} class="tsd-anchor-icon">
             {context.icons.anchor()}
         </a>
     );

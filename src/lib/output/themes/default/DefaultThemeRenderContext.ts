@@ -1,11 +1,15 @@
 import type { PageEvent, RendererHooks } from "../..";
-import {
-    Comment,
+import type {
+    Internationalization,
+    TranslationProxy,
+} from "../../../internationalization/internationalization";
+import type {
+    DocumentReflection,
     CommentDisplayPart,
     DeclarationReflection,
     Reflection,
 } from "../../../models";
-import { JSX, NeverIfInternal, Options } from "../../../utils";
+import { type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
@@ -19,7 +23,7 @@ import {
 import { footer } from "./partials/footer";
 import { header } from "./partials/header";
 import { hierarchy } from "./partials/hierarchy";
-import { buildRefIcons, icons } from "./partials/icon";
+import { buildRefIcons, type icons } from "./partials/icon";
 import { member } from "./partials/member";
 import { memberDeclaration } from "./partials/member.declaration";
 import { memberGetterSetter } from "./partials/member.getterSetter";
@@ -45,6 +49,7 @@ import { type } from "./partials/type";
 import { typeAndParent } from "./partials/typeAndParent";
 import { typeParameters } from "./partials/typeParameters";
 import { indexTemplate } from "./templates";
+import { documentTemplate } from "./templates/document";
 import { hierarchyTemplate } from "./templates/hierarchy";
 import { reflectionTemplate } from "./templates/reflection";
 
@@ -55,6 +60,8 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 export class DefaultThemeRenderContext {
     private _refIcons: typeof icons;
     options: Options;
+    internationalization: Internationalization;
+    i18n: TranslationProxy;
 
     constructor(
         private theme: DefaultTheme,
@@ -62,14 +69,9 @@ export class DefaultThemeRenderContext {
         options: Options,
     ) {
         this.options = options;
+        this.internationalization = theme.application.internationalization;
+        this.i18n = this.internationalization.proxy;
         this._refIcons = buildRefIcons(theme.icons, this);
-    }
-
-    /**
-     * @deprecated Will be removed in 0.26, no longer required.
-     */
-    iconsCache(): JSX.Element {
-        return JSX.createElement(JSX.Fragment, null);
     }
 
     /**
@@ -101,23 +103,15 @@ export class DefaultThemeRenderContext {
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>,
     ) => {
-        if (md instanceof Array) {
-            return this.theme.markedPlugin.parseMarkdown(
-                Comment.displayPartsToMarkdown(md, this.urlTo),
-                this.page,
-                this,
-            );
-        }
-        return md
-            ? this.theme.markedPlugin.parseMarkdown(md, this.page, this)
-            : "";
+        return this.theme.markedPlugin.parseMarkdown(md || "", this.page, this);
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 
-    getReflectionClasses = (refl: DeclarationReflection) =>
+    getReflectionClasses = (refl: DeclarationReflection | DocumentReflection) =>
         this.theme.getReflectionClasses(refl);
 
+    documentTemplate = bind(documentTemplate, this);
     reflectionTemplate = bind(reflectionTemplate, this);
     indexTemplate = bind(indexTemplate, this);
     hierarchyTemplate = bind(hierarchyTemplate, this);

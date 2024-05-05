@@ -1,19 +1,20 @@
 import ts from "typescript";
 import { ApplicationEvents } from "../../application-events";
 import {
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
-    ProjectReflection,
-    Reflection,
+    type ProjectReflection,
+    type Reflection,
     ReflectionKind,
     SignatureReflection,
 } from "../../models/reflections/index";
-import { ReferenceType, ReflectionType, Type } from "../../models/types";
+import { ReferenceType, ReflectionType, type Type } from "../../models/types";
 import { filterMap, zip } from "../../utils/array";
 import { Component, ConverterComponent } from "../components";
 import type { Context } from "../context";
 import { Converter } from "../converter";
 import { getHumanName } from "../../utils";
+import type { TranslatedString } from "../../internationalization/internationalization";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -315,10 +316,9 @@ export class ImplementsPlugin extends ConverterComponent {
             context.logger.warn(
                 `Failed to retrieve${
                     reflection.flags.isStatic ? " static" : ""
-                } member "${
-                    reflection.escapedName ?? reflection.name
-                }" of "${reflection.parent
-                    ?.name}" for inheritance analysis. Please report a bug.`,
+                } member "${reflection.escapedName ?? reflection.name}" of "${
+                    reflection.parent?.name
+                }" for inheritance analysis. Please report a bug.` as TranslatedString,
             );
             return;
         }
@@ -413,7 +413,9 @@ function createLink(
     link(reflection);
     link(reflection.getSignature);
     link(reflection.setSignature);
-    link(reflection.indexSignature);
+    for (const sig of reflection.indexSignatures || []) {
+        link(sig);
+    }
     for (const sig of reflection.signatures ?? []) {
         link(sig);
     }

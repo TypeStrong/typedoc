@@ -1,7 +1,8 @@
 import {
     ContainerReflection,
-    DeclarationReflection,
+    type DeclarationReflection,
     Comment,
+    type DocumentReflection,
 } from "../../models";
 import { ReflectionCategory } from "../../models";
 import { Component, ConverterComponent } from "../components";
@@ -16,7 +17,9 @@ import { Option, getSortFunction, removeIf } from "../../utils";
  */
 @Component({ name: "category" })
 export class CategoryPlugin extends ConverterComponent {
-    sortFunction!: (reflections: DeclarationReflection[]) => void;
+    sortFunction!: (
+        reflections: Array<DeclarationReflection | DocumentReflection>,
+    ) => void;
 
     @Option("defaultCategory")
     accessor defaultCategory!: string;
@@ -90,10 +93,9 @@ export class CategoryPlugin extends ConverterComponent {
 
         if (unusedBoosts.size) {
             context.logger.warn(
-                `Not all categories specified in searchCategoryBoosts were used in the documentation.` +
-                    ` The unused categories were:\n\t${Array.from(
-                        unusedBoosts,
-                    ).join("\n\t")}`,
+                context.i18n.not_all_search_category_boosts_used_0(
+                    Array.from(unusedBoosts).join("\n\t"),
+                ),
             );
         }
     }
@@ -130,10 +132,13 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     private lumpCategorize(obj: ContainerReflection) {
-        if (!obj.children || obj.children.length === 0 || obj.categories) {
+        if (!obj.childrenIncludingDocuments || obj.categories) {
             return;
         }
-        obj.categories = this.getReflectionCategories(obj, obj.children);
+        obj.categories = this.getReflectionCategories(
+            obj,
+            obj.childrenIncludingDocuments,
+        );
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
@@ -155,7 +160,7 @@ export class CategoryPlugin extends ConverterComponent {
      */
     private getReflectionCategories(
         parent: ContainerReflection,
-        reflections: DeclarationReflection[],
+        reflections: Array<DeclarationReflection | DocumentReflection>,
     ): ReflectionCategory[] {
         const categories = new Map<string, ReflectionCategory>();
 
@@ -189,7 +194,10 @@ export class CategoryPlugin extends ConverterComponent {
                         cat.description = body;
                     } else {
                         this.application.logger.warn(
-                            `Comment for ${parent.getFriendlyFullName()} includes @categoryDescription for "${header}", but no child is placed in that category.`,
+                            this.application.i18n.comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
+                                parent.getFriendlyFullName(),
+                                header,
+                            ),
                         );
                     }
 
@@ -215,19 +223,28 @@ export class CategoryPlugin extends ConverterComponent {
      * @privateRemarks
      * If you change this, also update getGroups in GroupPlugin accordingly.
      */
-    private extractCategories(reflection: DeclarationReflection) {
+    private extractCategories(
+        reflection: DeclarationReflection | DocumentReflection,
+    ) {
         const categories = CategoryPlugin.getCategories(reflection);
 
         reflection.comment?.removeTags("@category");
-        for (const sig of reflection.getNonIndexSignatures()) {
-            sig.comment?.removeTags("@category");
-        }
-
-        if (reflection.type?.type === "reflection") {
-            reflection.type.declaration.comment?.removeTags("@category");
-            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+        if (reflection.isDeclaration()) {
+            for (const sig of reflection.getNonIndexSignatures()) {
                 sig.comment?.removeTags("@category");
             }
+
+            if (reflection.type?.type === "reflection") {
+                reflection.type.declaration.comment?.removeTags("@category");
+                for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                    sig.comment?.removeTags("@category");
+                }
+            }
+        }
+
+        if (reflection.isDocument() && "category" in reflection.frontmatter) {
+            categories.add(String(reflection.frontmatter["category"]));
+            delete reflection.frontmatter["category"];
         }
 
         categories.delete("");
@@ -274,7 +291,9 @@ export class CategoryPlugin extends ConverterComponent {
         return aWeight - bWeight;
     }
 
-    static getCategories(reflection: DeclarationReflection) {
+    static getCategories(
+        reflection: DeclarationReflection | DocumentReflection,
+    ) {
         const categories = new Set<string>();
         function discoverCategories(comment: Comment | undefined) {
             if (!comment) return;
@@ -288,14 +307,16 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         discoverCategories(reflection.comment);
-        for (const sig of reflection.getNonIndexSignatures()) {
-            discoverCategories(sig.comment);
-        }
-
-        if (reflection.type?.type === "reflection") {
-            discoverCategories(reflection.type.declaration.comment);
-            for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+        if (reflection.isDeclaration()) {
+            for (const sig of reflection.getNonIndexSignatures()) {
                 discoverCategories(sig.comment);
+            }
+
+            if (reflection.type?.type === "reflection") {
+                discoverCategories(reflection.type.declaration.comment);
+                for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
+                    discoverCategories(sig.comment);
+                }
             }
         }
 

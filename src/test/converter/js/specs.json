@@ -67,6 +67,14 @@
                   "variant": "param",
                   "kind": 32768,
                   "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "x desc"
+                      }
+                    ]
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -374,6 +382,14 @@
                       "kind": 32768,
                       "flags": {
                         "isRest": true
+                      },
+                      "comment": {
+                        "summary": [
+                          {
+                            "kind": "text",
+                            "text": "Foo param description"
+                          }
+                        ]
                       },
                       "type": {
                         "type": "array",
@@ -894,6 +910,20 @@
               "variant": "signature",
               "kind": 4096,
               "flags": {},
+              "comment": {
+                "summary": [],
+                "blockTags": [
+                  {
+                    "tag": "@returns",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Foo return description"
+                      }
+                    ]
+                  }
+                ]
+              },
               "sources": [
                 {
                   "fileName": "index.js",
@@ -910,6 +940,14 @@
                   "kind": 32768,
                   "flags": {
                     "isRest": true
+                  },
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "Foo param description"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "array",

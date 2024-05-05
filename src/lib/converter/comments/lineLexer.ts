@@ -1,5 +1,5 @@
 import type * as ts from "typescript";
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 
 export function* lexLineComments(
     file: string,

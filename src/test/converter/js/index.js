@@ -47,8 +47,8 @@
 
 /**
  * @callback Foo
- * @param {...string} args
- * @returns {number}
+ * @param {...string} args Foo param description
+ * @returns {number} Foo return description
  */
 
 /** @type {Foo} */

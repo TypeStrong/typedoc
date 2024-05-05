@@ -68,7 +68,6 @@ export class Application {
 
     public showPage() {
         if (!document.body.style.display) return;
-        console.log("Show page");
         document.body.style.removeProperty("display");
         this.ensureFocusedElementVisible();
         this.updateIndexVisibility();

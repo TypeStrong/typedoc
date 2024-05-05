@@ -52,7 +52,7 @@ async function run(app: td.Application) {
     }
 
     if (app.options.getValue("help")) {
-        console.log(app.options.getHelp());
+        console.log(app.options.getHelp(app.i18n));
         return ExitCodes.Ok;
     }
 

@@ -2,12 +2,13 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
-    Reflection,
-    ProjectReflection,
+    type Reflection,
+    type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
     ReflectionFlag,
+    type DocumentReflection,
 } from "../models/index";
 
 import type { Converter } from "./converter";
@@ -22,6 +23,7 @@ import {
     getSignatureComment,
 } from "./comments";
 import { getHumanName } from "../utils/tsutils";
+import type { TranslationProxy } from "../internationalization/internationalization";
 
 /**
  * The context describes the current state the converter is in.
@@ -37,6 +39,13 @@ export class Context {
      */
     get checker(): ts.TypeChecker {
         return this.program.getTypeChecker();
+    }
+
+    /**
+     * Translation interface for log messages.
+     */
+    get i18n(): TranslationProxy {
+        return this.converter.application.i18n;
     }
 
     /**
@@ -220,10 +229,9 @@ export class Context {
         );
     }
 
-    addChild(reflection: DeclarationReflection) {
+    addChild(reflection: DeclarationReflection | DocumentReflection) {
         if (this.scope instanceof ContainerReflection) {
-            this.scope.children ??= [];
-            this.scope.children.push(reflection);
+            this.scope.addChild(reflection);
         }
     }
 

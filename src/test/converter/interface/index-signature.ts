@@ -6,9 +6,10 @@ export interface NumIndex {
     [x: number]: 1;
 }
 
-// This is broken... but here's a test for the broken behavior so we know when it is fixed.
 export interface BothIndex {
+    /** Number index */
     [x: number]: 1;
+    /** String index */
     [x: string]: 1 | 2;
 }
 

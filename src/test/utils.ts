@@ -2,10 +2,10 @@ import { ok } from "assert";
 import {
     Comment,
     DeclarationReflection,
-    ProjectReflection,
+    type ProjectReflection,
     Reflection,
-    ReflectionKind,
-    SignatureReflection,
+    type ReflectionKind,
+    type SignatureReflection,
 } from "..";
 import { filterMap } from "../lib/utils";
 
@@ -33,6 +33,16 @@ export function querySig(
 
 export function getComment(project: ProjectReflection, name: string) {
     return Comment.combineDisplayParts(query(project, name).comment?.summary);
+}
+
+export function getSigComment(
+    project: ProjectReflection,
+    name: string,
+    index = 0,
+) {
+    return Comment.combineDisplayParts(
+        querySig(project, name, index).comment?.summary,
+    );
 }
 
 export function getLinks(refl: Reflection): Array<{

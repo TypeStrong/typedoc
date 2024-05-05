@@ -1,15 +1,25 @@
-import * as fs from "fs";
-import * as Path from "path";
-import * as Marked from "marked";
+import markdown from "markdown-it";
 
 import { Component, ContextAwareRendererComponent } from "../components";
-import { RendererEvent, MarkdownEvent, PageEvent } from "../events";
-import { Option, readFile, copySync, isFile, JSX, renderElement } from "../../utils";
+import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
+import { Option, type Logger, renderElement } from "../../utils";
 import { highlight, isSupportedLanguage } from "../../utils/highlighter";
-import type { Theme } from "shiki";
+import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
+import type { DefaultTheme } from "..";
+import { Slugger } from "./default/DefaultTheme";
 import { anchorIcon } from "./default/partials/anchor-icon";
 import type { DefaultThemeRenderContext } from "..";
+import { Comment, type CommentDisplayPart } from "../../models";
+
+let defaultSlugger: Slugger | undefined;
+function getDefaultSlugger(logger: Logger) {
+    if (!defaultSlugger) {
+        logger.warn(logger.i18n.custom_theme_does_not_define_getSlugger());
+        defaultSlugger = new Slugger();
+    }
+    return defaultSlugger;
+}
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -17,46 +27,23 @@ import type { DefaultThemeRenderContext } from "..";
  */
 @Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
-    @Option("includes")
-    accessor includeSource!: string;
-
-    @Option("media")
-    accessor mediaSource!: string;
-
     @Option("lightHighlightTheme")
-    accessor lightTheme!: Theme;
+    accessor lightTheme!: BundledTheme;
 
     @Option("darkHighlightTheme")
-    accessor darkTheme!: Theme;
+    accessor darkTheme!: BundledTheme;
+
+    @Option("markdownItOptions")
+    accessor markdownItOptions!: Record<string, unknown>;
+
+    private parser?: MarkdownIt;
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
-     * Revisit when adding support for arbitrary pages.
+     * Revisit when adding support for arbitrary pages in 0.26.
      */
     private renderContext: DefaultThemeRenderContext = null!;
-
-    /**
-     * The path referenced files are located in.
-     */
-    private includes?: string;
-
-    /**
-     * Path to the output media directory.
-     */
-    private mediaDirectory?: string;
-
-    /**
-     * The pattern used to find references in markdown.
-     */
-    private includePattern = /\[\[include:([^\]]+?)\]\]/g;
-
-    /**
-     * The pattern used to find media links.
-     */
-    private mediaPattern = /media:\/\/([^ ")\]}]+)/g;
-
-    private sources?: { fileName: string; line: number }[];
-    private outputFileName?: string;
+    private lastHeaderSlug = "";
 
     /**
      * Create a new MarkedPlugin instance.
@@ -77,14 +64,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang || "typescript";
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
-            // Extra newline because of the progress bar
-            this.application.logger.warn(`
-Unsupported highlight language "${lang}" will not be highlighted. Run typedoc --help for a list of supported languages.
-target code block :
-\t${text.split("\n").join("\n\t")}
-source files :${this.sources?.map((source) => `\n\t${source.fileName}`).join()}
-output file :
-\t${this.outputFileName}`);
+            this.application.logger.warn(
+                this.application.i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                    lang,
+                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                ),
+            );
             return text;
         }
 
@@ -94,41 +79,21 @@ output file :
     /**
      * Parse the given markdown string and return the resulting html.
      *
-     * @param text  The markdown string that should be parsed.
+     * @param input  The markdown string that should be parsed.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text: string, page: PageEvent<any>, context: DefaultThemeRenderContext) {
+    public parseMarkdown(
+        input: string | readonly CommentDisplayPart[],
+        page: PageEvent<any>,
+        context: DefaultThemeRenderContext,
+    ) {
+        let markdown = input;
+        if (typeof markdown !== "string") {
+            markdown = Comment.displayPartsToMarkdown(markdown, context.urlTo, !!this.markdownItOptions["html"]);
+        }
+
         this.renderContext = context;
-
-        if (this.includes) {
-            text = text.replace(this.includePattern, (_match, path) => {
-                path = Path.join(this.includes!, path.trim());
-                if (isFile(path)) {
-                    const contents = readFile(path);
-                    const event = new MarkdownEvent(MarkdownEvent.INCLUDE, page, contents, contents);
-                    this.owner.trigger(event);
-                    return event.parsedText;
-                } else {
-                    this.application.logger.warn("Could not find file to include: " + path);
-                    return "";
-                }
-            });
-        }
-
-        if (this.mediaDirectory) {
-            text = text.replace(this.mediaPattern, (match: string, path: string) => {
-                const fileName = Path.join(this.mediaDirectory!, path);
-
-                if (isFile(fileName)) {
-                    return this.getRelativeUrl("media") + "/" + path;
-                } else {
-                    this.application.logger.warn("Could not find media file: " + fileName);
-                    return match;
-                }
-            });
-        }
-
-        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, text, text);
+        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, markdown, markdown);
 
         this.owner.trigger(event);
         this.renderContext = null!;
@@ -142,27 +107,14 @@ output file :
      */
     protected override onBeginRenderer(event: RendererEvent) {
         super.onBeginRenderer(event);
+        this.setupParser();
+    }
 
-        Marked.marked.setOptions(this.createMarkedOptions());
-
-        delete this.includes;
-        if (this.includeSource) {
-            if (fs.existsSync(this.includeSource) && fs.statSync(this.includeSource).isDirectory()) {
-                this.includes = this.includeSource;
-            } else {
-                this.application.logger.warn("Could not find provided includes directory: " + this.includeSource);
-            }
+    private getSlugger() {
+        if ("getSlugger" in this.owner.theme!) {
+            return (this.owner.theme as DefaultTheme).getSlugger(this.page!.model);
         }
-
-        if (this.mediaSource) {
-            if (fs.existsSync(this.mediaSource) && fs.statSync(this.mediaSource).isDirectory()) {
-                this.mediaDirectory = Path.join(event.outputDirectory, "media");
-                copySync(this.mediaSource, this.mediaDirectory);
-            } else {
-                this.mediaDirectory = undefined;
-                this.application.logger.warn("Could not find provided media directory: " + this.mediaSource);
-            }
-        }
+        return getDefaultSlugger(this.application.logger);
     }
 
     /**
@@ -170,50 +122,56 @@ output file :
      *
      * @returns The options object for the markdown parser.
      */
-    private createMarkedOptions(): Marked.marked.MarkedOptions {
-        const markedOptions = (this.application.options.getValue("markedOptions") ?? {}) as Marked.marked.MarkedOptions;
+    private setupParser() {
+        this.parser = markdown({
+            ...this.markdownItOptions,
+            highlight: (code, lang) => {
+                code = highlight(code, lang || "ts");
+                code = code.replace(/\n$/, "") + "\n";
 
-        // Set some default values if they are not specified via the TypeDoc option
-        markedOptions.highlight ??= (text, lang) => this.getHighlighted(text, lang);
+                if (!lang) {
+                    return `<pre><code>${code}</code><button>Copy</button></pre>\n`;
+                }
 
-        if (!markedOptions.renderer) {
-            markedOptions.renderer = new Marked.Renderer();
+                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button>Copy</button></pre>\n`;
+            },
+        });
 
-            markedOptions.renderer.link = (href, title, text) => {
-                // Prefix the #anchor links `#md:`.
-                const target = href?.replace(/^#(?:md:)?(.+)/, "#md:$1") || undefined;
-                return renderElement(
-                    <a href={target} title={title || undefined}>
-                        <JSX.Raw html={text} />
-                    </a>,
-                );
-            };
+        const loader = this.application.options.getValue("markdownItLoader");
+        loader(this.parser);
 
-            markedOptions.renderer.heading = (text, level, _, slugger) => {
-                const slug = slugger.slug(text);
-                // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
-                this.page!.pageHeadings.push({
-                    link: `#md:${slug}`,
-                    text: getTextContent(text),
-                    level,
-                });
-                const H = `h${level}`;
-                return renderElement(
-                    <>
-                        <a id={`md:${slug}`} class="tsd-anchor" />
-                        <H class="tsd-anchor-link">
-                            <JSX.Raw html={text} />
-                            {anchorIcon(this.renderContext, `md:${slug}`)}
-                        </H>
-                    </>,
-                );
-            };
-            markedOptions.renderer.code = renderCode;
-        }
+        // Add anchor links for headings in readme, and add them to the "On this page" section
+        this.parser.renderer.rules["heading_open"] = (tokens, idx) => {
+            const token = tokens[idx];
+            const content = tokens[idx + 1].content;
+            const level = token.markup.length;
 
-        markedOptions.mangle ??= false; // See https://github.com/TypeStrong/typedoc/issues/1395
+            const slug = this.getSlugger().slug(content);
+            this.lastHeaderSlug = slug;
 
-        return markedOptions;
+            // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
+            this.page!.pageHeadings.push({
+                link: `#md:${slug}`,
+                text: getTextContent(content),
+                level,
+            });
+
+            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
+        };
+        this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
+            return `${renderElement(anchorIcon(this.renderContext, `md:${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;
+        };
+
+        // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
+        // that TypeDoc creates.
+        this.parser.renderer.rules["link_open"] = (tokens, idx, options, _env, self) => {
+            const token = tokens[idx];
+            const href = token.attrGet("href")?.replace(/^#(?:md:)?(.+)/, "#md:$1");
+            if (href) {
+                token.attrSet("href", href);
+            }
+            return self.renderToken(tokens, idx, options);
+        };
     }
 
     /**
@@ -222,30 +180,6 @@ output file :
      * @param event
      */
     onParseMarkdown(event: MarkdownEvent) {
-        event.parsedText = Marked.marked(event.parsedText);
+        event.parsedText = this.parser!.render(event.parsedText);
     }
-}
-
-// Basically a copy/paste of Marked's code, with the addition of the button
-// https://github.com/markedjs/marked/blob/v4.3.0/src/Renderer.js#L15-L39
-// cSpell:ignore infostring
-function renderCode(this: Marked.marked.Renderer, code: string, infostring: string | undefined, escaped: boolean) {
-    const lang = (infostring || "").match(/\S*/)![0];
-    if (this.options.highlight) {
-        const out = this.options.highlight(code, lang);
-        if (out != null && out !== code) {
-            escaped = true;
-            code = out;
-        }
-    }
-
-    code = code.replace(/\n$/, "") + "\n";
-
-    if (!lang) {
-        return `<pre><code>${escaped ? code : escapeHtml(code)}</code><button>Copy</button></pre>\n`;
-    }
-
-    return `<pre><code class="${this.options.langPrefix + escapeHtml(lang)}">${
-        escaped ? code : escapeHtml(code)
-    }</code><button>Copy</button></pre>\n`;
 }

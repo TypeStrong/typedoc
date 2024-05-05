@@ -80,20 +80,11 @@ export function initSearch() {
         );
     }
 
-    let resultClicked = false;
-    results.addEventListener("mousedown", () => (resultClicked = true));
     results.addEventListener("mouseup", () => {
-        resultClicked = false;
-        searchEl.classList.remove("has-focus");
+        hideSearch(searchEl);
     });
 
     field.addEventListener("focus", () => searchEl.classList.add("has-focus"));
-    field.addEventListener("blur", () => {
-        if (!resultClicked) {
-            resultClicked = false;
-            searchEl.classList.remove("has-focus");
-        }
-    });
 
     bindEvents(searchEl, results, field, state);
 }
@@ -111,35 +102,46 @@ function bindEvents(
         }, 200),
     );
 
-    let preventPress = false;
+    // Narrator is a pain. It completely eats the up/down arrow key events, so we can't
+    // rely on detecting the input blurring to hide the focus. We have to instead check
+    // for a focus event on an item outside of the search field/results.
     field.addEventListener("keydown", (e) => {
-        preventPress = true;
         if (e.key == "Enter") {
-            gotoCurrentResult(results, field);
-        } else if (e.key == "Escape") {
-            field.blur();
+            gotoCurrentResult(results, searchEl);
         } else if (e.key == "ArrowUp") {
-            setCurrentResult(results, -1);
+            setCurrentResult(results, field, -1);
+            e.preventDefault();
         } else if (e.key === "ArrowDown") {
-            setCurrentResult(results, 1);
-        } else {
-            preventPress = false;
+            setCurrentResult(results, field, 1);
+            e.preventDefault();
         }
-    });
-    field.addEventListener("keypress", (e) => {
-        if (preventPress) e.preventDefault();
     });
 
     /**
      * Start searching by pressing slash.
      */
-    document.body.addEventListener("keydown", (e) => {
+    document.body.addEventListener("keypress", (e) => {
         if (e.altKey || e.ctrlKey || e.metaKey) return;
         if (!field.matches(":focus") && e.key === "/") {
-            field.focus();
             e.preventDefault();
+            field.focus();
         }
     });
+
+    document.body.addEventListener("keyup", (e) => {
+        if (
+            searchEl.classList.contains("has-focus") &&
+            (e.key === "Escape" ||
+                (!results.matches(":focus-within") && !field.matches(":focus")))
+        ) {
+            field.blur();
+            hideSearch(searchEl);
+        }
+    });
+}
+
+function hideSearch(searchEl: HTMLElement) {
+    searchEl.classList.remove("has-focus");
 }
 
 function updateResults(
@@ -223,6 +225,11 @@ function updateResults(
         anchor.innerHTML = icon + name;
         item.append(anchor);
 
+        anchor.addEventListener("focus", () => {
+            results.querySelector(".current")?.classList.remove("current");
+            item.classList.add("current");
+        });
+
         results.appendChild(item);
     }
 }
@@ -230,7 +237,11 @@ function updateResults(
 /**
  * Move the highlight within the result set.
  */
-function setCurrentResult(results: HTMLElement, dir: number) {
+function setCurrentResult(
+    results: HTMLElement,
+    field: HTMLInputElement,
+    dir: number,
+) {
     let current = results.querySelector(".current");
     if (!current) {
         current = results.querySelector(
@@ -256,6 +267,9 @@ function setCurrentResult(results: HTMLElement, dir: number) {
         if (rel) {
             current.classList.remove("current");
             rel.classList.add("current");
+        } else if (dir === -1) {
+            current.classList.remove("current");
+            field.focus();
         }
     }
 }
@@ -263,7 +277,7 @@ function setCurrentResult(results: HTMLElement, dir: number) {
 /**
  * Navigate to the highlighted result.
  */
-function gotoCurrentResult(results: HTMLElement, field: HTMLInputElement) {
+function gotoCurrentResult(results: HTMLElement, searchEl: HTMLElement) {
     let current = results.querySelector(".current");
 
     if (!current) {
@@ -275,7 +289,7 @@ function gotoCurrentResult(results: HTMLElement, field: HTMLInputElement) {
         if (link) {
             window.location.href = link.href;
         }
-        field.blur();
+        hideSearch(searchEl);
     }
 }
 

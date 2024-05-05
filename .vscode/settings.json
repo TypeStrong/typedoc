@@ -41,6 +41,7 @@
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
     "cSpell.words": [
         "cname",
+        "Combinatorially",
         "deserializers",
         "githubprivate",
         "linkcode",

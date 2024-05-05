@@ -5,6 +5,7 @@ import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import type {
     DeclarationReflection,
+    DocumentReflection,
     Reflection,
     ReflectionKind,
 } from "../models";
@@ -204,11 +205,11 @@ export class IndexEvent extends Event {
      * same index from {@link searchFields}. The {@link removeResult} helper
      * will do this for you.
      */
-    searchResults: DeclarationReflection[];
+    searchResults: Array<DeclarationReflection | DocumentReflection>;
 
     /**
      * Additional search fields to be used when creating the search index.
-     * `name` and `comment` may be specified to overwrite TypeDoc's search fields.
+     * `name`, `comment` and `document` may be specified to overwrite TypeDoc's search fields.
      *
      * Do not use `id` as a custom search field.
      */
@@ -216,7 +217,7 @@ export class IndexEvent extends Event {
 
     /**
      * Weights for the fields defined in `searchFields`. The default will weight
-     * `name` as 10x more important than comment content.
+     * `name` as 10x more important than comment and document content.
      *
      * If a field added to {@link searchFields} is not added to this object, it
      * will **not** be searchable.
@@ -227,6 +228,7 @@ export class IndexEvent extends Event {
     readonly searchFieldWeights: Record<string, number> = {
         name: 10,
         comment: 1,
+        document: 1,
     };
 
     /**
@@ -237,7 +239,10 @@ export class IndexEvent extends Event {
         this.searchFields.splice(index, 1);
     }
 
-    constructor(name: string, searchResults: DeclarationReflection[]) {
+    constructor(
+        name: string,
+        searchResults: Array<DeclarationReflection | DocumentReflection>,
+    ) {
         super(name);
         this.searchResults = searchResults;
         this.searchFields = Array.from(

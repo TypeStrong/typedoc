@@ -1017,7 +1017,9 @@ export class ReferenceType extends Type {
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        `Serialized project contained a reference to ${obj.target} (${this.qualifiedName}), which was not a part of the project.`,
+                        de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                            obj.target.toString(),
+                        ),
                     );
                 }
             });

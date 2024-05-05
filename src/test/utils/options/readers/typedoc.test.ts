@@ -5,9 +5,10 @@ import { TypeDocReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
 import { TestLogger } from "../../../TestLogger";
 import { join } from "path";
+import { Internationalization } from "../../../../lib/internationalization/internationalization";
 
 describe("Options - TypeDocReader", () => {
-    const options = new Options();
+    const options = new Options(new Internationalization(null).proxy);
     options.addReader(new TypeDocReader());
 
     it("Supports comments in json", async () => {
@@ -101,17 +102,17 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if the data is invalid",
         "Not valid json {}",
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
     );
     testError(
         "Errors if the data is not an object in a json file",
         123,
-        "error: Failed to parse */typedoc.json, ensure it exists and contains an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
     );
     testError(
         "Errors if the data is not an object in a js file",
         "module.exports = 123",
-        "error: The root value of */typedoc.js is not an object.",
+        "error: Failed to parse */typedoc.js, ensure it exists and exports an object.",
         false,
     );
     testError(
@@ -119,14 +120,14 @@ describe("Options - TypeDocReader", () => {
         {
             someOptionThatDoesNotExist: true,
         },
-        "error: Tried to set an option (someOptionThatDoesNotExist) that was not declared. You may have meant:*",
+        "error: Unknown option 'someOptionThatDoesNotExist' You may have meant:*",
     );
     testError(
         "Errors if extends results in a loop",
         {
             extends: "./typedoc.json",
         },
-        "error: Tried to load the options file */typedoc.json multiple times.",
+        'error: Circular reference encountered for "extends" field of *',
     );
     testError(
         "Errors if the extended path cannot be found",
@@ -141,7 +142,7 @@ describe("Options - TypeDocReader", () => {
             override isSet() {
                 return false;
             }
-        })();
+        })(new Internationalization(null).proxy);
 
         options.addReader(new TypeDocReader());
         const logger = new Logger();
@@ -158,7 +159,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);
@@ -173,13 +174,16 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);
 
         project.rm();
-        logger.expectMessage("error: Failed to read */typedoc.config.mjs: hi");
+        logger.expectMessage(
+            "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object.",
+        );
+        logger.expectMessage("error: hi");
     });
 
     it("Handles non-Error throws when reading config files", async () => {
@@ -188,12 +192,15 @@ describe("Options - TypeDocReader", () => {
         project.write();
 
         const logger = new TestLogger();
-        const options = new Options();
+        const options = new Options(new Internationalization(null).proxy);
         options.setValue("options", join(project.cwd, "typedoc.config.cjs"));
         options.addReader(new TypeDocReader());
         await options.read(logger);
 
         project.rm();
-        logger.expectMessage("error: Failed to read */typedoc.config.cjs: 123");
+        logger.expectMessage(
+            "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object.",
+        );
+        logger.expectMessage("error: 123");
     });
 });

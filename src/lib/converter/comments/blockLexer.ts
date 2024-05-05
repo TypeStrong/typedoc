@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer";
 import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId";
 import { resolveAliasedSymbol } from "../utils/symbols";
 

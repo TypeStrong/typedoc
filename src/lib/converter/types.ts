@@ -25,13 +25,13 @@ import {
     OptionalType,
     RestType,
     TemplateLiteralType,
-    SomeType,
+    type SomeType,
 } from "../models";
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
 import { zip } from "../utils/array";
 import type { Context } from "./context";
 import { ConverterEvents } from "./converter-events";
-import { convertIndexSignature } from "./factories/index-signature";
+import { convertIndexSignatures } from "./factories/index-signature";
 import {
     convertParameterNodes,
     convertTypeParameterNodes,
@@ -40,6 +40,7 @@ import {
 import { convertSymbol } from "./symbols";
 import { isObjectType } from "./utils/nodes";
 import { removeUndefined } from "./utils/reflections";
+import type { TranslatedString } from "../internationalization/internationalization";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -610,7 +611,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             );
         }
 
-        convertIndexSignature(rc, symbol);
+        convertIndexSignatures(rc, symbol);
 
         return new ReflectionType(reflection);
     },
@@ -645,7 +646,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         }
 
         if (symbol) {
-            convertIndexSignature(context.withScope(reflection), symbol);
+            convertIndexSignatures(context.withScope(reflection), symbol);
         }
 
         return new ReflectionType(reflection);
@@ -1088,14 +1089,14 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     if ("kind" in nodeOrType) {
         const kindName = ts.SyntaxKind[nodeOrType.kind];
         context.logger.warn(
-            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.`,
+            `Failed to convert type node with kind: ${kindName} and text ${nodeOrType.getText()}. Please report a bug.` as TranslatedString,
             nodeOrType,
         );
         return new UnknownType(nodeOrType.getText());
     } else {
         const typeString = context.checker.typeToString(nodeOrType);
         context.logger.warn(
-            `Failed to convert type: ${typeString} when converting ${context.scope.getFullName()}. Please report a bug.`,
+            `Failed to convert type: ${typeString} when converting ${context.scope.getFullName()}. Please report a bug.` as TranslatedString,
         );
         return new UnknownType(typeString);
     }

@@ -8,11 +8,11 @@ import {
     Reflection,
     ReflectionCategory,
     ReflectionGroup,
-    JSONOutput,
+    type JSONOutput,
     CommentTag,
     ReferenceType,
     Comment,
-    CommentDisplayPart,
+    type CommentDisplayPart,
     SourceReference,
     ReferenceReflection,
 } from "..";

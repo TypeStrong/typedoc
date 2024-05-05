@@ -10,7 +10,7 @@ import * as Util from "util";
 type InternalOnly = true;
 
 /**
- * Helper type to convert `T` to `F` if strict mode is on.
+ * Helper type to convert `T` to `F` if compiling TypeDoc with stricter types.
  *
  * Can be used in overloads to map a parameter type to `never`. For example, the
  * following function will work with any string argument, but to improve the type safety
@@ -23,14 +23,15 @@ type InternalOnly = true;
  *
  * ```ts
  * function over(flag: 'a' | 'b'): string
- * function over(flag: IfStrict<string, never>): string
+ * // deprecated
+ * function over(flag: IfInternal<never, string>): string
  * function over(flag: string): string { return flag }
  * ```
  */
 export type IfInternal<T, F> = InternalOnly extends true ? T : F;
 
 /**
- * Helper type to convert `T` to `never` if strict mode is on.
+ * Helper type to convert `T` to `never` if compiling TypeDoc with stricter types.
  *
  * See {@link IfInternal} for the rationale.
  */

@@ -5,13 +5,13 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: ["18", "20", "21"]
+                node: ["18", "20", "22"]
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Set up Node
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node }}
             - name: Install
@@ -27,7 +27,7 @@ jobs:
             - name: Lint
               run: npm run lint -- --max-warnings 0
             - name: Circular dependency check
-              uses: gerrit0/circular-dependency-check@v2
+              uses: gerrit0/circular-dependency-check@v2.0.1
               with:
                   entry: dist/index.js
     build-windows:
@@ -35,9 +35,9 @@ jobs:
         name: Node 18 Windows
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Set up Node
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: 18
             - name: Upgrade npm

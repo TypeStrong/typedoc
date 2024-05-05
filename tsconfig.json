@@ -6,11 +6,11 @@
 
         // Add our `ts` internal types
         "typeRoots": ["node_modules/@types", "src/lib/types"],
-        "types": ["node", "lunr", "marked", "mocha"],
+        "types": ["node", "lunr", "mocha"],
         // Speed up dev compilation time
         "incremental": true,
         "tsBuildInfoFile": "dist/.tsbuildinfo",
-        // "skipLibCheck": true,
+        "skipLibCheck": false,
 
         "strict": true,
         "alwaysStrict": true,
@@ -34,12 +34,6 @@
         "jsx": "react",
         "jsxFactory": "JSX.createElement",
         "jsxFragmentFactory": "JSX.Fragment",
-
-        // TS 5 introduced verbatimModuleSyntax and deprecated importsNotUsedAsValues
-        // But that flag is intentionally very unfriendly to projects emitting CommonJS
-        // so for now, we're going to ignore that deprecation.
-        "ignoreDeprecations": "5.0",
-        "importsNotUsedAsValues": "error",
         "isolatedModules": true
     },
     "include": ["src"],

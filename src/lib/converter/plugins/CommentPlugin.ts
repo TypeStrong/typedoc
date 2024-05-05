@@ -2,18 +2,18 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import type { Context } from "../context";
 import {
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
-    TypeParameterReflection,
+    type TypeParameterReflection,
     DeclarationReflection,
     SignatureReflection,
-    ParameterReflection,
+    type ParameterReflection,
     Comment,
-    ReflectionType,
-    SourceReference,
-    TypeVisitor,
+    type SourceReference,
+    type TypeVisitor,
     CommentTag,
+    ReflectionType,
 } from "../../models";
 import {
     Option,
@@ -246,6 +246,7 @@ export class CommentPlugin extends ConverterComponent {
             }
             if (tag) {
                 reflection.comment = new Comment(tag.content);
+                reflection.comment.sourcePath = comment.sourcePath;
                 removeIfPresent(comment.blockTags, tag);
             }
         }
@@ -348,10 +349,10 @@ export class CommentPlugin extends ConverterComponent {
                 !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
             ) {
                 context.logger.warn(
-                    `The label "${
-                        reflection.comment.label
-                    }" for ${reflection.getFriendlyFullName()} cannot be referenced with a declaration reference. ` +
-                        `Labels may only contain A-Z, 0-9, and _, and may not start with a number.`,
+                    context.i18n.label_0_for_1_cannot_be_referenced(
+                        reflection.comment.label,
+                        reflection.getFriendlyFullName(),
+                    ),
                 );
             }
 
@@ -359,123 +360,81 @@ export class CommentPlugin extends ConverterComponent {
             movePropertyTags(reflection.comment, reflection);
         }
 
-        if (!(reflection instanceof DeclarationReflection)) {
-            return;
+        if (reflection instanceof DeclarationReflection && reflection.comment) {
+            let sigs: SignatureReflection[];
+            if (reflection.type instanceof ReflectionType) {
+                sigs = reflection.type.declaration.getNonIndexSignatures();
+            } else {
+                sigs = reflection.getNonIndexSignatures();
+            }
+
+            // For variables and properties, the symbol might own the comment but we might also
+            // have @param and @returns comments for an owned signature. Only do this if there is
+            // exactly one signature as otherwise we have no hope of doing validation right.
+            if (sigs.length === 1 && !sigs[0].comment) {
+                this.moveSignatureParamComments(sigs[0], reflection.comment);
+                const returnsTag = reflection.comment.getTag("@returns");
+                if (returnsTag) {
+                    sigs[0].comment = new Comment();
+                    sigs[0].comment.sourcePath = reflection.comment.sourcePath;
+                    sigs[0].comment.blockTags.push(returnsTag);
+                    reflection.comment.removeTags("@returns");
+                }
+            }
         }
 
-        if (reflection.type instanceof ReflectionType) {
-            this.moveCommentToSignatures(
-                reflection,
-                reflection.type.declaration.getNonIndexSignatures(),
-            );
-        } else {
-            this.moveCommentToSignatures(
-                reflection,
-                reflection.getNonIndexSignatures(),
-            );
+        if (reflection instanceof SignatureReflection) {
+            this.moveSignatureParamComments(reflection);
         }
     }
 
-    private moveCommentToSignatures(
-        reflection: DeclarationReflection,
-        signatures: SignatureReflection[],
+    private moveSignatureParamComments(
+        signature: SignatureReflection,
+        comment = signature.comment,
     ) {
-        if (!signatures.length) {
-            return;
-        }
+        if (!comment) return;
 
-        const comment = reflection.kindOf(ReflectionKind.ClassOrInterface)
-            ? undefined
-            : reflection.comment;
-
-        for (const signature of signatures) {
-            const signatureHadOwnComment = !!signature.comment;
-            const childComment = (signature.comment ||= comment?.clone());
-            if (!childComment) continue;
-
-            signature.parameters?.forEach((parameter, index) => {
-                if (parameter.name === "__namedParameters") {
-                    const commentParams = childComment.blockTags.filter(
-                        (tag) =>
-                            tag.tag === "@param" && !tag.name?.includes("."),
-                    );
-                    if (
-                        signature.parameters?.length === commentParams.length &&
-                        commentParams[index].name
-                    ) {
-                        parameter.name = commentParams[index].name!;
-                    }
-                }
-
-                const tag = childComment.getIdentifiedTag(
-                    parameter.name,
-                    "@param",
+        signature.parameters?.forEach((parameter, index) => {
+            if (parameter.name === "__namedParameters") {
+                const commentParams = comment.blockTags.filter(
+                    (tag) => tag.tag === "@param" && !tag.name?.includes("."),
                 );
-
-                if (tag) {
-                    parameter.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content),
-                    );
-                }
-            });
-
-            for (const parameter of signature.typeParameters || []) {
-                const tag =
-                    childComment.getIdentifiedTag(
-                        parameter.name,
-                        "@typeParam",
-                    ) ||
-                    childComment.getIdentifiedTag(
-                        parameter.name,
-                        "@template",
-                    ) ||
-                    childComment.getIdentifiedTag(
-                        `<${parameter.name}>`,
-                        "@param",
-                    );
-                if (tag) {
-                    parameter.comment = new Comment(
-                        Comment.cloneDisplayParts(tag.content),
-                    );
-                }
-            }
-
-            this.validateParamTags(
-                signature,
-                childComment,
-                signature.parameters || [],
-                signatureHadOwnComment,
-            );
-
-            childComment?.removeTags("@param");
-            childComment?.removeTags("@typeParam");
-            childComment?.removeTags("@template");
-        }
-
-        // Since this reflection has signatures, we need to remove the comment from the non-primary
-        // declaration location. For functions/methods/constructors, this means removing it from
-        // the wrapping reflection. For type aliases, classes, and interfaces, this means removing
-        // it from the contained signatures... if it's the same as what is on the signature.
-        // This is important so that in type aliases we don't end up with a comment rendered twice.
-        if (reflection.kindOf(ReflectionKind.SignatureContainer)) {
-            delete reflection.comment;
-        } else {
-            reflection.comment?.removeTags("@param");
-            reflection.comment?.removeTags("@typeParam");
-            reflection.comment?.removeTags("@template");
-
-            const parentComment = Comment.combineDisplayParts(
-                reflection.comment?.summary,
-            );
-            for (const sig of signatures) {
                 if (
-                    Comment.combineDisplayParts(sig.comment?.summary) ===
-                    parentComment
+                    signature.parameters?.length === commentParams.length &&
+                    commentParams[index].name
                 ) {
-                    delete sig.comment;
+                    parameter.name = commentParams[index].name!;
                 }
             }
+
+            const tag = comment.getIdentifiedTag(parameter.name, "@param");
+
+            if (tag) {
+                parameter.comment = new Comment(
+                    Comment.cloneDisplayParts(tag.content),
+                );
+                parameter.comment.sourcePath = comment.sourcePath;
+            }
+        });
+
+        for (const parameter of signature.typeParameters || []) {
+            const tag =
+                comment.getIdentifiedTag(parameter.name, "@typeParam") ||
+                comment.getIdentifiedTag(parameter.name, "@template") ||
+                comment.getIdentifiedTag(`<${parameter.name}>`, "@param");
+            if (tag) {
+                parameter.comment = new Comment(
+                    Comment.cloneDisplayParts(tag.content),
+                );
+                parameter.comment.sourcePath = comment.sourcePath;
+            }
         }
+
+        this.validateParamTags(signature, comment, signature.parameters || []);
+
+        comment.removeTags("@param");
+        comment.removeTags("@typeParam");
+        comment.removeTags("@template");
     }
 
     private removeExcludedTags(comment: Comment) {
@@ -607,7 +566,6 @@ export class CommentPlugin extends ConverterComponent {
         signature: SignatureReflection,
         comment: Comment,
         params: ParameterReflection[],
-        signatureHadOwnComment: boolean,
     ) {
         const paramTags = comment.blockTags.filter(
             (tag) => tag.tag === "@param",
@@ -617,14 +575,15 @@ export class CommentPlugin extends ConverterComponent {
             params.some((param) => param.name === tag.name),
         );
 
-        moveNestedParamTags(/* in-out */ paramTags, params);
+        moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
-        if (signatureHadOwnComment && paramTags.length) {
+        if (paramTags.length) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
-                    `The signature ${signature.getFriendlyFullName()} has an @param with name "${
-                        tag.name
-                    }", which was not used.`,
+                    this.application.i18n.signature_0_has_unused_param_with_name_1(
+                        signature.getFriendlyFullName(),
+                        tag.name ?? "(missing)",
+                    ),
                 );
             }
         }
@@ -645,14 +604,15 @@ function inTypeLiteral(refl: Reflection | undefined) {
 function moveNestedParamTags(
     /* in-out */ paramTags: CommentTag[],
     parameters: ParameterReflection[],
+    sourcePath: string | undefined,
 ) {
     const used = new Set<number>();
 
     for (const param of parameters) {
         const visitor: Partial<TypeVisitor> = {
             reflection(target) {
-                const tags = paramTags.filter(
-                    (t) => t.name?.startsWith(`${param.name}.`),
+                const tags = paramTags.filter((t) =>
+                    t.name?.startsWith(`${param.name}.`),
                 );
 
                 for (const tag of tags) {
@@ -664,6 +624,7 @@ function moveNestedParamTags(
                         child.comment = new Comment(
                             Comment.cloneDisplayParts(tag.content),
                         );
+                        child.comment.sourcePath = sourcePath;
                         used.add(paramTags.indexOf(tag));
                     }
                 }
@@ -704,12 +665,14 @@ function movePropertyTags(comment: Comment, container: Reflection) {
             child.comment = new Comment(
                 Comment.cloneDisplayParts(prop.content),
             );
+            child.comment.sourcePath = comment.sourcePath;
 
             if (child instanceof DeclarationReflection && child.signatures) {
                 for (const sig of child.signatures) {
                     sig.comment = new Comment(
                         Comment.cloneDisplayParts(prop.content),
                     );
+                    sig.comment.sourcePath = comment.sourcePath;
                 }
             }
         }

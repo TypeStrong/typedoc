@@ -1,13 +1,12 @@
 import ts from "typescript";
 import assert from "assert";
 import {
-    ConversionFlags,
     DeclarationReflection,
     IntrinsicType,
     ParameterReflection,
     PredicateType,
     ReferenceType,
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
@@ -68,15 +67,11 @@ export function createSignature(
         parentReflection = parentReflection.parent;
     }
 
-    if (
-        declaration &&
-        (!parentReflection.comment ||
-            !(
-                parentReflection.conversionFlags &
-                ConversionFlags.VariableOrPropertySource
-            ))
-    ) {
-        sigRef.comment = context.getSignatureComment(declaration);
+    if (declaration) {
+        const sigComment = context.getSignatureComment(declaration);
+        if (parentReflection.comment?.discoveryId !== sigComment?.discoveryId) {
+            sigRef.comment = sigComment;
+        }
     }
 
     sigRef.typeParameters = convertTypeParameters(

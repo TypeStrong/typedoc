@@ -5,6 +5,9 @@ require("ts-node/register");
 const { writeFileSync } = require("fs");
 const { addTypeDocOptions } = require("../src/lib/utils/options/sources");
 const { ParameterType } = require("../src");
+const {
+    Internationalization,
+} = require("../src/lib/internationalization/internationalization");
 
 const IGNORED_OPTIONS = new Set(["help", "version"]);
 
@@ -18,13 +21,15 @@ const schema = {
     allowTrailingCommas: true,
 };
 
+const i18n = new Internationalization(null).proxy;
+
 addTypeDocOptions({
     /** @param {import("../src").DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
         const data = {
-            description: option.help,
+            description: option.help(i18n),
         };
 
         const type = option.type ?? ParameterType.String;

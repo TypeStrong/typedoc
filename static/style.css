@@ -35,6 +35,7 @@
     --light-color-ts-set-signature: var(--light-color-ts-accessor);
     --light-color-ts-type-alias: #d51270;
     /* reference not included as links will be colored with the kind that it points to */
+    --light-color-document: #000000;
 
     --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
     --light-color-scheme: light;
@@ -75,6 +76,7 @@
     --dark-color-ts-set-signature: var(--dark-color-ts-accessor);
     --dark-color-ts-type-alias: #ff6492;
     /* reference not included as links will be colored with the kind that it points to */
+    --dark-color-document: #ffffff;
 
     --dark-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23fff' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
     --dark-color-scheme: dark;
@@ -116,6 +118,7 @@
         --color-ts-get-signature: var(--light-color-ts-get-signature);
         --color-ts-set-signature: var(--light-color-ts-set-signature);
         --color-ts-type-alias: var(--light-color-ts-type-alias);
+        --color-document: var(--light-color-document);
 
         --external-icon: var(--light-external-icon);
         --color-scheme: var(--light-color-scheme);
@@ -158,6 +161,7 @@
         --color-ts-get-signature: var(--dark-color-ts-get-signature);
         --color-ts-set-signature: var(--dark-color-ts-set-signature);
         --color-ts-type-alias: var(--dark-color-ts-type-alias);
+        --color-document: var(--dark-color-document);
 
         --external-icon: var(--dark-external-icon);
         --color-scheme: var(--dark-color-scheme);
@@ -207,6 +211,7 @@ body {
     --color-ts-get-signature: var(--light-color-ts-get-signature);
     --color-ts-set-signature: var(--light-color-ts-set-signature);
     --color-ts-type-alias: var(--light-color-ts-type-alias);
+    --color-document: var(--light-color-document);
 
     --external-icon: var(--light-external-icon);
     --color-scheme: var(--light-color-scheme);
@@ -247,6 +252,7 @@ body {
     --color-ts-get-signature: var(--dark-color-ts-get-signature);
     --color-ts-set-signature: var(--dark-color-ts-set-signature);
     --color-ts-type-alias: var(--dark-color-ts-type-alias);
+    --color-document: var(--dark-color-document);
 
     --external-icon: var(--dark-external-icon);
     --color-scheme: var(--dark-color-scheme);
@@ -323,7 +329,7 @@ footer {
     padding-bottom: 1rem;
     max-height: 3.5rem;
 }
-.tsd-generator {
+footer > p {
     margin: 0 1em;
 }
 

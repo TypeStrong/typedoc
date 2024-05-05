@@ -35,6 +35,7 @@ export {
     Renderer,
     DefaultTheme,
     DefaultThemeRenderContext,
+    Slugger,
     UrlMapping,
     Theme,
     PageEvent,
@@ -51,7 +52,6 @@ export type {
 export {
     ArgumentsReader,
     Option,
-    BindOption,
     CommentStyle,
     JSX,
     LogLevel,
@@ -105,6 +105,8 @@ export {
     type SerializerComponent,
     SerializeEvent,
 } from "./lib/serialization";
+
+export * as Internationalization from "./lib/internationalization/index";
 
 import TypeScript from "typescript";
 export { TypeScript };

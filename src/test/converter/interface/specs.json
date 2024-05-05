@@ -237,43 +237,102 @@
           "sources": [
             {
               "fileName": "index-signature.ts",
-              "line": 10,
+              "line": 9,
               "character": 17,
-              "url": "typedoc://index-signature.ts#L10"
+              "url": "typedoc://index-signature.ts#L9"
             }
           ],
-          "indexSignature": {
-            "id": 22,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 11,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L11"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 23,
-                "name": "x",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "intrinsic",
-                  "name": "number"
+          "indexSignatures": [
+            {
+              "id": 22,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Number index"
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 11,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L11"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 23,
+                  "name": "x",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "literal",
+                "value": 1
               }
-            ],
-            "type": {
-              "type": "literal",
-              "value": 1
+            },
+            {
+              "id": 24,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "String index"
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 13,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L13"
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 25,
+                  "name": "x",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "type": {
+                "type": "union",
+                "types": [
+                  {
+                    "type": "literal",
+                    "value": 1
+                  },
+                  {
+                    "type": "literal",
+                    "value": 2
+                  }
+                ]
+              }
             }
-          }
+          ]
         },
         {
           "id": 18,
@@ -289,38 +348,40 @@
               "url": "typedoc://index-signature.ts#L5"
             }
           ],
-          "indexSignature": {
-            "id": 19,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 6,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L6"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 20,
-                "name": "x",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "intrinsic",
-                  "name": "number"
+          "indexSignatures": [
+            {
+              "id": 19,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L6"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 20,
+                  "name": "x",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "literal",
+                "value": 1
               }
-            ],
-            "type": {
-              "type": "literal",
-              "value": 1
             }
-          }
+          ]
         },
         {
           "id": 15,
@@ -336,41 +397,43 @@
               "url": "typedoc://index-signature.ts#L1"
             }
           ],
-          "indexSignature": {
-            "id": 16,
-            "name": "__index",
-            "variant": "signature",
-            "kind": 8192,
-            "flags": {},
-            "sources": [
-              {
-                "fileName": "index-signature.ts",
-                "line": 2,
-                "character": 4,
-                "url": "typedoc://index-signature.ts#L2"
-              }
-            ],
-            "parameters": [
-              {
-                "id": 17,
-                "name": "x",
-                "variant": "param",
-                "kind": 32768,
-                "flags": {},
-                "type": {
-                  "type": "intrinsic",
-                  "name": "string"
+          "indexSignatures": [
+            {
+              "id": 16,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 2,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L2"
                 }
+              ],
+              "parameters": [
+                {
+                  "id": 17,
+                  "name": "x",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "type": {
+                "type": "literal",
+                "value": 1
               }
-            ],
-            "type": {
-              "type": "literal",
-              "value": 1
             }
-          }
+          ]
         },
         {
-          "id": 24,
+          "id": 26,
           "name": "TypeIndex",
           "variant": "declaration",
           "kind": 2097152,
@@ -378,15 +441,15 @@
           "sources": [
             {
               "fileName": "index-signature.ts",
-              "line": 15,
+              "line": 16,
               "character": 12,
-              "url": "typedoc://index-signature.ts#L15"
+              "url": "typedoc://index-signature.ts#L16"
             }
           ],
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 25,
+              "id": 27,
               "name": "__type",
               "variant": "declaration",
               "kind": 65536,
@@ -394,43 +457,45 @@
               "sources": [
                 {
                   "fileName": "index-signature.ts",
-                  "line": 15,
+                  "line": 16,
                   "character": 24,
-                  "url": "typedoc://index-signature.ts#L15"
+                  "url": "typedoc://index-signature.ts#L16"
                 }
               ],
-              "indexSignature": {
-                "id": 26,
-                "name": "__index",
-                "variant": "signature",
-                "kind": 8192,
-                "flags": {},
-                "sources": [
-                  {
-                    "fileName": "index-signature.ts",
-                    "line": 15,
-                    "character": 26,
-                    "url": "typedoc://index-signature.ts#L15"
-                  }
-                ],
-                "parameters": [
-                  {
-                    "id": 27,
-                    "name": "x",
-                    "variant": "param",
-                    "kind": 32768,
-                    "flags": {},
-                    "type": {
-                      "type": "intrinsic",
-                      "name": "string"
+              "indexSignatures": [
+                {
+                  "id": 28,
+                  "name": "__index",
+                  "variant": "signature",
+                  "kind": 8192,
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "index-signature.ts",
+                      "line": 16,
+                      "character": 26,
+                      "url": "typedoc://index-signature.ts#L16"
                     }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 29,
+                      "name": "x",
+                      "variant": "param",
+                      "kind": 32768,
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "literal",
+                    "value": 1
                   }
-                ],
-                "type": {
-                  "type": "literal",
-                  "value": 1
                 }
-              }
+              ]
             }
           }
         }
@@ -447,7 +512,7 @@
         {
           "title": "Type Aliases",
           "children": [
-            24
+            26
           ]
         }
       ],
@@ -461,14 +526,14 @@
       ]
     },
     {
-      "id": 28,
+      "id": 30,
       "name": "interface-empty",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 30,
+          "id": 32,
           "name": "ClassImplementingEmptyInterface",
           "variant": "declaration",
           "kind": 128,
@@ -483,21 +548,21 @@
           },
           "children": [
             {
-              "id": 31,
+              "id": 33,
               "name": "constructor",
               "variant": "declaration",
               "kind": 512,
               "flags": {},
               "signatures": [
                 {
-                  "id": 32,
+                  "id": 34,
                   "name": "new ClassImplementingEmptyInterface",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 30,
+                    "target": 32,
                     "name": "ClassImplementingEmptyInterface",
                     "package": "typedoc"
                   }
@@ -505,7 +570,7 @@
               ]
             },
             {
-              "id": 33,
+              "id": 35,
               "name": "name",
               "variant": "declaration",
               "kind": 1024,
@@ -526,7 +591,7 @@
               }
             },
             {
-              "id": 34,
+              "id": 36,
               "name": "goto",
               "variant": "declaration",
               "kind": 2048,
@@ -543,7 +608,7 @@
               ],
               "signatures": [
                 {
-                  "id": 35,
+                  "id": 37,
                   "name": "goto",
                   "variant": "signature",
                   "kind": 4096,
@@ -568,19 +633,19 @@
             {
               "title": "Constructors",
               "children": [
-                31
+                33
               ]
             },
             {
               "title": "Properties",
               "children": [
-                33
+                35
               ]
             },
             {
               "title": "Methods",
               "children": [
-                34
+                36
               ]
             }
           ],
@@ -595,14 +660,14 @@
           "implementedTypes": [
             {
               "type": "reference",
-              "target": 29,
+              "target": 31,
               "name": "EmptyInterface",
               "package": "typedoc"
             }
           ]
         },
         {
-          "id": 29,
+          "id": 31,
           "name": "EmptyInterface",
           "variant": "declaration",
           "kind": 256,
@@ -626,7 +691,7 @@
           "implementedBy": [
             {
               "type": "reference",
-              "target": 30,
+              "target": 32,
               "name": "ClassImplementingEmptyInterface"
             }
           ]
@@ -636,13 +701,13 @@
         {
           "title": "Classes",
           "children": [
-            30
+            32
           ]
         },
         {
           "title": "Interfaces",
           "children": [
-            29
+            31
           ]
         }
       ],
@@ -656,21 +721,21 @@
       ]
     },
     {
-      "id": 36,
+      "id": 38,
       "name": "interface-implementation",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 37,
+          "id": 39,
           "name": "Forms",
           "variant": "declaration",
           "kind": 4,
           "flags": {},
           "children": [
             {
-              "id": 81,
+              "id": 83,
               "name": "EventDispatcher",
               "variant": "declaration",
               "kind": 128,
@@ -696,21 +761,21 @@
               },
               "children": [
                 {
-                  "id": 82,
+                  "id": 84,
                   "name": "constructor",
                   "variant": "declaration",
                   "kind": 512,
                   "flags": {},
                   "signatures": [
                     {
-                      "id": 83,
+                      "id": 85,
                       "name": "new EventDispatcher",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
                       "typeParameter": [
                         {
-                          "id": 84,
+                          "id": 86,
                           "name": "T",
                           "variant": "typeParam",
                           "kind": 131072,
@@ -719,11 +784,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 81,
+                        "target": 83,
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": 84,
+                            "target": 86,
                             "name": "T",
                             "package": "typedoc",
                             "qualifiedName": "Forms.EventDispatcher.T",
@@ -738,7 +803,7 @@
                   ]
                 },
                 {
-                  "id": 85,
+                  "id": 87,
                   "name": "subscriptions",
                   "variant": "declaration",
                   "kind": 1024,
@@ -757,11 +822,11 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "target": 42,
+                      "target": 44,
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "target": 84,
+                          "target": 86,
                           "name": "T",
                           "package": "typedoc",
                           "qualifiedName": "Forms.EventDispatcher.T",
@@ -775,7 +840,7 @@
                   }
                 },
                 {
-                  "id": 86,
+                  "id": 88,
                   "name": "add",
                   "variant": "declaration",
                   "kind": 2048,
@@ -790,7 +855,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 87,
+                      "id": 89,
                       "name": "add",
                       "variant": "signature",
                       "kind": 4096,
@@ -805,18 +870,18 @@
                       ],
                       "parameters": [
                         {
-                          "id": 88,
+                          "id": 90,
                           "name": "listener",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 38,
+                            "target": 40,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 84,
+                                "target": 86,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.EventDispatcher.T",
@@ -829,7 +894,7 @@
                           }
                         },
                         {
-                          "id": 89,
+                          "id": 91,
                           "name": "filter",
                           "variant": "param",
                           "kind": 32768,
@@ -841,7 +906,7 @@
                           "defaultValue": "null"
                         },
                         {
-                          "id": 90,
+                          "id": 92,
                           "name": "priority",
                           "variant": "param",
                           "kind": 32768,
@@ -855,11 +920,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 42,
+                        "target": 44,
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": 84,
+                            "target": 86,
                             "name": "T",
                             "package": "typedoc",
                             "qualifiedName": "Forms.EventDispatcher.T",
@@ -872,19 +937,19 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 66,
+                        "target": 68,
                         "name": "EventDispatcherInt.add"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 65,
+                    "target": 67,
                     "name": "EventDispatcherInt.add"
                   }
                 },
                 {
-                  "id": 97,
+                  "id": 99,
                   "name": "clear",
                   "variant": "declaration",
                   "kind": 2048,
@@ -899,7 +964,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 98,
+                      "id": 100,
                       "name": "clear",
                       "variant": "signature",
                       "kind": 4096,
@@ -918,19 +983,19 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 77,
+                        "target": 79,
                         "name": "EventDispatcherInt.clear"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 76,
+                    "target": 78,
                     "name": "EventDispatcherInt.clear"
                   }
                 },
                 {
-                  "id": 94,
+                  "id": 96,
                   "name": "dispatch",
                   "variant": "declaration",
                   "kind": 2048,
@@ -945,7 +1010,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 95,
+                      "id": 97,
                       "name": "dispatch",
                       "variant": "signature",
                       "kind": 4096,
@@ -960,14 +1025,14 @@
                       ],
                       "parameters": [
                         {
-                          "id": 96,
+                          "id": 98,
                           "name": "event",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 84,
+                            "target": 86,
                             "name": "T",
                             "package": "typedoc",
                             "qualifiedName": "Forms.EventDispatcher.T",
@@ -981,19 +1046,19 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 74,
+                        "target": 76,
                         "name": "EventDispatcherInt.dispatch"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 73,
+                    "target": 75,
                     "name": "EventDispatcherInt.dispatch"
                   }
                 },
                 {
-                  "id": 99,
+                  "id": 101,
                   "name": "hasListeners",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1008,7 +1073,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 100,
+                      "id": 102,
                       "name": "hasListeners",
                       "variant": "signature",
                       "kind": 4096,
@@ -1027,19 +1092,19 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 79,
+                        "target": 81,
                         "name": "EventDispatcherInt.hasListeners"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 78,
+                    "target": 80,
                     "name": "EventDispatcherInt.hasListeners"
                   }
                 },
                 {
-                  "id": 91,
+                  "id": 93,
                   "name": "remove",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1054,7 +1119,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 92,
+                      "id": 94,
                       "name": "remove",
                       "variant": "signature",
                       "kind": 4096,
@@ -1069,18 +1134,18 @@
                       ],
                       "parameters": [
                         {
-                          "id": 93,
+                          "id": 95,
                           "name": "subscription",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 42,
+                            "target": 44,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 84,
+                                "target": 86,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.EventDispatcher.T",
@@ -1099,14 +1164,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 71,
+                        "target": 73,
                         "name": "EventDispatcherInt.remove"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 70,
+                    "target": 72,
                     "name": "EventDispatcherInt.remove"
                   }
                 }
@@ -1115,23 +1180,23 @@
                 {
                   "title": "Constructors",
                   "children": [
-                    82
+                    84
                   ]
                 },
                 {
                   "title": "Properties",
                   "children": [
-                    85
+                    87
                   ]
                 },
                 {
                   "title": "Methods",
                   "children": [
-                    86,
-                    97,
-                    94,
+                    88,
                     99,
-                    91
+                    96,
+                    101,
+                    93
                   ]
                 }
               ],
@@ -1145,7 +1210,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 101,
+                  "id": 103,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -1155,11 +1220,11 @@
               "implementedTypes": [
                 {
                   "type": "reference",
-                  "target": 64,
+                  "target": 66,
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "target": 84,
+                      "target": 86,
                       "name": "T",
                       "package": "typedoc",
                       "qualifiedName": "Forms.EventDispatcher.T",
@@ -1173,7 +1238,7 @@
               ]
             },
             {
-              "id": 49,
+              "id": 51,
               "name": "Subscription",
               "variant": "declaration",
               "kind": 128,
@@ -1188,7 +1253,7 @@
               },
               "children": [
                 {
-                  "id": 50,
+                  "id": 52,
                   "name": "constructor",
                   "variant": "declaration",
                   "kind": 512,
@@ -1203,7 +1268,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 51,
+                      "id": 53,
                       "name": "new Subscription",
                       "variant": "signature",
                       "kind": 16384,
@@ -1218,7 +1283,7 @@
                       ],
                       "typeParameter": [
                         {
-                          "id": 52,
+                          "id": 54,
                           "name": "V",
                           "variant": "typeParam",
                           "kind": 131072,
@@ -1227,18 +1292,18 @@
                       ],
                       "parameters": [
                         {
-                          "id": 53,
+                          "id": 55,
                           "name": "listener",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 38,
+                            "target": 40,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 52,
+                                "target": 54,
                                 "name": "V",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.Subscription.V",
@@ -1251,7 +1316,7 @@
                           }
                         },
                         {
-                          "id": 54,
+                          "id": 56,
                           "name": "filter",
                           "variant": "param",
                           "kind": 32768,
@@ -1262,7 +1327,7 @@
                           }
                         },
                         {
-                          "id": 55,
+                          "id": 57,
                           "name": "priority",
                           "variant": "param",
                           "kind": 32768,
@@ -1273,18 +1338,18 @@
                           }
                         },
                         {
-                          "id": 56,
+                          "id": 58,
                           "name": "dispatcher",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 81,
+                            "target": 83,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 52,
+                                "target": 54,
                                 "name": "V",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.Subscription.V",
@@ -1299,11 +1364,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 49,
+                        "target": 51,
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": 52,
+                            "target": 54,
                             "name": "V",
                             "package": "typedoc",
                             "qualifiedName": "Forms.Subscription.V",
@@ -1318,7 +1383,7 @@
                   ]
                 },
                 {
-                  "id": 60,
+                  "id": 62,
                   "name": "dispatcher",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1335,11 +1400,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 81,
+                    "target": 83,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": 52,
+                        "target": 54,
                         "name": "V",
                         "package": "typedoc",
                         "qualifiedName": "Forms.Subscription.V",
@@ -1352,7 +1417,7 @@
                   }
                 },
                 {
-                  "id": 58,
+                  "id": 60,
                   "name": "filter",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1373,12 +1438,12 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "target": 45,
+                    "target": 47,
                     "name": "SubscriptionInt.filter"
                   }
                 },
                 {
-                  "id": 57,
+                  "id": 59,
                   "name": "listener",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1395,11 +1460,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 38,
+                    "target": 40,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": 52,
+                        "target": 54,
                         "name": "V",
                         "package": "typedoc",
                         "qualifiedName": "Forms.Subscription.V",
@@ -1412,12 +1477,12 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "target": 43,
+                    "target": 45,
                     "name": "SubscriptionInt.listener"
                   }
                 },
                 {
-                  "id": 59,
+                  "id": 61,
                   "name": "priority",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1438,12 +1503,12 @@
                   },
                   "implementationOf": {
                     "type": "reference",
-                    "target": 44,
+                    "target": 46,
                     "name": "SubscriptionInt.priority"
                   }
                 },
                 {
-                  "id": 61,
+                  "id": 63,
                   "name": "unsubscribe",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1458,7 +1523,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 62,
+                      "id": 64,
                       "name": "unsubscribe",
                       "variant": "signature",
                       "kind": 4096,
@@ -1485,14 +1550,14 @@
                       },
                       "implementationOf": {
                         "type": "reference",
-                        "target": 47,
+                        "target": 49,
                         "name": "SubscriptionInt.unsubscribe"
                       }
                     }
                   ],
                   "implementationOf": {
                     "type": "reference",
-                    "target": 46,
+                    "target": 48,
                     "name": "SubscriptionInt.unsubscribe"
                   }
                 }
@@ -1501,22 +1566,22 @@
                 {
                   "title": "Constructors",
                   "children": [
-                    50
+                    52
                   ]
                 },
                 {
                   "title": "Properties",
                   "children": [
+                    62,
                     60,
-                    58,
-                    57,
-                    59
+                    59,
+                    61
                   ]
                 },
                 {
                   "title": "Methods",
                   "children": [
-                    61
+                    63
                   ]
                 }
               ],
@@ -1530,7 +1595,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 63,
+                  "id": 65,
                   "name": "V",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -1540,11 +1605,11 @@
               "implementedTypes": [
                 {
                   "type": "reference",
-                  "target": 42,
+                  "target": 44,
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "target": 52,
+                      "target": 54,
                       "name": "V",
                       "package": "typedoc",
                       "qualifiedName": "Forms.Subscription.V",
@@ -1558,7 +1623,7 @@
               ]
             },
             {
-              "id": 64,
+              "id": 66,
               "name": "EventDispatcherInt",
               "variant": "declaration",
               "kind": 256,
@@ -1573,7 +1638,7 @@
               },
               "children": [
                 {
-                  "id": 65,
+                  "id": 67,
                   "name": "add",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1588,7 +1653,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 66,
+                      "id": 68,
                       "name": "add",
                       "variant": "signature",
                       "kind": 4096,
@@ -1603,18 +1668,18 @@
                       ],
                       "parameters": [
                         {
-                          "id": 67,
+                          "id": 69,
                           "name": "listener",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 38,
+                            "target": 40,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 80,
+                                "target": 82,
                                 "name": "U",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1627,7 +1692,7 @@
                           }
                         },
                         {
-                          "id": 68,
+                          "id": 70,
                           "name": "filter",
                           "variant": "param",
                           "kind": 32768,
@@ -1640,7 +1705,7 @@
                           }
                         },
                         {
-                          "id": 69,
+                          "id": 71,
                           "name": "priority",
                           "variant": "param",
                           "kind": 32768,
@@ -1655,11 +1720,11 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "target": 42,
+                        "target": 44,
                         "typeArguments": [
                           {
                             "type": "reference",
-                            "target": 80,
+                            "target": 82,
                             "name": "U",
                             "package": "typedoc",
                             "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1674,7 +1739,7 @@
                   ]
                 },
                 {
-                  "id": 76,
+                  "id": 78,
                   "name": "clear",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1689,7 +1754,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 77,
+                      "id": 79,
                       "name": "clear",
                       "variant": "signature",
                       "kind": 4096,
@@ -1710,7 +1775,7 @@
                   ]
                 },
                 {
-                  "id": 73,
+                  "id": 75,
                   "name": "dispatch",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1725,7 +1790,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 74,
+                      "id": 76,
                       "name": "dispatch",
                       "variant": "signature",
                       "kind": 4096,
@@ -1740,14 +1805,14 @@
                       ],
                       "parameters": [
                         {
-                          "id": 75,
+                          "id": 77,
                           "name": "parameter",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 80,
+                            "target": 82,
                             "name": "U",
                             "package": "typedoc",
                             "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1763,7 +1828,7 @@
                   ]
                 },
                 {
-                  "id": 78,
+                  "id": 80,
                   "name": "hasListeners",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1778,7 +1843,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 79,
+                      "id": 81,
                       "name": "hasListeners",
                       "variant": "signature",
                       "kind": 4096,
@@ -1799,7 +1864,7 @@
                   ]
                 },
                 {
-                  "id": 70,
+                  "id": 72,
                   "name": "remove",
                   "variant": "declaration",
                   "kind": 2048,
@@ -1814,7 +1879,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 71,
+                      "id": 73,
                       "name": "remove",
                       "variant": "signature",
                       "kind": 4096,
@@ -1829,18 +1894,18 @@
                       ],
                       "parameters": [
                         {
-                          "id": 72,
+                          "id": 74,
                           "name": "subscription",
                           "variant": "param",
                           "kind": 32768,
                           "flags": {},
                           "type": {
                             "type": "reference",
-                            "target": 42,
+                            "target": 44,
                             "typeArguments": [
                               {
                                 "type": "reference",
-                                "target": 80,
+                                "target": 82,
                                 "name": "U",
                                 "package": "typedoc",
                                 "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1865,11 +1930,11 @@
                 {
                   "title": "Methods",
                   "children": [
-                    65,
-                    76,
-                    73,
+                    67,
                     78,
-                    70
+                    75,
+                    80,
+                    72
                   ]
                 }
               ],
@@ -1883,7 +1948,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 80,
+                  "id": 82,
                   "name": "U",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -1893,13 +1958,13 @@
               "implementedBy": [
                 {
                   "type": "reference",
-                  "target": 81,
+                  "target": 83,
                   "name": "EventDispatcher"
                 }
               ]
             },
             {
-              "id": 38,
+              "id": 40,
               "name": "EventListener",
               "variant": "declaration",
               "kind": 256,
@@ -1922,7 +1987,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 39,
+                  "id": 41,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -1931,7 +1996,7 @@
               ],
               "signatures": [
                 {
-                  "id": 40,
+                  "id": 42,
                   "name": "EventListener",
                   "variant": "signature",
                   "kind": 4096,
@@ -1946,7 +2011,7 @@
                   ],
                   "parameters": [
                     {
-                      "id": 41,
+                      "id": 43,
                       "name": "parameter",
                       "variant": "param",
                       "kind": 32768,
@@ -1961,7 +2026,7 @@
                       },
                       "type": {
                         "type": "reference",
-                        "target": 39,
+                        "target": 41,
                         "name": "T",
                         "package": "typedoc",
                         "qualifiedName": "Forms.EventListener.T",
@@ -1977,7 +2042,7 @@
               ]
             },
             {
-              "id": 42,
+              "id": 44,
               "name": "SubscriptionInt",
               "variant": "declaration",
               "kind": 256,
@@ -1992,7 +2057,7 @@
               },
               "children": [
                 {
-                  "id": 45,
+                  "id": 47,
                   "name": "filter",
                   "variant": "declaration",
                   "kind": 1024,
@@ -2011,7 +2076,7 @@
                   }
                 },
                 {
-                  "id": 43,
+                  "id": 45,
                   "name": "listener",
                   "variant": "declaration",
                   "kind": 1024,
@@ -2026,11 +2091,11 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "target": 38,
+                    "target": 40,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "target": 48,
+                        "target": 50,
                         "name": "T",
                         "package": "typedoc",
                         "qualifiedName": "Forms.SubscriptionInt.T",
@@ -2043,7 +2108,7 @@
                   }
                 },
                 {
-                  "id": 44,
+                  "id": 46,
                   "name": "priority",
                   "variant": "declaration",
                   "kind": 1024,
@@ -2062,7 +2127,7 @@
                   }
                 },
                 {
-                  "id": 46,
+                  "id": 48,
                   "name": "unsubscribe",
                   "variant": "declaration",
                   "kind": 2048,
@@ -2077,7 +2142,7 @@
                   ],
                   "signatures": [
                     {
-                      "id": 47,
+                      "id": 49,
                       "name": "unsubscribe",
                       "variant": "signature",
                       "kind": 4096,
@@ -2110,15 +2175,15 @@
                 {
                   "title": "Properties",
                   "children": [
+                    47,
                     45,
-                    43,
-                    44
+                    46
                   ]
                 },
                 {
                   "title": "Methods",
                   "children": [
-                    46
+                    48
                   ]
                 }
               ],
@@ -2132,7 +2197,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 48,
+                  "id": 50,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -2142,7 +2207,7 @@
               "implementedBy": [
                 {
                   "type": "reference",
-                  "target": 49,
+                  "target": 51,
                   "name": "Subscription"
                 }
               ]
@@ -2152,16 +2217,16 @@
             {
               "title": "Classes",
               "children": [
-                81,
-                49
+                83,
+                51
               ]
             },
             {
               "title": "Interfaces",
               "children": [
-                64,
-                38,
-                42
+                66,
+                40,
+                44
               ]
             }
           ],
@@ -2179,7 +2244,7 @@
         {
           "title": "Namespaces",
           "children": [
-            37
+            39
           ]
         }
       ],
@@ -2193,21 +2258,21 @@
       ]
     },
     {
-      "id": 102,
+      "id": 104,
       "name": "merging",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 103,
+          "id": 105,
           "name": "Base",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 104,
+              "id": 106,
               "name": "base",
               "variant": "declaration",
               "kind": 1024,
@@ -2223,62 +2288,6 @@
               "type": {
                 "type": "literal",
                 "value": 1
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                104
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "merging.ts",
-              "line": 1,
-              "character": 17,
-              "url": "typedoc://merging.ts#L1"
-            }
-          ],
-          "extendedBy": [
-            {
-              "type": "reference",
-              "target": 107,
-              "name": "Child"
-            },
-            {
-              "type": "reference",
-              "target": 112,
-              "name": "Child2"
-            }
-          ]
-        },
-        {
-          "id": 105,
-          "name": "Base2",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "children": [
-            {
-              "id": 106,
-              "name": "base2",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "merging.ts",
-                  "line": 6,
-                  "character": 4,
-                  "url": "typedoc://merging.ts#L6"
-                }
-              ],
-              "type": {
-                "type": "literal",
-                "value": 2
               }
             }
           ],
@@ -2293,6 +2302,62 @@
           "sources": [
             {
               "fileName": "merging.ts",
+              "line": 1,
+              "character": 17,
+              "url": "typedoc://merging.ts#L1"
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "target": 109,
+              "name": "Child"
+            },
+            {
+              "type": "reference",
+              "target": 114,
+              "name": "Child2"
+            }
+          ]
+        },
+        {
+          "id": 107,
+          "name": "Base2",
+          "variant": "declaration",
+          "kind": 256,
+          "flags": {},
+          "children": [
+            {
+              "id": 108,
+              "name": "base2",
+              "variant": "declaration",
+              "kind": 1024,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "merging.ts",
+                  "line": 6,
+                  "character": 4,
+                  "url": "typedoc://merging.ts#L6"
+                }
+              ],
+              "type": {
+                "type": "literal",
+                "value": 2
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "children": [
+                108
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "merging.ts",
               "line": 5,
               "character": 17,
               "url": "typedoc://merging.ts#L5"
@@ -2301,20 +2366,20 @@
           "extendedBy": [
             {
               "type": "reference",
-              "target": 107,
+              "target": 109,
               "name": "Child"
             }
           ]
         },
         {
-          "id": 107,
+          "id": 109,
           "name": "Child",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 110,
+              "id": 112,
               "name": "base",
               "variant": "declaration",
               "kind": 1024,
@@ -2333,12 +2398,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 104,
+                "target": 106,
                 "name": "Base.base"
               }
             },
             {
-              "id": 111,
+              "id": 113,
               "name": "base2",
               "variant": "declaration",
               "kind": 1024,
@@ -2357,12 +2422,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 106,
+                "target": 108,
                 "name": "Base2.base2"
               }
             },
             {
-              "id": 108,
+              "id": 110,
               "name": "child",
               "variant": "declaration",
               "kind": 1024,
@@ -2381,7 +2446,7 @@
               }
             },
             {
-              "id": 109,
+              "id": 111,
               "name": "child3",
               "variant": "declaration",
               "kind": 1024,
@@ -2404,10 +2469,10 @@
             {
               "title": "Properties",
               "children": [
+                112,
+                113,
                 110,
-                111,
-                108,
-                109
+                111
               ]
             }
           ],
@@ -2428,13 +2493,13 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "target": 103,
+              "target": 105,
               "name": "Base",
               "package": "typedoc"
             },
             {
               "type": "reference",
-              "target": 105,
+              "target": 107,
               "name": "Base2",
               "package": "typedoc"
             }
@@ -2442,20 +2507,20 @@
           "extendedBy": [
             {
               "type": "reference",
-              "target": 112,
+              "target": 114,
               "name": "Child2"
             }
           ]
         },
         {
-          "id": 112,
+          "id": 114,
           "name": "Child2",
           "variant": "declaration",
           "kind": 256,
           "flags": {},
           "children": [
             {
-              "id": 116,
+              "id": 118,
               "name": "base",
               "variant": "declaration",
               "kind": 1024,
@@ -2474,12 +2539,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 104,
+                "target": 106,
                 "name": "Base.base"
               }
             },
             {
-              "id": 117,
+              "id": 119,
               "name": "base2",
               "variant": "declaration",
               "kind": 1024,
@@ -2498,12 +2563,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 111,
+                "target": 113,
                 "name": "Child.base2"
               }
             },
             {
-              "id": 114,
+              "id": 116,
               "name": "child",
               "variant": "declaration",
               "kind": 1024,
@@ -2522,12 +2587,12 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 108,
+                "target": 110,
                 "name": "Child.child"
               }
             },
             {
-              "id": 113,
+              "id": 115,
               "name": "child2",
               "variant": "declaration",
               "kind": 1024,
@@ -2546,7 +2611,7 @@
               }
             },
             {
-              "id": 115,
+              "id": 117,
               "name": "child3",
               "variant": "declaration",
               "kind": 1024,
@@ -2565,7 +2630,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "target": 109,
+                "target": 111,
                 "name": "Child.child3"
               }
             }
@@ -2574,11 +2639,11 @@
             {
               "title": "Properties",
               "children": [
+                118,
+                119,
                 116,
-                117,
-                114,
-                113,
-                115
+                115,
+                117
               ]
             }
           ],
@@ -2593,13 +2658,13 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "target": 107,
+              "target": 109,
               "name": "Child",
               "package": "typedoc"
             },
             {
               "type": "reference",
-              "target": 103,
+              "target": 105,
               "name": "Base",
               "package": "typedoc"
             }
@@ -2610,10 +2675,10 @@
         {
           "title": "Interfaces",
           "children": [
-            103,
             105,
             107,
-            112
+            109,
+            114
           ]
         }
       ],
@@ -2633,9 +2698,9 @@
       "children": [
         1,
         14,
-        28,
-        36,
-        102
+        30,
+        38,
+        104
       ]
     }
   ],
@@ -2723,55 +2788,51 @@
     },
     "24": {
       "sourceFileName": "src/test/converter/interface/index-signature.ts",
-      "qualifiedName": "TypeIndex"
-    },
-    "25": {
-      "sourceFileName": "src/test/converter/interface/index-signature.ts",
-      "qualifiedName": "__type"
+      "qualifiedName": "BothIndex.__index"
     },
     "26": {
       "sourceFileName": "src/test/converter/interface/index-signature.ts",
-      "qualifiedName": "__type.__index"
+      "qualifiedName": "TypeIndex"
+    },
+    "27": {
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "__type"
     },
     "28": {
-      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
-      "qualifiedName": ""
-    },
-    "29": {
-      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
-      "qualifiedName": "EmptyInterface"
+      "sourceFileName": "src/test/converter/interface/index-signature.ts",
+      "qualifiedName": "__type.__index"
     },
     "30": {
       "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": ""
+    },
+    "31": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "EmptyInterface"
+    },
+    "32": {
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
       "qualifiedName": "ClassImplementingEmptyInterface"
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
-      "qualifiedName": "ClassImplementingEmptyInterface.name"
-    },
-    "34": {
-      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
-      "qualifiedName": "ClassImplementingEmptyInterface.goto"
     },
     "35": {
       "sourceFileName": "src/test/converter/interface/interface-empty.ts",
-      "qualifiedName": "ClassImplementingEmptyInterface.goto"
+      "qualifiedName": "ClassImplementingEmptyInterface.name"
     },
     "36": {
-      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface.goto"
     },
     "37": {
-      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms"
+      "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+      "qualifiedName": "ClassImplementingEmptyInterface.goto"
     },
     "38": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventListener"
+      "qualifiedName": ""
     },
     "39": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventListener.T"
+      "qualifiedName": "Forms"
     },
     "40": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
@@ -2779,43 +2840,43 @@
     },
     "41": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "parameter"
+      "qualifiedName": "Forms.EventListener.T"
     },
     "42": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt"
+      "qualifiedName": "Forms.EventListener"
     },
     "43": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.listener"
+      "qualifiedName": "parameter"
     },
     "44": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.priority"
+      "qualifiedName": "Forms.SubscriptionInt"
     },
     "45": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.filter"
+      "qualifiedName": "Forms.SubscriptionInt.listener"
     },
     "46": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
+      "qualifiedName": "Forms.SubscriptionInt.priority"
     },
     "47": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
+      "qualifiedName": "Forms.SubscriptionInt.filter"
     },
     "48": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.SubscriptionInt.T"
+      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
     },
     "49": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription"
+      "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
     },
     "50": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.__constructor"
+      "qualifiedName": "Forms.SubscriptionInt.T"
     },
     "51": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
@@ -2823,257 +2884,265 @@
     },
     "52": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.V"
+      "qualifiedName": "Forms.Subscription.__constructor"
     },
     "53": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "listener"
+      "qualifiedName": "Forms.Subscription"
     },
     "54": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "filter"
+      "qualifiedName": "Forms.Subscription.V"
     },
     "55": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "priority"
+      "qualifiedName": "listener"
     },
     "56": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "dispatcher"
+      "qualifiedName": "filter"
     },
     "57": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.listener"
+      "qualifiedName": "priority"
     },
     "58": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.filter"
+      "qualifiedName": "dispatcher"
     },
     "59": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.priority"
+      "qualifiedName": "Forms.Subscription.listener"
     },
     "60": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.dispatcher"
+      "qualifiedName": "Forms.Subscription.filter"
     },
     "61": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.unsubscribe"
+      "qualifiedName": "Forms.Subscription.priority"
     },
     "62": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.unsubscribe"
+      "qualifiedName": "Forms.Subscription.dispatcher"
     },
     "63": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.Subscription.V"
+      "qualifiedName": "Forms.Subscription.unsubscribe"
     },
     "64": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt"
+      "qualifiedName": "Forms.Subscription.unsubscribe"
     },
     "65": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.add"
+      "qualifiedName": "Forms.Subscription.V"
     },
     "66": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.add"
+      "qualifiedName": "Forms.EventDispatcherInt"
     },
     "67": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "listener"
+      "qualifiedName": "Forms.EventDispatcherInt.add"
     },
     "68": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "filter"
+      "qualifiedName": "Forms.EventDispatcherInt.add"
     },
     "69": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "priority"
+      "qualifiedName": "listener"
     },
     "70": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.remove"
+      "qualifiedName": "filter"
     },
     "71": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.remove"
+      "qualifiedName": "priority"
     },
     "72": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "subscription"
+      "qualifiedName": "Forms.EventDispatcherInt.remove"
     },
     "73": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
+      "qualifiedName": "Forms.EventDispatcherInt.remove"
     },
     "74": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
+      "qualifiedName": "subscription"
     },
     "75": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "parameter"
+      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
     },
     "76": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.clear"
+      "qualifiedName": "Forms.EventDispatcherInt.dispatch"
     },
     "77": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.clear"
+      "qualifiedName": "parameter"
     },
     "78": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+      "qualifiedName": "Forms.EventDispatcherInt.clear"
     },
     "79": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+      "qualifiedName": "Forms.EventDispatcherInt.clear"
     },
     "80": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcherInt.U"
+      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
     },
     "81": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+    },
+    "82": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcherInt.U"
+    },
+    "83": {
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
       "qualifiedName": "Forms.EventDispatcher"
-    },
-    "84": {
-      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.T"
-    },
-    "85": {
-      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.subscriptions"
     },
     "86": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.add"
+      "qualifiedName": "Forms.EventDispatcher.T"
     },
     "87": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.add"
+      "qualifiedName": "Forms.EventDispatcher.subscriptions"
     },
     "88": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "listener"
+      "qualifiedName": "Forms.EventDispatcher.add"
     },
     "89": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "filter"
+      "qualifiedName": "Forms.EventDispatcher.add"
     },
     "90": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "priority"
+      "qualifiedName": "listener"
     },
     "91": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.remove"
+      "qualifiedName": "filter"
     },
     "92": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.remove"
+      "qualifiedName": "priority"
     },
     "93": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "subscription"
+      "qualifiedName": "Forms.EventDispatcher.remove"
     },
     "94": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.dispatch"
+      "qualifiedName": "Forms.EventDispatcher.remove"
     },
     "95": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.dispatch"
+      "qualifiedName": "subscription"
     },
     "96": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "event"
+      "qualifiedName": "Forms.EventDispatcher.dispatch"
     },
     "97": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.clear"
+      "qualifiedName": "Forms.EventDispatcher.dispatch"
     },
     "98": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.clear"
+      "qualifiedName": "event"
     },
     "99": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.hasListeners"
+      "qualifiedName": "Forms.EventDispatcher.clear"
     },
     "100": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.hasListeners"
+      "qualifiedName": "Forms.EventDispatcher.clear"
     },
     "101": {
       "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
-      "qualifiedName": "Forms.EventDispatcher.T"
+      "qualifiedName": "Forms.EventDispatcher.hasListeners"
     },
     "102": {
-      "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.hasListeners"
     },
     "103": {
-      "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base"
+      "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+      "qualifiedName": "Forms.EventDispatcher.T"
     },
     "104": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base.base"
+      "qualifiedName": ""
     },
     "105": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base2"
+      "qualifiedName": "Base"
     },
     "106": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base2.base2"
+      "qualifiedName": "Base.base"
     },
     "107": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child"
+      "qualifiedName": "Base2"
     },
     "108": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child.child"
+      "qualifiedName": "Base2.base2"
     },
     "109": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child.child3"
+      "qualifiedName": "Child"
     },
     "110": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base.base"
+      "qualifiedName": "Child.child"
     },
     "111": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base2.base2"
+      "qualifiedName": "Child.child3"
     },
     "112": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child2"
+      "qualifiedName": "Base.base"
     },
     "113": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child2.child2"
+      "qualifiedName": "Base2.base2"
     },
     "114": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child.child"
+      "qualifiedName": "Child2"
     },
     "115": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Child.child3"
+      "qualifiedName": "Child2.child2"
     },
     "116": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
-      "qualifiedName": "Base.base"
+      "qualifiedName": "Child.child"
     },
     "117": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Child.child3"
+    },
+    "118": {
+      "sourceFileName": "src/test/converter/interface/merging.ts",
+      "qualifiedName": "Base.base"
+    },
+    "119": {
       "sourceFileName": "src/test/converter/interface/merging.ts",
       "qualifiedName": "Base2.base2"
     }

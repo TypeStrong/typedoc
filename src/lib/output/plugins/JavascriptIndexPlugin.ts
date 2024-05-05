@@ -2,9 +2,11 @@ import * as Path from "path";
 import { Builder, trimmer } from "lunr";
 
 import {
-    Comment,
+    type Comment,
     DeclarationReflection,
+    DocumentReflection,
     ProjectReflection,
+    type Reflection,
 } from "../../models";
 import { Component, RendererComponent } from "../components";
 import { IndexEvent, RendererEvent } from "../events";
@@ -34,7 +36,10 @@ interface SearchDocument {
 @Component({ name: "javascript-index" })
 export class JavascriptIndexPlugin extends RendererComponent {
     @Option("searchInComments")
-    accessor searchComments!: boolean;
+    private accessor searchComments!: boolean;
+
+    @Option("searchInDocuments")
+    private accessor searchDocuments!: boolean;
 
     /**
      * Create a new JavascriptIndexPlugin instance.
@@ -70,12 +75,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
             event.project.reflections,
         ).filter((refl) => {
             return (
-                refl instanceof DeclarationReflection &&
+                (refl instanceof DeclarationReflection ||
+                    refl instanceof DocumentReflection) &&
                 refl.url &&
                 refl.name &&
                 !refl.flags.isExternal
             );
-        }) as DeclarationReflection[];
+        }) as Array<DeclarationReflection | DocumentReflection>;
 
         const indexEvent = new IndexEvent(
             IndexEvent.PREPARE_INDEX,
@@ -128,6 +134,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 {
                     name: reflection.name,
                     comment: this.getCommentSearchText(reflection),
+                    document: this.getDocumentSearchText(reflection),
                     ...indexEvent.searchFields[rows.length],
                     id: rows.length,
                 },
@@ -158,18 +165,20 @@ export class JavascriptIndexPlugin extends RendererComponent {
         );
     }
 
-    private getCommentSearchText(reflection: DeclarationReflection) {
+    private getCommentSearchText(reflection: Reflection) {
         if (!this.searchComments) return;
 
         const comments: Comment[] = [];
         if (reflection.comment) comments.push(reflection.comment);
-        reflection.signatures?.forEach(
-            (s) => s.comment && comments.push(s.comment),
-        );
-        reflection.getSignature?.comment &&
-            comments.push(reflection.getSignature.comment);
-        reflection.setSignature?.comment &&
-            comments.push(reflection.setSignature.comment);
+        if (reflection.isDeclaration()) {
+            reflection.signatures?.forEach(
+                (s) => s.comment && comments.push(s.comment),
+            );
+            reflection.getSignature?.comment &&
+                comments.push(reflection.getSignature.comment);
+            reflection.setSignature?.comment &&
+                comments.push(reflection.setSignature.comment);
+        }
 
         if (!comments.length) {
             return;
@@ -181,5 +190,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
             })
             .map((part) => part.text)
             .join("\n");
+    }
+
+    private getDocumentSearchText(reflection: Reflection) {
+        if (!this.searchDocuments) return;
+
+        if (reflection.isDocument()) {
+            return reflection.content.flatMap((c) => c.text).join("\n");
+        }
     }
 }

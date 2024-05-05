@@ -184,6 +184,16 @@ export const icons: Record<
             />,
             "var(--color-ts-variable)",
         ),
+    [ReflectionKind.Document]: () =>
+        kindIcon(
+            <g stroke="var(--color-text)" fill="var(--color-icon-background)">
+                <polygon points="6,5 6,19 18,19, 18,9 15,5" />
+                <line x1="9" y1="9" x2="14" y2="9" />
+                <line x1="9" y1="12" x2="15" y2="12" />
+                <line x1="9" y1="15" x2="15" y2="15" />
+            </g>,
+            "var(--color-document)",
+        ),
     chevronDown: () => (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path

@@ -28,6 +28,10 @@ export enum ReflectionKind {
     SetSignature = 0x100000,
     TypeAlias = 0x200000,
     Reference = 0x400000,
+    /**
+     * Generic non-ts content to be included in the generated docs as its own page.
+     */
+    Document = 0x800000,
 }
 
 /** @category Reflections */
@@ -125,8 +129,10 @@ export namespace ReflectionKind {
     export const SignatureContainer =
         ContainsCallSignatures | ReflectionKind.Accessor;
 
+    /** @internal */
     export const VariableContainer = SomeModule | ReflectionKind.Project;
 
+    /** @internal */
     export const MethodContainer =
         ClassOrInterface |
         VariableOrProperty |
@@ -146,6 +152,9 @@ export namespace ReflectionKind {
         [ReflectionKind.TypeAlias]: "Type Aliases",
     };
 
+    /**
+     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindSingularString(kind)`
+     */
     export function singularString(kind: ReflectionKind): string {
         if (kind in SINGULARS) {
             return SINGULARS[kind as keyof typeof SINGULARS];
@@ -154,6 +163,9 @@ export namespace ReflectionKind {
         }
     }
 
+    /**
+     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindPluralString(kind)`
+     */
     export function pluralString(kind: ReflectionKind): string {
         if (kind in PLURALS) {
             return PLURALS[kind as keyof typeof PLURALS];

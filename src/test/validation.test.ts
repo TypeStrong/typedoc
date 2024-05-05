@@ -1,6 +1,5 @@
 import { ok } from "assert";
 import { join } from "path";
-import { Logger, LogLevel } from "..";
 import { validateDocumentation } from "../lib/validation/documentation";
 import { validateExports } from "../lib/validation/exports";
 import { getConverter2App, getConverter2Program } from "./programs";
@@ -86,11 +85,11 @@ describe("validateExports", () => {
     });
 
     it("Should warn if a get signature type is missing", () => {
-        expectWarning("Bar", "getSignature.ts", "Foo.foo.foo");
+        expectWarning("Bar", "getSignature.ts", "Foo.foo");
     });
 
     it("Should warn if a set signature type is missing", () => {
-        expectWarning("Bar", "setSignature.ts", "Foo.foo.foo._value");
+        expectWarning("Bar", "setSignature.ts", "Foo.foo._value");
     });
 
     it("Should warn if an implemented type is missing", () => {
@@ -98,11 +97,11 @@ describe("validateExports", () => {
     });
 
     it("Should warn if a parameter type is missing", () => {
-        expectWarning("Bar", "parameter.ts", "Foo.Foo.x");
+        expectWarning("Bar", "parameter.ts", "Foo.x");
     });
 
     it("Should warn if a return type is missing", () => {
-        expectWarning("Bar", "return.ts", "foo.foo");
+        expectWarning("Bar", "return.ts", "foo");
     });
 
     it("Should allow filtering warnings by file name", () => {
@@ -140,28 +139,12 @@ describe("validateExports", () => {
             },
         ]);
 
-        let sawWarning = false;
-        class LoggerCheck extends Logger {
-            override log(message: string, level: LogLevel) {
-                if (
-                    level == LogLevel.Warn &&
-                    message.includes("intentionally not exported")
-                ) {
-                    sawWarning = true;
-                    ok(
-                        message.includes("notDefined"),
-                        "Should have included a warning about notDefined",
-                    );
-                    ok(
-                        !message.includes("Foo"),
-                        "Should not include a warn about Foo",
-                    );
-                }
-            }
-        }
-
-        validateExports(project, new LoggerCheck(), ["notDefined", "Foo"]);
-        ok(sawWarning, "Never saw warning.");
+        const logger = new TestLogger();
+        validateExports(project, logger, ["notDefined", "Foo"]);
+        logger.expectMessage(
+            "warn: The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\tnotDefined",
+        );
+        logger.expectNoOtherMessages();
     });
 });
 

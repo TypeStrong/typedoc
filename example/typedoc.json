@@ -3,7 +3,6 @@
     "name": "TypeDoc Example",
     "entryPoints": ["./src"],
     "sort": ["source-order"],
-    "media": "media",
     "categorizeByGroup": false,
     "searchCategoryBoosts": {
         "Component": 2,

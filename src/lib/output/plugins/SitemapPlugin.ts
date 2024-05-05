@@ -2,13 +2,16 @@ import Path from "path";
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
-import { Option, writeFile } from "../../utils";
+import { writeFile } from "../../utils";
 import { escapeHtml } from "../../utils/html";
+import { Fragment } from "../../utils/jsx";
 
 @Component({ name: "sitemap" })
 export class SitemapPlugin extends RendererComponent {
-    @Option("sitemapBaseUrl")
-    accessor sitemapBaseUrl!: string;
+    private get hostedBaseUrl() {
+        const url = this.application.options.getValue("hostedBaseUrl");
+        return !url || url.endsWith("/") ? url : url + "/";
+    }
 
     override initialize() {
         this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
@@ -18,9 +21,20 @@ export class SitemapPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented || !this.sitemapBaseUrl) {
+        if (event.isDefaultPrevented || !this.hostedBaseUrl) {
             return;
         }
+
+        this.owner.hooks.on("head.begin", (context) => {
+            if (context.page.url === "index.html") {
+                return {
+                    tag: "link",
+                    props: { rel: "canonical", href: this.hostedBaseUrl },
+                    children: [],
+                };
+            }
+            return { tag: Fragment, props: null, children: [] };
+        });
 
         this.owner.preRenderAsyncJobs.push((event) => this.buildSitemap(event));
     }
@@ -39,7 +53,7 @@ export class SitemapPlugin extends RendererComponent {
                             tag: "loc",
                             children: new URL(
                                 url.url,
-                                this.sitemapBaseUrl,
+                                this.hostedBaseUrl,
                             ).toString(),
                         },
                         {
