@@ -442,6 +442,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "customFooterHtml",
+        help: (i18n) => i18n.help_customFooterHtml(),
+        type: ParameterType.String,
+    });
+    options.addDeclaration({
+        name: "customFooterHtmlDisableWrapper",
+        help: (i18n) => i18n.help_customFooterHtmlDisableWrapper(),
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "hideParameterTypesInTitle",
         help: (i18n) => i18n.help_hideParameterTypesInTitle(),
         type: ParameterType.Boolean,

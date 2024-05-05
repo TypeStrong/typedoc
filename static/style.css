@@ -329,7 +329,7 @@ footer {
     padding-bottom: 1rem;
     max-height: 3.5rem;
 }
-.tsd-generator {
+footer > p {
     margin: 0 1em;
 }
 
