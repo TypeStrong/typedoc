@@ -292,7 +292,6 @@ function convertNamespace(
             exportSymbol,
         );
         context.finalizeDeclarationReflection(reflection);
-        context.converter.processDocumentTags(reflection);
     }
 
     convertSymbols(

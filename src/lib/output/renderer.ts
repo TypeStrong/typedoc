@@ -124,6 +124,8 @@ export interface RendererHooks {
  * * {@link Renderer.EVENT_PREPARE_INDEX}<br>
  *    Triggered when the JavascriptIndexPlugin is preparing the search index. Listeners receive
  *    an instance of {@link IndexEvent}.
+ *
+ * @document ../../../internal-docs/custom-themes.md
  */
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<

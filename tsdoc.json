@@ -60,6 +60,15 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@document",
+            "syntaxKind": "block"
+        },
+        {
+            // TSDoc defines @returns, we also recognize @return for JSDoc compat
+            "tagName": "@return",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@enum",
             "syntaxKind": "modifier"
         },

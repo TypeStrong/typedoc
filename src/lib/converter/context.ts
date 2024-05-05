@@ -227,6 +227,10 @@ export class Context {
             this,
             reflection,
         );
+
+        if (reflection.kindOf(ReflectionKind.MayContainDocuments)) {
+            this.converter.processDocumentTags(reflection, reflection);
+        }
     }
 
     addChild(reflection: DeclarationReflection | DocumentReflection) {

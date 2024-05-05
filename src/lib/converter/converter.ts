@@ -321,7 +321,6 @@ export class Converter extends ChildableComponent<
      * reference passed will have the `moduleSource` set and the `symbolReference` will navigate via `.`)
      * and user defined \{\@link\} tags which cannot be resolved. If the link being resolved is inferred
      * from a type, then no `part` will be passed to the resolver function.
-     * @since 0.22.14
      */
     addUnknownSymbolResolver(resolver: ExternalSymbolResolver): void {
         this._externalSymbolResolvers.push(resolver);
@@ -428,7 +427,7 @@ export class Converter extends ChildableComponent<
             context.project.comment = symbol
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
-            this.processDocumentTags(context.project);
+            this.processDocumentTags(context.project, context.project);
             context.trigger(
                 Converter.EVENT_CREATE_DECLARATION,
                 context.project,
@@ -539,7 +538,7 @@ export class Converter extends ChildableComponent<
         );
     }
 
-    processDocumentTags(reflection: ContainerReflection) {
+    processDocumentTags(reflection: Reflection, parent: ContainerReflection) {
         let relativeTo = reflection.comment?.sourcePath;
         if (relativeTo) {
             relativeTo = dirname(relativeTo);
@@ -565,12 +564,12 @@ export class Converter extends ChildableComponent<
                 const { content, frontmatter } = this.parseRawComment(file);
                 const docRefl = new DocumentReflection(
                     basename(file.fileName).replace(/\.[^.]+$/, ""),
-                    reflection,
+                    parent,
                     content,
                     frontmatter,
                 );
-                reflection.addChild(docRefl);
-                reflection.project.registerReflection(docRefl);
+                parent.addChild(docRefl);
+                parent.project.registerReflection(docRefl);
             }
         }
     }

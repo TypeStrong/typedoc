@@ -1,3 +1,7 @@
+---
+title: Custom Themes
+---
+
 # Custom Themes
 
 TypeDoc 0.22 changed how themes are defined, necessarily breaking compatibility with all Handlebars based themes

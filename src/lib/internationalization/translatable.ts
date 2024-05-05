@@ -79,6 +79,7 @@ export const translatable = {
     treating_unrecognized_tag_0_as_modifier: `Treating unrecognized tag {0} as a modifier tag.`,
     unmatched_closing_brace: `Unmatched closing brace.`,
     unescaped_open_brace_without_inline_tag: `Encountered an unescaped open brace without an inline tag.`,
+    unknown_block_tag_0: `Encountered an unknown block tag {0}.`,
     unknown_inline_tag_0: `Encountered an unknown inline tag {0}.`,
     open_brace_within_inline_tag: `Encountered an open brace within an inline tag, this is likely a mistake.`,
     inline_tag_not_closed: `Inline tag is not closed.`,

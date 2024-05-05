@@ -351,6 +351,10 @@ function blockTag(
         "blockTag called not at the start of a block tag.",
     ); // blockContent is broken if this fails.
 
+    if (!config.blockTags.has(blockTag.text)) {
+        warning(i18n.unknown_block_tag_0(blockTag.text), blockTag);
+    }
+
     const tagName = aliasedTags.get(blockTag.text) || blockTag.text;
 
     let content: CommentDisplayPart[];

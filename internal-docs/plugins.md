@@ -1,3 +1,7 @@
+---
+title: Plugins
+---
+
 # Writing a TypeDoc Plugin
 
 TypeDoc supports plugins which can modify how projects are converted, how converted symbols

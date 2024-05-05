@@ -2,12 +2,12 @@
 
 ### To Do
 
--   Handle `@document` tag to add documents to the tree for classes, interfaces, enums, functions, variables
 -   Handle image and relative markdown links within documents
 -   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
-    `@license`, `@import`, sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
+    `@license`, `@import`, `@hideGroups` `@hideCategories` sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
+-   Review JSDoc tags for other tags we should add to the default list of known block tags
 
 ### Breaking Changes
 
@@ -43,6 +43,7 @@
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
 -   TypeDoc will now copy modifier tags to children if specified in the `--cascadedModifierTags` option, #2056.
 -   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
+-   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
     If `--projectDocuments` is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.

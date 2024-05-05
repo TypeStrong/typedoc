@@ -56,9 +56,6 @@ export function createSignature(
         );
     }
 
-    // If we are creating signatures for a variable or property and it has a comment associated with it
-    // then we should prefer that comment over any comment on the signature. The comment plugin
-    // will copy the comment down if this signature doesn't have one, so don't set one.
     let parentReflection = context.scope;
     if (
         parentReflection.kindOf(ReflectionKind.TypeLiteral) &&
@@ -71,6 +68,9 @@ export function createSignature(
         const sigComment = context.getSignatureComment(declaration);
         if (parentReflection.comment?.discoveryId !== sigComment?.discoveryId) {
             sigRef.comment = sigComment;
+            if (parentReflection.kindOf(ReflectionKind.MayContainDocuments)) {
+                context.converter.processDocumentTags(sigRef, parentReflection);
+            }
         }
     }
 

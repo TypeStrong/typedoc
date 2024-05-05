@@ -1,24 +1,29 @@
 // If updating these lists, also update tsdoc.json
 
 export const tsdocBlockTags = [
+    "@defaultValue",
     "@deprecated",
+    "@example",
     "@param",
+    "@privateRemarks",
     "@remarks",
     "@returns",
+    "@see",
     "@throws",
-    "@privateRemarks",
-    "@defaultValue",
     "@typeParam",
 ] as const;
 
 export const blockTags = [
     ...tsdocBlockTags,
-    "@module",
-    "@inheritDoc",
-    "@group",
-    "@groupDescription",
     "@category",
     "@categoryDescription",
+    "@document",
+    "@group",
+    "@groupDescription",
+    "@inheritDoc",
+    "@license",
+    "@module",
+    "@return",
     // Alias for @typeParam
     "@template",
     // Because TypeScript is important!
@@ -28,7 +33,6 @@ export const blockTags = [
     "@prop",
     "@property",
     "@satisfies",
-    "@license",
     "@import",
 ] as const;
 
@@ -36,33 +40,33 @@ export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
 export const inlineTags = [...tsdocInlineTags, "@linkcode", "@linkplain"];
 
 export const tsdocModifierTags = [
-    "@public",
-    "@private",
-    "@protected",
-    "@internal",
-    "@readonly",
-    "@packageDocumentation",
-    "@eventProperty",
     "@alpha",
     "@beta",
+    "@eventProperty",
     "@experimental",
-    "@sealed",
+    "@internal",
     "@override",
+    "@packageDocumentation",
+    "@private",
+    "@protected",
+    "@public",
+    "@readonly",
+    "@sealed",
     "@virtual",
 ] as const;
 
 export const modifierTags = [
     ...tsdocModifierTags,
-    "@hidden",
-    "@ignore",
     "@class",
     "@enum",
     "@event",
-    "@overload",
-    "@namespace",
-    "@interface",
-    "@showCategories",
+    "@hidden",
     "@hideCategories",
-    "@showGroups",
     "@hideGroups",
+    "@ignore",
+    "@interface",
+    "@namespace",
+    "@overload",
+    "@showCategories",
+    "@showGroups",
 ] as const;

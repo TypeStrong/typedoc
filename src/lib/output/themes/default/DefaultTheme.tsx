@@ -1,11 +1,11 @@
 import { Theme } from "../../theme";
 import type { Renderer } from "../../renderer";
 import {
-    type Reflection,
     ReflectionKind,
     ProjectReflection,
     type ContainerReflection,
     DeclarationReflection,
+    type Reflection,
     SignatureReflection,
     ReflectionCategory,
     ReflectionGroup,
@@ -176,7 +176,7 @@ export class DefaultTheme extends Theme {
         },
         {
             kind: [ReflectionKind.Document],
-            directory: "variables",
+            directory: "documents",
             template: this.documentTemplate,
         },
     ];
@@ -359,8 +359,14 @@ export class DefaultTheme extends Theme {
                 return;
             }
 
-            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) || parent.isDocument()) {
+            if (!parent.kindOf(ReflectionKind.MayContainDocuments) || parent.isDocument()) {
                 return;
+            }
+
+            if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
+                // Tricky: Non-module children don't show up in the navigation pane,
+                //   but any documents added by them should.
+                return parent.documents?.map(toNavigation);
             }
 
             if (parent.categories && shouldShowCategories(parent, opts)) {
