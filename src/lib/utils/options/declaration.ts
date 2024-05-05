@@ -99,6 +99,7 @@ export interface TypeDocOptionMap {
     plugin: string[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
+    packageOptions: ManuallyValidatedOption<TypeDocOptions>;
 
     // Input
     entryPoints: string[];

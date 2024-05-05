@@ -38,6 +38,7 @@
 -   Added new `--projectDocuments` option to specify additional Markdown documents to be included in the generated site #247, #1870, #2288, #2565.
 -   TypeDoc now has the architecture in place to support localization. No languages besides English
     are currently shipped in the package, but it is now possible to add support for additional languages, #2475.
+-   Added support for a `packageOptions` object which specifies options that should be applied to each entry point when running with `--entryPointStrategy packages`, #2523.
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.

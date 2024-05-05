@@ -119,6 +119,12 @@ export class Options {
         options._declarations = new Map(this._declarations);
         options.reset();
 
+        for (const [key, val] of Object.entries(
+            this.getValue("packageOptions"),
+        )) {
+            options.setValue(key as any, val, packageDir);
+        }
+
         return options;
     }
 

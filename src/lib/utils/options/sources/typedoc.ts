@@ -78,6 +78,20 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "packageOptions",
+        help: (i18n) => i18n.help_packageOptions(),
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: {},
+        validate(value, i18n) {
+            if (!Validation.validate({}, value)) {
+                throw new Error(
+                    i18n.option_0_must_be_an_object("packageOptions"),
+                );
+            }
+        },
+    });
 
     ///////////////////////////
     ////// Input Options //////

@@ -36,6 +36,8 @@ export const translatable = {
         "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json",
     nested_packages_unsupported_0:
         "Project at {0} has entryPointStrategy set to packages, but nested packages are not supported.",
+    previous_error_occurred_when_reading_options_for_0:
+        "The previous error occurred when reading options for the package at {0}",
     converting_project_at_0: "Converting project at {0}",
     failed_to_convert_packages:
         "Failed to convert one or more packages, result will not be merged together.",
@@ -173,6 +175,8 @@ export const translatable = {
         "Sets the language to be used in generation and in TypeDoc's messages.",
     help_locales:
         "Add translations for a specified locale. This option is primarily intended to be used as a stopgap while waiting for official locale support to be added to TypeDoc.",
+    help_packageOptions:
+        "Set options which will be set within each package when entryPointStrategy is set to packages.",
 
     help_entryPoints: "The entry points of your documentation.",
     help_entryPointStrategy:

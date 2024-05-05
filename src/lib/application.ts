@@ -627,7 +627,20 @@ export class Application extends ChildableComponent<
         // Generate a json file for each package
         for (const dir of packageDirs) {
             this.logger.verbose(`Reading project at ${nicePath(dir)}`);
-            const opts = origOptions.copyForPackage(dir);
+            let opts: Options;
+            try {
+                opts = origOptions.copyForPackage(dir);
+            } catch (error) {
+                ok(error instanceof Error);
+                this.logger.error(error.message as TranslatedString);
+                this.logger.info(
+                    this.i18n.previous_error_occurred_when_reading_options_for_0(
+                        nicePath(dir),
+                    ),
+                );
+                continue;
+            }
+
             await opts.read(this.logger, dir);
             // Invalid links should only be reported after everything has been merged.
             opts.setValue("validation", { invalidLink: false });
