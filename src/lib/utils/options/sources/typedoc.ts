@@ -705,6 +705,21 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "cascadedModifierTags",
+        help: (i18n) => i18n.help_modifierTags(),
+        type: ParameterType.Array,
+        defaultValue: ["@alpha", "@beta", "@experimental"],
+        validate(value, i18n) {
+            if (!Validation.validate([Array, Validation.isTagString], value)) {
+                throw new Error(
+                    i18n.option_0_values_must_be_array_of_tags(
+                        "cascadedModifierTags",
+                    ),
+                );
+            }
+        },
+    });
 
     ///////////////////////////
     // Organization Options ///

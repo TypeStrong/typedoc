@@ -202,6 +202,7 @@ export interface TypeDocOptionMap {
     externalSymbolLinkMappings: ManuallyValidatedOption<
         Record<string, Record<string, string>>
     >;
+    cascadedModifierTags: `@${string}`[];
 
     // Organization
     categorizeByGroup: boolean;

@@ -96,6 +96,7 @@ export const translatable = {
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group: `Comment for {0} includes @categoryDescription for "{1}", but no child is placed in that category.`,
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group: `Comment for {0} includes @groupDescription for "{1}", but no child is placed in that group.`,
     label_0_for_1_cannot_be_referenced: `The label "{0}" for {1} cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.`,
+    modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2: `The modifier tag {0} is mutually exclusive with {1} in the comment for {2}.`,
     signature_0_has_unused_param_with_name_1: `The signature {0} has an @param with name "{1}", which was not used.`,
     declaration_reference_in_inheritdoc_for_0_not_fully_parsed: `Declaration reference in @inheritDoc for {0} was not fully parsed and may resolve incorrectly.`,
     failed_to_find_0_to_inherit_comment_from_in_1: `Failed to find "{0}" to inherit the comment from in the comment for {1}`,

@@ -1205,4 +1205,24 @@ describe("Behavior Tests", () => {
         const sig2 = querySig(project, "isNonNullish");
         equal(sig2.type?.toString(), "x is NonNullable<T>");
     });
+
+    it("Cascades specified modifier tags to child reflections, #2056", () => {
+        const project = convert("cascadedModifiers");
+
+        const mods = (s: string) => query(project, s).comment?.modifierTags;
+        const sigMods = (s: string) =>
+            querySig(project, s).comment?.modifierTags;
+
+        equal(mods("BetaStuff"), new Set(["@beta"]));
+        equal(mods("BetaStuff.AlsoBeta"), new Set(["@beta"]));
+        equal(mods("BetaStuff.AlsoBeta.betaFish"), new Set());
+        equal(mods("BetaStuff.AlsoBeta.alphaFish"), new Set());
+
+        equal(sigMods("BetaStuff.AlsoBeta.betaFish"), new Set(["@beta"]));
+        equal(sigMods("BetaStuff.AlsoBeta.alphaFish"), new Set(["@alpha"]));
+
+        logger.expectMessage(
+            "warn: The modifier tag @alpha is mutually exclusive with @beta in the comment for mutuallyExclusive.",
+        );
+    });
 });

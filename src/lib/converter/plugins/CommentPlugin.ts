@@ -24,6 +24,7 @@ import {
     removeIf,
 } from "../../utils";
 import { CategoryPlugin } from "./CategoryPlugin";
+import { setIntersection } from "../../utils/set";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -45,6 +46,18 @@ const NEVER_RENDERED = [
     "@this",
     "@type",
     "@typedef",
+] as const;
+
+// We might make this user configurable at some point, but for now,
+// this set is configured here.
+const MUTUALLY_EXCLUSIVE_MODIFIERS = [
+    new Set<`@${string}`>([
+        "@alpha",
+        "@beta",
+        "@experimental",
+        "@internal",
+        "@public",
+    ]),
 ] as const;
 
 /**
@@ -107,6 +120,9 @@ const NEVER_RENDERED = [
 export class CommentPlugin extends ConverterComponent {
     @Option("excludeTags")
     accessor excludeTags!: `@${string}`[];
+
+    @Option("cascadedModifierTags")
+    accessor cascadedModifierTags!: `@${string}`[];
 
     @Option("excludeInternal")
     accessor excludeInternal!: boolean;
@@ -262,6 +278,8 @@ export class CommentPlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onDeclaration(_context: Context, reflection: Reflection) {
+        this.cascadeModifiers(reflection);
+
         const comment = reflection.comment;
         if (!comment) return;
 
@@ -356,6 +374,23 @@ export class CommentPlugin extends ConverterComponent {
                 );
             }
 
+            for (const group of MUTUALLY_EXCLUSIVE_MODIFIERS) {
+                const intersect = setIntersection(
+                    group,
+                    reflection.comment.modifierTags,
+                );
+                if (intersect.size > 1) {
+                    const [a, b] = intersect;
+                    context.logger.warn(
+                        context.i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
+                            a,
+                            b,
+                            reflection.getFriendlyFullName(),
+                        ),
+                    );
+                }
+            }
+
             mergeSeeTags(reflection.comment);
             movePropertyTags(reflection.comment, reflection);
         }
@@ -379,6 +414,14 @@ export class CommentPlugin extends ConverterComponent {
                     sigs[0].comment.sourcePath = reflection.comment.sourcePath;
                     sigs[0].comment.blockTags.push(returnsTag);
                     reflection.comment.removeTags("@returns");
+                }
+            }
+
+            // Any cascaded tags will show up twice, once on this and once on our signatures
+            // This is completely redundant, so remove them from the wrapping function.
+            if (sigs.length) {
+                for (const mod of this.cascadedModifierTags) {
+                    reflection.comment.modifierTags.delete(mod);
                 }
             }
         }
@@ -445,6 +488,29 @@ export class CommentPlugin extends ConverterComponent {
         for (const tag of this.excludeTags) {
             comment.removeTags(tag);
             comment.removeModifier(tag);
+        }
+    }
+
+    private cascadeModifiers(reflection: Reflection) {
+        const parentComment = reflection.parent?.comment;
+        if (!parentComment) return;
+
+        const childMods = reflection.comment?.modifierTags ?? new Set();
+
+        for (const mod of this.cascadedModifierTags) {
+            if (parentComment.hasModifier(mod)) {
+                const exclusiveSet = MUTUALLY_EXCLUSIVE_MODIFIERS.find((tags) =>
+                    tags.has(mod),
+                );
+
+                if (
+                    !exclusiveSet ||
+                    Array.from(exclusiveSet).every((tag) => !childMods.has(tag))
+                ) {
+                    reflection.comment ||= new Comment();
+                    reflection.comment.modifierTags.add(mod);
+                }
+            }
         }
     }
 

@@ -41,6 +41,8 @@
 -   Added support for a `packageOptions` object which specifies options that should be applied to each entry point when running with `--entryPointStrategy packages`, #2523.
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
+-   TypeDoc will now copy modifier tags to children if specified in the `--cascadedModifierTags` option, #2056.
+-   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
     If `--projectDocuments` is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
