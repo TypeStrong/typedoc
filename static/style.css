@@ -10,6 +10,7 @@
     --light-color-text: #222;
     --light-color-text-aside: #6e6e6e;
     --light-color-link: #1f70c2;
+    --light-color-focus-outline: #3584e4;
 
     --light-color-ts-keyword: #056bd6;
     --light-color-ts-project: #b111c9;
@@ -51,6 +52,7 @@
     --dark-color-text: #f5f5f5;
     --dark-color-text-aside: #dddddd;
     --dark-color-link: #00aff4;
+    --dark-color-focus-outline: #4c97f2;
 
     --dark-color-ts-keyword: #3399ff;
     --dark-color-ts-project: #e358ff;
@@ -94,6 +96,7 @@
         --color-text: var(--light-color-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-link: var(--light-color-link);
+        --color-focus-outline: var(--light-color-focus-outline);
 
         --color-ts-keyword: var(--light-color-ts-keyword);
         --color-ts-module: var(--light-color-ts-module);
@@ -137,6 +140,7 @@
         --color-text: var(--dark-color-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-link: var(--dark-color-link);
+        --color-focus-outline: var(--dark-color-focus-outline);
 
         --color-ts-keyword: var(--dark-color-ts-keyword);
         --color-ts-module: var(--dark-color-ts-module);
@@ -187,6 +191,7 @@ body {
     --color-text: var(--light-color-text);
     --color-text-aside: var(--light-color-text-aside);
     --color-link: var(--light-color-link);
+    --color-focus-outline: var(--light-color-focus-outline);
 
     --color-ts-keyword: var(--light-color-ts-keyword);
     --color-ts-module: var(--light-color-ts-module);
@@ -228,6 +233,7 @@ body {
     --color-text: var(--dark-color-text);
     --color-text-aside: var(--dark-color-text-aside);
     --color-link: var(--dark-color-link);
+    --color-focus-outline: var(--dark-color-focus-outline);
 
     --color-ts-keyword: var(--dark-color-ts-keyword);
     --color-ts-module: var(--dark-color-ts-module);
@@ -256,6 +262,11 @@ body {
 
     --external-icon: var(--dark-external-icon);
     --color-scheme: var(--dark-color-scheme);
+}
+
+*:focus-visible,
+.tsd-accordion-summary:focus-visible svg {
+    outline: 2px solid var(--color-focus-outline);
 }
 
 .always-visible,
@@ -604,11 +615,8 @@ dl.tsd-comment-tag-group p {
     Don't remove unless you know what you're doing. */
     opacity: 0.99;
 }
-.tsd-filter-input input[type="checkbox"]:focus + svg {
-    transform: scale(0.95);
-}
-.tsd-filter-input input[type="checkbox"]:focus:not(:focus-visible) + svg {
-    transform: scale(1);
+.tsd-filter-input input[type="checkbox"]:focus-visible + svg {
+    outline: 2px solid var(--color-focus-outline);
 }
 .tsd-checkbox-background {
     fill: var(--color-accent);
