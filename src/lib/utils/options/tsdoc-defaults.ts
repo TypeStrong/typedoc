@@ -17,6 +17,7 @@ export const blockTags = [
     ...tsdocBlockTags,
     "@category",
     "@categoryDescription",
+    "@default",
     "@document",
     "@group",
     "@groupDescription",

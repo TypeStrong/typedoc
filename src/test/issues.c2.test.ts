@@ -445,6 +445,8 @@ describe("Issue Tests", () => {
             ]),
         ];
         equal(alias.comment, expectedComment);
+
+        logger.expectMessage("warn: Encountered an unknown block tag @asdf.");
     });
 
     it("#1745", () => {

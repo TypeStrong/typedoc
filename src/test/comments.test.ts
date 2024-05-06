@@ -1070,7 +1070,7 @@ describe("Raw Lexer", () => {
 
 describe("Comment Parser", () => {
     const config: CommentParserConfig = {
-        blockTags: new Set(["@param", "@remarks", "@module"]),
+        blockTags: new Set(["@param", "@remarks", "@module", "@inheritDoc"]),
         inlineTags: new Set(["@link"]),
         modifierTags: new Set([
             "@public",

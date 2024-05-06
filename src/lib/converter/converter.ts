@@ -586,6 +586,11 @@ export class Converter extends ChildableComponent<
             jsDocCompatibility:
                 this.application.options.getValue("jsDocCompatibility"),
         };
+
+        // Can't be included in options because the TSDoc parser blows up if we do.
+        // TypeDoc supports it as one, so it should always be included here.
+        this._config.blockTags.add("@inheritDoc");
+
         return this._config;
     }
 }

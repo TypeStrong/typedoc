@@ -64,6 +64,10 @@
             "syntaxKind": "block"
         },
         {
+            "tagName": "@default",
+            "syntaxKind": "block"
+        },
+        {
             // TSDoc defines @returns, we also recognize @return for JSDoc compat
             "tagName": "@return",
             "syntaxKind": "block"
