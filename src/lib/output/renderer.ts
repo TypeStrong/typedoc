@@ -20,7 +20,10 @@ import { RendererComponent } from "./components";
 import { Component, ChildableComponent } from "../utils/component";
 import { Option, EventHooks } from "../utils";
 import { loadHighlighter } from "../utils/highlighter";
-import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import" };
+import type {
+    BundledLanguage,
+    BundledTheme as ShikiTheme,
+} from "shiki" with { "resolution-mode": "import" };
 import { Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
@@ -187,35 +190,32 @@ export class Renderer extends ChildableComponent<
 
     /** @internal */
     @Option("theme")
-    accessor themeName!: string;
+    private accessor themeName!: string;
 
-    /** @internal */
     @Option("cleanOutputDir")
-    accessor cleanOutputDir!: boolean;
+    private accessor cleanOutputDir!: boolean;
 
-    /** @internal */
     @Option("cname")
-    accessor cname!: string;
+    private accessor cname!: string;
 
-    /** @internal */
     @Option("githubPages")
-    accessor githubPages!: boolean;
+    private accessor githubPages!: boolean;
 
     /** @internal */
     @Option("cacheBust")
     accessor cacheBust!: boolean;
 
-    /** @internal */
     @Option("lightHighlightTheme")
-    accessor lightTheme!: ShikiTheme;
+    private accessor lightTheme!: ShikiTheme;
 
-    /** @internal */
     @Option("darkHighlightTheme")
-    accessor darkTheme!: ShikiTheme;
+    private accessor darkTheme!: ShikiTheme;
 
-    /** @internal */
+    @Option("highlightLanguages")
+    private accessor highlightLanguages!: string[];
+
     @Option("pretty")
-    accessor pretty!: boolean;
+    private accessor pretty!: boolean;
 
     renderStartTime = -1;
 
@@ -299,7 +299,12 @@ export class Renderer extends ChildableComponent<
     }
 
     private async loadHighlighter() {
-        await loadHighlighter(this.lightTheme, this.darkTheme);
+        await loadHighlighter(
+            this.lightTheme,
+            this.darkTheme,
+            // Checked in option validation
+            this.highlightLanguages as BundledLanguage[],
+        );
     }
 
     /**

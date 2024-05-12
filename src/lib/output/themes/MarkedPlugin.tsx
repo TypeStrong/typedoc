@@ -3,7 +3,7 @@ import markdown from "markdown-it";
 import { Component, ContextAwareRendererComponent } from "../components";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
 import { Option, type Logger, renderElement } from "../../utils";
-import { highlight, isSupportedLanguage } from "../../utils/highlighter";
+import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
 import type { DefaultTheme } from "..";
@@ -66,6 +66,15 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         if (!isSupportedLanguage(lang)) {
             this.application.logger.warn(
                 this.application.i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                    lang,
+                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                ),
+            );
+            return text;
+        }
+        if (!isLoadedLanguage(lang)) {
+            this.application.logger.warn(
+                this.application.i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
                     lang,
                     this.page?.model.getFriendlyFullName() ?? "(unknown)",
                 ),

@@ -5,7 +5,10 @@ import {
     ParameterType,
     type DeclarationOption,
 } from "./declaration";
-import { getSupportedLanguages, getSupportedThemes } from "../highlighter";
+import {
+    getSupportedLanguagesWithoutAliases,
+    getSupportedThemes,
+} from "../highlighter";
 import type { TranslationProxy } from "../../internationalization/internationalization";
 
 export interface ParameterHelp {
@@ -102,7 +105,7 @@ export function getOptionsHelp(
     output.push(
         "",
         "Supported highlighting languages:",
-        ...toEvenColumns(getSupportedLanguages(), 80),
+        ...toEvenColumns(getSupportedLanguagesWithoutAliases(), 80),
     );
 
     output.push(

@@ -113,6 +113,7 @@ export const translatable = {
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist.`,
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}.`,
+    unloaded_language_0_not_highlighted_in_comment_for_1: `Code block with language {0} will not be highlighted in comment for {1} as it was not included in the highlightLanguages option.`,
     yaml_frontmatter_not_an_object: `Expected YAML frontmatter to be an object.`,
 
     // renderer
@@ -218,6 +219,8 @@ export const translatable = {
         "Specify the code highlighting theme in light mode.",
     help_darkHighlightTheme:
         "Specify the code highlighting theme in dark mode.",
+    help_highlightLanguages:
+        "Specify the languages which will be loaded to highlight code when rendering.",
     help_customCss: "Path to a custom CSS file to for the theme to import.",
     help_markdownItOptions:
         "Specify the options passed to markdown-it, the Markdown parser used by TypeDoc.",
@@ -350,6 +353,8 @@ export const translatable = {
     external_symbol_link_mappings_must_be_object:
         "externalSymbolLinkMappings must be a Record<package name, Record<symbol name, link>>",
     highlight_theme_0_must_be_one_of_1: "{0} must be one of the following: {1}",
+    highlightLanguages_contains_invalid_languages_0:
+        "highlightLanguages contains invalid languages: {0}, run typedoc --help for a list of supported languages.",
     hostedBaseUrl_must_start_with_http:
         "hostedBaseUrl must start with http:// or https://",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object.",

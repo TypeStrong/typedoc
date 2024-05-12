@@ -16,6 +16,8 @@
     This means that any projects setting `markedOptions` needs to be updated to use `markdownItOptions`.
     Unlike `marked@4`, `markdown-it` pushes lots of functionality to plugins. To use plugins, a JavaScript config file must be used with the `markdownItLoader` option.
 -   Updated Shiki from 0.14 to 1.x. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
+    As Shiki adds additional languages, the time it takes to load the highlighter increases linearly. To avoid rendering taking longer than necessary,
+    TypeDoc now only loads a few common languages. Additional languages can be loaded by setting the `--highlightLanguages` option.
 -   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
 -   (WIP) Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.
@@ -47,6 +49,7 @@
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
     If `--projectDocuments` is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
+-   Added new `--highlightLanguages` option to control what Shiki language packages are loaded.
 
 ### Bug Fixes
 

@@ -9,6 +9,7 @@ import * as JSX from "./jsx";
 import { unique } from "./array";
 
 const aliases = new Map<string, string>();
+let supportedLanguagesWithoutAliases: string[] = [];
 let supportedLanguages: string[] = [];
 let supportedThemes: string[] = [];
 
@@ -28,6 +29,8 @@ export async function loadShikiMetadata() {
         ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
     ]).sort();
 
+    supportedLanguagesWithoutAliases = unique(["text", ...shiki.bundledLanguagesInfo.map((lang) => lang.id)]);
+
     supportedThemes = Object.keys(shiki.bundledThemes);
 }
 
@@ -39,6 +42,10 @@ class DoubleHighlighter {
         private light: BundledTheme,
         private dark: BundledTheme,
     ) {}
+
+    supports(lang: string) {
+        return this.highlighter.getLoadedLanguages().includes(lang);
+    }
 
     highlight(code: string, lang: string) {
         const tokens = this.highlighter.codeToTokensWithThemes(code, {
@@ -122,11 +129,11 @@ class DoubleHighlighter {
 
 let highlighter: DoubleHighlighter | undefined;
 
-export async function loadHighlighter(lightTheme: BundledTheme, darkTheme: BundledTheme) {
+export async function loadHighlighter(lightTheme: BundledTheme, darkTheme: BundledTheme, langs: BundledLanguage[]) {
     if (highlighter) return;
 
     const shiki = await import("shiki");
-    const hl = await shiki.getHighlighter({ themes: [lightTheme, darkTheme], langs: getSupportedLanguages() });
+    const hl = await shiki.getHighlighter({ themes: [lightTheme, darkTheme], langs });
     highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
 }
 
@@ -139,16 +146,22 @@ export function getSupportedLanguages(): string[] {
     return supportedLanguages;
 }
 
+export function getSupportedLanguagesWithoutAliases(): string[] {
+    ok(supportedLanguagesWithoutAliases.length > 0, "loadShikiMetadata has not been called");
+    return supportedLanguages;
+}
+
 export function getSupportedThemes(): string[] {
     ok(supportedThemes.length > 0, "loadShikiMetadata has not been called");
     return supportedThemes;
 }
 
+export function isLoadedLanguage(lang: string): boolean {
+    return highlighter?.supports(lang) ?? false;
+}
+
 export function highlight(code: string, lang: string): string {
     assert(highlighter, "Tried to highlight with an uninitialized highlighter");
-    if (!isSupportedLanguage(lang)) {
-        return code;
-    }
 
     if (lang === "text") {
         return JSX.renderElement(<>{code}</>);

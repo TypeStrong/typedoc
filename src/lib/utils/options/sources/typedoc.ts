@@ -12,8 +12,15 @@ import { ReflectionKind } from "../../../models/reflections/kind";
 import * as Validation from "../../validation";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
 import { getEnumKeys } from "../../enum";
-import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
-import { getSupportedThemes } from "../../highlighter";
+import type {
+    BundledLanguage,
+    BundledTheme,
+} from "shiki" with { "resolution-mode": "import" };
+import {
+    getSupportedLanguagesWithoutAliases,
+    getSupportedThemes,
+} from "../../highlighter";
+import { setDifference } from "../../set";
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -314,6 +321,35 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                     i18n.highlight_theme_0_must_be_one_of_1(
                         "darkHighlightTheme",
                         getSupportedThemes().join(", "),
+                    ),
+                );
+            }
+        },
+    });
+    options.addDeclaration({
+        name: "highlightLanguages",
+        help: (i18n) => i18n.help_highlightLanguages(),
+        type: ParameterType.Array,
+        defaultValue: [
+            "bash",
+            "console",
+            "css",
+            "html",
+            "javascript",
+            "json",
+            "jsonc",
+            "tsx",
+            "typescript",
+        ] satisfies BundledLanguage[],
+        validate(value, i18n) {
+            const invalid = setDifference(
+                value,
+                getSupportedLanguagesWithoutAliases(),
+            );
+            if (invalid.size) {
+                throw new Error(
+                    i18n.highlightLanguages_contains_invalid_languages_0(
+                        Array.from(invalid).join(", "),
                     ),
                 );
             }
