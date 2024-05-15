@@ -908,11 +908,39 @@ export class ReferenceType extends Type {
         return new ReferenceType(name, target, project, name);
     }
 
+    /**
+     * In certain cases, TypeScript returns the name `default` for the name of a type that is defined with
+     * the format `export default class` or `export default function`. This method checks for that case and returns the
+     * declaration of the export instead of the name `default`.
+     */
+    private static getNameForDefaultExport(
+        symbol: ts.Symbol,
+    ): string | undefined {
+        if (
+            symbol.name !== "default" ||
+            symbol.valueDeclaration === undefined
+        ) {
+            return;
+        }
+
+        const name = ts.getNameOfDeclaration(symbol.valueDeclaration);
+
+        if (!name) {
+            return;
+        }
+
+        if (ts.isIdentifier(name)) {
+            return name.text;
+        }
+    }
+
     static createSymbolReference(
         symbol: ts.Symbol,
         context: Context,
         name?: string,
     ) {
+        name ??= this.getNameForDefaultExport(symbol);
+
         const ref = new ReferenceType(
             name ?? symbol.name,
             new ReflectionSymbolId(symbol),
