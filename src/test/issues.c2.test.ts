@@ -15,6 +15,7 @@ import {
     ProjectReflection,
     QueryType,
     ReferenceReflection,
+    ReferenceType,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
@@ -89,6 +90,21 @@ describe("Issue Tests", () => {
             Comment.combineDisplayParts(param.comment?.summary),
             "JSDoc style param name",
         );
+    });
+
+    it("#2574", () => {
+        const project = convert();
+        const usesDefaultExport = query(project, "usesDefaultExport");
+        const sig = usesDefaultExport.signatures?.[0];
+        ok(sig, "Missing signature for usesDefaultExport");
+        const param = sig.parameters?.[0];
+        ok(param, "Missing parameter");
+        equal(param.name, "param", "Incorrect parameter name");
+        const paramType = param.type as ReferenceType | undefined;
+        ok(paramType, "Parameter type is not a reference type or undefined");
+        equal(paramType.type, "reference", "Parameter is not a reference type");
+        equal(paramType.name, "DefaultExport", "Incorrect reference name");
+        equal(paramType.qualifiedName, "default", "Incorrect qualified name");
     });
 
     it("#671", () => {
