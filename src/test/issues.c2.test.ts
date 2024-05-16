@@ -15,7 +15,6 @@ import {
     type ProjectReflection,
     QueryType,
     ReferenceReflection,
-    ReferenceType,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
