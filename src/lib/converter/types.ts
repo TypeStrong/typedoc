@@ -744,9 +744,17 @@ const referenceConverter: TypeConverter<
             return ref;
         }
 
+        let name;
+        if (ts.isIdentifier(node.typeName)) {
+            name = node.typeName.text;
+        } else {
+            name = node.typeName.right.text;
+        }
+
         const ref = ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
+            name,
         );
         if (type.flags & ts.TypeFlags.Substitution) {
             // NoInfer<T>
