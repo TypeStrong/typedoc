@@ -838,7 +838,7 @@ const mappedConverter: TypeConverter<
         const templateType = convertType(context, type.templateType);
 
         return new MappedType(
-            type.typeParameter.symbol?.name || "__type",
+            type.typeParameter.symbol.name || "__type",
             convertType(context, type.typeParameter.getConstraint()),
             optionalModifier === "+"
                 ? removeUndefined(templateType)

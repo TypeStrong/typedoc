@@ -602,7 +602,7 @@ function convertClassOrInterface(
     // And type arguments
     if (instanceType.typeParameters) {
         reflection.typeParameters = instanceType.typeParameters.map((param) => {
-            const declaration = param.symbol?.declarations?.[0];
+            const declaration = param.symbol.declarations?.[0];
             assert(declaration && ts.isTypeParameterDeclaration(declaration));
             return createTypeParamReflection(declaration, reflectionContext);
         });

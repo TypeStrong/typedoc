@@ -354,7 +354,7 @@ function convertTypeParameters(
         const variance = getVariance(declaration?.modifiers);
 
         const paramRefl = new TypeParameterReflection(
-            param.symbol?.name || "__type",
+            param.symbol.name,
             parent,
             variance,
         );
