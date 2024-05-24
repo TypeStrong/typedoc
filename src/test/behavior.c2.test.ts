@@ -580,6 +580,14 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Handles @hideconstructor", () => {
+        const project = convert("hideconstructor");
+
+        ok(!project.getChildByName("StaticOnly.constructor"));
+        ok(!!project.getChildByName("StaticOnly.notHidden"));
+        ok(!project.getChildByName("IgnoredCtor.constructor"));
+    });
+
     it("Handles simple @inheritDoc cases", () => {
         const project = convert("inheritDocBasic");
         const target = query(project, "InterfaceTarget");

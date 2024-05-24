@@ -393,6 +393,13 @@ export class CommentPlugin extends ConverterComponent {
 
             mergeSeeTags(reflection.comment);
             movePropertyTags(reflection.comment, reflection);
+
+            // Unlike other modifiers, this one has to wait until resolution to be removed
+            // as it needs to remain present so that it can be checked when `@hidden` tags are
+            // being processed.
+            if (reflection.kindOf(ReflectionKind.Class)) {
+                reflection.comment.removeModifier("@hideconstructor");
+            }
         }
 
         if (reflection instanceof DeclarationReflection && reflection.comment) {
@@ -538,6 +545,23 @@ export class CommentPlugin extends ConverterComponent {
 
         if (this.excludedByCategory(reflection)) {
             return true;
+        }
+
+        if (
+            reflection.kindOf(
+                ReflectionKind.ConstructorSignature |
+                    ReflectionKind.Constructor,
+            )
+        ) {
+            if (comment?.hasModifier("@hideconstructor")) return true;
+            const cls = reflection.parent?.kindOf(ReflectionKind.Class)
+                ? reflection.parent
+                : reflection.parent?.parent?.kindOf(ReflectionKind.Class)
+                  ? reflection.parent.parent
+                  : undefined;
+            if (cls?.comment?.hasModifier("@hideconstructor")) {
+                return true;
+            }
         }
 
         if (!comment) {

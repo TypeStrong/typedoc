@@ -142,6 +142,10 @@
         {
             "tagName": "@hideGroups",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@hideconstructor",
+            "syntaxKind": "modifier"
         }
     ]
 }

@@ -70,4 +70,5 @@ export const modifierTags = [
     "@overload",
     "@showCategories",
     "@showGroups",
+    "@hideconstructor",
 ] as const;

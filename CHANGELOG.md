@@ -45,6 +45,8 @@
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
 -   TypeDoc will now copy modifier tags to children if specified in the `--cascadedModifierTags` option, #2056.
 -   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
+-   Added support for JSDoc `@hideconstructor` tag.
+    This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
 -   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.

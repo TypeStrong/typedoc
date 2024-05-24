@@ -1,4 +1,4 @@
-import { Token, ParseResult } from "markdown-it";
+import { Token, ParseLinkTitleResult } from "markdown-it";
 
 /**
  * Testing custom external link resolution
@@ -7,4 +7,4 @@ import { Token, ParseResult } from "markdown-it";
 export type P = Promise<string>;
 
 export declare const T: Token;
-export declare const Pr: ParseResult;
+export declare const Pr: ParseLinkTitleResult;
