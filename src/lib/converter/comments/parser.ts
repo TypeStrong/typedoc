@@ -522,7 +522,7 @@ function blockContent(
     warning: (msg: TranslatedString, token: Token) => void,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
-    let atNewLine = true;
+    let atNewLine = true as boolean;
 
     loop: while (!lexer.done()) {
         const next = lexer.peek();

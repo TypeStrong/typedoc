@@ -103,7 +103,7 @@ export class DefaultThemeRenderContext {
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>,
     ) => {
-        return this.theme.markedPlugin.parseMarkdown(md || "", this.page, this);
+        return this.theme.markedPlugin.parseMarkdown(md, this.page, this);
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);

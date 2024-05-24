@@ -42,7 +42,10 @@ import {
     type ExternalSymbolResolver,
     type ExternalResolveResult,
 } from "./comments/linkResolver";
-import type { DeclarationReference } from "./comments/declarationReference";
+import {
+    meaningToString,
+    type DeclarationReference,
+} from "./comments/declarationReference";
 import { basename, dirname, resolve } from "path";
 
 /**
@@ -217,7 +220,7 @@ export class Converter extends ChildableComponent<
                 name += ref.symbolReference.path.map((p) => p.path).join(".");
             }
             if (ref.symbolReference.meaning) {
-                name += ":" + ref.symbolReference.meaning;
+                name += meaningToString(ref.symbolReference.meaning);
             }
 
             if (typeof modLinks[name] === "string") {

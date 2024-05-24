@@ -42,6 +42,19 @@ export interface Meaning {
     index?: number;
 }
 
+export function meaningToString(meaning: Meaning): string {
+    let result = "";
+    if (meaning.keyword) {
+        result += meaning.keyword;
+    } else if (meaning.label) {
+        result += meaning.label;
+    }
+    if (typeof meaning.index === "number") {
+        result += `(${meaning.index})`;
+    }
+    return result;
+}
+
 export interface SymbolReference {
     path?: ComponentPath[];
     meaning?: Meaning;

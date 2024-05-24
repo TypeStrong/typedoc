@@ -89,6 +89,9 @@ export class BasePath {
         path = path.replace(/^["']+|["']+$/g, "");
 
         // Make Windows drive letters upper case
-        return path.replace(/^([^:]+):\//, (_m, m1) => m1.toUpperCase() + ":/");
+        return path.replace(
+            /^([^:]+):\//,
+            (_m, m1: string) => m1.toUpperCase() + ":/",
+        );
     }
 }

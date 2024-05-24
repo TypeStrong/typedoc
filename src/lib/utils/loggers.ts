@@ -32,7 +32,7 @@ const Colors = {
 };
 
 function color(text: string, color: keyof typeof Colors) {
-    if ("NO_COLOR" in process.env) return `${text}`;
+    if ("NO_COLOR" in process.env) return text;
 
     return `${Colors[color]}${text}${Colors.reset}`;
 }
@@ -233,13 +233,6 @@ export class Logger {
  * A logger that outputs all messages to the console.
  */
 export class ConsoleLogger extends Logger {
-    /**
-     * Create a new ConsoleLogger instance.
-     */
-    constructor() {
-        super();
-    }
-
     /**
      * Print a log message.
      *

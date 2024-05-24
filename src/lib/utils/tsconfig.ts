@@ -55,7 +55,7 @@ export function getTypeDocOptionsFromTsConfig(file: string): any {
     return result;
 }
 
-const tsConfigCache: Record<string, ts.ParsedCommandLine> = {};
+const tsConfigCache: Record<string, ts.ParsedCommandLine | undefined> = {};
 
 export function readTsConfig(
     path: string,

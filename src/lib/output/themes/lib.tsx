@@ -27,7 +27,7 @@ export function getDisplayName(refl: Reflection): string {
 }
 
 export function toStyleClass(str: string): string {
-    return str.replace(/(\w)([A-Z])/g, (_m, m1, m2) => m1 + "-" + m2).toLowerCase();
+    return str.replace(/(\w)([A-Z])/g, (_m, m1: string, m2: string) => m1 + "-" + m2).toLowerCase();
 }
 
 export function getKindClass(refl: Reflection): string {

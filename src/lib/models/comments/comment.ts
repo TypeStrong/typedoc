@@ -153,7 +153,7 @@ export class Comment {
                                 let kindClass: string | undefined;
                                 if (typeof part.target === "string") {
                                     url = part.target;
-                                } else if (part.target && "id" in part.target) {
+                                } else if ("id" in part.target) {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step.
                                     url = urlTo(part.target);

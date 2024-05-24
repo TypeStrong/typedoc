@@ -38,7 +38,11 @@ export function resolveDeclarationReference(
     } else if (ref.resolutionStart === "global") {
         high.push(reflection.project);
     } else {
-        ok(ref.resolutionStart === "local");
+        // Work around no-unnecessary-condition, should be unnecessary... want a trap if it ever becomes false.
+        ok(
+            ref.resolutionStart.startsWith("local") &&
+                ref.resolutionStart.length === 5,
+        );
         // TypeScript's behavior is to first try to resolve links via variable scope, and then
         // if the link still hasn't been found, check either siblings (if comment belongs to a member)
         // or otherwise children.
@@ -161,7 +165,7 @@ function resolveKeyword(
                 const ctor = (refl as ContainerReflection).children?.find((c) =>
                     c.kindOf(ReflectionKind.Constructor),
                 );
-                return (ctor as DeclarationReflection)?.signatures;
+                return (ctor as DeclarationReflection).signatures;
             }
             break;
 

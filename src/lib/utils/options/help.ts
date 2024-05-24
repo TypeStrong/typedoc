@@ -46,6 +46,7 @@ function getParameterHelp(
     let margin = 0;
 
     for (const parameter of parameters) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!parameter.help || parameter.configFileOnly) {
             continue;
         }

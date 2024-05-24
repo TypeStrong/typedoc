@@ -265,7 +265,7 @@ export class Renderer extends ChildableComponent<
         this.trigger(output);
         await this.runPreRenderJobs(output);
 
-        if (!output.isDefaultPrevented) {
+        if (!output.isDefaultPrevented()) {
             this.application.logger.verbose(
                 `There are ${output.urls.length} pages to write.`,
             );
@@ -319,7 +319,7 @@ export class Renderer extends ChildableComponent<
     ) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
-        if (page.isDefaultPrevented) {
+        if (page.isDefaultPrevented()) {
             this.hooks.restoreMomento(momento);
             return false;
         }
@@ -333,7 +333,7 @@ export class Renderer extends ChildableComponent<
         this.trigger(PageEvent.END, page);
         this.hooks.restoreMomento(momento);
 
-        if (page.isDefaultPrevented) {
+        if (page.isDefaultPrevented()) {
             return false;
         }
 

@@ -143,6 +143,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
 
         if (
             this.owner instanceof AbstractComponent &&
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             this._componentOwner !== null
         ) {
             this.owner.bubble(name, ...args);
@@ -155,6 +156,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
      * Return the application / root component instance.
      */
     get application(): Application {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (this._componentOwner === null) {
             return this as any as Application;
         }
@@ -165,6 +167,7 @@ export abstract class AbstractComponent<O extends ComponentHost>
      * Return the owner of this component.
      */
     get owner(): O {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         return this._componentOwner === null
             ? (this as any)
             : this._componentOwner;
@@ -184,7 +187,7 @@ export abstract class ChildableComponent<
     /**
      *
      */
-    private _componentChildren?: { [name: string]: C };
+    private _componentChildren?: { [name: string]: C | undefined };
 
     private _defaultComponents?: { [name: string]: ComponentClass<C> };
 
@@ -211,7 +214,7 @@ export abstract class ChildableComponent<
     }
 
     getComponents(): C[] {
-        return Object.values(this._componentChildren || {});
+        return Object.values(this._componentChildren || {}) as C[];
     }
 
     hasComponent(name: string): boolean {
@@ -263,7 +266,7 @@ export abstract class ChildableComponent<
 
     removeAllComponents() {
         for (const component of Object.values(this._componentChildren || {})) {
-            component.stopListening();
+            component!.stopListening();
         }
 
         this._componentChildren = {};

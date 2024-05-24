@@ -52,7 +52,7 @@ function getCommentWithCache(
 
     const { file, ranges, jsDoc } = discovered;
     const cache = commentCache.get(file) || new Map<number, Comment>();
-    if (cache?.has(ranges[0].pos)) {
+    if (cache.has(ranges[0].pos)) {
         return cache.get(ranges[0].pos)!.clone();
     }
 

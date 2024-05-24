@@ -120,10 +120,14 @@ export class Context {
         if (!nodeType) {
             if (node.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
+                // The TS types lie due to ts.SourceFile
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             } else if (node.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.symbol,
                 );
+                // The TS types lie due to ts.SourceFile
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             } else if (node.parent?.parent?.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(
                     node.parent.parent.symbol,

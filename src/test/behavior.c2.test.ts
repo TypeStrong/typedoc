@@ -21,7 +21,7 @@ import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments";
 import { getComment, query, querySig } from "./utils";
 
-type NameTree = { [name: string]: NameTree };
+type NameTree = { [name: string]: NameTree | undefined };
 
 function buildNameTree(
     refl: ContainerReflection,
@@ -49,7 +49,7 @@ function getLinks(refl: Reflection) {
                 ];
             }
             if (p.target instanceof Reflection) {
-                return [p.target?.kind, p.target?.getFullName()];
+                return [p.target.kind, p.target.getFullName()];
             }
             return [p.target?.qualifiedName];
         }
@@ -491,7 +491,7 @@ describe("Behavior Tests", () => {
         });
         const project = convert("externalSymbols");
         const p = query(project, "P");
-        equal(p.comment?.summary?.[1], {
+        equal(p.comment?.summary[1], {
             kind: "inline-tag",
             tag: "@link",
             target: "/promise",
@@ -526,7 +526,7 @@ describe("Behavior Tests", () => {
         );
 
         equal(
-            project.groups?.map((g) =>
+            project.groups.map((g) =>
                 Comment.combineDisplayParts(g.description),
             ),
             ["Variables desc", "A description", "", "With spaces desc"],
@@ -560,7 +560,7 @@ describe("Behavior Tests", () => {
             ["Cat", "Other"],
         );
         equal(
-            cls.categories?.map((g) =>
+            cls.categories.map((g) =>
                 Comment.combineDisplayParts(g.description),
             ),
             ["Cat desc", ""],

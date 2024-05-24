@@ -12,7 +12,7 @@ function git(...args: string[]) {
     });
 }
 
-let haveGit: boolean;
+let haveGit: boolean | undefined;
 export function gitIsInstalled() {
     haveGit ??= git("--version").status === 0;
     return haveGit;

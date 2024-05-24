@@ -36,7 +36,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     @Option("markdownItOptions")
     accessor markdownItOptions!: Record<string, unknown>;
 
-    private parser?: MarkdownIt;
+    private parser?: markdown;
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.

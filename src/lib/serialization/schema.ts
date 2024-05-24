@@ -29,6 +29,7 @@
  */
 
 import type * as M from "../models";
+import type { IfInternal } from "../utils";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -206,7 +207,9 @@ export interface ProjectReflection
             M.ProjectReflection,
             "variant" | "packageName" | "packageVersion" | "readme"
         > {
-    symbolIdMap: Record<number, ReflectionSymbolId>;
+    symbolIdMap:
+        | Record<number, ReflectionSymbolId>
+        | IfInternal<undefined, never>;
 }
 
 /** @category Reflections */

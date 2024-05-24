@@ -91,6 +91,7 @@ export function loadConverters() {
         jsDocNonNullableTypeConverter,
     ]) {
         for (const key of actor.kind) {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (key === undefined) {
                 // Might happen if running on an older TS version.
                 continue;
@@ -837,7 +838,7 @@ const mappedConverter: TypeConverter<
         const templateType = convertType(context, type.templateType);
 
         return new MappedType(
-            type.typeParameter.symbol?.name,
+            type.typeParameter.symbol?.name || "__type",
             convertType(context, type.typeParameter.getConstraint()),
             optionalModifier === "+"
                 ? removeUndefined(templateType)

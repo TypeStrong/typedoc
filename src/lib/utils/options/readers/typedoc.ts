@@ -85,7 +85,6 @@ export class TypeDocReader implements OptionsReader {
         } else {
             try {
                 try {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
                     fileContent = await require(file);
                 } catch (error: any) {
                     if (error?.code === "ERR_REQUIRE_ESM") {

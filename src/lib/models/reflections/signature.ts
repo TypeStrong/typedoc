@@ -17,6 +17,8 @@ import { SourceReference } from "../sources/file";
 export class SignatureReflection extends Reflection {
     readonly variant = "signature";
 
+    // ESLint is wrong, we're restricting types to be more narrow.
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor
     constructor(
         name: string,
         kind: SignatureReflection["kind"],

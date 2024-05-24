@@ -96,7 +96,7 @@ export function getEntryPoints(
             assertNever(strategy);
     }
 
-    if (result && result.length === 0) {
+    if (result.length === 0) {
         logger.error(logger.i18n.unable_to_find_any_entry_points());
         return;
     }

@@ -120,7 +120,7 @@ export function* zip<T extends Iterable<any>[]>(
 ): Iterable<{ [K in keyof T]: T[K] extends Iterable<infer U> ? U : T[K] }> {
     const iterators = args.map((x) => x[Symbol.iterator]());
 
-    while (true) {
+    for (;;) {
         const next = iterators.map((i) => i.next());
         if (next.some((v) => v.done)) {
             break;

@@ -1,5 +1,5 @@
 import { Component, ConverterComponent } from "../components";
-import type { Context, ExternalResolveResult } from "../../converter";
+import type { Context } from "../../converter";
 import { ConverterEvents } from "../converter-events";
 import { Option, type ValidationOptions } from "../../utils";
 import {
@@ -95,12 +95,10 @@ export class LinkResolverPlugin extends ConverterComponent {
                 );
                 switch (typeof resolveResult) {
                     case "string":
-                        type.externalUrl = resolveResult as string;
+                        type.externalUrl = resolveResult;
                         break;
                     case "object":
-                        type.externalUrl = (
-                            resolveResult as ExternalResolveResult
-                        ).target;
+                        type.externalUrl = resolveResult.target;
                         break;
                 }
             }

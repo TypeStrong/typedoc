@@ -149,7 +149,7 @@ describe("Issue Tests", () => {
     it("#1150", () => {
         const project = convert();
         const refl = query(project, "IntersectFirst");
-        equal(refl?.kind, ReflectionKind.TypeAlias);
+        equal(refl.kind, ReflectionKind.TypeAlias);
         equal(refl.type?.type, "indexedAccess");
     });
 
@@ -194,7 +194,7 @@ describe("Issue Tests", () => {
     it("#1330", () => {
         const project = convert();
         const example = query(project, "ExampleParam");
-        equal(example?.type?.type, "reference");
+        equal(example.type?.type, "reference");
         equal(example.type.toString(), "Example");
     });
 
@@ -206,9 +206,8 @@ describe("Issue Tests", () => {
 
     it("#1408", () => {
         const project = convert();
-        const foo = query(project, "foo");
-        const type = foo?.signatures?.[0]?.typeParameters?.[0].type;
-        equal(type?.type, "array");
+        const foo = querySig(project, "foo");
+        const type = foo.typeParameters?.[0].type;
         equal(type?.toString(), "unknown[]");
     });
 
@@ -231,15 +230,13 @@ describe("Issue Tests", () => {
 
     it("#1454", () => {
         const project = convert();
-        const foo = query(project, "foo");
-        const fooRet = foo?.signatures?.[0]?.type;
-        equal(fooRet?.type, "reference");
-        equal(fooRet?.toString(), "Foo");
+        const foo = querySig(project, "foo");
+        equal(foo.type?.type, "reference");
+        equal(foo.type.toString(), "Foo");
 
-        const bar = query(project, "bar");
-        const barRet = bar?.signatures?.[0]?.type;
-        equal(barRet?.type, "reference");
-        equal(barRet?.toString(), "Bar");
+        const bar = querySig(project, "bar");
+        equal(bar.type?.type, "reference");
+        equal(bar.type.toString(), "Bar");
     });
 
     it("#1462", () => {
@@ -390,7 +387,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const ctor = query(project, "Foo.constructor");
         equal(ctor.sources?.[0]?.line, 2);
-        equal(ctor.sources?.[0]?.character, 4);
+        equal(ctor.sources[0].character, 4);
     });
 
     it("Handles comment discovery with expando functions #1651", () => {
@@ -508,8 +505,8 @@ describe("Issue Tests", () => {
             project.children?.map((c) => c.name),
             ["default", "foo"],
         );
-        ok(project.children![0].kind === ReflectionKind.Reference);
-        ok(project.children![1].kind !== ReflectionKind.Reference);
+        ok(project.children[0].kind === ReflectionKind.Reference);
+        ok(project.children[1].kind !== ReflectionKind.Reference);
     });
 
     it("#1804", () => {
@@ -780,14 +777,14 @@ describe("Issue Tests", () => {
 
     it("#1996", () => {
         const project = convert();
-        const a = query(project, "a");
-        equal(a.signatures![0].sources?.[0].fileName, "gh1996.ts");
-        equal(a.signatures![0].sources?.[0].line, 1);
-        equal(a.signatures![0].sources?.[0].character, 17);
-        const b = query(project, "b");
-        equal(b.signatures![0].sources?.[0].fileName, "gh1996.ts");
-        equal(b.signatures![0].sources?.[0].line, 3);
-        equal(b.signatures![0].sources?.[0].character, 16);
+        const a = querySig(project, "a");
+        equal(a.sources?.[0].fileName, "gh1996.ts");
+        equal(a.sources[0].line, 1);
+        equal(a.sources[0].character, 17);
+        const b = querySig(project, "b");
+        equal(b.sources?.[0].fileName, "gh1996.ts");
+        equal(b.sources[0].line, 3);
+        equal(b.sources[0].character, 16);
     });
 
     it("#2008", () => {
@@ -1093,7 +1090,7 @@ describe("Issue Tests", () => {
 
             equal(
                 clsSig!.implementationOf?.reflection?.getFullName(),
-                intTarget!.getFullName(),
+                intTarget.getFullName(),
                 `${name} signature not properly linked`,
             );
         }
@@ -1312,7 +1309,7 @@ describe("Issue Tests", () => {
             ["falseValue", "trueValue", "value"],
         );
         equal(
-            type.declaration.children?.map((c) => c.defaultValue),
+            type.declaration.children.map((c) => c.defaultValue),
             ["false", "true", undefined],
         );
     });
@@ -1501,14 +1498,13 @@ describe("Issue Tests", () => {
         const param = sig.parameters?.[0];
         ok(param, "Missing parameter");
         equal(param.name, "param", "Incorrect parameter name");
-        ok(param.type, "Parameter type is not a reference type or undefined");
         equal(
-            param.type!.type,
+            param.type?.type,
             "reference",
             "Parameter is not a reference type",
         );
-        equal(param.type!.name, "DefaultExport", "Incorrect reference name");
-        equal(param.type!.qualifiedName, "default", "Incorrect qualified name");
+        equal(param.type.name, "DefaultExport", "Incorrect reference name");
+        equal(param.type.qualifiedName, "default", "Incorrect qualified name");
     });
 
     it("#2574 not default export", () => {
@@ -1517,15 +1513,14 @@ describe("Issue Tests", () => {
         const param = sig.parameters?.[0];
         ok(param, "Missing parameter");
         equal(param.name, "param", "Incorrect parameter name");
-        ok(param.type, "Parameter type is not a reference type or undefined");
         equal(
-            param.type!.type,
+            param.type?.type,
             "reference",
             "Parameter is not a reference type",
         );
-        equal(param.type!.name, "NotDefaultExport", "Incorrect reference name");
+        equal(param.type.name, "NotDefaultExport", "Incorrect reference name");
         equal(
-            param.type!.qualifiedName,
+            param.type.qualifiedName,
             "NotDefaultExport",
             "Incorrect qualified name",
         );

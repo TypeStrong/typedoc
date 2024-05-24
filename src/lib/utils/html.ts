@@ -18,6 +18,7 @@ function unescapeEntities(html: string) {
                         : parseInt(n.substring(1), 10),
                 );
             }
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             return htmlEntities[n as never] || "";
         },
     );

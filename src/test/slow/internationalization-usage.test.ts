@@ -56,7 +56,7 @@ describe("Internationalization", () => {
         ok(ts.isAsExpression(translatable.valueDeclaration.initializer!));
         ok(
             ts.isObjectLiteralExpression(
-                translatable.valueDeclaration.initializer.expression!,
+                translatable.valueDeclaration.initializer.expression,
             ),
         );
         const translatableObj =

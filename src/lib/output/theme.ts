@@ -17,15 +17,6 @@ import type { Reflection } from "../models";
 @Component({ name: "theme", internal: true })
 export abstract class Theme extends RendererComponent {
     /**
-     * Create a new BaseTheme instance.
-     *
-     * @param renderer  The renderer this theme is attached to.
-     */
-    constructor(renderer: Renderer) {
-        super(renderer);
-    }
-
-    /**
      * Map the models of the given project to the desired output files.
      * It is assumed that with the project structure:
      * ```text

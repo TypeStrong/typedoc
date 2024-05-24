@@ -194,9 +194,7 @@ function convertParameters(
         | undefined,
 ) {
     return parameters.map((param, i) => {
-        const declaration = param.valueDeclaration as
-            | ts.Declaration
-            | undefined;
+        const declaration = param.valueDeclaration;
         assert(
             !declaration ||
                 ts.isParameter(declaration) ||
@@ -356,7 +354,7 @@ function convertTypeParameters(
         const variance = getVariance(declaration?.modifiers);
 
         const paramRefl = new TypeParameterReflection(
-            param.symbol.name,
+            param.symbol?.name || "__type",
             parent,
             variance,
         );

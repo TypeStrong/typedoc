@@ -7,6 +7,8 @@
 // This test case was taken from
 // https://github.com/jashkenas/backbone/blob/6b927eb5e7081af16f97d9c15e34b030624a68f9/test/events.js
 
+// All linting disabled here as I want to replace it with a type-safe implementation *soon*
+
 import Assert = require("assert");
 import { EventDispatcher, Event } from "../lib/utils/events";
 

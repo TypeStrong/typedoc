@@ -64,9 +64,7 @@ export class CategoryPlugin extends ConverterComponent {
         if (this.defaultCategory) {
             CategoryPlugin.defaultCategory = this.defaultCategory;
         }
-        if (this.categoryOrder) {
-            CategoryPlugin.WEIGHTS = this.categoryOrder;
-        }
+        CategoryPlugin.WEIGHTS = this.categoryOrder;
     }
 
     /**
@@ -119,7 +117,7 @@ export class CategoryPlugin extends ConverterComponent {
                 obj,
                 group.children,
             );
-            if (group.categories && group.categories.length > 1) {
+            if (group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
             } else if (
                 group.categories.length === 1 &&
@@ -139,7 +137,7 @@ export class CategoryPlugin extends ConverterComponent {
             obj,
             obj.childrenIncludingDocuments,
         );
-        if (obj.categories && obj.categories.length > 1) {
+        if (obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
         } else if (
             obj.categories.length === 1 &&

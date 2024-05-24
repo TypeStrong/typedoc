@@ -32,7 +32,7 @@ const symbolConverters: {
         context: Context,
         symbol: ts.Symbol,
         exportSymbol?: ts.Symbol,
-    ) => void | ts.SymbolFlags;
+    ) => undefined | ts.SymbolFlags;
 } = {
     [ts.SymbolFlags.RegularEnum]: convertEnum,
     [ts.SymbolFlags.ConstEnum]: convertEnum,
@@ -209,7 +209,7 @@ function convertEnum(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Enum,
         symbol,
@@ -234,7 +234,7 @@ function convertEnumMember(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.EnumMember,
         symbol,
@@ -260,7 +260,7 @@ function convertNamespace(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     let exportFlags = ts.SymbolFlags.ModuleMember;
 
     // This can happen in JS land where "class" functions get tagged as a namespace too
@@ -306,9 +306,9 @@ function convertTypeAlias(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const declaration = symbol
-        ?.getDeclarations()
+        .getDeclarations()
         ?.find(
             (
                 d,
@@ -371,7 +371,7 @@ function convertTypeAliasAsInterface(
     symbol: ts.Symbol,
     exportSymbol: ts.Symbol | undefined,
     declaration: ts.TypeAliasDeclaration,
-) {
+): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Interface,
         symbol,
@@ -419,7 +419,7 @@ function convertFunctionOrMethod(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined | ts.SymbolFlags {
     // Can't just check method flag because this might be called for properties as well
     // This will *NOT* be called for variables that look like functions, they need a special case.
     const isMethod = !!(
@@ -569,7 +569,7 @@ function convertClassOrInterface(
 
         const constructMember = reflectionContext.createDeclarationReflection(
             ReflectionKind.Constructor,
-            ctors?.[0]?.declaration?.symbol,
+            ctors[0]?.declaration?.symbol,
             void 0,
             "constructor",
         );
@@ -637,7 +637,7 @@ function convertProperty(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined | ts.SymbolFlags {
     // This might happen if we're converting a function-module created with Object.assign
     // or `export default () => {}`
     if (context.scope.kindOf(ReflectionKind.VariableContainer)) {
@@ -736,7 +736,7 @@ function convertArrowAsMethod(
     symbol: ts.Symbol,
     arrow: ts.ArrowFunction,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Method,
         symbol,
@@ -775,7 +775,7 @@ function convertArrowAsMethod(
     );
 }
 
-function convertConstructor(context: Context, symbol: ts.Symbol) {
+function convertConstructor(context: Context, symbol: ts.Symbol): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Constructor,
         symbol,
@@ -839,7 +839,7 @@ function convertAlias(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const reflection = context.project.getReflectionFromSymbol(
         context.resolveAliasedSymbol(symbol),
     );
@@ -877,7 +877,7 @@ function convertVariable(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined | ts.SymbolFlags {
     const declaration = symbol.getDeclarations()?.[0];
 
     const comment = context.getComment(symbol, ReflectionKind.Variable);
@@ -961,7 +961,7 @@ function convertVariableAsEnum(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined | ts.SymbolFlags {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Enum,
         symbol,
@@ -1131,7 +1131,7 @@ function convertSymbolAsClass(
     if (ctors.length) {
         const constructMember = rc.createDeclarationReflection(
             ReflectionKind.Constructor,
-            ctors?.[0]?.declaration?.symbol,
+            ctors[0]?.declaration?.symbol,
             void 0,
             "constructor",
         );
@@ -1175,7 +1175,7 @@ function convertAccessor(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
-) {
+): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Accessor,
         symbol,

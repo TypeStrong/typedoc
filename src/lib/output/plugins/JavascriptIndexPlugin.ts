@@ -57,7 +57,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented) {
+        if (event.isDefaultPrevented()) {
             return;
         }
 
@@ -90,7 +90,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         this.owner.trigger(indexEvent);
 
-        if (indexEvent.isDefaultPrevented) {
+        if (indexEvent.isDefaultPrevented()) {
             return;
         }
 

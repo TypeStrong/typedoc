@@ -25,7 +25,7 @@ class PQueue {
     run() {
         return new Promise<void>((resolve, reject) => {
             const queue: Promise<void>[] = [];
-            const doReject = (err: unknown) => {
+            const doReject = (err: Error) => {
                 this.queued.length = 0;
                 queue.length = 0;
                 reject(err);
@@ -122,7 +122,7 @@ export async function captureScreenshots(
 }
 
 if (require.main == module) {
-    captureRegressionScreenshots().catch((err) => {
+    captureRegressionScreenshots().catch((err: unknown) => {
         // eslint-disable-next-line no-console
         console.error(err);
         process.exit(1);

@@ -6,7 +6,7 @@ import type { SignatureReflection } from "./signature";
 import type { ParameterReflection } from "./parameter";
 import { IntrinsicType } from "../types";
 import type { TypeParameterReflection } from "./type-parameter";
-import { removeIf, removeIfPresent } from "../../utils";
+import { assertNever, removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
 import { ReflectionKind } from "./kind";
 import { Comment, type CommentDisplayPart } from "../comments";
@@ -152,61 +152,72 @@ export class ProjectReflection extends ContainerReflection {
         // but I think that could only be caused by a plugin doing something weird, not by a regular
         // user... so this is probably good enough for now. Reflections that live on types are
         // kind of half-real anyways.
-        const parent = reflection.parent as DeclarationReflection;
+        const parent = reflection.parent as DeclarationReflection | undefined;
         parent?.traverse((child, property) => {
             if (child !== reflection) {
                 return true; // Continue iteration
             }
 
-            if (
-                property === TraverseProperty.Children ||
-                property == TraverseProperty.Documents
-            ) {
-                parent.removeChild(
-                    reflection as DeclarationReflection | DocumentReflection,
-                );
-            } else if (property === TraverseProperty.GetSignature) {
-                delete parent.getSignature;
-            } else if (property === TraverseProperty.IndexSignature) {
-                removeIfPresent(
-                    parent.indexSignatures,
-                    reflection as SignatureReflection,
-                );
-                if (!parent.indexSignatures?.length) {
-                    delete parent.indexSignatures;
-                }
-            } else if (property === TraverseProperty.Parameters) {
-                removeIfPresent(
-                    (reflection.parent as SignatureReflection).parameters,
-                    reflection as ParameterReflection,
-                );
-                if (
-                    !(reflection.parent as SignatureReflection).parameters
-                        ?.length
-                ) {
-                    delete (reflection.parent as SignatureReflection)
-                        .parameters;
-                }
-            } else if (property === TraverseProperty.SetSignature) {
-                delete parent.setSignature;
-            } else if (property === TraverseProperty.Signatures) {
-                removeIfPresent(
-                    parent.signatures,
-                    reflection as SignatureReflection,
-                );
-                if (!parent.signatures?.length) {
-                    delete parent.signatures;
-                }
-            } else if (property === TraverseProperty.TypeLiteral) {
-                parent.type = new IntrinsicType("Object");
-            } else if (property === TraverseProperty.TypeParameter) {
-                removeIfPresent(
-                    parent.typeParameters,
-                    reflection as TypeParameterReflection,
-                );
-                if (!parent.typeParameters?.length) {
-                    delete parent.typeParameters;
-                }
+            switch (property) {
+                case TraverseProperty.Children:
+                case TraverseProperty.Documents:
+                    parent.removeChild(
+                        reflection as
+                            | DeclarationReflection
+                            | DocumentReflection,
+                    );
+                    break;
+                case TraverseProperty.GetSignature:
+                    delete parent.getSignature;
+                    break;
+                case TraverseProperty.IndexSignature:
+                    removeIfPresent(
+                        parent.indexSignatures,
+                        reflection as SignatureReflection,
+                    );
+                    if (!parent.indexSignatures?.length) {
+                        delete parent.indexSignatures;
+                    }
+                    break;
+                case TraverseProperty.Parameters:
+                    removeIfPresent(
+                        (reflection.parent as SignatureReflection).parameters,
+                        reflection as ParameterReflection,
+                    );
+                    if (
+                        !(reflection.parent as SignatureReflection).parameters
+                            ?.length
+                    ) {
+                        delete (reflection.parent as SignatureReflection)
+                            .parameters;
+                    }
+                    break;
+                case TraverseProperty.SetSignature:
+                    delete parent.setSignature;
+                    break;
+                case TraverseProperty.Signatures:
+                    removeIfPresent(
+                        parent.signatures,
+                        reflection as SignatureReflection,
+                    );
+                    if (!parent.signatures?.length) {
+                        delete parent.signatures;
+                    }
+                    break;
+                case TraverseProperty.TypeLiteral:
+                    parent.type = new IntrinsicType("Object");
+                    break;
+                case TraverseProperty.TypeParameter:
+                    removeIfPresent(
+                        parent.typeParameters,
+                        reflection as TypeParameterReflection,
+                    );
+                    if (!parent.typeParameters?.length) {
+                        delete parent.typeParameters;
+                    }
+                    break;
+                default:
+                    assertNever(property);
             }
 
             return false; // Stop iteration

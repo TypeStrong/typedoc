@@ -129,8 +129,8 @@ export class TypePlugin extends ConverterComponent {
                 });
             }
 
-            let root!: DeclarationHierarchy;
-            let hierarchy!: DeclarationHierarchy;
+            let root: DeclarationHierarchy | undefined;
+            let hierarchy: DeclarationHierarchy | undefined;
             function push(types: Type[]) {
                 const level: DeclarationHierarchy = { types: types };
                 if (hierarchy) {
@@ -152,14 +152,14 @@ export class TypePlugin extends ConverterComponent {
                     project,
                 ),
             ]);
-            hierarchy.isTarget = true;
+            hierarchy!.isTarget = true;
 
             if (reflection.extendedBy) {
                 push(reflection.extendedBy);
             }
 
             // No point setting up a hierarchy if there is no hierarchy to display
-            if (root.next) {
+            if (root!.next) {
                 reflection.typeHierarchy = root;
             }
         });

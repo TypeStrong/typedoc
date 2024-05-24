@@ -9,6 +9,8 @@
 
 // Priority: Higher number makes the listener be called earlier.
 
+/* eslint-disable */
+
 const uniqueId = (function () {
     const prefixes: Record<string, number | undefined> = Object.create(null);
     return function (prefix: string) {
@@ -389,7 +391,7 @@ export class Event {
     /**
      * Has {@link Event.preventDefault} been called?
      */
-    get isDefaultPrevented(): boolean {
+    isDefaultPrevented(): boolean {
         return this._isDefaultPrevented;
     }
 }

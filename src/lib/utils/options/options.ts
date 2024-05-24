@@ -1,6 +1,7 @@
 import type * as ts from "typescript";
 import { ParameterType } from "./declaration";
 import type { NeverIfInternal } from "..";
+import { DefaultMap } from "../map";
 import type { Application } from "../../..";
 import { insertOrderSorted, unique } from "../array";
 import type { Logger } from "../loggers";
@@ -421,21 +422,19 @@ export class Options {
      * Discover similar option names to the given name, for use in error reporting.
      */
     getSimilarOptions(missingName: string): string[] {
-        const results: Record<number, string[]> = {};
+        const results = new DefaultMap<number, string[]>(() => []);
         let lowest = Infinity;
         for (const name of this._declarations.keys()) {
             const distance = editDistance(missingName, name);
             lowest = Math.min(lowest, distance);
-            results[distance] ||= [];
-            results[distance].push(name);
+            results.get(distance).push(name);
         }
 
         // Experimenting a bit, it seems an edit distance of 3 is roughly the
         // right metric for relevant "similar" results without showing obviously wrong suggestions
-        return results[lowest].concat(
-            results[lowest + 1] || [],
-            results[lowest + 2] || [],
-        );
+        return results
+            .get(lowest)
+            .concat(results.get(lowest + 1), results.get(lowest + 2));
     }
 
     /**
@@ -463,9 +462,7 @@ export function Option<K extends keyof TypeDocOptionMap>(name: K) {
             get(this: { application: Application } | { options: Options }) {
                 const options =
                     "options" in this ? this.options : this.application.options;
-                const value = options.getValue(name as keyof TypeDocOptions);
-
-                return value as TypeDocOptionValues[K];
+                return options.getValue(name);
             },
             set(_value: never) {
                 throw new Error(
@@ -493,6 +490,7 @@ function editDistance(s: string, t: string): number {
             let substitutionCost: number;
             if (s[i] === t[j]) {
                 substitutionCost = v0[j];
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             } else if (s[i]?.toUpperCase() === t[j]?.toUpperCase()) {
                 substitutionCost = v0[j] + 1;
             } else {

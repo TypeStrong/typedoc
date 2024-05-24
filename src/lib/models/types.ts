@@ -922,7 +922,7 @@ export class ReferenceType extends Type {
             symbol.flags & ts.SymbolFlags.TypeParameter
         );
 
-        const symbolPath = symbol?.declarations?.[0]
+        const symbolPath = symbol.declarations?.[0]
             ?.getSourceFile()
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
@@ -1018,7 +1018,7 @@ export class ReferenceType extends Type {
                 } else {
                     de.logger.warn(
                         de.application.i18n.serialized_project_referenced_0_not_part_of_project(
-                            obj.target.toString(),
+                            JSON.stringify(obj.target),
                         ),
                     );
                 }

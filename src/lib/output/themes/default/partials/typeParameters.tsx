@@ -8,7 +8,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
             <section class="tsd-panel">
                 <h4>{context.i18n.kind_plural_type_parameter()}</h4>
                 <ul class="tsd-type-parameter-list">
-                    {typeParameters?.map((item) => (
+                    {typeParameters.map((item) => (
                         <li>
                             <span>
                                 <a id={item.anchor} class="tsd-anchor"></a>

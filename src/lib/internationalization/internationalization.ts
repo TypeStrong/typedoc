@@ -60,6 +60,7 @@ export type TranslationProxy = {
 
 // If we're running in ts-node, then we need the TS source rather than
 // the compiled file.
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 const ext = process[Symbol.for("ts-node.register.instance") as never]
     ? "cts"
     : "cjs";
@@ -121,8 +122,7 @@ export class Internationalization {
     ): TranslatedString {
         return (
             this.allTranslations.get(this.application?.lang ?? "en").get(key) ??
-            translatable[key] ??
-            key
+            translatable[key]
         ).replace(/\{(\d+)\}/g, (_, index) => {
             return args[+index] ?? "(no placeholder)";
         }) as TranslatedString;

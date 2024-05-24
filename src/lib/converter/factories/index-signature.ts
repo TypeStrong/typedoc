@@ -17,7 +17,9 @@ export function convertIndexSignatures(context: Context, symbol: ts.Symbol) {
 
     for (const indexDeclaration of indexSymbol.getDeclarations() || []) {
         assert(ts.isIndexSignatureDeclaration(indexDeclaration));
-        const param = indexDeclaration.parameters[0];
+        const param = indexDeclaration.parameters[0] as
+            | ts.ParameterDeclaration
+            | undefined;
         assert(param && ts.isParameter(param));
         const index = new SignatureReflection(
             "__index",

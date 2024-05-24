@@ -46,7 +46,7 @@ export class ReflectionSymbolId {
         declaration?: ts.Declaration,
     ) {
         if ("name" in symbol) {
-            declaration ??= symbol?.declarations?.[0];
+            declaration ??= symbol.declarations?.[0];
             this.fileName = normalizePath(
                 declaration?.getSourceFile().fileName ?? "",
             );

@@ -3,8 +3,11 @@ import { Application } from "..";
 import { readdirSync } from "fs";
 import { join } from "path";
 
-describe("Internationalization", async () => {
-    const app = await Application.bootstrap({}, []);
+describe("Internationalization", () => {
+    let app: Application;
+    before(async () => {
+        app = await Application.bootstrap({}, []);
+    });
 
     afterEach(() => {
         app.options.reset();

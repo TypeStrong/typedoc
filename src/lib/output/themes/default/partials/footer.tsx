@@ -4,7 +4,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 export function footer(context: DefaultThemeRenderContext) {
     const hideGenerator = context.options.getValue("hideGenerator");
     let generatorDisplay = <></>;
-    if (hideGenerator === false) {
+    if (!hideGenerator) {
         const message = context.i18n.theme_generated_using_typedoc();
 
         // Only handles one occurrence, but that's all I expect...

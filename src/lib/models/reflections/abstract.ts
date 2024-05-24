@@ -161,7 +161,7 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(
             /(.)([A-Z])/g,
-            (_m, a, b) => a + " " + b.toLowerCase(),
+            (_m, a: string, b: string) => a + " " + b.toLowerCase(),
         );
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
@@ -391,7 +391,7 @@ export abstract class Reflection {
         if (!this._alias) {
             let alias = this.name.replace(/\W/g, "_");
             if (alias === "") {
-                alias = "reflection-" + this.id;
+                alias = `reflection-${this.id}`;
             }
             // NTFS/ExFAT use uppercase, so we will too. It probably won't matter
             // in this case since names will generally be valid identifiers, but to be safe...
@@ -478,7 +478,7 @@ export abstract class Reflection {
      * Check if this reflection or any of its parents have been marked with the `@deprecated` tag.
      */
     isDeprecated(): boolean {
-        let signaturesDeprecated = false;
+        let signaturesDeprecated = false as boolean;
         this.visit({
             declaration(decl) {
                 if (

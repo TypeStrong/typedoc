@@ -78,7 +78,7 @@ export class Slugger {
             count = this.seen.get(originalSlug)!;
             do {
                 count++;
-                slug = originalSlug + "-" + count;
+                slug = `${originalSlug}-${count}`;
             } while (this.seen.has(slug));
         }
         this.seen.set(originalSlug, count);
@@ -204,7 +204,7 @@ export class DefaultTheme extends Theme {
         const urls: UrlMapping[] = [];
         this.sluggers.set(project, new Slugger());
 
-        if (false == hasReadme(this.application.options.getValue("readme"))) {
+        if (!hasReadme(this.application.options.getValue("readme"))) {
             project.url = "index.html";
             urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
         } else if (project.children?.every((child) => child.kindOf(ReflectionKind.Module))) {
@@ -468,7 +468,7 @@ export class DefaultTheme extends Theme {
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
             const anchor = DefaultTheme.getUrl(reflection, container, ".");
 
-            reflection.url = container.url + "#" + anchor;
+            reflection.url = container.url! + "#" + anchor;
             reflection.anchor = anchor;
             reflection.hasOwnDocument = false;
         }

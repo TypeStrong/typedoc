@@ -99,7 +99,7 @@ comparisonSerializer.addSerializer({
         return x instanceof ReflectionCategory || x instanceof ReflectionGroup;
     },
     toObject(refl: ReflectionCategory | ReflectionGroup, obj: any) {
-        obj.children = refl.children?.map((c) => c.getFullName());
+        obj.children = refl.children.map((c) => c.getFullName());
         return obj;
     },
 });
@@ -128,7 +128,7 @@ comparisonSerializer.addSerializer({
     },
     toObject(project: ProjectReflection, obj: JSONOutput.ProjectReflection) {
         const idMap: Record<string, JSONOutput.ReflectionSymbolId> = {};
-        for (const [k, v] of Object.entries(obj.symbolIdMap!)) {
+        for (const [k, v] of Object.entries(obj.symbolIdMap || {})) {
             idMap[project.getReflectionById(+k)!.getFullName()] = v;
         }
         obj.symbolIdMap = idMap;

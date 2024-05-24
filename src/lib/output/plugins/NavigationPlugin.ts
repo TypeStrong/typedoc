@@ -18,7 +18,7 @@ export class NavigationPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented) {
+        if (event.isDefaultPrevented()) {
             return;
         }
 

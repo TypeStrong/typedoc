@@ -336,10 +336,7 @@ function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
  * ```
  */
 function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
-    while (
-        node.parent &&
-        node.parent.kind === ts.SyntaxKind.ModuleDeclaration
-    ) {
+    while (node.parent.kind === ts.SyntaxKind.ModuleDeclaration) {
         const parent = node.parent;
         if (node.name.pos === parent.name.end + 1) {
             node = parent;
@@ -352,6 +349,8 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
 }
 
 function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
+    // ts.SourceFile is a counterexample
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!node.parent) return node;
 
     // const abc = 123

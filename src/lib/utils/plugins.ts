@@ -13,7 +13,6 @@ export async function loadPlugins(
         const pluginDisplay = getPluginDisplayName(plugin);
 
         try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
             let instance: any;
             try {
                 instance = require(plugin);

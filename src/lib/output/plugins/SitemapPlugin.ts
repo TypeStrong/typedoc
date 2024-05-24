@@ -21,7 +21,7 @@ export class SitemapPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented || !this.hostedBaseUrl) {
+        if (event.isDefaultPrevented() || !this.hostedBaseUrl) {
             return;
         }
 

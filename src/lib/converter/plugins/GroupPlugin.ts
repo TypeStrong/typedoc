@@ -130,11 +130,11 @@ export class GroupPlugin extends ConverterComponent {
                 ) {
                     this.sortFunction(reflection.children);
                     this.sortFunction(reflection.documents || []);
-                    this.sortFunction(reflection.childrenIncludingDocuments!);
+                    this.sortFunction(reflection.childrenIncludingDocuments);
                 }
             } else if (reflection.documents) {
                 this.sortFunction(reflection.documents);
-                this.sortFunction(reflection.childrenIncludingDocuments!);
+                this.sortFunction(reflection.childrenIncludingDocuments);
             }
 
             reflection.groups = this.getReflectionGroups(
