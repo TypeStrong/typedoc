@@ -20,6 +20,7 @@ async function getApp() {
             name: "typedoc",
             excludeExternals: true,
             disableSources: false,
+            excludePrivate: false,
             tsconfig: path.join(base, "tsconfig.json"),
             externalPattern: ["**/node_modules/**"],
             entryPointStrategy: td.EntryPointStrategy.Expand,

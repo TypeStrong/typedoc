@@ -8,6 +8,8 @@
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
 -   Review JSDoc tags for other tags we should add to the default list of known block tags
+-   Add tests for all permutations of the inheritDoc tag to ensure it works fully.
+-   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
 
 ### Breaking Changes
 
@@ -18,6 +20,7 @@
 -   Updated Shiki from 0.14 to 1.x. This should mostly be a transparent update which adds another 23 supported languages and 13 supported themes.
     As Shiki adds additional languages, the time it takes to load the highlighter increases linearly. To avoid rendering taking longer than necessary,
     TypeDoc now only loads a few common languages. Additional languages can be loaded by setting the `--highlightLanguages` option.
+-   Changed default of `--excludePrivate` to `true`.
 -   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
 -   (WIP) Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.

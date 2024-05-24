@@ -146,6 +146,10 @@
         {
             "tagName": "@hideconstructor",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@jsx",
+            "syntaxKind": "block"
         }
     ]
 }

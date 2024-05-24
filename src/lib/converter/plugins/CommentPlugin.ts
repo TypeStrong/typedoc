@@ -46,6 +46,7 @@ const NEVER_RENDERED = [
     "@this",
     "@type",
     "@typedef",
+    "@jsx",
 ] as const;
 
 // We might make this user configurable at some point, but for now,

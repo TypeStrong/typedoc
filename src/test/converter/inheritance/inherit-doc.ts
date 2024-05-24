@@ -46,9 +46,9 @@ export interface InterfaceTarget<T> {
  *
  * Remarks will be inherited
  *
- * @customBlock
+ * @default
  *
- * This part of the commentary will not be inherited
+ * This part of the commentary will not be inherited (this is an abuse of this tag)
  *
  * @typeParam T - Type of arguments
  * @param arg1 - First argument

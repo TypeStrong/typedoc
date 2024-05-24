@@ -33,15 +33,6 @@
               {
                 "tag": "@deprecated",
                 "content": []
-              },
-              {
-                "tag": "@todo",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "something"
-                  }
-                ]
               }
             ]
           },
@@ -85,9 +76,9 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 39,
+                  "line": 38,
                   "character": 4,
-                  "url": "typedoc://comment.ts#L39"
+                  "url": "typedoc://comment.ts#L38"
                 }
               ],
               "type": {
@@ -104,9 +95,9 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 79,
+                  "line": 78,
                   "character": 4,
-                  "url": "typedoc://comment.ts#L79"
+                  "url": "typedoc://comment.ts#L78"
                 }
               ],
               "signatures": [
@@ -127,9 +118,9 @@
                   "sources": [
                     {
                       "fileName": "comment.ts",
-                      "line": 79,
+                      "line": 78,
                       "character": 4,
-                      "url": "typedoc://comment.ts#L79"
+                      "url": "typedoc://comment.ts#L78"
                     }
                   ],
                   "parameters": [
@@ -193,9 +184,9 @@
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 35,
+              "line": 34,
               "character": 13,
-              "url": "typedoc://comment.ts#L35"
+              "url": "typedoc://comment.ts#L34"
             }
           ]
         }

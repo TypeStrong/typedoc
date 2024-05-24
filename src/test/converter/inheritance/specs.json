@@ -359,11 +359,11 @@
                     ]
                   },
                   {
-                    "tag": "@customBlock",
+                    "tag": "@default",
                     "content": [
                       {
-                        "kind": "text",
-                        "text": "This part of the commentary will not be inherited"
+                        "kind": "code",
+                        "text": "```ts\nThis part of the commentary will not be inherited (this is an abuse of this tag)\n```"
                       }
                     ]
                   },

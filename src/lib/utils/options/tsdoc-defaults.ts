@@ -35,6 +35,7 @@ export const blockTags = [
     "@property",
     "@satisfies",
     "@import",
+    "@jsx",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;

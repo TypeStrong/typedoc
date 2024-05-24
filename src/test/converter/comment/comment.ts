@@ -25,7 +25,6 @@ import "./comment2";
  * }
  * ```
  * @deprecated
- * @todo something
  *
  * @type {Data<object>} will also be removed
  *

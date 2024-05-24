@@ -926,6 +926,7 @@ describe("Issue Tests", () => {
     });
 
     it("#2064", () => {
+        app.options.setValue("excludePrivate", false);
         const project = convert();
         query(project, "PrivateCtorDecl.x");
     });

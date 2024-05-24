@@ -213,6 +213,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludePrivate",
         help: (i18n) => i18n.help_excludePrivate(),
         type: ParameterType.Boolean,
+        defaultValue: true,
     });
     options.addDeclaration({
         name: "excludeProtected",
