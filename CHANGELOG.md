@@ -8,7 +8,6 @@
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
 -   Review JSDoc tags for other tags we should add to the default list of known block tags
--   Add tests for all permutations of the inheritDoc tag to ensure it works fully.
 -   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
 
 ### Breaking Changes

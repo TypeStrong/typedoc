@@ -7,10 +7,11 @@ import { lexLineComments } from "../lib/converter/comments/lineLexer";
 import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
 import { parseComment } from "../lib/converter/comments/parser";
 import { lexCommentString } from "../lib/converter/comments/rawLexer";
-import { Comment, CommentTag } from "../lib/models";
+import { Comment, CommentDisplayPart, CommentTag } from "../lib/models";
 import { MinimalSourceFile } from "../lib/utils/minimalSourceFile";
 import { TestLogger } from "./TestLogger";
 import { extractTagName } from "../lib/converter/comments/tagName";
+import { MediaRegistry } from "../lib/models/MediaRegistry";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);
@@ -1090,6 +1091,7 @@ describe("Comment Parser", () => {
     };
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
+        const media = new MediaRegistry();
         const logger = new TestLogger();
         const file = "/** @inheritdoc */";
         const content = lexBlockComment(file);
@@ -1098,6 +1100,7 @@ describe("Comment Parser", () => {
             config,
             new MinimalSourceFile(file, "<memory>"),
             logger,
+            media,
         );
 
         logger.expectMessage(
@@ -1108,6 +1111,7 @@ describe("Comment Parser", () => {
     });
 
     function getComment(text: string) {
+        const media = new MediaRegistry();
         const logger = new TestLogger();
         const content = lexBlockComment(text);
         const comment = parseComment(
@@ -1115,6 +1119,7 @@ describe("Comment Parser", () => {
             config,
             new MinimalSourceFile(text, "<memory>"),
             logger,
+            media,
         );
         logger.expectNoOtherMessages();
         return comment;
@@ -1252,6 +1257,47 @@ describe("Comment Parser", () => {
 
         equal(comment.blockTags, [tag]);
         equal(comment.modifierTags, new Set());
+    });
+
+    it("Recognizes markdown links", () => {
+        const comment = getComment(`/**
+            * [text](./relative.md) ![](image.png)
+            * Not relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com)
+            */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: "[text](" },
+            { kind: "relative-link", text: "./relative.md", target: 1 },
+            { kind: "text", text: ") ![](" },
+            { kind: "relative-link", text: "image.png", target: 2 },
+            {
+                kind: "text",
+                text: ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com)",
+            },
+        ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Recognizes markdown reference definition blocks", () => {
+        const comment = getComment(`/**
+            * [1]: ./example.md
+            * [2]:<./example with space>
+            * [3]: https://example.com
+            */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: "[1]: " },
+            { kind: "relative-link", text: "./example.md", target: 1 },
+            { kind: "text", text: "\n[2]:" },
+            {
+                kind: "relative-link",
+                text: "<./example with space>",
+                target: 2,
+            },
+            {
+                kind: "text",
+                text: "\n[3]: https://example.com",
+            },
+        ] satisfies CommentDisplayPart[]);
     });
 });
 

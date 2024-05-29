@@ -13,7 +13,8 @@ import { NonEnumerable } from "../../utils/general";
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
-    | InlineTagDisplayPart;
+    | InlineTagDisplayPart
+    | RelativeLinkDisplayPart;
 
 /**
  * The `@link`, `@linkcode`, and `@linkplain` tags may have a `target`
@@ -28,6 +29,26 @@ export interface InlineTagDisplayPart {
     text: string;
     target?: Reflection | string | ReflectionSymbolId;
     tsLinkText?: string;
+}
+
+/**
+ * This is used for relative links within comments/documents.
+ * It is used to mark pieces of text which need to be replaced
+ * to make links work properly.
+ */
+export interface RelativeLinkDisplayPart {
+    kind: "relative-link";
+    /**
+     * The original relative text from the parsed comment.
+     */
+    text: string;
+    /**
+     * If this is a {@link Reflection}, then it should be replaced with
+     * the relative path to the reflection's url. If it is a `number`,
+     * then the {@link ProjectReflection.media} can be used to retrieve
+     * the source path.
+     */
+    target: Reflection | number;
 }
 
 /**
@@ -113,6 +134,9 @@ export class Comment {
                 case "inline-tag":
                     result += `{${item.tag} ${item.text}}`;
                     break;
+                case "relative-link":
+                    result += `{rel:${typeof item.target == "number" ? item.target : item.target.getFullName()}}`;
+                    break;
                 default:
                     assertNever(item);
             }
@@ -197,6 +221,9 @@ export class Comment {
                             break;
                     }
                     break;
+                case "relative-link":
+                    // TODO GERRIT
+                    break;
                 default:
                     assertNever(part);
             }
@@ -247,6 +274,19 @@ export class Comment {
                         target,
                     };
                 }
+                case "relative-link": {
+                    if (typeof part.target === "number") {
+                        return {
+                            ...part,
+                            target: { media: part.target },
+                        };
+                    } else {
+                        return {
+                            ...part,
+                            target: { reflection: part.target.id },
+                        };
+                    }
+                }
             }
         });
     }
@@ -256,7 +296,10 @@ export class Comment {
         de: Deserializer,
         parts: JSONOutput.CommentDisplayPart[],
     ): CommentDisplayPart[] {
-        const links: [number, InlineTagDisplayPart][] = [];
+        const links: [
+            number,
+            InlineTagDisplayPart | RelativeLinkDisplayPart,
+        ][] = [];
 
         const result = parts.map((part): CommentDisplayPart => {
             switch (part.kind) {
@@ -297,6 +340,23 @@ export class Comment {
                         assertNever(part.target);
                     }
                 }
+                case "relative-link": {
+                    if ("media" in part.target) {
+                        return {
+                            kind: "relative-link",
+                            text: part.text,
+                            target: part.target.media,
+                        } satisfies RelativeLinkDisplayPart;
+                    } else {
+                        const part2 = {
+                            kind: "relative-link",
+                            text: part.text,
+                            target: null!,
+                        } satisfies RelativeLinkDisplayPart;
+                        links.push([part.target.reflection, part2]);
+                        return part2;
+                    }
+                }
             }
         });
 
@@ -335,6 +395,7 @@ export class Comment {
                 case "code":
                     return part.text.includes("\n");
                 case "inline-tag":
+                case "relative-link":
                     return false;
             }
         });
@@ -407,6 +468,7 @@ export class Comment {
     /**
      * Internal discovery ID used to prevent symbol comments from
      * being duplicated on signatures. Only set when the comment was created
+     * from a `ts.CommentRange`.
      * @internal
      */
     @NonEnumerable

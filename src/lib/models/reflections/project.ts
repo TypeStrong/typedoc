@@ -15,6 +15,7 @@ import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { DefaultMap, StableKeyMap } from "../../utils/map";
 import type { DocumentReflection } from "./document";
+import { MediaRegistry } from "../MediaRegistry";
 
 /**
  * A reflection that represents the root of the project.
@@ -64,6 +65,11 @@ export class ProjectReflection extends ContainerReflection {
      * The contents of the readme.md file of the project when found.
      */
     readme?: CommentDisplayPart[];
+
+    /**
+     * Object which describes where to find content for relative links.
+     */
+    readonly media = new MediaRegistry();
 
     constructor(name: string) {
         super(name, ReflectionKind.Project);

@@ -16,6 +16,8 @@ import type {
     TranslatedString,
     TranslationProxy,
 } from "../../internationalization/internationalization";
+import { MediaRegistry } from "../../models/MediaRegistry";
+import { textContent } from "./textParser";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -70,6 +72,7 @@ export function parseComment(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
+    media: MediaRegistry,
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
     const tok = lexer.done() || lexer.peek();
@@ -82,11 +85,12 @@ export function parseComment(
         config,
         logger.i18n,
         warningImpl,
+        media,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, config, logger.i18n, warningImpl),
+            blockTag(comment, lexer, config, logger.i18n, warningImpl, media),
         );
     }
 
@@ -344,6 +348,7 @@ function blockTag(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    media: MediaRegistry,
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -359,14 +364,21 @@ function blockTag(
 
     let content: CommentDisplayPart[];
     if (tagName === "@example") {
-        return exampleBlock(comment, lexer, config, i18n, warning);
+        return exampleBlock(comment, lexer, config, i18n, warning, media);
     } else if (
         ["@default", "@defaultValue"].includes(tagName) &&
         config.jsDocCompatibility.defaultTag
     ) {
-        content = defaultBlockContent(comment, lexer, config, i18n, warning);
+        content = defaultBlockContent(
+            comment,
+            lexer,
+            config,
+            i18n,
+            warning,
+            media,
+        );
     } else {
-        content = blockContent(comment, lexer, config, i18n, warning);
+        content = blockContent(comment, lexer, config, i18n, warning, media);
     }
 
     return new CommentTag(tagName as `@${string}`, content);
@@ -382,14 +394,23 @@ function defaultBlockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    media: MediaRegistry,
 ): CommentDisplayPart[] {
     lexer.mark();
-    const content = blockContent(comment, lexer, config, i18n, () => {});
+    const tempRegistry = new MediaRegistry();
+    const content = blockContent(
+        comment,
+        lexer,
+        config,
+        i18n,
+        () => {},
+        tempRegistry,
+    );
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
     if (content.some((part) => part.kind === "code")) {
-        return blockContent(comment, lexer, config, i18n, warning);
+        return blockContent(comment, lexer, config, i18n, warning, media);
     }
 
     const tokens: Token[] = [];
@@ -422,9 +443,18 @@ function exampleBlock(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    media: MediaRegistry,
 ): CommentTag {
     lexer.mark();
-    const content = blockContent(comment, lexer, config, i18n, () => {});
+    const tempRegistry = new MediaRegistry();
+    const content = blockContent(
+        comment,
+        lexer,
+        config,
+        i18n,
+        () => {},
+        tempRegistry,
+    );
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
@@ -471,7 +501,14 @@ function exampleBlock(
             }
         }
 
-        const content = blockContent(comment, lexer, config, i18n, warning);
+        const content = blockContent(
+            comment,
+            lexer,
+            config,
+            i18n,
+            warning,
+            media,
+        );
         const tag = new CommentTag("@example", content);
         if (exampleName.trim()) {
             tag.name = exampleName.trim();
@@ -520,6 +557,7 @@ function blockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    media: MediaRegistry,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true as boolean;
@@ -530,8 +568,19 @@ function blockContent(
 
         switch (next.kind) {
             case TokenSyntaxKind.NewLine:
-            case TokenSyntaxKind.Text:
                 content.push({ kind: "text", text: next.text });
+                break;
+
+            case TokenSyntaxKind.Text:
+                textContent(
+                    comment,
+                    next,
+                    i18n,
+                    warning,
+                    /*out*/ content,
+                    media,
+                    atNewLine,
+                );
                 break;
 
             case TokenSyntaxKind.Code:

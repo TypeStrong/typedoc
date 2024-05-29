@@ -396,7 +396,8 @@ export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }
-    | InlineTagDisplayPart;
+    | InlineTagDisplayPart
+    | RelativeLinkDisplayPart;
 
 /**
  * If `target` is a number, it is a reflection ID. If a string, it is a URL.
@@ -409,6 +410,20 @@ export interface InlineTagDisplayPart {
     text: string;
     target?: string | number | ReflectionSymbolId;
     tsLinkText?: string;
+}
+
+/**
+ * This is used for relative links within comments/documents.
+ * It is used to mark pieces of text which need to be replaced
+ * to make links work properly.
+ */
+export interface RelativeLinkDisplayPart {
+    kind: "relative-link";
+    /**
+     * The original relative text from the parsed comment.
+     */
+    text: string;
+    target: { reflection: number } | { media: number };
 }
 
 export interface SourceReference
