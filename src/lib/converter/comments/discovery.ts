@@ -10,6 +10,7 @@ const variablePropertyKinds = [
     ts.SyntaxKind.PropertySignature,
     ts.SyntaxKind.BinaryExpression,
     ts.SyntaxKind.PropertyAssignment,
+    ts.SyntaxKind.ShorthandPropertyAssignment,
     // class X { constructor(/** Comment */ readonly z: string) }
     ts.SyntaxKind.Parameter,
     // Variable values
@@ -43,6 +44,9 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportAssignment,
         ts.SyntaxKind.PropertyAccessExpression,
+        ts.SyntaxKind.PropertyDeclaration,
+        ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.ShorthandPropertyAssignment,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,
@@ -61,6 +65,9 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.VariableDeclaration,
         ts.SyntaxKind.ExportAssignment,
         ts.SyntaxKind.PropertyAccessExpression,
+        ts.SyntaxKind.PropertyDeclaration,
+        ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.ShorthandPropertyAssignment,
     ],
     [ReflectionKind.Class]: [
         ts.SyntaxKind.ClassDeclaration,

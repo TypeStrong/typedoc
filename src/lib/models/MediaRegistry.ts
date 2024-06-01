@@ -32,6 +32,7 @@ export class MediaRegistry {
         return this.nextId++;
     }
 
+    /** Called by {@link ProjectReflection.registerReflection} @internal*/
     registerReflection(absolute: string, reflection: Reflection) {
         absolute = normalizePath(absolute);
         const id = this.registerAbsolute(absolute);
@@ -106,12 +107,7 @@ export class MediaRegistry {
     fromObject(de: Deserializer, obj: JSONMediaRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            const existingId = this.pathToMedia.get(absolute);
-            if (existingId) return;
-
-            de.oldMediaToNewMedia[+key] = this.nextId;
-            this.mediaToPath.set(this.nextId, absolute);
-            this.pathToMedia.set(absolute, this.nextId++);
+            de.oldMediaToNewMedia[+key] = this.registerAbsolute(absolute);
         }
 
         de.defer((project) => {
@@ -145,9 +141,6 @@ export class ValidatingMediaRegistry extends MediaRegistry {
     override fromObject(de: Deserializer, obj: JSONMediaRegistry) {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            const existingId = this.pathToMedia.get(absolute);
-            if (existingId) return;
-
             if (!existsSync(absolute)) {
                 de.logger.warn(
                     de.logger.i18n.saved_relative_path_0_resolved_from_1_does_not_exist(
@@ -158,9 +151,7 @@ export class ValidatingMediaRegistry extends MediaRegistry {
                 continue;
             }
 
-            de.oldMediaToNewMedia[+key] = this.nextId;
-            this.mediaToPath.set(this.nextId, absolute);
-            this.pathToMedia.set(absolute, this.nextId++);
+            de.oldMediaToNewMedia[+key] = this.registerAbsolute(absolute);
         }
 
         de.defer((project) => {
@@ -172,6 +163,12 @@ export class ValidatingMediaRegistry extends MediaRegistry {
                     this.mediaToReflection.set(
                         de.oldMediaToNewMedia[+media]!,
                         refl,
+                    );
+                } else {
+                    de.logger.warn(
+                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                            reflId.toString(),
+                        ),
                     );
                 }
             }

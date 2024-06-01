@@ -4,10 +4,11 @@ import {
     DeclarationReflection,
     type ProjectReflection,
     Reflection,
-    type ReflectionKind,
+    ReflectionKind,
     type SignatureReflection,
 } from "..";
 import { filterMap } from "../lib/utils";
+import { equal } from "assert/strict";
 
 export function query(
     project: ProjectReflection,
@@ -67,4 +68,12 @@ export function getLinks(refl: Reflection): Array<{
             };
         }
     });
+}
+
+export function equalKind(refl: Reflection, kind: ReflectionKind) {
+    equal(
+        refl.kind,
+        kind,
+        `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]}`,
+    );
 }

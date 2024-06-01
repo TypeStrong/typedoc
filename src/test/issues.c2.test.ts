@@ -27,7 +27,14 @@ import {
     getConverter2Program,
 } from "./programs";
 import { TestLogger } from "./TestLogger";
-import { getComment, getLinks, getSigComment, query, querySig } from "./utils";
+import {
+    equalKind,
+    getComment,
+    getLinks,
+    getSigComment,
+    query,
+    querySig,
+} from "./utils";
 import { DefaultTheme, PageEvent } from "..";
 
 const base = getConverter2Base();
@@ -1525,5 +1532,23 @@ describe("Issue Tests", () => {
             "NotDefaultExport",
             "Incorrect qualified name",
         );
+    });
+
+    it("#2582 nested @namespace", () => {
+        const project = convert();
+
+        equalKind(query(project, "f32"), ReflectionKind.Namespace);
+        equalKind(query(project, "f32.a"), ReflectionKind.Namespace);
+        equalKind(query(project, "f32.a.member"), ReflectionKind.Variable);
+        equalKind(query(project, "f32.a.fn"), ReflectionKind.Function);
+        equalKind(query(project, "f32.b"), ReflectionKind.Namespace);
+        equalKind(query(project, "f32.b.member"), ReflectionKind.Reference); // Somewhat odd, but not wrong...
+        equalKind(query(project, "f32.b.fn"), ReflectionKind.Function);
+
+        equal(getComment(project, "f32"), "f32 comment");
+        equal(getComment(project, "f32.a"), "A comment");
+        equal(getComment(project, "f32.a.member"), "Member comment");
+        equal(getComment(project, "f32.a.fn"), "Fn comment");
+        equal(getComment(project, "f32.b"), "B comment");
     });
 });
