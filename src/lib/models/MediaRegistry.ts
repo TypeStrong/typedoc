@@ -95,7 +95,7 @@ export class MediaRegistry {
         };
 
         for (const [key, val] of this.mediaToPath.entries()) {
-            result.entries[key] = relative(ser.projectRoot, val);
+            result.entries[key] = normalizePath(relative(ser.projectRoot, val));
         }
         for (const [key, val] of this.mediaToReflection.entries()) {
             result.reflections[key] = val.id;
