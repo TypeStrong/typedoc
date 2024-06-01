@@ -1,9 +1,9 @@
 import { equal } from "assert";
 import { promises as fsp } from "fs";
-import { Application, createAppForTesting } from "../lib/application";
-import { ProjectReflection } from "../lib/models";
+import { type Application, createAppForTesting } from "../lib/application";
+import type { ProjectReflection } from "../lib/models";
 import { TestLogger } from "./TestLogger";
-import { ModelToObject } from "../lib/serialization/schema";
+import type { ModelToObject } from "../lib/serialization/schema";
 
 const fakeProject: ProjectReflection = {} as any;
 
@@ -18,8 +18,8 @@ const createProjectToObject = (
     warnings: number,
     errors: number,
 ) => (
-    value: ProjectReflection,
-    projectRoot: string,
+    _value: ProjectReflection,
+    _projectRoot: string,
 ): ModelToObject<ProjectReflection> => {
     repeat(warnings, (i: number) => logger.warn(`test warning ${i}`));
     repeat(errors, (i: number) => logger.error(`test error ${i}`));
@@ -136,8 +136,8 @@ describe("Application", function () {
         const originalFsWriteFile = fsp.writeFile;
         const originalMkdir = fsp.mkdir;
 
-        fsp.writeFile = (path, data) => Promise.resolve();
-        fsp.mkdir = (path, options) => Promise.resolve(undefined);
+        fsp.writeFile = (_path, _data) => Promise.resolve();
+        fsp.mkdir = (_path, _options) => Promise.resolve(undefined);
         
         const app: Application = createAppForTesting();
         const logger: TestLogger = new TestLogger();
