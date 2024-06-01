@@ -2,7 +2,7 @@ import markdown from "markdown-it";
 
 import { Component, ContextAwareRendererComponent } from "../components";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
-import { Option, type Logger, renderElement } from "../../utils";
+import { Option, type Logger, renderElement, assertNever } from "../../utils";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml, getTextContent } from "../../utils/html";
@@ -10,7 +10,7 @@ import type { DefaultTheme } from "..";
 import { Slugger } from "./default/DefaultTheme";
 import { anchorIcon } from "./default/partials/anchor-icon";
 import type { DefaultThemeRenderContext } from "..";
-import { Comment, type CommentDisplayPart } from "../../models";
+import { ReflectionKind, type CommentDisplayPart } from "../../models";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -98,7 +98,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     ) {
         let markdown = input;
         if (typeof markdown !== "string") {
-            markdown = Comment.displayPartsToMarkdown(markdown, context.urlTo, !!this.markdownItOptions["html"]);
+            markdown = this.displayPartsToMarkdown(page, context, markdown);
         }
 
         this.renderContext = context;
@@ -107,6 +107,91 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         this.owner.trigger(event);
         this.renderContext = null!;
         return event.parsedText;
+    }
+
+    private displayPartsToMarkdown(
+        page: PageEvent<any>,
+        context: DefaultThemeRenderContext,
+        parts: readonly CommentDisplayPart[],
+    ): string {
+        const useHtml = !!this.markdownItOptions["html"];
+        const result: string[] = [];
+
+        for (const part of parts) {
+            switch (part.kind) {
+                case "text":
+                case "code":
+                    result.push(part.text);
+                    break;
+                case "inline-tag":
+                    switch (part.tag) {
+                        case "@label":
+                        case "@inheritdoc": // Shouldn't happen
+                            break; // Not rendered.
+                        case "@link":
+                        case "@linkcode":
+                        case "@linkplain": {
+                            if (part.target) {
+                                let url: string | undefined;
+                                let kindClass: string | undefined;
+                                if (typeof part.target === "string") {
+                                    url = part.target;
+                                } else if ("id" in part.target) {
+                                    // No point in trying to resolve a ReflectionSymbolId at this point, we've already
+                                    // tried and failed during the resolution step.
+                                    url = context.urlTo(part.target);
+                                    kindClass = ReflectionKind.classString(part.target.kind);
+                                }
+
+                                if (useHtml) {
+                                    const text = part.tag === "@linkcode" ? `<code>${part.text}</code>` : part.text;
+                                    result.push(
+                                        url
+                                            ? `<a href="${url}"${kindClass ? ` class="${kindClass}"` : ""}>${text}</a>`
+                                            : part.text,
+                                    );
+                                } else {
+                                    const text = part.tag === "@linkcode" ? "`" + part.text + "`" : part.text;
+                                    result.push(url ? `[${text}](${url})` : text);
+                                }
+                            } else {
+                                result.push(part.text);
+                            }
+                            break;
+                        }
+                        default:
+                            // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
+                            // special rendering rules. Future capability. For now, just render their text.
+                            result.push(`{${part.tag} ${part.text}}`);
+                            break;
+                    }
+                    break;
+                case "relative-link":
+                    switch (typeof part.target) {
+                        case "number":
+                            const refl = page.project.media.resolve(part.target);
+                            if (typeof refl === "object") {
+                                result.push(context.urlTo(refl));
+                                break;
+                            }
+
+                            const mediaName = page.project.media.getName(part.target);
+                            if (mediaName) {
+                                result.push(context.relativeURL(`media/${mediaName}`));
+                                break;
+                            }
+                        // fall through
+                        case "undefined":
+                            result.push(part.text);
+                            break;
+                    }
+                    break;
+                default:
+                    assertNever(part);
+            }
+        }
+
+        return result.join("");
     }
 
     /**

@@ -362,5 +362,13 @@
       "sourceFileName": "src/test/converter/alias/alias.ts",
       "qualifiedName": "MergedCrossReference"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/alias/alias.ts"
+    },
+    "reflections": {
+      "1": 0
+    }
   }
 }

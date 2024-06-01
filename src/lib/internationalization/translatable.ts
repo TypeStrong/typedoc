@@ -59,6 +59,7 @@ export const translatable = {
     // comments/parser.ts
     multiple_type_parameters_on_template_tag_unsupported: `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment.`,
     failed_to_find_jsdoc_tag_for_name_0: `Failed to find JSDoc tag for {0} after parsing comment, please file a bug report.`,
+    relative_path_0_does_not_exist: `The relative path {0} does not exist.`,
 
     inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0:
         "An inline @inheritDoc tag should not appear within a block tag as it will not be processed in comment at {0}",
@@ -142,6 +143,7 @@ export const translatable = {
 
     // deserialization
     serialized_project_referenced_0_not_part_of_project: `Serialized project referenced reflection {0}, which was not a part of the project.`,
+    saved_relative_path_0_resolved_from_1_does_not_exist: `Serialized project referenced {0}, which does not exist relative to {1}.`,
 
     // options
     circular_reference_extends_0: `Circular reference encountered for "extends" field of {0}`,

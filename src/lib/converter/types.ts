@@ -360,7 +360,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
             signature,
             new ReflectionSymbolId(symbol, node),
         );
-        context.registerReflection(signature, void 0);
+        context.registerReflection(signature, undefined);
         const signatureCtx = rc.withScope(signature);
 
         reflection.signatures = [signature];

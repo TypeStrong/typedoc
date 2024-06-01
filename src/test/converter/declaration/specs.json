@@ -349,5 +349,17 @@
       "sourceFileName": "src/test/converter/declaration/external.d.ts",
       "qualifiedName": "ActionSet"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/declaration/declaration.d.ts",
+      "2": "src/test/converter/declaration/export-declaration.d.ts",
+      "3": "src/test/converter/declaration/external.d.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 7,
+      "3": 14
+    }
   }
 }

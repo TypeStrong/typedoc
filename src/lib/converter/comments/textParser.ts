@@ -6,15 +6,15 @@
  * @module
  */
 import { TranslationProxy, TranslatedString } from "../../internationalization";
-import { Comment, CommentDisplayPart } from "../../models";
+import type { CommentDisplayPart } from "../../models";
 import { MediaRegistry } from "../../models/MediaRegistry";
-import { Token } from "./lexer";
+import { Token, TokenSyntaxKind } from "./lexer";
 
 import MarkdownIt from "markdown-it";
 const MdHelpers = new MarkdownIt().helpers;
 
 interface TextParserData {
-    comment: Comment;
+    sourcePath: string;
     token: Token;
     pos: number;
     i18n: TranslationProxy;
@@ -26,7 +26,8 @@ interface TextParserData {
 interface RelativeLink {
     pos: number;
     end: number;
-    target: number;
+    /** May be undefined if the registry can't find this file */
+    target: number | undefined;
 }
 
 /**
@@ -37,7 +38,7 @@ interface RelativeLink {
  *
  */
 export function textContent(
-    comment: Comment,
+    sourcePath: string,
     token: Token,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
@@ -47,7 +48,7 @@ export function textContent(
 ) {
     let lastPartEnd = 0;
     const data: TextParserData = {
-        comment,
+        sourcePath,
         token,
         pos: 0,
         i18n,
@@ -67,7 +68,19 @@ export function textContent(
             target: ref.target,
         });
         lastPartEnd = ref.end;
-        data.pos = lastPartEnd;
+        data.pos = ref.end;
+        if (!ref.target) {
+            warning(
+                i18n.relative_path_0_does_not_exist(
+                    token.text.slice(ref.pos, ref.end),
+                ),
+                {
+                    kind: TokenSyntaxKind.Text,
+                    pos: ref.pos,
+                    text: token.text.slice(ref.pos, ref.end),
+                },
+            );
+        }
     }
 
     while (data.pos < token.text.length) {
@@ -103,7 +116,7 @@ export function textContent(
  *
  */
 function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
-    const { token, comment, media } = data;
+    const { token, sourcePath, media } = data;
 
     if (token.text[data.pos] === "[") {
         const labelEnd = findLabelEnd(token.text, data.pos + 1);
@@ -125,7 +138,7 @@ function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
                     return {
                         pos: labelEnd + 2,
                         end: link.pos,
-                        target: media.register(comment.sourcePath!, link.str),
+                        target: media.register(sourcePath, link.str),
                     };
                 }
 
@@ -146,7 +159,7 @@ function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
  * separating it from an above paragraph. For a first cut, this is good enough.
  */
 function checkReference(data: TextParserData): RelativeLink | undefined {
-    const { atNewLine, pos, token, media, comment } = data;
+    const { atNewLine, pos, token, media, sourcePath } = data;
 
     if (atNewLine) {
         let lookahead = pos;
@@ -177,10 +190,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                         return {
                             pos: lookahead,
                             end: link.pos,
-                            target: media.register(
-                                comment.sourcePath!,
-                                link.str,
-                            ),
+                            target: media.register(sourcePath, link.str),
                         };
                     }
 

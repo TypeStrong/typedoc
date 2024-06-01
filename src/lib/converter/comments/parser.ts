@@ -125,6 +125,7 @@ export function parseCommentString(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
+    media: MediaRegistry,
 ) {
     const suppressWarningsConfig: CommentParserConfig = {
         ...config,
@@ -139,6 +140,7 @@ export function parseCommentString(
     const content: CommentDisplayPart[] = [];
     const lexer = makeLookaheadGenerator(tokens);
 
+    let atNewLine = false;
     while (!lexer.done()) {
         let consume = true;
         const next = lexer.peek();
@@ -152,7 +154,15 @@ export function parseCommentString(
             case TokenSyntaxKind.Text:
             case TokenSyntaxKind.Tag:
             case TokenSyntaxKind.CloseBrace:
-                content.push({ kind: "text", text: next.text });
+                textContent(
+                    file.fileName,
+                    next,
+                    logger.i18n,
+                    (msg, token) => logger.warn(msg, token.pos, file),
+                    content,
+                    media,
+                    atNewLine,
+                );
                 break;
 
             case TokenSyntaxKind.Code:
@@ -174,6 +184,7 @@ export function parseCommentString(
                 assertNever(next.kind);
         }
 
+        atNewLine = next.kind === TokenSyntaxKind.NewLine;
         if (consume) {
             lexer.take();
         }
@@ -573,7 +584,7 @@ function blockContent(
 
             case TokenSyntaxKind.Text:
                 textContent(
-                    comment,
+                    comment.sourcePath!,
                     next,
                     i18n,
                     warning,

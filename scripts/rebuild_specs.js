@@ -106,6 +106,7 @@ function rebuildConverterTests(app, dirs) {
         for (const [file, before, after] of conversions) {
             const out = path.join(fullPath, `${file}.json`);
             if (fs.existsSync(out)) {
+                app.media = new td.ValidatingMediaRegistry();
                 td.resetReflectionID();
                 before(app);
                 const entry = getExpandedEntryPointsForPaths(

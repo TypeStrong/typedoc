@@ -69,11 +69,12 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Object which describes where to find content for relative links.
      */
-    readonly media = new MediaRegistry();
+    readonly media: MediaRegistry;
 
-    constructor(name: string) {
+    constructor(name: string, registry: MediaRegistry) {
         super(name, ReflectionKind.Project);
         this.reflections[this.id] = this;
+        this.media = registry;
     }
 
     /**
@@ -99,7 +100,11 @@ export class ProjectReflection extends ContainerReflection {
      * Registers the given reflection so that it can be quickly looked up by helper methods.
      * Should be called for *every* reflection added to the project.
      */
-    registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
+    registerReflection(
+        reflection: Reflection,
+        symbol: ts.Symbol | undefined,
+        mediaPath: string | undefined,
+    ) {
         this.referenceGraph = undefined;
         if (reflection.parent) {
             this.reflectionChildren
@@ -141,6 +146,10 @@ export class ProjectReflection extends ContainerReflection {
                     );
                 }
             }
+        }
+
+        if (mediaPath) {
+            this.media.registerReflection(mediaPath, reflection);
         }
     }
 
@@ -234,6 +243,8 @@ export class ProjectReflection extends ContainerReflection {
      * Remove a reflection without updating the parent reflection to remove references to the removed reflection.
      */
     private _removeReflection(reflection: Reflection) {
+        this.media.removeReflection(reflection);
+
         // Remove references pointing to this reflection
         const graph = this.getReferenceGraph();
         for (const id of graph.get(reflection.id) ?? []) {
@@ -374,6 +385,7 @@ export class ProjectReflection extends ContainerReflection {
             packageVersion: this.packageVersion,
             readme: Comment.serializeDisplayParts(serializer, this.readme),
             symbolIdMap,
+            media: serializer.toObject(this.media),
         };
     }
 
@@ -388,6 +400,7 @@ export class ProjectReflection extends ContainerReflection {
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
+        this.media.fromObject(de, obj.media);
 
         de.defer(() => {
             for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {

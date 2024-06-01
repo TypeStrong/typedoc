@@ -516,5 +516,13 @@
       "sourceFileName": "src/test/converter/enum/enum.ts",
       "qualifiedName": "ConstEnum.b"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/enum/enum.ts"
+    },
+    "reflections": {
+      "1": 0
+    }
   }
 }

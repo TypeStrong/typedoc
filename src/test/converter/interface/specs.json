@@ -3146,5 +3146,21 @@
       "sourceFileName": "src/test/converter/interface/merging.ts",
       "qualifiedName": "Base2.base2"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/interface/constructor-type.ts",
+      "2": "src/test/converter/interface/index-signature.ts",
+      "3": "src/test/converter/interface/interface-empty.ts",
+      "4": "src/test/converter/interface/interface-implementation.ts",
+      "5": "src/test/converter/interface/merging.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 14,
+      "3": 30,
+      "4": 38,
+      "5": 104
+    }
   }
 }

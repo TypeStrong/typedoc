@@ -1528,5 +1528,18 @@
       "sourceFileName": "src/test/converter/variables/literal.ts",
       "qualifiedName": "__object.literal2"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/variables/array.ts",
+      "2": "src/test/converter/variables/destructuring.ts",
+      "3": "src/test/converter/variables/literal.ts",
+      "4": "src/test/converter/variables/variable.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 15,
+      "3": 34
+    }
   }
 }

@@ -1,6 +1,5 @@
 import { assertNever, removeIf } from "../../utils";
 import type { Reflection } from "../reflections";
-import { ReflectionKind } from "../reflections/kind";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
 
 import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
@@ -43,12 +42,10 @@ export interface RelativeLinkDisplayPart {
      */
     text: string;
     /**
-     * If this is a {@link Reflection}, then it should be replaced with
-     * the relative path to the reflection's url. If it is a `number`,
-     * then the {@link ProjectReflection.media} can be used to retrieve
-     * the source path.
+     * A link to either some document outside of the project or a reflection.
+     * This may be `undefined` if the relative path does not exist.
      */
-    target: Reflection | number;
+    target: number | undefined;
 }
 
 /**
@@ -129,13 +126,11 @@ export class Comment {
             switch (item.kind) {
                 case "text":
                 case "code":
+                case "relative-link":
                     result += item.text;
                     break;
                 case "inline-tag":
                     result += `{${item.tag} ${item.text}}`;
-                    break;
-                case "relative-link":
-                    result += `{rel:${typeof item.target == "number" ? item.target : item.target.getFullName()}}`;
                     break;
                 default:
                     assertNever(item);
@@ -143,93 +138,6 @@ export class Comment {
         }
 
         return result;
-    }
-
-    /**
-     * Helper function to convert an array of comment display parts into markdown suitable for
-     * passing into markdown-it.
-     * @param urlTo - Used to resolve urls to any reflections linked to with `@link` tags..
-     * @param useHtml - If set, will produce `<a>` links which can be colored according to the reflection type they are pointed at.
-     */
-    static displayPartsToMarkdown(
-        parts: readonly CommentDisplayPart[],
-        urlTo: (ref: Reflection) => string,
-        useHtml: boolean,
-    ) {
-        const result: string[] = [];
-
-        for (const part of parts) {
-            switch (part.kind) {
-                case "text":
-                case "code":
-                    result.push(part.text);
-                    break;
-                case "inline-tag":
-                    switch (part.tag) {
-                        case "@label":
-                        case "@inheritdoc": // Shouldn't happen
-                            break; // Not rendered.
-                        case "@link":
-                        case "@linkcode":
-                        case "@linkplain": {
-                            if (part.target) {
-                                let url: string | undefined;
-                                let kindClass: string | undefined;
-                                if (typeof part.target === "string") {
-                                    url = part.target;
-                                } else if ("id" in part.target) {
-                                    // No point in trying to resolve a ReflectionSymbolId at this point, we've already
-                                    // tried and failed during the resolution step.
-                                    url = urlTo(part.target);
-                                    kindClass = ReflectionKind.classString(
-                                        part.target.kind,
-                                    );
-                                }
-
-                                if (useHtml) {
-                                    const text =
-                                        part.tag === "@linkcode"
-                                            ? `<code>${part.text}</code>`
-                                            : part.text;
-                                    result.push(
-                                        url
-                                            ? `<a href="${url}"${
-                                                  kindClass
-                                                      ? ` class="${kindClass}"`
-                                                      : ""
-                                              }>${text}</a>`
-                                            : part.text,
-                                    );
-                                } else {
-                                    const text =
-                                        part.tag === "@linkcode"
-                                            ? "`" + part.text + "`"
-                                            : part.text;
-                                    result.push(
-                                        url ? `[${text}](${url})` : text,
-                                    );
-                                }
-                            } else {
-                                result.push(part.text);
-                            }
-                            break;
-                        }
-                        default:
-                            // Hmm... probably want to be able to render these somehow, so custom inline tags can be given
-                            // special rendering rules. Future capability. For now, just render their text.
-                            result.push(`{${part.tag} ${part.text}}`);
-                            break;
-                    }
-                    break;
-                case "relative-link":
-                    // TODO GERRIT
-                    break;
-                default:
-                    assertNever(part);
-            }
-        }
-
-        return result.join("");
     }
 
     /**
@@ -281,10 +189,7 @@ export class Comment {
                             target: { media: part.target },
                         };
                     } else {
-                        return {
-                            ...part,
-                            target: { reflection: part.target.id },
-                        };
+                        return { ...part, target: undefined };
                     }
                 }
             }
@@ -300,6 +205,7 @@ export class Comment {
             number,
             InlineTagDisplayPart | RelativeLinkDisplayPart,
         ][] = [];
+        const media: [number, RelativeLinkDisplayPart][] = [];
 
         const result = parts.map((part): CommentDisplayPart => {
             switch (part.kind) {
@@ -341,27 +247,35 @@ export class Comment {
                     }
                 }
                 case "relative-link": {
-                    if ("media" in part.target) {
-                        return {
-                            kind: "relative-link",
-                            text: part.text,
-                            target: part.target.media,
-                        } satisfies RelativeLinkDisplayPart;
-                    } else {
-                        const part2 = {
-                            kind: "relative-link",
-                            text: part.text,
-                            target: null!,
-                        } satisfies RelativeLinkDisplayPart;
-                        links.push([part.target.reflection, part2]);
-                        return part2;
+                    if (part.target) {
+                        if ("media" in part.target) {
+                            const part2 = {
+                                kind: "relative-link",
+                                text: part.text,
+                                target: part.target.media,
+                            } satisfies RelativeLinkDisplayPart;
+                            media.push([part.target.media, part2]);
+                            return part2;
+                        } else {
+                            const part2 = {
+                                kind: "relative-link",
+                                text: part.text,
+                                target: null!,
+                            } satisfies RelativeLinkDisplayPart;
+                            links.push([part.target.reflection, part2]);
+                            return part2;
+                        }
                     }
+                    return { ...part, target: undefined };
                 }
             }
         });
 
-        if (links.length) {
+        if (links.length || media.length) {
             de.defer((project) => {
+                for (const [oldMedia, part] of media) {
+                    part.target = de.oldMediaToNewMedia[oldMedia]!; // GERRIT: Need to get rid of this assert, figure out how to handle null media
+                }
                 for (const [oldId, part] of links) {
                     part.target = project.getReflectionById(
                         de.oldIdToNewId[oldId] ?? -1,

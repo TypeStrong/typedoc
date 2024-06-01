@@ -3129,5 +3129,17 @@
       "sourceFileName": "src/test/converter/function/implicit-types.ts",
       "qualifiedName": "BreakpointRange.end"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/function/function.ts",
+      "2": "src/test/converter/function/generic-function.ts",
+      "3": "src/test/converter/function/implicit-types.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 93,
+      "3": 107
+    }
   }
 }

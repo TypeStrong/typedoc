@@ -1161,5 +1161,23 @@
       "sourceFileName": "src/test/converter/exports/mod.ts",
       "qualifiedName": "GH1453Helper"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/exports/export-assignment.ts",
+      "2": "src/test/converter/exports/export-default.ts",
+      "3": "src/test/converter/exports/export-with-local.ts",
+      "4": "src/test/converter/exports/export.ts",
+      "5": "src/test/converter/exports/mod.ts",
+      "6": "src/test/converter/exports/no-doc-members.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 6,
+      "3": 8,
+      "4": 14,
+      "5": 29,
+      "6": 38
+    }
   }
 }

@@ -2465,5 +2465,13 @@
       "sourceFileName": "src/test/converter/mixin/mixin.ts",
       "qualifiedName": "Base.baseMethod"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/mixin/mixin.ts"
+    },
+    "reflections": {
+      "1": 0
+    }
   }
 }

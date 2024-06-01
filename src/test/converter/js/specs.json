@@ -1202,5 +1202,15 @@
       "sourceFileName": "src/test/converter/js/index.js",
       "qualifiedName": "args"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/js/export-eq-type.js",
+      "2": "src/test/converter/js/index.js"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 6
+    }
   }
 }

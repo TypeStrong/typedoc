@@ -47,6 +47,7 @@ import {
     type TranslatedString,
 } from "./internationalization/internationalization";
 import { loadShikiMetadata } from "./utils/highlighter";
+import { ValidatingMediaRegistry, MediaRegistry } from "./models/MediaRegistry";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -62,7 +63,9 @@ const DETECTOR = Symbol();
 
 export function createAppForTesting(): Application {
     // @ts-expect-error private constructor
-    return new Application(DETECTOR);
+    const app: Application = new Application(DETECTOR);
+    app.media = new MediaRegistry();
+    return app;
 }
 
 const DEFAULT_READERS = [
@@ -126,6 +129,8 @@ export class Application extends ChildableComponent<
     i18n = this.internationalization.proxy;
 
     options = new Options(this.i18n);
+
+    media: MediaRegistry = new ValidatingMediaRegistry();
 
     /** @internal */
     @Option("lang")
@@ -687,6 +692,8 @@ export class Application extends ChildableComponent<
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
             projects,
+            process.cwd(),
+            this.media,
         );
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
@@ -734,6 +741,8 @@ export class Application extends ChildableComponent<
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name"),
             jsonProjects,
+            process.cwd(),
+            this.media,
         );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 

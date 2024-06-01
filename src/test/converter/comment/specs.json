@@ -609,5 +609,19 @@
       "sourceFileName": "src/test/converter/comment/comment4.ts",
       "qualifiedName": "b"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/comment/comment.ts",
+      "2": "src/test/converter/comment/comment2.ts",
+      "3": "src/test/converter/comment/comment3.ts",
+      "4": "src/test/converter/comment/comment4.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 26,
+      "3": 31,
+      "4": 36
+    }
   }
 }

@@ -222,7 +222,13 @@ export class Context {
         if (exportSymbol) {
             this.registerReflection(reflection, exportSymbol);
         }
-        this.registerReflection(reflection, symbol);
+
+        const path = reflection.kindOf(
+            ReflectionKind.Namespace | ReflectionKind.Module,
+        )
+            ? symbol?.declarations?.find(ts.isSourceFile)?.fileName
+            : undefined;
+        this.project.registerReflection(reflection, symbol, path);
     }
 
     finalizeDeclarationReflection(reflection: DeclarationReflection) {
@@ -255,7 +261,7 @@ export class Context {
      * @param symbol  The symbol the given reflection was resolved from.
      */
     registerReflection(reflection: Reflection, symbol: ts.Symbol | undefined) {
-        this.project.registerReflection(reflection, symbol);
+        this.project.registerReflection(reflection, symbol, void 0);
     }
 
     /**

@@ -2303,5 +2303,27 @@
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "ThirdType.thirdComplexProperty"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/types/general.ts",
+      "2": "src/test/converter/types/index-signature.ts",
+      "3": "src/test/converter/types/mapped.ts",
+      "4": "src/test/converter/types/parens.ts",
+      "5": "src/test/converter/types/query.ts",
+      "6": "src/test/converter/types/tuple.ts",
+      "7": "src/test/converter/types/type-operator.ts",
+      "8": "src/test/converter/types/union-or-intersection.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 13,
+      "3": 23,
+      "4": 36,
+      "5": 40,
+      "6": 43,
+      "7": 54,
+      "8": 62
+    }
   }
 }

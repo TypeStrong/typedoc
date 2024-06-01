@@ -37,6 +37,7 @@ import {
 import { insertPrioritySorted } from "../utils/array";
 import type { Logger } from "../utils/loggers";
 import type { JSONOutput } from "./index";
+import { MediaRegistry } from "../models/MediaRegistry";
 
 export interface DeserializerComponent {
     priority: number;
@@ -207,7 +208,13 @@ export class Deserializer {
         },
     };
 
+    /**
+     * Only set when deserializing.
+     */
+    projectRoot!: string;
+
     oldIdToNewId: Record<number, number | undefined> = {};
+    oldMediaToNewMedia: Record<number, number | undefined> = {};
     project: ProjectReflection | undefined;
 
     addDeserializer(de: DeserializerComponent): void {
@@ -221,16 +228,23 @@ export class Deserializer {
      */
     reviveProject(
         projectObj: JSONOutput.ProjectReflection,
-        name?: string,
+        name: string,
+        projectRoot: string,
+        registry: MediaRegistry,
     ): ProjectReflection {
         ok(
             this.deferred.length === 0,
             "Deserializer.defer was called when not deserializing",
         );
-        const project = new ProjectReflection(name || projectObj.name);
-        project.registerReflection(project);
+        const project = new ProjectReflection(
+            name || projectObj.name,
+            registry,
+        );
+        project.registerReflection(project, undefined, undefined);
         this.project = project;
+        this.projectRoot = projectRoot;
         this.oldIdToNewId = { [projectObj.id]: project.id };
+        this.oldMediaToNewMedia = {};
         this.fromObject(project, projectObj);
 
         const deferred = this.deferred;
@@ -250,20 +264,25 @@ export class Deserializer {
         );
 
         this.project = undefined;
+        this.projectRoot = undefined!;
         this.oldIdToNewId = {};
+        this.oldMediaToNewMedia = {};
         return project;
     }
 
     reviveProjects(
         name: string,
         projects: readonly JSONOutput.ProjectReflection[],
+        projectRoot: string,
+        registry: MediaRegistry,
     ): ProjectReflection {
         if (projects.length === 1) {
-            return this.reviveProject(projects[0], name);
+            return this.reviveProject(projects[0], name, projectRoot, registry);
         }
 
-        const project = new ProjectReflection(name);
+        const project = new ProjectReflection(name, registry);
         this.project = project;
+        this.projectRoot = projectRoot;
 
         for (const proj of projects) {
             ok(
@@ -276,9 +295,10 @@ export class Deserializer {
                 ReflectionKind.Module,
                 project,
             );
-            project.registerReflection(projModule);
+            project.registerReflection(projModule, undefined, undefined);
             project.addChild(projModule);
             this.oldIdToNewId = { [proj.id]: projModule.id };
+            this.oldMediaToNewMedia = {};
             this.fromObject(projModule, proj);
 
             const deferred = this.deferred;
@@ -298,7 +318,9 @@ export class Deserializer {
         }
 
         this.oldIdToNewId = {};
+        this.oldMediaToNewMedia = {};
         this.project = undefined;
+        this.projectRoot = undefined!;
         return project;
     }
 
@@ -359,7 +381,7 @@ export class Deserializer {
             obj as never,
         );
         this.oldIdToNewId[obj.id] = result.id;
-        this.project!.registerReflection(result);
+        this.project!.registerReflection(result, undefined, undefined);
 
         return result as any;
     }

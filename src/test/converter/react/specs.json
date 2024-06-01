@@ -277,5 +277,13 @@
       "sourceFileName": "src/test/converter/react/react.tsx",
       "qualifiedName": "Demo.render"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/react/react.tsx"
+    },
+    "reflections": {
+      "1": 0
+    }
   }
 }

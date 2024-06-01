@@ -3,6 +3,7 @@
 import * as T from "../../lib/models/types";
 import { strictEqual as equal } from "assert";
 import { ProjectReflection } from "../../lib/models";
+import { MediaRegistry } from "../../lib/models/MediaRegistry";
 
 describe("Type.toString", () => {
     describe("Union types", () => {
@@ -262,7 +263,7 @@ describe("Type.toString", () => {
         });
 
         it("Does not wrap type query", () => {
-            const project = new ProjectReflection("test");
+            const project = new ProjectReflection("test", new MediaRegistry());
             const type = new T.OptionalType(
                 new T.QueryType(
                     T.ReferenceType.createResolvedReference("X", -1, project),
@@ -283,7 +284,7 @@ describe("Type.toString", () => {
 
     describe("Type operator", () => {
         it("Does not wrap type query", () => {
-            const project = new ProjectReflection("test");
+            const project = new ProjectReflection("test", new MediaRegistry());
             const type = new T.TypeOperatorType(
                 new T.QueryType(
                     T.ReferenceType.createResolvedReference("X", -1, project),

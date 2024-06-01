@@ -23,6 +23,10 @@ import {
     getConverterBase,
     getConverterProgram,
 } from "./programs";
+import {
+    MediaRegistry,
+    ValidatingMediaRegistry,
+} from "../lib/models/MediaRegistry";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -136,6 +140,16 @@ comparisonSerializer.addSerializer({
         return obj;
     },
 });
+comparisonSerializer.addSerializer({
+    priority: -1,
+    supports(obj) {
+        return obj instanceof MediaRegistry;
+    },
+    toObject(_media: MediaRegistry, obj: JSONOutput.MediaRegistry) {
+        obj.reflections = {};
+        return obj;
+    },
+});
 
 describe("Converter", function () {
     const base = getConverterBase();
@@ -187,6 +201,7 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
+                    app.media = new ValidatingMediaRegistry();
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],
@@ -217,7 +232,12 @@ describe("Converter", function () {
                 });
 
                 it(`[${file}] round trips revival`, () => {
-                    const revived = app.deserializer.reviveProject(specs);
+                    const revived = app.deserializer.reviveProject(
+                        specs,
+                        specs.name,
+                        process.cwd(),
+                        new MediaRegistry(),
+                    );
                     const specs2 = JSON.parse(
                         JSON.stringify(
                             comparisonSerializer.projectToObject(

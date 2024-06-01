@@ -1131,5 +1131,15 @@
       "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
       "qualifiedName": "My.instanceProp"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/inheritance/inherit-doc.ts",
+      "2": "src/test/converter/inheritance/mergable-class.ts"
+    },
+    "reflections": {
+      "1": 1,
+      "2": 24
+    }
   }
 }

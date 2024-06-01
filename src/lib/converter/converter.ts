@@ -47,6 +47,7 @@ import {
     type DeclarationReference,
 } from "./comments/declarationReference";
 import { basename, dirname, resolve } from "path";
+import { MediaRegistry } from "../models/MediaRegistry";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -243,6 +244,7 @@ export class Converter extends ChildableComponent<
 
         const project = new ProjectReflection(
             this.application.options.getValue("name"),
+            this.application.media,
         );
         const context = new Context(this, programs, project);
 
@@ -266,7 +268,10 @@ export class Converter extends ChildableComponent<
         );
         for (const { displayName, path } of projectDocuments) {
             const file = new MinimalSourceFile(readFile(path), path);
-            const { content, frontmatter } = this.parseRawComment(file);
+            const { content, frontmatter } = this.parseRawComment(
+                file,
+                project.media,
+            );
             const docRefl = new DocumentReflection(
                 displayName,
                 project,
@@ -274,7 +279,7 @@ export class Converter extends ChildableComponent<
                 frontmatter,
             );
             project.addChild(docRefl);
-            project.registerReflection(docRefl);
+            project.registerReflection(docRefl, undefined, path);
         }
     }
 
@@ -304,12 +309,13 @@ export class Converter extends ChildableComponent<
     /**
      * Parse the given file into a comment. Intended to be used with markdown files.
      */
-    parseRawComment(file: MinimalSourceFile) {
+    parseRawComment(file: MinimalSourceFile, media: MediaRegistry) {
         return parseCommentString(
             lexCommentString(file.text),
             this.config,
             file,
             this.application.logger,
+            media,
         );
     }
 
@@ -426,7 +432,11 @@ export class Converter extends ChildableComponent<
         if (createModuleReflections === false) {
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
-            context.project.registerReflection(context.project, symbol);
+            context.project.registerReflection(
+                context.project,
+                symbol,
+                entryPoint.sourceFile.fileName,
+            );
             context.project.comment = symbol
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
@@ -452,6 +462,7 @@ export class Converter extends ChildableComponent<
                 const readme = readFile(entryPoint.readmeFile);
                 const { content } = this.parseRawComment(
                     new MinimalSourceFile(readme, entryPoint.readmeFile),
+                    context.project.media,
                 );
                 reflection.readme = content;
             }
@@ -564,7 +575,10 @@ export class Converter extends ChildableComponent<
                     continue;
                 }
 
-                const { content, frontmatter } = this.parseRawComment(file);
+                const { content, frontmatter } = this.parseRawComment(
+                    file,
+                    reflection.project.media,
+                );
                 const docRefl = new DocumentReflection(
                     basename(file.fileName).replace(/\.[^.]+$/, ""),
                     parent,
@@ -572,7 +586,11 @@ export class Converter extends ChildableComponent<
                     frontmatter,
                 );
                 parent.addChild(docRefl);
-                parent.project.registerReflection(docRefl);
+                parent.project.registerReflection(
+                    docRefl,
+                    undefined,
+                    file.fileName,
+                );
             }
         }
     }

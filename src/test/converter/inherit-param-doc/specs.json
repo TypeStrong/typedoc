@@ -667,5 +667,13 @@
       "sourceFileName": "src/test/converter/inherit-param-doc/inherit-param-doc.ts",
       "qualifiedName": "c"
     }
+  },
+  "media": {
+    "entries": {
+      "1": "src/test/converter/inherit-param-doc/inherit-param-doc.ts"
+    },
+    "reflections": {
+      "1": 0
+    }
   }
 }
