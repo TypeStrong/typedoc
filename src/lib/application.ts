@@ -531,8 +531,7 @@ export class Application extends ChildableComponent<
             this.logger.error(this._getStatMessage());
         } else if (this.logger.hasWarnings()) {
             this.logger.warn(this._getStatMessage());
-        }     
-
+        }
 
         if (this.logger.hasErrors()) {
             this.logger.error(
@@ -724,6 +723,8 @@ export class Application extends ChildableComponent<
      */
     private _getStatMessage(): string {
         const { errorCount, warningCount } = this.logger;
-        return `Found: ${errorCount} error${errorCount === 1 ? '' : 's'}, ${warningCount} warning${warningCount === 1 ? '' : 's'}.`;
+        return `Found: ${errorCount} error${
+            errorCount === 1 ? "" : "s"
+        }, ${warningCount} warning${warningCount === 1 ? "" : "s"}.`;
     }
 }
