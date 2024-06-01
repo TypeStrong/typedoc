@@ -126,7 +126,7 @@ export class Application extends ChildableComponent<
     /**
      * The version number of TypeDoc.
      */
-    static VERSION = packageInfo.version;
+    static readonly VERSION = packageInfo.version;
 
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
@@ -525,6 +525,15 @@ export class Application extends ChildableComponent<
         const start = Date.now();
         out = Path.resolve(out);
         await this.renderer.render(project, out);
+
+        // Generate a message summarizing the number of errors and warnings if there are any
+        if (this.logger.hasErrors()) {
+            this.logger.error(this._getStatMessage());
+        } else if (this.logger.hasWarnings()) {
+            this.logger.warn(this._getStatMessage());
+        }     
+
+
         if (this.logger.hasErrors()) {
             this.logger.error(
                 "Documentation could not be generated due to the errors above.",
@@ -551,6 +560,12 @@ export class Application extends ChildableComponent<
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
+
+        if (this.logger.hasErrors()) {
+            this.logger.error(this._getStatMessage());
+        } else if (this.logger.hasWarnings()) {
+            this.logger.warn(this._getStatMessage());
+        }
         this.logger.info(`JSON written to ${nicePath(out)}`);
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }
@@ -700,5 +715,13 @@ export class Application extends ChildableComponent<
 
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
+    }
+
+    /**
+     * Generate a string with the number of errors and warnings found.
+     */
+    private _getStatMessage(): string {
+        const { errorCount, warningCount } = this.logger;
+        return `Found: ${errorCount} error${errorCount === 1 ? '' : 's'}, ${warningCount} warning${warningCount === 1 ? '' : 's'}.`;
     }
 }
