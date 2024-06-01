@@ -610,7 +610,7 @@
       "qualifiedName": "b"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/comment/comment.ts",
       "2": "src/test/converter/comment/comment2.ts",

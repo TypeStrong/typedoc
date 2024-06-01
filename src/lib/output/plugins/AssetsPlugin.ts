@@ -56,9 +56,9 @@ export class AssetsPlugin extends RendererComponent {
             writeFileSync(join(dest, "highlight.css"), getStyles());
 
             const media = join(event.outputDirectory, "media");
-            const toCopy = event.project.media.getNameToAbsoluteMap();
-            for (const [mediaName, absolute] of toCopy.entries()) {
-                copySync(absolute, join(media, mediaName));
+            const toCopy = event.project.files.getNameToAbsoluteMap();
+            for (const [fileName, absolute] of toCopy.entries()) {
+                copySync(absolute, join(media, fileName));
             }
         }
     }

@@ -1162,7 +1162,7 @@
       "qualifiedName": "GH1453Helper"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/exports/export-assignment.ts",
       "2": "src/test/converter/exports/export-default.ts",

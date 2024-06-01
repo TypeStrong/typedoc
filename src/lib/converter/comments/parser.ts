@@ -72,7 +72,7 @@ export function parseComment(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
     const tok = lexer.done() || lexer.peek();
@@ -85,12 +85,12 @@ export function parseComment(
         config,
         logger.i18n,
         warningImpl,
-        media,
+        files,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, config, logger.i18n, warningImpl, media),
+            blockTag(comment, lexer, config, logger.i18n, warningImpl, files),
         );
     }
 
@@ -125,7 +125,7 @@ export function parseCommentString(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
-    media: FileRegistry,
+    files: FileRegistry,
 ) {
     const suppressWarningsConfig: CommentParserConfig = {
         ...config,
@@ -160,7 +160,7 @@ export function parseCommentString(
                     logger.i18n,
                     (msg, token) => logger.warn(msg, token.pos, file),
                     content,
-                    media,
+                    files,
                     atNewLine,
                 );
                 break;
@@ -359,7 +359,7 @@ function blockTag(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: FileRegistry,
+    files: FileRegistry,
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -375,7 +375,7 @@ function blockTag(
 
     let content: CommentDisplayPart[];
     if (tagName === "@example") {
-        return exampleBlock(comment, lexer, config, i18n, warning, media);
+        return exampleBlock(comment, lexer, config, i18n, warning, files);
     } else if (
         ["@default", "@defaultValue"].includes(tagName) &&
         config.jsDocCompatibility.defaultTag
@@ -386,10 +386,10 @@ function blockTag(
             config,
             i18n,
             warning,
-            media,
+            files,
         );
     } else {
-        content = blockContent(comment, lexer, config, i18n, warning, media);
+        content = blockContent(comment, lexer, config, i18n, warning, files);
     }
 
     return new CommentTag(tagName as `@${string}`, content);
@@ -405,7 +405,7 @@ function defaultBlockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: FileRegistry,
+    files: FileRegistry,
 ): CommentDisplayPart[] {
     lexer.mark();
     const tempRegistry = new FileRegistry();
@@ -421,7 +421,7 @@ function defaultBlockContent(
     lexer.release();
 
     if (content.some((part) => part.kind === "code")) {
-        return blockContent(comment, lexer, config, i18n, warning, media);
+        return blockContent(comment, lexer, config, i18n, warning, files);
     }
 
     const tokens: Token[] = [];
@@ -454,7 +454,7 @@ function exampleBlock(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: FileRegistry,
+    files: FileRegistry,
 ): CommentTag {
     lexer.mark();
     const tempRegistry = new FileRegistry();
@@ -518,7 +518,7 @@ function exampleBlock(
             config,
             i18n,
             warning,
-            media,
+            files,
         );
         const tag = new CommentTag("@example", content);
         if (exampleName.trim()) {
@@ -568,7 +568,7 @@ function blockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: FileRegistry,
+    files: FileRegistry,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true as boolean;
@@ -589,7 +589,7 @@ function blockContent(
                     i18n,
                     warning,
                     /*out*/ content,
-                    media,
+                    files,
                     atNewLine,
                 );
                 break;

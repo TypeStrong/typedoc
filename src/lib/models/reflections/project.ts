@@ -69,12 +69,12 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Object which describes where to find content for relative links.
      */
-    readonly media: FileRegistry;
+    readonly files: FileRegistry;
 
     constructor(name: string, registry: FileRegistry) {
         super(name, ReflectionKind.Project);
         this.reflections[this.id] = this;
-        this.media = registry;
+        this.files = registry;
     }
 
     /**
@@ -103,7 +103,7 @@ export class ProjectReflection extends ContainerReflection {
     registerReflection(
         reflection: Reflection,
         symbol: ts.Symbol | undefined,
-        mediaPath: string | undefined,
+        filePath: string | undefined,
     ) {
         this.referenceGraph = undefined;
         if (reflection.parent) {
@@ -148,8 +148,8 @@ export class ProjectReflection extends ContainerReflection {
             }
         }
 
-        if (mediaPath) {
-            this.media.registerReflection(mediaPath, reflection);
+        if (filePath) {
+            this.files.registerReflection(filePath, reflection);
         }
     }
 
@@ -243,7 +243,7 @@ export class ProjectReflection extends ContainerReflection {
      * Remove a reflection without updating the parent reflection to remove references to the removed reflection.
      */
     private _removeReflection(reflection: Reflection) {
-        this.media.removeReflection(reflection);
+        this.files.removeReflection(reflection);
 
         // Remove references pointing to this reflection
         const graph = this.getReferenceGraph();
@@ -385,7 +385,7 @@ export class ProjectReflection extends ContainerReflection {
             packageVersion: this.packageVersion,
             readme: Comment.serializeDisplayParts(serializer, this.readme),
             symbolIdMap,
-            media: serializer.toObject(this.media),
+            files: serializer.toObject(this.files),
         };
     }
 
@@ -400,7 +400,7 @@ export class ProjectReflection extends ContainerReflection {
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
-        this.media.fromObject(de, obj.media);
+        this.files.fromObject(de, obj.files);
 
         de.defer(() => {
             for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {

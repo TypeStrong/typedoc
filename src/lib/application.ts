@@ -64,7 +64,7 @@ const DETECTOR = Symbol();
 export function createAppForTesting(): Application {
     // @ts-expect-error private constructor
     const app: Application = new Application(DETECTOR);
-    app.media = new FileRegistry();
+    app.files = new FileRegistry();
     return app;
 }
 
@@ -130,7 +130,7 @@ export class Application extends ChildableComponent<
 
     options = new Options(this.i18n);
 
-    media: FileRegistry = new ValidatingFileRegistry();
+    files: FileRegistry = new ValidatingFileRegistry();
 
     /** @internal */
     @Option("lang")
@@ -693,7 +693,7 @@ export class Application extends ChildableComponent<
             this.options.getValue("name") || "Documentation",
             projects,
             process.cwd(),
-            this.media,
+            this.files,
         );
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
@@ -742,7 +742,7 @@ export class Application extends ChildableComponent<
             this.options.getValue("name"),
             jsonProjects,
             process.cwd(),
-            this.media,
+            this.files,
         );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 

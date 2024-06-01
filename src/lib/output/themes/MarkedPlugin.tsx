@@ -169,15 +169,15 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 case "relative-link":
                     switch (typeof part.target) {
                         case "number": {
-                            const refl = page.project.media.resolve(part.target);
+                            const refl = page.project.files.resolve(part.target);
                             if (typeof refl === "object") {
                                 result.push(context.urlTo(refl));
                                 break;
                             }
 
-                            const mediaName = page.project.media.getName(part.target);
-                            if (mediaName) {
-                                result.push(context.relativeURL(`media/${mediaName}`));
+                            const fileName = page.project.files.getName(part.target);
+                            if (fileName) {
+                                result.push(context.relativeURL(`media/${fileName}`));
                                 break;
                             }
                         }

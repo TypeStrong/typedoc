@@ -1203,7 +1203,7 @@
       "qualifiedName": "args"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/js/export-eq-type.js",
       "2": "src/test/converter/js/index.js"

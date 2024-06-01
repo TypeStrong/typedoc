@@ -1529,7 +1529,7 @@
       "qualifiedName": "__object.literal2"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/variables/array.ts",
       "2": "src/test/converter/variables/destructuring.ts",

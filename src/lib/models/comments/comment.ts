@@ -183,14 +183,9 @@ export class Comment {
                     };
                 }
                 case "relative-link": {
-                    if (typeof part.target === "number") {
-                        return {
-                            ...part,
-                            target: { media: part.target },
-                        };
-                    } else {
-                        return { ...part, target: undefined };
-                    }
+                    return {
+                        ...part,
+                    };
                 }
             }
         });
@@ -205,7 +200,7 @@ export class Comment {
             number,
             InlineTagDisplayPart | RelativeLinkDisplayPart,
         ][] = [];
-        const media: [number, RelativeLinkDisplayPart][] = [];
+        const files: [number, RelativeLinkDisplayPart][] = [];
 
         const result = parts.map((part): CommentDisplayPart => {
             switch (part.kind) {
@@ -249,33 +244,23 @@ export class Comment {
                 }
                 case "relative-link": {
                     if (part.target) {
-                        if ("media" in part.target) {
-                            const part2 = {
-                                kind: "relative-link",
-                                text: part.text,
-                                target: part.target.media,
-                            } satisfies RelativeLinkDisplayPart;
-                            media.push([part.target.media, part2]);
-                            return part2;
-                        } else {
-                            const part2 = {
-                                kind: "relative-link",
-                                text: part.text,
-                                target: null!,
-                            } satisfies RelativeLinkDisplayPart;
-                            links.push([part.target.reflection, part2]);
-                            return part2;
-                        }
+                        const part2 = {
+                            kind: "relative-link",
+                            text: part.text,
+                            target: null!,
+                        } satisfies RelativeLinkDisplayPart;
+                        files.push([part.target, part2]);
+                        return part2;
                     }
                     return { ...part, target: undefined };
                 }
             }
         });
 
-        if (links.length || media.length) {
+        if (links.length || files.length) {
             de.defer((project) => {
-                for (const [oldMedia, part] of media) {
-                    part.target = de.oldMediaToNewMedia[oldMedia];
+                for (const [oldFileId, part] of files) {
+                    part.target = de.oldFileIdToNewFileId[oldFileId];
                 }
                 for (const [oldId, part] of links) {
                     part.target = project.getReflectionById(

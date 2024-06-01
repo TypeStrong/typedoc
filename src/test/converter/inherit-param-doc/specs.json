@@ -668,7 +668,7 @@
       "qualifiedName": "c"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/inherit-param-doc/inherit-param-doc.ts"
     },

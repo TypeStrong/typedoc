@@ -278,7 +278,7 @@
       "qualifiedName": "Demo.render"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/react/react.tsx"
     },

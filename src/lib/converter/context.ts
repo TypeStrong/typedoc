@@ -290,7 +290,7 @@ export class Context {
             this.logger,
             this.converter.commentStyle,
             this.converter.useTsLinkResolution ? this.checker : undefined,
-            this.project.media,
+            this.project.files,
         );
     }
 
@@ -302,7 +302,7 @@ export class Context {
             this.logger,
             this.converter.commentStyle,
             this.converter.useTsLinkResolution ? this.checker : undefined,
-            this.project.media,
+            this.project.files,
         );
     }
 
@@ -313,7 +313,7 @@ export class Context {
             this.logger,
             this.converter.commentStyle,
             this.converter.useTsLinkResolution ? this.checker : undefined,
-            this.project.media,
+            this.project.files,
         );
     }
 
@@ -330,7 +330,7 @@ export class Context {
             this.converter.config,
             this.logger,
             this.converter.useTsLinkResolution ? this.checker : undefined,
-            this.project.media,
+            this.project.files,
         );
     }
 
@@ -343,7 +343,7 @@ export class Context {
             this.logger,
             this.converter.commentStyle,
             this.converter.useTsLinkResolution ? this.checker : undefined,
-            this.project.media,
+            this.project.files,
         );
     }
 

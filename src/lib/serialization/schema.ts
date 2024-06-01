@@ -79,7 +79,7 @@ type _ModelToObject<T> =
                                         : T extends M.SourceReference
                                           ? SourceReference
                                           : T extends M.FileRegistry
-                                            ? MediaRegistry
+                                            ? FileRegistry
                                             : never;
 
 type Primitive = string | number | undefined | null | boolean;
@@ -212,7 +212,7 @@ export interface ProjectReflection
     symbolIdMap:
         | Record<number, ReflectionSymbolId>
         | IfInternal<undefined, never>;
-    media: MediaRegistry;
+    files: FileRegistry;
 }
 
 /** @category Reflections */
@@ -426,15 +426,18 @@ export interface RelativeLinkDisplayPart {
      * The original relative text from the parsed comment.
      */
     text: string;
-    target?: { reflection: number } | { media: number };
+    /**
+     * File ID, if present
+     */
+    target?: number;
 }
 
 export interface SourceReference
     extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
 
-export interface MediaRegistry {
+export interface FileRegistry {
     /** Relative path according to the serialization root */
     entries: Record<number, string>;
-    /** Media ID to reflection ID */
+    /** File ID to reflection ID */
     reflections: Record<number, number>;
 }

@@ -1,6 +1,6 @@
 import { basename, dirname, parse, relative, resolve } from "path";
 import type { Deserializer, Serializer } from "../serialization";
-import type { MediaRegistry as JSONMediaRegistry } from "../serialization/schema";
+import type { FileRegistry as JSONMediaRegistry } from "../serialization/schema";
 import { normalizePath } from "../utils";
 import { existsSync } from "fs";
 import type { Reflection } from "./reflections";
@@ -107,7 +107,7 @@ export class FileRegistry {
     fromObject(de: Deserializer, obj: JSONMediaRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            de.oldMediaToNewMedia[+key] = this.registerAbsolute(absolute);
+            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute);
         }
 
         de.defer((project) => {
@@ -117,7 +117,7 @@ export class FileRegistry {
                 );
                 if (refl) {
                     this.mediaToReflection.set(
-                        de.oldMediaToNewMedia[+media]!,
+                        de.oldFileIdToNewFileId[+media]!,
                         refl,
                     );
                 }
@@ -151,7 +151,7 @@ export class ValidatingFileRegistry extends FileRegistry {
                 continue;
             }
 
-            de.oldMediaToNewMedia[+key] = this.registerAbsolute(absolute);
+            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute);
         }
 
         de.defer((project) => {
@@ -161,7 +161,7 @@ export class ValidatingFileRegistry extends FileRegistry {
                 );
                 if (refl) {
                     this.mediaToReflection.set(
-                        de.oldMediaToNewMedia[+media]!,
+                        de.oldFileIdToNewFileId[+media]!,
                         refl,
                     );
                 } else {

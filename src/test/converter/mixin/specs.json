@@ -2466,7 +2466,7 @@
       "qualifiedName": "Base.baseMethod"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/mixin/mixin.ts"
     },

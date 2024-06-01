@@ -1091,7 +1091,7 @@ describe("Comment Parser", () => {
     };
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
-        const media = new FileRegistry();
+        const files = new FileRegistry();
         const logger = new TestLogger();
         const file = "/** @inheritdoc */";
         const content = lexBlockComment(file);
@@ -1100,7 +1100,7 @@ describe("Comment Parser", () => {
             config,
             new MinimalSourceFile(file, "<memory>"),
             logger,
-            media,
+            files,
         );
 
         logger.expectMessage(
@@ -1111,7 +1111,7 @@ describe("Comment Parser", () => {
     });
 
     function getComment(text: string) {
-        const media = new FileRegistry();
+        const files = new FileRegistry();
         const logger = new TestLogger();
         const content = lexBlockComment(text);
         const comment = parseComment(
@@ -1119,7 +1119,7 @@ describe("Comment Parser", () => {
             config,
             new MinimalSourceFile(text, "<memory>"),
             logger,
-            media,
+            files,
         );
         logger.expectNoOtherMessages();
         return comment;

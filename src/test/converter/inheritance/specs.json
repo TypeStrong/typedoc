@@ -1132,7 +1132,7 @@
       "qualifiedName": "My.instanceProp"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/inheritance/inherit-doc.ts",
       "2": "src/test/converter/inheritance/mergable-class.ts"

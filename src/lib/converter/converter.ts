@@ -244,7 +244,7 @@ export class Converter extends ChildableComponent<
 
         const project = new ProjectReflection(
             this.application.options.getValue("name"),
-            this.application.media,
+            this.application.files,
         );
         const context = new Context(this, programs, project);
 
@@ -270,7 +270,7 @@ export class Converter extends ChildableComponent<
             const file = new MinimalSourceFile(readFile(path), path);
             const { content, frontmatter } = this.parseRawComment(
                 file,
-                project.media,
+                project.files,
             );
             const docRefl = new DocumentReflection(
                 displayName,
@@ -309,13 +309,13 @@ export class Converter extends ChildableComponent<
     /**
      * Parse the given file into a comment. Intended to be used with markdown files.
      */
-    parseRawComment(file: MinimalSourceFile, media: FileRegistry) {
+    parseRawComment(file: MinimalSourceFile, files: FileRegistry) {
         return parseCommentString(
             lexCommentString(file.text),
             this.config,
             file,
             this.application.logger,
-            media,
+            files,
         );
     }
 
@@ -462,7 +462,7 @@ export class Converter extends ChildableComponent<
                 const readme = readFile(entryPoint.readmeFile);
                 const { content } = this.parseRawComment(
                     new MinimalSourceFile(readme, entryPoint.readmeFile),
-                    context.project.media,
+                    context.project.files,
                 );
                 reflection.readme = content;
             }
@@ -577,7 +577,7 @@ export class Converter extends ChildableComponent<
 
                 const { content, frontmatter } = this.parseRawComment(
                     file,
-                    reflection.project.media,
+                    reflection.project.files,
                 );
                 const docRefl = new DocumentReflection(
                     basename(file.fileName).replace(/\.[^.]+$/, ""),

@@ -145,7 +145,7 @@ comparisonSerializer.addSerializer({
     supports(obj) {
         return obj instanceof FileRegistry;
     },
-    toObject(_media: FileRegistry, obj: JSONOutput.MediaRegistry) {
+    toObject(_media: FileRegistry, obj: JSONOutput.FileRegistry) {
         obj.reflections = {};
         return obj;
     },
@@ -201,7 +201,7 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    app.media = new ValidatingFileRegistry();
+                    app.files = new ValidatingFileRegistry();
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],

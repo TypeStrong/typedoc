@@ -3130,7 +3130,7 @@
       "qualifiedName": "BreakpointRange.end"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/function/function.ts",
       "2": "src/test/converter/function/generic-function.ts",

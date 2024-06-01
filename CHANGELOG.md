@@ -20,7 +20,7 @@
 -   Changed default of `--excludePrivate` to `true`.
 -   Renamed `--sitemapBaseUrl` to `--hostedBaseUrl` to reflect that it can be used for more than just the sitemap.
 -   Removed deprecated `navigation.fullTree` option.
--   (WIP) Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.
+-   Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.
 -   Removed `--includes` option, use the `@document` tag instead.
 -   Removed `--stripYamlFrontmatter` option, TypeDoc will always do this now.
 -   All function-likes may now have comments directly attached to them. This is a change from previous versions of TypeDoc where functions comments

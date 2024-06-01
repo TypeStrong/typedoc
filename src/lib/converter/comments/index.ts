@@ -48,7 +48,7 @@ function getCommentWithCache(
     config: CommentParserConfig,
     logger: Logger,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ) {
     if (!discovered) return;
 
@@ -72,7 +72,7 @@ function getCommentWithCache(
                 config,
                 file,
                 logger,
-                media,
+                files,
             );
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
@@ -81,7 +81,7 @@ function getCommentWithCache(
                 config,
                 file,
                 logger,
-                media,
+                files,
             );
             break;
         default:
@@ -101,14 +101,14 @@ function getCommentImpl(
     logger: Logger,
     moduleComment: boolean,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ) {
     const comment = getCommentWithCache(
         commentSource,
         config,
         logger,
         checker,
-        media,
+        files,
     );
 
     if (moduleComment && comment) {
@@ -142,7 +142,7 @@ export function getComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -155,13 +155,13 @@ export function getComment(
             config,
             logger,
             checker,
-            media,
+            files,
         );
     }
 
     const sf = declarations.find(ts.isSourceFile);
     if (sf) {
-        return getFileComment(sf, config, logger, commentStyle, checker, media);
+        return getFileComment(sf, config, logger, commentStyle, checker, files);
     }
 
     const isModule = declarations.some((decl) => {
@@ -177,7 +177,7 @@ export function getComment(
         logger,
         isModule,
         checker,
-        media,
+        files,
     );
 
     if (!comment && kind === ReflectionKind.Property) {
@@ -187,7 +187,7 @@ export function getComment(
             logger,
             commentStyle,
             checker,
-            media,
+            files,
         );
     }
 
@@ -201,7 +201,7 @@ export function getNodeComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ) {
     return getCommentImpl(
         discoverNodeComment(node, commentStyle),
@@ -209,7 +209,7 @@ export function getNodeComment(
         logger,
         kind === ReflectionKind.Module,
         checker,
-        media,
+        files,
     );
 }
 
@@ -219,7 +219,7 @@ export function getFileComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment | undefined {
     for (const commentSource of discoverFileComments(file, commentStyle)) {
         const comment = getCommentWithCache(
@@ -227,7 +227,7 @@ export function getFileComment(
             config,
             logger,
             checker,
-            media,
+            files,
         );
 
         if (comment?.getTag("@license") || comment?.getTag("@import")) {
@@ -250,7 +250,7 @@ function getConstructorParamPropertyComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
@@ -262,7 +262,7 @@ function getConstructorParamPropertyComment(
         logger,
         commentStyle,
         checker,
-        media,
+        files,
     );
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
@@ -279,7 +279,7 @@ export function getSignatureComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment | undefined {
     return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
@@ -287,7 +287,7 @@ export function getSignatureComment(
         logger,
         false,
         checker,
-        media,
+        files,
     );
 }
 
@@ -301,7 +301,7 @@ export function getJsDocComment(
     config: CommentParserConfig,
     logger: Logger,
     checker: ts.TypeChecker | undefined,
-    media: FileRegistry,
+    files: FileRegistry,
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 
@@ -327,7 +327,7 @@ export function getJsDocComment(
         config,
         logger,
         checker,
-        media,
+        files,
     )!;
 
     // And pull out the tag we actually care about.

@@ -131,7 +131,7 @@ export class PackagePlugin extends ConverterComponent {
         if (this.readmeFile && this.readmeContents) {
             const { content } = this.application.converter.parseRawComment(
                 new MinimalSourceFile(this.readmeContents, this.readmeFile),
-                project.media,
+                project.files,
             );
 
             project.readme = content;

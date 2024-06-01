@@ -350,7 +350,7 @@
       "qualifiedName": "ActionSet"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/declaration/declaration.d.ts",
       "2": "src/test/converter/declaration/export-declaration.d.ts",

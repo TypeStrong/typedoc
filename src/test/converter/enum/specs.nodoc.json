@@ -517,7 +517,7 @@
       "qualifiedName": "ConstEnum.b"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/enum/enum.ts"
     },

@@ -22,7 +22,7 @@ interface TextParserData {
     pos: number;
     i18n: TranslationProxy;
     warning: (msg: TranslatedString, token: Token) => void;
-    media: FileRegistry;
+    files: FileRegistry;
     atNewLine: boolean;
 }
 
@@ -46,7 +46,7 @@ export function textContent(
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
     outContent: CommentDisplayPart[],
-    media: FileRegistry,
+    files: FileRegistry,
     atNewLine: boolean,
 ) {
     let lastPartEnd = 0;
@@ -56,7 +56,7 @@ export function textContent(
         pos: 0,
         i18n,
         warning,
-        media,
+        files: files,
         atNewLine,
     };
 
@@ -119,7 +119,7 @@ export function textContent(
  *
  */
 function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
-    const { token, sourcePath, media } = data;
+    const { token, sourcePath, files } = data;
 
     if (token.text[data.pos] === "[") {
         const labelEnd = findLabelEnd(token.text, data.pos + 1);
@@ -141,7 +141,7 @@ function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
                     return {
                         pos: labelEnd + 2,
                         end: link.pos,
-                        target: media.register(sourcePath, link.str),
+                        target: files.register(sourcePath, link.str),
                     };
                 }
 
@@ -162,7 +162,7 @@ function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
  * separating it from an above paragraph. For a first cut, this is good enough.
  */
 function checkReference(data: TextParserData): RelativeLink | undefined {
-    const { atNewLine, pos, token, media, sourcePath } = data;
+    const { atNewLine, pos, token, files, sourcePath } = data;
 
     if (atNewLine) {
         let lookahead = pos;
@@ -193,7 +193,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                         return {
                             pos: lookahead,
                             end: link.pos,
-                            target: media.register(sourcePath, link.str),
+                            target: files.register(sourcePath, link.str),
                         };
                     }
 

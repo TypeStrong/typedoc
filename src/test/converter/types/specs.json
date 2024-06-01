@@ -2304,7 +2304,7 @@
       "qualifiedName": "ThirdType.thirdComplexProperty"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/types/general.ts",
       "2": "src/test/converter/types/index-signature.ts",

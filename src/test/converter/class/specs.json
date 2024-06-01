@@ -6067,7 +6067,7 @@
       "qualifiedName": "GenericClass.T"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/class/access.ts",
       "2": "src/test/converter/class/class.ts",

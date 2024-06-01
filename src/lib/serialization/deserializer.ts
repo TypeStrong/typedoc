@@ -214,7 +214,7 @@ export class Deserializer {
     projectRoot!: string;
 
     oldIdToNewId: Record<number, number | undefined> = {};
-    oldMediaToNewMedia: Record<number, number | undefined> = {};
+    oldFileIdToNewFileId: Record<number, number | undefined> = {};
     project: ProjectReflection | undefined;
 
     addDeserializer(de: DeserializerComponent): void {
@@ -244,7 +244,7 @@ export class Deserializer {
         this.project = project;
         this.projectRoot = projectRoot;
         this.oldIdToNewId = { [projectObj.id]: project.id };
-        this.oldMediaToNewMedia = {};
+        this.oldFileIdToNewFileId = {};
         this.fromObject(project, projectObj);
 
         const deferred = this.deferred;
@@ -266,7 +266,7 @@ export class Deserializer {
         this.project = undefined;
         this.projectRoot = undefined!;
         this.oldIdToNewId = {};
-        this.oldMediaToNewMedia = {};
+        this.oldFileIdToNewFileId = {};
         return project;
     }
 
@@ -298,7 +298,7 @@ export class Deserializer {
             project.registerReflection(projModule, undefined, undefined);
             project.addChild(projModule);
             this.oldIdToNewId = { [proj.id]: projModule.id };
-            this.oldMediaToNewMedia = {};
+            this.oldFileIdToNewFileId = {};
             this.fromObject(projModule, proj);
 
             const deferred = this.deferred;
@@ -318,7 +318,7 @@ export class Deserializer {
         }
 
         this.oldIdToNewId = {};
-        this.oldMediaToNewMedia = {};
+        this.oldFileIdToNewFileId = {};
         this.project = undefined;
         this.projectRoot = undefined!;
         return project;

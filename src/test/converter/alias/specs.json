@@ -363,7 +363,7 @@
       "qualifiedName": "MergedCrossReference"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/alias/alias.ts"
     },

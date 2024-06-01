@@ -3147,7 +3147,7 @@
       "qualifiedName": "Base2.base2"
     }
   },
-  "media": {
+  "files": {
     "entries": {
       "1": "src/test/converter/interface/constructor-type.ts",
       "2": "src/test/converter/interface/index-signature.ts",
