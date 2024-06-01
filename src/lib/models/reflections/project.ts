@@ -15,7 +15,7 @@ import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { DefaultMap, StableKeyMap } from "../../utils/map";
 import type { DocumentReflection } from "./document";
-import type { MediaRegistry } from "../MediaRegistry";
+import type { FileRegistry } from "../FileRegistry";
 
 /**
  * A reflection that represents the root of the project.
@@ -69,9 +69,9 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Object which describes where to find content for relative links.
      */
-    readonly media: MediaRegistry;
+    readonly media: FileRegistry;
 
-    constructor(name: string, registry: MediaRegistry) {
+    constructor(name: string, registry: FileRegistry) {
         super(name, ReflectionKind.Project);
         this.reflections[this.id] = this;
         this.media = registry;

@@ -24,9 +24,9 @@ import {
     getConverterProgram,
 } from "./programs";
 import {
-    MediaRegistry,
-    ValidatingMediaRegistry,
-} from "../lib/models/MediaRegistry";
+    FileRegistry,
+    ValidatingFileRegistry,
+} from "../lib/models/FileRegistry";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -143,9 +143,9 @@ comparisonSerializer.addSerializer({
 comparisonSerializer.addSerializer({
     priority: -1,
     supports(obj) {
-        return obj instanceof MediaRegistry;
+        return obj instanceof FileRegistry;
     },
-    toObject(_media: MediaRegistry, obj: JSONOutput.MediaRegistry) {
+    toObject(_media: FileRegistry, obj: JSONOutput.MediaRegistry) {
         obj.reflections = {};
         return obj;
     },
@@ -201,7 +201,7 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    app.media = new ValidatingMediaRegistry();
+                    app.media = new ValidatingFileRegistry();
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],
@@ -236,7 +236,7 @@ describe("Converter", function () {
                         specs,
                         specs.name,
                         process.cwd(),
-                        new MediaRegistry(),
+                        new FileRegistry(),
                     );
                     const specs2 = JSON.parse(
                         JSON.stringify(

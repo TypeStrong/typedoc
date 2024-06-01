@@ -47,7 +47,7 @@ import {
     type TranslatedString,
 } from "./internationalization/internationalization";
 import { loadShikiMetadata } from "./utils/highlighter";
-import { ValidatingMediaRegistry, MediaRegistry } from "./models/MediaRegistry";
+import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = require("../../package.json") as {
@@ -64,7 +64,7 @@ const DETECTOR = Symbol();
 export function createAppForTesting(): Application {
     // @ts-expect-error private constructor
     const app: Application = new Application(DETECTOR);
-    app.media = new MediaRegistry();
+    app.media = new FileRegistry();
     return app;
 }
 
@@ -130,7 +130,7 @@ export class Application extends ChildableComponent<
 
     options = new Options(this.i18n);
 
-    media: MediaRegistry = new ValidatingMediaRegistry();
+    media: FileRegistry = new ValidatingFileRegistry();
 
     /** @internal */
     @Option("lang")

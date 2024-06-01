@@ -11,7 +11,7 @@ import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models";
 import { MinimalSourceFile } from "../lib/utils/minimalSourceFile";
 import { TestLogger } from "./TestLogger";
 import { extractTagName } from "../lib/converter/comments/tagName";
-import { MediaRegistry } from "../lib/models/MediaRegistry";
+import { FileRegistry } from "../lib/models/FileRegistry";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);
@@ -1091,7 +1091,7 @@ describe("Comment Parser", () => {
     };
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
-        const media = new MediaRegistry();
+        const media = new FileRegistry();
         const logger = new TestLogger();
         const file = "/** @inheritdoc */";
         const content = lexBlockComment(file);
@@ -1111,7 +1111,7 @@ describe("Comment Parser", () => {
     });
 
     function getComment(text: string) {
-        const media = new MediaRegistry();
+        const media = new FileRegistry();
         const logger = new TestLogger();
         const content = lexBlockComment(text);
         const comment = parseComment(

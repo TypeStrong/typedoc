@@ -47,7 +47,7 @@ import {
     type DeclarationReference,
 } from "./comments/declarationReference";
 import { basename, dirname, resolve } from "path";
-import type { MediaRegistry } from "../models/MediaRegistry";
+import type { FileRegistry } from "../models/FileRegistry";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -309,7 +309,7 @@ export class Converter extends ChildableComponent<
     /**
      * Parse the given file into a comment. Intended to be used with markdown files.
      */
-    parseRawComment(file: MinimalSourceFile, media: MediaRegistry) {
+    parseRawComment(file: MinimalSourceFile, media: FileRegistry) {
         return parseCommentString(
             lexCommentString(file.text),
             this.config,

@@ -16,7 +16,7 @@ import type {
     TranslatedString,
     TranslationProxy,
 } from "../../internationalization/internationalization";
-import { MediaRegistry } from "../../models/MediaRegistry";
+import { FileRegistry } from "../../models/FileRegistry";
 import { textContent } from "./textParser";
 
 interface LookaheadGenerator<T> {
@@ -72,7 +72,7 @@ export function parseComment(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
     const tok = lexer.done() || lexer.peek();
@@ -125,7 +125,7 @@ export function parseCommentString(
     config: CommentParserConfig,
     file: MinimalSourceFile,
     logger: Logger,
-    media: MediaRegistry,
+    media: FileRegistry,
 ) {
     const suppressWarningsConfig: CommentParserConfig = {
         ...config,
@@ -359,7 +359,7 @@ function blockTag(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -405,10 +405,10 @@ function defaultBlockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): CommentDisplayPart[] {
     lexer.mark();
-    const tempRegistry = new MediaRegistry();
+    const tempRegistry = new FileRegistry();
     const content = blockContent(
         comment,
         lexer,
@@ -454,10 +454,10 @@ function exampleBlock(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): CommentTag {
     lexer.mark();
-    const tempRegistry = new MediaRegistry();
+    const tempRegistry = new FileRegistry();
     const content = blockContent(
         comment,
         lexer,
@@ -568,7 +568,7 @@ function blockContent(
     config: CommentParserConfig,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true as boolean;

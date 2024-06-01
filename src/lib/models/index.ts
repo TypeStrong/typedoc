@@ -4,4 +4,4 @@ export * from "./comments/index";
 export * from "./sources/index";
 export * from "./ReflectionGroup";
 export * from "./ReflectionCategory";
-export * from "./MediaRegistry";
+export * from "./FileRegistry";

@@ -78,7 +78,7 @@ type _ModelToObject<T> =
                                         ? CommentDisplayPart
                                         : T extends M.SourceReference
                                           ? SourceReference
-                                          : T extends M.MediaRegistry
+                                          : T extends M.FileRegistry
                                             ? MediaRegistry
                                             : never;
 

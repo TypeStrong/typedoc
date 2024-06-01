@@ -5,7 +5,7 @@ import { normalizePath } from "../utils";
 import { existsSync } from "fs";
 import type { Reflection } from "./reflections";
 
-export class MediaRegistry {
+export class FileRegistry {
     protected nextId = 1;
 
     // The combination of thest two make up the registry
@@ -126,7 +126,7 @@ export class MediaRegistry {
     }
 }
 
-export class ValidatingMediaRegistry extends MediaRegistry {
+export class ValidatingFileRegistry extends FileRegistry {
     override register(
         sourcePath: string,
         relativePath: string,

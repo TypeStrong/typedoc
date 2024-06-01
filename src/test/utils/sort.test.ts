@@ -12,7 +12,7 @@ import { resetReflectionID } from "../../lib/models/reflections/abstract";
 import { Options } from "../../lib/utils";
 import { getSortFunction, type SortStrategy } from "../../lib/utils/sort";
 import { Internationalization } from "../../lib/internationalization/internationalization";
-import { MediaRegistry } from "../../lib/models/MediaRegistry";
+import { FileRegistry } from "../../lib/models/FileRegistry";
 
 describe("Sort", () => {
     function sortReflections(
@@ -248,7 +248,7 @@ describe("Sort", () => {
     });
 
     it("source-order should do nothing if no symbols are available", () => {
-        const proj = new ProjectReflection("", new MediaRegistry());
+        const proj = new ProjectReflection("", new FileRegistry());
         const arr = [
             new DeclarationReflection("b", ReflectionKind.Function, proj),
             new DeclarationReflection("a", ReflectionKind.Function, proj),
@@ -278,7 +278,7 @@ describe("Sort", () => {
         });
         cId.pos = 0;
 
-        const proj = new ProjectReflection("", new MediaRegistry());
+        const proj = new ProjectReflection("", new FileRegistry());
         const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);
         proj.registerSymbolId(a, aId);
 
@@ -309,7 +309,7 @@ describe("Sort", () => {
         });
         cId.pos = 1;
 
-        const proj = new ProjectReflection("", new MediaRegistry());
+        const proj = new ProjectReflection("", new FileRegistry());
         const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);
 
         const b = new DeclarationReflection(
@@ -337,7 +337,7 @@ describe("Sort", () => {
     });
 
     it("Should handle documents-first ordering", () => {
-        const proj = new ProjectReflection("", new MediaRegistry());
+        const proj = new ProjectReflection("", new FileRegistry());
         const a = new DocumentReflection("a", proj, [], {});
         const b = new DocumentReflection("b", proj, [], {});
         const c = new DeclarationReflection("c", ReflectionKind.Class, proj);
@@ -358,7 +358,7 @@ describe("Sort", () => {
     });
 
     it("Should handle documents-last ordering", () => {
-        const proj = new ProjectReflection("", new MediaRegistry());
+        const proj = new ProjectReflection("", new FileRegistry());
         const a = new DocumentReflection("a", proj, [], {});
         const b = new DocumentReflection("b", proj, [], {});
         const c = new DeclarationReflection("c", ReflectionKind.Class, proj);

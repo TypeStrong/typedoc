@@ -10,7 +10,7 @@ import type {
     TranslatedString,
 } from "../../internationalization";
 import type { CommentDisplayPart } from "../../models";
-import type { MediaRegistry } from "../../models/MediaRegistry";
+import type { FileRegistry } from "../../models/FileRegistry";
 import { type Token, TokenSyntaxKind } from "./lexer";
 
 import MarkdownIt from "markdown-it";
@@ -22,7 +22,7 @@ interface TextParserData {
     pos: number;
     i18n: TranslationProxy;
     warning: (msg: TranslatedString, token: Token) => void;
-    media: MediaRegistry;
+    media: FileRegistry;
     atNewLine: boolean;
 }
 
@@ -34,7 +34,7 @@ interface RelativeLink {
 }
 
 /**
- * Look for relative links within a piece of text and add them to the {@link MediaRegistry}
+ * Look for relative links within a piece of text and add them to the {@link FileRegistry}
  * so that they can be correctly resolved during rendering.
  *
  * TODO: We also handle `<a>` and `<img>` tags with relative targets here.
@@ -46,7 +46,7 @@ export function textContent(
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
     outContent: CommentDisplayPart[],
-    media: MediaRegistry,
+    media: FileRegistry,
     atNewLine: boolean,
 ) {
     let lastPartEnd = 0;

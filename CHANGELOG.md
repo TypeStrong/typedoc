@@ -2,12 +2,10 @@
 
 ### To Do
 
--   Handle image and relative markdown links within documents
 -   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
     `@license`, `@import`, `@hideGroups` `@hideCategories` sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
--   Review JSDoc tags for other tags we should add to the default list of known block tags
 -   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
 
 ### Breaking Changes

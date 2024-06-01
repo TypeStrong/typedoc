@@ -37,7 +37,7 @@ import {
 import { insertPrioritySorted } from "../utils/array";
 import type { Logger } from "../utils/loggers";
 import type { JSONOutput } from "./index";
-import type { MediaRegistry } from "../models/MediaRegistry";
+import type { FileRegistry } from "../models/FileRegistry";
 
 export interface DeserializerComponent {
     priority: number;
@@ -230,7 +230,7 @@ export class Deserializer {
         projectObj: JSONOutput.ProjectReflection,
         name: string,
         projectRoot: string,
-        registry: MediaRegistry,
+        registry: FileRegistry,
     ): ProjectReflection {
         ok(
             this.deferred.length === 0,
@@ -274,7 +274,7 @@ export class Deserializer {
         name: string,
         projects: readonly JSONOutput.ProjectReflection[],
         projectRoot: string,
-        registry: MediaRegistry,
+        registry: FileRegistry,
     ): ProjectReflection {
         if (projects.length === 1) {
             return this.reviveProject(projects[0], name, projectRoot, registry);

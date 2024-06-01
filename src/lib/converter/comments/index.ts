@@ -15,7 +15,7 @@ import {
 } from "./discovery";
 import { lexLineComments } from "./lineLexer";
 import { parseComment } from "./parser";
-import type { MediaRegistry } from "../../models/MediaRegistry";
+import type { FileRegistry } from "../../models/FileRegistry";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;
@@ -48,7 +48,7 @@ function getCommentWithCache(
     config: CommentParserConfig,
     logger: Logger,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ) {
     if (!discovered) return;
 
@@ -101,7 +101,7 @@ function getCommentImpl(
     logger: Logger,
     moduleComment: boolean,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ) {
     const comment = getCommentWithCache(
         commentSource,
@@ -142,7 +142,7 @@ export function getComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -201,7 +201,7 @@ export function getNodeComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ) {
     return getCommentImpl(
         discoverNodeComment(node, commentStyle),
@@ -219,7 +219,7 @@ export function getFileComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment | undefined {
     for (const commentSource of discoverFileComments(file, commentStyle)) {
         const comment = getCommentWithCache(
@@ -250,7 +250,7 @@ function getConstructorParamPropertyComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
@@ -279,7 +279,7 @@ export function getSignatureComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment | undefined {
     return getCommentImpl(
         discoverSignatureComment(declaration, commentStyle),
@@ -301,7 +301,7 @@ export function getJsDocComment(
     config: CommentParserConfig,
     logger: Logger,
     checker: ts.TypeChecker | undefined,
-    media: MediaRegistry,
+    media: FileRegistry,
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 
