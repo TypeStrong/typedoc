@@ -7,6 +7,7 @@
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments
 -   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
+-   Detect relative links in `<a>` and `<img>`
 
 ### Breaking Changes
 
