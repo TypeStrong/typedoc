@@ -561,11 +561,13 @@ export class Application extends ChildableComponent<
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
 
+        // Generate a message summarizing the number of errors and warnings if there are any
         if (this.logger.hasErrors()) {
             this.logger.error(this._getStatMessage());
         } else if (this.logger.hasWarnings()) {
             this.logger.warn(this._getStatMessage());
         }
+
         this.logger.info(`JSON written to ${nicePath(out)}`);
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }
