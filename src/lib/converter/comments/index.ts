@@ -15,7 +15,7 @@ import {
 } from "./discovery";
 import { lexLineComments } from "./lineLexer";
 import { parseComment } from "./parser";
-import { MediaRegistry } from "../../models/MediaRegistry";
+import type { MediaRegistry } from "../../models/MediaRegistry";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;

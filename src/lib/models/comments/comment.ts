@@ -245,6 +245,7 @@ export class Comment {
                     } else {
                         assertNever(part.target);
                     }
+                    break;
                 }
                 case "relative-link": {
                     if (part.target) {
@@ -274,7 +275,7 @@ export class Comment {
         if (links.length || media.length) {
             de.defer((project) => {
                 for (const [oldMedia, part] of media) {
-                    part.target = de.oldMediaToNewMedia[oldMedia]!; // GERRIT: Need to get rid of this assert, figure out how to handle null media
+                    part.target = de.oldMediaToNewMedia[oldMedia];
                 }
                 for (const [oldId, part] of links) {
                     part.target = project.getReflectionById(

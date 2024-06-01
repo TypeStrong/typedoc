@@ -168,7 +168,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     break;
                 case "relative-link":
                     switch (typeof part.target) {
-                        case "number":
+                        case "number": {
                             const refl = page.project.media.resolve(part.target);
                             if (typeof refl === "object") {
                                 result.push(context.urlTo(refl));
@@ -180,6 +180,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                 result.push(context.relativeURL(`media/${mediaName}`));
                                 break;
                             }
+                        }
                         // fall through
                         case "undefined":
                             result.push(part.text);

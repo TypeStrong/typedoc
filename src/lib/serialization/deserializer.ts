@@ -37,7 +37,7 @@ import {
 import { insertPrioritySorted } from "../utils/array";
 import type { Logger } from "../utils/loggers";
 import type { JSONOutput } from "./index";
-import { MediaRegistry } from "../models/MediaRegistry";
+import type { MediaRegistry } from "../models/MediaRegistry";
 
 export interface DeserializerComponent {
     priority: number;

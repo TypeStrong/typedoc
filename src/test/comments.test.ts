@@ -7,7 +7,7 @@ import { lexLineComments } from "../lib/converter/comments/lineLexer";
 import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
 import { parseComment } from "../lib/converter/comments/parser";
 import { lexCommentString } from "../lib/converter/comments/rawLexer";
-import { Comment, CommentDisplayPart, CommentTag } from "../lib/models";
+import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models";
 import { MinimalSourceFile } from "../lib/utils/minimalSourceFile";
 import { TestLogger } from "./TestLogger";
 import { extractTagName } from "../lib/converter/comments/tagName";

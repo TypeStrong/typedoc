@@ -15,7 +15,7 @@ import type { Serializer } from "../../serialization/serializer";
 import type { Deserializer, JSONOutput } from "../../serialization/index";
 import { DefaultMap, StableKeyMap } from "../../utils/map";
 import type { DocumentReflection } from "./document";
-import { MediaRegistry } from "../MediaRegistry";
+import type { MediaRegistry } from "../MediaRegistry";
 
 /**
  * A reflection that represents the root of the project.

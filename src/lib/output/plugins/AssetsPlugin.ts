@@ -58,7 +58,7 @@ export class AssetsPlugin extends RendererComponent {
             const media = join(event.outputDirectory, "media");
             const toCopy = event.project.media.getNameToAbsoluteMap();
             for (const [mediaName, absolute] of toCopy.entries()) {
-                copySync(absolute, join(media, mediaName!));
+                copySync(absolute, join(media, mediaName));
             }
         }
     }

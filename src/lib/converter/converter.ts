@@ -47,7 +47,7 @@ import {
     type DeclarationReference,
 } from "./comments/declarationReference";
 import { basename, dirname, resolve } from "path";
-import { MediaRegistry } from "../models/MediaRegistry";
+import type { MediaRegistry } from "../models/MediaRegistry";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.

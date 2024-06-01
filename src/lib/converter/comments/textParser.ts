@@ -5,10 +5,13 @@
  * them into references.
  * @module
  */
-import { TranslationProxy, TranslatedString } from "../../internationalization";
+import type {
+    TranslationProxy,
+    TranslatedString,
+} from "../../internationalization";
 import type { CommentDisplayPart } from "../../models";
-import { MediaRegistry } from "../../models/MediaRegistry";
-import { Token, TokenSyntaxKind } from "./lexer";
+import type { MediaRegistry } from "../../models/MediaRegistry";
+import { type Token, TokenSyntaxKind } from "./lexer";
 
 import MarkdownIt from "markdown-it";
 const MdHelpers = new MarkdownIt().helpers;

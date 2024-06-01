@@ -1,9 +1,9 @@
 import { basename, dirname, parse, relative, resolve } from "path";
-import { Deserializer, Serializer } from "../serialization";
-import { MediaRegistry as JSONMediaRegistry } from "../serialization/schema";
+import type { Deserializer, Serializer } from "../serialization";
+import type { MediaRegistry as JSONMediaRegistry } from "../serialization/schema";
 import { normalizePath } from "../utils";
 import { existsSync } from "fs";
-import { Reflection } from "./reflections";
+import type { Reflection } from "./reflections";
 
 export class MediaRegistry {
     protected nextId = 1;
