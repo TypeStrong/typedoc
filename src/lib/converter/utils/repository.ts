@@ -71,9 +71,9 @@ export class GitRepository implements Repository {
         this.gitRevision = gitRevision;
         this.urlTemplate = urlTemplate;
 
-        const out = git("-C", path, "ls-files");
+        const out = git("-C", path, "ls-files", "-z");
         if (out.status === 0) {
-            out.stdout.split("\n").forEach((file) => {
+            out.stdout.split("\0").forEach((file) => {
                 if (file !== "") {
                     this.files.add(BasePath.normalize(path + "/" + file));
                 }

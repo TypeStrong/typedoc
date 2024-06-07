@@ -82,16 +82,25 @@ export class BasePath {
      * @returns Normalized version of the given path.
      */
     static normalize(path: string): string {
-        // Ensure forward slashes
-        path = path.replace(/\\/g, "/");
+        if (process.platform === "win32") {
+            // Ensure forward slashes
+            path = path.replace(/\\/g, "/");
 
-        // Remove all surrounding quotes
-        path = path.replace(/^["']+|["']+$/g, "");
+            // Msys2 git on windows will give paths which use unix-style
+            // absolute paths, like /c/users/you. Since the rest of TypeDoc
+            // expects drive letters, convert it to that here.
+            path = path.replace(
+                /^\/([a-zA-Z])\//,
+                (_m, m1: string) => `${m1}:/`,
+            );
 
-        // Make Windows drive letters upper case
-        return path.replace(
-            /^([^:]+):\//,
-            (_m, m1: string) => m1.toUpperCase() + ":/",
-        );
+            // Make Windows drive letters upper case
+            path = path.replace(
+                /^([^:]+):\//,
+                (_m, m1: string) => m1.toUpperCase() + ":/",
+            );
+        }
+
+        return path;
     }
 }
