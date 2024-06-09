@@ -9,7 +9,7 @@ import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
 import { findPackageForPath } from "../utils/fs";
 import { ReflectionKind } from "./reflections/kind";
-import { Comment, CommentDisplayPart } from "./comments";
+import { Comment, type CommentDisplayPart } from "./comments";
 
 /**
  * Base class of all type definitions.

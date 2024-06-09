@@ -8,7 +8,7 @@ import {
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
-    UnionType,
+    type UnionType,
 } from "../models";
 import {
     getEnumFlags,
@@ -385,7 +385,7 @@ function attachUnionComments(
         if (comment?.modifierTags.size || comment?.blockTags.length) {
             context.logger.warn(
                 context.logger.i18n.comment_for_0_should_not_contain_block_or_modifier_tags(
-                    context.scope.getFriendlyFullName() + "." + unionIndex,
+                    `${context.scope.getFriendlyFullName()}.${unionIndex}`,
                 ),
                 child,
             );

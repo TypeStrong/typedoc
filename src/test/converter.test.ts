@@ -16,9 +16,9 @@ import {
     SourceReference,
     ReferenceReflection,
 } from "..";
-import {
+import type {
     SomeReflection,
-    type ModelToObject,
+    ModelToObject,
 } from "../lib/serialization/schema";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
