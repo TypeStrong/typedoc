@@ -1110,8 +1110,9 @@ describe("Comment Parser", () => {
         equal(comment, new Comment([], [new CommentTag("@inheritDoc", [])]));
     });
 
+    let files: FileRegistry;
     function getComment(text: string) {
-        const files = new FileRegistry();
+        files = new FileRegistry();
         const logger = new TestLogger();
         const content = lexBlockComment(text);
         const comment = parseComment(
@@ -1124,6 +1125,10 @@ describe("Comment Parser", () => {
         logger.expectNoOtherMessages();
         return comment;
     }
+
+    afterEach(() => {
+        files = undefined!;
+    });
 
     it("Simple summary", () => {
         const comment = getComment("/** Summary! */");
@@ -1298,6 +1303,66 @@ describe("Comment Parser", () => {
                 text: "\n[3]: https://example.com",
             },
         ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Recognizes HTML image links", () => {
+        const comment = getComment(`/**
+        * <img width=100 height="200" src="./test.png" >
+        * <img src="./test space.png"/>
+        * <img src="https://example.com/favicon.ico">
+        */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: '<img width=100 height="200" src="' },
+            { kind: "relative-link", text: "./test.png", target: 1 },
+            { kind: "text", text: '" >\n<img src="' },
+            {
+                kind: "relative-link",
+                text: "./test space.png",
+                target: 2,
+            },
+            {
+                kind: "text",
+                text: '"/>\n<img src="https://example.com/favicon.ico">',
+            },
+        ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Recognizes HTML anchor links", () => {
+        const comment = getComment(`/**
+        * <a data-foo="./path.txt" href="./test.png" >
+        * <a href="./test space.png"/>
+        * <a href="https://example.com/favicon.ico">
+        */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: '<a data-foo="./path.txt" href="' },
+            { kind: "relative-link", text: "./test.png", target: 1 },
+            { kind: "text", text: '" >\n<a href="' },
+            {
+                kind: "relative-link",
+                text: "./test space.png",
+                target: 2,
+            },
+            {
+                kind: "text",
+                text: '"/>\n<a href="https://example.com/favicon.ico">',
+            },
+        ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Properly handles character escapes", () => {
+        const comment = getComment(`/**
+        * <a href="./&amp;&#97;.png" >
+        */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: '<a href="' },
+            { kind: "relative-link", text: "./&amp;&#97;.png", target: 1 },
+            { kind: "text", text: '" >' },
+        ] satisfies CommentDisplayPart[]);
+
+        equal(files.getName(1), "&a.png");
     });
 });
 

@@ -11,6 +11,7 @@ import type {
 } from "../../internationalization";
 import type { CommentDisplayPart } from "../../models";
 import type { FileRegistry } from "../../models/FileRegistry";
+import { HtmlAttributeParser, ParserState } from "../../utils/html";
 import { type Token, TokenSyntaxKind } from "./lexer";
 
 import MarkdownIt from "markdown-it";
@@ -36,9 +37,6 @@ interface RelativeLink {
 /**
  * Look for relative links within a piece of text and add them to the {@link FileRegistry}
  * so that they can be correctly resolved during rendering.
- *
- * TODO: We also handle `<a>` and `<img>` tags with relative targets here.
- *
  */
 export function textContent(
     sourcePath: string,
@@ -96,6 +94,12 @@ export function textContent(
         const reference = checkReference(data);
         if (reference) {
             addRef(reference);
+            continue;
+        }
+
+        const tagLink = checkTagLink(data);
+        if (tagLink) {
+            addRef(tagLink);
             continue;
         }
 
@@ -201,6 +205,53 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                 }
             }
         }
+    }
+}
+
+/**
+ * Looks for `<a href="./relative">` and `<img src="./relative">`
+ */
+function checkTagLink(data: TextParserData): RelativeLink | undefined {
+    const { pos, token } = data;
+
+    if (token.text.startsWith("<img ", pos)) {
+        data.pos += 4;
+        return checkAttribute(data, "src");
+    }
+
+    if (token.text.startsWith("<a ", pos)) {
+        data.pos += 3;
+        return checkAttribute(data, "href");
+    }
+}
+
+function checkAttribute(
+    data: TextParserData,
+    attr: string,
+): RelativeLink | undefined {
+    const parser = new HtmlAttributeParser(data.token.text, data.pos);
+    while (parser.state !== ParserState.END) {
+        if (
+            parser.state === ParserState.BeforeAttributeValue &&
+            parser.currentAttributeName === attr
+        ) {
+            parser.step();
+
+            if (isRelativeLink(parser.currentAttributeValue)) {
+                data.pos = parser.pos;
+                return {
+                    pos: parser.currentAttributeValueStart,
+                    end: parser.currentAttributeValueEnd,
+                    target: data.files.register(
+                        data.sourcePath,
+                        parser.currentAttributeValue,
+                    ),
+                };
+            }
+            return;
+        }
+
+        parser.step();
     }
 }
 
