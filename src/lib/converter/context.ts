@@ -6,7 +6,7 @@ import {
     type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
-    DocumentReflection,
+    type DocumentReflection,
     ReflectionKind,
     ReflectionFlag,
 } from "../models/index";
