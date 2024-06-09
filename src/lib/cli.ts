@@ -73,6 +73,8 @@ async function run(app: td.Application) {
 
     if (app.options.getValue("watch")) {
         app.convertAndWatch(async (project) => {
+            app.validate(project);
+
             const json = app.options.getValue("json");
 
             if (!json || app.options.isSet("out")) {
