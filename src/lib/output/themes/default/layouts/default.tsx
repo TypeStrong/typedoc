@@ -13,7 +13,7 @@ export const defaultLayout = (
     <html class="default" lang={context.options.getValue("lang")}>
         <head>
             <meta charset="utf-8" />
-            {context.hook("head.begin")}
+            {context.hook("head.begin", context)}
             <meta http-equiv="x-ua-compatible" content="IE=edge" />
             <title>
                 {props.model.isProject()
@@ -32,10 +32,10 @@ export const defaultLayout = (
             <script async src={context.relativeURL("assets/icons.js", true)} id="tsd-icons-script"></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
             <script async src={context.relativeURL("assets/navigation.js", true)} id="tsd-nav-script"></script>
-            {context.hook("head.end")}
+            {context.hook("head.end", context)}
         </head>
         <body>
-            {context.hook("body.begin")}
+            {context.hook("body.begin", context)}
             <script>
                 <Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";' />
                 {/* Hide the entire page for up to 0.5 seconds so that if navigating between pages on a fast */}
@@ -50,21 +50,21 @@ export const defaultLayout = (
 
             <div class="container container-main">
                 <div class="col-content">
-                    {context.hook("content.begin")}
+                    {context.hook("content.begin", context)}
                     {context.header(props)}
                     {template(props)}
-                    {context.hook("content.end")}
+                    {context.hook("content.end", context)}
                 </div>
                 <div class="col-sidebar">
                     <div class="page-menu">
-                        {context.hook("pageSidebar.begin")}
+                        {context.hook("pageSidebar.begin", context)}
                         {context.pageSidebar(props)}
-                        {context.hook("pageSidebar.end")}
+                        {context.hook("pageSidebar.end", context)}
                     </div>
                     <div class="site-menu">
-                        {context.hook("sidebar.begin")}
+                        {context.hook("sidebar.begin", context)}
                         {context.sidebar(props)}
-                        {context.hook("sidebar.end")}
+                        {context.hook("sidebar.end", context)}
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@ export const defaultLayout = (
             <div class="overlay"></div>
 
             {context.analytics()}
-            {context.hook("body.end")}
+            {context.hook("body.end", context)}
         </body>
     </html>
 );

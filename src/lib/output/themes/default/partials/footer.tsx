@@ -42,10 +42,10 @@ export function footer(context: DefaultThemeRenderContext) {
 
     return (
         <footer>
-            {context.hook("footer.begin")}
+            {context.hook("footer.begin", context)}
             {generatorDisplay}
             {customFooterDisplay}
-            {context.hook("footer.end")}
+            {context.hook("footer.end", context)}
         </footer>
     );
 }

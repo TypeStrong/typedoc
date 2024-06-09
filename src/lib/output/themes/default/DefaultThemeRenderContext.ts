@@ -1,4 +1,4 @@
-import type { PageEvent, RendererHooks } from "../..";
+import type { PageEvent, Renderer } from "../..";
 import type {
     Internationalization,
     TranslationProxy,
@@ -84,8 +84,9 @@ export class DefaultThemeRenderContext {
         return this._refIcons;
     }
 
-    hook = (name: keyof RendererHooks) =>
-        this.theme.owner.hooks.emit(name, this);
+    hook: Renderer["hooks"]["emit"] = (...params) => {
+        return this.theme.owner.hooks.emit(...params);
+    };
 
     /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string, cacheBust = false) => {

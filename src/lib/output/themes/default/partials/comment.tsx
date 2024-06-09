@@ -15,15 +15,19 @@ export function commentSummary({ markdown }: DefaultThemeRenderContext, props: R
     );
 }
 
-export function commentTags({ markdown }: DefaultThemeRenderContext, props: Reflection) {
+export function commentTags(context: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment) return;
 
+    const beforeTags = context.hook("comment.beforeTags", context, props.comment, props);
+    const afterTags = context.hook("comment.afterTags", context, props.comment, props);
+
     const tags = props.kindOf(ReflectionKind.SomeSignature)
-        ? props.comment.blockTags.filter((tag) => tag.tag !== "@returns")
-        : props.comment.blockTags;
+        ? props.comment.blockTags.filter((tag) => tag.tag !== "@returns" && !tag.skipRendering)
+        : props.comment.blockTags.filter((tag) => !tag.skipRendering);
 
     return (
         <div class="tsd-comment tsd-typography">
+            {beforeTags}
             {tags.map((item) => {
                 const name = item.name
                     ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
@@ -32,10 +36,11 @@ export function commentTags({ markdown }: DefaultThemeRenderContext, props: Refl
                 return (
                     <>
                         <h4>{name}</h4>
-                        <Raw html={markdown(item.content)} />
+                        <Raw html={context.markdown(item.content)} />
                     </>
                 );
             })}
+            {afterTags}
         </div>
     );
 }

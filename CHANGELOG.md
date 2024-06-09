@@ -34,6 +34,7 @@
     Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 through at least 0.26.
 -   API: `JSONOutput.SignatureReflection.typeParameter` has been renamed to `typeParameters` to match the JS API.
 -   API: `DefaultThemeRenderContext.iconsCache` has been removed as it is no longer needed.
+-   API: `DefaultThemeRenderContext.hook` must now be passed `context` if required by the hook.
 
 ### Features
 
@@ -61,6 +62,8 @@
 -   TypeDoc will now render union elements on new lines if there are more than 3 items in the union.
 -   TypeDoc will now only render the "Type Declaration" section if it will provide additional information not already presented in the page.
     This results in significantly smaller documentation pages in many cases where that section would just repeat what has already been presented in the rendered type.
+-   Added `comment.beforeTags` and `comment.afterTags` hooks for plugin use.
+    Combined with `CommentTag.skipRendering` this can be used to provide custom tag handling at render time.
 
 ### Bug Fixes
 

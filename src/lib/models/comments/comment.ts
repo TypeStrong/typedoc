@@ -87,6 +87,13 @@ export class CommentTag {
     content: CommentDisplayPart[];
 
     /**
+     * A flag which may be set by plugins to prevent TypeDoc from rendering this tag, if the plugin provides
+     * custom rendering. Note: This flag is **not** serialized, it is expected to be set just before the comment
+     * is rendered.
+     */
+    skipRendering = false;
+
+    /**
      * Create a new CommentTag instance.
      */
     constructor(tag: `@${string}`, text: CommentDisplayPart[]) {

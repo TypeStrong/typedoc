@@ -122,7 +122,10 @@ export type SomeReflection = ReflectionVariantMap[keyof ReflectionVariantMap];
 /** @category Reflections */
 export interface DocumentReflection
     extends Omit<Reflection, "variant">,
-        S<M.DocumentReflection, "variant" | "content" | "relevanceBoost"> {
+        S<
+            M.DocumentReflection,
+            "variant" | "content" | "relevanceBoost" | "children"
+        > {
     frontmatter: Record<string, unknown>;
 }
 
