@@ -7,8 +7,9 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
     if (!(props instanceof DeclarationReflection)) return;
 
     // Each property of the interface will have a member rendered later on the page describing it, so generate
-    // a type-like object with links to each member.
-    if (props.kindOf(ReflectionKind.Interface)) {
+    // a type-like object with links to each member. Don't do this if we don't have any children as it will
+    // generate a broken looking interface. (See TraverseCallback)
+    if (props.kindOf(ReflectionKind.Interface) && props.children) {
         return (
             <div class="tsd-signature">
                 <span class="tsd-signature-keyword">interface </span>

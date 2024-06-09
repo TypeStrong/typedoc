@@ -84,12 +84,14 @@ function findHtmlPages(root) {
  * @param {string} outputDirectory
  * @param {number} jobs
  * @param {boolean} headless
+ * @param {string} theme
  */
 export async function captureScreenshots(
     baseDirectory,
     outputDirectory,
     jobs,
     headless,
+    theme,
 ) {
     const browser = await puppeteer.launch({
         args:
@@ -104,10 +106,9 @@ export async function captureScreenshots(
     console.log(`Processing ${pages.length} pages with ${jobs} workers`);
     for (const file of pages) {
         queue.add(async () => {
-            console.log("Starting", file);
             const outputPath = resolve(
                 outputDirectory,
-                relative(baseDirectory, file).replace(/\.html$/, ""),
+                relative(baseDirectory, file).replace(/\.html$/, ".png"),
             );
             fs.mkdirSync(dirname(outputPath), { recursive: true });
 
@@ -118,26 +119,16 @@ export async function captureScreenshots(
                 waitUntil: ["domcontentloaded"],
             });
 
-            await page.evaluate(() => {
-                document.documentElement.dataset.theme = "light";
-            });
+            await page.evaluate(
+                `document.documentElement.dataset.theme = "${theme}"`,
+            );
             await page.screenshot({
-                path: outputPath + "-light.png",
+                path: outputPath,
                 fullPage: true,
             });
-            console.log("Captured light image for", file);
-
-            await page.evaluate(() => {
-                document.documentElement.dataset.theme = "dark";
-            });
-            await page.screenshot({
-                path: outputPath + "-dark.png",
-                fullPage: true,
-            });
-            console.log("Captured dark image for", file);
 
             await context.close();
-            console.log("Finished", file);
+            console.log("Finished", relative(baseDirectory, file));
         });
     }
 
@@ -169,6 +160,10 @@ if (import.meta.url.endsWith(process.argv[1])) {
                 type: "boolean",
                 default: false,
             },
+            theme: {
+                type: "string",
+                default: "light",
+            },
         },
     });
 
@@ -178,6 +173,12 @@ if (import.meta.url.endsWith(process.argv[1])) {
 
     const start = Date.now();
     await fs.promises.rm(output, { recursive: true, force: true });
-    await captureScreenshots(docs, output, jobs, !args.values.debug);
+    await captureScreenshots(
+        docs,
+        output,
+        jobs,
+        !args.values.debug,
+        args.values.theme || "light",
+    );
     console.log(`Took ${(Date.now() - start) / 1000} seconds`);
 }

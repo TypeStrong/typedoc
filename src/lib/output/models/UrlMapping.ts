@@ -19,4 +19,8 @@ export class UrlMapping<Model = any> {
     }
 }
 
+/**
+ * @param data the reflection to render
+ * @returns either a string to be written to the file, or an element to be serialized and then written.
+ */
 export type RenderTemplate<T> = (data: T) => JSX.Element | string;

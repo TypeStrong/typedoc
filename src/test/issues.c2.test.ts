@@ -1552,6 +1552,18 @@ describe("Issue Tests", () => {
         equal(getComment(project, "f32.b"), "B comment");
     });
 
+    it("#2585 supports comments on union members", () => {
+        const project = convert();
+        const Foo = query(project, "Foo");
+        equal(Foo.type?.type, "union");
+
+        equal(Foo.type.elementSummaries?.length, 2);
+        equal(Foo.type.elementSummaries.map(Comment.combineDisplayParts), [
+            "Doc of foo1.",
+            "Doc of foo2.",
+        ]);
+    });
+
     it("#2587 comment on shorthand property declaration", () => {
         const project = convert();
 

@@ -1067,6 +1067,7 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
     },
     convertType(context, type) {
         const types = type.types.map((type) => convertType(context, type));
+        normalizeUnion(types);
         sortLiteralUnion(types);
 
         return new UnionType(types);
@@ -1151,4 +1152,33 @@ function sortLiteralUnion(types: SomeType[]) {
 
         return (aLit.value as number) - (bLit.value as number);
     });
+}
+
+function normalizeUnion(types: SomeType[]) {
+    let trueIndex = -1;
+    let falseIndex = -1;
+    for (
+        let i = 0;
+        i < types.length && (trueIndex === -1 || falseIndex === -1);
+        i++
+    ) {
+        const t = types[i];
+        if (t instanceof LiteralType) {
+            if (t.value === true) {
+                trueIndex = i;
+            }
+            if (t.value === false) {
+                falseIndex = i;
+            }
+        }
+    }
+
+    if (trueIndex !== -1 && falseIndex !== -1) {
+        types.splice(Math.max(trueIndex, falseIndex), 1);
+        types.splice(
+            Math.min(trueIndex, falseIndex),
+            1,
+            new IntrinsicType("boolean"),
+        );
+    }
 }

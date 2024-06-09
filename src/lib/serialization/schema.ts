@@ -364,7 +364,9 @@ export interface TypeOperatorType
         S<M.TypeOperatorType, "type" | "operator" | "target"> {}
 
 /** @category Types */
-export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
+export interface UnionType
+    extends Type,
+        S<M.UnionType, "type" | "types" | "elementSummaries"> {}
 
 /** @category Types */
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
@@ -392,7 +394,10 @@ export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
 }
 
-/** @category Comments */
+/**
+ * @see {@link M.CommentDisplayPart}
+ * @category Comments
+ */
 export type CommentDisplayPart =
     | { kind: "text"; text: string }
     | { kind: "code"; text: string }

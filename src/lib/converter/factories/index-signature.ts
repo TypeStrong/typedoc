@@ -26,7 +26,7 @@ export function convertIndexSignatures(context: Context, symbol: ts.Symbol) {
             ReflectionKind.IndexSignature,
             context.scope,
         );
-        index.comment = context.getNodeComment(indexDeclaration, index.kind);
+        index.comment = context.getNodeComment(indexDeclaration, false);
         index.parameters = [
             new ParameterReflection(
                 param.name.getText(),

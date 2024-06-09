@@ -196,7 +196,7 @@ export function getComment(
 
 export function getNodeComment(
     node: ts.Node,
-    kind: ReflectionKind,
+    moduleComment: boolean,
     config: CommentParserConfig,
     logger: Logger,
     commentStyle: CommentStyle,
@@ -207,7 +207,7 @@ export function getNodeComment(
         discoverNodeComment(node, commentStyle),
         config,
         logger,
-        kind === ReflectionKind.Module,
+        moduleComment,
         checker,
         files,
     );

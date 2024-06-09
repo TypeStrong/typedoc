@@ -83,3 +83,13 @@ export class CommentedClass {
      */
     ignoredprop: string;
 }
+
+export type UnionWithCommentsOnMembers =
+    /**
+     * Doc of foo1.
+     */
+    | "foo1"
+    /**
+     * Doc of foo2.
+     */
+    | "foo2";

@@ -9,6 +9,7 @@ import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
 import type { DeclarationReference } from "../converter/comments/declarationReference";
 import { findPackageForPath } from "../utils/fs";
 import { ReflectionKind } from "./reflections/kind";
+import { Comment, CommentDisplayPart } from "./comments";
 
 /**
  * Base class of all type definitions.
@@ -1315,9 +1316,16 @@ export class TypeOperatorType extends Type {
 export class UnionType extends Type {
     override readonly type = "union";
 
+    /**
+     * If present, there should be as many items in this array as there are items in the {@link types} array.
+     *
+     * This member is only valid on unions which are on {@link DeclarationReflection.type | DeclarationReflection.type} with a
+     * {@link ReflectionKind} `kind` of `TypeAlias`. Specifying it on any other union is undefined behavior.
+     */
+    elementSummaries?: CommentDisplayPart[][];
+
     constructor(public types: SomeType[]) {
         super();
-        this.normalize();
     }
 
     protected override getTypeString(): string {
@@ -1356,31 +1364,10 @@ export class UnionType extends Type {
         return map[context];
     }
 
-    private normalize() {
-        let trueIndex = -1;
-        let falseIndex = -1;
-        for (
-            let i = 0;
-            i < this.types.length && (trueIndex === -1 || falseIndex === -1);
-            i++
-        ) {
-            const t = this.types[i];
-            if (t instanceof LiteralType) {
-                if (t.value === true) {
-                    trueIndex = i;
-                }
-                if (t.value === false) {
-                    falseIndex = i;
-                }
-            }
-        }
-
-        if (trueIndex !== -1 && falseIndex !== -1) {
-            this.types.splice(Math.max(trueIndex, falseIndex), 1);
-            this.types.splice(
-                Math.min(trueIndex, falseIndex),
-                1,
-                new IntrinsicType("boolean"),
+    override fromObject(de: Deserializer, obj: JSONOutput.UnionType): void {
+        if (obj.elementSummaries) {
+            this.elementSummaries = obj.elementSummaries.map((parts) =>
+                Comment.deserializeDisplayParts(de, parts),
             );
         }
     }
@@ -1389,6 +1376,9 @@ export class UnionType extends Type {
         return {
             type: this.type,
             types: this.types.map((t) => serializer.toObject(t)),
+            elementSummaries: this.elementSummaries?.map((parts) =>
+                Comment.serializeDisplayParts(serializer, parts),
+            ),
         };
     }
 }

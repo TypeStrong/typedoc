@@ -8,6 +8,7 @@ import {
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
+    UnionType,
 } from "../models";
 import {
     getEnumFlags,
@@ -349,6 +350,10 @@ function convertTypeAlias(
             declaration.type,
         );
 
+        if (reflection.type.type === "union") {
+            attachUnionComments(context, declaration, reflection.type);
+        }
+
         context.finalizeDeclarationReflection(reflection);
 
         // Do this after finalization so that the CommentPlugin can get @typeParam tags
@@ -363,6 +368,40 @@ function convertTypeAlias(
         convertJsDocAlias(context, symbol, declaration, exportSymbol);
     } else {
         convertJsDocCallback(context, symbol, declaration, exportSymbol);
+    }
+}
+
+function attachUnionComments(
+    context: Context,
+    declaration: ts.TypeAliasDeclaration,
+    union: UnionType,
+) {
+    const list = declaration.type.getChildAt(0);
+    if (list.kind !== ts.SyntaxKind.SyntaxList) return;
+
+    let unionIndex = 0;
+    for (const child of list.getChildren()) {
+        const comment = context.getNodeComment(child, false);
+        if (comment?.modifierTags.size || comment?.blockTags.length) {
+            context.logger.warn(
+                context.logger.i18n.comment_for_0_should_not_contain_block_or_modifier_tags(
+                    context.scope.getFriendlyFullName() + "." + unionIndex,
+                ),
+                child,
+            );
+        }
+
+        if (comment) {
+            union.elementSummaries ||= Array.from(
+                { length: union.types.length },
+                () => [],
+            );
+            union.elementSummaries[unionIndex] = comment.summary;
+        }
+
+        if (child.kind !== ts.SyntaxKind.BarToken) {
+            ++unionIndex;
+        }
     }
 }
 

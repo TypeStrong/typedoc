@@ -53,6 +53,8 @@ export const translatable = {
     converting_0_as_class_requires_value_declaration: `Converting {0} as a class requires a declaration which represents a non-type value.`,
     converting_0_as_class_without_construct_signatures: `{0} is being converted as a class, but does not have any construct signatures`,
 
+    comment_for_0_should_not_contain_block_or_modifier_tags: `The comment for {0} should not contain any block or modifier tags.`,
+
     symbol_0_has_multiple_declarations_with_comment: `{0} has multiple declarations with a comment. An arbitrary comment will be used.`,
     comments_for_0_are_declared_at_1: `The comments for {0} are declared at:\n\t{1}`,
 

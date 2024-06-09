@@ -8,11 +8,26 @@ import { NonEnumerable } from "../../utils/general";
 /**
  * Represents a parsed piece of a comment.
  * @category Comments
+ * @see {@link JSONOutput.CommentDisplayPart}
  */
 export type CommentDisplayPart =
+    /**
+     * Represents a plain text portion of the comment, may contain markdown
+     */
     | { kind: "text"; text: string }
+    /**
+     * Represents a code block separated out form the plain text entry so
+     * that TypeDoc knows to skip it when parsing relative links and inline tags.
+     **/
     | { kind: "code"; text: string }
+    /**
+     * Represents an inline tag like `{@link Foo}`
+     */
     | InlineTagDisplayPart
+    /**
+     * Represents a reference to a path relative to where the comment resides.
+     * This is used to detect and copy relative image links.
+     */
     | RelativeLinkDisplayPart;
 
 /**

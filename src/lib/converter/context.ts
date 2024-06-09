@@ -294,10 +294,10 @@ export class Context {
         );
     }
 
-    getNodeComment(node: ts.Node, kind: ReflectionKind) {
+    getNodeComment(node: ts.Node, moduleComment: boolean) {
         return getNodeComment(
             node,
-            kind,
+            moduleComment,
             this.converter.config,
             this.logger,
             this.converter.commentStyle,

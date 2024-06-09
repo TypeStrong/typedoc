@@ -328,14 +328,3 @@ describe("Type.toString", () => {
         });
     });
 });
-
-describe("Union Types", () => {
-    it("Normalizes true | false to boolean", () => {
-        const type = new T.UnionType([
-            new T.LiteralType(true),
-            new T.LiteralType(123),
-            new T.LiteralType(false),
-        ]);
-        equal(type.toString(), "boolean | 123");
-    });
-});

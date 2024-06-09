@@ -189,6 +189,48 @@
               "url": "typedoc://comment.ts#L34"
             }
           ]
+        },
+        {
+          "id": 26,
+          "name": "UnionWithCommentsOnMembers",
+          "variant": "declaration",
+          "kind": 2097152,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "comment.ts",
+              "line": 87,
+              "character": 12,
+              "url": "typedoc://comment.ts#L87"
+            }
+          ],
+          "type": {
+            "type": "union",
+            "types": [
+              {
+                "type": "literal",
+                "value": "foo1"
+              },
+              {
+                "type": "literal",
+                "value": "foo2"
+              }
+            ],
+            "elementSummaries": [
+              [
+                {
+                  "kind": "text",
+                  "text": "Doc of foo1."
+                }
+              ],
+              [
+                {
+                  "kind": "text",
+                  "text": "Doc of foo2."
+                }
+              ]
+            ]
+          }
         }
       ],
       "groups": [
@@ -196,6 +238,12 @@
           "title": "Classes",
           "children": [
             2
+          ]
+        },
+        {
+          "title": "Type Aliases",
+          "children": [
+            26
           ]
         }
       ],
@@ -209,7 +257,7 @@
       ]
     },
     {
-      "id": 26,
+      "id": 27,
       "name": "comment2",
       "variant": "declaration",
       "kind": 2,
@@ -232,7 +280,7 @@
       },
       "children": [
         {
-          "id": 27,
+          "id": 28,
           "name": "multiply",
           "variant": "declaration",
           "kind": 64,
@@ -247,7 +295,7 @@
           ],
           "signatures": [
             {
-              "id": 28,
+              "id": 29,
               "name": "multiply",
               "variant": "signature",
               "kind": 4096,
@@ -262,7 +310,7 @@
               ],
               "parameters": [
                 {
-                  "id": 29,
+                  "id": 30,
                   "name": "a",
                   "variant": "param",
                   "kind": 32768,
@@ -273,7 +321,7 @@
                   }
                 },
                 {
-                  "id": 30,
+                  "id": 31,
                   "name": "b",
                   "variant": "param",
                   "kind": 32768,
@@ -296,7 +344,7 @@
         {
           "title": "Functions",
           "children": [
-            27
+            28
           ]
         }
       ],
@@ -310,7 +358,7 @@
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "name": "comment3",
       "variant": "declaration",
       "kind": 2,
@@ -333,7 +381,7 @@
       },
       "children": [
         {
-          "id": 32,
+          "id": 33,
           "name": "multiply",
           "variant": "declaration",
           "kind": 64,
@@ -348,7 +396,7 @@
           ],
           "signatures": [
             {
-              "id": 33,
+              "id": 34,
               "name": "multiply",
               "variant": "signature",
               "kind": 4096,
@@ -363,7 +411,7 @@
               ],
               "parameters": [
                 {
-                  "id": 34,
+                  "id": 35,
                   "name": "a",
                   "variant": "param",
                   "kind": 32768,
@@ -374,7 +422,7 @@
                   }
                 },
                 {
-                  "id": 35,
+                  "id": 36,
                   "name": "b",
                   "variant": "param",
                   "kind": 32768,
@@ -397,7 +445,7 @@
         {
           "title": "Functions",
           "children": [
-            32
+            33
           ]
         }
       ],
@@ -411,7 +459,7 @@
       ]
     },
     {
-      "id": 36,
+      "id": 37,
       "name": "comment4",
       "variant": "declaration",
       "kind": 2,
@@ -430,7 +478,7 @@
       },
       "children": [
         {
-          "id": 37,
+          "id": 38,
           "name": "multiply",
           "variant": "declaration",
           "kind": 64,
@@ -445,7 +493,7 @@
           ],
           "signatures": [
             {
-              "id": 38,
+              "id": 39,
               "name": "multiply",
               "variant": "signature",
               "kind": 4096,
@@ -460,7 +508,7 @@
               ],
               "parameters": [
                 {
-                  "id": 39,
+                  "id": 40,
                   "name": "a",
                   "variant": "param",
                   "kind": 32768,
@@ -471,7 +519,7 @@
                   }
                 },
                 {
-                  "id": 40,
+                  "id": 41,
                   "name": "b",
                   "variant": "param",
                   "kind": 32768,
@@ -494,7 +542,7 @@
         {
           "title": "Functions",
           "children": [
-            37
+            38
           ]
         }
       ],
@@ -513,9 +561,9 @@
       "title": "Modules",
       "children": [
         1,
-        26,
-        31,
-        36
+        27,
+        32,
+        37
       ]
     }
   ],
@@ -550,12 +598,12 @@
       "qualifiedName": "arg2"
     },
     "26": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/comment/comment.ts",
+      "qualifiedName": "UnionWithCommentsOnMembers"
     },
     "27": {
       "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "multiply"
+      "qualifiedName": ""
     },
     "28": {
       "sourceFileName": "src/test/converter/comment/comment2.ts",
@@ -563,19 +611,19 @@
     },
     "29": {
       "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "a"
+      "qualifiedName": "multiply"
     },
     "30": {
       "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "b"
+      "qualifiedName": "a"
     },
     "31": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/comment/comment2.ts",
+      "qualifiedName": "b"
     },
     "32": {
       "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "multiply"
+      "qualifiedName": ""
     },
     "33": {
       "sourceFileName": "src/test/converter/comment/comment3.ts",
@@ -583,19 +631,19 @@
     },
     "34": {
       "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "a"
+      "qualifiedName": "multiply"
     },
     "35": {
       "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "b"
+      "qualifiedName": "a"
     },
     "36": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": ""
+      "sourceFileName": "src/test/converter/comment/comment3.ts",
+      "qualifiedName": "b"
     },
     "37": {
       "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "multiply"
+      "qualifiedName": ""
     },
     "38": {
       "sourceFileName": "src/test/converter/comment/comment4.ts",
@@ -603,9 +651,13 @@
     },
     "39": {
       "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "a"
+      "qualifiedName": "multiply"
     },
     "40": {
+      "sourceFileName": "src/test/converter/comment/comment4.ts",
+      "qualifiedName": "a"
+    },
+    "41": {
       "sourceFileName": "src/test/converter/comment/comment4.ts",
       "qualifiedName": "b"
     }
@@ -619,9 +671,9 @@
     },
     "reflections": {
       "1": 1,
-      "2": 26,
-      "3": 31,
-      "4": 36
+      "2": 27,
+      "3": 32,
+      "4": 37
     }
   }
 }
