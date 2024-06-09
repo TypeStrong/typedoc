@@ -21,7 +21,7 @@ for (const [name, data] of Object.entries(htmlEntities)) {
     let current = htmlEntitiesTrie;
     for (let i = 0; i < name.length; ++i) {
         current.children ||= {};
-        current = current.children[name.charCodeAt(i)] ||= { children: {} };
+        current = current.children[name.charCodeAt(i)] ||= {};
     }
     current.data = data;
 }
