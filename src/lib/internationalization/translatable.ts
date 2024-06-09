@@ -260,6 +260,8 @@ export const translatable = {
         "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`.",
     help_hostedBaseUrl:
         "Specify a base URL to be used in generating a sitemap.xml in our output folder and canonical links. If not specified, no sitemap will be generated.",
+    help_useHostedBaseUrlForAbsoluteLinks:
+        "If set, TypeDoc will produce absolute links to pages on your site using the hostedBaseUrl option.",
     help_gaID:
         "Set the Google Analytics tracking ID and activate tracking code.",
     help_hideGenerator: "Do not print the TypeDoc link at the end of the page.",
@@ -362,6 +364,8 @@ export const translatable = {
         "highlightLanguages contains invalid languages: {0}, run typedoc --help for a list of supported languages.",
     hostedBaseUrl_must_start_with_http:
         "hostedBaseUrl must start with http:// or https://",
+    useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
+        "The useHostedBaseUrlForAbsoluteLinks option requires that hostedBaseUrl be set",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object.",
     option_0_must_be_a_function: "The '{0}' option must be a function.",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values.`,

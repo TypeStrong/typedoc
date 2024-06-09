@@ -163,6 +163,7 @@ export interface TypeDocOptionMap {
     cname: string;
     githubPages: boolean;
     hostedBaseUrl: string;
+    useHostedBaseUrlForAbsoluteLinks: boolean;
     cacheBust: boolean;
     gaID: string;
     hideGenerator: boolean;

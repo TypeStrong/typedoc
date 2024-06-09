@@ -5,7 +5,7 @@
 -   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
     `@license`, `@import`, `@hideGroups` `@hideCategories` sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
-    searchInDocuments
+    searchInDocuments, useHostedBaseUrlForAbsoluteLinks
 -   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
 
 ### Breaking Changes
@@ -50,6 +50,7 @@
 -   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
 -   Added support for JSDoc `@hideconstructor` tag.
     This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
+-   Added `--useHostedBaseUrlForAbsoluteLinks` option to use the `--hostedBaseUrl` option to produce absolute links to pages on a site, #940.
 -   Fixed an issue where the "On This Page" section would include markdown if the page contained headings contained markdown.
 -   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.

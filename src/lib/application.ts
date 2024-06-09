@@ -267,6 +267,16 @@ export class Application extends ChildableComponent<
                 "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
             );
         }
+
+        if (
+            this.options.getValue("useHostedBaseUrlForAbsoluteLinks") &&
+            !this.options.getValue("hostedBaseUrl")
+        ) {
+            this.logger.warn(
+                this.i18n.useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl(),
+            );
+            this.options.setValue("useHostedBaseUrlForAbsoluteLinks", false);
+        }
     }
 
     private setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {

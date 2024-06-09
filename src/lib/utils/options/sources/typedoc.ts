@@ -484,6 +484,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "useHostedBaseUrlForAbsoluteLinks",
+        help: (i18n) => i18n.help_useHostedBaseUrlForAbsoluteLinks(),
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "gaID",
         help: (i18n) => i18n.help_gaID(),
     });

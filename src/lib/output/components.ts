@@ -7,6 +7,7 @@ import type {
 } from "../models/reflections/index";
 import type { Renderer } from "./renderer";
 import { RendererEvent, PageEvent } from "./events";
+import { Option } from "../utils";
 
 export { Component };
 
@@ -39,6 +40,14 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      */
     protected urlPrefix = /^(http|ftp)s?:\/\//;
 
+    private get hostedBaseUrl() {
+        const url = this.application.options.getValue("hostedBaseUrl");
+        return !url || url.endsWith("/") ? url : url + "/";
+    }
+
+    @Option("useHostedBaseUrlForAbsoluteLinks")
+    private accessor useHostedBaseUrlForAbsoluteLinks!: boolean;
+
     /**
      * Create a new ContextAwareRendererPlugin instance.
      *
@@ -67,7 +76,13 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
             const key = `${this.location}:${absolute}`;
             let path = this.absoluteToRelativePathMap.get(key);
             if (path) return path;
-            path = Path.posix.relative(this.location, absolute) || ".";
+
+            if (this.useHostedBaseUrlForAbsoluteLinks) {
+                path = new URL(absolute, this.hostedBaseUrl).toString();
+            } else {
+                path = Path.posix.relative(this.location, absolute) || ".";
+            }
+
             this.absoluteToRelativePathMap.set(key, path);
             return path;
         }
