@@ -73,6 +73,11 @@ const config = {
         "@typescript-eslint/no-confusing-void-expression": "off",
         "@typescript-eslint/unbound-method": "off",
 
+        // I'd like to have this turned on, but haven't figured out how to tell it about
+        // checks that are correctly linted as unnecessary for TypeDoc's usage, but not
+        // for plugin permitted usage.
+        "@typescript-eslint/no-unnecessary-condition": "off",
+
         // Feel free to turn one of these back on and submit a PR!
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",

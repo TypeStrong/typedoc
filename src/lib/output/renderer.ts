@@ -24,7 +24,7 @@ import type {
     BundledLanguage,
     BundledTheme as ShikiTheme,
 } from "shiki" with { "resolution-mode": "import" };
-import { Comment, Reflection } from "../models";
+import { type Comment, Reflection } from "../models";
 import type { JsxElement } from "../utils/jsx.elements";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
 import { validateStateIsClean } from "./themes/default/partials/type";

@@ -104,7 +104,6 @@ export class DefaultThemeRenderContext {
     markdown = (
         md: readonly CommentDisplayPart[] | NeverIfInternal<string | undefined>,
     ) => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         return this.theme.markedPlugin.parseMarkdown(md || "", this.page, this);
     };
 

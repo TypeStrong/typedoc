@@ -490,7 +490,6 @@ function editDistance(s: string, t: string): number {
             let substitutionCost: number;
             if (s[i] === t[j]) {
                 substitutionCost = v0[j];
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             } else if (s[i]?.toUpperCase() === t[j]?.toUpperCase()) {
                 substitutionCost = v0[j] + 1;
             } else {

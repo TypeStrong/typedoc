@@ -357,7 +357,6 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
 
 function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
     // ts.SourceFile is a counterexample
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!node.parent) return node;
 
     // const abc = 123

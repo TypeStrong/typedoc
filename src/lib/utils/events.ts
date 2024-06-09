@@ -9,8 +9,6 @@
 
 // Priority: Higher number makes the listener be called earlier.
 
-/* eslint-disable */
-
 const uniqueId = (function () {
     const prefixes: Record<string, number | undefined> = Object.create(null);
     return function (prefix: string) {

@@ -91,7 +91,6 @@ export function loadConverters() {
         jsDocNonNullableTypeConverter,
     ]) {
         for (const key of actor.kind) {
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (key === undefined) {
                 // Might happen if running on an older TS version.
                 continue;

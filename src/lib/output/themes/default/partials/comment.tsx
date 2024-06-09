@@ -26,22 +26,24 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
         : props.comment.blockTags.filter((tag) => !tag.skipRendering);
 
     return (
-        <div class="tsd-comment tsd-typography">
+        <>
             {beforeTags}
-            {tags.map((item) => {
-                const name = item.name
-                    ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
-                    : camelToTitleCase(item.tag.substring(1));
+            <div class="tsd-comment tsd-typography">
+                {tags.map((item) => {
+                    const name = item.name
+                        ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
+                        : camelToTitleCase(item.tag.substring(1));
 
-                return (
-                    <>
-                        <h4>{name}</h4>
-                        <Raw html={context.markdown(item.content)} />
-                    </>
-                );
-            })}
+                    return (
+                        <>
+                            <h4>{name}</h4>
+                            <Raw html={context.markdown(item.content)} />
+                        </>
+                    );
+                })}
+            </div>
             {afterTags}
-        </div>
+        </>
     );
 }
 

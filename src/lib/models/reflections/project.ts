@@ -403,6 +403,7 @@ export class ProjectReflection extends ContainerReflection {
         this.files.fromObject(de, obj.files);
 
         de.defer(() => {
+            // Unnecessary conditional in release
             for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
                 const refl = this.getReflectionById(de.oldIdToNewId[+id] ?? -1);
                 if (refl) {
