@@ -645,8 +645,9 @@ export class Converter extends ChildableComponent<
                 childFile = new MinimalSourceFile(readFile(absPath), absPath);
             } catch (error: any) {
                 this.application.logger.error(
-                    this.application.logger.i18n.failed_to_read_0_when_processing_project_document(
+                    this.application.logger.i18n.failed_to_read_0_when_processing_document_child_in_1(
                         path,
+                        nicePath(file.fileName),
                     ),
                 );
                 continue;
