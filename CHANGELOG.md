@@ -53,7 +53,7 @@
 -   Added support for JSDoc `@hideconstructor` tag.
     This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
 -   Added `--useHostedBaseUrlForAbsoluteLinks` option to use the `--hostedBaseUrl` option to produce absolute links to pages on a site, #940.
--   Fixed an issue where the "On This Page" section would include markdown if the page contained headings contained markdown.
+-   Fixed an issue where the "On This Page" section would include markdown if the page contained headings which contained markdown.
 -   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
