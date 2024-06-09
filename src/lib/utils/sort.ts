@@ -5,7 +5,6 @@
 
 import { ReflectionKind } from "../models/reflections/kind";
 import type { DeclarationReflection } from "../models/reflections/declaration";
-import { LiteralType } from "../models/types";
 import type { Options } from "./options";
 import type { DocumentReflection } from "../models";
 
@@ -111,13 +110,9 @@ const sorts: Record<
             const bRefl = b as DeclarationReflection;
 
             const aValue =
-                aRefl.type instanceof LiteralType
-                    ? aRefl.type.value
-                    : -Infinity;
+                aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
             const bValue =
-                bRefl.type instanceof LiteralType
-                    ? bRefl.type.value
-                    : -Infinity;
+                bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
 
             return aValue! < bValue!;
         }
@@ -132,13 +127,9 @@ const sorts: Record<
             const bRefl = b as DeclarationReflection;
 
             const aValue =
-                aRefl.type instanceof LiteralType
-                    ? aRefl.type.value
-                    : -Infinity;
+                aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
             const bValue =
-                bRefl.type instanceof LiteralType
-                    ? bRefl.type.value
-                    : -Infinity;
+                bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
 
             return bValue! < aValue!;
         }
