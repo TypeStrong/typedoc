@@ -73,7 +73,7 @@ export function settings(context: DefaultThemeRenderContext) {
 
     return (
         <div class="tsd-navigation settings">
-            <details class="tsd-index-accordion" open={false}>
+            <details class="tsd-accordion" open={false}>
                 <summary class="tsd-accordion-summary">
                     <h3>
                         {context.icons.chevronDown()}
@@ -176,7 +176,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
     finalizeLevel(true);
 
     return (
-        <details open={true} class="tsd-index-accordion tsd-page-navigation">
+        <details open={true} class="tsd-accordion tsd-page-navigation">
             <summary class="tsd-accordion-summary">
                 <h3>
                     {context.icons.chevronDown()}

@@ -48,6 +48,7 @@
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
 -   TypeDoc will now copy modifier tags to children if specified in the `--cascadedModifierTags` option, #2056.
 -   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
+-   Groups and categories can now be collapsed in the page body, #2330.
 -   Added support for JSDoc `@hideconstructor` tag.
     This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
 -   Added `--useHostedBaseUrlForAbsoluteLinks` option to use the `--hostedBaseUrl` option to produce absolute links to pages on a site, #940.

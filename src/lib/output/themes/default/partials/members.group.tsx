@@ -6,23 +6,34 @@ export function membersGroup(context: DefaultThemeRenderContext, group: Reflecti
     if (group.categories) {
         return (
             <>
-                {group.categories.map((item) => (
-                    <section class="tsd-panel-group tsd-member-group">
-                        <h2>
-                            {group.title}
-                            {!!item.title && <> - {item.title}</>}
-                        </h2>
-                        {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
-                    </section>
-                ))}
+                {group.categories.map((item) => {
+                    const title = `${group.title} - ${item.title}`;
+
+                    return (
+                        <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
+                            <summary class="tsd-accordion-summary" data-key={"section-" + title}>
+                                <h2>
+                                    {context.icons.chevronDown()} {title}
+                                </h2>
+                            </summary>
+                            <section>
+                                {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
+                            </section>
+                        </details>
+                    );
+                })}
             </>
         );
     }
 
     return (
-        <section class="tsd-panel-group tsd-member-group">
-            <h2>{group.title}</h2>
-            {group.children.map((item) => !item.hasOwnDocument && context.member(item))}
-        </section>
+        <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
+            <summary class="tsd-accordion-summary" data-key={"section-" + group.title}>
+                <h2>
+                    {context.icons.chevronDown()} {group.title}
+                </h2>
+            </summary>
+            <section>{group.children.map((item) => !item.hasOwnDocument && context.member(item))}</section>
+        </details>
     );
 }

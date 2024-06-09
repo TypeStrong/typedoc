@@ -839,7 +839,7 @@ a.tsd-index-link {
     padding-top: 0;
     padding-bottom: 0;
 }
-.tsd-index-accordion .tsd-accordion-summary > svg {
+.tsd-accordion .tsd-accordion-summary > svg {
     margin-left: 0.25rem;
 }
 .tsd-index-content > :not(:first-child) {
@@ -888,13 +888,16 @@ a.tsd-index-link {
 }
 
 .tsd-panel-group {
-    margin: 4rem 0;
+    margin: 2rem 0;
 }
 .tsd-panel-group.tsd-index-group {
     margin: 2rem 0;
 }
 .tsd-panel-group.tsd-index-group details {
     margin: 2rem 0;
+}
+.tsd-panel-group > .tsd-accordion-summary {
+    margin-bottom: 1rem;
 }
 
 #tsd-search {

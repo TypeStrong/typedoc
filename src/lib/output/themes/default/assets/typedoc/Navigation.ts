@@ -57,8 +57,8 @@ function buildNavElement(
         const fullPath = [...path, el.text];
         const details = li.appendChild(document.createElement("details"));
         details.className = el.class
-            ? `${el.class} tsd-index-accordion`
-            : "tsd-index-accordion";
+            ? `${el.class} tsd-accordion`
+            : "tsd-accordion";
         details.dataset.key = fullPath.join("$");
 
         const summary = details.appendChild(document.createElement("summary"));

@@ -10,15 +10,21 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                 {props.categories.map(
                     (item) =>
                         !item.allChildrenHaveOwnDocument() && (
-                            <section
+                            <details
                                 class={classNames(
-                                    { "tsd-panel-group": true, "tsd-member-group": true },
+                                    { "tsd-panel-group": true, "tsd-member-group": true, "tsd-accordion": true },
                                     props instanceof DeclarationReflection ? context.getReflectionClasses(props) : "",
                                 )}
                             >
-                                <h2>{item.title}</h2>
-                                {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
-                            </section>
+                                <summary class="tsd-accordion-summary" data-key={"section-" + item.title}>
+                                    <h2>
+                                        {context.icons.chevronDown()} {item.title}
+                                    </h2>
+                                </summary>
+                                <section>
+                                    {item.children.map((item) => !item.hasOwnDocument && context.member(item))}
+                                </section>
+                            </details>
                         ),
                 )}
             </>

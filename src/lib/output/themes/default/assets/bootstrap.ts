@@ -7,7 +7,7 @@ import { initTheme } from "./typedoc/Theme";
 import { initNav } from "./typedoc/Navigation";
 
 registerComponent(Toggle, "a[data-toggle]");
-registerComponent(Accordion, ".tsd-index-accordion");
+registerComponent(Accordion, ".tsd-accordion");
 registerComponent(Filter, ".tsd-filter-item input[type=checkbox]");
 
 const themeChoice = document.getElementById("tsd-theme");

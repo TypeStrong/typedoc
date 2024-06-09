@@ -38,6 +38,7 @@ export enum ReflectionKind {
 export namespace ReflectionKind {
     export type KindString = EnumKeys<typeof ReflectionKind>;
 
+    /** @internal */
     export const All = ReflectionKind.Reference * 2 - 1;
 
     /** @internal */
@@ -89,6 +90,7 @@ export namespace ReflectionKind {
         ReflectionKind.Interface |
         ReflectionKind.TypeAlias |
         ReflectionKind.Reference;
+    /** @internal */
     export const MayContainDocuments =
         SomeExport | ReflectionKind.Project | ReflectionKind.Document;
     /** @internal */
