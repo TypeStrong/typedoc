@@ -5,7 +5,7 @@ import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
 import { Option, type Logger, renderElement, assertNever } from "../../utils";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
-import { escapeHtml, getTextContent } from "../../utils/html";
+import { escapeHtml } from "../../utils/html";
 import type { DefaultTheme } from "..";
 import { Slugger } from "./default/DefaultTheme";
 import { anchorIcon } from "./default/partials/anchor-icon";
@@ -238,7 +238,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         // Add anchor links for headings in readme, and add them to the "On this page" section
         this.parser.renderer.rules["heading_open"] = (tokens, idx) => {
             const token = tokens[idx];
-            const content = tokens[idx + 1].content;
+            const content = getTokenTextContent(tokens[idx + 1]);
             const level = token.markup.length;
 
             const slug = this.getSlugger().slug(content);
@@ -247,7 +247,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
             this.page!.pageHeadings.push({
                 link: `#md:${slug}`,
-                text: getTextContent(content),
+                text: content,
                 level,
             });
 
@@ -277,4 +277,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     onParseMarkdown(event: MarkdownEvent) {
         event.parsedText = this.parser!.render(event.parsedText);
     }
+}
+
+function getTokenTextContent(token: markdown.Token): string {
+    if (token.children) {
+        return token.children.map(getTokenTextContent).join("");
+    }
+    return token.content;
 }

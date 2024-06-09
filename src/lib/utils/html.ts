@@ -26,31 +26,6 @@ for (const [name, data] of Object.entries(htmlEntities)) {
     current.data = data;
 }
 
-// Three cases:
-// &#123; - numeric escape
-// &#x12; - hex escape
-// &amp; - named escape
-function unescapeEntities(html: string) {
-    return html.replace(
-        /&(#(?:\d+);?|(?:#[xX][0-9A-Fa-f]+);?|(?:\w+);?)/g,
-        (_, n) => {
-            if (n[0] === "#") {
-                return String.fromCharCode(
-                    n[1] === "x" || n[1] === "X"
-                        ? parseInt(n.substring(2), 16)
-                        : parseInt(n.substring(1), 10),
-                );
-            }
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            return htmlEntities[n as "AMP"]?.c || "";
-        },
-    );
-}
-
-export function getTextContent(text: string) {
-    return unescapeEntities(text.replace(/<.*?(?:>|$)/g, ""));
-}
-
 const htmlEscapes: Record<string, string> = {
     "&": "&amp;",
     "<": "&lt;",
