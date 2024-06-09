@@ -1,6 +1,10 @@
 import type { Deserializer, JSONOutput, Serializer } from "../../serialization";
 import { Comment, type CommentDisplayPart } from "../comments";
-import { Reflection, type TraverseCallback } from "./abstract";
+import {
+    Reflection,
+    TraverseProperty,
+    type TraverseCallback,
+} from "./abstract";
 import { ReflectionKind } from "./kind";
 
 /**
@@ -25,6 +29,11 @@ export class DocumentReflection extends Reflection {
      */
     relevanceBoost?: number;
 
+    /**
+     * Child documents, if any are present.
+     */
+    children?: DocumentReflection[];
+
     constructor(
         name: string,
         parent: Reflection,
@@ -41,12 +50,21 @@ export class DocumentReflection extends Reflection {
         }
     }
 
+    addChild(child: DocumentReflection) {
+        this.children ||= [];
+        this.children.push(child);
+    }
+
     override isDocument(): this is DocumentReflection {
         return true;
     }
 
-    override traverse(_callback: TraverseCallback): void {
-        // Nothing to do here, we have no children.
+    override traverse(callback: TraverseCallback): void {
+        for (const child of this.children || []) {
+            if (callback(child, TraverseProperty.Documents) === false) {
+                return;
+            }
+        }
     }
 
     override toObject(serializer: Serializer): JSONOutput.DocumentReflection {

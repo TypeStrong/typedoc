@@ -267,19 +267,18 @@ export class Converter extends ChildableComponent<
             this.application.options,
         );
         for (const { displayName, path } of projectDocuments) {
-            const file = new MinimalSourceFile(readFile(path), path);
-            const { content, frontmatter } = this.parseRawComment(
-                file,
-                project.files,
-            );
-            const docRefl = new DocumentReflection(
-                displayName,
-                project,
-                content,
-                frontmatter,
-            );
-            project.addChild(docRefl);
-            project.registerReflection(docRefl, undefined, path);
+            let file: MinimalSourceFile;
+            try {
+                file = new MinimalSourceFile(readFile(path), path);
+            } catch (error: any) {
+                this.application.logger.error(
+                    this.application.logger.i18n.failed_to_read_0_when_processing_project_document(
+                        path,
+                    ),
+                );
+                continue;
+            }
+            this.addDocument(project, file, displayName);
         }
     }
 
@@ -575,23 +574,84 @@ export class Converter extends ChildableComponent<
                     continue;
                 }
 
-                const { content, frontmatter } = this.parseRawComment(
-                    file,
-                    reflection.project.files,
-                );
-                const docRefl = new DocumentReflection(
-                    basename(file.fileName).replace(/\.[^.]+$/, ""),
+                this.addDocument(
                     parent,
-                    content,
-                    frontmatter,
-                );
-                parent.addChild(docRefl);
-                parent.project.registerReflection(
-                    docRefl,
-                    undefined,
-                    file.fileName,
+                    file,
+                    basename(file.fileName).replace(/\.[^.]+$/, ""),
                 );
             }
+        }
+    }
+
+    private addDocument(
+        parent: ContainerReflection | DocumentReflection,
+        file: MinimalSourceFile,
+        displayName: string,
+    ) {
+        const { content, frontmatter } = this.parseRawComment(
+            file,
+            parent.project.files,
+        );
+        const children = frontmatter["children"];
+        delete frontmatter["children"];
+        const docRefl = new DocumentReflection(
+            displayName,
+            parent,
+            content,
+            frontmatter,
+        );
+
+        parent.addChild(docRefl);
+        parent.project.registerReflection(docRefl, undefined, file.fileName);
+
+        const childrenToAdd: [string, string][] = [];
+        if (children && typeof children === "object") {
+            if (Array.isArray(children)) {
+                for (const child of children) {
+                    if (typeof child === "string") {
+                        childrenToAdd.push([
+                            basename(child).replace(/\.[^.]+$/, ""),
+                            child,
+                        ]);
+                    } else {
+                        this.application.logger.error(
+                            this.application.i18n.frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
+                                nicePath(file.fileName),
+                            ),
+                        );
+                        return;
+                    }
+                }
+            } else {
+                for (const [name, path] of Object.entries(children)) {
+                    if (typeof path === "string") {
+                        childrenToAdd.push([name, path]);
+                    } else {
+                        this.application.logger.error(
+                            this.application.i18n.frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
+                                nicePath(file.fileName),
+                            ),
+                        );
+                        return;
+                    }
+                }
+            }
+        }
+
+        for (const [displayName, path] of childrenToAdd) {
+            const absPath = resolve(dirname(file.fileName), path);
+            let childFile: MinimalSourceFile;
+            try {
+                childFile = new MinimalSourceFile(readFile(absPath), absPath);
+            } catch (error: any) {
+                this.application.logger.error(
+                    this.application.logger.i18n.failed_to_read_0_when_processing_project_document(
+                        path,
+                    ),
+                );
+                continue;
+            }
+            this.addDocument(docRefl, childFile, displayName);
         }
     }
 

@@ -2,8 +2,6 @@
 
 Documentation generator for TypeScript projects.
 
-Plugins: [plugins](./internal-docs/plugins.md)
-
 [![CI](https://github.com/TypeStrong/typedoc/workflows/CI/badge.svg)](https://github.com/TypeStrong/typedoc/actions)
 [![NPM Version](https://img.shields.io/npm/v/typedoc?color=33cd56&logo=npm)](https://www.npmjs.com/package/typedoc)
 

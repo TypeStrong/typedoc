@@ -1,3 +1,7 @@
+---
+title: Components and Events
+---
+
 # Components and Events
 
 TypeDoc uses a `Component` and `Event`-based architecture.

@@ -6,9 +6,9 @@ import {
     type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
+    DocumentReflection,
     ReflectionKind,
     ReflectionFlag,
-    type DocumentReflection,
 } from "../models/index";
 
 import type { Converter } from "./converter";

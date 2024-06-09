@@ -89,7 +89,8 @@ export namespace ReflectionKind {
         ReflectionKind.Interface |
         ReflectionKind.TypeAlias |
         ReflectionKind.Reference;
-    export const MayContainDocuments = SomeExport | ReflectionKind.Project;
+    export const MayContainDocuments =
+        SomeExport | ReflectionKind.Project | ReflectionKind.Document;
     /** @internal */
     export const ExportContainer =
         ReflectionKind.SomeModule | ReflectionKind.Project;

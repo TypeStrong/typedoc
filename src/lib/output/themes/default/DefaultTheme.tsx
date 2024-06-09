@@ -359,8 +359,12 @@ export class DefaultTheme extends Theme {
                 return;
             }
 
-            if (!parent.kindOf(ReflectionKind.MayContainDocuments) || parent.isDocument()) {
+            if (!parent.kindOf(ReflectionKind.MayContainDocuments)) {
                 return;
+            }
+
+            if (parent.isDocument()) {
+                return parent.children?.map(toNavigation);
             }
 
             if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {

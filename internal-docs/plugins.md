@@ -1,5 +1,7 @@
 ---
 title: Plugins
+children:
+    - ./components-and-events.md
 ---
 
 # Writing a TypeDoc Plugin

@@ -49,6 +49,10 @@ export const translatable = {
     failed_to_parse_json_0: `Failed to parse file at {0} as json.`,
 
     failed_to_read_0_when_processing_document_tag_in_1: `Failed to read file {0} when processing @document tag for comment in {1}`,
+    failed_to_read_0_when_processing_project_document: `Failed to read file {0} when adding project document`,
+    failed_to_read_0_when_processing_document_child_in_1: `Failed to read file {0} when processing document children in {1}`,
+    frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values:
+        "Frontmatter children in {0} should be an array of strings or an object with string values.",
     converting_union_as_interface: `Using @interface on a union type will discard properties not present on all branches of the union. TypeDoc's output may not accurately describe your source code.`,
     converting_0_as_class_requires_value_declaration: `Converting {0} as a class requires a declaration which represents a non-type value.`,
     converting_0_as_class_without_construct_signatures: `{0} is being converted as a class, but does not have any construct signatures`,
