@@ -26,6 +26,26 @@ jobs:
               uses: gerrit0/circular-dependency-check@v2.0.1
               with:
                   entry: dist/index.js
+    build-release:
+        runs-on: ubuntu-latest
+        name: Node 22 Release
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+            - name: Install
+              run: npm ci
+            - name: Build
+              run: |
+                  node scripts/set_strict.js false
+                  npm run build
+            - name: Test
+              run: npm run test:full
+            - name: Lint
+              run: npm run lint -- --max-warnings 0
     build-windows:
         runs-on: windows-latest
         name: Node 18 Windows
