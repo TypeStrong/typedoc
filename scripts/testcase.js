@@ -1,5 +1,5 @@
 // @ts-check
-const marked = require("marked");
+const md = require("markdown-it");
 const cp = require("child_process");
 const { writeFile } = require("fs/promises");
 
@@ -45,16 +45,16 @@ async function main() {
     const issue = process.argv[2];
     const data = JSON.parse(await exec(curl.replace("ISSUE", issue)));
 
-    const lexer = new marked.Lexer({ gfm: true });
-    const tokens = lexer.lex(data.body);
+    const parser = md();
+    const tokens = parser.parse(data.body, {});
 
-    const code = /** @type {marked.marked.Tokens.Code} */ (
+    const code =
         tokens.find(
             (tok) =>
-                tok.type === "code" &&
-                ["ts", "tsx", "js", "jsx"].includes(tok.lang || ""),
-        ) || tokens.find((tok) => tok.type === "code")
-    );
+                tok.tag === "code" &&
+                ["ts", "tsx", "js", "jsx"].includes(tok.info || ""),
+        ) || tokens.find((tok) => tok.tag === "code");
+
     if (!code) {
         console.log("No codeblock found");
         const file = `src/test/converter2/issues/gh${issue}.ts`;
@@ -64,7 +64,7 @@ async function main() {
 
     const ext = process.argv[3] ? `.${process.argv[3]}` : guessExtension(code);
     const file = `src/test/converter2/issues/gh${issue}${ext}`;
-    await writeFile(file, code.text);
+    await writeFile(file, code.content);
     await exec(`code ${file} src/test/issues.c2.test.ts`);
 }
 

@@ -1551,4 +1551,18 @@ describe("Issue Tests", () => {
         equal(getComment(project, "f32.a.fn"), "Fn comment");
         equal(getComment(project, "f32.b"), "B comment");
     });
+
+    it("#2587 comment on shorthand property declaration", () => {
+        const project = convert();
+
+        const sig = querySig(project, "foo");
+        equal(sig.type?.type, "reflection");
+        const x = sig.type.declaration.getChildByName("x");
+        ok(x);
+
+        equal(
+            Comment.combineDisplayParts(x.comment?.summary),
+            "Shorthand comment",
+        );
+    });
 });
