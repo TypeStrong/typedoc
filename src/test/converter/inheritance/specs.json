@@ -386,7 +386,7 @@
                   "url": "typedoc://inherit-doc.ts#L58"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 4,
                   "name": "T",
@@ -531,7 +531,7 @@
                   "url": "typedoc://inherit-doc.ts#L78"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 9,
                   "name": "T",

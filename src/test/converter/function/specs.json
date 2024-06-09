@@ -456,7 +456,7 @@
                   "url": "typedoc://function.ts#L198"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 78,
                   "name": "T",
@@ -573,7 +573,7 @@
                   "url": "typedoc://function.ts#L199"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 85,
                   "name": "T",
@@ -752,7 +752,7 @@
                   "url": "typedoc://function.ts#L145"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 47,
                   "name": "T",
@@ -1519,7 +1519,7 @@
                   "url": "typedoc://function.ts#L157"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 51,
                   "name": "T",
@@ -2109,7 +2109,7 @@
                   "url": "typedoc://generic-function.ts#L18"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 100,
                   "name": "T",
@@ -2209,7 +2209,7 @@
                   "url": "typedoc://generic-function.ts#L29"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 105,
                   "name": "T",
@@ -2308,7 +2308,7 @@
                   "url": "typedoc://generic-function.ts#L7"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 96,
                   "name": "T",

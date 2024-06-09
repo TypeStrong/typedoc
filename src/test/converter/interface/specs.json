@@ -773,7 +773,7 @@
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
-                      "typeParameter": [
+                      "typeParameters": [
                         {
                           "id": 86,
                           "name": "T",
@@ -1281,7 +1281,7 @@
                           "url": "typedoc://interface-implementation.ts#L25"
                         }
                       ],
-                      "typeParameter": [
+                      "typeParameters": [
                         {
                           "id": 54,
                           "name": "V",

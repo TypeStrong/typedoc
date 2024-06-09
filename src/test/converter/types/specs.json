@@ -710,7 +710,7 @@
                   "url": "typedoc://mapped.ts#L9"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 30,
                   "name": "T",
@@ -827,7 +827,7 @@
                   "url": "typedoc://mapped.ts#L1"
                 }
               ],
-              "typeParameter": [
+              "typeParameters": [
                 {
                   "id": 26,
                   "name": "T",

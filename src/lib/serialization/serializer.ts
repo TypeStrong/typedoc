@@ -26,7 +26,7 @@ export class Serializer extends EventDispatcher {
      */
     projectRoot!: string;
 
-    addSerializer(serializer: SerializerComponent<any>): void {
+    addSerializer<T extends {}>(serializer: SerializerComponent<T>): void {
         insertPrioritySorted(this.serializers, serializer);
     }
 

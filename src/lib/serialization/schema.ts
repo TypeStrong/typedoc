@@ -34,8 +34,11 @@ import type { IfInternal } from "../utils";
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
  */
-export type ModelToObject<T> =
-    T extends Array<infer U> ? _ModelToObject<U>[] : _ModelToObject<T>;
+export type ModelToObject<T> = [T] extends [Array<infer U>]
+    ? ModelToObject<U>[]
+    : [M.SomeType] extends [T]
+      ? SomeType
+      : _ModelToObject<T>;
 
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
@@ -46,41 +49,25 @@ type _ModelToObject<T> =
           ? ReflectionGroup
           : Required<T> extends Required<M.ReflectionCategory>
             ? ReflectionCategory
-            : T extends M.SignatureReflection
-              ? SignatureReflection
-              : T extends M.ParameterReflection
-                ? ParameterReflection
-                : T extends M.DeclarationReflection
-                  ? DeclarationReflection
-                  : T extends M.DocumentReflection
-                    ? DocumentReflection
-                    : T extends M.TypeParameterReflection
-                      ? TypeParameterReflection
-                      : T extends M.ProjectReflection
-                        ? ProjectReflection
-                        : T extends M.ContainerReflection
-                          ? ContainerReflection
-                          : T extends M.ReferenceReflection
-                            ? ReferenceReflection
-                            : T extends M.Reflection
-                              ? Reflection
-                              : // Types
-                                T extends M.SomeType
-                                ? TypeKindMap[T["type"]]
-                                : T extends M.Type
-                                  ? SomeType
-                                  : // Miscellaneous
-                                    T extends M.Comment
-                                    ? Comment
-                                    : T extends M.CommentTag
-                                      ? CommentTag
-                                      : T extends M.CommentDisplayPart
-                                        ? CommentDisplayPart
-                                        : T extends M.SourceReference
-                                          ? SourceReference
-                                          : T extends M.FileRegistry
-                                            ? FileRegistry
-                                            : never;
+            : T extends M.ReflectionVariant[keyof M.ReflectionVariant]
+              ? ReflectionVariantMap[T["variant"]]
+              : // Types
+                T extends M.SomeType
+                ? TypeKindMap[T["type"]]
+                : T extends M.Type
+                  ? SomeType
+                  : // Miscellaneous
+                    T extends M.Comment
+                    ? Comment
+                    : T extends M.CommentTag
+                      ? CommentTag
+                      : T extends M.CommentDisplayPart
+                        ? CommentDisplayPart
+                        : T extends M.SourceReference
+                          ? SourceReference
+                          : T extends M.FileRegistry
+                            ? FileRegistry
+                            : never;
 
 type Primitive = string | number | undefined | null | boolean;
 
@@ -119,9 +106,18 @@ export interface ReflectionCategory
 // Reflections
 
 /** @category Reflections */
-export type SomeReflection = {
-    [K in keyof M.ReflectionVariant]: ModelToObject<M.ReflectionVariant[K]>;
-}[keyof M.ReflectionVariant];
+export interface ReflectionVariantMap {
+    declaration: DeclarationReflection;
+    param: ParameterReflection;
+    project: ProjectReflection;
+    reference: ReferenceReflection;
+    signature: SignatureReflection;
+    typeParam: TypeParameterReflection;
+    document: DocumentReflection;
+}
+
+/** @category Reflections */
+export type SomeReflection = ReflectionVariantMap[keyof ReflectionVariantMap];
 
 /** @category Reflections */
 export interface DocumentReflection
@@ -149,13 +145,14 @@ export interface SignatureReflection
             | "variant"
             | "sources"
             | "parameters"
+            | "typeParameters"
             | "type"
             | "overwrites"
             | "inheritedFrom"
             | "implementationOf"
         > {
-    // Weird not to call this typeParameters... preserving backwards compatibility for now.
-    typeParameter?: ModelToObject<M.SignatureReflection["typeParameters"]>;
+    /** @deprecated in 0.26, replaced with {@link typeParameters} */
+    typeParameter?: ModelToObject<M.TypeParameterReflection[]>;
 }
 
 /** @category Reflections */
@@ -234,7 +231,7 @@ export interface Reflection
 // Types
 
 /** @category Types */
-export type SomeType = ModelToObject<M.SomeType>;
+export type SomeType = TypeKindMap[keyof TypeKindMap];
 
 /** @category Types */
 export type TypeKindMap = {

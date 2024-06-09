@@ -4089,7 +4089,7 @@
                       "url": "typedoc://generic-class.ts#L20"
                     }
                   ],
-                  "typeParameter": [
+                  "typeParameters": [
                     {
                       "id": 170,
                       "name": "T",
@@ -5031,7 +5031,7 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
-                  "typeParameter": [
+                  "typeParameters": [
                     {
                       "id": 214,
                       "name": "T",

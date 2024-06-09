@@ -31,7 +31,8 @@
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.
-    Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 until at least 0.27.
+    Note: This also affects JSON serialization. TypeDoc will support JSON output from 0.25 through at least 0.26.
+-   API: `JSONOutput.SignatureReflection.typeParameter` has been renamed to `typeParameters` to match the JS API.
 -   API: `DefaultThemeRenderContext.iconsCache` has been removed as it is no longer needed.
 
 ### Features
@@ -52,6 +53,7 @@
 -   Added new `--alwaysCreateEntryPointModule` option. When set, TypeDoc will always create a `Module` for entry points, even if only one is provided.
     If `--projectDocuments` is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
 -   Added new `--highlightLanguages` option to control what Shiki language packages are loaded.
+-   TypeDoc will now render union elements on new lines if there are more than 3 items in the union.
 
 ### Bug Fixes
 

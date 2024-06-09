@@ -69,9 +69,10 @@ function renderUniquePath(context: DefaultThemeRenderContext, reflection: Reflec
     ));
 }
 
+const indentSize = 4;
 let indentationDepth = 0;
 function includeIndentation(): JSX.Element {
-    return indentationDepth > 0 ? <span>{"\u00A0".repeat(indentationDepth * 4)}</span> : <></>;
+    return indentationDepth > 0 ? <span>{"\u00A0".repeat(indentationDepth * indentSize)}</span> : <></>;
 }
 
 export function validateStateIsClean(page: string) {
@@ -496,6 +497,31 @@ const typeRenderers: {
         );
     },
     union(context, type) {
+        // This could likely be improved with some print width based heuristic like
+        // how prettier works, but my initial investigation with it didn't consistently
+        // produce better results than this much simpler method as the print width
+        // method doesn't track how far into the current line we are, and I don't want
+        // to spend the time right now to properly track that here. PR welcome if someone
+        // wants to take the time to make that a real capability.
+        // https://gist.github.com/Gerrit0/5cebc127fd4b181e49e354b786d181d7
+        if (type.types.length > 3) {
+            ++indentationDepth;
+            const membersWithSeparators = type.types.flatMap((item) => [
+                includeIndentation(),
+                <span class="tsd-signature-symbol">| </span>,
+                renderType(context, item, TypeContext.unionElement),
+                <br></br>,
+            ]);
+            membersWithSeparators.pop();
+            --indentationDepth;
+
+            return (
+                <>
+                    <br />
+                    {membersWithSeparators}
+                </>
+            );
+        }
         return join(<span class="tsd-signature-symbol"> | </span>, type.types, (item) =>
             renderType(context, item, TypeContext.unionElement),
         );

@@ -118,7 +118,7 @@ export class SignatureReflection extends Reflection {
             ...super.toObject(serializer),
             variant: this.variant,
             sources: serializer.toObjectsOptional(this.sources),
-            typeParameter: serializer.toObjectsOptional(this.typeParameters),
+            typeParameters: serializer.toObjectsOptional(this.typeParameters),
             parameters: serializer.toObjectsOptional(this.parameters),
             type: serializer.toObject(this.type),
             overwrites: serializer.toObject(this.overwrites),
@@ -137,9 +137,15 @@ export class SignatureReflection extends Reflection {
             obj.sources,
             (t) => new SourceReference(t.fileName, t.line, t.character),
         );
-        this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
-            de.constructReflection(t),
-        );
+        if (obj.typeParameter) {
+            this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
+                de.constructReflection(t),
+            );
+        } else {
+            this.typeParameters = de.reviveMany(obj.typeParameters, (t) =>
+                de.constructReflection(t),
+            );
+        }
         this.parameters = de.reviveMany(obj.parameters, (t) =>
             de.constructReflection(t),
         );

@@ -20,10 +20,6 @@ jobs:
               run: npm run build
             - name: Test
               run: npm run test:full
-              env:
-                  # For pull requests, this gets handled by the visual-regression workflow.
-                  # For other test runs, skip so we don't have to go build the regression screenshots.
-                  SKIP_VISUAL_TEST: true
             - name: Lint
               run: npm run lint -- --max-warnings 0
             - name: Circular dependency check
@@ -48,7 +44,5 @@ jobs:
               run: npm run build
             - name: Test
               run: npm run test:full
-              env:
-                  SKIP_VISUAL_TEST: true
             - name: Lint
               run: npm run lint -- --max-warnings 0

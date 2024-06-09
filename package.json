@@ -44,7 +44,7 @@
     "eslint": "^9.3.0",
     "mocha": "^10.4.0",
     "prettier": "3.2.5",
-    "puppeteer": "^13.5.2",
+    "puppeteer": "^22.10.0",
     "ts-node": "^10.9.2",
     "typescript": "5.5.0-beta",
     "typescript-eslint": "^7.10.0"
@@ -69,8 +69,6 @@
     "doc:c2d": "node --inspect-brk bin/typedoc --options src/test/converter2 --tsconfig src/test/converter2/tsconfig.json",
     "example": "cd example && node ../bin/typedoc",
     "test:full": "c8 -r lcov -r text-summary mocha --config .config/mocha.full.json",
-    "test:visual": "ts-node ./src/test/capture-screenshots.ts && ./scripts/compare_screenshots.sh",
-    "test:visual:accept": "node scripts/accept_visual_regression.js",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "npm run build:tsc && npm run build:themes",
     "build:tsc": "tsc --project .",

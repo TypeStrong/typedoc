@@ -1,5 +1,12 @@
 # Running the Visual Regression Tests
 
-1. Build screenshots: `npm run test:visual`. All items should be considered new.
-2. Accept the screenshots: `npm run test:visual:accept`
-3. Run `npm run test:visual` again. All items should pass.
+When making changes to the themes, it is useful to be able to compare screenshots
+from the new/old runs.
+
+1. Build some documentation project to `./docs`
+2. Run `node scripts/capture_screenshots.mjs`
+3. Run `node scripts/accept_visual_regression.js`
+4. Make the UI change
+5. Build the same documentation project to `./docs`
+6. Run `./scripts/compare_screenshots.sh`
+7. Open `./tmp/output/index.html` in a browser.

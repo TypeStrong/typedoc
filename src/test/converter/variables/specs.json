@@ -40,7 +40,7 @@
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
-                  "typeParameter": [
+                  "typeParameters": [
                     {
                       "id": 5,
                       "name": "T",

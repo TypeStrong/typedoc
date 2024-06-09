@@ -16,7 +16,10 @@ import {
     SourceReference,
     ReferenceReflection,
 } from "..";
-import type { ModelToObject } from "../lib/serialization/schema";
+import {
+    SomeReflection,
+    type ModelToObject,
+} from "../lib/serialization/schema";
 import { getExpandedEntryPointsForPaths } from "../lib/utils";
 import {
     getConverterApp,
@@ -58,7 +61,7 @@ comparisonSerializer.addSerializer({
         return obj;
     },
 });
-comparisonSerializer.addSerializer({
+comparisonSerializer.addSerializer<CommentTag>({
     priority: 0,
     supports(x) {
         return x instanceof CommentTag;
@@ -77,7 +80,7 @@ comparisonSerializer.addSerializer({
         return obj;
     },
 });
-comparisonSerializer.addSerializer({
+comparisonSerializer.addSerializer<SomeReflection>({
     priority: 0,
     supports(x) {
         return x instanceof Reflection;

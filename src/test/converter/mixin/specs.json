@@ -1563,7 +1563,7 @@
               "url": "typedoc://mixin.ts#L30"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 21,
               "name": "T",
@@ -1751,7 +1751,7 @@
               "url": "typedoc://mixin.ts#L50"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 37,
               "name": "T",
@@ -1956,7 +1956,7 @@
               "url": "typedoc://mixin.ts#L70"
             }
           ],
-          "typeParameter": [
+          "typeParameters": [
             {
               "id": 57,
               "name": "T",
