@@ -126,7 +126,7 @@ export class Application extends ChildableComponent<
     /**
      * The version number of TypeDoc.
      */
-    static VERSION = packageInfo.version;
+    static readonly VERSION = packageInfo.version;
 
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
@@ -525,6 +525,7 @@ export class Application extends ChildableComponent<
         const start = Date.now();
         out = Path.resolve(out);
         await this.renderer.render(project, out);
+
         if (this.logger.hasErrors()) {
             this.logger.error(
                 "Documentation could not be generated due to the errors above.",
@@ -551,6 +552,7 @@ export class Application extends ChildableComponent<
 
         const space = this.options.getValue("pretty") ? "\t" : "";
         await writeFile(out, JSON.stringify(ser, null, space));
+
         this.logger.info(`JSON written to ${nicePath(out)}`);
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }

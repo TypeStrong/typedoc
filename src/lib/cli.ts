@@ -31,6 +31,7 @@ async function main() {
         const exitCode = await run(app);
         if (exitCode !== ExitCodes.Watching) {
             app.logger.verbose(`Full run took ${Date.now() - start}ms`);
+            logRunSummary(app.logger);
             process.exit(exitCode);
         }
     } catch (error) {
@@ -134,4 +135,18 @@ async function run(app: td.Application) {
     }
 
     return ExitCodes.Ok;
+}
+
+/**
+ * Generate a string with the number of errors and warnings found.
+ */
+function logRunSummary(logger: td.Logger): void {
+    const { errorCount, warningCount } = logger;
+    if (errorCount) {
+        logger.error(
+            `Found: ${errorCount} error(s), ${warningCount} warnings.`,
+        );
+    } else if (warningCount) {
+        logger.warn(`Found: ${errorCount} error(s), ${warningCount} warnings.`);
+    }
 }
