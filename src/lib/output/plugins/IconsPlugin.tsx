@@ -9,7 +9,7 @@ const ICONS_JS = `
 (function() {
     addIcons();
     function addIcons() {
-        if (document.readyState !== "complete") return addEventListener("load", addIcons);
+        if (document.readyState === "loading") return document.addEventListener("DOMContentLoaded", addIcons);
         const svg = document.body.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
         svg.innerHTML = \`"SVG_HTML"\`;
         svg.style.display = "none";
