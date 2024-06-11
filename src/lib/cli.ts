@@ -143,7 +143,9 @@ async function run(app: td.Application) {
 function logRunSummary(logger: td.Logger): void {
     const { errorCount, warningCount } = logger;
     if (errorCount) {
-        logger.error(`Found: ${errorCount} error(s), ${warningCount} warnings.`);
+        logger.error(
+            `Found: ${errorCount} error(s), ${warningCount} warnings.`,
+        );
     } else if (warningCount) {
         logger.warn(`Found: ${errorCount} error(s), ${warningCount} warnings.`);
     }
