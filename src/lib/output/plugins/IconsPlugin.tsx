@@ -5,6 +5,27 @@ import { DefaultTheme } from "../themes/default/DefaultTheme";
 import { join } from "path";
 import { JSX, renderElement } from "../../utils";
 
+const ICONS_JS = `
+(function() {
+    addIcons();
+    function addIcons() {
+        if (document.readyState !== "complete") return addEventListener("load", addIcons);
+        const svg = document.body.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
+        svg.innerHTML = \`"SVG_HTML"\`;
+        svg.style.display = "none";
+        if (location.protocol === "file:") updateUseElements();
+    }
+
+    function updateUseElements() {
+        document.querySelectorAll("use").forEach(el => {
+            if (el.getAttribute("href").includes("#icon-")) {
+                el.setAttribute("href", el.getAttribute("href").replace(/.*#/, "#"));
+            }
+        });
+    }
+})()
+`.trim();
+
 /**
  * Plugin which is responsible for creating an icons.js file that embeds the icon SVGs
  * within the page on page load to reduce page sizes.
@@ -34,23 +55,7 @@ export class IconsPlugin extends RendererComponent {
         }
 
         const svg = renderElement(<svg xmlns="http://www.w3.org/2000/svg">{children}</svg>);
-        const js = [
-            "(function(svg) {",
-            "    svg.innerHTML = `" + renderElement(<>{children}</>).replaceAll("`", "\\`") + "`;",
-            "    svg.style.display = 'none';",
-            "    if (location.protocol === 'file:') {",
-            "        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateUseElements);",
-            "        else updateUseElements()",
-            "        function updateUseElements() {",
-            "            document.querySelectorAll('use').forEach(el => {",
-            "                if (el.getAttribute('href').includes('#icon-')) {",
-            "                    el.setAttribute('href', el.getAttribute('href').replace(/.*#/, '#'));",
-            "                }",
-            "            });",
-            "        }",
-            "    }",
-            "})(document.body.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'svg')))",
-        ].join("\n");
+        const js = ICONS_JS.replace("SVG_HTML", renderElement(<>{children}</>).replaceAll("`", "\\`"));
 
         const svgPath = join(event.outputDirectory, "assets/icons.svg");
         const jsPath = join(event.outputDirectory, "assets/icons.js");
