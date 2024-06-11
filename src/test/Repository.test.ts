@@ -177,7 +177,7 @@ describe("RepositoryManager - git enabled", () => {
         logger,
     );
 
-    before(() => {
+    before(function () {
         function createRepo(path: string) {
             git(path, "init", "-b", "test");
             git(path, "add", ".");
@@ -199,7 +199,15 @@ describe("RepositoryManager - git enabled", () => {
             dir.addFile("repo.txt");
         });
 
-        fix.write();
+        try {
+            fix.write();
+        } catch (error) {
+            if (process.platform === "win32") {
+                // Don't have permission to create symlinks
+                return this.skip();
+            }
+            throw error;
+        }
         createRepo(join(fix.cwd, "sub_repo"));
         createRepo(fix.cwd);
     });
@@ -213,7 +221,7 @@ describe("RepositoryManager - git enabled", () => {
     });
 
     it("Handles the simplest case", () => {
-        const root = join(fix.cwd, "root.txt");
+        const root = normalizePath(join(fix.cwd, "root.txt"));
         const repo = manager.getRepository(root) as GitRepository;
         ok(repo);
         equal(repo.getURL(root, 1), "link:root.txt");
@@ -255,7 +263,7 @@ describe("RepositoryManager - git enabled", () => {
     });
 
     it("Handles a nested repository", () => {
-        const sub = join(fix.cwd, "sub_repo/repo.txt");
+        const sub = normalizePath(join(fix.cwd, "sub_repo/repo.txt"));
         const repo = manager.getRepository(sub) as GitRepository;
         ok(repo);
         equal(repo.path, normalizePath(join(fix.cwd, "sub_repo")));
@@ -267,6 +275,7 @@ describe("RepositoryManager - git enabled", () => {
         // Load cache
         for (const path of [
             "root.txt",
+            "self/self/self/root.txt",
             "sub_repo/repo.txt",
             "ignored/ignored.txt",
             "subfolder/sub.txt",
@@ -294,6 +303,7 @@ describe("RepositoryManager - git enabled", () => {
                 [normalizePath(fix.cwd), repo],
                 [normalizePath(join(fix.cwd, "self/self/self")), repo],
                 [normalizePath(join(fix.cwd, "sub_repo")), subRepo],
+                [normalizePath(join(fix.cwd, "ignored")), repo],
                 [normalizePath(join(fix.cwd, "subfolder")), repo],
             ]),
         );
