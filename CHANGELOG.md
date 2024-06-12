@@ -54,6 +54,7 @@
 -   Added support for JSDoc `@hideconstructor` tag.
     This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
 -   Added `--useHostedBaseUrlForAbsoluteLinks` option to use the `--hostedBaseUrl` option to produce absolute links to pages on a site, #940.
+-   Tag headers now generate permalinks in the default theme, #2308.
 -   TypeDoc now attempts to use the "most likely name" for a symbol if the symbol is not present in the documentation, #2574.
 -   Fixed an issue where the "On This Page" section would include markdown if the page contained headings which contained markdown.
 -   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.

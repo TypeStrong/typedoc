@@ -388,36 +388,39 @@ export abstract class Reflection {
      * Return an url safe alias for this reflection.
      */
     getAlias(): string {
-        if (!this._alias) {
-            let alias = this.name.replace(/\W/g, "_");
-            if (alias === "") {
-                alias = `reflection-${this.id}`;
-            }
-            // NTFS/ExFAT use uppercase, so we will too. It probably won't matter
-            // in this case since names will generally be valid identifiers, but to be safe...
-            const upperAlias = alias.toUpperCase();
-
-            let target = this as Reflection;
-            while (target.parent && !target.hasOwnDocument) {
-                target = target.parent;
-            }
-
-            target._aliases ||= new Map();
-
-            let suffix = "";
-            if (!target._aliases.has(upperAlias)) {
-                target._aliases.set(upperAlias, 1);
-            } else {
-                const count = target._aliases.get(upperAlias)!;
-                suffix = "-" + count.toString();
-                target._aliases.set(upperAlias, count + 1);
-            }
-
-            alias += suffix;
-            this._alias = alias;
-        }
+        this._alias ||= this.getUniqueAliasInPage(
+            this.name.replace(/\W/g, "_") || `reflection-${this.id}`,
+        );
 
         return this._alias;
+    }
+
+    // This really ought not live here, it ought to live in the html renderer, but moving that
+    // is more work than I want right now, it can wait for 0.27 when trying to split models into
+    // a bundleable structure.
+    getUniqueAliasInPage(heading: string) {
+        // NTFS/ExFAT use uppercase, so we will too. It probably won't matter
+        // in this case since names will generally be valid identifiers, but to be safe...
+        const upperAlias = heading.toUpperCase();
+
+        let target = this as Reflection;
+        while (target.parent && !target.hasOwnDocument) {
+            target = target.parent;
+        }
+
+        target._aliases ||= new Map();
+
+        let suffix = "";
+        if (!target._aliases.has(upperAlias)) {
+            target._aliases.set(upperAlias, 1);
+        } else {
+            const count = target._aliases.get(upperAlias)!;
+            suffix = "-" + count.toString();
+            target._aliases.set(upperAlias, count + 1);
+        }
+
+        heading += suffix;
+        return heading;
     }
 
     /**

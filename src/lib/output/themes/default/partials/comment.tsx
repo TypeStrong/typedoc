@@ -2,6 +2,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { type Reflection, ReflectionKind } from "../../../../models";
 import { camelToTitleCase } from "../../lib";
+import { anchorIcon } from "./anchor-icon";
 
 // Note: Comment modifiers are handled in `renderFlags`
 
@@ -34,9 +35,15 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                         ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
                         : camelToTitleCase(item.tag.substring(1));
 
+                    const anchor = props.getUniqueAliasInPage(name);
+
                     return (
                         <>
-                            <h4>{name}</h4>
+                            <h4 class="tsd-anchor-link">
+                                <a id={anchor} class="tsd-anchor"></a>
+                                {name}
+                                {anchorIcon(context, anchor)}
+                            </h4>
                             <Raw html={context.markdown(item.content)} />
                         </>
                     );

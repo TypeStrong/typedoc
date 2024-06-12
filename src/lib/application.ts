@@ -86,6 +86,11 @@ const DEFAULT_READERS = [
  *
  * Both the {@link Converter} and the {@link Renderer} emit a series of events while processing the project.
  * Subscribe to these Events to control the application flow or alter the output.
+ *
+ * @remarks
+ *
+ * Access to an Application instance can be retrieved with {@link Application.bootstrap} or
+ * {@link Application.bootstrapWithPlugins}. It can not be constructed manually.
  */
 @Component({ name: "application", internal: true })
 export class Application extends ChildableComponent<

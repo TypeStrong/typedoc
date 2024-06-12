@@ -98,7 +98,7 @@ export interface RendererHooks {
     /**
      * Applied immediately before a comment's tags are rendered.
      *
-     * This may be used to set {@link CommentTag.skipRendering} on any tags which
+     * This may be used to set {@link Models.CommentTag.skipRendering} on any tags which
      * should not be rendered.
      */
     "comment.beforeTags": [DefaultThemeRenderContext, Comment, Reflection];
@@ -106,7 +106,7 @@ export interface RendererHooks {
     /**
      * Applied immediately after a comment's tags are rendered.
      *
-     * This may be used to set {@link CommentTag.skipRendering} on any tags which
+     * This may be used to set {@link Models.CommentTag.skipRendering} on any tags which
      * should not be rendered as this hook is called before the tags are actually
      * rendered.
      */
