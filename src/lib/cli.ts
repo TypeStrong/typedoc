@@ -146,9 +146,17 @@ function logRunSummary(logger: td.Logger): void {
     const { errorCount, warningCount } = logger;
     if (errorCount) {
         logger.error(
-            `Found: ${errorCount} error(s), ${warningCount} warnings.`,
+            logger.i18n.found_0_errors_and_1_warnings(
+                errorCount.toString(),
+                warningCount.toString(),
+            ),
         );
     } else if (warningCount) {
-        logger.warn(`Found: ${errorCount} error(s), ${warningCount} warnings.`);
+        logger.warn(
+            logger.i18n.found_0_errors_and_1_warnings(
+                errorCount.toString(),
+                warningCount.toString(),
+            ),
+        );
     }
 }

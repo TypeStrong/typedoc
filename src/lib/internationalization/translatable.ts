@@ -24,6 +24,7 @@ export const translatable = {
         "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode.",
     strategy_not_supported_in_watch_mode:
         "entryPointStrategy must be set to either resolve or expand for watch mode.",
+    found_0_errors_and_1_warnings: "Found {0} errors and {1} warnings.",
 
     docs_could_not_be_generated:
         "Documentation could not be generated due to the errors above.",
