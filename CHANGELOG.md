@@ -46,6 +46,7 @@
 -   `--hostedBaseUrl` will now be used to generate a `<link rel="canonical">` element in the project root page, #2550.
 -   Added support for documenting individual elements of a union type, #2585.
     Note: This feature is only available on type aliases directly containing unions.
+-   TypeDoc will now log the number of errors/warnings errors encountered, if any, after a run, #2581.
 -   New option, `--customFooterHtml` to add custom HTML to the generated page footer, #2559.
 -   TypeDoc will now copy modifier tags to children if specified in the `--cascadedModifierTags` option, #2056.
 -   TypeDoc will now warn if mutually exclusive modifier tags are specified for a comment (e.g. both `@alpha` and `@beta`), #2056.
@@ -53,6 +54,7 @@
 -   Added support for JSDoc `@hideconstructor` tag.
     This tag should only be used to work around TypeScript#58653, prefer the more general `@hidden`/`@ignore` tag to hide members normally, #2577.
 -   Added `--useHostedBaseUrlForAbsoluteLinks` option to use the `--hostedBaseUrl` option to produce absolute links to pages on a site, #940.
+-   TypeDoc now attempts to use the "most likely name" for a symbol if the symbol is not present in the documentation, #2574.
 -   Fixed an issue where the "On This Page" section would include markdown if the page contained headings which contained markdown.
 -   TypeDoc will now warn if a block tag is used which is not defined by the `--blockTags` option.
 -   Added three new sort strategies `documents-first`, `documents-last`, and `alphabetical-ignoring-documents` to order markdown documents.
@@ -88,10 +90,12 @@
 ### Thanks!
 
 -   @Aryakoste
+-   @bladerunner2020
 -   @Dinnerbone
 -   @HarelM
 -   @kraenhansen
 -   @Nil2000
+-   @tristanzander
 
 # Unreleased
 
