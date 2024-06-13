@@ -24,7 +24,7 @@ describe("Internationalization", () => {
     it("Supports translating without placeholders", () => {
         equal(
             app.i18n.no_entry_points_to_merge(),
-            "No entry points provided to merge.",
+            "No entry points provided to merge",
         );
         app.options.setValue("lang", "test");
         equal(app.i18n.no_entry_points_to_merge(), "no_entry_points_to_merge");

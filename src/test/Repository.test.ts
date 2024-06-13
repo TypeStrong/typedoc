@@ -1,6 +1,7 @@
 import {
     GitRepository,
     guessSourceUrlTemplate,
+    RepositoryManager,
 } from "../lib/converter/utils/repository";
 import { strictEqual as equal, ok } from "assert";
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
@@ -159,4 +160,27 @@ describe("Repository", function () {
             );
         });
     });
+});
+
+describe("RepositoryManager", () => {
+    const logger = new TestLogger();
+    let manager: RepositoryManager;
+
+    beforeEach(() => {
+        manager = new RepositoryManager(
+            "",
+            "revision",
+            "remote",
+            "{path}:{line}",
+            false,
+            logger,
+        );
+    });
+
+    it("Does not return a repository if the directory has already been checked", () => {
+        manager.ignoredPaths.add("/test");
+        equal(manager.getRepository("/test/test.js"), undefined);
+    });
+
+    it("Uses the existing repository if one exists");
 });

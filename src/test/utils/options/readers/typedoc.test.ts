@@ -69,7 +69,7 @@ describe("Options - TypeDocReader", () => {
         const logger = new TestLogger();
         await options.read(logger);
         logger.expectMessage(
-            "error: The options file */non-existent-file.json does not exist.",
+            "error: The options file */non-existent-file.json does not exist",
         );
         logger.expectNoOtherMessages();
     });
@@ -102,17 +102,17 @@ describe("Options - TypeDocReader", () => {
     testError(
         "Errors if the data is invalid",
         "Not valid json {}",
-        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object",
     );
     testError(
         "Errors if the data is not an object in a json file",
         123,
-        "error: Failed to parse */typedoc.json, ensure it exists and exports an object.",
+        "error: Failed to parse */typedoc.json, ensure it exists and exports an object",
     );
     testError(
         "Errors if the data is not an object in a js file",
         "module.exports = 123",
-        "error: Failed to parse */typedoc.js, ensure it exists and exports an object.",
+        "error: Failed to parse */typedoc.js, ensure it exists and exports an object",
         false,
     );
     testError(
@@ -181,7 +181,7 @@ describe("Options - TypeDocReader", () => {
 
         project.rm();
         logger.expectMessage(
-            "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object.",
+            "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object",
         );
         logger.expectMessage("error: hi");
     });
@@ -199,7 +199,7 @@ describe("Options - TypeDocReader", () => {
 
         project.rm();
         logger.expectMessage(
-            "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object.",
+            "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object",
         );
         logger.expectMessage("error: 123");
     });

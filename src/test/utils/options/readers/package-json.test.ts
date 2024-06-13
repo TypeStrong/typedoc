@@ -51,7 +51,7 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedocOptions": 123 }`,
         (l) =>
             l.expectMessage(
-                `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object.`,
+                `error: Failed to parse the "typedocOptions" field in */package.json, ensure it exists and contains an object`,
             ),
     );
 
@@ -69,7 +69,7 @@ describe("Options - PackageJsonReader", () => {
         `{ "name": "x", "typedoc": {} }`,
         (l) =>
             l.expectMessage(
-                "warn: The 'typedoc' key in */package.json was used by the legacy-packages entryPointStrategy and will be ignored.",
+                "warn: The 'typedoc' key in */package.json was used by the legacy-packages entryPointStrategy and will be ignored",
             ),
     );
 });

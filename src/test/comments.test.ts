@@ -1104,7 +1104,7 @@ describe("Comment Parser", () => {
         );
 
         logger.expectMessage(
-            "warn: The @inheritDoc tag should be properly capitalized.",
+            "warn: The @inheritDoc tag should be properly capitalized",
         );
         logger.expectNoOtherMessages();
         equal(comment, new Comment([], [new CommentTag("@inheritDoc", [])]));

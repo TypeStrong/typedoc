@@ -332,9 +332,9 @@ describe("Behavior Tests", () => {
         equal(tags, [[], [{ kind: "text", text: "fn({})" }]]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag.",
+            "warn: Encountered an unescaped open brace without an inline tag",
         );
-        logger.expectMessage("warn: Unmatched closing brace.");
+        logger.expectMessage("warn: Unmatched closing brace");
         logger.expectNoOtherMessages();
     });
 
@@ -386,7 +386,7 @@ describe("Behavior Tests", () => {
         ]);
 
         logger.expectMessage(
-            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text.",
+            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text",
         );
         logger.expectNoOtherMessages();
     });
@@ -427,11 +427,11 @@ describe("Behavior Tests", () => {
         ]);
 
         logger.expectMessage(
-            "warn: Encountered an unescaped open brace without an inline tag.",
+            "warn: Encountered an unescaped open brace without an inline tag",
         );
-        logger.expectMessage("warn: Unmatched closing brace.");
+        logger.expectMessage("warn: Unmatched closing brace");
         logger.expectMessage(
-            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text.",
+            "warn: The first line of an example tag will be taken literally as the example name, and should only contain text",
         );
         logger.expectNoOtherMessages();
     });
@@ -727,11 +727,11 @@ describe("Behavior Tests", () => {
         const target4 = query(project, "target4");
         ok(target4.comment?.getTag("@inheritDoc"));
         logger.expectMessage(
-            "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment.",
+            "warn: target4 tried to copy a comment from source2 with @inheritDoc, but the source has no associated comment",
         );
 
         logger.expectMessage(
-            "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly.",
+            "warn: Declaration reference in @inheritDoc for badParse was not fully parsed and may resolve incorrectly",
         );
 
         logger.expectNoOtherMessages();
@@ -919,7 +919,7 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(b.comment?.summary), "Comment 1");
 
         logger.expectMessage(
-            "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used.",
+            "warn: MultiCommentMultiDeclaration has multiple declarations with a comment. An arbitrary comment will be used",
         );
         logger.expectMessage(
             "info: The comments for MultiCommentMultiDeclaration are declared at*",
@@ -972,7 +972,7 @@ describe("Behavior Tests", () => {
         );
 
         logger.expectMessage(
-            'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number.',
+            'warn: The label "bad" for badLabel cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number',
         );
         logger.expectNoOtherMessages();
     });
@@ -1170,15 +1170,15 @@ describe("Behavior Tests", () => {
         );
 
         const logs = [
-            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramZ", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramG", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramA", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "fakeParameter", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramZ", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramG", which was not used.',
-            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramA", which was not used.',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramZ", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramG", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndExtraParameters has an @param with name "destructuredParam.paramA", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "fakeParameter", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramZ", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramG", which was not used',
+            'warn: The signature functionWithADestructuredParameterAndAnExtraParamDirective has an @param with name "destructuredParam.paramA", which was not used',
         ];
         for (const log of logs) {
             logger.expectMessage(log);
@@ -1230,7 +1230,7 @@ describe("Behavior Tests", () => {
         equal(sigMods("BetaStuff.AlsoBeta.alphaFish"), new Set(["@alpha"]));
 
         logger.expectMessage(
-            "warn: The modifier tag @alpha is mutually exclusive with @beta in the comment for mutuallyExclusive.",
+            "warn: The modifier tag @alpha is mutually exclusive with @beta in the comment for mutuallyExclusive",
         );
     });
 });

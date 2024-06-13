@@ -144,7 +144,7 @@ describe("Options - ArgumentsReader", () => {
         const logger = new TestLogger();
         await options.read(logger);
         logger.expectMessage(
-            "warn: --out expected a value, but none was given as an argument.",
+            "warn: --out expected a value, but none was given as an argument",
         );
         logger.expectNoOtherMessages();
     });

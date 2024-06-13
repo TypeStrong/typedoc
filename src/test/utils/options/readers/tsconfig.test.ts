@@ -181,7 +181,7 @@ describe("Options - TSConfigReader", () => {
     it("Handles failed tsdoc reads", async () => {
         await testTsdoc([], () => {
             logger.expectMessage(
-                "error: Failed to read tsdoc.json file at */tsdoc.json.",
+                "error: Failed to read tsdoc.json file at */tsdoc.json",
             );
         });
     });
@@ -193,7 +193,7 @@ describe("Options - TSConfigReader", () => {
             },
             () => {
                 logger.expectMessage(
-                    `error: The file */tsdoc.json is not a valid tsdoc.json file.`,
+                    `error: The file */tsdoc.json is not a valid tsdoc.json file`,
                 );
             },
         );
@@ -208,7 +208,7 @@ describe("Options - TSConfigReader", () => {
             () => {
                 logger.expectMessage(
                     "warn: The blockTags, modifierTags defined in typedoc.json " +
-                        "will be overwritten by configuration in tsdoc.json.",
+                        "will be overwritten by configuration in tsdoc.json",
                 );
             },
             false,

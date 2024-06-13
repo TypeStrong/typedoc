@@ -1,6 +1,10 @@
 import { spawnSync } from "child_process";
 import type { Logger } from "../../utils";
 import { BasePath } from "../utils/base-path";
+import { Bench } from "../../utils/perf";
+import { NonEnumerable } from "../../utils/general";
+import { dirname } from "path";
+import { insertSorted } from "../../utils/array";
 
 const TEN_MEGABYTES = 1024 * 10000;
 
@@ -19,6 +23,7 @@ export function gitIsInstalled() {
 }
 
 export interface Repository {
+    readonly path: string;
     getURL(fileName: string, line: number): string | undefined;
 }
 
@@ -56,6 +61,7 @@ export class GitRepository implements Repository {
     /**
      * All files tracked by the repository.
      */
+    @NonEnumerable
     files = new Set<string>();
 
     urlTemplate: string;
@@ -114,6 +120,7 @@ export class GitRepository implements Repository {
      * @param path  The potential repository root.
      * @returns A new instance of {@link GitRepository} or undefined.
      */
+    @Bench
     static tryCreateRepository(
         path: string,
         sourceLinkTemplate: string,
@@ -148,6 +155,101 @@ export class GitRepository implements Repository {
             gitRevision,
             urlTemplate,
         );
+    }
+}
+
+/**
+ * Responsible for keeping track of 0-N repositories which exist on a machine.
+ * This used to be inlined in SourcePlugin, moved out for easy unit testing.
+ *
+ * Git repositories can be nested. Files should be resolved to a repo as shown
+ * below:
+ * ```text
+ * /project
+ * /project/.git (A)
+ * /project/file.js (A)
+ * /project/folder/file.js (A)
+ * /project/sub/.git (B)
+ * /project/sub/file.js (B)
+ * ```
+ *
+ * In order words, it is not safe to assume that just because a file is within
+ * the `/project` directory, that it belongs to repo `A`. As calling git is
+ * expensive (~20-300ms depending on the machine, antivirus, etc.) we check for
+ * `.git` folders manually, and only call git if one is found.
+ *
+ * Symlinks further complicate this.
+ */
+export class RepositoryManager {
+    ignoredPaths = new Set<string>();
+    repositories: Repository[] = [];
+
+    constructor(
+        readonly basePath: string,
+        readonly gitRevision: string,
+        readonly gitRemote: string,
+        readonly sourceLinkTemplate: string,
+        readonly disableGit: boolean,
+        readonly logger: Logger,
+    ) {}
+
+    /**
+     * Check whether the given file is placed inside a repository.
+     *
+     * @param fileName  The name of the file a repository should be looked for.
+     * @returns The found repository info or undefined.
+     */
+    @Bench
+    getRepository(fileName: string): Repository | undefined {
+        if (this.disableGit) {
+            return new AssumedRepository(
+                this.basePath,
+                this.gitRevision,
+                this.sourceLinkTemplate,
+            );
+        }
+        // Check for known non-repositories
+        const dirName = dirname(fileName);
+        if (this.ignoredPaths.has(dirName)) {
+            return;
+        }
+
+        // Check for known repositories
+        for (const repo of this.repositories) {
+            if (fileName.startsWith(repo.path)) {
+                return repo;
+            }
+        }
+
+        // If git has been disabled, and this is outside of our base path,
+        // then we shouldn't create links to the file.
+        if (this.disableGit) return;
+
+        // Try to create a new repository
+        const repository = GitRepository.tryCreateRepository(
+            dirName,
+            this.sourceLinkTemplate,
+            this.gitRevision,
+            this.gitRemote,
+            this.logger,
+        );
+        if (repository) {
+            insertSorted(
+                this.repositories,
+                repository,
+                (repo) => repo.path.length < repository.path.length,
+            );
+            return repository;
+        }
+
+        // No repository found, add all parent paths to ignored paths
+        // as they definitely don't contain git repos.
+        this.ignoredPaths.add(dirName);
+        let index = dirName.lastIndexOf("/");
+        while (index > 0) {
+            this.ignoredPaths.add(dirName.slice(0, index));
+            index = dirName.lastIndexOf("/", index - 1);
+        }
     }
 }
 

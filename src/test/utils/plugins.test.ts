@@ -56,9 +56,7 @@ describe("loadPlugins", () => {
 
         const plugin = join(resolve(project.cwd), "index.js");
         await loadPlugins(fakeApp, [plugin]);
-        logger.expectMessage(
-            `error: The plugin ${plugin} could not be loaded.`,
-        );
+        logger.expectMessage(`error: The plugin ${plugin} could not be loaded`);
     });
 
     it("Should handle errors when loading plugins", async () => {
@@ -74,9 +72,7 @@ describe("loadPlugins", () => {
 
         const plugin = join(resolve(project.cwd), "index.js");
         await loadPlugins(fakeApp, [plugin]);
-        logger.expectMessage(
-            `error: The plugin ${plugin} could not be loaded.`,
-        );
+        logger.expectMessage(`error: The plugin ${plugin} could not be loaded`);
     });
 
     it("Should handle plugins without a load method", async () => {
@@ -90,7 +86,7 @@ describe("loadPlugins", () => {
         const plugin = join(resolve(project.cwd), "index.js");
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(
-            `error: Invalid structure in plugin ${plugin}, no load function found.`,
+            `error: Invalid structure in plugin ${plugin}, no load function found`,
         );
     });
 });

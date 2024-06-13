@@ -450,7 +450,7 @@ describe("Issue Tests", () => {
         ];
         equal(alias.comment, expectedComment);
 
-        logger.expectMessage("warn: Encountered an unknown block tag @asdf.");
+        logger.expectMessage("warn: Encountered an unknown block tag @asdf");
     });
 
     it("#1745", () => {
@@ -606,7 +606,7 @@ describe("Issue Tests", () => {
         const project = convert();
         app.validate(project);
         logger.expectMessage(
-            "warn: UnDocFn (TypeAlias), defined in */gh1898.ts, does not have any documentation.",
+            "warn: UnDocFn (TypeAlias), defined in */gh1898.ts, does not have any documentation",
         );
     });
 

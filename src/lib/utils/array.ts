@@ -29,6 +29,11 @@ export function insertOrderSorted<T extends { order: number }>(
     return arr;
 }
 
+export function insertSorted<T>(arr: T[], item: T, less: (a: T) => boolean) {
+    const index = binaryFindPartition(arr, less);
+    arr.splice(index === -1 ? arr.length : index, 0, item);
+}
+
 /**
  * Performs a binary search of a given array, returning the index of the first item
  * for which `partition` returns true. Returns the -1 if there are no items in `arr`
