@@ -59,10 +59,10 @@ function buildNavElement(
         details.className = el.class
             ? `${el.class} tsd-accordion`
             : "tsd-accordion";
-        details.dataset.key = fullPath.join("$");
 
         const summary = details.appendChild(document.createElement("summary"));
         summary.className = "tsd-accordion-summary";
+        summary.dataset.key = fullPath.join("$");
         // Would be nice to not hardcode this here, if someone overwrites the chevronDown icon with an <img>
         // then this won't work... going to wait to worry about that until it actually breaks some custom theme.
         // Also very annoying that we can't encode the svg in the cache, since that gets duplicated here...

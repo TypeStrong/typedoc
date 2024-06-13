@@ -50,7 +50,9 @@ export function Bench<T extends Function>(
     let runner: T | undefined;
     return function (this: any, ...args: any) {
         if (!runner) {
-            const className = Object.getPrototypeOf(this).constructor.name;
+            const className = context.static
+                ? this.name
+                : Object.getPrototypeOf(this).constructor.name;
             runner = bench(value, `${className}.${String(context.name)}`);
         }
         return runner.apply(this, args);
