@@ -30,10 +30,9 @@ describe("Options - PackageJsonReader", () => {
             const proj = project(testTitle.replace(/[ "]/g, "_"));
             proj.addFile("package.json", pkgJsonContent);
             proj.write();
+            after(() => proj.rm());
 
             await optsContainer.read(testLogger, proj.cwd);
-
-            proj.rm();
 
             test(testLogger);
             testLogger.expectNoOtherMessages();

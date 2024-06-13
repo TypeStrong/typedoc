@@ -47,6 +47,7 @@ describe("Options - TSConfigReader", () => {
     function testError(name: string, file: object) {
         it(name, async () => {
             const project = tempdirProject();
+            after(() => project.rm());
             project.addJsonFile("tsconfig.json", file);
             await readWithProject(project, true, false);
             equal(logger.hasErrors(), true, "No error was logged");

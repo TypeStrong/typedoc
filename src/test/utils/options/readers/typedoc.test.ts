@@ -13,6 +13,8 @@ describe("Options - TypeDocReader", () => {
 
     it("Supports comments in json", async () => {
         const project = fsProject("jsonc");
+        after(() => project.rm());
+
         project.addFile("typedoc.json", '//comment\n{"name": "comment"}');
         const logger = new TestLogger();
 
@@ -20,7 +22,6 @@ describe("Options - TypeDocReader", () => {
         options.reset();
         options.setValue("options", project.cwd);
         await options.read(logger);
-        project.rm();
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "comment");

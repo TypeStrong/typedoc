@@ -1,7 +1,6 @@
 import { spawnSync } from "child_process";
 import type { Logger } from "../../utils";
 import { BasePath } from "../utils/base-path";
-import { Bench } from "../../utils/perf";
 import { NonEnumerable } from "../../utils/general";
 import { dirname } from "path";
 import { insertSorted } from "../../utils/array";
@@ -120,7 +119,6 @@ export class GitRepository implements Repository {
      * @param path  The potential repository root.
      * @returns A new instance of {@link GitRepository} or undefined.
      */
-    @Bench
     static tryCreateRepository(
         path: string,
         sourceLinkTemplate: string,
@@ -199,7 +197,6 @@ export class RepositoryManager {
      * @param fileName  The name of the file a repository should be looked for.
      * @returns The found repository info or undefined.
      */
-    @Bench
     getRepository(fileName: string): Repository | undefined {
         if (this.disableGit) {
             return new AssumedRepository(
