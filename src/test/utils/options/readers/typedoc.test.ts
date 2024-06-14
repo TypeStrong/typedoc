@@ -166,7 +166,6 @@ describe("Options - TypeDocReader", () => {
         options.addReader(new TypeDocReader());
         await options.read(logger);
         equal(logger.hasErrors(), false);
-
     });
 
     it("Handles errors when reading config files", async () => {
