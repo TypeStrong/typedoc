@@ -16,6 +16,8 @@ describe("Internationalization", () => {
     it("Supports getting the list of supported languages", () => {
         equal(app.internationalization.getSupportedLanguages(), [
             "en",
+            'zh',
+            'jp',
             "ko",
             "test",
         ]);

@@ -222,7 +222,7 @@ export = buildIncompleteTranslation({
 	"visibility_filters_must_be_booleans": "visibilityFilters のすべての値はブール値である必要があります",
 	"option_0_values_must_be_numbers": "{0} のすべての値は数値である必要があります",
 	"option_0_values_must_be_array_of_tags": "{0} は有効なタグ名の配列である必要があります",
-	"option_0_specified_1_but_only_2_is_valid": "{0} は既知の値のみを指定できますが、無効な値が指定されました ({0})。有効な並べ替え戦略は次のとおりです:\n{1}",
+	"option_0_specified_1_but_only_2_is_valid": "{0} は既知の値のみを指定できますが、無効な値が指定されました ({1})。有効な並べ替え戦略は次のとおりです:\n{2}",
 	"kind_project": "プロジェクト",
 	"kind_module": "モジュール",
 	"kind_namespace": "名前空間",

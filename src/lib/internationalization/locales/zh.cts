@@ -222,7 +222,7 @@ export = buildIncompleteTranslation({
 	"visibility_filters_must_be_booleans": "visibilityFilters 的所有值都必须是布尔值",
 	"option_0_values_must_be_numbers": "{0} 的所有值都必须是数字",
 	"option_0_values_must_be_array_of_tags": "{0} 必须是有效标签名称的数组",
-	"option_0_specified_1_but_only_2_is_valid": "{0} 只能指定已知值，并且提供了无效值 ({0})。有效的排序策略为：\n{1}",
+	"option_0_specified_1_but_only_2_is_valid": "{0} 只能指定已知值，并且提供了无效值 ({1})。有效的排序策略为：\n{2}",
 	"kind_project": "项目",
 	"kind_module": "模块",
 	"kind_namespace": "命名空间",
