@@ -376,7 +376,7 @@ export const translatable = {
     option_0_values_must_be_numbers: "All values of {0} must be numbers",
     option_0_values_must_be_array_of_tags:
         "{0} must be an array of valid tag names",
-    option_0_specified_1_but_only_2_is_valid: `{0} may only specify known values, and invalid values were provided ({0}). The valid sort strategies are:\n{1}`,
+    option_0_specified_1_but_only_2_is_valid: `{0} may only specify known values, and invalid values were provided ({1}). The valid sort strategies are:\n{2}`,
 
     // ReflectionKind singular translations
     kind_project: "Project",
