@@ -265,7 +265,7 @@ describe("RepositoryManager - git enabled", () => {
 
     it("Caches repositories", () => {
         // Load cache
-        for (const path in [
+        for (const path of [
             "root.txt",
             "sub_repo/repo.txt",
             "ignored/ignored.txt",
