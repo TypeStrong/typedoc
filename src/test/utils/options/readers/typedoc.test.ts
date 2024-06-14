@@ -39,10 +39,10 @@ describe("Options - TypeDocReader", () => {
         const logger = new TestLogger();
 
         project.write();
+        after(() => project.rm());
         options.reset();
         options.setValue("options", project.cwd);
         await options.read(logger);
-        project.rm();
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "extends");
@@ -55,10 +55,10 @@ describe("Options - TypeDocReader", () => {
         const logger = new TestLogger();
 
         project.write();
+        after(() => project.rm());
         options.reset();
         options.setValue("options", project.cwd);
         await options.read(logger);
-        project.rm();
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "js");
@@ -94,8 +94,8 @@ describe("Options - TypeDocReader", () => {
             options.setValue("options", project.cwd);
             const logger = new TestLogger();
             project.write();
+            after(() => project.rm());
             await options.read(logger);
-            project.rm();
             logger.expectMessage(message);
         });
     }
@@ -158,6 +158,7 @@ describe("Options - TypeDocReader", () => {
             "export default { pretty: false }",
         );
         project.write();
+        after(() => project.rm());
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
@@ -166,13 +167,13 @@ describe("Options - TypeDocReader", () => {
         await options.read(logger);
         equal(logger.hasErrors(), false);
 
-        project.rm();
     });
 
     it("Handles errors when reading config files", async () => {
         const project = fsProject("errors");
         project.addFile("typedoc.config.mjs", "throw new Error('hi')");
         project.write();
+        after(() => project.rm());
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
@@ -180,7 +181,6 @@ describe("Options - TypeDocReader", () => {
         options.addReader(new TypeDocReader());
         await options.read(logger);
 
-        project.rm();
         logger.expectMessage(
             "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object",
         );
@@ -191,6 +191,7 @@ describe("Options - TypeDocReader", () => {
         const project = fsProject("errors2");
         project.addFile("typedoc.config.cjs", "throw 123");
         project.write();
+        after(() => project.rm());
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
@@ -198,7 +199,6 @@ describe("Options - TypeDocReader", () => {
         options.addReader(new TypeDocReader());
         await options.read(logger);
 
-        project.rm();
         logger.expectMessage(
             "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object",
         );

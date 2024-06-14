@@ -29,7 +29,6 @@ describe("Options - TSConfigReader", () => {
         if (noErrors) {
             logger.expectNoOtherMessages();
         }
-        project.rm();
     }
 
     it("Errors if the file cannot be found", async () => {
@@ -46,8 +45,7 @@ describe("Options - TSConfigReader", () => {
 
     function testError(name: string, file: object) {
         it(name, async () => {
-            const project = tempdirProject();
-            after(() => project.rm());
+            using project = tempdirProject();
             project.addJsonFile("tsconfig.json", file);
             await readWithProject(project, true, false);
             equal(logger.hasErrors(), true, "No error was logged");
@@ -77,7 +75,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Errors if a tsconfig file cannot be parsed", async () => {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addFile("tsconfig.json", '{"test}');
         await readWithProject(project, true, false);
         logger.expectMessage("error: *");
@@ -102,7 +100,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Reads typedocOptions from extended tsconfig files", async () => {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", {
             extends: ["./base.tsconfig.json"],
@@ -120,7 +118,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     async function readTsconfig(tsconfig: object) {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", tsconfig);
 
@@ -148,7 +146,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Does not set excludeInternal by stripInternal if already set", async () => {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addJsonFile("tsconfig.json", {
             compilerOptions: { stripInternal: true },
         });
@@ -160,7 +158,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Correctly handles folder names ending with .json (#1712)", async () => {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addJsonFile("tsconfig.json", {
             compilerOptions: { strict: true },
         });
@@ -169,7 +167,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     async function testTsdoc(tsdoc: object, cb?: () => void, reset = true) {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", {});
         project.addJsonFile("tsdoc.json", tsdoc);
@@ -241,7 +239,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Handles extends in tsdoc.json", async () => {
-        const project = tempdirProject();
+        using project = tempdirProject();
         project.addFile("file.ts", "export const abc = 123");
         project.addJsonFile("tsconfig.json", {});
         project.addJsonFile("tsdoc.json", { extends: ["./tsdoc2.json"] });

@@ -12,7 +12,6 @@ import { isNamedNode } from "../utils/nodes";
 import { relative } from "path";
 import { SourceReference } from "../../models";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository";
-import { BasePath } from "../utils/base-path";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -78,7 +77,7 @@ export class SourcePlugin extends ConverterComponent {
         const symbol = reflection.project.getSymbolFromReflection(reflection);
         for (const node of symbol?.declarations || []) {
             const sourceFile = node.getSourceFile();
-            const fileName = BasePath.normalize(sourceFile.fileName);
+            const fileName = normalizePath(sourceFile.fileName);
             this.fileNames.add(fileName);
 
             let position: ts.LineAndCharacter;
@@ -113,7 +112,7 @@ export class SourcePlugin extends ConverterComponent {
         if (this.disableSources || !sig) return;
 
         const sourceFile = sig.getSourceFile();
-        const fileName = BasePath.normalize(sourceFile.fileName);
+        const fileName = normalizePath(sourceFile.fileName);
         this.fileNames.add(fileName);
 
         const position = ts.getLineAndCharacterOfPosition(

@@ -38,7 +38,7 @@
     "@types/markdown-it": "^14.1.1",
     "@types/mocha": "^10.0.6",
     "@types/node": "18",
-    "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#8abd1494280116ff5318dde2c50ad01e1663790c",
+    "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe",
     "c8": "^9.1.0",
     "esbuild": "^0.21.3",
     "eslint": "^9.3.0",

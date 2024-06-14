@@ -6,15 +6,6 @@ import { basename, dirname, resolve, normalize } from "path";
 import { getCommonDirectory, glob } from "../../lib/utils/fs";
 
 describe("fs.ts", () => {
-    let fix: Project;
-    beforeEach(() => {
-        fix = tempdirProject();
-    });
-
-    afterEach(() => {
-        fix.rm();
-    });
-
     describe("getCommonDirectory", () => {
         it("Returns the empty string if no files are provided", () => {
             equal(getCommonDirectory([]), "");
@@ -38,6 +29,14 @@ describe("fs.ts", () => {
     });
 
     describe("glob", () => {
+        let fix: Project;
+        beforeEach(() => {
+            fix = tempdirProject();
+        });
+        afterEach(() => {
+            fix.rm();
+        });
+
         it("handles root match", () => {
             fix.write();
 

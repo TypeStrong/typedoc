@@ -37,5 +37,21 @@ export function nicePath(absPath: string) {
  * @returns The normalized path.
  */
 export function normalizePath(path: string) {
-    return path.replace(/\\/g, "/");
+    if (process.platform === "win32") {
+        // Ensure forward slashes
+        path = path.replace(/\\/g, "/");
+
+        // Msys2 git on windows will give paths which use unix-style
+        // absolute paths, like /c/users/you. Since the rest of TypeDoc
+        // expects drive letters, convert it to that here.
+        path = path.replace(/^\/([a-zA-Z])\//, (_m, m1: string) => `${m1}:/`);
+
+        // Make Windows drive letters upper case
+        path = path.replace(
+            /^([^:]+):\//,
+            (_m, m1: string) => m1.toUpperCase() + ":/",
+        );
+    }
+
+    return path;
 }

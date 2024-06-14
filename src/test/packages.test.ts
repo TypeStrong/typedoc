@@ -8,11 +8,7 @@ import { TestLogger } from "./TestLogger";
 import { createMinimatch } from "../lib/utils/paths";
 
 describe("Packages support", () => {
-    let project: ReturnType<typeof tempdirProject>;
-
-    beforeEach(() => {
-        project = tempdirProject();
-    });
+    using project = tempdirProject();
 
     afterEach(() => {
         project.rm();

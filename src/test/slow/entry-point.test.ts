@@ -1,28 +1,30 @@
-import { tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
 import { Application, EntryPointStrategy } from "../..";
 
-const fixture = tempdirProject();
-fixture.addJsonFile("tsconfig.json", {
-    include: ["."],
-});
-fixture.addJsonFile("package.json", {
-    main: "index.ts",
-});
-fixture.addFile("index.ts", "export function fromIndex() {}");
-fixture.addFile("extra.ts", "export function extra() {}");
-
 describe("Entry Points", () => {
+    let fixture: Project;
+    let tsconfig: string;
+
     beforeEach(() => {
+        fixture = tempdirProject();
+        tsconfig = join(fixture.cwd, "tsconfig.json");
+
+        fixture.addJsonFile("tsconfig.json", {
+            include: ["."],
+        });
+        fixture.addJsonFile("package.json", {
+            main: "index.ts",
+        });
+        fixture.addFile("index.ts", "export function fromIndex() {}");
+        fixture.addFile("extra.ts", "export function extra() {}");
         fixture.write();
     });
 
     afterEach(() => {
         fixture.rm();
     });
-
-    const tsconfig = join(fixture.cwd, "tsconfig.json");
 
     it("Supports expanding existing paths", async () => {
         const app = await Application.bootstrap({

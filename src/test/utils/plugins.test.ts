@@ -1,4 +1,4 @@
-import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import type { Application } from "../../index";
 import { loadPlugins } from "../../lib/utils/plugins";
 import { TestLogger } from "../TestLogger";
@@ -6,21 +6,16 @@ import { join, resolve } from "path";
 import { Internationalization } from "../../lib/internationalization/internationalization";
 
 describe("loadPlugins", () => {
-    let project: Project;
     let logger: TestLogger;
     const fakeApp = {
         i18n: new Internationalization(null).proxy,
     } as any as Application;
     beforeEach(() => {
-        project = tempdirProject();
         logger = fakeApp.logger = new TestLogger();
     });
 
-    afterEach(() => {
-        project.rm();
-    });
-
     it("Should support loading a basic plugin", async () => {
+        using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "commonjs",
             main: "index.js",
@@ -34,6 +29,7 @@ describe("loadPlugins", () => {
     });
 
     it("Should support loading a ESM plugin", async () => {
+        using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "module",
             main: "index.js",
@@ -47,6 +43,7 @@ describe("loadPlugins", () => {
     });
 
     it("Should handle errors when requiring plugins", async () => {
+        using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "commonjs",
             main: "index.js",
@@ -60,6 +57,7 @@ describe("loadPlugins", () => {
     });
 
     it("Should handle errors when loading plugins", async () => {
+        using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "commonjs",
             main: "index.js",
@@ -76,6 +74,7 @@ describe("loadPlugins", () => {
     });
 
     it("Should handle plugins without a load method", async () => {
+        using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "commonjs",
             main: "index.js",

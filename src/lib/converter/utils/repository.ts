@@ -1,9 +1,8 @@
 import { spawnSync } from "child_process";
-import type { Logger } from "../../utils";
-import { BasePath } from "../utils/base-path";
+import { normalizePath, type Logger } from "../../utils";
 import { NonEnumerable } from "../../utils/general";
-import { dirname } from "path";
-import { insertSorted } from "../../utils/array";
+import { dirname, join } from "path";
+import { existsSync } from "fs";
 
 const TEN_MEGABYTES = 1024 * 10000;
 
@@ -80,7 +79,7 @@ export class GitRepository implements Repository {
         if (out.status === 0) {
             out.stdout.split("\0").forEach((file) => {
                 if (file !== "") {
-                    this.files.add(BasePath.normalize(path + "/" + file));
+                    this.files.add(normalizePath(path + "/" + file));
                 }
             });
         }
@@ -126,9 +125,6 @@ export class GitRepository implements Repository {
         gitRemote: string,
         logger: Logger,
     ): GitRepository | undefined {
-        const topLevel = git("-C", path, "rev-parse", "--show-toplevel");
-        if (topLevel.status !== 0) return;
-
         gitRevision ||= git("-C", path, "rev-parse", "HEAD").stdout.trim();
         if (!gitRevision) return; // Will only happen in a repo with no commits.
 
@@ -148,11 +144,7 @@ export class GitRepository implements Repository {
 
         if (!urlTemplate) return;
 
-        return new GitRepository(
-            BasePath.normalize(topLevel.stdout.replace("\n", "")),
-            gitRevision,
-            urlTemplate,
-        );
+        return new GitRepository(normalizePath(path), gitRevision, urlTemplate);
     }
 }
 
@@ -176,19 +168,26 @@ export class GitRepository implements Repository {
  * expensive (~20-300ms depending on the machine, antivirus, etc.) we check for
  * `.git` folders manually, and only call git if one is found.
  *
- * Symlinks further complicate this.
+ * Symlinked files have the potential to further complicate this. If TypeScript's
+ * `preserveSymlinks` option is on, then this may be passed the path to a symlinked
+ * file. Unlike TypeScript, we will resolve the path, as the repo link should really
+ * point to the actual file.
  */
 export class RepositoryManager {
-    ignoredPaths = new Set<string>();
-    repositories: Repository[] = [];
+    private cache = new Map<string, Repository | undefined>();
+    private assumedRepo = new AssumedRepository(
+        this.basePath,
+        this.gitRevision,
+        this.sourceLinkTemplate,
+    );
 
     constructor(
-        readonly basePath: string,
-        readonly gitRevision: string,
-        readonly gitRemote: string,
-        readonly sourceLinkTemplate: string,
-        readonly disableGit: boolean,
-        readonly logger: Logger,
+        private basePath: string,
+        private gitRevision: string,
+        private gitRemote: string,
+        private sourceLinkTemplate: string,
+        private disableGit: boolean,
+        private logger: Logger,
     ) {}
 
     /**
@@ -199,54 +198,49 @@ export class RepositoryManager {
      */
     getRepository(fileName: string): Repository | undefined {
         if (this.disableGit) {
-            return new AssumedRepository(
-                this.basePath,
-                this.gitRevision,
-                this.sourceLinkTemplate,
-            );
+            return this.assumedRepo;
         }
-        // Check for known non-repositories
-        const dirName = dirname(fileName);
-        if (this.ignoredPaths.has(dirName)) {
-            return;
+        return this.getRepositoryFolder(normalizePath(dirname(fileName)));
+    }
+
+    private getRepositoryFolder(dir: string): Repository | undefined {
+        if (this.cache.has(dir)) {
+            return this.cache.get(dir);
         }
 
-        // Check for known repositories
-        for (const repo of this.repositories) {
-            if (fileName.startsWith(repo.path)) {
-                return repo;
+        if (existsSync(join(dir, ".git"))) {
+            // This might just be a git repo, or we might be in some self-recursive symlink
+            // loop, and the repo is actually somewhere else. Ask Git where the repo actually is.
+            const repo = git("-C", dir, "rev-parse", "--show-toplevel");
+            if (repo.status === 0) {
+                const repoDir = repo.stdout.replace("\n", "");
+                // This check is only necessary if we're in a symlink loop, otherwise
+                // it will always be true.
+                if (!this.cache.has(repoDir)) {
+                    this.cache.set(
+                        repoDir,
+                        GitRepository.tryCreateRepository(
+                            repoDir,
+                            this.sourceLinkTemplate,
+                            this.gitRevision,
+                            this.gitRemote,
+                            this.logger,
+                        ),
+                    );
+                }
+
+                this.cache.set(dir, this.cache.get(repoDir));
+            } else {
+                // Not a git repo, probably corrupt.
+                this.cache.set(dir, undefined);
             }
+        } else {
+            // We may be at the root of the file system, in which case there is no repo.
+            this.cache.set(dir, undefined);
+            this.cache.set(dir, this.getRepositoryFolder(dirname(dir)));
         }
 
-        // If git has been disabled, and this is outside of our base path,
-        // then we shouldn't create links to the file.
-        if (this.disableGit) return;
-
-        // Try to create a new repository
-        const repository = GitRepository.tryCreateRepository(
-            dirName,
-            this.sourceLinkTemplate,
-            this.gitRevision,
-            this.gitRemote,
-            this.logger,
-        );
-        if (repository) {
-            insertSorted(
-                this.repositories,
-                repository,
-                (repo) => repo.path.length < repository.path.length,
-            );
-            return repository;
-        }
-
-        // No repository found, add all parent paths to ignored paths
-        // as they definitely don't contain git repos.
-        this.ignoredPaths.add(dirName);
-        let index = dirName.lastIndexOf("/");
-        while (index > 0) {
-            this.ignoredPaths.add(dirName.slice(0, index));
-            index = dirName.lastIndexOf("/", index - 1);
-        }
+        return this.cache.get(dir);
     }
 }
 
