@@ -14,13 +14,13 @@ describe("Internationalization", () => {
     });
 
     it("Supports getting the list of supported languages", () => {
-        equal(app.internationalization.getSupportedLanguages(), [
+        equal(app.internationalization.getSupportedLanguages().sort(), [
             "en",
             'zh',
             'jp',
             "ko",
             "test",
-        ]);
+        ].sort());
     });
 
     it("Supports translating without placeholders", () => {
