@@ -102,6 +102,9 @@ export = buildIncompleteTranslation({
         "@inheritDoc 中对 {0} 的声明引用未完全解析，可能会解析不正确",
     failed_to_find_0_to_inherit_comment_from_in_1:
         "在 {1} 的评论中找不到要继承的评论“{0}”",
+    failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2: `无法解析 {1} 的注释中指向"{0}"的链接。您可能想要"{2}"`,
+    failed_to_resolve_link_to_0_in_readme_for_1: `无法解析 {1} 的自述文件中指向"{0}"的链接`,
+    failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2: `无法解析 {1} 的自述文件中指向"{0}"的链接。您可能想要"{2}"`,
     reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment:
         "{0} 尝试使用 @inheritDoc 从 {1} 复制注释，但源没有相关注释",
     inheritdoc_circular_inheritance_chain_0: "@inheritDoc 指定循环继承链：{0}",
@@ -373,6 +376,13 @@ export = buildIncompleteTranslation({
     flag_private: "私有",
     flag_external: "外部",
     flag_inherited: "继承",
+    flag_public: "公开",
+    flag_static: "静态",
+    flag_optional: "可选",
+    flag_rest: "动态参数",
+    flag_abstract: "抽象",
+    flag_const: "常量",
+    flag_readonly: "只读",
     theme_implements: "实现",
     theme_indexable: "可索引",
     theme_type_declaration: "类型声明",
@@ -403,4 +413,8 @@ export = buildIncompleteTranslation({
     tag_see: "参阅",
     tag_group: "所属分组",
     tag_example: "示例",
+    theme_copy: "复制",
+    theme_copied: "已复制！",
+    theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
+    theme_class_hierarchy_title: '类继承图表',
 });

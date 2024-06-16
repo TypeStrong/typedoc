@@ -493,6 +493,8 @@ export const translatable = {
     theme_copied: "Copied!",
     theme_normally_hidden:
         "This member is normally hidden due to your filter settings.",
+
+    theme_class_hierarchy_title: 'Class Hierarchy',
 } as const;
 
 export type BuiltinTranslatableStringArgs = {
