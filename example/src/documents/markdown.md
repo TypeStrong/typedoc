@@ -55,4 +55,4 @@ A Random Shakespeare Quote
 
 ## An Image
 
- <img src="../media/typescript-logo.svg" width="120" />
+ <img src="../../media/typescript-logo.svg" width="120" />

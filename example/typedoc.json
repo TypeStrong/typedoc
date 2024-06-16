@@ -17,5 +17,17 @@
     },
     "sidebarLinks": {
         "API": "https://typedoc.org/api"
+    },
+    "highlightLanguages": [
+        "typescript",
+        "tsx",
+        "css",
+        "json",
+        "jsonc",
+        "python",
+        "yaml"
+    ],
+    "markdownItOptions": {
+        "html": true
     }
 }

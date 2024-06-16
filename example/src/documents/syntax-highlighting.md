@@ -6,6 +6,10 @@ category: Documents
 TypeDoc supports code blocks in Markdown and uses
 [Shiki](https://shiki.matsu.io/) to provide syntax highlighting.
 
+TypeDoc supports all languages supported by Shiki, but does not load all of
+them by default. The `highlightLanguages` option can be used to customize
+which languages are loaded for highlighting.
+
 If no language is specified, the code block is assumed to be TypeScript:
 
 ```

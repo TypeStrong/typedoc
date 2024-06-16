@@ -34,8 +34,9 @@ Here are some examples we wanted to highlight:
 
 ### Rendering
 
--   Markdown showcase: {@link markdownShowcase | `markdownShowcase`}
--   Syntax highlighting showcase: {@link syntaxHighlightingShowcase | `syntaxHighlightingShowcase` }
+-   External Markdown: [here](./src/documents/external-markdown.md)
+-   Markdown showcase: [here](./src/documents/markdown.md)
+-   Syntax highlighting showcase: [here](./src/documents/syntax-highlighting.md)
 
 ### Functions
 

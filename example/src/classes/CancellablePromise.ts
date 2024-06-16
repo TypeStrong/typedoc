@@ -381,7 +381,7 @@ export class CancellablePromise<T> {
      * @returns a `CancellablePromise` that resolves after `ms` milliseconds.
      */
     static delay(ms: number): CancellablePromise<void> {
-        let timer: NodeJS.Timer | undefined;
+        let timer: ReturnType<typeof setTimeout> | undefined;
         let rejectFn: (reason?: any) => void = noop;
 
         const promise = new Promise<void>((resolve, reject) => {
