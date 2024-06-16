@@ -1048,6 +1048,12 @@ a.tsd-index-link {
     border-width: 1px 0;
     transition: background-color 0.1s;
 }
+.tsd-signatures .tsd-index-signature:not(:last-child) {
+    margin-bottom: 1em;
+}
+.tsd-signatures .tsd-index-signature .tsd-signature {
+    border-width: 1px;
+}
 .tsd-description .tsd-signatures .tsd-signature {
     border-width: 1px;
 }

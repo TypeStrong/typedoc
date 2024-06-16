@@ -67,7 +67,9 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     {!!props.model.indexSignatures?.length && (
                         <section class={classNames({ "tsd-panel": true }, context.getReflectionClasses(props.model))}>
                             <h4 class="tsd-before-signature">{context.i18n.theme_indexable()}</h4>
-                            {props.model.indexSignatures.map((index) => renderIndexSignature(context, index))}
+                            <ul class="tsd-signatures">
+                                {props.model.indexSignatures.map((index) => renderIndexSignature(context, index))}
+                            </ul>
                         </section>
                     )}
                     {!props.model.signatures && context.memberSources(props.model)}
@@ -81,7 +83,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
 function renderIndexSignature(context: DefaultThemeRenderContext, index: SignatureReflection) {
     return (
-        <>
+        <li class="tsd-index-signature">
             <div class="tsd-signature">
                 <span class="tsd-signature-symbol">[</span>
                 {index.parameters!.map((item) => (
@@ -95,6 +97,6 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
             {context.commentSummary(index)}
             {context.commentTags(index)}
             {index.type instanceof ReflectionType && context.parameter(index.type.declaration)}
-        </>
+        </li>
     );
 }
