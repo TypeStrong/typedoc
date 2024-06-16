@@ -1,8 +1,5 @@
 import type * as ts from "typescript";
 
-// Code in here is copied from TS source, don't lint it.
-/* eslint-disable */
-
 /**
  * Expose the internal TypeScript APIs that are used by TypeDoc
  */

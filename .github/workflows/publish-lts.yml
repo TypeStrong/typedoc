@@ -25,6 +25,9 @@ jobs:
             - name: Install
               if: steps.check.outputs.changed == 'true'
               run: npm ci
+            - name: Test
+              if: steps.check.outputs.changed == 'true'
+              run: npm test
             - name: Setup publish token
               if: steps.check.outputs.changed == 'true'
               run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
