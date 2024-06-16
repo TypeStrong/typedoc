@@ -78,7 +78,7 @@
     "lint": "eslint . && npm run prettier -- --check .",
     "prettier": "prettier --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
     "prepack": "node scripts/set_strict.js false && npm run build:prod",
-    "prepare222": "node scripts/prepare.mjs",
+    "prepare": "node scripts/prepare.mjs",
     "postpublish": "node scripts/set_strict.js true"
   },
   "keywords": [
