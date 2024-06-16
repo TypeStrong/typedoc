@@ -339,6 +339,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             "javascript",
             "json",
             "jsonc",
+            "json5",
             "tsx",
             "typescript",
         ] satisfies BundledLanguage[],
