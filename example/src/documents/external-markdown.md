@@ -44,7 +44,7 @@ to include multiple documents.
 ```jsonc
 // typedoc.json
 {
-    "projectDocuments": ["documents/*.md"]
+    "projectDocuments": ["documents/*.md"],
 }
 ```
 
@@ -87,7 +87,6 @@ link to point to it, so relative links to images will still work.
 Documents may also include `{@link}` inline tags, which will be resolved as
 [declaration references](https://typedoc.org/guides/declaration-references/) by
 TypeDoc.
-
 
 [this page]: https://github.com/TypeStrong/typedoc/blob/master/example/src/documents/external-markdown.md
 [projectDocuments]: https://typedoc.org/options/input/#projectdocuments
