@@ -1486,12 +1486,13 @@ describe("Issue Tests", () => {
         equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
-    it("Ignores @license and @import comments at the top of the file, #2552", () => {
+    it("Ignores @license and @import comments, #2552", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(project.comment?.summary),
             "This is an awesome module.",
         );
+        equal(getComment(project, "something"), "");
     });
 
     it("Does not warn about documented constructor signature type aliases, #2553", () => {

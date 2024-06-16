@@ -111,6 +111,10 @@ function getCommentImpl(
         files,
     );
 
+    if (comment?.getTag("@import") || comment?.getTag("@license")) {
+        return;
+    }
+
     if (moduleComment && comment) {
         // Module comment, make sure it is tagged with @packageDocumentation or @module.
         // If it isn't then the comment applies to the first statement in the file, so throw it away.

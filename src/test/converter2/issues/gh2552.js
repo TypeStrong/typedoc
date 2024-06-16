@@ -13,4 +13,5 @@
  * @module good-module
  */
 
-export function goodFunction() {}
+/** @import * as ts2 from "typescript" */
+export const something = 1;
