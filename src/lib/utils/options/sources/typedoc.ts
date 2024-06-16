@@ -369,6 +369,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {
+            html: true,
             linkify: true,
         },
         validate(value, i18n) {
