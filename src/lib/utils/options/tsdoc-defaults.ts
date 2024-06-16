@@ -39,7 +39,11 @@ export const blockTags = [
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
-export const inlineTags = [...tsdocInlineTags, "@linkcode", "@linkplain"];
+export const inlineTags = [
+    ...tsdocInlineTags,
+    "@linkcode",
+    "@linkplain",
+] as const;
 
 export const tsdocModifierTags = [
     "@alpha",

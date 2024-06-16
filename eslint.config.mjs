@@ -73,6 +73,11 @@ const config = {
         "@typescript-eslint/no-confusing-void-expression": "off",
         "@typescript-eslint/unbound-method": "off",
 
+        "@typescript-eslint/prefer-literal-enum-member": [
+            "error",
+            { allowBitwiseExpressions: true },
+        ],
+
         // I'd like to have this turned on, but haven't figured out how to tell it about
         // checks that are correctly linted as unnecessary for TypeDoc's usage, but not
         // for plugin permitted usage.

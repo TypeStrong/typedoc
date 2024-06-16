@@ -3,6 +3,21 @@ import { Application } from "..";
 import { readdirSync } from "fs";
 import { join } from "path";
 import { translatable } from "../lib/internationalization/translatable";
+import { setDifference } from "../lib/utils/set";
+import {
+    blockTags,
+    inlineTags,
+    modifierTags,
+} from "../lib/utils/options/tsdoc-defaults";
+
+const allValidTranslationKeys = Object.keys(translatable);
+// The tag names do not actually exist in the default locale, but are valid
+// for translation, so include them here.
+allValidTranslationKeys.push(...blockTags.map((s) => "tag_" + s.substring(1)));
+allValidTranslationKeys.push(
+    ...modifierTags.map((s) => "tag_" + s.substring(1)),
+);
+allValidTranslationKeys.push(...inlineTags.map((s) => "tag_" + s.substring(1)));
 
 describe("Internationalization", () => {
     let app: Application;
@@ -26,8 +41,8 @@ describe("Internationalization", () => {
             app.i18n.no_entry_points_to_merge(),
             "No entry points provided to merge",
         );
-        app.options.setValue("lang", "test");
-        equal(app.i18n.no_entry_points_to_merge(), "no_entry_points_to_merge");
+        app.options.setValue("lang", "zh");
+        equal(app.i18n.no_entry_points_to_merge(), "没有提供合并的入口点");
     });
 
     it("Supports translating with placeholders", () => {
@@ -35,8 +50,8 @@ describe("Internationalization", () => {
             app.i18n.docs_generated_at_0("X"),
             "Documentation generated at X",
         );
-        app.options.setValue("lang", "test");
-        equal(app.i18n.docs_generated_at_0("X"), "docs_generated_at_0 X");
+        app.options.setValue("lang", "zh");
+        equal(app.i18n.docs_generated_at_0("X"), "文档生成于 X");
     });
 });
 
@@ -63,12 +78,19 @@ describe("Locales", () => {
                         `${key} translation references "${placeholder[0]}" which will not be available at runtime.`,
                     );
                 }
-
-                ok(
-                    key in translatable,
-                    `${locale} defines translation key ${key}, which is not available in the default locale.`,
-                );
             }
+
+            const extraKeys = Array.from(
+                setDifference(
+                    Object.keys(translations),
+                    allValidTranslationKeys,
+                ),
+            );
+            equal(
+                extraKeys,
+                [],
+                `${locale} defines translations which do not exist in the default locale.`,
+            );
         });
     }
 });

@@ -1803,7 +1803,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isPublic": true
+                "isPublic": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -1837,7 +1838,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isStatic": true
+                "isStatic": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -1872,7 +1874,9 @@
               "name": "arrowMethod",
               "variant": "declaration",
               "kind": 2048,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "class.ts",
@@ -1887,7 +1891,9 @@
                   "name": "arrowMethod",
                   "variant": "signature",
                   "kind": 4096,
-                  "flags": {},
+                  "flags": {
+                    "isInherited": true
+                  },
                   "comment": {
                     "summary": [
                       {
@@ -2083,7 +2089,8 @@
               "variant": "declaration",
               "kind": 2048,
               "flags": {
-                "isStatic": true
+                "isStatic": true,
+                "isInherited": true
               },
               "sources": [
                 {
@@ -2099,7 +2106,9 @@
                   "name": "staticMethod",
                   "variant": "signature",
                   "kind": 4096,
-                  "flags": {},
+                  "flags": {
+                    "isInherited": true
+                  },
                   "comment": {
                     "summary": [
                       {
@@ -2746,7 +2755,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isReadonly": true
+                "isReadonly": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -2780,7 +2790,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isPublic": true
+                "isPublic": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -2814,7 +2825,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isPublic": true
+                "isPublic": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -4423,7 +4435,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isProtected": true
+                "isProtected": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -4457,7 +4470,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isProtected": true
+                "isProtected": true,
+                "isInherited": true
               },
               "comment": {
                 "summary": [
@@ -4493,7 +4507,9 @@
               "name": "getValue",
               "variant": "declaration",
               "kind": 2048,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "generic-class.ts",
@@ -4508,7 +4524,9 @@
                   "name": "getValue",
                   "variant": "signature",
                   "kind": 4096,
-                  "flags": {},
+                  "flags": {
+                    "isInherited": true
+                  },
                   "comment": {
                     "summary": [
                       {

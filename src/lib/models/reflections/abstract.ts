@@ -8,6 +8,10 @@ import type { ReflectionVariant } from "./variant";
 import type { DeclarationReflection } from "./declaration";
 import type { DocumentReflection } from "./document";
 import { NonEnumerable } from "../../utils/general";
+import type {
+    Internationalization,
+    TranslatedString,
+} from "../../internationalization";
 
 /**
  * Current reflection id.
@@ -25,28 +29,24 @@ export function resetReflectionID() {
 
 export enum ReflectionFlag {
     None = 0,
-    Private = 1,
-    Protected = 2,
-    Public = 4,
-    Static = 8,
-    ExportAssignment = 16,
-    External = 32,
-    Optional = 64,
-    DefaultValue = 128,
-    Rest = 256,
-    Abstract = 512,
-    Const = 1024,
-    Let = 2048,
-    Readonly = 4096,
+    Private = 1 << 0,
+    Protected = 1 << 1,
+    Public = 1 << 2,
+    Static = 1 << 3,
+    External = 1 << 4,
+    Optional = 1 << 5,
+    Rest = 1 << 6,
+    Abstract = 1 << 7,
+    Const = 1 << 8,
+    Readonly = 1 << 9,
+    Inherited = 1 << 10,
 }
 
 const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Private,
     ReflectionFlag.Protected,
     ReflectionFlag.Static,
-    ReflectionFlag.ExportAssignment,
     ReflectionFlag.Optional,
-    ReflectionFlag.DefaultValue,
     ReflectionFlag.Rest,
     ReflectionFlag.Abstract,
     ReflectionFlag.Const,
@@ -56,7 +56,7 @@ const relevantFlags: ReflectionFlag[] = [
 /**
  * This must extend Array in order to work with Handlebar's each helper.
  */
-export class ReflectionFlags extends Array<string> {
+export class ReflectionFlags {
     private flags = ReflectionFlag.None;
 
     hasFlag(flag: ReflectionFlag) {
@@ -114,10 +114,6 @@ export class ReflectionFlags extends Array<string> {
         return this.hasFlag(ReflectionFlag.Rest);
     }
 
-    get hasExportAssignment(): boolean {
-        return this.hasFlag(ReflectionFlag.ExportAssignment);
-    }
-
     get isAbstract(): boolean {
         return this.hasFlag(ReflectionFlag.Abstract);
     }
@@ -128,6 +124,10 @@ export class ReflectionFlags extends Array<string> {
 
     get isReadonly() {
         return this.hasFlag(ReflectionFlag.Readonly);
+    }
+
+    get isInherited() {
+        return this.hasFlag(ReflectionFlag.Inherited);
     }
 
     setFlag(flag: ReflectionFlag, set: boolean) {
@@ -158,20 +158,20 @@ export class ReflectionFlags extends Array<string> {
         }
     }
 
-    private setSingleFlag(flag: ReflectionFlag, set: boolean) {
-        const name = ReflectionFlag[flag].replace(
-            /(.)([A-Z])/g,
-            (_m, a: string, b: string) => a + " " + b.toLowerCase(),
-        );
-        if (!set && this.hasFlag(flag)) {
-            if (relevantFlags.includes(flag)) {
-                this.splice(this.indexOf(name), 1);
+    getFlagStrings(i18n: Internationalization) {
+        const strings: TranslatedString[] = [];
+        for (const flag of relevantFlags) {
+            if (this.hasFlag(flag)) {
+                strings.push(i18n.flagString(flag));
             }
+        }
+        return strings;
+    }
+
+    private setSingleFlag(flag: ReflectionFlag, set: boolean) {
+        if (!set && this.hasFlag(flag)) {
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
-            if (relevantFlags.includes(flag)) {
-                this.push(name);
-            }
             this.flags |= flag;
         }
     }
@@ -184,10 +184,10 @@ export class ReflectionFlags extends Array<string> {
         "isExternal",
         "isOptional",
         "isRest",
-        "hasExportAssignment",
         "isAbstract",
         "isConst",
         "isReadonly",
+        "isInherited",
     ] as const;
 
     toObject(): JSONOutput.ReflectionFlags {

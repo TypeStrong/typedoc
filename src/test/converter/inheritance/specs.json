@@ -694,7 +694,9 @@
               "name": "instanceProp",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mergable-class.ts",
@@ -719,7 +721,8 @@
               "variant": "declaration",
               "kind": 1024,
               "flags": {
-                "isStatic": true
+                "isStatic": true,
+                "isInherited": true
               },
               "sources": [
                 {

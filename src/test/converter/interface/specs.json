@@ -2383,7 +2383,9 @@
               "name": "base",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",
@@ -2407,7 +2409,9 @@
               "name": "base2",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",
@@ -2524,7 +2528,9 @@
               "name": "base",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",
@@ -2548,7 +2554,9 @@
               "name": "base2",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",
@@ -2572,7 +2580,9 @@
               "name": "child",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",
@@ -2615,7 +2625,9 @@
               "name": "child3",
               "variant": "declaration",
               "kind": 1024,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "merging.ts",

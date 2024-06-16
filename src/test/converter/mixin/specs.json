@@ -180,7 +180,9 @@
           "name": "baseProperty",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -225,7 +227,9 @@
           "name": "property1",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -250,7 +254,9 @@
           "name": "property2",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -275,7 +281,9 @@
           "name": "baseMethod",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -290,7 +298,9 @@
               "name": "baseMethod",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -357,7 +367,9 @@
           "name": "method1",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -372,7 +384,9 @@
               "name": "method1",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -426,7 +440,9 @@
           "name": "method2",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -441,7 +457,9 @@
               "name": "method2",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -705,7 +723,9 @@
           "name": "baseProperty",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -730,7 +750,9 @@
           "name": "property1",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -755,7 +777,9 @@
           "name": "baseMethod",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -770,7 +794,9 @@
               "name": "baseMethod",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -801,7 +827,9 @@
           "name": "method1",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -816,7 +844,9 @@
               "name": "method1",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -930,7 +960,9 @@
           "name": "baseProperty",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -955,7 +987,9 @@
           "name": "property1",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -980,7 +1014,9 @@
           "name": "property2",
           "variant": "declaration",
           "kind": 1024,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -1005,7 +1041,9 @@
           "name": "baseMethod",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -1020,7 +1058,9 @@
               "name": "baseMethod",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -1051,7 +1091,9 @@
           "name": "method1",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -1066,7 +1108,9 @@
               "name": "method1",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -1120,7 +1164,9 @@
           "name": "method2",
           "variant": "declaration",
           "kind": 2048,
-          "flags": {},
+          "flags": {
+            "isInherited": true
+          },
           "sources": [
             {
               "fileName": "mixin.ts",
@@ -1135,7 +1181,9 @@
               "name": "method2",
               "variant": "signature",
               "kind": 4096,
-              "flags": {},
+              "flags": {
+                "isInherited": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",

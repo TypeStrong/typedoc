@@ -5,6 +5,7 @@ import {
     DeclarationReflection,
     type ProjectReflection,
     type Reflection,
+    ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
 } from "../../models/reflections/index";
@@ -405,7 +406,7 @@ function createLink(
     clause: ts.HeritageClause,
     expr: ts.ExpressionWithTypeArguments,
     symbol: ts.Symbol,
-    isOverwrite: boolean,
+    isInherit: boolean,
 ) {
     const project = context.project;
     const name = `${expr.expression.getText()}.${getHumanName(symbol.name)}`;
@@ -435,7 +436,8 @@ function createLink(
             return;
         }
 
-        if (isOverwrite) {
+        if (isInherit) {
+            target.setFlag(ReflectionFlag.Inherited);
             target.inheritedFrom ??= ReferenceType.createBrokenReference(
                 name,
                 project,

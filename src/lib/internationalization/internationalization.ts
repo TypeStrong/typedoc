@@ -8,6 +8,7 @@ import {
 import { readdirSync } from "fs";
 import { join } from "path";
 import { ReflectionKind } from "../models/reflections/kind";
+import { ReflectionFlag } from "../models";
 
 /**
  * ### What is translatable?
@@ -115,7 +116,7 @@ export class Internationalization {
      * Get the translation of the specified key, replacing placeholders
      * with the arguments specified.
      */
-    translate<T extends keyof TranslatableStrings>(
+    translate<T extends keyof typeof translatable>(
         key: T,
         ...args: TranslatableStrings[T]
     ): TranslatedString {
@@ -231,6 +232,54 @@ export class Internationalization {
             case ReflectionKind.Document:
                 return this.proxy.kind_plural_document();
         }
+    }
+
+    flagString(flag: ReflectionFlag): TranslatedString {
+        switch (flag) {
+            case ReflectionFlag.None:
+                throw new Error("Should be unreachable");
+            case ReflectionFlag.Private:
+                return this.proxy.flag_private();
+            case ReflectionFlag.Protected:
+                return this.proxy.flag_protected();
+            case ReflectionFlag.Public:
+                return this.proxy.flag_public();
+            case ReflectionFlag.Static:
+                return this.proxy.flag_static();
+            case ReflectionFlag.External:
+                return this.proxy.flag_external();
+            case ReflectionFlag.Optional:
+                return this.proxy.flag_optional();
+            case ReflectionFlag.Rest:
+                return this.proxy.flag_rest();
+            case ReflectionFlag.Abstract:
+                return this.proxy.flag_abstract();
+            case ReflectionFlag.Const:
+                return this.proxy.flag_const();
+            case ReflectionFlag.Readonly:
+                return this.proxy.flag_readonly();
+            case ReflectionFlag.Inherited:
+                return this.proxy.flag_inherited();
+        }
+    }
+
+    translateTagName(tag: `@${string}`): TranslatedString {
+        const tagName = tag.substring(1);
+        const translations = this.allTranslations.get(
+            this.application?.lang ?? "en",
+        );
+        if (translations.has(`tag_${tagName}`)) {
+            return translations.get(`tag_${tagName}`) as TranslatedString;
+        }
+        // In English, the tag names are the translated names, once turned
+        // into title case.
+        return (tagName.substring(0, 1).toUpperCase() +
+            tagName
+                .substring(1)
+                .replace(
+                    /[a-z][A-Z]/g,
+                    (x) => `${x[0]} ${x[1]}`,
+                )) as TranslatedString;
     }
 
     /**

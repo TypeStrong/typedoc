@@ -1,7 +1,7 @@
-import { type Reflection, ReflectionKind } from "../../../../models";
+import { type Reflection, ReflectionFlag, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
 import type { PageEvent } from "../../../events";
-import { camelToTitleCase, classNames, getDisplayName, wbr } from "../../lib";
+import { classNames, getDisplayName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
 export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
@@ -44,6 +44,13 @@ export function sidebarLinks(context: DefaultThemeRenderContext) {
     );
 }
 
+const flagOptionNameToReflectionFlag = {
+    protected: ReflectionFlag.Protected,
+    private: ReflectionFlag.Private,
+    external: ReflectionFlag.External,
+    inherited: ReflectionFlag.Inherited,
+};
+
 export function settings(context: DefaultThemeRenderContext) {
     const defaultFilters = context.options.getValue("visibilityFilters") as Record<string, boolean>;
 
@@ -57,7 +64,12 @@ export function settings(context: DefaultThemeRenderContext) {
                 .toLowerCase();
 
             visibilityOptions.push(
-                buildFilterItem(context, filterName, camelToTitleCase(key.substring(1)), defaultFilters[key]),
+                buildFilterItem(
+                    context,
+                    filterName,
+                    context.internationalization.translateTagName(key as `@${string}`),
+                    defaultFilters[key],
+                ),
             );
         } else if (
             (key === "protected" && !context.options.getValue("excludeProtected")) ||
@@ -65,7 +77,14 @@ export function settings(context: DefaultThemeRenderContext) {
             (key === "external" && !context.options.getValue("excludeExternals")) ||
             key === "inherited"
         ) {
-            visibilityOptions.push(buildFilterItem(context, key, camelToTitleCase(key), defaultFilters[key]));
+            visibilityOptions.push(
+                buildFilterItem(
+                    context,
+                    key,
+                    context.internationalization.flagString(flagOptionNameToReflectionFlag[key]),
+                    defaultFilters[key],
+                ),
+            );
         }
     }
 

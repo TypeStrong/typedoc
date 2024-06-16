@@ -498,7 +498,7 @@ function getReflectionClasses(
     // partials/navigation.tsx.
     for (const key of Object.keys(filters)) {
         if (key === "inherited") {
-            if (reflection.isDeclaration() && reflection.inheritedFrom) {
+            if (reflection.flags.isInherited) {
                 classes.push("tsd-is-inherited");
             }
         } else if (key === "protected") {

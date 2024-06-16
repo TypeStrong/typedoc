@@ -1,3 +1,9 @@
+import type {
+    blockTags,
+    inlineTags,
+    modifierTags,
+} from "../utils/options/tsdoc-defaults";
+
 export function buildTranslation<
     T extends BuiltinTranslatableStringConstraints,
 >(translations: T) {
@@ -430,6 +436,19 @@ export const translatable = {
     kind_plural_reference: "References",
     kind_plural_document: "Documents",
 
+    // ReflectionFlag translations
+    flag_private: "Private",
+    flag_protected: "Protected",
+    flag_public: "Public",
+    flag_static: "Static",
+    flag_external: "External",
+    flag_optional: "Optional",
+    flag_rest: "Rest",
+    flag_abstract: "Abstract",
+    flag_const: "Const",
+    flag_readonly: "Readonly",
+    flag_inherited: "Inherited",
+
     // ==================================================================
     // Strings that show up in the default theme
     // ==================================================================
@@ -471,7 +490,15 @@ export type BuiltinTranslatableStringArgs = {
     [K in keyof typeof translatable]: BuildTranslationArguments<
         (typeof translatable)[K]
     >;
-};
+} & Record<
+
+        | (typeof blockTags)[number]
+        | (typeof inlineTags)[number]
+        | (typeof modifierTags)[number] extends `@${infer T}`
+        ? `tag_${T}`
+        : never,
+    []
+>;
 
 type BuildTranslationArguments<
     T extends string,

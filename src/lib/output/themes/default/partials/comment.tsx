@@ -1,7 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { type Reflection, ReflectionKind } from "../../../../models";
-import { camelToTitleCase } from "../../lib";
 import { anchorIcon } from "./anchor-icon";
 
 // Note: Comment modifiers are handled in `renderFlags`
@@ -32,8 +31,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
             <div class="tsd-comment tsd-typography">
                 {tags.map((item) => {
                     const name = item.name
-                        ? `${camelToTitleCase(item.tag.substring(1))}: ${item.name}`
-                        : camelToTitleCase(item.tag.substring(1));
+                        ? `${context.internationalization.translateTagName(item.tag)}: ${item.name}`
+                        : context.internationalization.translateTagName(item.tag);
 
                     const anchor = props.getUniqueAliasInPage(name);
 
@@ -56,12 +55,12 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
 const flagsNotRendered: `@${string}`[] = ["@showCategories", "@showGroups", "@hideCategories", "@hideGroups"];
 
-export function reflectionFlags(_context: DefaultThemeRenderContext, props: Reflection) {
-    const allFlags = [...props.flags];
+export function reflectionFlags(context: DefaultThemeRenderContext, props: Reflection) {
+    const allFlags = props.flags.getFlagStrings(context.internationalization);
     if (props.comment) {
         for (const tag of props.comment.modifierTags) {
             if (!flagsNotRendered.includes(tag)) {
-                allFlags.push(camelToTitleCase(tag.substring(1)));
+                allFlags.push(context.internationalization.translateTagName(tag));
             }
         }
     }
