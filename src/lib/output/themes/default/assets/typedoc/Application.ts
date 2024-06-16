@@ -1,5 +1,15 @@
 import type { IComponentOptions } from "./Component";
 
+declare global {
+    interface Window {
+        translations: {
+            copy: string;
+            copied: string;
+            normally_hidden: string;
+        };
+    }
+}
+
 /**
  * Component definition.
  */
@@ -78,7 +88,6 @@ export class Application {
         // Because we hid the entire page until the navigation loaded or we hit a timeout,
         // we have to manually resolve the url hash here.
         if (location.hash) {
-            console.log("Scorlling");
             const reflAnchor = document.getElementById(
                 location.hash.substring(1),
             );
@@ -160,6 +169,16 @@ export class Application {
             return;
         }
 
+        // Ensure the group this reflection is contained within is visible.
+        const wasHidden = reflContainer.offsetParent == null;
+        let sectionContainer = reflContainer;
+        while (sectionContainer !== document.body) {
+            if (sectionContainer instanceof HTMLDetailsElement) {
+                sectionContainer.open = true;
+            }
+            sectionContainer = sectionContainer.parentElement!;
+        }
+
         if (reflContainer.offsetParent == null) {
             this.alwaysVisibleMember = reflContainer;
 
@@ -167,10 +186,13 @@ export class Application {
 
             const warning = document.createElement("p");
             warning.classList.add("warning");
-            warning.textContent =
-                "This member is normally hidden due to your filter settings.";
+            warning.textContent = window.translations.normally_hidden;
 
             reflContainer.prepend(warning);
+        }
+
+        if (wasHidden) {
+            reflAnchor.scrollIntoView();
         }
     }
 
@@ -183,13 +205,13 @@ export class Application {
                         button.previousElementSibling.innerText.trim(),
                     );
                 }
-                button.textContent = "Copied!";
+                button.textContent = window.translations.copied;
                 button.classList.add("visible");
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     button.classList.remove("visible");
                     timeout = setTimeout(() => {
-                        button.textContent = "Copy";
+                        button.textContent = window.translations.copy;
                     }, 100);
                 }, 1000);
             });

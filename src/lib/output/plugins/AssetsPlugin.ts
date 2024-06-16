@@ -1,6 +1,6 @@
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
-import { copySync, writeFileSync } from "../../utils/fs";
+import { copySync, readFile, writeFileSync } from "../../utils/fs";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
 import { getStyles } from "../../utils/highlighter";
 import { Option } from "../../utils";
@@ -16,6 +16,14 @@ export class AssetsPlugin extends RendererComponent {
     /** @internal */
     @Option("customCss")
     accessor customCss!: string;
+
+    getTranslatedStrings() {
+        return {
+            copy: this.application.i18n.theme_copy(),
+            copied: this.application.i18n.theme_copied(),
+            normally_hidden: this.application.i18n.theme_normally_hidden(),
+        };
+    }
 
     /**
      * Create a new AssetsPlugin instance.
@@ -51,7 +59,17 @@ export class AssetsPlugin extends RendererComponent {
         if (this.owner.theme instanceof DefaultTheme) {
             const src = join(__dirname, "..", "..", "..", "..", "static");
             const dest = join(event.outputDirectory, "assets");
-            copySync(src, dest);
+            copySync(join(src, "style.css"), join(dest, "style.css"));
+
+            const mainJs = readFile(join(src, "main.js"));
+            writeFileSync(
+                join(dest, "main.js"),
+                [
+                    '"use strict";',
+                    `window.translations=${JSON.stringify(this.getTranslatedStrings())};`,
+                    mainJs,
+                ].join("\n"),
+            );
 
             writeFileSync(join(dest, "highlight.css"), getStyles());
 

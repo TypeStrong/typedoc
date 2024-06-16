@@ -26,9 +26,6 @@ async function main() {
         bundle: true,
         minify: true,
         outfile: "static/main.js",
-        banner: {
-            js: '"use strict";',
-        },
         logLevel: "info",
         plugins: [copyToDocsPlugin],
     });

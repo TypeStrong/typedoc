@@ -487,6 +487,12 @@ export const translatable = {
     theme_search: "Search",
     theme_menu: "Menu",
     theme_permalink: "Permalink",
+
+    // Used by the frontend JS
+    theme_copy: "Copy",
+    theme_copied: "Copied!",
+    theme_normally_hidden:
+        "This member is normally hidden due to your filter settings.",
 } as const;
 
 export type BuiltinTranslatableStringArgs = {
