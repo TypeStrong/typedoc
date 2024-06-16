@@ -130,7 +130,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
                 <span>{getDisplayName(props.project)}</span>
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
-                <li>Loading...</li>
+                <li>{context.i18n.theme_loading()}</li>
             </ul>
         </nav>
     );
