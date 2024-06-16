@@ -6,7 +6,6 @@
     `@license`, `@import`, `@hideGroups` `@hideCategories` sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
     sort - documents-first, documents-last, alphabetical-ignoring-documents
     searchInDocuments, useHostedBaseUrlForAbsoluteLinks
--   #2147, add `referencedProperties` to a `ReferenceType` which is a set of name/comment pairs
 
 ### Breaking Changes
 
