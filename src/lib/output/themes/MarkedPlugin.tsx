@@ -225,10 +225,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 code = code.replace(/\n$/, "") + "\n";
 
                 if (!lang) {
-                    return `<pre><code>${code}</code><button>Copy</button></pre>\n`;
+                    return `<pre><code>${code}</code><button>${this.application.i18n.theme_copy()}</button></pre>\n`;
                 }
 
-                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">Copy</button></pre>\n`;
+                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
             },
         });
 
