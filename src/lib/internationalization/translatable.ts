@@ -471,9 +471,12 @@ export const translatable = {
     theme_re_exports: "Re-exports",
     theme_renames_and_re_exports: "Renames and re-exports",
     theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
+    theme_class_hierarchy_title: "Class Hierarchy",
     // Search
     theme_preparing_search_index: "Preparing search index...",
     theme_search_index_not_available: "The search index is not available",
+    // Left nav bar
+    theme_loading: "Loading...",
     // Right nav bar
     theme_settings: "Settings",
     theme_member_visibility: "Member Visibility",
@@ -493,8 +496,6 @@ export const translatable = {
     theme_copied: "Copied!",
     theme_normally_hidden:
         "This member is normally hidden due to your filter settings.",
-
-    theme_class_hierarchy_title: 'Class Hierarchy',
 } as const;
 
 export type BuiltinTranslatableStringArgs = {
