@@ -84,6 +84,7 @@
 -   Fixed an issue where custom themes which added dependencies in the `<head>` element could result in broken icons, #2589.
 -   Navigation folders sharing a name will no longer be saved with a shared key to `localStorage`.
 -   The `--hideParameterTypesInTitle` option no longer applies when rendering function types.
+-   Broken `@link` tags in readme files will now cause a warning when link validation is enabled.
 -   Fixed `externalSymbolLinkMappings` option's support for [meanings](https://typedoc.org/guides/declaration-references/#meaning) in declaration references.
 -   Buttons to copy code now have the `type=button` attribute set to avoid being treated as submit buttons.
 -   `--hostedBaseUrl` will now implicitly add a trailing slash to the generated URL.

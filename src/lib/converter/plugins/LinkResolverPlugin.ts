@@ -5,6 +5,7 @@ import { Option, type ValidationOptions } from "../../utils";
 import {
     ContainerReflection,
     DeclarationReflection,
+    makeRecursiveVisitor,
     type ProjectReflection,
     type Reflection,
     type ReflectionCategory,
@@ -40,6 +41,19 @@ export class LinkResolverPlugin extends ConverterComponent {
             const reflection = project.reflections[id];
             if (reflection.comment) {
                 this.owner.resolveLinks(reflection.comment, reflection);
+            }
+
+            if (reflection.isDeclaration()) {
+                reflection.type?.visit(
+                    makeRecursiveVisitor({
+                        union: (type) => {
+                            type.elementSummaries = type.elementSummaries?.map(
+                                (parts) =>
+                                    this.owner.resolveLinks(parts, reflection),
+                            );
+                        },
+                    }),
+                );
             }
 
             if (

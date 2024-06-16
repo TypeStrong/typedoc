@@ -27,6 +27,7 @@ export type CommentDisplayPart =
     /**
      * Represents a reference to a path relative to where the comment resides.
      * This is used to detect and copy relative image links.
+     * Use {@link FileRegistry} to determine what path on disc this refers to.
      */
     | RelativeLinkDisplayPart;
 

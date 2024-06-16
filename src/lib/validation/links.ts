@@ -1,12 +1,17 @@
-import type { Comment, CommentDisplayPart, ProjectReflection } from "../models";
+import {
+    ReflectionKind,
+    type Comment,
+    type CommentDisplayPart,
+    type ProjectReflection,
+} from "../models";
 import type { Logger } from "../utils";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 
-function getBrokenLinks(comment: Comment | undefined) {
+function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
     const links: string[] = [];
 
-    function processPart(part: CommentDisplayPart) {
+    for (const part of parts) {
         if (
             part.kind === "inline-tag" &&
             linkTags.includes(part.tag) &&
@@ -16,8 +21,16 @@ function getBrokenLinks(comment: Comment | undefined) {
         }
     }
 
-    comment?.summary.forEach(processPart);
-    comment?.blockTags.forEach((tag) => tag.content.forEach(processPart));
+    return links;
+}
+
+function getBrokenLinks(comment: Comment | undefined) {
+    if (!comment) return [];
+
+    const links = [...getBrokenPartLinks(comment.summary)];
+    for (const tag of comment.blockTags) {
+        links.push(...getBrokenPartLinks(tag.content));
+    }
 
     return links;
 }
@@ -28,23 +41,79 @@ export function validateLinks(
 ): void {
     for (const id in project.reflections) {
         const reflection = project.reflections[id];
+
+        if (reflection.isProject() || reflection.isDeclaration()) {
+            for (const broken of getBrokenPartLinks(reflection.readme || [])) {
+                // #2360, "@" is a future reserved character in TSDoc component paths
+                // If a link starts with it, and doesn't include a module source indicator "!"
+                // then the user probably is trying to link to a package containing "@" with an absolute link.
+                if (broken.startsWith("@") && !broken.includes("!")) {
+                    logger.warn(
+                        logger.i18n.failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2(
+                            broken,
+                            reflection.getFriendlyFullName(),
+                            broken.replace(/[.#~]/, "!"),
+                        ),
+                    );
+                } else {
+                    logger.warn(
+                        logger.i18n.failed_to_resolve_link_to_0_in_readme_for_1(
+                            broken,
+                            reflection.getFriendlyFullName(),
+                        ),
+                    );
+                }
+            }
+        }
+
         for (const broken of getBrokenLinks(reflection.comment)) {
             // #2360, "@" is a future reserved character in TSDoc component paths
             // If a link starts with it, and doesn't include a module source indicator "!"
             // then the user probably is trying to link to a package containing "@" with an absolute link.
-            let extra = "";
             if (broken.startsWith("@") && !broken.includes("!")) {
-                extra = `\n\tYou may have wanted "${broken.replace(
-                    /[.#~]/,
-                    "!",
-                )}"`;
+                logger.warn(
+                    logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
+                        broken,
+                        reflection.getFriendlyFullName(),
+                        broken.replace(/[.#~]/, "!"),
+                    ),
+                );
+            } else {
+                logger.warn(
+                    logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                        broken,
+                        reflection.getFriendlyFullName(),
+                    ),
+                );
             }
-            logger.warn(
-                logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
-                    broken,
-                    `${reflection.getFriendlyFullName()}.${extra}`,
-                ),
-            );
+        }
+
+        if (
+            reflection.isDeclaration() &&
+            reflection.kindOf(ReflectionKind.TypeAlias) &&
+            reflection.type?.type === "union" &&
+            reflection.type.elementSummaries
+        ) {
+            for (const broken of reflection.type.elementSummaries.flatMap(
+                getBrokenPartLinks,
+            )) {
+                if (broken.startsWith("@") && !broken.includes("!")) {
+                    logger.warn(
+                        logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
+                            broken,
+                            reflection.getFriendlyFullName(),
+                            broken.replace(/[.#~]/, "!"),
+                        ),
+                    );
+                } else {
+                    logger.warn(
+                        logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                            broken,
+                            reflection.getFriendlyFullName(),
+                        ),
+                    );
+                }
+            }
         }
     }
 }
