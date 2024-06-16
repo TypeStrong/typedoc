@@ -104,6 +104,9 @@ export = buildIncompleteTranslation({
         '{0} のコメントに "{1}" の @groupDescription が含まれていますが、そのグループには子が配置されていません',
     label_0_for_1_cannot_be_referenced:
         '{1} のラベル "{0}" は宣言参照では参照できません。ラベルには A ～ Z、0 ～ 9、_ のみを含めることができ、数字で始まることはできません。',
+    failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2: `{1} のコメント内の "{0}" へのリンクを解決できません。"{2}" を意味していた可能性があります。`,
+    failed_to_resolve_link_to_0_in_readme_for_1: `{1} の README ファイル内の "{0}" へのリンクを解決できません。`,
+    failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2: `{1} の README ファイル内の "{0}" へのリンクを解決できません。"{2}" を意味していた可能性があります。`,
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2:
         "修飾子タグ {0} は、{2} のコメント内の {1} と相互に排他的です",
     signature_0_has_unused_param_with_name_1:
@@ -446,6 +449,13 @@ export = buildIncompleteTranslation({
     flag_private: "非公開",
     flag_external: "外部",
     flag_inherited: "継承",
+    flag_public: "公開",
+    flag_static: "静的",
+    flag_optional: "オプション",
+    flag_rest: "REST パラメータ",
+    flag_abstract: "抽象",
+    flag_const: "定数",
+    flag_readonly: "読み取り専用",
     theme_implements: "実装",
     theme_indexable: "インデックス可能",
     theme_type_declaration: "型宣言",
@@ -476,4 +486,8 @@ export = buildIncompleteTranslation({
     tag_see: "参照",
     tag_group: "所属グループ",
     tag_example: "例",
+    theme_copy: "コピー",
+    theme_copied: "コピー完了！",
+    theme_normally_hidden: "このメンバーは、フィルター設定のため、通常は非表示になっています。",
+    theme_class_hierarchy_title: 'クラス継承図',
 });

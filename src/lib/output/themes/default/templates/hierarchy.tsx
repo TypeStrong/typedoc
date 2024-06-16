@@ -37,7 +37,7 @@ function fullHierarchy(
 export function hierarchyTemplate(context: DefaultThemeRenderContext, props: PageEvent<ProjectReflection>) {
     return (
         <>
-            <h2>Class Hierarchy</h2>
+            <h2>{context.i18n.theme_class_hierarchy_title()}</h2>
             {getHierarchyRoots(props.project).map((root) => (
                 <ul class="tsd-full-hierarchy">{fullHierarchy(context, root)}</ul>
             ))}
