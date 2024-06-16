@@ -488,6 +488,7 @@ export = buildIncompleteTranslation({
     tag_example: "例",
     theme_copy: "コピー",
     theme_copied: "コピー完了！",
-    theme_normally_hidden: "このメンバーは、フィルター設定のため、通常は非表示になっています。",
-    theme_class_hierarchy_title: 'クラス継承図',
+    theme_normally_hidden:
+        "このメンバーは、フィルター設定のため、通常は非表示になっています。",
+    theme_class_hierarchy_title: "クラス継承図",
 });
