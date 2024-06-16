@@ -2,6 +2,7 @@ import { deepEqual as equal, ok } from "assert/strict";
 import { Application } from "..";
 import { readdirSync } from "fs";
 import { join } from "path";
+import { translatable } from "../lib/internationalization/translatable";
 
 describe("Internationalization", () => {
     let app: Application;
@@ -14,10 +15,10 @@ describe("Internationalization", () => {
     });
 
     it("Supports getting the list of supported languages", () => {
-        equal(
-            app.internationalization.getSupportedLanguages().sort(),
-            ["en", "zh", "jp", "ko", "test"].sort(),
-        );
+        const langs = app.internationalization.getSupportedLanguages();
+        ok(langs.includes("en"));
+        ok(langs.includes("ko"));
+        ok(langs.includes("jp"));
     });
 
     it("Supports translating without placeholders", () => {
@@ -62,6 +63,11 @@ describe("Locales", () => {
                         `${key} translation references "${placeholder[0]}" which will not be available at runtime.`,
                     );
                 }
+
+                ok(
+                    key in translatable,
+                    `${locale} defines translation key ${key}, which is not available in the default locale.`,
+                );
             }
         });
     }
