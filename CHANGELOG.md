@@ -22,6 +22,7 @@
 -   Removed `--media` option, TypeDoc will now detect image links within your comments and markdown documents and automatically copy them to the site.
 -   Removed `--includes` option, use the `@document` tag instead.
 -   Removed `--stripYamlFrontmatter` option, TypeDoc will always do this now.
+-   Renamed the `--htmlLang` option to `--lang`.
 -   All function-likes may now have comments directly attached to them. This is a change from previous versions of TypeDoc where functions comments
     were always moved down to the signature level. This mostly worked, but caused problems with type aliases, so was partially changed in 0.25.13.
     This change was extended to apply not only to type aliases, but also other function-likes declared with variables and callable properties.
