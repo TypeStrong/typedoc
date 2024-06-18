@@ -417,4 +417,5 @@ export = buildIncompleteTranslation({
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
     theme_class_hierarchy_title: "类继承图表",
+    theme_loading: "加载中……",
 });

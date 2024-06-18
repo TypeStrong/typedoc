@@ -491,4 +491,5 @@ export = buildIncompleteTranslation({
     theme_normally_hidden:
         "このメンバーは、フィルター設定のため、通常は非表示になっています。",
     theme_class_hierarchy_title: "クラス継承図",
+    theme_loading: "読み込み中...",
 });
