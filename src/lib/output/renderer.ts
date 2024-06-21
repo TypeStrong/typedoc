@@ -11,7 +11,12 @@ import * as path from "path";
 
 import type { Application } from "../application";
 import type { Theme } from "./theme";
-import { RendererEvent, PageEvent, IndexEvent } from "./events";
+import {
+    RendererEvent,
+    PageEvent,
+    IndexEvent,
+    type MarkdownEvent,
+} from "./events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate } from "./models/UrlMapping";
 import { writeFileSync } from "../utils/fs";
@@ -113,6 +118,16 @@ export interface RendererHooks {
     "comment.afterTags": [DefaultThemeRenderContext, Comment, Reflection];
 }
 
+export interface RendererEvents {
+    beginRender: [RendererEvent];
+    beginPage: [PageEvent<Reflection>];
+    endPage: [PageEvent<Reflection>];
+    endRender: [RendererEvent];
+
+    parseMarkdown: [MarkdownEvent];
+    prepareIndex: [IndexEvent];
+}
+
 /**
  * The renderer processes a {@link ProjectReflection} using a {@link Theme} instance and writes
  * the emitted html documents to a output directory. You can specify which theme should be used
@@ -124,8 +139,7 @@ export interface RendererHooks {
  *
  *  * {@link Renderer.EVENT_BEGIN}<br>
  *    Triggered before the renderer starts rendering a project. The listener receives
- *    an instance of {@link RendererEvent}. By calling {@link RendererEvent.preventDefault} the entire
- *    render process can be canceled.
+ *    an instance of {@link RendererEvent}.
  *
  *    * {@link Renderer.EVENT_BEGIN_PAGE}<br>
  *      Triggered before a document will be rendered. The listener receives an instance of
@@ -150,7 +164,8 @@ export interface RendererHooks {
 @Component({ name: "renderer", internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<
     Application,
-    RendererComponent
+    RendererComponent,
+    RendererEvents
 > {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
@@ -272,32 +287,24 @@ export class Renderer extends ChildableComponent<
             return;
         }
 
-        const output = new RendererEvent(
-            RendererEvent.BEGIN,
-            outputDirectory,
-            project,
-        );
+        const output = new RendererEvent(outputDirectory, project);
         output.urls = this.theme!.getUrls(project);
 
-        this.trigger(output);
+        this.trigger(RendererEvent.BEGIN, output);
         await this.runPreRenderJobs(output);
 
-        if (!output.isDefaultPrevented()) {
-            this.application.logger.verbose(
-                `There are ${output.urls.length} pages to write.`,
-            );
-            output.urls.forEach((mapping) => {
-                this.renderDocument(...output.createPageEvent(mapping));
-                validateStateIsClean(mapping.url);
-            });
+        this.application.logger.verbose(
+            `There are ${output.urls.length} pages to write.`,
+        );
+        output.urls.forEach((mapping) => {
+            this.renderDocument(...output.createPageEvent(mapping));
+            validateStateIsClean(mapping.url);
+        });
 
-            await Promise.all(
-                this.postRenderAsyncJobs.map((job) => job(output)),
-            );
-            this.postRenderAsyncJobs = [];
+        await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));
+        this.postRenderAsyncJobs = [];
 
-            this.trigger(RendererEvent.END, output);
-        }
+        this.trigger(RendererEvent.END, output);
 
         this.theme = void 0;
         this.hooks.restoreMomento(momento);
@@ -336,10 +343,6 @@ export class Renderer extends ChildableComponent<
     ) {
         const momento = this.hooks.saveMomento();
         this.trigger(PageEvent.BEGIN, page);
-        if (page.isDefaultPrevented()) {
-            this.hooks.restoreMomento(momento);
-            return false;
-        }
 
         if (page.model instanceof Reflection) {
             page.contents = this.theme!.render(page, template);
@@ -349,10 +352,6 @@ export class Renderer extends ChildableComponent<
 
         this.trigger(PageEvent.END, page);
         this.hooks.restoreMomento(momento);
-
-        if (page.isDefaultPrevented()) {
-            return false;
-        }
 
         try {
             writeFileSync(page.filename, page.contents);

@@ -23,11 +23,14 @@ export class LinkResolverPlugin extends ConverterComponent {
 
     override initialize() {
         super.initialize();
-        this.owner.on(ConverterEvents.RESOLVE_END, this.onResolve, this, -300);
+        this.owner.on(
+            ConverterEvents.RESOLVE_END,
+            this.onResolve.bind(this),
+            -300,
+        );
         this.application.on(
             ApplicationEvents.REVIVE,
-            this.resolveLinks,
-            this,
+            this.resolveLinks.bind(this),
             -300,
         );
     }

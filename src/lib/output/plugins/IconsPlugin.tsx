@@ -35,9 +35,7 @@ export class IconsPlugin extends RendererComponent {
     iconHtml?: string;
 
     override initialize() {
-        this.listenTo(this.owner, {
-            [RendererEvent.BEGIN]: this.onBeginRender,
-        });
+        this.owner.on(RendererEvent.BEGIN, this.onBeginRender.bind(this));
     }
 
     private onBeginRender(_event: RendererEvent) {

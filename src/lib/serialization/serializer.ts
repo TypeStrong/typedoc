@@ -6,18 +6,23 @@ import type { ModelToObject } from "./schema";
 import type { SerializerComponent } from "./components";
 import { insertPrioritySorted } from "../utils/array";
 
-export class Serializer extends EventDispatcher {
+export interface SerializerEvents {
+    begin: [SerializeEvent];
+    end: [SerializeEvent];
+}
+
+export class Serializer extends EventDispatcher<SerializerEvents> {
     /**
      * Triggered when the {@link Serializer} begins transforming a project.
-     * @event EVENT_BEGIN
+     * @event
      */
-    static EVENT_BEGIN = "begin";
+    static readonly EVENT_BEGIN = "begin";
 
     /**
      * Triggered when the {@link Serializer} has finished transforming a project.
-     * @event EVENT_END
+     * @event
      */
-    static EVENT_END = "end";
+    static readonly EVENT_END = "end";
 
     private serializers: SerializerComponent<any>[] = [];
 
@@ -71,17 +76,13 @@ export class Serializer extends EventDispatcher {
     ): ModelToObject<ProjectReflection> {
         this.projectRoot = projectRoot;
 
-        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
-        this.trigger(eventBegin);
+        const eventBegin = new SerializeEvent(value);
+        this.trigger(Serializer.EVENT_BEGIN, eventBegin);
 
         const project = this.toObject(value);
 
-        const eventEnd = new SerializeEvent(
-            Serializer.EVENT_END,
-            value,
-            project,
-        );
-        this.trigger(eventEnd);
+        const eventEnd = new SerializeEvent(value, project);
+        this.trigger(Serializer.EVENT_END, eventEnd);
 
         return project;
     }

@@ -14,14 +14,14 @@ export class SitemapPlugin extends RendererComponent {
     }
 
     override initialize() {
-        this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
+        this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 
-    private onRendererBegin(event: RendererEvent) {
+    private onRendererBegin(_event: RendererEvent) {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented() || !this.hostedBaseUrl) {
+        if (!this.hostedBaseUrl) {
             return;
         }
 

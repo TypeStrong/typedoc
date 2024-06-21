@@ -22,14 +22,13 @@ export class TypePlugin extends ConverterComponent {
      * Create a new TypeHandler instance.
      */
     override initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_RESOLVE]: this.onResolve,
-            [Converter.EVENT_RESOLVE_END]: this.onResolveEnd,
-            [Converter.EVENT_END]: () => this.reflections.clear(),
-        });
-        this.listenTo(this.application, {
-            [ApplicationEvents.REVIVE]: this.onRevive,
-        });
+        this.owner.on(Converter.EVENT_RESOLVE, this.onResolve.bind(this));
+        this.owner.on(
+            Converter.EVENT_RESOLVE_END,
+            this.onResolveEnd.bind(this),
+        );
+        this.owner.on(Converter.EVENT_END, () => this.reflections.clear());
+        this.application.on(ApplicationEvents.REVIVE, this.onRevive.bind(this));
     }
 
     private onRevive(project: ProjectReflection) {
@@ -44,7 +43,7 @@ export class TypePlugin extends ConverterComponent {
         this.reflections.clear();
     }
 
-    private onResolve(context: Context, reflection: DeclarationReflection) {
+    private onResolve(context: Context, reflection: Reflection) {
         this.resolve(context.project, reflection);
     }
 

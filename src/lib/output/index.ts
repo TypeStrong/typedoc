@@ -1,7 +1,7 @@
 export { PageEvent, RendererEvent, MarkdownEvent, IndexEvent } from "./events";
 export { UrlMapping } from "./models/UrlMapping";
 export type { RenderTemplate } from "./models/UrlMapping";
-export { Renderer } from "./renderer";
+export { Renderer, type RendererEvents } from "./renderer";
 export type { RendererHooks } from "./renderer";
 export { Theme } from "./theme";
 export {

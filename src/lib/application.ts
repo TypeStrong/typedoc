@@ -74,6 +74,12 @@ const DEFAULT_READERS = [
     new TSConfigReader(),
 ];
 
+export interface ApplicationEvents {
+    bootstrapEnd: [Application];
+    reviveProject: [ProjectReflection];
+    validateProject: [ProjectReflection];
+}
+
 /**
  * The default TypeDoc main application class.
  *
@@ -95,7 +101,8 @@ const DEFAULT_READERS = [
 @Component({ name: "application", internal: true })
 export class Application extends ChildableComponent<
     Application,
-    AbstractComponent<Application>
+    AbstractComponent<Application, {}>,
+    ApplicationEvents
 > {
     /**
      * The converter used to create the declaration reflections.
@@ -187,8 +194,8 @@ export class Application extends ChildableComponent<
         }
         super(null!); // We own ourselves
 
-        this.converter = this.addComponent<Converter>("converter", Converter);
-        this.renderer = this.addComponent<Renderer>("renderer", Renderer);
+        this.converter = new Converter(this);
+        this.renderer = new Renderer(this);
         this.logger.i18n = this.i18n;
     }
 

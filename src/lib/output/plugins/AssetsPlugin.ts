@@ -29,25 +29,24 @@ export class AssetsPlugin extends RendererComponent {
      * Create a new AssetsPlugin instance.
      */
     override initialize() {
-        this.listenTo(this.owner, {
-            [RendererEvent.END]: this.onRenderEnd,
-            [RendererEvent.BEGIN]: (event: RendererEvent) => {
-                const dest = join(event.outputDirectory, "assets");
+        this.owner.on(RendererEvent.BEGIN, this.onRenderBegin.bind(this));
+        this.owner.on(RendererEvent.END, this.onRenderEnd.bind(this));
+    }
 
-                if (this.customCss) {
-                    if (existsSync(this.customCss)) {
-                        copySync(this.customCss, join(dest, "custom.css"));
-                    } else {
-                        this.application.logger.error(
-                            this.application.i18n.custom_css_file_0_does_not_exist(
-                                this.customCss,
-                            ),
-                        );
-                        event.preventDefault();
-                    }
-                }
-            },
-        });
+    private onRenderBegin(event: RendererEvent) {
+        const dest = join(event.outputDirectory, "assets");
+
+        if (this.customCss) {
+            if (existsSync(this.customCss)) {
+                copySync(this.customCss, join(dest, "custom.css"));
+            } else {
+                this.application.logger.error(
+                    this.application.i18n.custom_css_file_0_does_not_exist(
+                        this.customCss,
+                    ),
+                );
+            }
+        }
     }
 
     /**

@@ -1,4 +1,3 @@
-import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models";
 import type { ProjectReflection as JSONProjectReflection } from "./schema";
 
@@ -9,7 +8,7 @@ import type { ProjectReflection as JSONProjectReflection } from "./schema";
  * @see {@link Serializer.EVENT_BEGIN}
  * @see {@link Serializer.EVENT_END}
  */
-export class SerializeEvent extends Event {
+export class SerializeEvent {
     /**
      * The project the renderer is currently processing.
      */
@@ -17,12 +16,7 @@ export class SerializeEvent extends Event {
 
     output: JSONProjectReflection | undefined;
 
-    constructor(
-        name: string,
-        project: ProjectReflection,
-        output?: JSONProjectReflection,
-    ) {
-        super(name);
+    constructor(project: ProjectReflection, output?: JSONProjectReflection) {
         this.project = project;
         this.output = output;
     }

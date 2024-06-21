@@ -49,18 +49,17 @@ export class PackagePlugin extends ConverterComponent {
     private packageJson?: { name: string; version?: string };
 
     override initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]: this.onBegin,
-            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
-            [Converter.EVENT_END]: () => {
-                delete this.readmeFile;
-                delete this.readmeContents;
-                delete this.packageJson;
-            },
+        this.owner.on(Converter.EVENT_BEGIN, this.onBegin.bind(this));
+        this.owner.on(
+            Converter.EVENT_RESOLVE_BEGIN,
+            this.onBeginResolve.bind(this),
+        );
+        this.owner.on(Converter.EVENT_END, () => {
+            delete this.readmeFile;
+            delete this.readmeContents;
+            delete this.packageJson;
         });
-        this.listenTo(this.application, {
-            [ApplicationEvents.REVIVE]: this.onRevive,
-        });
+        this.application.on(ApplicationEvents.REVIVE, this.onRevive.bind(this));
     }
 
     private onRevive(project: ProjectReflection) {

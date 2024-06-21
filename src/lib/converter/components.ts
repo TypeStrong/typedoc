@@ -3,4 +3,7 @@ import type { Converter } from "./converter";
 
 export { Component };
 
-export abstract class ConverterComponent extends AbstractComponent<Converter> {}
+export abstract class ConverterComponent extends AbstractComponent<
+    Converter,
+    {}
+> {}

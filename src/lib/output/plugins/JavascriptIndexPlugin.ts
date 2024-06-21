@@ -41,23 +41,12 @@ export class JavascriptIndexPlugin extends RendererComponent {
     @Option("searchInDocuments")
     private accessor searchDocuments!: boolean;
 
-    /**
-     * Create a new JavascriptIndexPlugin instance.
-     */
     override initialize() {
-        this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
+        this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 
-    /**
-     * Triggered after a document has been rendered, just before it is written to disc.
-     *
-     * @param event  An event object describing the current render operation.
-     */
-    private onRendererBegin(event: RendererEvent) {
+    private onRendererBegin(_event: RendererEvent) {
         if (!(this.owner.theme instanceof DefaultTheme)) {
-            return;
-        }
-        if (event.isDefaultPrevented()) {
             return;
         }
 
@@ -83,16 +72,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
             );
         }) as Array<DeclarationReflection | DocumentReflection>;
 
-        const indexEvent = new IndexEvent(
-            IndexEvent.PREPARE_INDEX,
-            initialSearchResults,
-        );
+        const indexEvent = new IndexEvent(initialSearchResults);
 
-        this.owner.trigger(indexEvent);
-
-        if (indexEvent.isDefaultPrevented()) {
-            return;
-        }
+        this.owner.trigger(IndexEvent.PREPARE_INDEX, indexEvent);
 
         const builder = new Builder();
         builder.pipeline.add(trimmer);

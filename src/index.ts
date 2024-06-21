@@ -1,6 +1,6 @@
-export { Application } from "./lib/application";
+export { Application, type ApplicationEvents } from "./lib/application";
 
-export { EventDispatcher, Event } from "./lib/utils/events";
+export { EventDispatcher } from "./lib/utils/events";
 export { resetReflectionID } from "./lib/models/reflections/abstract";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
@@ -29,6 +29,7 @@ export {
     type MeaningKeyword,
     type ExternalResolveResult,
     type ExternalSymbolResolver,
+    type ConverterEvents,
 } from "./lib/converter";
 
 export {
@@ -47,6 +48,7 @@ export type {
     RenderTemplate,
     RendererHooks,
     NavigationElement,
+    RendererEvents,
 } from "./lib/output";
 
 export {
@@ -94,11 +96,10 @@ export type {
     JsDocCompatibility,
 } from "./lib/utils";
 
-export type { EventMap, EventCallback } from "./lib/utils/events";
-
 export {
     JSONOutput,
     Serializer,
+    type SerializerEvents,
     Deserializer,
     type Deserializable,
     type DeserializerComponent,

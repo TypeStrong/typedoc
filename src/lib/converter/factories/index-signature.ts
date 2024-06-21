@@ -46,8 +46,9 @@ export function convertIndexSignatures(context: Context, symbol: ts.Symbol) {
         context.scope.indexSignatures ||= [];
         context.scope.indexSignatures.push(index);
 
-        context.trigger(
+        context.converter.trigger(
             ConverterEvents.CREATE_SIGNATURE,
+            context,
             index,
             indexDeclaration,
         );

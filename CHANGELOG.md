@@ -1,11 +1,4 @@
-# Beta (full release: 2024-06-21)
-
-### To Do
-
--   Update website docs - consider if reworking website to just be a TypeDoc generated site is a good idea
-    `@license`, `@import`, `@hideGroups` `@hideCategories` sitemapBaseUrl, markedOptions -> markdownItOptions, markdownItLoader, navigation
-    sort - documents-first, documents-last, alphabetical-ignoring-documents
-    searchInDocuments, useHostedBaseUrlForAbsoluteLinks
+# Unreleased
 
 ### Breaking Changes
 
@@ -28,6 +21,8 @@
     This change was extended to apply not only to type aliases, but also other function-likes declared with variables and callable properties.
     As a part of this change, comments on the implementation signature of overloaded functions will now be added to the function reflection, and will
     not be inherited by signatures of that function, #2521.
+-   API: TypeDoc now uses a typed event emitter to provide improved type safety, this found a bug where `Converter.EVENT_CREATE_DECLARATION`
+    was emitted for `ProjectReflection` in some circumstances.
 -   API: `MapOptionDeclaration.mapError` has been removed.
 -   API: Deprecated `BindOption` decorator has been removed.
 -   API: `DeclarationReflection.indexSignature` has been renamed to `DeclarationReflection.indexSignatures`.

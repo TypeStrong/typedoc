@@ -63,25 +63,24 @@ export class GroupPlugin extends ConverterComponent {
      * Create a new GroupPlugin instance.
      */
     override initialize() {
-        this.listenTo(
-            this.owner,
-            {
-                [Converter.EVENT_RESOLVE_BEGIN]: () => {
-                    this.sortFunction = getSortFunction(
-                        this.application.options,
+        this.owner.on(
+            Converter.EVENT_RESOLVE_BEGIN,
+            () => {
+                this.sortFunction = getSortFunction(this.application.options);
+                GroupPlugin.WEIGHTS = this.groupOrder;
+                if (GroupPlugin.WEIGHTS.length === 0) {
+                    GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
+                        this.application.internationalization.kindPluralString(
+                            kind,
+                        ),
                     );
-                    GroupPlugin.WEIGHTS = this.groupOrder;
-                    if (GroupPlugin.WEIGHTS.length === 0) {
-                        GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
-                            this.application.internationalization.kindPluralString(
-                                kind,
-                            ),
-                        );
-                    }
-                },
-                [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
+                }
             },
-            undefined,
+            -100,
+        );
+        this.owner.on(
+            Converter.EVENT_RESOLVE_END,
+            this.onEndResolve.bind(this),
             -100,
         );
     }

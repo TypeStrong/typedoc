@@ -5,12 +5,16 @@ import {
     Comment,
     type CommentDisplayPart,
     type ContainerReflection,
+    type DeclarationReflection,
     DocumentReflection,
+    type ParameterReflection,
     ProjectReflection,
     type Reflection,
     ReflectionKind,
     type ReflectionSymbolId,
+    type SignatureReflection,
     type SomeType,
+    type TypeParameterReflection,
 } from "../models/index";
 import { Context } from "./context";
 import { ConverterComponent } from "./components";
@@ -49,6 +53,31 @@ import {
 import { basename, dirname, resolve } from "path";
 import type { FileRegistry } from "../models/FileRegistry";
 
+export interface ConverterEvents {
+    begin: [Context];
+    end: [Context];
+    createDeclaration: [Context, DeclarationReflection];
+    createSignature: [
+        Context,
+        SignatureReflection,
+        (
+            | ts.SignatureDeclaration
+            | ts.IndexSignatureDeclaration
+            | ts.JSDocSignature
+        )?,
+        ts.Signature?,
+    ];
+    createParameter: [Context, ParameterReflection, ts.Node?];
+    createTypeParameter: [
+        Context,
+        TypeParameterReflection,
+        ts.TypeParameterDeclaration?,
+    ];
+    resolveBegin: [Context];
+    resolveReflection: [Context, Reflection];
+    resolveEnd: [Context];
+}
+
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
@@ -59,7 +88,8 @@ import type { FileRegistry } from "../models/FileRegistry";
 })
 export class Converter extends ChildableComponent<
     Application,
-    ConverterComponent
+    ConverterComponent,
+    ConverterEvents
 > {
     /** @internal */
     @Option("externalPattern")
@@ -440,10 +470,6 @@ export class Converter extends ChildableComponent<
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
             this.processDocumentTags(context.project, context.project);
-            context.trigger(
-                Converter.EVENT_CREATE_DECLARATION,
-                context.project,
-            );
             moduleContext = context;
         } else {
             const reflection = context.createDeclarationReflection(

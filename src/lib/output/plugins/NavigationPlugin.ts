@@ -11,17 +11,13 @@ const gzipP = promisify(gzip);
 @Component({ name: "navigation-tree" })
 export class NavigationPlugin extends RendererComponent {
     override initialize() {
-        this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
+        this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 
-    private onRendererBegin(event: RendererEvent) {
+    private onRendererBegin(_event: RendererEvent) {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        if (event.isDefaultPrevented()) {
-            return;
-        }
-
         this.owner.preRenderAsyncJobs.push((event) =>
             this.buildNavigationIndex(event),
         );

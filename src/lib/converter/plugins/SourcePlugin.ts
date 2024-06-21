@@ -47,12 +47,19 @@ export class SourcePlugin extends ConverterComponent {
      * Create a new SourceHandler instance.
      */
     override initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_END]: this.onEnd,
-            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]: this.onSignature,
-            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
-        });
+        this.owner.on(Converter.EVENT_END, this.onEnd.bind(this));
+        this.owner.on(
+            Converter.EVENT_CREATE_DECLARATION,
+            this.onDeclaration.bind(this),
+        );
+        this.owner.on(
+            Converter.EVENT_CREATE_SIGNATURE,
+            this.onSignature.bind(this),
+        );
+        this.owner.on(
+            Converter.EVENT_RESOLVE_BEGIN,
+            this.onBeginResolve.bind(this),
+        );
     }
 
     private onEnd() {

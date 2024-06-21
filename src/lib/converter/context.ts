@@ -262,19 +262,6 @@ export class Context {
         this.project.registerReflection(reflection, symbol, void 0);
     }
 
-    /**
-     * Trigger a node reflection event.
-     *
-     * All events are dispatched on the current converter instance.
-     *
-     * @param name  The name of the event that should be triggered.
-     * @param reflection  The triggering reflection.
-     * @param node  The triggering TypeScript node if available.
-     */
-    trigger(name: string, reflection: Reflection, node?: ts.Node) {
-        this.converter.trigger(name, this, reflection, node);
-    }
-
     /** @internal */
     setActiveProgram(program: ts.Program | undefined) {
         this._program = program;

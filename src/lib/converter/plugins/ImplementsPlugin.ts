@@ -30,24 +30,21 @@ export class ImplementsPlugin extends ConverterComponent {
      * Create a new ImplementsPlugin instance.
      */
     override initialize() {
-        this.listenTo(
-            this.owner,
+        this.owner.on(
             Converter.EVENT_RESOLVE_END,
-            this.onResolveEnd,
+            this.onResolveEnd.bind(this),
         );
-        this.listenTo(
-            this.owner,
+        this.owner.on(
             Converter.EVENT_CREATE_DECLARATION,
-            this.onDeclaration,
+            this.onDeclaration.bind(this),
             -1000,
         );
-        this.listenTo(
-            this.owner,
+        this.owner.on(
             Converter.EVENT_CREATE_SIGNATURE,
-            this.onSignature,
+            this.onSignature.bind(this),
             1000,
         );
-        this.listenTo(this.application, ApplicationEvents.REVIVE, this.resolve);
+        this.application.on(ApplicationEvents.REVIVE, this.resolve.bind(this));
     }
 
     /**

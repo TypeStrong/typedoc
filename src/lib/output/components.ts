@@ -11,7 +11,10 @@ import { Option } from "../utils";
 
 export { Component };
 
-export abstract class RendererComponent extends AbstractComponent<Renderer> {}
+export abstract class RendererComponent extends AbstractComponent<
+    Renderer,
+    {}
+> {}
 
 /**
  * A plugin for the renderer that reads the current render context.
@@ -54,11 +57,11 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      * @param renderer  The renderer this plugin should be attached to.
      */
     protected override initialize() {
-        this.listenTo(this.owner, {
-            [RendererEvent.BEGIN]: this.onBeginRenderer,
-            [PageEvent.BEGIN]: this.onBeginPage,
-            [RendererEvent.END]: () => this.absoluteToRelativePathMap.clear(),
-        });
+        this.owner.on(RendererEvent.BEGIN, this.onBeginRenderer.bind(this));
+        this.owner.on(PageEvent.BEGIN, this.onBeginPage.bind(this));
+        this.owner.on(RendererEvent.END, () =>
+            this.absoluteToRelativePathMap.clear(),
+        );
     }
 
     private absoluteToRelativePathMap = new Map<string, string>();

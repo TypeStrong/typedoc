@@ -1,5 +1,5 @@
 export { Context } from "./context";
-export { Converter } from "./converter";
+export { Converter, type ConverterEvents } from "./converter";
 export type { CommentParserConfig } from "./comments/index";
 export { convertDefaultValue, convertExpression } from "./convert-expression";
 export type {

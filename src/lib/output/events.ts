@@ -1,6 +1,5 @@
 import * as Path from "path";
 
-import { Event } from "../utils/events";
 import type { ProjectReflection } from "../models/reflections/project";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
 import type {
@@ -17,7 +16,7 @@ import type {
  * @see {@link Renderer.EVENT_BEGIN}
  * @see {@link Renderer.EVENT_END}
  */
-export class RendererEvent extends Event {
+export class RendererEvent {
     /**
      * The project the renderer is currently processing.
      */
@@ -47,12 +46,7 @@ export class RendererEvent extends Event {
      */
     static readonly END = "endRender";
 
-    constructor(
-        name: string,
-        outputDirectory: string,
-        project: ProjectReflection,
-    ) {
-        super(name);
+    constructor(outputDirectory: string, project: ProjectReflection) {
         this.outputDirectory = outputDirectory;
         this.project = project;
     }
@@ -144,9 +138,8 @@ export class PageEvent<out Model = unknown> extends Event {
  * An event emitted when markdown is being parsed. Allows other plugins to manipulate the result.
  *
  * @see {@link MarkdownEvent.PARSE}
- * @see {@link MarkdownEvent.INCLUDE}
  */
-export class MarkdownEvent extends Event {
+export class MarkdownEvent {
     /**
      * The unparsed original text.
      */
@@ -168,19 +161,7 @@ export class MarkdownEvent extends Event {
      */
     static readonly PARSE = "parseMarkdown";
 
-    /**
-     * Triggered on the renderer when this plugin includes a markdown file through a markdown include tag.
-     * @event
-     */
-    static readonly INCLUDE = "includeMarkdown";
-
-    constructor(
-        name: string,
-        page: PageEvent,
-        originalText: string,
-        parsedText: string,
-    ) {
-        super(name);
+    constructor(page: PageEvent, originalText: string, parsedText: string) {
         this.page = page;
         this.originalText = originalText;
         this.parsedText = parsedText;
@@ -190,7 +171,7 @@ export class MarkdownEvent extends Event {
 /**
  * An event emitted when the search index is being prepared.
  */
-export class IndexEvent extends Event {
+export class IndexEvent {
     /**
      * Triggered on the renderer when the search index is being prepared.
      * @event
@@ -240,10 +221,8 @@ export class IndexEvent extends Event {
     }
 
     constructor(
-        name: string,
         searchResults: Array<DeclarationReflection | DocumentReflection>,
     ) {
-        super(name);
         this.searchResults = searchResults;
         this.searchFields = Array.from(
             { length: this.searchResults.length },

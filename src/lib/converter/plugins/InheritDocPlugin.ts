@@ -46,8 +46,7 @@ export class InheritDocPlugin extends ConverterComponent {
         );
         this.application.on(
             ApplicationEvents.REVIVE,
-            this.processInheritDoc,
-            this,
+            this.processInheritDoc.bind(this),
         );
     }
 

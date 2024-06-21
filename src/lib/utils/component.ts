@@ -1,5 +1,5 @@
 import type { Application } from "../application";
-import { EventDispatcher, Event, type EventMap } from "./events";
+import { EventDispatcher } from "./events";
 
 /**
  * Exposes a reference to the root Application component.
@@ -8,7 +8,8 @@ export interface ComponentHost {
     readonly application: Application;
 }
 
-export interface Component extends AbstractComponent<ComponentHost> {}
+export interface Component<E extends Record<keyof E, unknown[]> = {}>
+    extends AbstractComponent<ComponentHost, E> {}
 
 export interface ComponentClass<
     T extends Component,
@@ -28,7 +29,7 @@ export interface ComponentOptions {
 }
 
 const childMappings: {
-    host: ChildableComponent<any, any>;
+    host: ChildableComponent<any, any, any>;
     child: Function;
 }[] = [];
 
@@ -82,34 +83,17 @@ export function Component(options: ComponentOptions) {
     };
 }
 
-export class ComponentEvent extends Event {
-    owner: ComponentHost;
-
-    component: AbstractComponent<ComponentHost>;
-
-    static ADDED = "componentAdded";
-
-    static REMOVED = "componentRemoved";
-
-    constructor(
-        name: string,
-        owner: ComponentHost,
-        component: AbstractComponent<ComponentHost>,
-    ) {
-        super(name);
-        this.owner = owner;
-        this.component = component;
-    }
-}
-
 /**
  * Component base class.  Has an owner (unless it's the application root component),
  * can dispatch events to its children, and has access to the root Application component.
  *
  * @template O type of component's owner.
  */
-export abstract class AbstractComponent<O extends ComponentHost>
-    extends EventDispatcher
+export abstract class AbstractComponent<
+        O extends ComponentHost,
+        E extends Record<keyof E, unknown[]>,
+    >
+    extends EventDispatcher<E>
     implements ComponentHost
 {
     /**
@@ -136,19 +120,6 @@ export abstract class AbstractComponent<O extends ComponentHost>
      */
     protected initialize() {
         // empty default implementation
-    }
-
-    protected bubble(name: Event | EventMap | string, ...args: any[]) {
-        super.trigger(name, ...args);
-
-        if (
-            this.owner instanceof AbstractComponent &&
-            this._componentOwner !== null
-        ) {
-            this.owner.bubble(name, ...args);
-        }
-
-        return this;
     }
 
     /**
@@ -180,10 +151,8 @@ export abstract class AbstractComponent<O extends ComponentHost>
 export abstract class ChildableComponent<
     O extends ComponentHost,
     C extends Component,
-> extends AbstractComponent<O> {
-    /**
-     *
-     */
+    E extends Record<keyof E, unknown[]>,
+> extends AbstractComponent<O, E> {
     private _componentChildren?: { [name: string]: C | undefined };
 
     private _defaultComponents?: { [name: string]: ComponentClass<C> };
@@ -236,36 +205,10 @@ export abstract class ChildableComponent<
                 typeof componentClass === "function"
                     ? new (<ComponentClass<T>>componentClass)(this)
                     : componentClass;
-            const event = new ComponentEvent(
-                ComponentEvent.ADDED,
-                this,
-                component,
-            );
 
-            this.bubble(event);
             this._componentChildren[name] = component;
 
             return component;
         }
-    }
-
-    removeComponent(name: string): C | undefined {
-        const component = (this._componentChildren || {})[name];
-        if (component) {
-            delete this._componentChildren![name];
-            component.stopListening();
-            this.bubble(
-                new ComponentEvent(ComponentEvent.REMOVED, this, component),
-            );
-            return component;
-        }
-    }
-
-    removeAllComponents() {
-        for (const component of Object.values(this._componentChildren || {})) {
-            component!.stopListening();
-        }
-
-        this._componentChildren = {};
     }
 }

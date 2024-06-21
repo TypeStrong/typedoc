@@ -155,15 +155,25 @@ export class CommentPlugin extends ConverterComponent {
      * Create a new CommentPlugin instance.
      */
     override initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
-            [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
-            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]: this.onResolve,
-            [Converter.EVENT_END]: () => {
-                this._excludeKinds = undefined;
-            },
+        this.owner.on(
+            Converter.EVENT_CREATE_DECLARATION,
+            this.onDeclaration.bind(this),
+        );
+        this.owner.on(
+            Converter.EVENT_CREATE_SIGNATURE,
+            this.onDeclaration.bind(this),
+        );
+        this.owner.on(
+            Converter.EVENT_CREATE_TYPE_PARAMETER,
+            this.onCreateTypeParameter.bind(this),
+        );
+        this.owner.on(
+            Converter.EVENT_RESOLVE_BEGIN,
+            this.onBeginResolve.bind(this),
+        );
+        this.owner.on(Converter.EVENT_RESOLVE, this.onResolve.bind(this));
+        this.owner.on(Converter.EVENT_END, () => {
+            this._excludeKinds = undefined;
         });
     }
 

@@ -50,7 +50,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     override initialize() {
         super.initialize();
-        this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
+        this.owner.on(MarkdownEvent.PARSE, this.onParseMarkdown.bind(this));
     }
 
     /**
@@ -102,9 +102,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         }
 
         this.renderContext = context;
-        const event = new MarkdownEvent(MarkdownEvent.PARSE, page, markdown, markdown);
+        const event = new MarkdownEvent(page, markdown, markdown);
 
-        this.owner.trigger(event);
+        this.owner.trigger(MarkdownEvent.PARSE, event);
         this.renderContext = null!;
         return event.parsedText;
     }
