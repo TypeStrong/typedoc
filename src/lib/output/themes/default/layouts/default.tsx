@@ -73,7 +73,6 @@ export const defaultLayout = (
 
             <div class="overlay"></div>
 
-            {context.analytics()}
             {context.hook("body.end", context)}
         </body>
     </html>

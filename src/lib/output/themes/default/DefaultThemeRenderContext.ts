@@ -13,7 +13,6 @@ import { type NeverIfInternal, type Options } from "../../../utils";
 import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
-import { analytics } from "./partials/analytics";
 import { breadcrumb } from "./partials/breadcrumb";
 import {
     commentSummary,
@@ -128,7 +127,6 @@ export class DefaultThemeRenderContext {
      */
     reflectionPreview = bind(reflectionPreview, this);
 
-    analytics = bind(analytics, this);
     breadcrumb = bind(breadcrumb, this);
     commentSummary = bind(commentSummary, this);
     commentTags = bind(commentTags, this);

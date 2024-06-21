@@ -165,7 +165,6 @@ export interface TypeDocOptionMap {
     hostedBaseUrl: string;
     useHostedBaseUrlForAbsoluteLinks: boolean;
     cacheBust: boolean;
-    gaID: string;
     hideGenerator: boolean;
     customFooterHtml: string;
     customFooterHtmlDisableWrapper: boolean;

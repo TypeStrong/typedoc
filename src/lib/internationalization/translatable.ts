@@ -274,8 +274,6 @@ export const translatable = {
         "Specify a base URL to be used in generating a sitemap.xml in our output folder and canonical links. If not specified, no sitemap will be generated",
     help_useHostedBaseUrlForAbsoluteLinks:
         "If set, TypeDoc will produce absolute links to pages on your site using the hostedBaseUrl option",
-    help_gaID:
-        "Set the Google Analytics tracking ID and activate tracking code",
     help_hideGenerator: "Do not print the TypeDoc link at the end of the page",
     help_customFooterHtml: "Custom footer after the TypeDoc link",
     help_customFooterHtmlDisableWrapper:

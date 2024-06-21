@@ -491,10 +491,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "gaID",
-        help: (i18n) => i18n.help_gaID(),
-    });
-    options.addDeclaration({
         name: "hideGenerator",
         help: (i18n) => i18n.help_hideGenerator(),
         type: ParameterType.Boolean,

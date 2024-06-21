@@ -283,8 +283,6 @@ export = buildIncompleteTranslation({
         "出力フォルダ内の sitemap.xml と正規リンクを生成する際に使用するベース URL を指定します。指定しない場合は、サイトマップは生成されません。",
     help_useHostedBaseUrlForAbsoluteLinks:
         "設定されている場合、TypeDocはhostedBaseUrlオプションを使用してサイト上のページへの絶対リンクを生成します。",
-    help_gaID:
-        "Google AnalyticsのトラッキングIDを設定し、トラッキングコードを有効にする",
     help_hideGenerator:
         "ページの最後にある TypeDoc リンクを印刷しないでください",
     help_customFooterHtml: "TypeDoc リンクの後のカスタム フッター",

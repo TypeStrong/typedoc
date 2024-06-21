@@ -238,7 +238,6 @@ export = buildIncompleteTranslation({
         "指定用于在我们的输出文件夹和规范链接中生成 sitemap.xml 的基本 URL。如果未指定，则不会生成站点地图",
     help_useHostedBaseUrlForAbsoluteLinks:
         "如果设置，TypeDoc 将使用 hostingBaseUrl 选项生成到您网站页面的绝对链接",
-    help_gaID: "设置 Google Analytics 跟踪 ID 并激活跟踪代码",
     help_hideGenerator: "不要打印页面末尾的 TypeDoc 链接",
     help_customFooterHtml: "TypeDoc 链接后的自定义页脚",
     help_customFooterHtmlDisableWrapper:

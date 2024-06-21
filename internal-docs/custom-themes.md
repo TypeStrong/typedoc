@@ -17,36 +17,28 @@ export function load(app: Application) {
 }
 ```
 
-This isn't very interesting since it exactly duplicates the default theme. Most themes need to adjust the templates
-in some way. This can be done by providing them class which returns a different context class. Say we wanted to replace
-TypeDoc's default analytics helper with one that uses [Open Web Analytics](https://www.openwebanalytics.com/) instead of
-Google Analytics. This could be done with the following theme:
+This isn't very interesting since it exactly duplicates the default theme.
+Most themes need to adjust the templates in some way. This can be done by
+providing them class which returns a different context class. Say we wanted
+to replace TypeDoc's default footer with one that mentioned your copyright.
+This could be done with the following theme.
+
+In this case, it would probably be better to add this content using a render
+hook for `footer.begin` or `footer.end`, but it can be done in this way as well.
 
 ```tsx
 import { Application, DefaultTheme, PageEvent, JSX, Reflection } from "typedoc";
 
-const script = `
-(function() {
-    var _owa = document.createElement('script'); _owa.type = 'text/javascript';
-    _owa.async = true; _owa.src = '${site}' + '/modules/base/js/owa.tracker-combined-min.js';
-    var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa,
-    _owa_s);
-}());
-`.trim();
-
 class MyThemeContext extends DefaultThemeRenderContext {
-    // Important: If you use `this`, this function MUST be bound! Template functions are free
-    // to destructure the context object to only grab what they care about.
-    override analytics = () => {
-        // Reusing existing option rather than declaring our own for brevity
-        if (!this.options.isSet("gaId")) return;
-
-        const site = this.options.getValue("gaId");
-
+    // Important: If you use `this`, this function MUST be bound! Template functions
+    // are free to destructure the context object to only grab what they care about.
+    override footer = (context) => {
         return (
-            <script>
-                <JSX.Raw html={script} />
-            </script>
+            <footer>
+                {context.hook("footer.begin", context)}
+                Copyright 2024
+                {context.hook("footer.end", context)}
+            </footer>
         );
     };
 }
@@ -62,7 +54,7 @@ export function load(app: Application) {
 }
 ```
 
-## Hooks (v0.22.8+)
+## Hooks
 
 When rendering themes, TypeDoc's default theme will call several functions to allow plugins to inject HTML
 into a page without completely overwriting a theme. Hooks live on the parent `Renderer` and may be called

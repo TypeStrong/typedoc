@@ -2,6 +2,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX, Raw } from "../../../../utils";
 import { type Reflection, ReflectionKind } from "../../../../models";
 import { anchorIcon } from "./anchor-icon";
+import { join } from "../../lib";
 
 // Note: Comment modifiers are handled in `renderFlags`
 
@@ -65,13 +66,5 @@ export function reflectionFlags(context: DefaultThemeRenderContext, props: Refle
         }
     }
 
-    return (
-        <>
-            {allFlags.map((item) => (
-                <>
-                    <code class={"tsd-tag ts-flag" + item}>{item}</code>{" "}
-                </>
-            ))}
-        </>
-    );
+    return join(" ", allFlags, (item) => <code class="tsd-tag">{item}</code>);
 }
