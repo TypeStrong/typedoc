@@ -39,6 +39,9 @@ translation keys include numbers to indicate placeholders in the English string,
 the translated strings should include `{n}` where the placeholder will be filled in at
 runtime.
 
+> Please do not submit machine generated translations for languages you are unfamiliar with.
+> TypeDoc relies on contributors to ensure the accuracy of included translations.
+
 ## Validation
 
 The `buildTranslation` and `buildIncompleteTranslation` functions will attempt to

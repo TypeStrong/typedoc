@@ -183,10 +183,6 @@ export abstract class ChildableComponent<
         return Object.values(this._componentChildren || {}) as C[];
     }
 
-    hasComponent(name: string): boolean {
-        return !!(this._componentChildren || {})[name];
-    }
-
     addComponent<T extends C>(
         name: string,
         componentClass: T | ComponentClass<T, O>,
