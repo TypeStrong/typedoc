@@ -420,7 +420,11 @@ function defaultBlockContent(
     const end = lexer.done() || lexer.peek();
     lexer.release();
 
-    if (content.some((part) => part.kind === "code")) {
+    if (
+        content.some(
+            (part) => part.kind === "code" || part.kind === "inline-tag",
+        )
+    ) {
         return blockContent(comment, lexer, config, i18n, warning, files);
     }
 

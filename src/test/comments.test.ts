@@ -1071,7 +1071,13 @@ describe("Raw Lexer", () => {
 
 describe("Comment Parser", () => {
     const config: CommentParserConfig = {
-        blockTags: new Set(["@param", "@remarks", "@module", "@inheritDoc"]),
+        blockTags: new Set([
+            "@param",
+            "@remarks",
+            "@module",
+            "@inheritDoc",
+            "@defaultValue",
+        ]),
         inlineTags: new Set(["@link"]),
         modifierTags: new Set([
             "@public",
@@ -1089,6 +1095,89 @@ describe("Comment Parser", () => {
             inheritDocTag: false,
         },
     };
+
+    it("Should recognize @defaultValue as code", () => {
+        const files = new FileRegistry();
+        const logger = new TestLogger();
+        const file = "/** @defaultValue code */";
+        const content = lexBlockComment(file);
+        const comment = parseComment(
+            content,
+            config,
+            new MinimalSourceFile(file, "<memory>"),
+            logger,
+            files,
+        );
+
+        equal(
+            comment,
+            new Comment(
+                [],
+                [
+                    new CommentTag("@defaultValue", [
+                        { kind: "code", text: "```ts\ncode\n```" },
+                    ]),
+                ],
+            ),
+        );
+        logger.expectNoOtherMessages();
+    });
+
+    it("Should recognize @defaultValue as not code if it contains an inline tag", () => {
+        const files = new FileRegistry();
+        const logger = new TestLogger();
+        const file = "/** @defaultValue text {@link foo} */";
+        const content = lexBlockComment(file);
+        const comment = parseComment(
+            content,
+            config,
+            new MinimalSourceFile(file, "<memory>"),
+            logger,
+            files,
+        );
+
+        equal(
+            comment,
+            new Comment(
+                [],
+                [
+                    new CommentTag("@defaultValue", [
+                        { kind: "text", text: "text " },
+                        { kind: "inline-tag", tag: "@link", text: "foo" },
+                    ]),
+                ],
+            ),
+        );
+        logger.expectNoOtherMessages();
+    });
+
+    it("Should recognize @defaultValue as not code if it contains code", () => {
+        const files = new FileRegistry();
+        const logger = new TestLogger();
+        const file = "/** @defaultValue text `code` */";
+        const content = lexBlockComment(file);
+        const comment = parseComment(
+            content,
+            config,
+            new MinimalSourceFile(file, "<memory>"),
+            logger,
+            files,
+        );
+
+        equal(
+            comment,
+            new Comment(
+                [],
+                [
+                    new CommentTag("@defaultValue", [
+                        { kind: "text", text: "text " },
+                        { kind: "code", text: "`code`" },
+                    ]),
+                ],
+            ),
+        );
+        logger.expectNoOtherMessages();
+    });
 
     it("Should rewrite @inheritdoc to @inheritDoc", () => {
         const files = new FileRegistry();

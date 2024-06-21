@@ -79,6 +79,7 @@
 -   Fixed very slow conversion on Windows where Msys git was used by typedoc to discover repository links, #2586.
 -   Validation will now be run in watch mode, #2584.
 -   Fixed an issue where custom themes which added dependencies in the `<head>` element could result in broken icons, #2589.
+-   `@default` and `@defaultValue` blocks are now recognized as regular blocks if they include inline tags, #2601.
 -   Navigation folders sharing a name will no longer be saved with a shared key to `localStorage`.
 -   The `--hideParameterTypesInTitle` option no longer applies when rendering function types.
 -   Broken `@link` tags in readme files will now cause a warning when link validation is enabled.
