@@ -1578,4 +1578,15 @@ describe("Issue Tests", () => {
             "Shorthand comment",
         );
     });
+
+    it("#2603 handles @author tag", () => {
+        const project = convert();
+        const x = query(project, "x");
+        equal(
+            x.comment?.getTag("@author"),
+            new CommentTag("@author", [{ kind: "text", text: "Ian Awesome" }]),
+        );
+
+        logger.expectNoOtherMessages();
+    });
 });

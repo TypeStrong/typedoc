@@ -4,7 +4,15 @@
     "noStandardTags": false,
     "tagDefinitions": [
         {
+            "tagName": "@author",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@module",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@type",
             "syntaxKind": "block"
         },
         {
@@ -92,7 +100,7 @@
         },
         {
             "tagName": "@linkplain",
-            "syntaxKind": "block",
+            "syntaxKind": "inline",
             "allowMultiple": true
         },
         {

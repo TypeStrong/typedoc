@@ -15,27 +15,26 @@ export const tsdocBlockTags = [
 
 export const blockTags = [
     ...tsdocBlockTags,
+    "@author",
+    "@callback",
     "@category",
     "@categoryDescription",
     "@default",
     "@document",
     "@group",
     "@groupDescription",
+    "@import",
     "@inheritDoc",
+    "@jsx",
     "@license",
     "@module",
-    "@return",
-    // Alias for @typeParam
-    "@template",
-    // Because TypeScript is important!
-    "@type",
-    "@typedef",
-    "@callback",
     "@prop",
     "@property",
+    "@return",
     "@satisfies",
-    "@import",
-    "@jsx",
+    "@template", // Alias for @typeParam
+    "@type", // Because TypeScript is important!
+    "@typedef",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
@@ -53,8 +52,6 @@ export const tsdocModifierTags = [
     "@internal",
     "@override",
     "@packageDocumentation",
-    "@private",
-    "@protected",
     "@public",
     "@readonly",
     "@sealed",
@@ -68,12 +65,14 @@ export const modifierTags = [
     "@event",
     "@hidden",
     "@hideCategories",
+    "@hideconstructor",
     "@hideGroups",
     "@ignore",
     "@interface",
     "@namespace",
     "@overload",
+    "@private",
+    "@protected",
     "@showCategories",
     "@showGroups",
-    "@hideconstructor",
 ] as const;

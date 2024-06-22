@@ -1,5 +1,17 @@
 # Unreleased
 
+### Features
+
+-   Improved Korean translation coverage, #2602
+
+### Bug Fixes
+
+-   Added `@author` to the default list of recognized tags, #2603.
+
+### Thanks!
+
+-   @KNU-K
+
 # v0.26.0 (2024-06-22)
 
 ### Breaking Changes
