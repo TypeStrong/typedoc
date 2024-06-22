@@ -27,7 +27,7 @@
     "lunr": "^2.3.9",
     "markdown-it": "^14.1.0",
     "minimatch": "^9.0.4",
-    "shiki": "^1.6.5",
+    "shiki": "^1.9.0",
     "yaml": "^2.4.5"
   },
   "peerDependencies": {
@@ -44,10 +44,10 @@
     "eslint": "^9.5.0",
     "mocha": "^10.4.0",
     "prettier": "3.3.2",
-    "puppeteer": "^22.11.0",
+    "puppeteer": "^22.12.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.5.0-beta",
-    "typescript-eslint": "^7.13.0"
+    "typescript": "5.5.2",
+    "typescript-eslint": "^7.13.1"
   },
   "files": [
     "/bin",

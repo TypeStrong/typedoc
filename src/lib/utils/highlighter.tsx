@@ -133,7 +133,7 @@ export async function loadHighlighter(lightTheme: BundledTheme, darkTheme: Bundl
     if (highlighter) return;
 
     const shiki = await import("shiki");
-    const hl = await shiki.getHighlighter({ themes: [lightTheme, darkTheme], langs });
+    const hl = await shiki.createHighlighter({ themes: [lightTheme, darkTheme], langs });
     highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
 }
 
