@@ -221,7 +221,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         this.parser = markdown({
             ...this.markdownItOptions,
             highlight: (code, lang) => {
-                code = highlight(code, lang || "ts");
+                code = this.getHighlighted(code, lang || "ts");
                 code = code.replace(/\n$/, "") + "\n";
 
                 if (!lang) {
