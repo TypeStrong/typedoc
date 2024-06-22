@@ -13,6 +13,8 @@
 -   Fixed an issue with packages mode where TypeDoc would use (much) more memory than required, #2607.
 -   TypeDoc will no longer crash when asked to render highlighted code for an unsupported language, #2609.
 -   Fixed an issue where relatively-linked files would not be copied to the output directory in packages mode.
+-   Fixed an issue where modifier tags were not applied to top level modules in packages mode.
+-   Fixed an issue where excluded tags were not removed from top level modules in packages mode.
 -   `.jsonc` configuration files are now properly read as JSONC, rather than being passed to `require`.
 
 ### Thanks!

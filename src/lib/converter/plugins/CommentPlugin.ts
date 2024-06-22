@@ -237,9 +237,8 @@ export class CommentPlugin extends ConverterComponent {
 
         if (
             reflection.kindOf(
-                ReflectionKind.Module | ReflectionKind.Namespace,
-            ) ||
-            reflection.kind === ReflectionKind.Project
+                ReflectionKind.Project | ReflectionKind.SomeModule,
+            )
         ) {
             comment.removeTags("@module");
             comment.removeModifier("@packageDocumentation");
@@ -317,6 +316,11 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
+        if (context.project.comment) {
+            this.applyModifiers(context.project, context.project.comment);
+            this.removeExcludedTags(context.project.comment);
+        }
+
         const project = context.project;
         const reflections = Object.values(project.reflections);
 
