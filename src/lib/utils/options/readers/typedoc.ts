@@ -69,7 +69,7 @@ export class TypeDocReader implements OptionsReader {
         seen.add(file);
 
         let fileContent: any;
-        if (file.endsWith(".json")) {
+        if (file.endsWith(".json") || file.endsWith(".jsonc")) {
             const readResult = ts.readConfigFile(normalizePath(file), (path) =>
                 FS.readFileSync(path, "utf-8"),
             );
