@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 -   Added `@author` to the default list of recognized tags, #2603.
+-   Anchor links are no longer incorrectly checked for relative paths, #2604
 
 ### Thanks!
 

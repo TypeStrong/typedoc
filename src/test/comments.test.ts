@@ -1356,7 +1356,7 @@ describe("Comment Parser", () => {
     it("Recognizes markdown links", () => {
         const comment = getComment(`/**
             * [text](./relative.md) ![](image.png)
-            * Not relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com)
+            * Not relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)
             */`);
 
         equal(comment.summary, [
@@ -1366,7 +1366,7 @@ describe("Comment Parser", () => {
             { kind: "relative-link", text: "image.png", target: 2 },
             {
                 kind: "text",
-                text: ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com)",
+                text: ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)",
             },
         ] satisfies CommentDisplayPart[]);
     });
@@ -1376,6 +1376,7 @@ describe("Comment Parser", () => {
             * [1]: ./example.md
             * [2]:<./example with space>
             * [3]: https://example.com
+            * [4]: #hash
             */`);
 
         equal(comment.summary, [
@@ -1389,7 +1390,7 @@ describe("Comment Parser", () => {
             },
             {
                 kind: "text",
-                text: "\n[3]: https://example.com",
+                text: "\n[3]: https://example.com\n[4]: #hash",
             },
         ] satisfies CommentDisplayPart[]);
     });
@@ -1422,6 +1423,7 @@ describe("Comment Parser", () => {
         * <a data-foo="./path.txt" href="./test.png" >
         * <a href="./test space.png"/>
         * <a href="https://example.com/favicon.ico">
+        * <a href="#hash">
         */`);
 
         equal(comment.summary, [
@@ -1435,7 +1437,7 @@ describe("Comment Parser", () => {
             },
             {
                 kind: "text",
-                text: '"/>\n<a href="https://example.com/favicon.ico">',
+                text: '"/>\n<a href="https://example.com/favicon.ico">\n<a href="#hash">',
             },
         ] satisfies CommentDisplayPart[]);
     });

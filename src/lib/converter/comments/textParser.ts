@@ -256,7 +256,7 @@ function checkAttribute(
 }
 
 function isRelativeLink(link: string) {
-    return !/^[a-z]+:\/\/|^\/|^[a-z]:\\/i.test(link);
+    return !/^[a-z]+:\/\/|^\/|^[a-z]:\\|^#/i.test(link);
 }
 
 function findLabelEnd(text: string, pos: number) {
