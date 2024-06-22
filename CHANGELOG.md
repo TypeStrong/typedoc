@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.1 (2024-06-22)
+
 ### Features
 
 -   Improved Korean translation coverage, #2602.
