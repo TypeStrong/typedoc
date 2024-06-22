@@ -62,7 +62,7 @@ export interface OptionsReader {
 const optionSnapshots = new WeakMap<
     { __optionSnapshot: never },
     {
-        values: string;
+        values: Record<string, unknown>;
         set: Set<string>;
     }
 >();
@@ -151,7 +151,7 @@ export class Options {
         const key = {} as { __optionSnapshot: never };
 
         optionSnapshots.set(key, {
-            values: JSON.stringify(this._values),
+            values: { ...this._values },
             set: new Set(this._setOptions),
         });
 
@@ -164,7 +164,7 @@ export class Options {
      */
     restore(snapshot: { __optionSnapshot: never }) {
         const data = optionSnapshots.get(snapshot)!;
-        this._values = JSON.parse(data.values);
+        this._values = { ...data.values };
         this._setOptions = new Set(data.set);
     }
 
@@ -344,7 +344,11 @@ export class Options {
         );
 
         if (declaration.type === ParameterType.Flags) {
-            Object.assign(this._values[declaration.name] as any, converted);
+            this._values[declaration.name] = Object.assign(
+                {},
+                this._values[declaration.name],
+                converted,
+            );
         } else {
             this._values[declaration.name] = converted;
         }
