@@ -51,7 +51,7 @@ export function textContent(
     const data: TextParserData = {
         sourcePath,
         token,
-        pos: 0,
+        pos: 0, // relative to the token
         i18n,
         warning,
         files: files,
@@ -77,7 +77,8 @@ export function textContent(
                 ),
                 {
                     kind: TokenSyntaxKind.Text,
-                    pos: ref.pos,
+                    // ref.pos is relative to the token, but this pos is relative to the file.
+                    pos: token.pos + ref.pos,
                     text: token.text.slice(ref.pos, ref.end),
                 },
             );

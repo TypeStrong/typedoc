@@ -23,7 +23,7 @@ export class MinimalSourceFile implements SourceFileLike {
         while (pos >= starts[starts.length - 1]) {
             const nextStart = this.text.indexOf(
                 "\n",
-                starts[starts.length - 1] + 1,
+                starts[starts.length - 1],
             );
 
             if (nextStart === -1) {
