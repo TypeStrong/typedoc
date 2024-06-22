@@ -318,6 +318,7 @@ export class DeclarationReflection extends ContainerReflection {
         if (obj.variant === "project") {
             this.kind = ReflectionKind.Module;
             this.packageVersion = obj.packageVersion;
+            this.project.files.fromObject(de, obj.files || {});
 
             de.defer(() => {
                 for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {

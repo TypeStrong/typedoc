@@ -400,7 +400,7 @@ export class ProjectReflection extends ContainerReflection {
         if (obj.readme) {
             this.readme = Comment.deserializeDisplayParts(de, obj.readme);
         }
-        this.files.fromObject(de, obj.files);
+        this.files.fromObject(de, obj.files || {});
 
         de.defer(() => {
             // Unnecessary conditional in release
