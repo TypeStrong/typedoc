@@ -35,6 +35,34 @@ interface RelativeLink {
 }
 
 /**
+ * This is incredibly unfortunate. The comment lexer owns the responsibility
+ * for splitting up text into text/code, this is totally fine for HTML links
+ * but for markdown links, ``[`code`](./link)`` is valid, so we need to keep
+ * track of state across calls to {@link textContent}.
+ */
+export class TextParserReentryState {
+    withinLinkLabel = false;
+    private lastPartWasNewline = false;
+
+    checkState(token: Token) {
+        switch (token.kind) {
+            case TokenSyntaxKind.Code:
+                if (/\n\s*\n/.test(token.text)) {
+                    this.withinLinkLabel = false;
+                }
+                break;
+            case TokenSyntaxKind.NewLine:
+                if (this.lastPartWasNewline) {
+                    this.withinLinkLabel = false;
+                }
+                break;
+        }
+
+        this.lastPartWasNewline = token.kind === TokenSyntaxKind.NewLine;
+    }
+}
+
+/**
  * Look for relative links within a piece of text and add them to the {@link FileRegistry}
  * so that they can be correctly resolved during rendering.
  */
@@ -46,6 +74,7 @@ export function textContent(
     outContent: CommentDisplayPart[],
     files: FileRegistry,
     atNewLine: boolean,
+    reentry: TextParserReentryState,
 ) {
     let lastPartEnd = 0;
     const data: TextParserData = {
@@ -86,7 +115,7 @@ export function textContent(
     }
 
     while (data.pos < token.text.length) {
-        const link = checkMarkdownLink(data);
+        const link = checkMarkdownLink(data, reentry);
         if (link) {
             addRef(link);
             continue;
@@ -123,37 +152,54 @@ export function textContent(
  * Reference: https://github.com/markdown-it/markdown-it/blob/14.1.0/lib/rules_inline/image.mjs
  *
  */
-function checkMarkdownLink(data: TextParserData): RelativeLink | undefined {
+function checkMarkdownLink(
+    data: TextParserData,
+    reentry: TextParserReentryState,
+): RelativeLink | undefined {
     const { token, sourcePath, files } = data;
 
-    if (token.text[data.pos] === "[") {
-        const labelEnd = findLabelEnd(token.text, data.pos + 1);
-        if (
-            labelEnd !== -1 &&
-            token.text[labelEnd] === "]" &&
-            token.text[labelEnd + 1] === "("
-        ) {
-            const link = MdHelpers.parseLinkDestination(
-                token.text,
-                labelEnd + 2,
-                token.text.length,
-            );
+    let searchStart: number;
+    if (reentry.withinLinkLabel) {
+        searchStart = data.pos;
+        reentry.withinLinkLabel = false;
+    } else if (token.text[data.pos] === "[") {
+        searchStart = data.pos + 1;
+    } else {
+        return;
+    }
 
-            if (link.ok) {
-                // Only make a relative-link display part if it's actually a relative link.
-                // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
-                if (isRelativeLink(link.str)) {
-                    return {
-                        pos: labelEnd + 2,
-                        end: link.pos,
-                        target: files.register(sourcePath, link.str),
-                    };
-                }
+    const labelEnd = findLabelEnd(token.text, searchStart);
+    if (labelEnd === -1) {
+        // This markdown link might be split across multiple display parts
+        // [ `text` ](link)
+        // ^^ text
+        //   ^^^^^^ code
+        //         ^^^^^^^^ text
+        reentry.withinLinkLabel = true;
+        return;
+    }
 
-                // This was a link, skip ahead to ensure we don't happen to parse
-                // something else as a link within the link.
-                data.pos = link.pos - 1;
+    if (token.text[labelEnd] === "]" && token.text[labelEnd + 1] === "(") {
+        const link = MdHelpers.parseLinkDestination(
+            token.text,
+            labelEnd + 2,
+            token.text.length,
+        );
+
+        if (link.ok) {
+            // Only make a relative-link display part if it's actually a relative link.
+            // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
+            if (isRelativeLink(link.str)) {
+                return {
+                    pos: labelEnd + 2,
+                    end: link.pos,
+                    target: files.register(sourcePath, link.str),
+                };
             }
+
+            // This was a link, skip ahead to ensure we don't happen to parse
+            // something else as a link within the link.
+            data.pos = link.pos - 1;
         }
     }
 }
@@ -265,6 +311,7 @@ function findLabelEnd(text: string, pos: number) {
         switch (text[pos]) {
             case "\n":
             case "]":
+            case "[":
                 return pos;
         }
         ++pos;

@@ -17,7 +17,7 @@ import type {
     TranslationProxy,
 } from "../../internationalization/internationalization";
 import { FileRegistry } from "../../models/FileRegistry";
-import { textContent } from "./textParser";
+import { textContent, TextParserReentryState } from "./textParser";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -137,6 +137,7 @@ export function parseCommentString(
         },
     };
 
+    const reentry = new TextParserReentryState();
     const content: CommentDisplayPart[] = [];
     const lexer = makeLookaheadGenerator(tokens);
 
@@ -144,6 +145,7 @@ export function parseCommentString(
     while (!lexer.done()) {
         let consume = true;
         const next = lexer.peek();
+        reentry.checkState(next);
 
         switch (next.kind) {
             case TokenSyntaxKind.TypeAnnotation:
@@ -162,6 +164,7 @@ export function parseCommentString(
                     content,
                     files,
                     atNewLine,
+                    reentry,
                 );
                 break;
 
@@ -576,9 +579,11 @@ function blockContent(
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
     let atNewLine = true as boolean;
+    const reentry = new TextParserReentryState();
 
     loop: while (!lexer.done()) {
         const next = lexer.peek();
+        reentry.checkState(next);
         let consume = true;
 
         switch (next.kind) {
@@ -595,6 +600,7 @@ function blockContent(
                     /*out*/ content,
                     files,
                     atNewLine,
+                    reentry,
                 );
                 break;
 

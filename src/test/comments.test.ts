@@ -1371,6 +1371,48 @@ describe("Comment Parser", () => {
         ] satisfies CommentDisplayPart[]);
     });
 
+    it("#2606 Recognizes markdown links which contain inline code in the label", () => {
+        const comment = getComment(`/**
+            * [\`text\`](./relative.md)
+            * [\`text\`
+            * more](./relative.md)
+            * [\`text\`
+            *
+            * more](./relative.md)
+            */`);
+
+        equal(comment.summary, [
+            // Simple case with code
+            { kind: "text", text: "[" },
+            { kind: "code", text: "`text`" },
+            { kind: "text", text: "](" },
+            { kind: "relative-link", text: "./relative.md", target: 1 },
+            // Labels can also include single newlines
+            { kind: "text", text: ")\n[" },
+            { kind: "code", text: "`text`" },
+            { kind: "text", text: "\nmore](" },
+            { kind: "relative-link", text: "./relative.md", target: 1 },
+            // But not double!
+            { kind: "text", text: ")\n[" },
+            { kind: "code", text: "`text`" },
+            { kind: "text", text: "\n\nmore](./relative.md)" },
+        ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Recognizes markdown links which contain inline code in the label", () => {
+        const comment = getComment(`/**
+            * [\`text\`](./relative.md)
+            */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: "[" },
+            { kind: "code", text: "`text`" },
+            { kind: "text", text: "](" },
+            { kind: "relative-link", text: "./relative.md", target: 1 },
+            { kind: "text", text: ")" },
+        ] satisfies CommentDisplayPart[]);
+    });
+
     it("Recognizes markdown reference definition blocks", () => {
         const comment = getComment(`/**
             * [1]: ./example.md

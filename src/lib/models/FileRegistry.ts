@@ -8,7 +8,7 @@ import type { Reflection } from "./reflections";
 export class FileRegistry {
     protected nextId = 1;
 
-    // The combination of thest two make up the registry
+    // The combination of these two make up the registry
     protected mediaToReflection = new Map<number, Reflection>();
     protected mediaToPath = new Map<number, string>();
 
