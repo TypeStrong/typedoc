@@ -1,6 +1,6 @@
 import { basename, dirname, parse, relative, resolve } from "path";
 import type { Deserializer, Serializer } from "../serialization";
-import type { FileRegistry as JSONMediaRegistry } from "../serialization/schema";
+import type { FileRegistry as JSONFileRegistry } from "../serialization/schema";
 import { normalizePath } from "../utils";
 import { existsSync } from "fs";
 import type { Reflection } from "./reflections";
@@ -88,8 +88,8 @@ export class FileRegistry {
         return result;
     }
 
-    toObject(ser: Serializer): JSONMediaRegistry {
-        const result: JSONMediaRegistry = {
+    toObject(ser: Serializer): JSONFileRegistry {
+        const result: JSONFileRegistry = {
             entries: {},
             reflections: {},
         };
@@ -104,7 +104,12 @@ export class FileRegistry {
         return result;
     }
 
-    fromObject(de: Deserializer, obj: JSONMediaRegistry): void {
+    /**
+     * Revive a file registry from disc.
+     * Note that in the packages context this may be called multiple times on
+     * a single object, and should merge in files from the other registries.
+     */
+    fromObject(de: Deserializer, obj: JSONFileRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
             de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute);
@@ -138,7 +143,7 @@ export class ValidatingFileRegistry extends FileRegistry {
         return this.registerAbsolute(absolute);
     }
 
-    override fromObject(de: Deserializer, obj: JSONMediaRegistry) {
+    override fromObject(de: Deserializer, obj: JSONFileRegistry) {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
             if (!existsSync(absolute)) {

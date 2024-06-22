@@ -10,6 +10,7 @@
 -   Anchor links are no longer incorrectly checked for relative paths, #2604.
 -   Fixed an issue where line numbers reported in error messages could be incorrect, #2605.
 -   Fixed relative link detection for markdown links containing code in their label, #2606.
+-   Fixed an issue with packages mode where TypeDoc would use (much) more memory than required, #2607.
 -   TypeDoc will no longer crash when asked to render highlighted code for an unsupported language, #2609.
 
 ### Thanks!

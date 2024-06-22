@@ -648,6 +648,7 @@ export class Application extends ChildableComponent<
             return;
         }
 
+        const origFiles = this.files;
         const origOptions = this.options;
         const projects: JSONOutput.ProjectReflection[] = [];
 
@@ -693,18 +694,29 @@ export class Application extends ChildableComponent<
         for (const { dir, options } of projectsToConvert) {
             this.logger.info(this.i18n.converting_project_at_0(nicePath(dir)));
             this.options = options;
-            const project = await this.convert();
+            this.files = new ValidatingFileRegistry();
+            let project = await this.convert();
             if (project) {
                 this.validate(project);
-                projects.push(
-                    this.serializer.projectToObject(project, process.cwd()),
+                const serialized = this.serializer.projectToObject(
+                    project,
+                    process.cwd(),
                 );
+                projects.push(serialized);
             }
+
+            // When debugging memory issues, it's useful to set these
+            // here so that a breakpoint on resetReflectionID below
+            // gets the memory as it ought to be with all TS objects released.
+            project = undefined;
+            this.files = undefined!;
+            // global.gc!();
 
             resetReflectionID();
         }
 
         this.options = origOptions;
+        this.files = origFiles;
 
         if (projects.length !== packageDirs.length) {
             this.logger.error(this.i18n.failed_to_convert_packages());
