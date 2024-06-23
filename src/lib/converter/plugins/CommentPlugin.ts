@@ -682,7 +682,7 @@ export class CommentPlugin extends ConverterComponent {
 
         moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
-        if (paramTags.length) {
+        if (!comment.inheritedFromParentDeclaration) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
                     this.application.i18n.signature_0_has_unused_param_with_name_1(

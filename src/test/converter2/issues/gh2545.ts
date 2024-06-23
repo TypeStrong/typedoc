@@ -1,27 +1,28 @@
+/** Parent docs */
 abstract class Parent {
-    /**
-     * notAbstract docs
-     */
-    notAbstract(): string {
-        return "hello";
-    }
-    /**
-     * notAbstract2 docs
-     */
-    notAbstract2(): string {
-        return "hello";
-    }
-    /**
-     * isAbstract docs
-     */
-    abstract isAbstract(): string;
+    /** notAbstract docs  */
+    notAbstract(): void {}
+    /** notAbstract2 docs */
+    notAbstract2(): void {}
+    /** isAbstract docs */
+    abstract isAbstract(): void;
+    /** abstractProperty docs */
+    abstract abstractProperty: string;
 }
 
 export class Child extends Parent {
-    override notAbstract2(): string {
-        return "foo";
-    }
-    override isAbstract(): string {
-        return "bar";
-    }
+    override notAbstract2(): void {}
+    override isAbstract(): void {}
+
+    override abstractProperty = "";
+}
+
+// #2084
+export class Foo {
+    /** @internal*/
+    isInternal() {}
+}
+
+export class Bar extends Foo {
+    isInternal() {} // also internal
 }

@@ -4,10 +4,14 @@
 
 -   Added a `--suppressCommentWarningsInDeclarationFiles` option to disable warnings from
     parsing comments in declaration files, #2611.
+-   Improved comment discovery to more closely match TypeScript's discovery when getting comments
+    for members of interfaces/classes, #2084, #2545.
 
 ### Bug Fixes
 
 -   The `text` non-highlighted language no longer causes warnings when rendering, #2610.
+-   If a comment on a method is inherited from a parent class, and the child class does not
+    use an `@param` tag from the parent, TypeDoc will no longer warn about the `@param` tag.
 
 ## v0.26.1 (2024-06-22)
 

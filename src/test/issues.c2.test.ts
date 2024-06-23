@@ -1486,13 +1486,27 @@ describe("Issue Tests", () => {
         equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
-    it.skip("#2545 discovers comments from non-exported 'parent' methods", () => {
-        // Currently failing
+    it("#2545 discovers comments from non-exported 'parent' methods", () => {
         const project = convert();
 
-        equal(getComment(project, "Child.notAbstract"), "notAbstract docs");
-        equal(getComment(project, "Child.notAbstract2"), "notAbstract2 docs");
-        equal(getComment(project, "Child.isAbstract"), "isAbstract docs");
+        equal(getSigComment(project, "Child.notAbstract"), "notAbstract docs");
+        equal(
+            getSigComment(project, "Child.notAbstract2"),
+            "notAbstract2 docs",
+        );
+        equal(getSigComment(project, "Child.isAbstract"), "isAbstract docs");
+        equal(
+            getComment(project, "Child.abstractProperty"),
+            "abstractProperty docs",
+        );
+
+        // #2084
+        equal(
+            querySig(project, "Bar.isInternal").comment?.hasModifier(
+                "@internal",
+            ),
+            true,
+        );
     });
 
     it("#2552 Ignores @license and @import comments, ", () => {

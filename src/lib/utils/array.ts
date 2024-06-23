@@ -1,3 +1,5 @@
+export const emptyArray: readonly [] = [];
+
 /**
  * Inserts an item into an array sorted by priority. If two items have the same priority,
  * the item will be inserted later will be placed earlier in the array.
@@ -143,4 +145,28 @@ export function filterMap<T, U>(
     }
 
     return result;
+}
+
+export function firstDefined<T, U>(
+    array: readonly T[] | undefined,
+    callback: (element: T, index: number) => U | undefined,
+): U | undefined {
+    if (array === undefined) {
+        return undefined;
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        const result = callback(array[i], i);
+        if (result !== undefined) {
+            return result;
+        }
+    }
+    return undefined;
+}
+
+export function filter<T>(
+    array: readonly T[] | undefined,
+    predicate: (value: T, index: number, array: readonly T[]) => boolean,
+): readonly T[] {
+    return array ? array.filter(predicate) : emptyArray;
 }

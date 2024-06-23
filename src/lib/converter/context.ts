@@ -273,8 +273,7 @@ export class Context {
             kind,
             this.converter.config,
             this.logger,
-            this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined,
+            this.checker,
             this.project.files,
         );
     }
@@ -285,8 +284,7 @@ export class Context {
             moduleComment,
             this.converter.config,
             this.logger,
-            this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined,
+            this.checker,
             this.project.files,
         );
     }
@@ -296,8 +294,7 @@ export class Context {
             node,
             this.converter.config,
             this.logger,
-            this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined,
+            this.checker,
             this.project.files,
         );
     }
@@ -314,7 +311,7 @@ export class Context {
             declaration,
             this.converter.config,
             this.logger,
-            this.converter.useTsLinkResolution ? this.checker : undefined,
+            this.checker,
             this.project.files,
         );
     }
@@ -326,8 +323,7 @@ export class Context {
             declaration,
             this.converter.config,
             this.logger,
-            this.converter.commentStyle,
-            this.converter.useTsLinkResolution ? this.checker : undefined,
+            this.checker,
             this.project.files,
         );
     }

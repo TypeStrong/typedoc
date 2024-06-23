@@ -23,6 +23,8 @@ export interface CommentParserConfig {
     modifierTags: Set<string>;
     jsDocCompatibility: JsDocCompatibility;
     suppressCommentWarningsInDeclarationFiles: boolean;
+    useTsLinkResolution: boolean;
+    commentStyle: CommentStyle;
 }
 
 const jsDocCommentKinds = [
@@ -56,7 +58,10 @@ function getCommentWithCache(
     const { file, ranges, jsDoc } = discovered;
     const cache = commentCache.get(file) || new Map<number, Comment>();
     if (cache.has(ranges[0].pos)) {
-        return cache.get(ranges[0].pos)!.clone();
+        const clone = cache.get(ranges[0].pos)!.clone();
+        clone.inheritedFromParentDeclaration =
+            discovered.inheritedFromParentDeclaration;
+        return clone;
     }
 
     let comment: Comment;
@@ -90,6 +95,8 @@ function getCommentWithCache(
     }
 
     comment.discoveryId = ++commentDiscoveryId;
+    comment.inheritedFromParentDeclaration =
+        discovered.inheritedFromParentDeclaration;
     cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 
@@ -108,7 +115,7 @@ function getCommentImpl(
         commentSource,
         config,
         logger,
-        checker,
+        config.useTsLinkResolution ? checker : undefined,
         files,
     );
 
@@ -145,8 +152,7 @@ export function getComment(
     kind: ReflectionKind,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined,
+    checker: ts.TypeChecker,
     files: FileRegistry,
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
@@ -166,7 +172,7 @@ export function getComment(
 
     const sf = declarations.find(ts.isSourceFile);
     if (sf) {
-        return getFileComment(sf, config, logger, commentStyle, checker, files);
+        return getFileComment(sf, config, logger, checker, files);
     }
 
     const isModule = declarations.some((decl) => {
@@ -177,7 +183,7 @@ export function getComment(
     });
 
     const comment = getCommentImpl(
-        discoverComment(symbol, kind, logger, commentStyle),
+        discoverComment(symbol, kind, logger, config.commentStyle, checker),
         config,
         logger,
         isModule,
@@ -190,7 +196,6 @@ export function getComment(
             symbol,
             config,
             logger,
-            commentStyle,
             checker,
             files,
         );
@@ -204,12 +209,11 @@ export function getNodeComment(
     moduleComment: boolean,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
     files: FileRegistry,
 ) {
     return getCommentImpl(
-        discoverNodeComment(node, commentStyle),
+        discoverNodeComment(node, config.commentStyle),
         config,
         logger,
         moduleComment,
@@ -222,16 +226,18 @@ export function getFileComment(
     file: ts.SourceFile,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle,
     checker: ts.TypeChecker | undefined,
     files: FileRegistry,
 ): Comment | undefined {
-    for (const commentSource of discoverFileComments(file, commentStyle)) {
+    for (const commentSource of discoverFileComments(
+        file,
+        config.commentStyle,
+    )) {
         const comment = getCommentWithCache(
             commentSource,
             config,
             logger,
-            checker,
+            config.useTsLinkResolution ? checker : undefined,
             files,
         );
 
@@ -253,22 +259,14 @@ function getConstructorParamPropertyComment(
     symbol: ts.Symbol,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined,
+    checker: ts.TypeChecker,
     files: FileRegistry,
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
 
     const ctor = decl.parent;
-    const comment = getSignatureComment(
-        ctor,
-        config,
-        logger,
-        commentStyle,
-        checker,
-        files,
-    );
+    const comment = getSignatureComment(ctor, config, logger, checker, files);
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
     if (paramTag) {
@@ -282,12 +280,11 @@ export function getSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
     config: CommentParserConfig,
     logger: Logger,
-    commentStyle: CommentStyle,
-    checker: ts.TypeChecker | undefined,
+    checker: ts.TypeChecker,
     files: FileRegistry,
 ): Comment | undefined {
     return getCommentImpl(
-        discoverSignatureComment(declaration, commentStyle),
+        discoverSignatureComment(declaration, checker, config.commentStyle),
         config,
         logger,
         false,
@@ -328,10 +325,11 @@ export function getJsDocComment(
                 },
             ],
             jsDoc: parent,
+            inheritedFromParentDeclaration: false,
         },
         config,
         logger,
-        checker,
+        config.useTsLinkResolution ? checker : undefined,
         files,
     )!;
 

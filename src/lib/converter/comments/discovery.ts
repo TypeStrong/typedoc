@@ -4,6 +4,7 @@ import { assertNever, type Logger } from "../../utils";
 import { CommentStyle } from "../../utils/options/declaration";
 import { nicePath } from "../../utils/paths";
 import { ok } from "assert";
+import { filter, firstDefined } from "../../utils/array";
 
 const variablePropertyKinds = [
     ts.SyntaxKind.PropertyDeclaration,
@@ -117,12 +118,13 @@ export interface DiscoveredComment {
     file: ts.SourceFile;
     ranges: ts.CommentRange[];
     jsDoc: ts.JSDoc | undefined;
+    inheritedFromParentDeclaration: boolean;
 }
 
 export function discoverFileComments(
     node: ts.SourceFile,
     commentStyle: CommentStyle,
-) {
+): DiscoveredComment[] {
     const text = node.text;
 
     const comments = collectCommentRanges(
@@ -138,6 +140,7 @@ export function discoverFileComments(
             file: node,
             ranges,
             jsDoc: findJsDocForComment(node, ranges),
+            inheritedFromParentDeclaration: false,
         };
     });
 }
@@ -161,8 +164,47 @@ export function discoverNodeComment(
             file: node.getSourceFile(),
             ranges: selectedDocComment,
             jsDoc: findJsDocForComment(node, selectedDocComment),
+            inheritedFromParentDeclaration: false,
         };
     }
+}
+
+function checkCommentDeclarations(
+    commentNodes: ReadonlyArray<{
+        node: ts.Node;
+        inheritedFromParentDeclaration: boolean;
+    }>,
+    reverse: boolean,
+    commentStyle: CommentStyle,
+) {
+    const discovered: DiscoveredComment[] = [];
+
+    for (const { node, inheritedFromParentDeclaration } of commentNodes) {
+        const text = node.getSourceFile().text;
+
+        const comments = collectCommentRanges(
+            ts.getLeadingCommentRanges(text, node.pos),
+        );
+
+        if (reverse) {
+            comments.reverse();
+        }
+
+        const selectedDocComment = comments.find((ranges) =>
+            permittedRange(text, ranges, commentStyle),
+        );
+
+        if (selectedDocComment) {
+            discovered.push({
+                file: node.getSourceFile(),
+                ranges: selectedDocComment,
+                jsDoc: findJsDocForComment(node, selectedDocComment),
+                inheritedFromParentDeclaration,
+            });
+        }
+    }
+
+    return discovered;
 }
 
 export function discoverComment(
@@ -170,64 +212,62 @@ export function discoverComment(
     kind: ReflectionKind,
     logger: Logger,
     commentStyle: CommentStyle,
+    checker: ts.TypeChecker,
 ): DiscoveredComment | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
     const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
-    const discovered: DiscoveredComment[] = [];
-    const seen = new Set<ts.Node>();
+    const wantedDeclarations = filter(symbol.declarations, (decl) =>
+        wantedKinds[kind].includes(decl.kind),
+    );
 
-    for (const decl of symbol.declarations || []) {
-        const text = decl.getSourceFile().text;
-        if (wantedKinds[kind].includes(decl.kind)) {
-            const node = declarationToCommentNode(decl);
-            if (!node || seen.has(node)) {
-                continue;
-            }
-            seen.add(node);
+    const commentNodes = wantedDeclarations.flatMap((decl) =>
+        declarationToCommentNodes(decl, checker),
+    );
 
-            // Special behavior here!
-            // Signatures and symbols have two distinct discovery methods as of TypeDoc 0.26.
-            // This method discovers comments for symbols, and function-likes will only have
-            // a symbol comment if there is more than one signature (== more than one declaration)
-            // and there is a comment on the implementation signature.
-            if (
-                kind & ReflectionKind.ContainsCallSignatures &&
-                [
-                    ts.SyntaxKind.FunctionDeclaration,
-                    ts.SyntaxKind.MethodDeclaration,
-                    ts.SyntaxKind.Constructor,
-                ].includes(node.kind) &&
-                (symbol.declarations!.filter((d) =>
-                    wantedKinds[kind].includes(d.kind),
-                ).length === 1 ||
-                    !(node as ts.FunctionDeclaration).body)
-            ) {
-                continue;
-            }
+    // Special behavior here!
+    // Signatures and symbols have two distinct discovery methods as of TypeDoc 0.26.
+    // This method discovers comments for symbols, and function-likes will only have
+    // a symbol comment if there is more than one signature (== more than one declaration)
+    // and there is a comment on the implementation signature.
+    if (kind & ReflectionKind.ContainsCallSignatures) {
+        const canHaveOverloads = wantedDeclarations.some((node) =>
+            [
+                ts.SyntaxKind.FunctionDeclaration,
+                ts.SyntaxKind.MethodDeclaration,
+                ts.SyntaxKind.Constructor,
+            ].includes(node.kind),
+        );
 
-            const comments = collectCommentRanges(
-                ts.getLeadingCommentRanges(text, node.pos),
+        const isOverloaded = canHaveOverloads && wantedDeclarations.length > 1;
+
+        if (isOverloaded) {
+            commentNodes.length = 0;
+
+            const implementationNode = wantedDeclarations.find(
+                (node) => (node as ts.FunctionDeclaration).body,
             );
-
-            if (reverse) {
-                comments.reverse();
-            }
-
-            const selectedDocComment = comments.find((ranges) =>
-                permittedRange(text, ranges, commentStyle),
-            );
-
-            if (selectedDocComment) {
-                discovered.push({
-                    file: decl.getSourceFile(),
-                    ranges: selectedDocComment,
-                    jsDoc: findJsDocForComment(node, selectedDocComment),
+            if (implementationNode) {
+                commentNodes.push({
+                    node: implementationNode,
+                    inheritedFromParentDeclaration: false,
                 });
             }
+        } else if (canHaveOverloads) {
+            // Single signature function, function reflection doesn't get a comment,
+            // the signatures do.
+            commentNodes.length = 0;
+        } else {
+            // Variable declaration which happens to include signatures.
         }
     }
+
+    const discovered = checkCommentDeclarations(
+        commentNodes,
+        reverse,
+        commentStyle,
+    );
 
     switch (discovered.length) {
         case 0:
@@ -235,23 +275,31 @@ export function discoverComment(
         case 1:
             return discovered[0];
         default: {
-            logger.warn(
-                logger.i18n.symbol_0_has_multiple_declarations_with_comment(
-                    symbol.name,
-                ),
-            );
-            const locations = discovered.map(({ file, ranges: [{ pos }] }) => {
-                const path = nicePath(file.fileName);
-                const line =
-                    ts.getLineAndCharacterOfPosition(file, pos).line + 1;
-                return `${path}:${line}`;
-            });
-            logger.info(
-                logger.i18n.comments_for_0_are_declared_at_1(
-                    symbol.name,
-                    locations.join("\n\t"),
-                ),
-            );
+            if (
+                discovered.filter((n) => !n.inheritedFromParentDeclaration)
+                    .length > 1
+            ) {
+                logger.warn(
+                    logger.i18n.symbol_0_has_multiple_declarations_with_comment(
+                        symbol.name,
+                    ),
+                );
+                const locations = discovered.map(
+                    ({ file, ranges: [{ pos }] }) => {
+                        const path = nicePath(file.fileName);
+                        const line =
+                            ts.getLineAndCharacterOfPosition(file, pos).line +
+                            1;
+                        return `${path}:${line}`;
+                    },
+                );
+                logger.info(
+                    logger.i18n.comments_for_0_are_declared_at_1(
+                        symbol.name,
+                        locations.join("\n\t"),
+                    ),
+                );
+            }
             return discovered[0];
         }
     }
@@ -259,46 +307,49 @@ export function discoverComment(
 
 export function discoverSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
+    checker: ts.TypeChecker,
     commentStyle: CommentStyle,
 ): DiscoveredComment | undefined {
-    const node = declarationToCommentNode(declaration);
-    if (!node) {
-        return;
-    }
+    for (const {
+        node,
+        inheritedFromParentDeclaration,
+    } of declarationToCommentNodes(declaration, checker)) {
+        if (ts.isJSDocSignature(node)) {
+            const comment = node.parent.parent;
+            ok(ts.isJSDoc(comment));
 
-    if (ts.isJSDocSignature(node)) {
-        const comment = node.parent.parent;
-        ok(ts.isJSDoc(comment));
+            return {
+                file: node.getSourceFile(),
+                ranges: [
+                    {
+                        kind: ts.SyntaxKind.MultiLineCommentTrivia,
+                        pos: comment.pos,
+                        end: comment.end,
+                    },
+                ],
+                jsDoc: comment,
+                inheritedFromParentDeclaration,
+            };
+        }
 
-        return {
-            file: node.getSourceFile(),
-            ranges: [
-                {
-                    kind: ts.SyntaxKind.MultiLineCommentTrivia,
-                    pos: comment.pos,
-                    end: comment.end,
-                },
-            ],
-            jsDoc: comment,
-        };
-    }
+        const text = node.getSourceFile().text;
 
-    const text = node.getSourceFile().text;
+        const comments = collectCommentRanges(
+            ts.getLeadingCommentRanges(text, node.pos),
+        );
+        comments.reverse();
 
-    const comments = collectCommentRanges(
-        ts.getLeadingCommentRanges(text, node.pos),
-    );
-    comments.reverse();
-
-    const comment = comments.find((ranges) =>
-        permittedRange(text, ranges, commentStyle),
-    );
-    if (comment) {
-        return {
-            file: node.getSourceFile(),
-            ranges: comment,
-            jsDoc: findJsDocForComment(node, comment),
-        };
+        const comment = comments.find((ranges) =>
+            permittedRange(text, ranges, commentStyle),
+        );
+        if (comment) {
+            return {
+                file: node.getSourceFile(),
+                ranges: comment,
+                jsDoc: findJsDocForComment(node, comment),
+                inheritedFromParentDeclaration,
+            };
+        }
     }
 }
 
@@ -355,7 +406,9 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
     return node;
 }
 
-function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
+function declarationToCommentNodeIgnoringParents(
+    node: ts.Declaration,
+): ts.Node | undefined {
     // ts.SourceFile is a counterexample
     if (!node.parent) return node;
 
@@ -403,8 +456,80 @@ function declarationToCommentNode(node: ts.Declaration): ts.Node | undefined {
     if (ts.SyntaxKind.NamespaceExport === node.kind) {
         return node.parent;
     }
+}
 
-    return node;
+function declarationToCommentNodes(
+    node: ts.Declaration,
+    checker: ts.TypeChecker,
+): ReadonlyArray<{ node: ts.Node; inheritedFromParentDeclaration: boolean }> {
+    const commentNode = declarationToCommentNodeIgnoringParents(node);
+
+    if (commentNode) {
+        return [
+            {
+                node: commentNode,
+                inheritedFromParentDeclaration: false,
+            },
+        ];
+    }
+
+    const result: { node: ts.Node; inheritedFromParentDeclaration: boolean }[] =
+        [
+            {
+                node,
+                inheritedFromParentDeclaration: false,
+            },
+        ];
+
+    const seenSymbols = new Set<ts.Symbol>();
+    const bases = findBaseOfDeclaration(checker, node, (symbol) => {
+        if (!seenSymbols.has(symbol)) {
+            seenSymbols.add(symbol);
+            return symbol.declarations?.map(
+                (node) => declarationToCommentNodeIgnoringParents(node) || node,
+            );
+        }
+    });
+
+    for (const parentCommentNode of bases || []) {
+        result.push({
+            node: parentCommentNode,
+            inheritedFromParentDeclaration: true,
+        });
+    }
+
+    return result;
+}
+
+// Lifted from the TS source, with a couple minor modifications
+function findBaseOfDeclaration<T>(
+    checker: ts.TypeChecker,
+    declaration: ts.Declaration,
+    cb: (symbol: ts.Symbol) => T[] | undefined,
+): T[] | undefined {
+    const classOrInterfaceDeclaration =
+        declaration.parent?.kind === ts.SyntaxKind.Constructor
+            ? declaration.parent.parent
+            : declaration.parent;
+    if (!classOrInterfaceDeclaration) return;
+
+    const isStaticMember =
+        ts.getCombinedModifierFlags(declaration) & ts.ModifierFlags.Static;
+    return firstDefined(
+        ts.getAllSuperTypeNodes(classOrInterfaceDeclaration),
+        (superTypeNode) => {
+            const baseType = checker.getTypeAtLocation(superTypeNode);
+            const type =
+                isStaticMember && baseType.symbol
+                    ? checker.getTypeOfSymbol(baseType.symbol)
+                    : baseType;
+            const symbol = checker.getPropertyOfType(
+                type,
+                declaration.symbol!.name,
+            );
+            return symbol ? cb(symbol) : undefined;
+        },
+    );
 }
 
 /**

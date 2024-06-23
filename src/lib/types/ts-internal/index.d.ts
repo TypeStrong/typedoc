@@ -28,6 +28,12 @@ declare module "typescript" {
         noCache?: boolean,
     ): readonly (JSDoc | JSDocTag)[];
 
+    export function getInterfaceBaseTypeNodes(
+        node: InterfaceDeclaration,
+    ): NodeArray<ExpressionWithTypeArguments> | undefined;
+
+    export function getAllSuperTypeNodes(node: ts.Node): readonly ts.TypeNode[];
+
     export interface Signature {
         thisParameter?: ts.Symbol;
     }

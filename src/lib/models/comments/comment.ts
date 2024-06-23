@@ -398,6 +398,15 @@ export class Comment {
     discoveryId?: number;
 
     /**
+     * If the comment was inherited from a different "parent" declaration
+     * (see #2545), then it is desirable to know this as any `@param` tags
+     * which do not apply should not cause warnings. This is not serialized,
+     * and only set when the comment was created from a `ts.CommentRange`.
+     */
+    @NonEnumerable
+    inheritedFromParentDeclaration?: boolean;
+
+    /**
      * Creates a new Comment instance.
      */
     constructor(
@@ -422,6 +431,8 @@ export class Comment {
         );
         comment.discoveryId = this.discoveryId;
         comment.sourcePath = this.sourcePath;
+        comment.inheritedFromParentDeclaration =
+            this.inheritedFromParentDeclaration;
         return comment;
     }
 

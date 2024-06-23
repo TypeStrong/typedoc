@@ -1095,6 +1095,8 @@ describe("Comment Parser", () => {
             inheritDocTag: false,
         },
         suppressCommentWarningsInDeclarationFiles: false,
+        useTsLinkResolution: false,
+        commentStyle: "jsdoc",
     };
 
     it("Should recognize @defaultValue as code", () => {

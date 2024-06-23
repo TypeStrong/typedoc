@@ -133,10 +133,6 @@ export class Converter extends ChildableComponent<
     >;
 
     /** @internal */
-    @Option("useTsLinkResolution")
-    accessor useTsLinkResolution!: boolean;
-
-    /** @internal */
     @Option("preserveLinkText")
     accessor preserveLinkText!: boolean;
 
@@ -697,6 +693,10 @@ export class Converter extends ChildableComponent<
                 this.application.options.getValue(
                     "suppressCommentWarningsInDeclarationFiles",
                 ),
+            useTsLinkResolution: this.application.options.getValue(
+                "useTsLinkResolution",
+            ),
+            commentStyle: this.application.options.getValue("commentStyle"),
         };
 
         // Can't be included in options because the TSDoc parser blows up if we do.
