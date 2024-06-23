@@ -157,7 +157,7 @@ export function getSupportedThemes(): string[] {
 }
 
 export function isLoadedLanguage(lang: string): boolean {
-    return highlighter?.supports(lang) ?? false;
+    return lang === "text" || (highlighter?.supports(lang) ?? false);
 }
 
 export function highlight(code: string, lang: string): string {

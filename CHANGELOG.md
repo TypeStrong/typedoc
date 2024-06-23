@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   The `text` non-highlighted language no longer causes warnings when rendering, #2610.
+
 ## v0.26.1 (2024-06-22)
 
 ### Features
