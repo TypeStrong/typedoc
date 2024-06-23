@@ -3,6 +3,8 @@ import { JSX } from "../../../../utils/index.js";
 import { type ContainerReflection, DeclarationReflection } from "../../../../models/index.js";
 import { classNames } from "../../lib.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     if (props.categories && props.categories.length) {
         return (

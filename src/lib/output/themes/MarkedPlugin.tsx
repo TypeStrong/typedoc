@@ -1,4 +1,6 @@
 import markdown from "markdown-it";
+// @types/markdown-it is busted, this type isn't exported with ESM.
+import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { Component, ContextAwareRendererComponent } from "../components.js";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events.js";
@@ -278,7 +280,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 }
 
-function getTokenTextContent(token: markdown.Token): string {
+function getTokenTextContent(token: md.Token): string {
     if (token.children) {
         return token.children.map(getTokenTextContent).join("");
     }

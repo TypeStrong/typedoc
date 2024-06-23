@@ -2,10 +2,11 @@ import { deepEqual as equal } from "assert/strict";
 import { join } from "path";
 import ts from "typescript";
 import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
+import { fileURLToPath } from "url";
 
 describe("tsdoc-defaults.ts", () => {
     const tsdoc = ts.readConfigFile(
-        join(__dirname, "../../../../tsdoc.json"),
+        join(fileURLToPath(import.meta.url), "../../../../../tsdoc.json"),
         ts.sys.readFile,
     );
     const tagDefinitions = tsdoc.config?.tagDefinitions as Array<{

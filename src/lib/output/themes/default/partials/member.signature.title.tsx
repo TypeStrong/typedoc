@@ -3,6 +3,8 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import { JSX } from "../../../../utils/index.js";
 import { type ParameterReflection, ReflectionKind, type SignatureReflection } from "../../../../models/index.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 function renderParameterWithType(context: DefaultThemeRenderContext, item: ParameterReflection) {
     return (
         <>

@@ -4,6 +4,8 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import type { PageEvent } from "../../../events.js";
 import { type Reflection, ReflectionKind } from "../../../../models/index.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => {
     const HeadingLevel = props.model.isProject() ? "h2" : "h1";
     return (

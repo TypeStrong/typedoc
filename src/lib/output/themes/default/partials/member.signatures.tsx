@@ -4,6 +4,8 @@ import type { DeclarationReflection } from "../../../../models/index.js";
 import { anchorIcon } from "./anchor-icon.js";
 import { classNames } from "../../lib.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 export const memberSignatures = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(props))}>

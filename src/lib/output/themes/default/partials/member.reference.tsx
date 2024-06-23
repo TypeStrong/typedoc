@@ -2,6 +2,8 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import { JSX } from "../../../../utils/index.js";
 import type { ReferenceReflection } from "../../../../models/index.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 export const memberReference = ({ urlTo, i18n }: DefaultThemeRenderContext, props: ReferenceReflection) => {
     const referenced = props.tryGetTargetReflectionDeep();
 

@@ -4,6 +4,8 @@ import { JSX } from "../../../../utils/index.js";
 import { getHierarchyRoots } from "../../lib.js";
 import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
 
+void JSX; // Trick TS into seeing this as used, the import is required.
+
 function fullHierarchy(
     context: DefaultThemeRenderContext,
     root: DeclarationReflection,
