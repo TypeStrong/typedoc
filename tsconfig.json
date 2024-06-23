@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "module": "Node16",
-        "lib": ["es2021"],
-        "target": "es2021",
+        "lib": ["es2022"],
+        "target": "es2022",
 
         // Add our `ts` internal types
         "typeRoots": ["node_modules/@types", "src/lib/types"],

@@ -18,7 +18,7 @@ import type {
 export class ParameterReflection extends Reflection {
     readonly variant = "param";
 
-    override parent?: SignatureReflection;
+    declare parent?: SignatureReflection;
 
     defaultValue?: string;
 

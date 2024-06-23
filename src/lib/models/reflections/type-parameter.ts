@@ -27,7 +27,7 @@ export type VarianceModifier =
 export class TypeParameterReflection extends Reflection {
     readonly variant = "typeParam";
 
-    override parent?: DeclarationReflection | SignatureReflection;
+    declare parent?: DeclarationReflection | SignatureReflection;
 
     type?: SomeType;
 
