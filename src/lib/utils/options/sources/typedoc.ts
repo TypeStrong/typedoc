@@ -686,6 +686,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "suppressCommentWarningsInDeclarationFiles",
+        help: (i18n) => i18n.help_lang(),
+        type: ParameterType.Boolean,
+    });
+
+    options.addDeclaration({
         name: "commentStyle",
         help: (i18n) => i18n.help_commentStyle(),
         type: ParameterType.Map,

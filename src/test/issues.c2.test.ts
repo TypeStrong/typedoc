@@ -1589,4 +1589,17 @@ describe("Issue Tests", () => {
 
         logger.expectNoOtherMessages();
     });
+
+    it("#2611 can suppress warnings from comments in declaration files", () => {
+        convert();
+        logger.expectMessage(
+            "warn: Encountered an unknown block tag @tagThatIsNotDefined",
+        );
+        logger.expectNoOtherMessages();
+        logger.reset();
+
+        app.options.setValue("suppressCommentWarningsInDeclarationFiles", true);
+        convert();
+        logger.expectNoOtherMessages();
+    });
 });

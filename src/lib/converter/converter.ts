@@ -693,6 +693,10 @@ export class Converter extends ChildableComponent<
             ),
             jsDocCompatibility:
                 this.application.options.getValue("jsDocCompatibility"),
+            suppressCommentWarningsInDeclarationFiles:
+                this.application.options.getValue(
+                    "suppressCommentWarningsInDeclarationFiles",
+                ),
         };
 
         // Can't be included in options because the TSDoc parser blows up if we do.

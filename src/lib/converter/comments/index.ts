@@ -22,6 +22,7 @@ export interface CommentParserConfig {
     inlineTags: Set<string>;
     modifierTags: Set<string>;
     jsDocCompatibility: JsDocCompatibility;
+    suppressCommentWarningsInDeclarationFiles: boolean;
 }
 
 const jsDocCommentKinds = [

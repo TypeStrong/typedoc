@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   Added a `--suppressCommentWarningsInDeclarationFiles` option to disable warnings from
+    parsing comments in declaration files, #2611.
+
 ### Bug Fixes
 
 -   The `text` non-highlighted language no longer causes warnings when rendering, #2610.

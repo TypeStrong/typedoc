@@ -1094,6 +1094,7 @@ describe("Comment Parser", () => {
             ignoreUnescapedBraces: false,
             inheritDocTag: false,
         },
+        suppressCommentWarningsInDeclarationFiles: false,
     };
 
     it("Should recognize @defaultValue as code", () => {

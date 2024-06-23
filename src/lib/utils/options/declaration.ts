@@ -196,6 +196,7 @@ export interface TypeDocOptionMap {
     useTsLinkResolution: boolean;
     preserveLinkText: boolean;
     jsDocCompatibility: JsDocCompatibility;
+    suppressCommentWarningsInDeclarationFiles: boolean;
     blockTags: `@${string}`[];
     inlineTags: `@${string}`[];
     modifierTags: `@${string}`[];

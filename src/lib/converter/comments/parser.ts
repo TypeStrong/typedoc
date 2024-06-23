@@ -109,6 +109,12 @@ export function parseComment(
     return comment;
 
     function warningImpl(message: TranslatedString, token: Token) {
+        if (
+            config.suppressCommentWarningsInDeclarationFiles &&
+            file.fileName.endsWith(".d.ts")
+        ) {
+            return;
+        }
         logger.warn(message, token.pos, file);
     }
 }
@@ -135,6 +141,7 @@ export function parseCommentString(
             ignoreUnescapedBraces: true,
             inheritDocTag: true,
         },
+        suppressCommentWarningsInDeclarationFiles: true,
     };
 
     const reentry = new TextParserReentryState();
