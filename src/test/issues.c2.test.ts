@@ -131,7 +131,7 @@ describe("Issue Tests", () => {
         ok(nsFoo.children?.find((r) => r.name === "x"));
     });
 
-    it("Supports computed names #941", () => {
+    it("#941 Supports computed names ", () => {
         const project = convert();
         const obj = query(project, "Obj");
         equal(
@@ -397,7 +397,7 @@ describe("Issue Tests", () => {
         equal(ctor.sources[0].character, 4);
     });
 
-    it("Handles comment discovery with expando functions #1651", () => {
+    it("#1651 Handles comment discovery with expando functions ", () => {
         const project = convert();
         equal(
             project.children?.map((c) => c.name),
@@ -954,7 +954,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Handles types/values with same name #2106", () => {
+    it("#2106 Handles types/values with same name ", () => {
         const project = convert();
         const balance = querySig(project, "balance");
         equal(balance.type?.type, "reference");
@@ -1104,7 +1104,7 @@ describe("Issue Tests", () => {
         }
     });
 
-    it("Handles implementationOf with symbols #2234", () => {
+    it("#2234 Handles implementationOf with symbols ", () => {
         const project = convert();
         const cm = query(project, "CharMap");
         equal(
@@ -1118,7 +1118,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Handles http links with TS link resolution #2270", () => {
+    it("#2270 Handles http links with TS link resolution ", () => {
         const project = convert();
         const links = getLinks(query(project, "A"));
         equal(links, [
@@ -1133,7 +1133,7 @@ describe("Issue Tests", () => {
         ]);
     });
 
-    it("Handles comments on interfaces with call signatures #2290", () => {
+    it("#2290 Handles comments on interfaces with call signatures ", () => {
         const project = convert();
 
         equal(getComment(project, "CallSignature"), "Int comment");
@@ -1156,14 +1156,14 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Does not warn on notDocumented edge case #2291", () => {
+    it("#2291 Does not warn on notDocumented edge case ", () => {
         app.options.setValue("validation", { notDocumented: true });
         const project = convert();
         app.validate(project);
         logger.expectNoOtherMessages();
     });
 
-    it("Supports TS 5.0 #2296", () => {
+    it("#2296 Supports TS 5.0 ", () => {
         const project = convert();
         const names = query(project, "names");
         equal(names.type?.toString(), 'readonly ["Alice", "Bob", "Eve"]');
@@ -1174,7 +1174,7 @@ describe("Issue Tests", () => {
         equal(tp.flags.isConst, true);
     });
 
-    it("Detects source locations coming from types and prefers value declarations, #2307", () => {
+    it("#2307 Detects source locations coming from types and prefers value declarations, ", () => {
         const project = convert();
 
         const getLines = (name: string) => {
@@ -1189,14 +1189,14 @@ describe("Issue Tests", () => {
         equal(getLines("all"), [8, 9]);
     });
 
-    it("Uses type parameters from parent class in arrow-methods, #2320", () => {
+    it("#2320 Uses type parameters from parent class in arrow-methods, ", () => {
         const project = convert();
         const arrow = querySig(project, "ResolvedSubclass.arrowFunction");
 
         equal(arrow.typeParameters![0].type?.toString(), '"one" | "two"');
     });
 
-    it("Handles comments with nested methods #2336", () => {
+    it("#2336 Handles comments with nested methods ", () => {
         const project = convert();
 
         const outer = querySig(project, "ClassVersion.outer");
@@ -1211,7 +1211,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Supports nested paths with tsLinkResolution #2360", () => {
+    it("#2360 Supports nested paths with tsLinkResolution ", () => {
         const project = convert();
         const x = query(project, "x");
         const link = x.comment?.summary[0];
@@ -1219,7 +1219,7 @@ describe("Issue Tests", () => {
         equal(link.target, query(project, "Foo.bar"));
     });
 
-    it("Handles duplicate declarations with @namespace #2364", () => {
+    it("#2364 Handles duplicate declarations with @namespace ", () => {
         const project = convert();
         equal(
             project.children?.map((c) => c.name),
@@ -1232,7 +1232,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Gets properties when types/variables are merged with @namespace #2364", () => {
+    it("#2364 Gets properties when types/variables are merged with @namespace ", () => {
         const project = convert();
         const ns = project.children?.find(
             (c) => c.name == "NS2" && c.kind == ReflectionKind.Namespace,
@@ -1243,7 +1243,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Puts delegate type alias comments on the type alias #2372", () => {
+    it("#2372 Puts delegate type alias comments on the type alias ", () => {
         const project = convert();
         equal(
             getComment(project, "EventHandler"),
@@ -1259,7 +1259,7 @@ describe("Issue Tests", () => {
         equal(Comment.combineDisplayParts(typeSig?.comment?.summary), "");
     });
 
-    it("Handles spaces in JSDoc default parameter names #2384", () => {
+    it("#2384 Handles spaces in JSDoc default parameter names ", () => {
         const project = convert();
         const Typed = query(project, "Typed");
         equal(Typed.typeParameters?.length, 1);
@@ -1271,7 +1271,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Handles @template parameter constraints correctly, #2389", () => {
+    it("#2389 Handles @template parameter constraints correctly, ", () => {
         const project = convert();
         const foo = query(project, "foo");
         equal(foo.signatures?.length, 1);
@@ -1286,7 +1286,7 @@ describe("Issue Tests", () => {
     // a single declare module can still have a comment on them, but it looks really
     // weird and wrong if there are multiple declare module statements in a file...
     // there's probably some nicer way of doing this that I'm not seeing right now.
-    it("Uses module comment discovery on 'declare module \"foo\"' #2401", () => {
+    it("#2401 Uses module comment discovery on 'declare module \"foo\"' ", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(project.comment?.summary),
@@ -1294,7 +1294,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Includes index signature comments #2414", () => {
+    it("#2414 Includes index signature comments ", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(
@@ -1305,7 +1305,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Handles destructured object parameter defaults, #2430", () => {
+    it("#2430 Handles destructured object parameter defaults, ", () => {
         const project = convert();
         const Checkbox = querySig(project, "Checkbox");
         equal(Checkbox.parameters?.length, 1);
@@ -1322,7 +1322,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Handles function-namespaces created with Object.assign #2436", () => {
+    it("#2436 Handles function-namespaces created with Object.assign ", () => {
         const project = convert();
         equal(query(project, "bug").kind, ReflectionKind.Function);
         const foo = query(project, "bug.foo");
@@ -1333,17 +1333,17 @@ describe("Issue Tests", () => {
         equal(bar.kind, ReflectionKind.Property, "property");
     });
 
-    it("Does not warn due to the diamond problem in comment discovery #2437", () => {
+    it("#2437 Does not warn due to the diamond problem in comment discovery ", () => {
         convert();
         logger.expectNoOtherMessages();
     });
 
-    it("Handles recursive aliases without looping infinitely #2438", () => {
+    it("#2438 Handles recursive aliases without looping infinitely ", () => {
         const bad = query(convert(), "Bad");
         equal(bad.kind, ReflectionKind.Interface);
     });
 
-    it("Handles transient symbols correctly, #2444", () => {
+    it("#2444 Handles transient symbols correctly, ", () => {
         const project = convert();
         const boolEq = query(project, "Boolean.equal");
         const numEq = query(project, "Number.equal");
@@ -1351,14 +1351,14 @@ describe("Issue Tests", () => {
         equal(numEq.signatures![0].parameters![0].type?.toString(), "number");
     });
 
-    it("Handles unions created due to union within intersection, #2451", () => {
+    it("#2451 Handles unions created due to union within intersection, ", () => {
         const project = convert();
 
         const is = querySig(project, "FooA.is");
         equal(is.type?.toString(), "this is Foo & Object");
     });
 
-    it("Does not care about conversion order for @link resolution, #2466", () => {
+    it("#2466 Does not care about conversion order for @link resolution, ", () => {
         const project = convert();
 
         const Two = query(project, "Two");
@@ -1378,7 +1378,7 @@ describe("Issue Tests", () => {
         ]);
     });
 
-    it("Creates a separate namespace for `declare namespace` case #2476", () => {
+    it("#2476 Creates a separate namespace for `declare namespace` case ", () => {
         const project = convert();
 
         equal(
@@ -1395,7 +1395,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Creates a separate namespace for `declare namespace` case with variables #2478", () => {
+    it("#2478 Creates a separate namespace for `declare namespace` case with variables ", () => {
         const project = convert();
 
         equal(
@@ -1412,7 +1412,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("Does not crash when rendering recursive hierarchy, #2495", () => {
+    it("#2495 Does not crash when rendering recursive hierarchy, ", () => {
         const project = convert();
 
         const theme = new DefaultTheme(app.renderer);
@@ -1422,18 +1422,18 @@ describe("Issue Tests", () => {
         context.hierarchyTemplate(page);
     });
 
-    it("Correctly cleans up references to functions #2496", () => {
+    it("#2496 Correctly cleans up references to functions ", () => {
         app.options.setValue("excludeNotDocumented", true);
         convert();
     });
 
-    it("Sorts literal numeric unions when converting a type, #2502", () => {
+    it("#2502 Sorts literal numeric unions when converting a type, ", () => {
         const project = convert();
         const refl = query(project, "Test");
         equal(refl.type?.toString(), "1 | 2 | 3");
     });
 
-    it("Handles an infinitely recursive type, #2507", () => {
+    it("#2507 Handles an infinitely recursive type, ", () => {
         const project = convert();
         const type = querySig(project, "fromPartial").typeParameters![0].type;
 
@@ -1451,7 +1451,7 @@ describe("Issue Tests", () => {
         equal(type?.toString(), "Value & Object");
     });
 
-    it("Handles constructed references to enumeration types, #2508", () => {
+    it("#2508 Handles constructed references to enumeration types, ", () => {
         const project = convert();
         const refl = query(project, "Bar.color");
         equal(refl.type?.type, "reference");
@@ -1459,7 +1459,7 @@ describe("Issue Tests", () => {
         equal(refl.type.reflection?.id, query(project, "Color").id);
     });
 
-    it("Does not duplicate comments due to signatures being present, #2509", () => {
+    it("#2509 Does not duplicate comments due to signatures being present, ", () => {
         const project = convert();
         const cb = query(project, "Int.cb");
         equal(Comment.combineDisplayParts(cb.comment?.summary), "Cb");
@@ -1474,7 +1474,7 @@ describe("Issue Tests", () => {
         equal(cb2.type.declaration.signatures![0].comment, undefined);
     });
 
-    it("Specifying comment on variable still inherits signature comments, #2521", () => {
+    it("#2521 Specifying comment on variable still inherits signature comments, ", () => {
         const project = convert();
 
         equal(getComment(project, "fooWithoutComment"), "");
@@ -1486,7 +1486,16 @@ describe("Issue Tests", () => {
         equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
-    it("Ignores @license and @import comments, #2552", () => {
+    it.skip("#2545 discovers comments from non-exported 'parent' methods", () => {
+        // Currently failing
+        const project = convert();
+
+        equal(getComment(project, "Child.notAbstract"), "notAbstract docs");
+        equal(getComment(project, "Child.notAbstract2"), "notAbstract2 docs");
+        equal(getComment(project, "Child.isAbstract"), "isAbstract docs");
+    });
+
+    it("#2552 Ignores @license and @import comments, ", () => {
         const project = convert();
         equal(
             Comment.combineDisplayParts(project.comment?.summary),
@@ -1495,7 +1504,7 @@ describe("Issue Tests", () => {
         equal(getComment(project, "something"), "");
     });
 
-    it("Does not warn about documented constructor signature type aliases, #2553", () => {
+    it("#2553 Does not warn about documented constructor signature type aliases, ", () => {
         const project = convert();
         app.validate(project);
         logger.expectNoOtherMessages();
