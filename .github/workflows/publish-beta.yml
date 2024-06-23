@@ -26,7 +26,7 @@ jobs:
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
               run: npm ci
             - name: Test
-              if: steps.check.outputs.changed == 'true'
+              if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
               run: npm test
             - name: Setup publish token
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
