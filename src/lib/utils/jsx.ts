@@ -13,8 +13,7 @@
  * @module
  */
 
-import html from "./html.cjs";
-const { escapeHtml } = html;
+import { escapeHtml } from "./html.js";
 import type {
     IntrinsicElements,
     JsxElement,

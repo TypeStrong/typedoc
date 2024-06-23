@@ -1,7 +1,7 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { DocumentReflection } from "../../../../models";
-import type { PageEvent } from "../../../events";
-import { JSX, Raw } from "../../../../utils";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import type { DocumentReflection } from "../../../../models/index.js";
+import type { PageEvent } from "../../../events.js";
+import { JSX, Raw } from "../../../../utils/index.js";
 
 export const documentTemplate = ({ markdown }: DefaultThemeRenderContext, props: PageEvent<DocumentReflection>) => (
     <div class="tsd-panel tsd-typography">

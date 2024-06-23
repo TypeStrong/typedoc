@@ -56,7 +56,6 @@ import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageInfo = JSON.parse(
     readFileSync(
         Path.join(fileURLToPath(import.meta.url), "../../../package.json"),

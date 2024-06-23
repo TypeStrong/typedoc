@@ -1,11 +1,15 @@
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization";
-import { Comment, type CommentDisplayPart } from "../comments";
+import type {
+    Deserializer,
+    JSONOutput,
+    Serializer,
+} from "../../serialization/index.js";
+import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import {
     Reflection,
     TraverseProperty,
     type TraverseCallback,
-} from "./abstract";
-import { ReflectionKind } from "./kind";
+} from "./abstract.js";
+import { ReflectionKind } from "./kind.js";
 
 /**
  * Non-TS reflection type which is used to represent markdown documents included in the docs.

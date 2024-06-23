@@ -1,4 +1,4 @@
-import type { BuiltinTranslatableStringConstraints } from "./translatable.js" with { "resolution-mode": "import" }
+import type { BuiltinTranslatableStringConstraints } from "./translatable.js" with { "resolution-mode": "import" };
 
 function buildTranslation<T extends BuiltinTranslatableStringConstraints>(
     translations: T,

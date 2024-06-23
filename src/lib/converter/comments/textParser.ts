@@ -8,11 +8,11 @@
 import type {
     TranslationProxy,
     TranslatedString,
-} from "../../internationalization";
-import type { CommentDisplayPart } from "../../models";
-import type { FileRegistry } from "../../models/FileRegistry";
-import { HtmlAttributeParser, ParserState } from "../../utils/html";
-import { type Token, TokenSyntaxKind } from "./lexer";
+} from "../../internationalization/index.js";
+import type { CommentDisplayPart } from "../../models/index.js";
+import type { FileRegistry } from "../../models/FileRegistry.js";
+import { HtmlAttributeParser, ParserState } from "../../utils/html.js";
+import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";
 const MdHelpers = new MarkdownIt().helpers;

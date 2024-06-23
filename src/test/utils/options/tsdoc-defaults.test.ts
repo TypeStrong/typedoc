@@ -1,7 +1,7 @@
 import { deepEqual as equal } from "assert/strict";
 import { join } from "path";
 import ts from "typescript";
-import * as defaults from "../../../lib/utils/options/tsdoc-defaults";
+import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
 
 describe("tsdoc-defaults.ts", () => {
     const tsdoc = ts.readConfigFile(

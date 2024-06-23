@@ -1,6 +1,6 @@
-import { buildIncompleteTranslation } from "../translatable";
+import localeUtils = require("../locale-utils.cjs");
 
-export = buildIncompleteTranslation({
+export = localeUtils.buildIncompleteTranslation({
     docs_generated_at_0: "문서가 {0}에 생성되었습니다",
     json_written_to_0: "{0}에 JSON이 작성되었습니다",
 

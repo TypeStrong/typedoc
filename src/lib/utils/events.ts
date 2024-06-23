@@ -1,4 +1,4 @@
-import { insertPrioritySorted } from "./array";
+import { insertPrioritySorted } from "./array.js";
 
 /**
  * Intentionally very simple event emitter.

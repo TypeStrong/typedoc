@@ -1,5 +1,5 @@
 import { equal } from "assert";
-import { normalizePath } from "../../lib/utils";
+import { normalizePath } from "../../lib/utils/index.js";
 
 describe("normalizePath", () => {
     const winTest = process.platform === "win32" ? it : it.skip;

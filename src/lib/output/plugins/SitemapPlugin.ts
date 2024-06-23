@@ -87,13 +87,13 @@ function stringifyXml(xml: XmlElementData, indent = 0) {
     const parts = ["\t".repeat(indent), "<", xml.tag];
 
     for (const [key, val] of Object.entries(xml.attr || {})) {
-        parts.push(" ", key, '="', html.escapeHtml(val), '"');
+        parts.push(" ", key, '="', escapeHtml(val), '"');
     }
 
     parts.push(">");
 
     if (typeof xml.children === "string") {
-        parts.push(html.escapeHtml(xml.children));
+        parts.push(escapeHtml(xml.children));
     } else {
         for (const child of xml.children) {
             parts.push("\n");

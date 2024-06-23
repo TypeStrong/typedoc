@@ -9,4 +9,4 @@ export {
     Internationalization,
     type TranslatedString,
     type TranslationProxy,
-} from "./internationalization";
+} from "./internationalization.js";

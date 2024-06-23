@@ -5,6 +5,10 @@ import { readdirSync } from "fs";
 import { join } from "path";
 import { ReflectionKind } from "../models/reflections/kind.js";
 import { ReflectionFlag } from "../models/index.js";
+import { type BuiltinTranslatableStringArgs } from "./translatable.js";
+import translatable from "./locales/en.cjs";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 
 /**
  * ### What is translatable?
@@ -76,10 +80,7 @@ export class Internationalization {
                 "Locale names may only contain letters and dashes",
             );
             try {
-                return new Map(
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    Object.entries(req(`./locales/${lang}.${ext}`)),
-                );
+                return new Map(Object.entries(req(`./locales/${lang}.${ext}`)));
             } catch {
                 return new Map();
             }

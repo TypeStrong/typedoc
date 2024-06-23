@@ -1,9 +1,9 @@
 import { basename, dirname, parse, relative, resolve } from "path";
-import type { Deserializer, Serializer } from "../serialization";
-import type { FileRegistry as JSONFileRegistry } from "../serialization/schema";
-import { normalizePath } from "../utils";
+import type { Deserializer, Serializer } from "../serialization/index.js";
+import type { FileRegistry as JSONFileRegistry } from "../serialization/schema.js";
+import { normalizePath } from "../utils/index.js";
 import { existsSync } from "fs";
-import type { Reflection } from "./reflections";
+import type { Reflection } from "./reflections/index.js";
 
 export class FileRegistry {
     protected nextId = 1;

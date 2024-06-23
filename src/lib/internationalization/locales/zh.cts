@@ -1,6 +1,6 @@
-import { buildIncompleteTranslation } from "../translatable";
+import localeUtils = require("../locale-utils.cjs");
 
-export = buildIncompleteTranslation({
+export = localeUtils.buildIncompleteTranslation({
     loaded_multiple_times_0:
         "TypeDoc 已加载多次。这通常是由具有自己的 TypeDoc 安装的插件引起的。加载的路径为：\n{0}",
     unsupported_ts_version_0:
@@ -89,7 +89,7 @@ export = buildIncompleteTranslation({
     not_all_search_group_boosts_used_0:
         "文档中并未使用 searchGroupBoosts 中指定的所有组。未使用的组为：\n{0}",
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group:
-        "{0} 的评论包含“{1}”的 @categoryDe​​scription，但该类别中没有子项",
+        "{0} 的评论包含“{1}”的 @categoryDescription，但该类别中没有子项",
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
         "对 {0} 的评论包含“{1}”的 @groupDescription，但该组中没有子项",
     label_0_for_1_cannot_be_referenced:
