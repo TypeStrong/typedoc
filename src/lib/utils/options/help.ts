@@ -1,15 +1,15 @@
-import type { Options } from "./options";
+import type { Options } from "./options.js";
 import {
     ParameterHint,
     type StringDeclarationOption,
     ParameterType,
     type DeclarationOption,
-} from "./declaration";
+} from "./declaration.js";
 import {
     getSupportedLanguagesWithoutAliases,
     getSupportedThemes,
-} from "../highlighter";
-import type { TranslationProxy } from "../../internationalization/internationalization";
+} from "../highlighter.js";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
 export interface ParameterHelp {
     names: string[];

@@ -1,5 +1,5 @@
-import { Component, AbstractComponent } from "../utils/component";
-import type { Converter } from "./converter";
+import { Component, AbstractComponent } from "../utils/component.js";
+import type { Converter } from "./converter.js";
 
 export { Component };
 

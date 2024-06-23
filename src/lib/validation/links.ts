@@ -3,8 +3,8 @@ import {
     type Comment,
     type CommentDisplayPart,
     type ProjectReflection,
-} from "../models";
-import type { Logger } from "../utils";
+} from "../models/index.js";
+import type { Logger } from "../utils/index.js";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 

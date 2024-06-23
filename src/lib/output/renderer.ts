@@ -9,31 +9,31 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import type { Application } from "../application";
-import type { Theme } from "./theme";
+import type { Application } from "../application.js";
+import type { Theme } from "./theme.js";
 import {
     RendererEvent,
     PageEvent,
     IndexEvent,
     type MarkdownEvent,
-} from "./events";
-import type { ProjectReflection } from "../models/reflections/project";
-import type { RenderTemplate } from "./models/UrlMapping";
-import { writeFileSync } from "../utils/fs";
-import { DefaultTheme } from "./themes/default/DefaultTheme";
-import { RendererComponent } from "./components";
-import { Component, ChildableComponent } from "../utils/component";
-import { Option, EventHooks } from "../utils";
-import { loadHighlighter } from "../utils/highlighter";
+} from "./events.js";
+import type { ProjectReflection } from "../models/reflections/project.js";
+import type { RenderTemplate } from "./models/UrlMapping.js";
+import { writeFileSync } from "../utils/fs.js";
+import { DefaultTheme } from "./themes/default/DefaultTheme.js";
+import { RendererComponent } from "./components.js";
+import { Component, ChildableComponent } from "../utils/component.js";
+import { Option, EventHooks } from "../utils/index.js";
+import { loadHighlighter } from "../utils/highlighter.js";
 import type {
     BundledLanguage,
     BundledTheme as ShikiTheme,
 } from "shiki" with { "resolution-mode": "import" };
-import { type Comment, Reflection } from "../models";
-import type { JsxElement } from "../utils/jsx.elements";
-import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext";
-import { validateStateIsClean } from "./themes/default/partials/type";
-import { setRenderSettings } from "../utils/jsx";
+import { type Comment, Reflection } from "../models/index.js";
+import type { JsxElement } from "../utils/jsx.elements.js";
+import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
+import { validateStateIsClean } from "./themes/default/partials/type.js";
+import { setRenderSettings } from "../utils/jsx.js";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -452,4 +452,4 @@ export class Renderer extends ChildableComponent<
 
 // HACK: THIS HAS TO STAY DOWN HERE
 // if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
-import "./plugins";
+await import("./plugins/index.js");

@@ -1,8 +1,8 @@
 import { ok } from "assert";
-import type { OptionsReader, Options } from "..";
-import type { Logger } from "../../loggers";
-import { ParameterType } from "../declaration";
-import type { TranslatedString } from "../../../internationalization/internationalization";
+import type { OptionsReader, Options } from "../index.js";
+import type { Logger } from "../../loggers.js";
+import { ParameterType } from "../declaration.js";
+import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
     ParameterType.Array,

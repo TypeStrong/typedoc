@@ -1,18 +1,16 @@
 // @ts-check
 "use strict";
 
-require("ts-node/register");
-
 Error.stackTraceLimit = 50;
-const ts = require("typescript");
-const fs = require("fs");
-const path = require("path");
-const td = require("../src");
-const { getExpandedEntryPointsForPaths } = require("../src/lib/utils");
-const { ok } = require("assert");
-const { basename } = require("path");
+import ts from "typescript";
+import fs from "fs";
+import path, { basename } from "path";
+import * as td from "../dist/index.js";
+import { getExpandedEntryPointsForPaths } from "../dist/lib/utils/index.js";
+import { ok } from "assert";
+import { fileURLToPath } from "url";
 
-const base = path.join(__dirname, "../src/test/converter");
+const base = path.join(fileURLToPath(import.meta.url), "../../src/test/converter");
 
 async function getApp() {
     const app = await td.Application.bootstrap(

@@ -1,5 +1,5 @@
-import { JSX } from "../../../../utils";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { JSX } from "../../../../utils/index.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function footer(context: DefaultThemeRenderContext) {
     const hideGenerator = context.options.getValue("hideGenerator");

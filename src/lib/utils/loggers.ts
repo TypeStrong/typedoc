@@ -1,13 +1,13 @@
 import ts from "typescript";
 import { url } from "inspector";
 import { resolve } from "path";
-import { nicePath } from "./paths";
-import type { MinimalSourceFile } from "./minimalSourceFile";
+import { nicePath } from "./paths.js";
+import type { MinimalSourceFile } from "./minimalSourceFile.js";
 import type {
     TranslatedString,
     TranslationProxy,
-} from "../internationalization/internationalization";
-import type { IfInternal } from ".";
+} from "../internationalization/internationalization.js";
+import type { IfInternal } from "./index.js";
 
 const isDebugging = () => !!url();
 

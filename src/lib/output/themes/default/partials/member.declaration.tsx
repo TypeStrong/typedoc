@@ -1,7 +1,7 @@
-import type { DeclarationReflection, ReflectionType } from "../../../../models";
-import { JSX, Raw } from "../../../../utils";
-import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { DeclarationReflection, ReflectionType } from "../../../../models/index.js";
+import { JSX, Raw } from "../../../../utils/index.js";
+import { getKindClass, hasTypeParameters, renderTypeParametersSignature, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 function renderingTypeDeclarationIsUseful(declaration: DeclarationReflection): boolean {
     if (declaration.hasComment()) return true;

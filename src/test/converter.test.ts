@@ -15,21 +15,21 @@ import {
     type CommentDisplayPart,
     SourceReference,
     ReferenceReflection,
-} from "..";
+} from "../index.js";
 import type {
     SomeReflection,
     ModelToObject,
-} from "../lib/serialization/schema";
-import { getExpandedEntryPointsForPaths } from "../lib/utils";
+} from "../lib/serialization/schema.js";
+import { getExpandedEntryPointsForPaths } from "../lib/utils/index.js";
 import {
     getConverterApp,
     getConverterBase,
     getConverterProgram,
-} from "./programs";
+} from "./programs.js";
 import {
     FileRegistry,
     ValidatingFileRegistry,
-} from "../lib/models/FileRegistry";
+} from "../lib/models/FileRegistry.js";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({

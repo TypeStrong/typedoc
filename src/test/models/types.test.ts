@@ -1,9 +1,9 @@
 // Tests the `toString` functionality of the type models
 
-import * as T from "../../lib/models/types";
+import * as T from "../../lib/models/types.js";
 import { strictEqual as equal } from "assert";
-import { ProjectReflection } from "../../lib/models";
-import { FileRegistry } from "../../lib/models/FileRegistry";
+import { ProjectReflection } from "../../lib/models/index.js";
+import { FileRegistry } from "../../lib/models/FileRegistry.js";
 
 describe("Type.toString", () => {
     describe("Union types", () => {

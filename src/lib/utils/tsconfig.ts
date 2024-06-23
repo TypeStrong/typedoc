@@ -1,6 +1,6 @@
 import ts from "typescript";
-import { isFile, isDir, readFile } from "./fs";
-import type { Logger } from "./loggers";
+import { isFile, isDir, readFile } from "./fs.js";
+import type { Logger } from "./loggers.js";
 import { createRequire } from "module";
 
 export function findTsConfigFile(path: string): string | undefined {

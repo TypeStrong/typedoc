@@ -1,10 +1,14 @@
-import { Comment } from "./comments";
+import { Comment } from "./comments/index.js";
 import type {
     CommentDisplayPart,
     DeclarationReflection,
     DocumentReflection,
-} from ".";
-import type { Serializer, JSONOutput, Deserializer } from "../serialization";
+} from "./index.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../serialization/index.js";
 
 /**
  * A category of reflections.

@@ -1,10 +1,10 @@
 import Path from "path";
-import { Component, RendererComponent } from "../components";
-import { RendererEvent } from "../events";
-import { DefaultTheme } from "../themes/default/DefaultTheme";
-import { writeFile } from "../../utils";
-import { escapeHtml } from "../../utils/html";
-import { Fragment } from "../../utils/jsx";
+import { Component, RendererComponent } from "../components.js";
+import { RendererEvent } from "../events.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
+import { writeFile } from "../../utils/index.js";
+import { escapeHtml } from "../../utils/html.js";
+import { Fragment } from "../../utils/jsx.js";
 
 @Component({ name: "sitemap" })
 export class SitemapPlugin extends RendererComponent {
@@ -87,13 +87,13 @@ function stringifyXml(xml: XmlElementData, indent = 0) {
     const parts = ["\t".repeat(indent), "<", xml.tag];
 
     for (const [key, val] of Object.entries(xml.attr || {})) {
-        parts.push(" ", key, '="', escapeHtml(val), '"');
+        parts.push(" ", key, '="', html.escapeHtml(val), '"');
     }
 
     parts.push(">");
 
     if (typeof xml.children === "string") {
-        parts.push(escapeHtml(xml.children));
+        parts.push(html.escapeHtml(xml.children));
     } else {
         for (const child of xml.children) {
             parts.push("\n");

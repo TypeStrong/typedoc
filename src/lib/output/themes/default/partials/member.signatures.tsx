@@ -1,8 +1,8 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import type { DeclarationReflection } from "../../../../models";
-import { anchorIcon } from "./anchor-icon";
-import { classNames } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import type { DeclarationReflection } from "../../../../models/index.js";
+import { anchorIcon } from "./anchor-icon.js";
+import { classNames } from "../../lib.js";
 
 export const memberSignatures = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>

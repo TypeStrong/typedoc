@@ -1,8 +1,8 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX, Raw } from "../../../../utils";
-import { type Reflection, ReflectionKind } from "../../../../models";
-import { anchorIcon } from "./anchor-icon";
-import { join } from "../../lib";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX, Raw } from "../../../../utils/index.js";
+import { type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { anchorIcon } from "./anchor-icon.js";
+import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
 

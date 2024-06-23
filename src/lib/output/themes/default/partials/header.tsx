@@ -1,8 +1,8 @@
-import { classNames, getDisplayName, hasTypeParameters, join } from "../../lib";
-import { JSX } from "../../../../utils";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { PageEvent } from "../../../events";
-import { type Reflection, ReflectionKind } from "../../../../models";
+import { classNames, getDisplayName, hasTypeParameters, join } from "../../lib.js";
+import { JSX } from "../../../../utils/index.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import type { PageEvent } from "../../../events.js";
+import { type Reflection, ReflectionKind } from "../../../../models/index.js";
 
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => {
     const HeadingLevel = props.model.isProject() ? "h2" : "h1";

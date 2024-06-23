@@ -1,4 +1,4 @@
-import { type Token, TokenSyntaxKind } from "./lexer";
+import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 /**
  * Note: This lexer intentionally *only* recognizes inline tags and code blocks.

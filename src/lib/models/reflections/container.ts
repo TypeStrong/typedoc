@@ -2,14 +2,18 @@ import {
     Reflection,
     type TraverseCallback,
     TraverseProperty,
-} from "./abstract";
-import { ReflectionCategory } from "../ReflectionCategory";
-import { ReflectionGroup } from "../ReflectionGroup";
-import type { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import type { DocumentReflection } from "./document";
-import type { DeclarationReflection } from "./declaration";
-import { removeIfPresent } from "../../utils";
+} from "./abstract.js";
+import { ReflectionCategory } from "../ReflectionCategory.js";
+import { ReflectionGroup } from "../ReflectionGroup.js";
+import type { ReflectionKind } from "./kind.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
+import type { DocumentReflection } from "./document.js";
+import type { DeclarationReflection } from "./declaration.js";
+import { removeIfPresent } from "../../utils/index.js";
 
 /**
  * @category Reflections

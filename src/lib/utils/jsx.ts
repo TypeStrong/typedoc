@@ -13,21 +13,22 @@
  * @module
  */
 
-import { escapeHtml } from "./html";
+import html from "./html.cjs";
+const { escapeHtml } = html;
 import type {
     IntrinsicElements,
     JsxElement,
     JsxChildren,
     JsxComponent,
-} from "./jsx.elements";
-import { JsxFragment as Fragment } from "./jsx.elements";
+} from "./jsx.elements.js";
+import { JsxFragment as Fragment } from "./jsx.elements.js";
 
 export type {
     JsxElement as Element,
     JsxChildren as Children,
     JsxComponent,
-} from "./jsx.elements";
-export { JsxFragment as Fragment } from "./jsx.elements";
+} from "./jsx.elements.js";
+export { JsxFragment as Fragment } from "./jsx.elements.js";
 
 /**
  * Used to inject HTML directly into the document.

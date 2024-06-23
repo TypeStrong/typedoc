@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 export function getQualifiedName(symbol: ts.Symbol, defaultName: string) {
     // Two implementation options for this one:

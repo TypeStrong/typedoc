@@ -1,5 +1,5 @@
 import { ok } from "assert";
-import type { Application } from "../application";
+import type { Application } from "../application.js";
 import {
     ArrayType,
     ConditionalType,
@@ -33,11 +33,11 @@ import {
     TypeParameterReflection,
     UnionType,
     UnknownType,
-} from "../models/index";
-import { insertPrioritySorted } from "../utils/array";
-import type { Logger } from "../utils/loggers";
-import type { JSONOutput } from "./index";
-import type { FileRegistry } from "../models/FileRegistry";
+} from "../models/index.js";
+import { insertPrioritySorted } from "../utils/array.js";
+import type { Logger } from "../utils/loggers.js";
+import type { JSONOutput } from "./index.js";
+import type { FileRegistry } from "../models/FileRegistry.js";
 
 export interface DeserializerComponent {
     priority: number;

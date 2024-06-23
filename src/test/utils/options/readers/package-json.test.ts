@@ -1,9 +1,9 @@
 import { project } from "@typestrong/fs-fixture-builder";
 
-import { PackageJsonReader } from "../../../../lib/utils/options/readers";
-import { Options } from "../../../../lib/utils";
-import { TestLogger } from "../../../TestLogger";
-import { Internationalization } from "../../../../lib/internationalization/internationalization";
+import { PackageJsonReader } from "../../../../lib/utils/options/readers/index.js";
+import { Options } from "../../../../lib/utils/index.js";
+import { TestLogger } from "../../../TestLogger.js";
+import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 
 describe("Options - PackageJsonReader", () => {
     let optsContainer: Options;

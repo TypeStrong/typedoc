@@ -1,17 +1,24 @@
 import { deepStrictEqual as equal } from "assert";
 import ts from "typescript";
-import type { CommentParserConfig } from "../lib/converter/comments";
+import type { CommentParserConfig } from "../lib/converter/comments/index.js";
 
-import { lexBlockComment } from "../lib/converter/comments/blockLexer";
-import { lexLineComments } from "../lib/converter/comments/lineLexer";
-import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer";
-import { parseComment } from "../lib/converter/comments/parser";
-import { lexCommentString } from "../lib/converter/comments/rawLexer";
-import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models";
-import { MinimalSourceFile } from "../lib/utils/minimalSourceFile";
-import { TestLogger } from "./TestLogger";
-import { extractTagName } from "../lib/converter/comments/tagName";
-import { FileRegistry } from "../lib/models/FileRegistry";
+import { lexBlockComment } from "../lib/converter/comments/blockLexer.js";
+import { lexLineComments } from "../lib/converter/comments/lineLexer.js";
+import {
+    type Token,
+    TokenSyntaxKind,
+} from "../lib/converter/comments/lexer.js";
+import { parseComment } from "../lib/converter/comments/parser.js";
+import { lexCommentString } from "../lib/converter/comments/rawLexer.js";
+import {
+    Comment,
+    type CommentDisplayPart,
+    CommentTag,
+} from "../lib/models/index.js";
+import { MinimalSourceFile } from "../lib/utils/minimalSourceFile.js";
+import { TestLogger } from "./TestLogger.js";
+import { extractTagName } from "../lib/converter/comments/tagName.js";
+import { FileRegistry } from "../lib/models/FileRegistry.js";
 
 function dedent(text: string) {
     const lines = text.split(/\r?\n/);

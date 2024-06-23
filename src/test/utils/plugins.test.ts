@@ -1,9 +1,9 @@
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
-import type { Application } from "../../index";
-import { loadPlugins } from "../../lib/utils/plugins";
-import { TestLogger } from "../TestLogger";
+import type { Application } from "../../index.js";
+import { loadPlugins } from "../../lib/utils/plugins.js";
+import { TestLogger } from "../TestLogger.js";
 import { join, resolve } from "path";
-import { Internationalization } from "../../lib/internationalization/internationalization";
+import { Internationalization } from "../../lib/internationalization/internationalization.js";
 
 describe("loadPlugins", () => {
     let logger: TestLogger;
@@ -23,7 +23,7 @@ describe("loadPlugins", () => {
         project.addFile("index.js", "exports.load = function load() {}");
         project.write();
 
-        const plugin = resolve(project.cwd);
+        const plugin = resolve(project.cwd, "index.js");
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`info: Loaded plugin ${plugin}`);
     });

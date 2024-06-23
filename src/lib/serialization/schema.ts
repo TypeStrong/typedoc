@@ -28,8 +28,8 @@
  * @module
  */
 
-import type * as M from "../models";
-import type { IfInternal } from "../utils";
+import type * as M from "../models/index.js";
+import type { IfInternal } from "../utils/index.js";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.

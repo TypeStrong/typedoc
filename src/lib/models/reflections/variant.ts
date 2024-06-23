@@ -1,10 +1,10 @@
-import type { DeclarationReflection } from "./declaration";
-import type { DocumentReflection } from "./document";
-import type { ParameterReflection } from "./parameter";
-import type { ProjectReflection } from "./project";
-import type { ReferenceReflection } from "./reference";
-import type { SignatureReflection } from "./signature";
-import type { TypeParameterReflection } from "./type-parameter";
+import type { DeclarationReflection } from "./declaration.js";
+import type { DocumentReflection } from "./document.js";
+import type { ParameterReflection } from "./parameter.js";
+import type { ProjectReflection } from "./project.js";
+import type { ReferenceReflection } from "./reference.js";
+import type { SignatureReflection } from "./signature.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
 
 /**
  * A map of known {@link Reflection} concrete subclasses.

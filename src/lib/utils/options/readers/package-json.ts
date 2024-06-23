@@ -1,11 +1,11 @@
-import type { OptionsReader } from "..";
-import type { Logger } from "../../loggers";
-import type { Options } from "../options";
+import type { OptionsReader } from "../index.js";
+import type { Logger } from "../../loggers.js";
+import type { Options } from "../options.js";
 import { ok } from "assert";
-import { nicePath } from "../../paths";
-import { discoverPackageJson } from "../../fs";
+import { nicePath } from "../../paths.js";
+import { discoverPackageJson } from "../../fs.js";
 import { dirname } from "path";
-import type { TranslatedString } from "../../../internationalization/internationalization";
+import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 export class PackageJsonReader implements OptionsReader {
     // Should run after the TypeDoc config reader but before the TS config

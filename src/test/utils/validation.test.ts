@@ -1,6 +1,6 @@
 import { ok } from "assert";
-import { Validation } from "../../lib/utils";
-import { additionalProperties } from "../../lib/utils/validation";
+import { Validation } from "../../lib/utils/index.js";
+import { additionalProperties } from "../../lib/utils/validation.js";
 
 describe("Validation Utils", () => {
     it("Should be able to validate optional values", () => {

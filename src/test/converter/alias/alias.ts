@@ -1,4 +1,4 @@
-import { TestClass } from "../class/class";
+import { TestClass } from "../class/class.js";
 
 /**
  * A type that describes a compare function, e.g. for array.sort().

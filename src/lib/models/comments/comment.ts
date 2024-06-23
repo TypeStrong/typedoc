@@ -1,9 +1,13 @@
-import { assertNever, removeIf } from "../../utils";
-import type { Reflection } from "../reflections";
-import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId";
+import { assertNever, removeIf } from "../../utils/index.js";
+import type { Reflection } from "../reflections/index.js";
+import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId.js";
 
-import type { Serializer, Deserializer, JSONOutput } from "../../serialization";
-import { NonEnumerable } from "../../utils/general";
+import type {
+    Serializer,
+    Deserializer,
+    JSONOutput,
+} from "../../serialization/index.js";
+import { NonEnumerable } from "../../utils/general.js";
 
 /**
  * Represents a parsed piece of a comment.

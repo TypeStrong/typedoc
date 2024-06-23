@@ -1,7 +1,7 @@
 import assert from "assert";
-import { ReflectionKind } from "../../../../models";
-import { JSX } from "../../../../utils";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { ReflectionKind } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     <svg class="tsd-kind-icon" viewBox="0 0 24 24">

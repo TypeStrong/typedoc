@@ -1,15 +1,15 @@
 import { deepStrictEqual as equal } from "assert";
 
-import { Options } from "../../../../lib/utils";
-import { ArgumentsReader } from "../../../../lib/utils/options/readers";
+import { Options } from "../../../../lib/utils/index.js";
+import { ArgumentsReader } from "../../../../lib/utils/options/readers/index.js";
 import {
     ParameterType,
     type NumberDeclarationOption,
     type MapDeclarationOption,
-} from "../../../../lib/utils/options";
+} from "../../../../lib/utils/options/index.js";
 import { join, resolve } from "path";
-import { TestLogger } from "../../../TestLogger";
-import { Internationalization } from "../../../../lib/internationalization/internationalization";
+import { TestLogger } from "../../../TestLogger.js";
+import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 
 const emptyHelp = () => "";
 

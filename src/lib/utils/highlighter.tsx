@@ -5,8 +5,8 @@ import type {
     Highlighter,
     TokenStyles,
 } from "shiki" with { "resolution-mode": "import" };
-import * as JSX from "./jsx";
-import { unique } from "./array";
+import * as JSX from "./jsx.js";
+import { unique } from "./array.js";
 
 const aliases = new Map<string, string>();
 let supportedLanguagesWithoutAliases: string[] = [];

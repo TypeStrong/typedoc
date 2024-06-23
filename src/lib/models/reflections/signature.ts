@@ -1,15 +1,19 @@
-import { type SomeType, ReflectionType, type ReferenceType } from "../types";
+import { type SomeType, ReflectionType, type ReferenceType } from "../types.js";
 import {
     Reflection,
     TraverseProperty,
     type TraverseCallback,
-} from "./abstract";
-import type { ParameterReflection } from "./parameter";
-import type { TypeParameterReflection } from "./type-parameter";
-import type { DeclarationReflection } from "./declaration";
-import type { ReflectionKind } from "./kind";
-import type { Serializer, JSONOutput, Deserializer } from "../../serialization";
-import { SourceReference } from "../sources/file";
+} from "./abstract.js";
+import type { ParameterReflection } from "./parameter.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
+import type { DeclarationReflection } from "./declaration.js";
+import type { ReflectionKind } from "./kind.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../../serialization/index.js";
+import { SourceReference } from "../sources/file.js";
 
 /**
  * @category Reflections

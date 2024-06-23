@@ -1,9 +1,9 @@
-import { Component, RendererComponent } from "../components";
-import { RendererEvent } from "../events";
-import { writeFile } from "../../utils/fs";
-import { DefaultTheme } from "../themes/default/DefaultTheme";
+import { Component, RendererComponent } from "../components.js";
+import { RendererEvent } from "../events.js";
+import { writeFile } from "../../utils/fs.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { join } from "path";
-import { JSX, renderElement } from "../../utils";
+import { JSX, renderElement } from "../../utils/index.js";
 
 const ICONS_JS = `
 (function() {

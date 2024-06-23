@@ -1,16 +1,15 @@
 import markdown from "markdown-it";
 
-import { Component, ContextAwareRendererComponent } from "../components";
-import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events";
-import { Option, type Logger, renderElement, assertNever } from "../../utils";
-import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter";
+import { Component, ContextAwareRendererComponent } from "../components.js";
+import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events.js";
+import { Option, type Logger, renderElement, assertNever } from "../../utils/index.js";
+import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
-import { escapeHtml } from "../../utils/html";
-import type { DefaultTheme } from "..";
-import { Slugger } from "./default/DefaultTheme";
-import { anchorIcon } from "./default/partials/anchor-icon";
-import type { DefaultThemeRenderContext } from "..";
-import { ReflectionKind, type CommentDisplayPart } from "../../models";
+import { escapeHtml } from "../../utils/html.js";
+import type { DefaultTheme, DefaultThemeRenderContext } from "../index.js";
+import { Slugger } from "./default/DefaultTheme.js";
+import { anchorIcon } from "./default/partials/anchor-icon.js";
+import { ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -54,7 +53,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     /**
-     * Highlight the syntax of the given text using HighlightJS.
+     * Highlight the syntax of the given text using Shiki.
      *
      * @param text  The text that should be highlighted.
      * @param lang  The language that should be used to highlight the string.

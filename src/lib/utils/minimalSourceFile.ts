@@ -1,5 +1,5 @@
 import type { LineAndCharacter, SourceFileLike } from "typescript";
-import { binaryFindPartition } from "./array";
+import { binaryFindPartition } from "./array.js";
 
 // I don't like this, but it's necessary so that the lineStarts property isn't
 // visible in the `MinimalSourceFile` type. Even when private it causes compilation

@@ -6,8 +6,8 @@ import {
     Reflection,
     ReflectionKind,
     type SignatureReflection,
-} from "..";
-import { filterMap } from "../lib/utils";
+} from "../index.js";
+import { filterMap } from "../lib/utils/index.js";
 import { equal } from "assert/strict";
 
 export function query(

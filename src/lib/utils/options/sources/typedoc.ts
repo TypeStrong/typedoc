@@ -1,17 +1,17 @@
-import type { Options } from "..";
-import { LogLevel } from "../../loggers";
+import type { Options } from "../index.js";
+import { LogLevel } from "../../loggers.js";
 import {
     ParameterType,
     ParameterHint,
     EmitStrategy,
     CommentStyle,
-} from "../declaration";
-import { SORT_STRATEGIES } from "../../sort";
-import { EntryPointStrategy } from "../../entry-point";
-import { ReflectionKind } from "../../../models/reflections/kind";
-import * as Validation from "../../validation";
-import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults";
-import { getEnumKeys } from "../../enum";
+} from "../declaration.js";
+import { SORT_STRATEGIES } from "../../sort.js";
+import { EntryPointStrategy } from "../../entry-point.js";
+import { ReflectionKind } from "../../../models/reflections/kind.js";
+import * as Validation from "../../validation.js";
+import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
+import { getEnumKeys } from "../../enum.js";
 import type {
     BundledLanguage,
     BundledTheme,
@@ -19,8 +19,8 @@ import type {
 import {
     getSupportedLanguagesWithoutAliases,
     getSupportedThemes,
-} from "../../highlighter";
-import { setDifference } from "../../set";
+} from "../../highlighter.js";
+import { setDifference } from "../../set.js";
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {

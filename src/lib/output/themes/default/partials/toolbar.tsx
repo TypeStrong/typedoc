@@ -1,8 +1,8 @@
-import type { Reflection } from "../../../../models";
-import { JSX } from "../../../../utils";
-import type { PageEvent } from "../../../events";
-import { getDisplayName } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import type { Reflection } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import type { PageEvent } from "../../../events.js";
+import { getDisplayName } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header class="tsd-page-toolbar">

@@ -9,21 +9,21 @@ import {
     type DocumentReflection,
     ReflectionKind,
     ReflectionFlag,
-} from "../models/index";
+} from "../models/index.js";
 
-import type { Converter } from "./converter";
-import { isNamedNode } from "./utils/nodes";
-import { ConverterEvents } from "./converter-events";
-import { resolveAliasedSymbol } from "./utils/symbols";
+import type { Converter } from "./converter.js";
+import { isNamedNode } from "./utils/nodes.js";
+import { ConverterEvents } from "./converter-events.js";
+import { resolveAliasedSymbol } from "./utils/symbols.js";
 import {
     getComment,
     getFileComment,
     getJsDocComment,
     getNodeComment,
     getSignatureComment,
-} from "./comments";
-import { getHumanName } from "../utils/tsutils";
-import type { TranslationProxy } from "../internationalization/internationalization";
+} from "./comments/index.js";
+import { getHumanName } from "../utils/tsutils.js";
+import type { TranslationProxy } from "../internationalization/internationalization.js";
 
 /**
  * The context describes the current state the converter is in.

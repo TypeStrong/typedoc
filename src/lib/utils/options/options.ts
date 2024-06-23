@@ -1,10 +1,10 @@
 import type * as ts from "typescript";
-import { ParameterType } from "./declaration";
-import type { NeverIfInternal } from "..";
-import { DefaultMap } from "../map";
-import type { Application } from "../../..";
-import { insertOrderSorted, unique } from "../array";
-import type { Logger } from "../loggers";
+import { ParameterType } from "./declaration.js";
+import type { NeverIfInternal } from "../index.js";
+import { DefaultMap } from "../map.js";
+import type { Application } from "../../../index.js";
+import { insertOrderSorted, unique } from "../array.js";
+import type { Logger } from "../loggers.js";
 import {
     convert,
     type DeclarationOption,
@@ -13,10 +13,10 @@ import {
     type TypeDocOptionMap,
     type TypeDocOptions,
     type TypeDocOptionValues,
-} from "./declaration";
-import { addTypeDocOptions } from "./sources";
-import { getOptionsHelp } from "./help";
-import type { TranslationProxy } from "../../internationalization/internationalization";
+} from "./declaration.js";
+import { addTypeDocOptions } from "./sources/index.js";
+import { getOptionsHelp } from "./help.js";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the

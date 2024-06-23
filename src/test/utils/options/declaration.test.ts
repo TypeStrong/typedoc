@@ -11,8 +11,8 @@ import {
     type NumberDeclarationOption,
     ParameterType,
     type StringDeclarationOption,
-} from "../../../lib/utils/options/declaration";
-import { Internationalization } from "../../../lib/internationalization/internationalization";
+} from "../../../lib/utils/options/declaration.js";
+import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 const emptyHelp = () => "";
 

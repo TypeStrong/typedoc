@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { ApplicationEvents } from "../../application-events";
+import { ApplicationEvents } from "../../application-events.js";
 import {
     type ContainerReflection,
     DeclarationReflection,
@@ -8,14 +8,18 @@ import {
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
-} from "../../models/reflections/index";
-import { ReferenceType, ReflectionType, type Type } from "../../models/types";
-import { filterMap, zip } from "../../utils/array";
-import { Component, ConverterComponent } from "../components";
-import type { Context } from "../context";
-import { Converter } from "../converter";
-import { getHumanName } from "../../utils";
-import type { TranslatedString } from "../../internationalization/internationalization";
+} from "../../models/reflections/index.js";
+import {
+    ReferenceType,
+    ReflectionType,
+    type Type,
+} from "../../models/types.js";
+import { filterMap, zip } from "../../utils/array.js";
+import { Component, ConverterComponent } from "../components.js";
+import type { Context } from "../context.js";
+import { Converter } from "../converter.js";
+import { getHumanName } from "../../utils/index.js";
+import type { TranslatedString } from "../../internationalization/internationalization.js";
 
 /**
  * A plugin that detects interface implementations of functions and

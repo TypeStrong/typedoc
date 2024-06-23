@@ -1,7 +1,7 @@
-export { Application, type ApplicationEvents } from "./lib/application";
+export { Application, type ApplicationEvents } from "./lib/application.js";
 
-export { EventDispatcher } from "./lib/utils/events";
-export { resetReflectionID } from "./lib/models/reflections/abstract";
+export { EventDispatcher } from "./lib/utils/events.js";
+export { resetReflectionID } from "./lib/models/reflections/abstract.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
  *
@@ -12,12 +12,12 @@ export { resetReflectionID } from "./lib/models/reflections/abstract";
  * Describes a documentation entry. The root entry is a {@link ProjectReflection}
  * and contains {@link DeclarationReflection} instances.
  */
-export * as Models from "./lib/models";
+export * as Models from "./lib/models/index.js";
 /**
  * All symbols documented under the Configuration namespace are also available in the root import.
  */
-export * as Configuration from "./lib/utils/options";
-export * from "./lib/models";
+export * as Configuration from "./lib/utils/options/index.js";
+export * from "./lib/models/index.js";
 export {
     Converter,
     Context,
@@ -30,7 +30,7 @@ export {
     type ExternalResolveResult,
     type ExternalSymbolResolver,
     type ConverterEvents,
-} from "./lib/converter";
+} from "./lib/converter/index.js";
 
 export {
     Renderer,
@@ -43,13 +43,13 @@ export {
     RendererEvent,
     MarkdownEvent,
     IndexEvent,
-} from "./lib/output";
+} from "./lib/output/index.js";
 export type {
     RenderTemplate,
     RendererHooks,
     NavigationElement,
     RendererEvents,
-} from "./lib/output";
+} from "./lib/output/index.js";
 
 export {
     ArgumentsReader,
@@ -68,7 +68,7 @@ export {
     EventHooks,
     MinimalSourceFile,
     normalizePath,
-} from "./lib/utils";
+} from "./lib/utils/index.js";
 
 export type {
     OptionsReader,
@@ -94,7 +94,7 @@ export type {
     ManuallyValidatedOption,
     EnumKeys,
     JsDocCompatibility,
-} from "./lib/utils";
+} from "./lib/utils/index.js";
 
 export {
     JSONOutput,
@@ -105,9 +105,9 @@ export {
     type DeserializerComponent,
     type SerializerComponent,
     SerializeEvent,
-} from "./lib/serialization";
+} from "./lib/serialization/index.js";
 
-export * as Internationalization from "./lib/internationalization/index";
+export * as Internationalization from "./lib/internationalization/index.js";
 
 import TypeScript from "typescript";
 export { TypeScript };

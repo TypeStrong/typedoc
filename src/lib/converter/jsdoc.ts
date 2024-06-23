@@ -10,14 +10,14 @@ import {
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
-} from "../models";
-import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
-import type { Context } from "./context";
-import { ConverterEvents } from "./converter-events";
+} from "../models/index.js";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
+import type { Context } from "./context.js";
+import { ConverterEvents } from "./converter-events.js";
 import {
     convertParameterNodes,
     convertTemplateParameterNodes,
-} from "./factories/signature";
+} from "./factories/signature.js";
 
 export function convertJsDocAlias(
     context: Context,

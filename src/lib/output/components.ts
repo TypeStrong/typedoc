@@ -1,13 +1,13 @@
 import * as Path from "path";
 
-import { Component, AbstractComponent } from "../utils/component";
+import { Component, AbstractComponent } from "../utils/component.js";
 import type {
     ProjectReflection,
     Reflection,
-} from "../models/reflections/index";
-import type { Renderer } from "./renderer";
-import { RendererEvent, PageEvent } from "./events";
-import { Option } from "../utils";
+} from "../models/reflections/index.js";
+import type { Renderer } from "./renderer.js";
+import { RendererEvent, PageEvent } from "./events.js";
+import { Option } from "../utils/index.js";
 
 export { Component };
 

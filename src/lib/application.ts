@@ -1,10 +1,14 @@
 import * as Path from "path";
 import ts from "typescript";
 
-import { Converter } from "./converter/index";
-import { Renderer } from "./output/renderer";
-import { Deserializer, type JSONOutput, Serializer } from "./serialization";
-import type { ProjectReflection } from "./models/index";
+import {
+    Deserializer,
+    type JSONOutput,
+    Serializer,
+} from "./serialization/index.js";
+import { Converter } from "./converter/index.js";
+import { Renderer } from "./output/renderer.js";
+import type { ProjectReflection } from "./models/index.js";
 import {
     Logger,
     ConsoleLogger,
@@ -14,16 +18,16 @@ import {
     TSConfigReader,
     TypeDocReader,
     PackageJsonReader,
-} from "./utils/index";
+} from "./utils/index.js";
 
 import {
     type AbstractComponent,
     ChildableComponent,
     Component,
-} from "./utils/component";
-import { Options, Option } from "./utils";
-import type { TypeDocOptions } from "./utils/options/declaration";
-import { unique } from "./utils/array";
+} from "./utils/component.js";
+import { Options, Option } from "./utils/index.js";
+import type { TypeDocOptions } from "./utils/options/declaration.js";
+import { unique } from "./utils/array.js";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -31,26 +35,34 @@ import {
     getEntryPoints,
     getPackageDirectories,
     getWatchEntryPoints,
-} from "./utils/entry-point";
-import { nicePath } from "./utils/paths";
-import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general";
-import { validateExports } from "./validation/exports";
-import { validateDocumentation } from "./validation/documentation";
-import { validateLinks } from "./validation/links";
-import { ApplicationEvents } from "./application-events";
-import { findTsConfigFile } from "./utils/tsconfig";
-import { deriveRootDir, glob, readFile } from "./utils/fs";
-import { resetReflectionID } from "./models/reflections/abstract";
-import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
+} from "./utils/entry-point.js";
+import { nicePath } from "./utils/paths.js";
+import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general.js";
+import { validateExports } from "./validation/exports.js";
+import { validateDocumentation } from "./validation/documentation.js";
+import { validateLinks } from "./validation/links.js";
+import { ApplicationEvents } from "./application-events.js";
+import { findTsConfigFile } from "./utils/tsconfig.js";
+import { deriveRootDir, glob, readFile } from "./utils/fs.js";
+import { resetReflectionID } from "./models/reflections/abstract.js";
+import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
 import {
     Internationalization,
     type TranslatedString,
-} from "./internationalization/internationalization";
-import { loadShikiMetadata } from "./utils/highlighter";
-import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry";
+} from "./internationalization/internationalization.js";
+import { loadShikiMetadata } from "./utils/highlighter.js";
+import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry.js";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageInfo = require("../../package.json") as {
+const packageInfo = JSON.parse(
+    readFileSync(
+        Path.join(fileURLToPath(import.meta.url), "../../../package.json"),
+        "utf8",
+    ),
+) as {
     version: string;
     peerDependencies: { typescript: string };
 };
@@ -308,7 +320,8 @@ export class Application extends ChildableComponent<
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath(): string {
-        return nicePath(Path.dirname(require.resolve("typescript")));
+        const req = createRequire(import.meta.url);
+        return nicePath(Path.dirname(req.resolve("typescript")));
     }
 
     public getTypeScriptVersion(): string {

@@ -1,12 +1,13 @@
 import { basename, join } from "path";
 import { deepStrictEqual as equal } from "assert";
 
-import { TSConfigReader } from "../../../../lib/utils/options/readers";
-import { Logger, Options } from "../../../../lib/utils";
-import { TestLogger } from "../../../TestLogger";
+import { TSConfigReader } from "../../../../lib/utils/options/readers/index.js";
+import { Logger, Options } from "../../../../lib/utils/index.js";
+import { TestLogger } from "../../../TestLogger.js";
 import { tempdirProject, type Project } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
-import { Internationalization } from "../../../../lib/internationalization/internationalization";
+import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
+import { fileURLToPath } from "url";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Internationalization(null).proxy);
@@ -92,7 +93,7 @@ describe("Options - TSConfigReader", () => {
 
         options.setValue(
             "tsconfig",
-            join(__dirname, "data/does_not_exist.json"),
+            join(fileURLToPath(import.meta.url), "../data/does_not_exist.json"),
         );
         options.addReader(new TSConfigReader());
         await options.read(logger);

@@ -3,7 +3,7 @@ import { createServer } from "net";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, resolve, normalize } from "path";
-import { getCommonDirectory, glob } from "../../lib/utils/fs";
+import { getCommonDirectory, glob } from "../../lib/utils/fs.js";
 
 describe("fs.ts", () => {
     describe("getCommonDirectory", () => {

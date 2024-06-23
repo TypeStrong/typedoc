@@ -1,4 +1,4 @@
-import { IntrinsicType, type SomeType, UnionType } from "../../models";
+import { IntrinsicType, type SomeType, UnionType } from "../../models/index.js";
 
 export function removeUndefined(type: SomeType): SomeType {
     if (type instanceof UnionType) {

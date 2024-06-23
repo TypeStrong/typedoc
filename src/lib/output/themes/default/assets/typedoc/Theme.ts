@@ -1,4 +1,4 @@
-import { storage } from "./utils/storage";
+import { storage } from "./utils/storage.js";
 
 type ThemeChoice = "os" | "light" | "dark";
 

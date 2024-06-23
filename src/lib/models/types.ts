@@ -1,15 +1,19 @@
 import * as ts from "typescript";
-import type { Context } from "../converter";
-import type { Reflection } from "./reflections/abstract";
-import type { DeclarationReflection } from "./reflections/declaration";
-import type { ProjectReflection } from "./reflections/project";
-import type { Serializer, JSONOutput, Deserializer } from "../serialization";
-import { getQualifiedName } from "../utils/tsutils";
-import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId";
-import type { DeclarationReference } from "../converter/comments/declarationReference";
-import { findPackageForPath } from "../utils/fs";
-import { ReflectionKind } from "./reflections/kind";
-import { Comment, type CommentDisplayPart } from "./comments";
+import type { Context } from "../converter/index.js";
+import type { Reflection } from "./reflections/abstract.js";
+import type { DeclarationReflection } from "./reflections/declaration.js";
+import type { ProjectReflection } from "./reflections/project.js";
+import type {
+    Serializer,
+    JSONOutput,
+    Deserializer,
+} from "../serialization/index.js";
+import { getQualifiedName } from "../utils/tsutils.js";
+import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId.js";
+import type { DeclarationReference } from "../converter/comments/declarationReference.js";
+import { findPackageForPath } from "../utils/fs.js";
+import { ReflectionKind } from "./reflections/kind.js";
+import { Comment, type CommentDisplayPart } from "./comments/index.js";
 
 /**
  * Base class of all type definitions.

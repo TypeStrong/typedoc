@@ -1,10 +1,10 @@
 import ts from "typescript";
-import { ReflectionKind } from "../../models";
-import { assertNever, type Logger } from "../../utils";
-import { CommentStyle } from "../../utils/options/declaration";
-import { nicePath } from "../../utils/paths";
+import { ReflectionKind } from "../../models/index.js";
+import { assertNever, type Logger } from "../../utils/index.js";
+import { CommentStyle } from "../../utils/options/declaration.js";
+import { nicePath } from "../../utils/paths.js";
 import { ok } from "assert";
-import { filter, firstDefined } from "../../utils/array";
+import { filter, firstDefined } from "../../utils/array.js";
 
 const variablePropertyKinds = [
     ts.SyntaxKind.PropertyDeclaration,

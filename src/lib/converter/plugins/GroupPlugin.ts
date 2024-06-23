@@ -3,14 +3,14 @@ import {
     ContainerReflection,
     type DeclarationReflection,
     type DocumentReflection,
-} from "../../models/reflections/index";
-import { ReflectionGroup } from "../../models/ReflectionGroup";
-import { Component, ConverterComponent } from "../components";
-import { Converter } from "../converter";
-import type { Context } from "../context";
-import { getSortFunction } from "../../utils/sort";
-import { Option, removeIf } from "../../utils";
-import { Comment } from "../../models";
+} from "../../models/reflections/index.js";
+import { ReflectionGroup } from "../../models/ReflectionGroup.js";
+import { Component, ConverterComponent } from "../components.js";
+import { Converter } from "../converter.js";
+import type { Context } from "../context.js";
+import { getSortFunction } from "../../utils/sort.js";
+import { Option, removeIf } from "../../utils/index.js";
+import { Comment } from "../../models/index.js";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [

@@ -5,9 +5,9 @@ import {
     ParameterReflection,
     ReflectionKind,
     SignatureReflection,
-} from "../../models";
-import type { Context } from "../context";
-import { ConverterEvents } from "../converter-events";
+} from "../../models/index.js";
+import type { Context } from "../context.js";
+import { ConverterEvents } from "../converter-events.js";
 
 export function convertIndexSignatures(context: Context, symbol: ts.Symbol) {
     assert(context.scope instanceof DeclarationReflection);

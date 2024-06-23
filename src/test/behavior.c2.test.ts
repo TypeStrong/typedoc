@@ -7,19 +7,19 @@ import {
     Reflection,
     SignatureReflection,
     type ContainerReflection,
-} from "../lib/models";
-import { filterMap } from "../lib/utils";
-import { CommentStyle } from "../lib/utils/options/declaration";
-import { TestLogger } from "./TestLogger";
+} from "../lib/models/index.js";
+import { filterMap } from "../lib/utils/index.js";
+import { CommentStyle } from "../lib/utils/options/declaration.js";
+import { TestLogger } from "./TestLogger.js";
 import {
     getConverter2App,
     getConverter2Base,
     getConverter2Program,
-} from "./programs";
+} from "./programs.js";
 import { join } from "path";
 import { existsSync } from "fs";
-import { clearCommentCache } from "../lib/converter/comments";
-import { getComment, query, querySig } from "./utils";
+import { clearCommentCache } from "../lib/converter/comments/index.js";
+import { getComment, query, querySig } from "./utils.js";
 
 type NameTree = { [name: string]: NameTree | undefined };
 

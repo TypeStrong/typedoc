@@ -2,7 +2,7 @@ import type {
     blockTags,
     inlineTags,
     modifierTags,
-} from "../utils/options/tsdoc-defaults";
+} from "../utils/options/tsdoc-defaults.js";
 
 export function buildTranslation<
     T extends BuiltinTranslatableStringConstraints,

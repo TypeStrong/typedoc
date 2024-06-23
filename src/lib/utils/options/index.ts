@@ -1,17 +1,17 @@
-export { Options, Option } from "./options";
-export type { OptionsReader } from "./options";
+export { Options, Option } from "./options.js";
+export type { OptionsReader } from "./options.js";
 export {
     ArgumentsReader,
     PackageJsonReader,
     TypeDocReader,
     TSConfigReader,
-} from "./readers";
+} from "./readers/index.js";
 export {
     CommentStyle,
     EmitStrategy,
     ParameterType,
     ParameterHint,
-} from "./declaration";
+} from "./declaration.js";
 
 export type {
     TypeDocOptions,
@@ -33,4 +33,4 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
     JsDocCompatibility,
-} from "./declaration";
+} from "./declaration.js";

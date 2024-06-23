@@ -6,12 +6,12 @@ import {
     type InlineTagDisplayPart,
     type Reflection,
     ReflectionSymbolId,
-} from "../../models";
+} from "../../models/index.js";
 import {
     type DeclarationReference,
     parseDeclarationReference,
-} from "./declarationReference";
-import { resolveDeclarationReference } from "./declarationReferenceResolver";
+} from "./declarationReference.js";
+import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 

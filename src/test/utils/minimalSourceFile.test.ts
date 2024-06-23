@@ -1,6 +1,6 @@
 import { deepStrictEqual as equal, throws } from "assert";
 import type { LineAndCharacter } from "typescript";
-import { MinimalSourceFile } from "../../lib/utils/minimalSourceFile";
+import { MinimalSourceFile } from "../../lib/utils/minimalSourceFile.js";
 
 describe("MinimalSourceFile", () => {
     it("Should do bounds checking", () => {

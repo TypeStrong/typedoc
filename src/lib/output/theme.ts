@@ -1,10 +1,10 @@
-import type { Renderer } from "./renderer";
-import type { ProjectReflection } from "../models/reflections/project";
-import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
-import { RendererComponent } from "./components";
-import { Component } from "../utils/component";
-import type { PageEvent } from "./events";
-import type { Reflection } from "../models";
+import type { Renderer } from "./renderer.js";
+import type { ProjectReflection } from "../models/reflections/project.js";
+import type { RenderTemplate, UrlMapping } from "./models/UrlMapping.js";
+import { RendererComponent } from "./components.js";
+import { Component } from "../utils/component.js";
+import type { PageEvent } from "./events.js";
+import type { Reflection } from "../models/index.js";
 
 /**
  * Base class of all themes.

@@ -1,8 +1,12 @@
 import { ok } from "assert";
 
-import { Options, ParameterType, ParameterHint } from "../../../lib/utils";
-import { getOptionsHelp } from "../../../lib/utils/options/help";
-import { Internationalization } from "../../../lib/internationalization/internationalization";
+import {
+    Options,
+    ParameterType,
+    ParameterHint,
+} from "../../../lib/utils/index.js";
+import { getOptionsHelp } from "../../../lib/utils/options/help.js";
+import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 describe("Options - help", () => {
     const i18n = new Internationalization(null).proxy;

@@ -3,6 +3,7 @@
   "description": "Create api documentation for TypeScript projects.",
   "version": "0.26.1",
   "homepage": "https://typedoc.org",
+  "type": "module",
   "exports": {
     ".": "./dist/index.js",
     "./tsdoc.json": "./tsdoc.json",
@@ -46,8 +47,9 @@
     "prettier": "3.3.2",
     "puppeteer": "^22.12.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.5.2",
-    "typescript-eslint": "^7.13.1"
+    "tsx": "^4.15.7",
+    "typescript-eslint": "^7.13.1",
+    "typescript": "5.5.2"
   },
   "files": [
     "/bin",

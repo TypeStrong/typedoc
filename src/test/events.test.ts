@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { EventDispatcher } from "../lib/utils";
+import { EventDispatcher } from "../lib/utils/index.js";
 
 describe("EventDispatcher", () => {
     it("Works in simple cases", () => {

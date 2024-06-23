@@ -1,11 +1,11 @@
 import { deepStrictEqual as equal } from "assert";
 import { project as fsProject } from "@typestrong/fs-fixture-builder";
 
-import { TypeDocReader } from "../../../../lib/utils/options/readers";
-import { Logger, Options } from "../../../../lib/utils";
-import { TestLogger } from "../../../TestLogger";
+import { TypeDocReader } from "../../../../lib/utils/options/readers/index.js";
+import { Logger, Options } from "../../../../lib/utils/index.js";
+import { TestLogger } from "../../../TestLogger.js";
 import { join } from "path";
-import { Internationalization } from "../../../../lib/internationalization/internationalization";
+import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 
 describe("Options - TypeDocReader", () => {
     const options = new Options(new Internationalization(null).proxy);
@@ -49,9 +49,24 @@ describe("Options - TypeDocReader", () => {
         equal(options.getValue("gitRevision"), "master");
     });
 
-    it("Supports js files", async () => {
+    it("Supports CommonJS files", async () => {
         const project = fsProject("js");
-        project.addFile("typedoc.js", "module.exports = { name: 'js' }");
+        project.addFile("typedoc.cjs", "module.exports = { name: 'js' }");
+        const logger = new TestLogger();
+
+        project.write();
+        options.reset();
+        options.setValue("options", project.cwd);
+        await options.read(logger);
+        project.rm();
+
+        logger.expectNoOtherMessages();
+        equal(options.getValue("name"), "js");
+    });
+
+    it("Supports ESM files", async () => {
+        const project = fsProject("js");
+        project.addFile("typedoc.mjs", "export default { name: 'js' }");
         const logger = new TestLogger();
 
         project.write();

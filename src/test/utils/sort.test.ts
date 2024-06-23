@@ -7,12 +7,12 @@ import {
     ReflectionFlag,
     ReflectionKind,
     ReflectionSymbolId,
-} from "../../lib/models";
-import { resetReflectionID } from "../../lib/models/reflections/abstract";
-import { Options } from "../../lib/utils";
-import { getSortFunction, type SortStrategy } from "../../lib/utils/sort";
-import { Internationalization } from "../../lib/internationalization/internationalization";
-import { FileRegistry } from "../../lib/models/FileRegistry";
+} from "../../lib/models/index.js";
+import { resetReflectionID } from "../../lib/models/reflections/abstract.js";
+import { Options } from "../../lib/utils/index.js";
+import { getSortFunction, type SortStrategy } from "../../lib/utils/sort.js";
+import { Internationalization } from "../../lib/internationalization/internationalization.js";
+import { FileRegistry } from "../../lib/models/FileRegistry.js";
 
 describe("Sort", () => {
     function sortReflections(

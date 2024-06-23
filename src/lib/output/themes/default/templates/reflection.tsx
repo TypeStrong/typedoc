@@ -1,14 +1,14 @@
-import { classNames, getKindClass, hasTypeParameters } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { PageEvent } from "../../../events";
+import { classNames, getKindClass, hasTypeParameters } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import type { PageEvent } from "../../../events.js";
 import {
     type ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
     ReflectionType,
     type SignatureReflection,
-} from "../../../../models";
-import { JSX, Raw } from "../../../../utils";
+} from "../../../../models/index.js";
+import { JSX, Raw } from "../../../../utils/index.js";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (

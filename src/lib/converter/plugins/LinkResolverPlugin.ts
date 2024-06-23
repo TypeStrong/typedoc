@@ -1,7 +1,7 @@
-import { Component, ConverterComponent } from "../components";
-import type { Context } from "../../converter";
-import { ConverterEvents } from "../converter-events";
-import { Option, type ValidationOptions } from "../../utils";
+import { Component, ConverterComponent } from "../components.js";
+import type { Context } from "../../converter/index.js";
+import { ConverterEvents } from "../converter-events.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
 import {
     ContainerReflection,
     DeclarationReflection,
@@ -9,9 +9,9 @@ import {
     type ProjectReflection,
     type Reflection,
     type ReflectionCategory,
-} from "../../models";
-import { discoverAllReferenceTypes } from "../../utils/reflections";
-import { ApplicationEvents } from "../../application-events";
+} from "../../models/index.js";
+import { discoverAllReferenceTypes } from "../../utils/reflections.js";
+import { ApplicationEvents } from "../../application-events.js";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.

@@ -1,7 +1,7 @@
-import { getKindClass, join, renderTypeParametersSignature, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import { type ParameterReflection, ReflectionKind, type SignatureReflection } from "../../../../models";
+import { getKindClass, join, renderTypeParametersSignature, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import { type ParameterReflection, ReflectionKind, type SignatureReflection } from "../../../../models/index.js";
 
 function renderParameterWithType(context: DefaultThemeRenderContext, item: ParameterReflection) {
     return (

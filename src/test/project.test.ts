@@ -1,5 +1,5 @@
-import { splitUnquotedString } from "..";
-import Assert = require("assert");
+import { splitUnquotedString } from "../index.js";
+import Assert from "assert";
 
 describe("Project", function () {
     describe("splitUnquotedString", () => {

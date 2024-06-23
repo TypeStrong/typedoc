@@ -2,9 +2,9 @@ import { resolve, join, dirname } from "path";
 
 import ts from "typescript";
 
-import type { Options, OptionsReader } from "../options";
-import type { Logger } from "../../loggers";
-import { isFile } from "../../fs";
+import type { Options, OptionsReader } from "../options.js";
+import type { Logger } from "../../loggers.js";
+import { isFile } from "../../fs.js";
 import { ok } from "assert";
 import {
     additionalProperties,
@@ -12,21 +12,21 @@ import {
     isTagString,
     optional,
     validate,
-} from "../../validation";
-import { nicePath, normalizePath } from "../../paths";
+} from "../../validation.js";
+import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
 import {
     tsdocBlockTags,
     tsdocInlineTags,
     tsdocModifierTags,
-} from "../tsdoc-defaults";
-import { unique } from "../../array";
+} from "../tsdoc-defaults.js";
+import { unique } from "../../array.js";
 import {
     findTsConfigFile,
     getTypeDocOptionsFromTsConfig,
     readTsConfig,
-} from "../../tsconfig";
-import type { TranslatedString } from "../../../internationalization/internationalization";
+} from "../../tsconfig.js";
+import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (

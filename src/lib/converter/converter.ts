@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Application } from "../application";
+import type { Application } from "../application.js";
 import {
     Comment,
     type CommentDisplayPart,
@@ -15,43 +15,43 @@ import {
     type SignatureReflection,
     type SomeType,
     type TypeParameterReflection,
-} from "../models/index";
-import { Context } from "./context";
-import { ConverterComponent } from "./components";
-import { Component, ChildableComponent } from "../utils/component";
+} from "../models/index.js";
+import { Context } from "./context.js";
+import { ConverterComponent } from "./components.js";
+import { Component, ChildableComponent } from "../utils/component.js";
 import {
     Option,
     MinimalSourceFile,
     readFile,
     unique,
     getDocumentEntryPoints,
-} from "../utils";
-import { convertType } from "./types";
-import { ConverterEvents } from "./converter-events";
-import { convertSymbol } from "./symbols";
-import { createMinimatch, matchesAny, nicePath } from "../utils/paths";
+} from "../utils/index.js";
+import { convertType } from "./types.js";
+import { ConverterEvents } from "./converter-events.js";
+import { convertSymbol } from "./symbols.js";
+import { createMinimatch, matchesAny, nicePath } from "../utils/paths.js";
 import type { Minimatch } from "minimatch";
-import { hasAllFlags, hasAnyFlag } from "../utils/enum";
-import type { DocumentationEntryPoint } from "../utils/entry-point";
-import type { CommentParserConfig } from "./comments";
+import { hasAllFlags, hasAnyFlag } from "../utils/enum.js";
+import type { DocumentationEntryPoint } from "../utils/entry-point.js";
+import type { CommentParserConfig } from "./comments/index.js";
 import type {
     CommentStyle,
     ValidationOptions,
-} from "../utils/options/declaration";
-import { parseCommentString } from "./comments/parser";
-import { lexCommentString } from "./comments/rawLexer";
+} from "../utils/options/declaration.js";
+import { parseCommentString } from "./comments/parser.js";
+import { lexCommentString } from "./comments/rawLexer.js";
 import {
     resolvePartLinks,
     resolveLinks,
     type ExternalSymbolResolver,
     type ExternalResolveResult,
-} from "./comments/linkResolver";
+} from "./comments/linkResolver.js";
 import {
     meaningToString,
     type DeclarationReference,
-} from "./comments/declarationReference";
+} from "./comments/declarationReference.js";
 import { basename, dirname, resolve } from "path";
-import type { FileRegistry } from "../models/FileRegistry";
+import type { FileRegistry } from "../models/FileRegistry.js";
 
 export interface ConverterEvents {
     begin: [Context];

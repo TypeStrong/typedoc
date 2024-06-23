@@ -2,9 +2,9 @@ import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { optional, validate } from "./validation";
-import { createMinimatch, normalizePath } from "./paths";
-import { filterMap } from "./array";
+import { optional, validate } from "./validation.js";
+import { createMinimatch, normalizePath } from "./paths.js";
+import { filterMap } from "./array.js";
 
 export function isFile(file: string) {
     try {

@@ -1,7 +1,7 @@
-import { classNames, getKindClass, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import { type DeclarationReflection, ReflectionType, type SignatureReflection } from "../../../../models";
+import { classNames, getKindClass, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import { type DeclarationReflection, ReflectionType, type SignatureReflection } from "../../../../models/index.js";
 
 export const parameter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>

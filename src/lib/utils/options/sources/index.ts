@@ -1,1 +1,1 @@
-export { addTypeDocOptions } from "./typedoc";
+export { addTypeDocOptions } from "./typedoc.js";

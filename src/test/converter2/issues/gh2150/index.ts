@@ -1,4 +1,4 @@
-import * as Int from "./int";
+import * as Int from "./int.js";
 
 type Int = typeof Int;
 

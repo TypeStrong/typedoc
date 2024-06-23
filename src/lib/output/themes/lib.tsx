@@ -1,4 +1,4 @@
-import type { DefaultThemeRenderContext } from "..";
+import type { DefaultThemeRenderContext } from "../index.js";
 import {
     DeclarationReflection,
     ProjectReflection,
@@ -7,8 +7,8 @@ import {
     ReflectionKind,
     SignatureReflection,
     type TypeParameterReflection,
-} from "../../models";
-import { JSX } from "../../utils";
+} from "../../models/index.js";
+import { JSX } from "../../utils/index.js";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {

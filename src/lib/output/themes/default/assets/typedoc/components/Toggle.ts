@@ -1,5 +1,5 @@
-import { Component, IComponentOptions } from "../Component";
-import { hasPointerMoved, pointerDown, pointerUp } from "../utils/pointer";
+import { Component, IComponentOptions } from "../Component.js";
+import { hasPointerMoved, pointerDown, pointerUp } from "../utils/pointer.js";
 
 export class Toggle extends Component {
     active?: boolean;

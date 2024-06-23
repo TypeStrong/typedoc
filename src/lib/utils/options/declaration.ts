@@ -1,14 +1,14 @@
 import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import" };
-import type { LogLevel } from "../loggers";
-import type { SortStrategy } from "../sort";
+import type { LogLevel } from "../loggers.js";
+import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
-import type { EntryPointStrategy } from "../entry-point";
-import type { ReflectionKind } from "../../models/reflections/kind";
-import type { NeverIfInternal } from "..";
+import type { EntryPointStrategy } from "../entry-point.js";
+import type { ReflectionKind } from "../../models/reflections/kind.js";
+import type { NeverIfInternal } from "../index.js";
 import type {
     TranslatedString,
     TranslationProxy,
-} from "../../internationalization/internationalization";
+} from "../../internationalization/internationalization.js";
 
 /** @enum */
 export const EmitStrategy = {

@@ -1,21 +1,21 @@
-import { type Reflection, TraverseProperty } from "./abstract";
-import { ContainerReflection } from "./container";
-import { ReferenceReflection } from "./reference";
-import type { DeclarationReflection } from "./declaration";
-import type { SignatureReflection } from "./signature";
-import type { ParameterReflection } from "./parameter";
-import { IntrinsicType } from "../types";
-import type { TypeParameterReflection } from "./type-parameter";
-import { assertNever, removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";
-import { ReflectionKind } from "./kind";
-import { Comment, type CommentDisplayPart } from "../comments";
-import { ReflectionSymbolId } from "./ReflectionSymbolId";
-import type { Serializer } from "../../serialization/serializer";
-import type { Deserializer, JSONOutput } from "../../serialization/index";
-import { DefaultMap, StableKeyMap } from "../../utils/map";
-import type { DocumentReflection } from "./document";
-import type { FileRegistry } from "../FileRegistry";
+import { type Reflection, TraverseProperty } from "./abstract.js";
+import { ContainerReflection } from "./container.js";
+import { ReferenceReflection } from "./reference.js";
+import type { DeclarationReflection } from "./declaration.js";
+import type { SignatureReflection } from "./signature.js";
+import type { ParameterReflection } from "./parameter.js";
+import { IntrinsicType } from "../types.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
+import { assertNever, removeIf, removeIfPresent } from "../../utils/index.js";
+import { ReflectionKind } from "./kind.js";
+import { Comment, type CommentDisplayPart } from "../comments/index.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
+import type { Serializer } from "../../serialization/serializer.js";
+import type { Deserializer, JSONOutput } from "../../serialization/index.js";
+import { DefaultMap, StableKeyMap } from "../../utils/map.js";
+import type { DocumentReflection } from "./document.js";
+import type { FileRegistry } from "../FileRegistry.js";
 
 /**
  * A reflection that represents the root of the project.

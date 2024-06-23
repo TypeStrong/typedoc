@@ -1,14 +1,14 @@
 import { deepEqual as equal, ok } from "assert/strict";
-import { Application } from "..";
+import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
-import { translatable } from "../lib/internationalization/translatable";
-import { setDifference } from "../lib/utils/set";
+import { translatable } from "../lib/internationalization/translatable.js";
+import { setDifference } from "../lib/utils/set.js";
 import {
     blockTags,
     inlineTags,
     modifierTags,
-} from "../lib/utils/options/tsdoc-defaults";
+} from "../lib/utils/options/tsdoc-defaults.js";
 
 const allValidTranslationKeys = Object.keys(translatable);
 // The tag names do not actually exist in the default locale, but are valid
@@ -56,12 +56,16 @@ describe("Internationalization", () => {
 });
 
 describe("Locales", () => {
-    const localeRoot = join(__dirname, "../lib/internationalization/locales");
+    const localeRoot = join(
+        fileURLToPath(import.meta.url),
+        "../../lib/internationalization/locales",
+    );
 
     for (const locale of readdirSync(localeRoot)) {
         it(`${locale} defines a valid locale`, () => {
+            const req = createRequire(fileURLToPath(import.meta.url));
             // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const translations = require(join(localeRoot, locale)) as Record<
+            const translations = req(join(localeRoot, locale)) as Record<
                 string,
                 string
             >;

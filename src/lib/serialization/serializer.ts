@@ -1,10 +1,10 @@
-import { EventDispatcher } from "../utils";
-import type { ProjectReflection } from "../models";
+import { EventDispatcher } from "../utils/index.js";
+import type { ProjectReflection } from "../models/index.js";
 
-import { SerializeEvent } from "./events";
-import type { ModelToObject } from "./schema";
-import type { SerializerComponent } from "./components";
-import { insertPrioritySorted } from "../utils/array";
+import { SerializeEvent } from "./events.js";
+import type { ModelToObject } from "./schema.js";
+import type { SerializerComponent } from "./components.js";
+import { insertPrioritySorted } from "../utils/array.js";
 
 export interface SerializerEvents {
     begin: [SerializeEvent];

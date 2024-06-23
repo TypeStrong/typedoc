@@ -4,10 +4,10 @@ import {
     type Reflection,
     ReflectionKind,
     ReflectionType,
-} from "../models";
-import type { Logger } from "../utils";
-import { removeFlag } from "../utils/enum";
-import { nicePath } from "../utils/paths";
+} from "../models/index.js";
+import type { Logger } from "../utils/index.js";
+import { removeFlag } from "../utils/enum.js";
+import { nicePath } from "../utils/paths.js";
 
 export function validateDocumentation(
     project: ProjectReflection,

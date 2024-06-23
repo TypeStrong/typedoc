@@ -1,7 +1,7 @@
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, EntryPointStrategy } from "../..";
+import { Application, EntryPointStrategy } from "../../index.js";
 
 describe("Entry Points", () => {
     let fixture: Project;

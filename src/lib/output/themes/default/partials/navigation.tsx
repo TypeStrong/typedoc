@@ -1,8 +1,8 @@
-import { type Reflection, ReflectionFlag, ReflectionKind } from "../../../../models";
-import { JSX } from "../../../../utils";
-import type { PageEvent } from "../../../events";
-import { classNames, getDisplayName, wbr } from "../../lib";
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
+import { type Reflection, ReflectionFlag, ReflectionKind } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
+import type { PageEvent } from "../../../events.js";
+import { classNames, getDisplayName, wbr } from "../../lib.js";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function sidebar(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (

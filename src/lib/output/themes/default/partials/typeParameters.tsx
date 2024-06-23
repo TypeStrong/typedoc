@@ -1,6 +1,6 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { TypeParameterReflection } from "../../../../models";
-import { JSX } from "../../../../utils";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import type { TypeParameterReflection } from "../../../../models/index.js";
+import { JSX } from "../../../../utils/index.js";
 
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {
     return (

@@ -2,10 +2,10 @@
 
 import { dirname, resolve } from "path";
 
-import { readFile, glob } from "./fs";
-import type { Logger } from "./loggers";
+import { readFile, glob } from "./fs.js";
+import type { Logger } from "./loggers.js";
 import type { Minimatch } from "minimatch";
-import { matchesAny, nicePath } from "./paths";
+import { matchesAny, nicePath } from "./paths.js";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty

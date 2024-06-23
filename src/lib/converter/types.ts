@@ -26,21 +26,21 @@ import {
     RestType,
     TemplateLiteralType,
     type SomeType,
-} from "../models";
-import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId";
-import { zip } from "../utils/array";
-import type { Context } from "./context";
-import { ConverterEvents } from "./converter-events";
-import { convertIndexSignatures } from "./factories/index-signature";
+} from "../models/index.js";
+import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
+import { zip } from "../utils/array.js";
+import type { Context } from "./context.js";
+import { ConverterEvents } from "./converter-events.js";
+import { convertIndexSignatures } from "./factories/index-signature.js";
 import {
     convertParameterNodes,
     convertTypeParameterNodes,
     createSignature,
-} from "./factories/signature";
-import { convertSymbol } from "./symbols";
-import { isObjectType } from "./utils/nodes";
-import { removeUndefined } from "./utils/reflections";
-import type { TranslatedString } from "../internationalization/internationalization";
+} from "./factories/signature.js";
+import { convertSymbol } from "./symbols.js";
+import { isObjectType } from "./utils/nodes.js";
+import { removeUndefined } from "./utils/reflections.js";
+import type { TranslatedString } from "../internationalization/internationalization.js";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,

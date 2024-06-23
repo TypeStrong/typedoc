@@ -2,13 +2,13 @@ import {
     GitRepository,
     guessSourceUrlTemplate,
     RepositoryManager,
-} from "../lib/converter/utils/repository";
+} from "../lib/converter/utils/repository.js";
 import { deepStrictEqual as equal, ok } from "assert";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { spawnSync } from "child_process";
-import { TestLogger } from "./TestLogger";
+import { TestLogger } from "./TestLogger.js";
 import { join } from "path";
-import { normalizePath } from "../lib/utils/paths";
+import { normalizePath } from "../lib/utils/paths.js";
 
 function git(cwd: string, ...args: string[]) {
     const env = {

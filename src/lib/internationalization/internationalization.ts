@@ -1,14 +1,10 @@
 import { ok } from "assert";
-import type { Application } from "../application";
-import { DefaultMap, unique } from "../utils";
-import {
-    translatable,
-    type BuiltinTranslatableStringArgs,
-} from "./translatable";
+import type { Application } from "../application.js";
+import { DefaultMap, unique } from "../utils/index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
-import { ReflectionKind } from "../models/reflections/kind";
-import { ReflectionFlag } from "../models";
+import { ReflectionKind } from "../models/reflections/kind.js";
+import { ReflectionFlag } from "../models/index.js";
 
 /**
  * ### What is translatable?
@@ -73,6 +69,7 @@ const ext = process[Symbol.for("ts-node.register.instance") as never]
 export class Internationalization {
     private allTranslations = new DefaultMap<string, Map<string, string>>(
         (lang) => {
+            const req = createRequire(fileURLToPath(import.meta.url));
             // Make sure this isn't abused to load some random file by mistake
             ok(
                 /^[A-Za-z-]+$/.test(lang),
@@ -81,7 +78,7 @@ export class Internationalization {
             try {
                 return new Map(
                     // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    Object.entries(require(`./locales/${lang}.${ext}`)),
+                    Object.entries(req(`./locales/${lang}.${ext}`)),
                 );
             } catch {
                 return new Map();
@@ -310,9 +307,9 @@ export class Internationalization {
      */
     getSupportedLanguages(): string[] {
         return unique([
-            ...readdirSync(join(__dirname, "locales")).map((x) =>
-                x.substring(0, x.indexOf(".")),
-            ),
+            ...readdirSync(
+                join(fileURLToPath(import.meta.url), "../locales"),
+            ).map((x) => x.substring(0, x.indexOf("."))),
             ...this.allTranslations.keys(),
         ]).sort();
     }

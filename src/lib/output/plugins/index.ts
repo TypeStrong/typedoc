@@ -1,6 +1,6 @@
-export { MarkedPlugin } from "../themes/MarkedPlugin";
-export { AssetsPlugin } from "./AssetsPlugin";
-export { IconsPlugin } from "./IconsPlugin";
-export { JavascriptIndexPlugin } from "./JavascriptIndexPlugin";
-export { NavigationPlugin } from "./NavigationPlugin";
-export { SitemapPlugin } from "./SitemapPlugin";
+export { MarkedPlugin } from "../themes/MarkedPlugin.js";
+export { AssetsPlugin } from "./AssetsPlugin.js";
+export { IconsPlugin } from "./IconsPlugin.js";
+export { JavascriptIndexPlugin } from "./JavascriptIndexPlugin.js";
+export { NavigationPlugin } from "./NavigationPlugin.js";
+export { SitemapPlugin } from "./SitemapPlugin.js";

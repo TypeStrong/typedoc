@@ -1,13 +1,13 @@
 import * as Path from "path";
 
-import type { ProjectReflection } from "../models/reflections/project";
-import type { RenderTemplate, UrlMapping } from "./models/UrlMapping";
+import type { ProjectReflection } from "../models/reflections/project.js";
+import type { RenderTemplate, UrlMapping } from "./models/UrlMapping.js";
 import type {
     DeclarationReflection,
     DocumentReflection,
     Reflection,
     ReflectionKind,
-} from "../models";
+} from "../models/index.js";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and

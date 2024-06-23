@@ -1,6 +1,6 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import { JSX } from "../../../../utils";
-import type { DeclarationReflection, SignatureReflection, SourceReference } from "../../../../models";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { JSX } from "../../../../utils/index.js";
+import type { DeclarationReflection, SignatureReflection, SourceReference } from "../../../../models/index.js";
 
 function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
     if (!item.url) {

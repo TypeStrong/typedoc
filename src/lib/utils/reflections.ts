@@ -8,7 +8,7 @@ import {
     Reflection,
     SignatureReflection,
     TypeParameterReflection,
-} from "../models";
+} from "../models/index.js";
 
 export function discoverAllReferenceTypes(
     project: ProjectReflection,

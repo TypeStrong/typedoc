@@ -1,23 +1,23 @@
 import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
-import type { CommentParserConfig } from ".";
+import type { CommentParserConfig } from "./index.js";
 import {
     Comment,
     type CommentDisplayPart,
     CommentTag,
     type InlineTagDisplayPart,
-} from "../../models";
-import { assertNever, type Logger, removeIf } from "../../utils";
-import type { MinimalSourceFile } from "../../utils/minimalSourceFile";
-import { nicePath } from "../../utils/paths";
-import { type Token, TokenSyntaxKind } from "./lexer";
-import { extractTagName } from "./tagName";
+} from "../../models/index.js";
+import { assertNever, type Logger, removeIf } from "../../utils/index.js";
+import type { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+import { nicePath } from "../../utils/paths.js";
+import { type Token, TokenSyntaxKind } from "./lexer.js";
+import { extractTagName } from "./tagName.js";
 import type {
     TranslatedString,
     TranslationProxy,
-} from "../../internationalization/internationalization";
-import { FileRegistry } from "../../models/FileRegistry";
-import { textContent, TextParserReentryState } from "./textParser";
+} from "../../internationalization/internationalization.js";
+import { FileRegistry } from "../../models/FileRegistry.js";
+import { textContent, TextParserReentryState } from "./textParser.js";
 
 interface LookaheadGenerator<T> {
     done(): boolean;

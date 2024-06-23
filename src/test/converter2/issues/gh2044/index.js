@@ -1,18 +1,18 @@
-export { other } from "./other";
+export { other } from "./other.js";
 
-/** @typedef {import("./other").Foo} Foo */
-/** @typedef {import("./other").Foo} RenamedFoo */
+/** @typedef {import("./other.js").Foo} Foo */
+/** @typedef {import("./other.js").Foo} RenamedFoo */
 
 /**
- * @typedef {import("./other").Generic<T>} Generic
+ * @typedef {import("./other.js").Generic<T>} Generic
  * @template {string} T
  */
 
 /**
- * @typedef {import("./other").Generic<U>} RenamedGeneric
+ * @typedef {import("./other.js").Generic<U>} RenamedGeneric
  * @template {string} U
  */
 
 /**
- * @typedef {import("./other").Generic<string>} NonGeneric
+ * @typedef {import("./other.js").Generic<string>} NonGeneric
  */

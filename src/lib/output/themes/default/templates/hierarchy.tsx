@@ -1,8 +1,8 @@
-import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
-import type { PageEvent } from "../../../events";
-import { JSX } from "../../../../utils";
-import { getHierarchyRoots } from "../../lib";
-import type { DeclarationReflection, ProjectReflection } from "../../../../models";
+import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import type { PageEvent } from "../../../events.js";
+import { JSX } from "../../../../utils/index.js";
+import { getHierarchyRoots } from "../../lib.js";
+import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
 
 function fullHierarchy(
     context: DefaultThemeRenderContext,

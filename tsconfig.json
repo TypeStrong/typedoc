@@ -34,6 +34,7 @@
         "jsx": "react",
         "jsxFactory": "JSX.createElement",
         "jsxFragmentFactory": "JSX.Fragment",
+        "verbatimModuleSyntax": true,
         "isolatedModules": true
     },
     "include": ["src"],
@@ -50,6 +51,8 @@
     ],
     // We use ts-node to support mocha runner directly on files
     "ts-node": {
-        "transpileOnly": true
+        "transpileOnly": true,
+        "esm": true,
+        "preferTsExts": true
     }
 }

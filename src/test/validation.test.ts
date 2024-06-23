@@ -1,15 +1,16 @@
 import { ok } from "assert";
 import { join } from "path";
-import { validateDocumentation } from "../lib/validation/documentation";
-import { validateExports } from "../lib/validation/exports";
-import { getConverter2App, getConverter2Program } from "./programs";
-import { TestLogger } from "./TestLogger";
+import { validateDocumentation } from "../lib/validation/documentation.js";
+import { validateExports } from "../lib/validation/exports.js";
+import { getConverter2App, getConverter2Program } from "./programs.js";
+import { TestLogger } from "./TestLogger.js";
+import { fileURLToPath } from "url";
 
 function convertValidationFile(file: string) {
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
-        join(__dirname, "converter2/validation", file),
+        join(fileURLToPath(import.meta.url), "../converter2/validation", file),
     );
 
     ok(sourceFile, "Specified source file does not exist.");
@@ -48,7 +49,7 @@ function expectNoWarning(
     const app = getConverter2App();
     const program = getConverter2Program();
     const sourceFile = program.getSourceFile(
-        join(__dirname, "converter2/validation", file),
+        join(fileURLToPath(import.meta.url), "../converter2/validation", file),
     );
 
     ok(sourceFile, "Specified source file does not exist.");
@@ -126,7 +127,10 @@ describe("validateExports", () => {
         const app = getConverter2App();
         const program = getConverter2Program();
         const sourceFile = program.getSourceFile(
-            join(__dirname, "converter2/validation/variable.ts"),
+            join(
+                fileURLToPath(import.meta.url),
+                "../converter2/validation/variable.ts",
+            ),
         );
 
         ok(sourceFile, "Specified source file does not exist.");

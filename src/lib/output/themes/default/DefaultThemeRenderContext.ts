@@ -1,38 +1,38 @@
-import type { PageEvent, Renderer } from "../..";
+import type { PageEvent, Renderer } from "../../index.js";
 import type {
     Internationalization,
     TranslationProxy,
-} from "../../../internationalization/internationalization";
+} from "../../../internationalization/internationalization.js";
 import type {
     DocumentReflection,
     CommentDisplayPart,
     DeclarationReflection,
     Reflection,
-} from "../../../models";
-import { type NeverIfInternal, type Options } from "../../../utils";
-import type { DefaultTheme } from "./DefaultTheme";
-import { defaultLayout } from "./layouts/default";
-import { index } from "./partials";
-import { breadcrumb } from "./partials/breadcrumb";
+} from "../../../models/index.js";
+import { type NeverIfInternal, type Options } from "../../../utils/index.js";
+import type { DefaultTheme } from "./DefaultTheme.js";
+import { defaultLayout } from "./layouts/default.js";
+import { index } from "./partials/index.js";
+import { breadcrumb } from "./partials/breadcrumb.js";
 import {
     commentSummary,
     commentTags,
     reflectionFlags,
-} from "./partials/comment";
-import { footer } from "./partials/footer";
-import { header } from "./partials/header";
-import { hierarchy } from "./partials/hierarchy";
-import { buildRefIcons, type icons } from "./partials/icon";
-import { member } from "./partials/member";
-import { memberDeclaration } from "./partials/member.declaration";
-import { memberGetterSetter } from "./partials/member.getterSetter";
-import { memberReference } from "./partials/member.reference";
-import { memberSignatureBody } from "./partials/member.signature.body";
-import { memberSignatureTitle } from "./partials/member.signature.title";
-import { memberSignatures } from "./partials/member.signatures";
-import { memberSources } from "./partials/member.sources";
-import { members } from "./partials/members";
-import { membersGroup } from "./partials/members.group";
+} from "./partials/comment.js";
+import { footer } from "./partials/footer.js";
+import { header } from "./partials/header.js";
+import { hierarchy } from "./partials/hierarchy.js";
+import { buildRefIcons, type icons } from "./partials/icon.js";
+import { member } from "./partials/member.js";
+import { memberDeclaration } from "./partials/member.declaration.js";
+import { memberGetterSetter } from "./partials/member.getterSetter.js";
+import { memberReference } from "./partials/member.reference.js";
+import { memberSignatureBody } from "./partials/member.signature.body.js";
+import { memberSignatureTitle } from "./partials/member.signature.title.js";
+import { memberSignatures } from "./partials/member.signatures.js";
+import { memberSources } from "./partials/member.sources.js";
+import { members } from "./partials/members.js";
+import { membersGroup } from "./partials/members.group.js";
 import {
     sidebar,
     pageSidebar,
@@ -40,17 +40,17 @@ import {
     pageNavigation,
     settings,
     sidebarLinks,
-} from "./partials/navigation";
-import { parameter } from "./partials/parameter";
-import { reflectionPreview } from "./partials/reflectionPreview";
-import { toolbar } from "./partials/toolbar";
-import { type } from "./partials/type";
-import { typeAndParent } from "./partials/typeAndParent";
-import { typeParameters } from "./partials/typeParameters";
-import { indexTemplate } from "./templates";
-import { documentTemplate } from "./templates/document";
-import { hierarchyTemplate } from "./templates/hierarchy";
-import { reflectionTemplate } from "./templates/reflection";
+} from "./partials/navigation.js";
+import { parameter } from "./partials/parameter.js";
+import { reflectionPreview } from "./partials/reflectionPreview.js";
+import { toolbar } from "./partials/toolbar.js";
+import { type } from "./partials/type.js";
+import { typeAndParent } from "./partials/typeAndParent.js";
+import { typeParameters } from "./partials/typeParameters.js";
+import { indexTemplate } from "./templates/index.js";
+import { documentTemplate } from "./templates/document.js";
+import { hierarchyTemplate } from "./templates/hierarchy.js";
+import { reflectionTemplate } from "./templates/reflection.js";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);

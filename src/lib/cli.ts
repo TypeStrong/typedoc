@@ -10,7 +10,7 @@ const ExitCodes = {
     Watching: 7,
 };
 
-import * as td from "typedoc";
+import * as td from "../index.js";
 
 void main();
 
