@@ -7,7 +7,7 @@ import { join } from "path";
 import { fileURLToPath } from "url";
 
 const file = join(
-    fileURLToPath(import.meta.dirname),
+    fileURLToPath(import.meta.url),
     "../../src/lib/utils/general.ts",
 );
 
