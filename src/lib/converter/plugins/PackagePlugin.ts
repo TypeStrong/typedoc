@@ -1,7 +1,6 @@
 import * as Path from "path";
 
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
 import {
@@ -14,6 +13,7 @@ import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { join } from "path";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -48,12 +48,12 @@ export class PackagePlugin extends ConverterComponent {
     private packageJson?: { name: string; version?: string };
 
     override initialize() {
-        this.owner.on(Converter.EVENT_BEGIN, this.onBegin.bind(this));
+        this.owner.on(ConverterEvents.BEGIN, this.onBegin.bind(this));
         this.owner.on(
-            Converter.EVENT_RESOLVE_BEGIN,
+            ConverterEvents.RESOLVE_BEGIN,
             this.onBeginResolve.bind(this),
         );
-        this.owner.on(Converter.EVENT_END, () => {
+        this.owner.on(ConverterEvents.END, () => {
             delete this.readmeFile;
             delete this.readmeContents;
             delete this.packageJson;

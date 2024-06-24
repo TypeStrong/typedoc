@@ -17,9 +17,9 @@ import {
 import { filterMap, zip } from "../../utils/array.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Converter } from "../converter.js";
 import { getHumanName } from "../../utils/index.js";
 import type { TranslatedString } from "../../internationalization/internationalization.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -34,16 +34,16 @@ export class ImplementsPlugin extends ConverterComponent {
      */
     override initialize() {
         this.owner.on(
-            Converter.EVENT_RESOLVE_END,
+            ConverterEvents.RESOLVE_END,
             this.onResolveEnd.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_CREATE_DECLARATION,
+            ConverterEvents.CREATE_DECLARATION,
             this.onDeclaration.bind(this),
             -1000,
         );
         this.owner.on(
-            Converter.EVENT_CREATE_SIGNATURE,
+            ConverterEvents.CREATE_SIGNATURE,
             this.onSignature.bind(this),
             1000,
         );

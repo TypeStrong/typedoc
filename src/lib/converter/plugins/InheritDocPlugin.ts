@@ -7,7 +7,6 @@ import {
     SignatureReflection,
 } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import type { Reflection } from "../../models/reflections/abstract.js";
 import {
@@ -19,6 +18,7 @@ import { zip } from "../../utils/array.js";
 import { parseDeclarationReference } from "../comments/declarationReference.js";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
@@ -44,7 +44,7 @@ export class InheritDocPlugin extends ConverterComponent {
      * Create a new InheritDocPlugin instance.
      */
     override initialize() {
-        this.owner.on(Converter.EVENT_RESOLVE_END, (context: Context) =>
+        this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) =>
             this.processInheritDoc(context.project),
         );
         this.application.on(

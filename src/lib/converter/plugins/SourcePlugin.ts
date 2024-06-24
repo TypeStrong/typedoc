@@ -5,7 +5,6 @@ import {
     SignatureReflection,
 } from "../../models/reflections/index.js";
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import {
     Option,
@@ -16,6 +15,7 @@ import { isNamedNode } from "../utils/nodes.js";
 import { relative } from "path";
 import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -50,17 +50,17 @@ export class SourcePlugin extends ConverterComponent {
      * Create a new SourceHandler instance.
      */
     override initialize() {
-        this.owner.on(Converter.EVENT_END, this.onEnd.bind(this));
+        this.owner.on(ConverterEvents.END, this.onEnd.bind(this));
         this.owner.on(
-            Converter.EVENT_CREATE_DECLARATION,
+            ConverterEvents.CREATE_DECLARATION,
             this.onDeclaration.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_CREATE_SIGNATURE,
+            ConverterEvents.CREATE_SIGNATURE,
             this.onSignature.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_RESOLVE_BEGIN,
+            ConverterEvents.RESOLVE_BEGIN,
             this.onBeginResolve.bind(this),
         );
     }

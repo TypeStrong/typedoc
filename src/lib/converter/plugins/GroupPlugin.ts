@@ -6,11 +6,11 @@ import {
 } from "../../models/reflections/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { getSortFunction } from "../../utils/sort.js";
 import { Option, removeIf } from "../../utils/index.js";
 import { Comment } from "../../models/index.js";
+import { ConverterEvents } from "../converter-events.js";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -63,7 +63,7 @@ export class GroupPlugin extends ConverterComponent {
      */
     override initialize() {
         this.owner.on(
-            Converter.EVENT_RESOLVE_BEGIN,
+            ConverterEvents.RESOLVE_BEGIN,
             () => {
                 this.sortFunction = getSortFunction(this.application.options);
                 GroupPlugin.WEIGHTS = this.groupOrder;
@@ -78,7 +78,7 @@ export class GroupPlugin extends ConverterComponent {
             -100,
         );
         this.owner.on(
-            Converter.EVENT_RESOLVE_END,
+            ConverterEvents.RESOLVE_END,
             this.onEndResolve.bind(this),
             -100,
         );

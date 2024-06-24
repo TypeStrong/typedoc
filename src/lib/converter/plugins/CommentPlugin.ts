@@ -1,5 +1,4 @@
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import {
     type Reflection,
@@ -25,6 +24,7 @@ import {
 } from "../../utils/index.js";
 import { CategoryPlugin } from "./CategoryPlugin.js";
 import { setIntersection } from "../../utils/set.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -155,23 +155,23 @@ export class CommentPlugin extends ConverterComponent {
      */
     override initialize() {
         this.owner.on(
-            Converter.EVENT_CREATE_DECLARATION,
+            ConverterEvents.CREATE_DECLARATION,
             this.onDeclaration.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_CREATE_SIGNATURE,
+            ConverterEvents.CREATE_SIGNATURE,
             this.onDeclaration.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_CREATE_TYPE_PARAMETER,
+            ConverterEvents.CREATE_TYPE_PARAMETER,
             this.onCreateTypeParameter.bind(this),
         );
         this.owner.on(
-            Converter.EVENT_RESOLVE_BEGIN,
+            ConverterEvents.RESOLVE_BEGIN,
             this.onBeginResolve.bind(this),
         );
-        this.owner.on(Converter.EVENT_RESOLVE, this.onResolve.bind(this));
-        this.owner.on(Converter.EVENT_END, () => {
+        this.owner.on(ConverterEvents.RESOLVE, this.onResolve.bind(this));
+        this.owner.on(ConverterEvents.END, () => {
             this._excludeKinds = undefined;
         });
     }

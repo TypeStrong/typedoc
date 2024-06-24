@@ -7,9 +7,9 @@ import {
 } from "../../models/reflections/index.js";
 import { type Type, ReferenceType } from "../../models/types.js";
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { ApplicationEvents } from "../../application-events.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * Responsible for adding `implementedBy` / `implementedFrom`
@@ -21,12 +21,12 @@ export class TypePlugin extends ConverterComponent {
      * Create a new TypeHandler instance.
      */
     override initialize() {
-        this.owner.on(Converter.EVENT_RESOLVE, this.onResolve.bind(this));
+        this.owner.on(ConverterEvents.RESOLVE, this.onResolve.bind(this));
         this.owner.on(
-            Converter.EVENT_RESOLVE_END,
+            ConverterEvents.RESOLVE_END,
             this.onResolveEnd.bind(this),
         );
-        this.owner.on(Converter.EVENT_END, () => this.reflections.clear());
+        this.owner.on(ConverterEvents.END, () => this.reflections.clear());
         this.application.on(ApplicationEvents.REVIVE, this.onRevive.bind(this));
     }
 

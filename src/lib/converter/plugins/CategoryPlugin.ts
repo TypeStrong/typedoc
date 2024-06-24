@@ -6,9 +6,9 @@ import {
 } from "../../models/index.js";
 import { ReflectionCategory } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
-import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { Option, getSortFunction, removeIf } from "../../utils/index.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -42,9 +42,9 @@ export class CategoryPlugin extends ConverterComponent {
      * Create a new CategoryPlugin instance.
      */
     override initialize() {
-        this.owner.on(Converter.EVENT_BEGIN, this.onBegin.bind(this), -200);
+        this.owner.on(ConverterEvents.BEGIN, this.onBegin.bind(this), -200);
         this.owner.on(
-            Converter.EVENT_RESOLVE_END,
+            ConverterEvents.RESOLVE_END,
             this.onEndResolve.bind(this),
             -200,
         );
