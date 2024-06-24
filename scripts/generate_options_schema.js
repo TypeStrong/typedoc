@@ -1,13 +1,9 @@
 //@ts-check
 
-require("ts-node/register");
-
-const { writeFileSync } = require("fs");
-const { addTypeDocOptions } = require("../src/lib/utils/options/sources");
-const { ParameterType } = require("../src");
-const {
-    Internationalization,
-} = require("../src/lib/internationalization/internationalization");
+import { writeFileSync } from "fs";
+import { ParameterType, Internationalization } from "../dist/index.js";
+import { addTypeDocOptions } from "../dist/lib/utils/options/sources/typedoc.js";
+import { SORT_STRATEGIES } from "../dist/lib/utils/sort.js";
 
 const IGNORED_OPTIONS = new Set(["help", "version"]);
 
@@ -21,10 +17,10 @@ const schema = {
     allowTrailingCommas: true,
 };
 
-const i18n = new Internationalization(null).proxy;
+const i18n = new Internationalization.Internationalization(null).proxy;
 
 addTypeDocOptions({
-    /** @param {import("../src").DeclarationOption} option */
+    /** @param {import("../dist/index.js").DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
@@ -41,7 +37,7 @@ addTypeDocOptions({
                 data.type = "array";
                 data.items = { type: "string" };
                 data.default =
-                    /** @type {import("../src").ArrayDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").ArrayDeclarationOption} */ (
                         option
                     ).defaultValue ?? [];
                 break;
@@ -50,7 +46,7 @@ addTypeDocOptions({
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
                     data.default =
-                        /** @type {import("../src").StringDeclarationOption} */ (
+                        /** @type {import("../dist/index.js").StringDeclarationOption} */ (
                             option
                         ).defaultValue ?? "";
                 }
@@ -58,13 +54,13 @@ addTypeDocOptions({
             case ParameterType.Boolean:
                 data.type = "boolean";
                 data.default =
-                    /** @type {import("../src").BooleanDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").BooleanDeclarationOption} */ (
                         option
                     ).defaultValue ?? false;
                 break;
             case ParameterType.Number: {
                 const decl =
-                    /** @type {import("../src").NumberDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").NumberDeclarationOption} */ (
                         option
                     );
                 data.type = "number";
@@ -75,7 +71,7 @@ addTypeDocOptions({
             }
             case ParameterType.Map: {
                 const map =
-                    /** @type {import("../src").MapDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").MapDeclarationOption} */ (
                         option
                     ).map;
                 data.enum =
@@ -87,7 +83,7 @@ addTypeDocOptions({
                                   typeof map[key] === "number" ? key : map[key],
                               );
                 data.default =
-                    /** @type {import("../src").MapDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").MapDeclarationOption} */ (
                         option
                     ).defaultValue;
                 if (!data.enum.includes(data.default)) {
@@ -108,7 +104,7 @@ addTypeDocOptions({
                     properties: {},
                 };
                 const defaults =
-                    /** @type {import("../src").FlagsDeclarationOption<Record<string, boolean>>} */ (
+                    /** @type {import("../dist/index.js").FlagsDeclarationOption<Record<string, boolean>>} */ (
                         option
                     ).defaults;
 
@@ -124,7 +120,7 @@ addTypeDocOptions({
             case ParameterType.Mixed:
             case ParameterType.Object:
                 data.default =
-                    /** @type {import("../src").MixedDeclarationOption} */ (
+                    /** @type {import("../dist/index.js").MixedDeclarationOption} */ (
                         option
                     ).defaultValue;
                 break;
@@ -159,8 +155,7 @@ schema.properties.extends = {
 };
 
 delete schema.properties.sort.items.type;
-schema.properties.sort.items.enum =
-    require("../src/lib/utils/sort").SORT_STRATEGIES;
+schema.properties.sort.items.enum = SORT_STRATEGIES;
 
 const output = JSON.stringify(schema, null, "\t");
 

@@ -40,6 +40,6 @@ jobs:
               run: |
                   git config user.email "typedoc@gerritbirkeland.com"
                   git config user.name "TypeDoc Bot"
-                  node scripts/create_release.js
+                  node scripts/create_release.cjs
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

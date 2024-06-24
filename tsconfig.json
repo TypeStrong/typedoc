@@ -48,11 +48,5 @@
         "src/test/packages",
         "src/test/slow/entry-points",
         "src/test/renderer/testProject"
-    ],
-    // We use ts-node to support mocha runner directly on files
-    "ts-node": {
-        "transpileOnly": true,
-        "esm": true,
-        "preferTsExts": true
-    }
+    ]
 }

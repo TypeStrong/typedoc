@@ -6,8 +6,7 @@
     "configurations": [
         {
             "args": [
-                "-r",
-                "ts-node/register",
+                "--import=tsx",
                 "--timeout",
                 "0",
                 "--config",

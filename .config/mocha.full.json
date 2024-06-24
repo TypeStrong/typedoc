@@ -3,5 +3,5 @@
     "timeout": 0,
     "spec": ["src/test/**/*.test.ts", "src/test/**/*.test.tsx"],
     "exclude": ["src/test/packages/**"],
-    "require": ["ts-node/register"]
+    "node-option": ["import=tsx"]
 }

@@ -1,7 +1,7 @@
 // @ts-check
-const md = require("markdown-it");
-const cp = require("child_process");
-const { writeFile } = require("fs/promises");
+import md from "markdown-it";
+import cp from "child_process";
+import { writeFile } from "fs/promises";
 
 const curl = `curl -s -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/typestrong/typedoc/issues/ISSUE`;
 
@@ -23,9 +23,9 @@ function exec(cmd) {
     });
 }
 
-/** @param {marked.marked.Tokens.Code} code */
+/** @param {import("markdown-it", { with: { "resolution-mode": "require" }}).Token} code */
 function guessExtension(code) {
-    switch (code.lang) {
+    switch (code.info) {
         case "js":
         case "jsx":
             return ".js";

@@ -1,13 +1,22 @@
 // @ts-check
 
-const cp = require("child_process");
-const { join } = require("path");
-const https = require("https");
-const { readFile, writeFile } = require("fs/promises");
+import cp from "child_process";
+import { join } from "path";
+import https from "https";
+import { readFile, writeFile } from "fs/promises";
+import { fileURLToPath } from "url";
+import { readFileSync } from "fs";
 
 const REMOTE = "origin";
 const REPO = "TypeStrong/typedoc";
-const CHANGELOG_MD = join(__dirname, "../CHANGELOG.md");
+const CHANGELOG_MD = join(fileURLToPath(import.meta.url), "../../CHANGELOG.md");
+
+const packageInfo = JSON.parse(
+    readFileSync(
+        join(fileURLToPath(import.meta.url), "../../package.json"),
+        "utf-8",
+    ),
+);
 
 /**
  * @param {string} cmd
@@ -62,9 +71,7 @@ async function createGitHubRelease(args) {
 
 async function main() {
     const lastTag = await exec("git describe --tags --abbrev=0");
-    const currentVersion = `v${
-        require(join(__dirname, "..", "package.json")).version
-    }`;
+    const currentVersion = `v${packageInfo.version}`;
     const [_major, _minor, patch] = currentVersion.substring(1).split(".");
 
     if (lastTag == currentVersion) {

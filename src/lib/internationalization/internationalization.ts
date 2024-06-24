@@ -59,12 +59,6 @@ export type TranslationProxy = {
     ) => TranslatedString;
 };
 
-// If we're running in ts-node, then we need the TS source rather than
-// the compiled file.
-const ext = process[Symbol.for("ts-node.register.instance") as never]
-    ? "cts"
-    : "cjs";
-
 /**
  * Simple internationalization module which supports placeholders.
  * See {@link TranslatableStrings} for a description of how this module works and how
@@ -80,7 +74,7 @@ export class Internationalization {
                 "Locale names may only contain letters and dashes",
             );
             try {
-                return new Map(Object.entries(req(`./locales/${lang}.${ext}`)));
+                return new Map(Object.entries(req(`./locales/${lang}.cjs`)));
             } catch {
                 return new Map();
             }

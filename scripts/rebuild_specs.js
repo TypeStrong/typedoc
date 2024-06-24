@@ -10,7 +10,10 @@ import { getExpandedEntryPointsForPaths } from "../dist/lib/utils/index.js";
 import { ok } from "assert";
 import { fileURLToPath } from "url";
 
-const base = path.join(fileURLToPath(import.meta.url), "../../src/test/converter");
+const base = path.join(
+    fileURLToPath(import.meta.url),
+    "../../src/test/converter",
+);
 
 async function getApp() {
     const app = await td.Application.bootstrap(
@@ -50,6 +53,7 @@ async function getApp() {
         supports(obj) {
             return obj instanceof td.ProjectReflection;
         },
+        /** @param {td.ProjectReflection} obj */
         toObject(_refl, obj) {
             delete obj.packageVersion;
             return obj;

@@ -12,9 +12,9 @@ describe("Internationalization", () => {
         const tsconfigReader = new TSConfigReader();
         tsconfigReader.read(options, new Logger(), process.cwd());
 
-        const translatableTs = join(
+        const defaultLocaleTs = join(
             fileURLToPath(import.meta.url),
-            "../../../lib/internationalization/translatable.ts",
+            "../../../lib/internationalization/locales/en.cts",
         );
 
         const host: ts.LanguageServiceHost = {
@@ -44,24 +44,24 @@ describe("Internationalization", () => {
         const program = service.getProgram();
         ok(program, "Failed to get program for i18n analysis");
 
-        const sf = program.getSourceFile(translatableTs);
+        const sf = program.getSourceFile(defaultLocaleTs);
         ok(sf, "Failed to get source file");
 
         const moduleSymbol = program.getTypeChecker().getSymbolAtLocation(sf)!;
-        const translatable = program
-            .getTypeChecker()
-            .tryGetMemberInModuleExports("translatable", moduleSymbol);
+        const translatable = moduleSymbol.exports?.get(
+            "export=" as ts.__String,
+        );
         ok(translatable, "Failed to get translatable symbol");
 
-        ok(ts.isVariableDeclaration(translatable.valueDeclaration!));
-        ok(ts.isAsExpression(translatable.valueDeclaration.initializer!));
+        ok(ts.isExportAssignment(translatable.valueDeclaration!));
+        ok(ts.isAsExpression(translatable.valueDeclaration.expression));
         ok(
             ts.isObjectLiteralExpression(
-                translatable.valueDeclaration.initializer.expression,
+                translatable.valueDeclaration.expression.expression,
             ),
         );
         const translatableObj =
-            translatable.valueDeclaration.initializer.expression;
+            translatable.valueDeclaration.expression.expression;
 
         translatableObj.forEachChild((child) => {
             ok(ts.isPropertyAssignment(child));
