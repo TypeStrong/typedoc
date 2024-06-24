@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.2 (2024-06-24)
+
 ### Features
 
 -   Added a `--suppressCommentWarningsInDeclarationFiles` option to disable warnings from
