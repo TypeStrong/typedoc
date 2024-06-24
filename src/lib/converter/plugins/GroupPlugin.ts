@@ -5,7 +5,7 @@ import {
     type DocumentReflection,
 } from "../../models/reflections/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { getSortFunction } from "../../utils/sort.js";
@@ -40,7 +40,6 @@ const defaultGroupOrder = [
  *
  * The handler sets the `groups` property of all container reflections.
  */
-@Component({ name: "group" })
 export class GroupPlugin extends ConverterComponent {
     sortFunction!: (
         reflections: Array<DeclarationReflection | DocumentReflection>,

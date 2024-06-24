@@ -15,5 +15,3 @@ export {
     type NavigationElement,
 } from "./themes/default/DefaultTheme.js";
 export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
-
-import "./plugins/index.js";

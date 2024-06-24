@@ -6,7 +6,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../../models/index.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import type { Reflection } from "../../models/reflections/abstract.js";
@@ -33,7 +33,6 @@ import { ApplicationEvents } from "../../application-events.js";
  * - `@typeParam` block
  * - `@return` block
  */
-@Component({ name: "inheritDoc" })
 export class InheritDocPlugin extends ConverterComponent {
     @Option("validation")
     accessor validation!: ValidationOptions;

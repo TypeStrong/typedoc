@@ -2,7 +2,7 @@ import markdown from "markdown-it";
 // @types/markdown-it is busted, this type isn't exported with ESM.
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
-import { Component, ContextAwareRendererComponent } from "../components.js";
+import { ContextAwareRendererComponent } from "../components.js";
 import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events.js";
 import { Option, type Logger, renderElement, assertNever } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
@@ -26,7 +26,6 @@ function getDefaultSlugger(logger: Logger) {
  * Implements markdown and relativeURL helpers for templates.
  * @internal
  */
-@Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
     @Option("lightHighlightTheme")
     accessor lightTheme!: BundledTheme;

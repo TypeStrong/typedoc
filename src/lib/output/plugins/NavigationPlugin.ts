@@ -1,5 +1,5 @@
 import * as Path from "path";
-import { Component, RendererComponent } from "../components.js";
+import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
@@ -8,7 +8,6 @@ import { promisify } from "util";
 
 const gzipP = promisify(gzip);
 
-@Component({ name: "navigation-tree" })
 export class NavigationPlugin extends RendererComponent {
     override initialize() {
         this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));

@@ -1,4 +1,4 @@
-import { Component, RendererComponent } from "../components.js";
+import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
@@ -12,7 +12,6 @@ import { fileURLToPath } from "url";
  * A plugin that copies the subdirectory ´assets´ from the current themes
  * source folder to the output directory.
  */
-@Component({ name: "assets" })
 export class AssetsPlugin extends RendererComponent {
     /** @internal */
     @Option("customCss")

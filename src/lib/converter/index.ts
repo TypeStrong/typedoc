@@ -16,5 +16,3 @@ export type {
     ExternalSymbolResolver,
     ExternalResolveResult,
 } from "./comments/linkResolver.js";
-
-import "./plugins/index.js";

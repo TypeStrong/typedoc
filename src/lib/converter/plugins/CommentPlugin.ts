@@ -1,4 +1,4 @@
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import {
@@ -117,7 +117,6 @@ const MUTUALLY_EXCLUSIVE_MODIFIERS = [
  * - Resolve `@link` tags to point to target reflections
  *
  */
-@Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
     @Option("excludeTags")
     accessor excludeTags!: `@${string}`[];

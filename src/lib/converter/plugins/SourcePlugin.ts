@@ -4,7 +4,7 @@ import {
     DeclarationReflection,
     SignatureReflection,
 } from "../../models/reflections/index.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import {
@@ -20,7 +20,6 @@ import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 /**
  * A handler that attaches source file information to reflections.
  */
-@Component({ name: "source" })
 export class SourcePlugin extends ConverterComponent {
     @Option("disableSources")
     accessor disableSources!: boolean;

@@ -15,7 +15,7 @@ import {
     type Type,
 } from "../../models/types.js";
 import { filterMap, zip } from "../../utils/array.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { Converter } from "../converter.js";
 import { getHumanName } from "../../utils/index.js";
@@ -25,7 +25,6 @@ import type { TranslatedString } from "../../internationalization/internationali
  * A plugin that detects interface implementations of functions and
  * properties on classes and links them.
  */
-@Component({ name: "implements" })
 export class ImplementsPlugin extends ConverterComponent {
     private resolved = new WeakSet<Reflection>();
     private postponed = new WeakMap<Reflection, Set<DeclarationReflection>>();

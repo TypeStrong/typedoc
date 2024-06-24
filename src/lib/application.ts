@@ -18,13 +18,9 @@ import {
     TSConfigReader,
     TypeDocReader,
     PackageJsonReader,
+    AbstractComponent,
 } from "./utils/index.js";
 
-import {
-    type AbstractComponent,
-    ChildableComponent,
-    Component,
-} from "./utils/component.js";
 import { Options, Option } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
 import { unique } from "./utils/array.js";
@@ -109,10 +105,8 @@ export interface ApplicationEvents {
  * Access to an Application instance can be retrieved with {@link Application.bootstrap} or
  * {@link Application.bootstrapWithPlugins}. It can not be constructed manually.
  */
-@Component({ name: "application", internal: true })
-export class Application extends ChildableComponent<
+export class Application extends AbstractComponent<
     Application,
-    AbstractComponent<Application, {}>,
     ApplicationEvents
 > {
     /**

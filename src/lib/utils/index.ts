@@ -6,11 +6,7 @@ export {
     removeIfPresent,
     unique,
 } from "./array.js";
-export {
-    AbstractComponent,
-    ChildableComponent,
-    Component,
-} from "./component.js";
+export { AbstractComponent } from "./component.js";
 export * from "./enum.js";
 export { EventDispatcher } from "./events.js";
 export {

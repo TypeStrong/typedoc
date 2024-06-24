@@ -6,7 +6,7 @@ import {
     type Reflection,
 } from "../../models/reflections/index.js";
 import { type Type, ReferenceType } from "../../models/types.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { ApplicationEvents } from "../../application-events.js";
@@ -14,7 +14,6 @@ import { ApplicationEvents } from "../../application-events.js";
 /**
  * Responsible for adding `implementedBy` / `implementedFrom`
  */
-@Component({ name: "type" })
 export class TypePlugin extends ConverterComponent {
     reflections = new Set<DeclarationReflection>();
 

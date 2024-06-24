@@ -1,4 +1,4 @@
-import { Component, RendererComponent } from "../components.js";
+import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { writeFile } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
@@ -30,7 +30,6 @@ const ICONS_JS = `
  * Plugin which is responsible for creating an icons.js file that embeds the icon SVGs
  * within the page on page load to reduce page sizes.
  */
-@Component({ name: "icons" })
 export class IconsPlugin extends RendererComponent {
     iconHtml?: string;
 

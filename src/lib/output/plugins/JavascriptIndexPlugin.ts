@@ -8,7 +8,7 @@ import {
     ProjectReflection,
     type Reflection,
 } from "../../models/index.js";
-import { Component, RendererComponent } from "../components.js";
+import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
 import { Option, writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
@@ -33,7 +33,6 @@ interface SearchDocument {
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-@Component({ name: "javascript-index" })
 export class JavascriptIndexPlugin extends RendererComponent {
     @Option("searchInComments")
     private accessor searchComments!: boolean;

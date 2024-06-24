@@ -2,7 +2,6 @@ import type { Renderer } from "./renderer.js";
 import type { ProjectReflection } from "../models/reflections/project.js";
 import type { RenderTemplate, UrlMapping } from "./models/UrlMapping.js";
 import { RendererComponent } from "./components.js";
-import { Component } from "../utils/component.js";
 import type { PageEvent } from "./events.js";
 import type { Reflection } from "../models/index.js";
 
@@ -14,7 +13,6 @@ import type { Reflection } from "../models/index.js";
  * and templates to use. Additionally themes can subscribe to the events emitted by
  * {@link Renderer} to control and manipulate the output process.
  */
-@Component({ name: "theme", internal: true })
 export abstract class Theme extends RendererComponent {
     /**
      * Map the models of the given project to the desired output files.

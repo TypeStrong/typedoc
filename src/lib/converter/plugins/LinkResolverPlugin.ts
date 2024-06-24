@@ -1,4 +1,4 @@
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import type { Context } from "../../converter/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
@@ -16,7 +16,6 @@ import { ApplicationEvents } from "../../application-events.js";
 /**
  * A plugin that resolves `{@link Foo}` tags.
  */
-@Component({ name: "link-resolver" })
 export class LinkResolverPlugin extends ConverterComponent {
     @Option("validation")
     accessor validation!: ValidationOptions;

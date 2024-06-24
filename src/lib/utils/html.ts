@@ -1,8 +1,5 @@
-// There is a fixed list of named character references which will not be expanded in the future.
-// This json file is based on https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
-// with some modifications to reduce the file size of the original JSON.
 import { assertNever } from "./general.js";
-import htmlEntities from "./html-entities.json";
+import { htmlEntities } from "./html-entities.js";
 
 interface EntityData {
     /** code points associated with this escape */

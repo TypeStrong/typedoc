@@ -1,12 +1,11 @@
 import Path from "path";
-import { Component, RendererComponent } from "../components.js";
+import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { writeFile } from "../../utils/index.js";
 import { escapeHtml } from "../../utils/html.js";
 import { Fragment } from "../../utils/jsx.js";
 
-@Component({ name: "sitemap" })
 export class SitemapPlugin extends RendererComponent {
     private get hostedBaseUrl() {
         const url = this.application.options.getValue("hostedBaseUrl");

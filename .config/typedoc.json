@@ -1,10 +1,6 @@
 {
     "$schema": "https://typedoc.org/schema.json",
     "intentionallyNotExported": [
-        "ComponentClass",
-        "AbstractComponent",
-        "ConverterComponent",
-        "RendererComponent",
         "SORT_STRATEGIES",
         "_ModelToObject",
         "EventHooksMomento",

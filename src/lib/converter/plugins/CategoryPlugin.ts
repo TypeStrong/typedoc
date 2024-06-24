@@ -5,7 +5,7 @@ import {
     type DocumentReflection,
 } from "../../models/index.js";
 import { ReflectionCategory } from "../../models/index.js";
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { Option, getSortFunction, removeIf } from "../../utils/index.js";
@@ -15,7 +15,6 @@ import { Option, getSortFunction, removeIf } from "../../utils/index.js";
  *
  * The handler sets the ´category´ property of all reflections.
  */
-@Component({ name: "category" })
 export class CategoryPlugin extends ConverterComponent {
     sortFunction!: (
         reflections: Array<DeclarationReflection | DocumentReflection>,

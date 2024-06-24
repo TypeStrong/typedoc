@@ -21,9 +21,7 @@ import type { ProjectReflection } from "../models/reflections/project.js";
 import type { RenderTemplate } from "./models/UrlMapping.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
-import { RendererComponent } from "./components.js";
-import { Component, ChildableComponent } from "../utils/component.js";
-import { Option, EventHooks } from "../utils/index.js";
+import { Option, EventHooks, AbstractComponent } from "../utils/index.js";
 import { loadHighlighter } from "../utils/highlighter.js";
 import type {
     BundledLanguage,
@@ -34,6 +32,15 @@ import type { JsxElement } from "../utils/jsx.elements.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 import { validateStateIsClean } from "./themes/default/partials/type.js";
 import { setRenderSettings } from "../utils/jsx.js";
+
+import {
+    AssetsPlugin,
+    IconsPlugin,
+    JavascriptIndexPlugin,
+    MarkedPlugin,
+    NavigationPlugin,
+    SitemapPlugin,
+} from "./plugins/index.js";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -161,12 +168,7 @@ export interface RendererEvents {
  *
  * @document ../../../internal-docs/custom-themes.md
  */
-@Component({ name: "renderer", internal: true, childClass: RendererComponent })
-export class Renderer extends ChildableComponent<
-    Application,
-    RendererComponent,
-    RendererEvents
-> {
+export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
     ]);
@@ -250,6 +252,19 @@ export class Renderer extends ChildableComponent<
     private accessor pretty!: boolean;
 
     renderStartTime = -1;
+
+    markedPlugin: MarkedPlugin;
+
+    constructor(owner: Application) {
+        super(owner);
+
+        this.markedPlugin = new MarkedPlugin(this);
+        new AssetsPlugin(this);
+        new IconsPlugin(this);
+        new JavascriptIndexPlugin(this);
+        new NavigationPlugin(this);
+        new SitemapPlugin(this);
+    }
 
     /**
      * Define a new theme that can be used to render output.
@@ -449,7 +464,3 @@ export class Renderer extends ChildableComponent<
         return true;
     }
 }
-
-// HACK: THIS HAS TO STAY DOWN HERE
-// if you try to move it up to the top of the file, then you'll run into stuff being used before it has been defined.
-await import("./plugins/index.js");

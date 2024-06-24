@@ -17,8 +17,7 @@ import {
     type TypeParameterReflection,
 } from "../models/index.js";
 import { Context } from "./context.js";
-import { ConverterComponent } from "./components.js";
-import { Component, ChildableComponent } from "../utils/component.js";
+import { AbstractComponent } from "../utils/component.js";
 import {
     Option,
     MinimalSourceFile,
@@ -53,6 +52,16 @@ import {
 import { basename, dirname, resolve } from "path";
 import type { FileRegistry } from "../models/FileRegistry.js";
 
+import { GroupPlugin } from "./plugins/GroupPlugin.js";
+import { CategoryPlugin } from "./plugins/CategoryPlugin.js";
+import { CommentPlugin } from "./plugins/CommentPlugin.js";
+import { ImplementsPlugin } from "./plugins/ImplementsPlugin.js";
+import { InheritDocPlugin } from "./plugins/InheritDocPlugin.js";
+import { LinkResolverPlugin } from "./plugins/LinkResolverPlugin.js";
+import { PackagePlugin } from "./plugins/PackagePlugin.js";
+import { SourcePlugin } from "./plugins/SourcePlugin.js";
+import { TypePlugin } from "./plugins/TypePlugin.js";
+
 export interface ConverterEvents {
     begin: [Context];
     end: [Context];
@@ -81,16 +90,7 @@ export interface ConverterEvents {
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-@Component({
-    name: "converter",
-    internal: true,
-    childClass: ConverterComponent,
-})
-export class Converter extends ChildableComponent<
-    Application,
-    ConverterComponent,
-    ConverterEvents
-> {
+export class Converter extends AbstractComponent<Application, ConverterEvents> {
     /** @internal */
     @Option("externalPattern")
     accessor externalPattern!: string[];
@@ -257,6 +257,16 @@ export class Converter extends ChildableComponent<
                 return modLinks["*"];
             }
         });
+
+        new CategoryPlugin(this);
+        new CommentPlugin(this);
+        new GroupPlugin(this);
+        new ImplementsPlugin(this);
+        new InheritDocPlugin(this);
+        new LinkResolverPlugin(this);
+        new PackagePlugin(this);
+        new SourcePlugin(this);
+        new TypePlugin(this);
     }
 
     /**

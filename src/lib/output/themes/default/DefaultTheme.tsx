@@ -190,7 +190,7 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer) {
         super(renderer);
-        this.markedPlugin = renderer.getComponent("marked") as MarkedPlugin;
+        this.markedPlugin = renderer.markedPlugin;
     }
 
     /**

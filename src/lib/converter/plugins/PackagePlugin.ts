@@ -1,6 +1,6 @@
 import * as Path from "path";
 
-import { Component, ConverterComponent } from "../components.js";
+import { ConverterComponent } from "../components.js";
 import { Converter } from "../converter.js";
 import type { Context } from "../context.js";
 import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
@@ -19,7 +19,6 @@ import { join } from "path";
  * A handler that tries to find the package.json and readme.md files of the
  * current project.
  */
-@Component({ name: "package" })
 export class PackagePlugin extends ConverterComponent {
     @Option("readme")
     accessor readme!: string;
