@@ -32,8 +32,9 @@ export const blockTags = [
     "@property",
     "@return",
     "@satisfies",
+    "@since",
     "@template", // Alias for @typeParam
-    "@type", // Because TypeScript is important!
+    "@type",
     "@typedef",
 ] as const;
 
