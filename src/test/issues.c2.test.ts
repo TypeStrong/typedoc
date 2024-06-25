@@ -1625,4 +1625,15 @@ describe("Issue Tests", () => {
         convert();
         logger.expectNoOtherMessages();
     });
+
+    it("#2614 supports @since tag", () => {
+        const project = convert();
+        const foo = querySig(project, "foo");
+        equal(
+            foo.comment?.getTag("@since"),
+            new CommentTag("@since", [{ kind: "text", text: "1.0.0" }]),
+        );
+
+        logger.expectNoOtherMessages();
+    });
 });

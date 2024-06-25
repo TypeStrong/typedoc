@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `@since` to the default list of recognized tags, #2614.
+
 ## v0.26.2 (2024-06-24)
 
 ### Features
