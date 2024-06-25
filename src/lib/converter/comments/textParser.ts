@@ -189,7 +189,7 @@ function checkMarkdownLink(
         if (link.ok) {
             // Only make a relative-link display part if it's actually a relative link.
             // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
-            if (isRelativeLink(link.str)) {
+            if (isRelativePath(link.str)) {
                 return {
                     pos: labelEnd + 2,
                     end: link.pos,
@@ -240,7 +240,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                 );
 
                 if (link.ok) {
-                    if (isRelativeLink(link.str)) {
+                    if (isRelativePath(link.str)) {
                         return {
                             pos: lookahead,
                             end: link.pos,
@@ -284,7 +284,7 @@ function checkAttribute(
         ) {
             parser.step();
 
-            if (isRelativeLink(parser.currentAttributeValue)) {
+            if (isRelativePath(parser.currentAttributeValue)) {
                 data.pos = parser.pos;
                 return {
                     pos: parser.currentAttributeValueStart,
@@ -302,8 +302,14 @@ function checkAttribute(
     }
 }
 
-function isRelativeLink(link: string) {
-    return !/^[a-z]+:\/\/|^\/|^[a-z]:\\|^#/i.test(link);
+function isRelativePath(link: string) {
+    // Lots of edge cases encoded right here!
+    // Originally, this attempted to match protocol://, but...
+    // `mailto:example@example.com` is not a relative path
+    // `C:\foo` is not a relative path
+    // `/etc/passwd` is not a relative path
+    // `#anchor` is not a relative path
+    return !/^[a-z]+:|^\/|^#/i.test(link);
 }
 
 function findLabelEnd(text: string, pos: number) {
