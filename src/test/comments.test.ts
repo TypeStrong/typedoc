@@ -1440,6 +1440,16 @@ describe("Comment Parser", () => {
         ] satisfies CommentDisplayPart[]);
     });
 
+    it("Does not mistake mailto: links as relative paths", () => {
+        const comment = getComment(`/**
+            * [1]: mailto:example@example.com
+            */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: "[1]: mailto:example@example.com" },
+        ] satisfies CommentDisplayPart[]);
+    });
+
     it("Recognizes HTML image links", () => {
         const comment = getComment(`/**
         * <img width=100 height="200" src="./test.png" >
