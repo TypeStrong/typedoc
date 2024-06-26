@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   "On This Page" navigation now includes the page groups in collapsible sections, #2616.
+
 ### Bug Fixes
 
 -   `mailto:` links are no longer incorrectly recognized as relative paths, #2613.

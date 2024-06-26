@@ -32,7 +32,6 @@ import { memberSignatureTitle } from "./partials/member.signature.title";
 import { memberSignatures } from "./partials/member.signatures";
 import { memberSources } from "./partials/member.sources";
 import { members } from "./partials/members";
-import { membersGroup } from "./partials/members.group";
 import {
     sidebar,
     pageSidebar,
@@ -63,7 +62,7 @@ export class DefaultThemeRenderContext {
     i18n: TranslationProxy;
 
     constructor(
-        private theme: DefaultTheme,
+        readonly theme: DefaultTheme,
         public page: PageEvent<Reflection>,
         options: Options,
     ) {
@@ -144,7 +143,8 @@ export class DefaultThemeRenderContext {
     memberSignatures = bind(memberSignatures, this);
     memberSources = bind(memberSources, this);
     members = bind(members, this);
-    membersGroup = bind(membersGroup, this);
+    /** @deprecated Since 0.26.3 members does group/category flattening internally */
+    membersGroup?: Function;
     sidebar = bind(sidebar, this);
     pageSidebar = bind(pageSidebar, this);
     sidebarLinks = bind(sidebarLinks, this);

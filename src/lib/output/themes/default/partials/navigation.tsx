@@ -1,6 +1,6 @@
 import { type Reflection, ReflectionFlag, ReflectionKind } from "../../../../models";
 import { JSX } from "../../../../utils";
-import type { PageEvent } from "../../../events";
+import type { PageEvent, PageHeading } from "../../../events";
 import { classNames, getDisplayName, wbr } from "../../lib";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 
@@ -145,7 +145,7 @@ export function pageSidebar(context: DefaultThemeRenderContext, props: PageEvent
     );
 }
 
-export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+function buildSectionNavigation(context: DefaultThemeRenderContext, headings: PageHeading[]) {
     const levels: JSX.Element[][] = [[]];
 
     function finalizeLevel(finishedHandlingHeadings: boolean) {
@@ -165,8 +165,12 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
         levels[levels.length - 1].push(built);
     }
 
-    for (const heading of props.pageHeadings) {
-        const inferredLevel = heading.level ? heading.level + 1 : 1;
+    for (const heading of headings) {
+        const inferredLevel = heading.level
+            ? heading.level + 2 // regular heading
+            : heading.kind
+              ? 2 // reflection
+              : 1; // group/category
         while (inferredLevel < levels.length) {
             finalizeLevel(false);
         }
@@ -187,12 +191,33 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
         finalizeLevel(true);
     }
 
-    if (!levels[0].length) {
+    levels.unshift([]);
+    finalizeLevel(true);
+    return levels[0];
+}
+
+export function pageNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
+    if (!props.pageSections.some((sect) => sect.headings.length)) {
         return <></>;
     }
 
-    levels.unshift([]);
-    finalizeLevel(true);
+    const sections: JSX.Children = [];
+
+    for (const section of props.pageSections) {
+        if (section.title) {
+            sections.push(
+                <details open class="tsd-accordion tsd-page-navigation-section">
+                    <summary class="tsd-accordion-summary" data-key={`tsd-otp-${section.title}`}>
+                        {context.icons.chevronDown()}
+                        {section.title}
+                    </summary>
+                    <div>{buildSectionNavigation(context, section.headings)}</div>
+                </details>,
+            );
+        } else {
+            sections.push(buildSectionNavigation(context, section.headings));
+        }
+    }
 
     return (
         <details open={true} class="tsd-accordion tsd-page-navigation">
@@ -202,7 +227,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
                     {context.i18n.theme_on_this_page()}
                 </h3>
             </summary>
-            <div class="tsd-accordion-details">{levels[0]}</div>
+            <div class="tsd-accordion-details">{sections}</div>
         </details>
     );
 }

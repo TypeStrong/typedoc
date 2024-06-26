@@ -69,6 +69,14 @@ export class RendererEvent {
     }
 }
 
+export interface PageHeading {
+    link: string;
+    text: string;
+    level?: number;
+    kind?: ReflectionKind;
+    classes?: string;
+}
+
 /**
  * An event emitted by the {@link Renderer} class before and after the
  * markup of a page is rendered.
@@ -108,13 +116,29 @@ export class PageEvent<out Model = unknown> extends Event {
      * Links to content within this page that should be rendered in the page navigation.
      * This is built when rendering the document content.
      */
-    pageHeadings: Array<{
-        link: string;
-        text: string;
-        level?: number;
-        kind?: ReflectionKind;
-        classes?: string;
-    }> = [];
+    pageHeadings: PageHeading[] = [];
+
+    /**
+     * Sections of the page, generally set by `@group`s
+     */
+    pageSections = [
+        {
+            title: "",
+            headings: this.pageHeadings,
+        },
+    ];
+
+    /**
+     * Start a new section of the page. Sections are collapsible within
+     * the "On This Page" sidebar.
+     */
+    startNewSection(title: string) {
+        this.pageHeadings = [];
+        this.pageSections.push({
+            title,
+            headings: this.pageHeadings,
+        });
+    }
 
     /**
      * Triggered before a document will be rendered.
