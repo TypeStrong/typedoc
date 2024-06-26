@@ -101,7 +101,7 @@ export function textContent(
         data.pos = ref.end;
         if (!ref.target) {
             warning(
-                i18n.relative_path_0_does_not_exist(
+                i18n.relative_path_0_is_not_a_file_and_will_not_be_copied_to_output(
                     token.text.slice(ref.pos, ref.end),
                 ),
                 {

@@ -52,7 +52,7 @@ export = buildIncompleteTranslation({
         "TypeDoc 不支持在带有注释的单个 @template 标记中定义多个类型参数",
     failed_to_find_jsdoc_tag_for_name_0:
         "解析注释后无法找到 {0} 的 JSDoc 标签，请提交错误报告",
-    relative_path_0_does_not_exist: "相对路径 {0} 不存在",
+    // relative_path_0_is_not_a_file_and_will_not_be_copied_to_output
     inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0:
         "内联 @inheritDoc 标记不应出现在块标记内，因为它不会在 {0} 处的注释中被处理。",
     at_most_one_remarks_tag_expected_in_comment_at_0:
@@ -145,8 +145,7 @@ export = buildIncompleteTranslation({
     file_0_not_an_object: "文件 {0} 不是对象",
     serialized_project_referenced_0_not_part_of_project:
         "序列化项目引用了反射 {0}，但它不是项目的一部分",
-    saved_relative_path_0_resolved_from_1_does_not_exist:
-        "序列化项目引用了 {0}，相对于 {1} 而言，它并不存在",
+    // saved_relative_path_0_resolved_from_1_is_not_a_file
     circular_reference_extends_0: "{0} 的“extends”字段出现循环引用",
     failed_resolve_0_to_file_in_1: "无法将 {0} 解析为 {1} 中的文件",
     option_0_can_only_be_specified_by_config_file:
