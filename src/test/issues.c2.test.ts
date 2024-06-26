@@ -1636,4 +1636,15 @@ describe("Issue Tests", () => {
 
         logger.expectNoOtherMessages();
     });
+
+    it("#2618 supports @description tag", () => {
+        const project = convert();
+        const foo = querySig(project, "foo");
+        equal(
+            foo.comment?.getTag("@description"),
+            new CommentTag("@description", [{ kind: "text", text: "Bar" }]),
+        );
+
+        logger.expectNoOtherMessages();
+    });
 });

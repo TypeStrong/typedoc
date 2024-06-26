@@ -20,6 +20,7 @@ export const blockTags = [
     "@category",
     "@categoryDescription",
     "@default",
+    "@description",
     "@document",
     "@group",
     "@groupDescription",

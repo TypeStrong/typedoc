@@ -8,6 +8,7 @@
 
 -   `mailto:` links are no longer incorrectly recognized as relative paths, #2613.
 -   Added `@since` to the default list of recognized tags, #2614.
+-   Added `@description` to the default list of recognized tags, #2618
 -   Relative paths to directories will no longer cause the directory to be copied into the media directory, #2617.
 
 ## v0.26.2 (2024-06-24)
