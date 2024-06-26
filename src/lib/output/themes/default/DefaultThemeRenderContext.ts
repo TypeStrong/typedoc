@@ -32,7 +32,6 @@ import { memberSignatureTitle } from "./partials/member.signature.title.js";
 import { memberSignatures } from "./partials/member.signatures.js";
 import { memberSources } from "./partials/member.sources.js";
 import { members } from "./partials/members.js";
-import { membersGroup } from "./partials/members.group.js";
 import {
     sidebar,
     pageSidebar,
@@ -63,7 +62,7 @@ export class DefaultThemeRenderContext {
     i18n: TranslationProxy;
 
     constructor(
-        private theme: DefaultTheme,
+        readonly theme: DefaultTheme,
         public page: PageEvent<Reflection>,
         options: Options,
     ) {
@@ -144,7 +143,6 @@ export class DefaultThemeRenderContext {
     memberSignatures = bind(memberSignatures, this);
     memberSources = bind(memberSources, this);
     members = bind(members, this);
-    membersGroup = bind(membersGroup, this);
     sidebar = bind(sidebar, this);
     pageSidebar = bind(pageSidebar, this);
     sidebarLinks = bind(sidebarLinks, this);
