@@ -27,8 +27,8 @@
   "dependencies": {
     "lunr": "^2.3.9",
     "markdown-it": "^14.1.0",
-    "minimatch": "^9.0.4",
-    "shiki": "^1.9.0",
+    "minimatch": "^9.0.5",
+    "shiki": "^1.9.1",
     "yaml": "^2.4.5"
   },
   "peerDependencies": {
@@ -37,17 +37,17 @@
   "devDependencies": {
     "@types/lunr": "^2.3.7",
     "@types/markdown-it": "^14.1.1",
-    "@types/mocha": "^10.0.6",
+    "@types/mocha": "^10.0.7",
     "@types/node": "18",
     "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe",
     "c8": "^10.1.2",
     "esbuild": "^0.21.5",
     "eslint": "^9.5.0",
-    "mocha": "^10.4.0",
+    "mocha": "^10.5.2",
     "prettier": "3.3.2",
-    "puppeteer": "^22.12.0",
+    "puppeteer": "^22.12.1",
     "tsx": "^4.15.7",
-    "typescript-eslint": "^7.13.1",
+    "typescript-eslint": "^7.14.1",
     "typescript": "5.5.2"
   },
   "files": [
