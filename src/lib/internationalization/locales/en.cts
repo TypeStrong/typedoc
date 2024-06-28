@@ -57,7 +57,7 @@ export = {
     // comments/parser.ts
     multiple_type_parameters_on_template_tag_unsupported: `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment`,
     failed_to_find_jsdoc_tag_for_name_0: `Failed to find JSDoc tag for {0} after parsing comment, please file a bug report`,
-    relative_path_0_does_not_exist: `The relative path {0} does not exist`,
+    relative_path_0_is_not_a_file_and_will_not_be_copied_to_output: `The relative path {0} is not a file and will not be copied to the output directory`,
 
     inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0:
         "An inline @inheritDoc tag should not appear within a block tag as it will not be processed in comment at {0}",
