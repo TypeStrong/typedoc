@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.3 (2024-06-28)
+
 ### Features
 
 -   "On This Page" navigation now includes the page groups in collapsible sections, #2616.
