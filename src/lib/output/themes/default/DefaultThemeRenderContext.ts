@@ -40,7 +40,6 @@ import {
     settings,
     sidebarLinks,
 } from "./partials/navigation.js";
-import { parameter } from "./partials/parameter.js";
 import { reflectionPreview } from "./partials/reflectionPreview.js";
 import { toolbar } from "./partials/toolbar.js";
 import { type } from "./partials/type.js";
@@ -50,6 +49,11 @@ import { indexTemplate } from "./templates/index.js";
 import { documentTemplate } from "./templates/document.js";
 import { hierarchyTemplate } from "./templates/hierarchy.js";
 import { reflectionTemplate } from "./templates/reflection.js";
+import {
+    typeDeclaration,
+    typeDetails,
+    typeDetailsIfUseful,
+} from "./partials/typeDetails.js";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);
@@ -126,6 +130,24 @@ export class DefaultThemeRenderContext {
      */
     reflectionPreview = bind(reflectionPreview, this);
 
+    /**
+     * Used to render additional details about a type. This is used to implement
+     * the `@expand` tag, comments on union members, comments on object type members...
+     */
+    typeDetails = bind(typeDetails, this);
+
+    /**
+     * Should call the {@link typeDetails} helper if rendering additional details
+     * about the type will provide the user with more information about the type.
+     */
+    typeDetailsIfUseful = bind(typeDetailsIfUseful, this);
+
+    /**
+     * Wrapper around {@link typeDetails} which checks if it is useful
+     * and includes a "Type Declaration" header.
+     */
+    typeDeclaration = bind(typeDeclaration, this);
+
     breadcrumb = bind(breadcrumb, this);
     commentSummary = bind(commentSummary, this);
     commentTags = bind(commentTags, this);
@@ -149,7 +171,6 @@ export class DefaultThemeRenderContext {
     settings = bind(settings, this);
     navigation = bind(navigation, this);
     pageNavigation = bind(pageNavigation, this);
-    parameter = bind(parameter, this);
     toolbar = bind(toolbar, this);
     type = bind(type, this);
     typeAndParent = bind(typeAndParent, this);

@@ -379,7 +379,7 @@ const typeRenderers: {
                             {context.memberSignatureTitle(sig, {
                                 hideName: true,
                                 arrowStyle: false,
-                                hideParamTypes: false,
+                                hideTypes: false,
                             })}
                         </>,
                     );
@@ -418,7 +418,7 @@ const typeRenderers: {
                     {context.memberSignatureTitle(type.declaration.signatures[0], {
                         hideName: true,
                         arrowStyle: true,
-                        hideParamTypes: false,
+                        hideTypes: false,
                     })}
                     <span class="tsd-signature-symbol">)</span>
                 </>
@@ -426,7 +426,7 @@ const typeRenderers: {
         }
 
         for (const item of type.declaration.signatures || []) {
-            members.push(context.memberSignatureTitle(item, { hideName: true, hideParamTypes: false }));
+            members.push(context.memberSignatureTitle(item, { hideName: true, hideTypes: false }));
         }
 
         if (members.length) {

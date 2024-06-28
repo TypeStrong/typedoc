@@ -14,6 +14,8 @@ import type { DeclarationReference } from "../converter/comments/declarationRefe
 import { findPackageForPath } from "../utils/fs.js";
 import { ReflectionKind } from "./reflections/kind.js";
 import { Comment, type CommentDisplayPart } from "./comments/index.js";
+import { joinArray } from "../utils/array.js";
+import type { SignatureReflection } from "./reflections/signature.js";
 
 /**
  * Base class of all type definitions.
@@ -60,6 +62,13 @@ export abstract class Type {
      * the returned string should be wrapped in parenthesis.
      */
     protected abstract getTypeString(): string;
+
+    /**
+     * Return the estimated size of the type if it was all printed on one line.
+     */
+    estimatePrintWidth(): number {
+        return this.getTypeString().length;
+    }
 }
 
 /** @category Types */
@@ -1060,15 +1069,29 @@ export class ReflectionType extends Type {
         super();
     }
 
-    // This really ought to do better, but I'm putting off investing effort here until
-    // I'm fully convinced that keeping this is a good idea. Currently, I'd much rather
-    // change object types to not create reflections.
     protected override getTypeString() {
-        if (!this.declaration.children && this.declaration.signatures) {
-            return "Function";
-        } else {
-            return "Object";
+        const parts: string[] = [];
+        const sigs = this.declaration.getAllSignatures();
+        for (const sig of sigs) {
+            parts.push(sigStr(sig, ": "));
         }
+
+        if (this.declaration.children) {
+            for (const p of this.declaration.children) {
+                parts.push(`${p.name}${propertySep(p)} ${typeStr(p.type)}`);
+            }
+            return `{ ${parts.join("; ")} }`;
+        }
+
+        if (sigs.length === 1) {
+            return sigStr(sigs[0], " => ");
+        }
+
+        if (parts.length === 0) {
+            return "{}";
+        }
+
+        return `{ ${parts.join("; ")} }`;
     }
 
     override needsParenthesis(): boolean {
@@ -1422,4 +1445,21 @@ export class UnknownType extends Type {
             name: this.name,
         };
     }
+}
+
+function propertySep(refl: Reflection) {
+    return refl.flags.isOptional ? "?:" : ":";
+}
+
+function typeStr(type: Type | undefined) {
+    return type?.toString() ?? "any";
+}
+
+function sigStr(sig: SignatureReflection, sep: string) {
+    const params = joinArray(
+        sig.parameters,
+        ", ",
+        (p) => `${p.name}${propertySep(p)} ${typeStr(p.type)}`,
+    );
+    return `(${params})${sep}${typeStr(sig.type)}`;
 }

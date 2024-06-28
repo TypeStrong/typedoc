@@ -1355,7 +1355,7 @@ describe("Issue Tests", () => {
         const project = convert();
 
         const is = querySig(project, "FooA.is");
-        equal(is.type?.toString(), "this is Foo & Object");
+        equal(is.type?.toString(), "this is Foo & { type: Type }");
     });
 
     it("#2466 Does not care about conversion order for @link resolution, ", () => {
@@ -1437,18 +1437,10 @@ describe("Issue Tests", () => {
         const project = convert();
         const type = querySig(project, "fromPartial").typeParameters![0].type;
 
-        // function fromPartial<I extends Value & {
-        //     values: Value[] & (Value & {
-        //         values: Value[] & (Value & {
-        //             values: Value[] & (Value & {
-        //                 values: Value[] & (Value & {
-        //                     ...;
-        //                 })[];
-        //             })[];
-        //         })[];
-        //     })[];
-        // }>(object: I): void
-        equal(type?.toString(), "Value & Object");
+        equal(
+            type?.toString(),
+            "Value & { values: Value[] & (Value & { values: Value[] & (Value & { values: (...) & (...) })[] })[] }",
+        );
     });
 
     it("#2508 Handles constructed references to enumeration types, ", () => {

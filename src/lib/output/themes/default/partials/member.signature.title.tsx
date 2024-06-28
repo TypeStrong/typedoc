@@ -36,10 +36,10 @@ export function memberSignatureTitle(
     {
         hideName = false,
         arrowStyle = false,
-        hideParamTypes = context.options.getValue("hideParameterTypesInTitle"),
-    }: { hideName?: boolean; arrowStyle?: boolean; hideParamTypes?: boolean } = {},
+        hideTypes = context.options.getValue("hideTypesInSignatureTitle"),
+    }: { hideName?: boolean; arrowStyle?: boolean; hideTypes?: boolean } = {},
 ) {
-    const renderParam = hideParamTypes ? renderParameterWithoutType : renderParameterWithType.bind(null, context);
+    const renderParam = hideTypes ? renderParameterWithoutType : renderParameterWithType.bind(null, context);
 
     return (
         <>
@@ -59,7 +59,7 @@ export function memberSignatureTitle(
             <span class="tsd-signature-symbol">(</span>
             {join(", ", props.parameters ?? [], renderParam)}
             <span class="tsd-signature-symbol">)</span>
-            {!!props.type && (
+            {!!props.type && !hideTypes && (
                 <>
                     <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
                     {context.type(props.type)}

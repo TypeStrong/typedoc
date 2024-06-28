@@ -754,6 +754,8 @@ function convertProperty(
             parameterType = declaration.type;
         }
         setModifiers(symbol, declaration, reflection);
+    } else {
+        setSymbolModifiers(symbol, reflection);
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
@@ -1283,6 +1285,7 @@ function setModifiers(
     declaration: ts.Declaration | undefined,
     reflection: Reflection,
 ) {
+    setSymbolModifiers(symbol, reflection);
     if (!declaration) {
         return;
     }
@@ -1333,4 +1336,11 @@ function setModifiers(
 
     // ReflectionFlag.Static happens when constructing the reflection.
     // We don't have sufficient information here to determine if it ought to be static.
+}
+
+function setSymbolModifiers(symbol: ts.Symbol, reflection: Reflection) {
+    reflection.setFlag(
+        ReflectionFlag.Optional,
+        hasAllFlags(symbol.flags, ts.SymbolFlags.Optional),
+    );
 }

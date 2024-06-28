@@ -170,7 +170,9 @@ export class Comment {
     /**
      * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
      */
-    static cloneDisplayParts(parts: readonly CommentDisplayPart[]) {
+    static cloneDisplayParts(
+        parts: readonly CommentDisplayPart[],
+    ): CommentDisplayPart[] {
         return parts.map((p) => ({ ...p }));
     }
 

@@ -314,19 +314,12 @@
                           "name": "bold",
                           "variant": "declaration",
                           "kind": 1024,
-                          "flags": {},
+                          "flags": {
+                            "isOptional": true
+                          },
                           "type": {
-                            "type": "union",
-                            "types": [
-                              {
-                                "type": "intrinsic",
-                                "name": "undefined"
-                              },
-                              {
-                                "type": "intrinsic",
-                                "name": "boolean"
-                              }
-                            ]
+                            "type": "intrinsic",
+                            "name": "boolean"
                           },
                           "defaultValue": "false"
                         },
@@ -335,26 +328,19 @@
                           "name": "location",
                           "variant": "declaration",
                           "kind": 1024,
-                          "flags": {},
+                          "flags": {
+                            "isOptional": true
+                          },
                           "type": {
-                            "type": "union",
-                            "types": [
+                            "type": "tuple",
+                            "elements": [
                               {
                                 "type": "intrinsic",
-                                "name": "undefined"
+                                "name": "number"
                               },
                               {
-                                "type": "tuple",
-                                "elements": [
-                                  {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  },
-                                  {
-                                    "type": "intrinsic",
-                                    "name": "number"
-                                  }
-                                ]
+                                "type": "intrinsic",
+                                "name": "number"
                               }
                             ]
                           },
@@ -365,19 +351,12 @@
                           "name": "text",
                           "variant": "declaration",
                           "kind": 1024,
-                          "flags": {},
+                          "flags": {
+                            "isOptional": true
+                          },
                           "type": {
-                            "type": "union",
-                            "types": [
-                              {
-                                "type": "intrinsic",
-                                "name": "undefined"
-                              },
-                              {
-                                "type": "intrinsic",
-                                "name": "string"
-                              }
-                            ]
+                            "type": "intrinsic",
+                            "name": "string"
                           },
                           "defaultValue": "\"\""
                         }

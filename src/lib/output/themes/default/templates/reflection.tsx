@@ -5,7 +5,6 @@ import {
     type ContainerReflection,
     DeclarationReflection,
     ReflectionKind,
-    ReflectionType,
     type SignatureReflection,
 } from "../../../../models/index.js";
 import { JSX, Raw } from "../../../../utils/index.js";
@@ -96,7 +95,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
             </div>
             {context.commentSummary(index)}
             {context.commentTags(index)}
-            {index.type instanceof ReflectionType && context.parameter(index.type.declaration)}
+            {context.typeDetailsIfUseful(index.type)}
         </li>
     );
 }

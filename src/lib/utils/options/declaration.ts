@@ -168,7 +168,7 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     customFooterHtml: string;
     customFooterHtmlDisableWrapper: boolean;
-    hideParameterTypesInTitle: boolean;
+    hideTypesInSignatureTitle: boolean;
     searchInComments: boolean;
     searchInDocuments: boolean;
     cleanOutputDir: boolean;

@@ -241,7 +241,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc 链接后的自定义页脚",
     help_customFooterHtmlDisableWrapper:
         "如果设置，则禁用 customFooterHtml 的包装元素",
-    help_hideParameterTypesInTitle: "隐藏签名标题中的参数类型，以便于扫描",
+    // help_hideTypesInSignatureTitle
     help_cacheBust: "在静态资产链接中包含生成时间",
     help_searchInComments:
         "如果设置，搜索索引还将包括评论。这将大大增加搜索索引的大小",

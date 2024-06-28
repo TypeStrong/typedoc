@@ -1189,7 +1189,10 @@ describe("Behavior Tests", () => {
     it("Should not warn about recursive types", () => {
         const project = convert("refusingToRecurse");
         const schemaTypeBased = query(project, "schemaTypeBased");
-        equal(schemaTypeBased.type?.toString(), "Object & Object");
+        equal(
+            schemaTypeBased.type?.toString(),
+            "{} & { x: ({ y?: string } & { z: string })[] }",
+        );
         equal(
             querySig(project, "Map.getFilter").type?.toString(),
             "void | ExpressionSpecification",

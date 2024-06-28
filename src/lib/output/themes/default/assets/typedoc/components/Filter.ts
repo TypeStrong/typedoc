@@ -7,9 +7,7 @@ style.dataset.for = "filters";
 /**
  * Handles sidebar filtering functionality.
  */
-export class Filter extends Component {
-    override el!: HTMLInputElement;
-
+export class Filter extends Component<HTMLInputElement> {
     /**
      * The class name & ID by which to store the filter value.
      */

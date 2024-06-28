@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, Raw } from "../../../../utils/index.js";
-import { ReflectionType, type SignatureReflection } from "../../../../models/index.js";
+import type { SignatureReflection } from "../../../../models/index.js";
 import { hasTypeParameters } from "../../lib.js";
 
 export function memberSignatureBody(
@@ -38,7 +38,7 @@ export function memberSignatureBody(
                                 </span>
                                 {context.commentSummary(item)}
                                 {context.commentTags(item)}
-                                {item.type instanceof ReflectionType && context.parameter(item.type.declaration)}
+                                {context.typeDetailsIfUseful(item.type)}
                             </li>
                         ))}
                     </ul>
@@ -50,7 +50,7 @@ export function memberSignatureBody(
                         {context.i18n.theme_returns()} {context.type(props.type)}
                     </h4>
                     {returnsTag && <Raw html={context.markdown(returnsTag.content)} />}
-                    {props.type instanceof ReflectionType && context.parameter(props.type.declaration)}
+                    {context.typeDetailsIfUseful(props.type)}
                 </>
             )}
 

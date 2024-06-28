@@ -133,8 +133,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc 링크 뒤에 사용자 정의 푸터를 지정합니다",
     help_customFooterHtmlDisableWrapper:
         "customFooterHtml의 래퍼 요소를 비활성화합니다",
-    help_hideParameterTypesInTitle:
-        "제목에서 매개변수 유형을 숨겨 스캔하기 쉽게합니다",
+    // help_hideTypesInSignatureTitle
     help_cacheBust: "정적 자산의 링크에 생성 시간을 포함합니다",
     help_searchInComments:
         "검색 인덱스에 주석도 포함합니다. 이 옵션을 사용하면 검색 인덱스의 크기가 크게 증가합니다",

@@ -103,6 +103,7 @@ export async function captureScreenshots(
 
     const queue = new PQueue(jobs);
     const pages = findHtmlPages(resolve(baseDirectory));
+    let finished = 0;
     console.log(`Processing ${pages.length} pages with ${jobs} workers`);
     for (const file of pages) {
         queue.add(async () => {
@@ -128,7 +129,9 @@ export async function captureScreenshots(
             });
 
             await context.close();
-            console.log("Finished", relative(baseDirectory, file));
+            ++finished;
+            const percent = Math.floor((finished / pages.length) * 100);
+            console.log(`[${percent}%] ${relative(baseDirectory, file)}`);
         });
     }
 

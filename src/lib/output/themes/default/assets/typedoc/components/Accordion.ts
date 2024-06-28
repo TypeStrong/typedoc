@@ -4,9 +4,7 @@ import { storage } from "../utils/storage.js";
 /**
  * Handles accordion dropdown behavior.
  */
-export class Accordion extends Component {
-    override el!: HTMLDetailsElement;
-
+export class Accordion extends Component<HTMLDetailsElement> {
     /**
      * The heading container for this accordion.
      */

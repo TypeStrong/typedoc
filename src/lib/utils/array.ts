@@ -170,3 +170,29 @@ export function filter<T>(
 ): readonly T[] {
     return array ? array.filter(predicate) : emptyArray;
 }
+
+export function aggregate<T>(arr: T[], fn: (item: T) => number) {
+    return arr.reduce((sum, it) => sum + fn(it), 0);
+}
+
+export function aggregateWithJoiner<T>(
+    arr: T[],
+    fn: (item: T) => number,
+    joiner: string,
+) {
+    return (
+        arr.reduce((sum, it) => sum + fn(it), 0) +
+        (arr.length - 1) * joiner.length
+    );
+}
+
+export function joinArray<T>(
+    arr: readonly T[] | undefined,
+    joiner: string,
+    mapper: (item: T) => string,
+): string {
+    if (arr?.length) {
+        return arr.map(mapper).join(joiner);
+    }
+    return "";
+}

@@ -1,3 +1,8 @@
+# Beta
+
+-   The `hideParameterTypesInTitle` option has been renamed to `hideTypesInSignatureTitle` and now controls return types as well.
+-   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
+
 # Unreleased
 
 ## v0.26.3 (2024-06-28)
