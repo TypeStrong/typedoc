@@ -144,7 +144,7 @@ export = {
 
     // deserialization
     serialized_project_referenced_0_not_part_of_project: `Serialized project referenced reflection {0}, which was not a part of the project`,
-    saved_relative_path_0_resolved_from_1_does_not_exist: `Serialized project referenced {0}, which does not exist relative to {1}`,
+    saved_relative_path_0_resolved_from_1_is_not_a_file: `Serialized project referenced {0}, which does not exist relative to {1}`,
 
     // options
     circular_reference_extends_0: `Circular reference encountered for "extends" field of {0}`,

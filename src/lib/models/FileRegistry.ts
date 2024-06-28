@@ -1,8 +1,7 @@
 import { basename, dirname, parse, relative, resolve } from "path";
 import type { Deserializer, Serializer } from "../serialization/index.js";
 import type { FileRegistry as JSONFileRegistry } from "../serialization/schema.js";
-import { normalizePath } from "../utils/index.js";
-import { existsSync } from "fs";
+import { isFile, normalizePath } from "../utils/index.js";
 import type { Reflection } from "./reflections/index.js";
 
 export class FileRegistry {
@@ -137,7 +136,7 @@ export class ValidatingFileRegistry extends FileRegistry {
         relativePath: string,
     ): number | undefined {
         const absolute = resolve(dirname(sourcePath), relativePath);
-        if (!existsSync(absolute)) {
+        if (!isFile(absolute)) {
             return;
         }
         return this.registerAbsolute(absolute);
@@ -146,9 +145,9 @@ export class ValidatingFileRegistry extends FileRegistry {
     override fromObject(de: Deserializer, obj: JSONFileRegistry) {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            if (!existsSync(absolute)) {
+            if (!isFile(absolute)) {
                 de.logger.warn(
-                    de.logger.i18n.saved_relative_path_0_resolved_from_1_does_not_exist(
+                    de.logger.i18n.saved_relative_path_0_resolved_from_1_is_not_a_file(
                         val,
                         de.projectRoot,
                     ),

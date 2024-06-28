@@ -59,7 +59,7 @@ export = localeUtils.buildIncompleteTranslation({
         "TypeDoc は、コメント付きの単一の @template タグで定義された複数の型パラメータをサポートしていません。",
     failed_to_find_jsdoc_tag_for_name_0:
         "コメントを解析した後、{0} の JSDoc タグが見つかりませんでした。バグレポートを提出してください。",
-    relative_path_0_does_not_exist: "相対パス {0} は存在しません",
+    // relative_path_0_is_not_a_file_and_will_not_be_copied_to_output
     inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0:
         "インライン @inheritDoc タグはブロック タグ内に出現しないでください。{0} のコメントでは処理されません。",
     at_most_one_remarks_tag_expected_in_comment_at_0:
@@ -169,8 +169,7 @@ export = localeUtils.buildIncompleteTranslation({
     file_0_not_an_object: "ファイル {0} はオブジェクトではありません",
     serialized_project_referenced_0_not_part_of_project:
         "シリアル化されたプロジェクトは、プロジェクトの一部ではないリフレクション {0} を参照しました",
-    saved_relative_path_0_resolved_from_1_does_not_exist:
-        "シリアル化されたプロジェクトは {0} を参照していますが、{1} に関連して存在しません",
+    // saved_relative_path_0_resolved_from_1_is_not_a_file
     circular_reference_extends_0:
         '{0} の "extends" フィールドで循環参照が検出されました',
     failed_resolve_0_to_file_in_1:
