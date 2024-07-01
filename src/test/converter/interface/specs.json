@@ -36,7 +36,7 @@
               "signatures": [
                 {
                   "id": 4,
-                  "name": "new Constructor",
+                  "name": "Constructor",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -79,7 +79,7 @@
                 },
                 {
                   "id": 7,
-                  "name": "new Constructor",
+                  "name": "Constructor",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -124,7 +124,7 @@
                 },
                 {
                   "id": 10,
-                  "name": "new Constructor",
+                  "name": "Constructor",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -556,7 +556,7 @@
               "signatures": [
                 {
                   "id": 34,
-                  "name": "new ClassImplementingEmptyInterface",
+                  "name": "ClassImplementingEmptyInterface",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -769,7 +769,7 @@
                   "signatures": [
                     {
                       "id": 85,
-                      "name": "new EventDispatcher",
+                      "name": "EventDispatcher",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
@@ -1269,7 +1269,7 @@
                   "signatures": [
                     {
                       "id": 53,
-                      "name": "new Subscription",
+                      "name": "Subscription",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},

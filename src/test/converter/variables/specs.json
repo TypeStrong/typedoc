@@ -36,7 +36,7 @@
               "signatures": [
                 {
                   "id": 4,
-                  "name": "new Array",
+                  "name": "Array",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -126,7 +126,7 @@
               "signatures": [
                 {
                   "id": 11,
-                  "name": "new Foo",
+                  "name": "Foo",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -181,7 +181,7 @@
               "signatures": [
                 {
                   "id": 14,
-                  "name": "new FooList",
+                  "name": "FooList",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

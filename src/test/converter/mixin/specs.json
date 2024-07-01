@@ -29,7 +29,7 @@
           "signatures": [
             {
               "id": 15,
-              "name": "new Base",
+              "name": "Base",
               "variant": "signature",
               "kind": 16384,
               "flags": {},
@@ -152,7 +152,7 @@
           "signatures": [
             {
               "id": 70,
-              "name": "new SomeClassWithMixin",
+              "name": "SomeClassWithMixin",
               "variant": "signature",
               "kind": 16384,
               "flags": {},
@@ -596,7 +596,7 @@
                         "signatures": [
                           {
                             "id": 67,
-                            "name": "new SomeClassWithMixin",
+                            "name": "SomeClassWithMixin",
                             "variant": "signature",
                             "kind": 16384,
                             "flags": {},
@@ -1701,7 +1701,7 @@
                   "signatures": [
                     {
                       "id": 25,
-                      "name": "new Mixin1Func",
+                      "name": "Mixin1Func",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
@@ -1900,7 +1900,7 @@
                   "signatures": [
                     {
                       "id": 41,
-                      "name": "new Mixin2",
+                      "name": "Mixin2",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},
@@ -2092,7 +2092,7 @@
                   "signatures": [
                     {
                       "id": 61,
-                      "name": "new Mixin3",
+                      "name": "Mixin3",
                       "variant": "signature",
                       "kind": 16384,
                       "flags": {},

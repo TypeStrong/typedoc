@@ -19,24 +19,7 @@ import { MinimalSourceFile } from "../lib/utils/minimalSourceFile.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-
-function dedent(text: string) {
-    const lines = text.split(/\r?\n/);
-    while (lines.length && lines[0].search(/\S/) === -1) {
-        lines.shift();
-    }
-    while (lines.length && lines[lines.length - 1].search(/\S/) === -1) {
-        lines.pop();
-    }
-
-    const minIndent = lines.reduce(
-        (indent, line) =>
-            line.length ? Math.min(indent, line.search(/\S/)) : indent,
-        Infinity,
-    );
-
-    return lines.map((line) => line.substring(minIndent)).join("\n");
-}
+import { dedent } from "./utils.js";
 
 describe("Dedent test helper", () => {
     it("Works on empty string", () => {

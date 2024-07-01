@@ -105,9 +105,7 @@ export function setRenderSettings(options: { pretty: boolean }) {
     renderPretty = options.pretty;
 }
 
-export const renderElement = function renderElement(
-    element: JsxElement | null | undefined,
-): string {
+export function renderElement(element: JsxElement | null | undefined): string {
     if (!element || typeof element === "boolean") {
         return "";
     }
@@ -188,4 +186,48 @@ export const renderElement = function renderElement(
             }
         }
     }
-};
+}
+
+/**
+ * Render an element to text, stripping out any HTML tags.
+ * This is roughly equivalent to getting `innerText` on a rendered element.
+ * @internal
+ */
+export function renderElementToText(element: JsxElement | null | undefined) {
+    if (!element || typeof element === "boolean") {
+        return "";
+    }
+
+    const { tag, props, children } = element;
+
+    if (typeof tag === "function") {
+        if (tag === Raw) {
+            return String((props as any).html);
+        }
+        return renderElementToText(tag(Object.assign({ children }, props)));
+    } else if (tag === "br") {
+        return "\n";
+    }
+
+    let html = "";
+
+    if (children.length) {
+        renderChildren(children);
+    }
+
+    return html;
+
+    function renderChildren(children: JsxChildren[]) {
+        for (const child of children) {
+            if (!child) continue;
+
+            if (Array.isArray(child)) {
+                renderChildren(child);
+            } else if (typeof child === "string" || typeof child === "number") {
+                html += child.toString().replaceAll("\u00A0", " ");
+            } else {
+                html += renderElementToText(child);
+            }
+        }
+    }
+}

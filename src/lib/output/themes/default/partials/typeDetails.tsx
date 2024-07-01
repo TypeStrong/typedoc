@@ -74,7 +74,6 @@ export function typeDetails(context: DefaultThemeRenderContext, type: SomeType):
                                         <li class="tsd-signature" id={item.anchor}>
                                             {context.memberSignatureTitle(item, {
                                                 hideName: true,
-                                                hideTypes: true,
                                             })}
                                         </li>
                                         <li class="tsd-description">

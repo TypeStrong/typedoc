@@ -189,7 +189,7 @@
               "signatures": [
                 {
                   "id": 71,
-                  "name": "new Predicates",
+                  "name": "Predicates",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

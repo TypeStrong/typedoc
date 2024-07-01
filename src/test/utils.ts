@@ -77,3 +77,21 @@ export function equalKind(refl: Reflection, kind: ReflectionKind) {
         `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]}`,
     );
 }
+
+export function dedent(text: string) {
+    const lines = text.split(/\r?\n/);
+    while (lines.length && lines[0].search(/\S/) === -1) {
+        lines.shift();
+    }
+    while (lines.length && lines[lines.length - 1].search(/\S/) === -1) {
+        lines.pop();
+    }
+
+    const minIndent = lines.reduce(
+        (indent, line) =>
+            line.length ? Math.min(indent, line.search(/\S/)) : indent,
+        Infinity,
+    );
+
+    return lines.map((line) => line.substring(minIndent)).join("\n");
+}

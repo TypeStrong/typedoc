@@ -30,7 +30,6 @@ import type {
 import { type Comment, Reflection } from "../models/index.js";
 import type { JsxElement } from "../utils/jsx.elements.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
-import { validateStateIsClean } from "./themes/default/partials/type.js";
 import { setRenderSettings } from "../utils/jsx.js";
 
 import {
@@ -313,7 +312,6 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         );
         output.urls.forEach((mapping) => {
             this.renderDocument(...output.createPageEvent(mapping));
-            validateStateIsClean(mapping.url);
         });
 
         await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));

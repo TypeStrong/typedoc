@@ -28,7 +28,7 @@
               "signatures": [
                 {
                   "id": 4,
-                  "name": "new Decl",
+                  "name": "Decl",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -152,7 +152,7 @@
               "signatures": [
                 {
                   "id": 10,
-                  "name": "new Exported",
+                  "name": "Exported",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -199,7 +199,7 @@
               "signatures": [
                 {
                   "id": 13,
-                  "name": "new NotExported",
+                  "name": "NotExported",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

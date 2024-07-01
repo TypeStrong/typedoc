@@ -114,10 +114,13 @@ async function main() {
         args.values.compare;
 
     if (args.values.run || !userSpecifiedJob) {
-        spawnSync("node", ["bin/typedoc"], {
+        const runResult = spawnSync("node", ["bin/typedoc"], {
             cwd: new URL("../", import.meta.url),
             stdio: "inherit",
         });
+        if (runResult.status) {
+            process.exit(1);
+        }
     }
 
     if (args.values.screenshot || !userSpecifiedJob) {

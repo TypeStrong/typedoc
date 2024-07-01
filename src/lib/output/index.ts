@@ -3,6 +3,7 @@ export {
     RendererEvent,
     MarkdownEvent,
     IndexEvent,
+    type PageHeading,
 } from "./events.js";
 export { UrlMapping } from "./models/UrlMapping.js";
 export type { RenderTemplate } from "./models/UrlMapping.js";

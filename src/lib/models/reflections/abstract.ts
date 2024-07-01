@@ -51,7 +51,6 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Protected,
     ReflectionFlag.Static,
     ReflectionFlag.Optional,
-    ReflectionFlag.Rest,
     ReflectionFlag.Abstract,
     ReflectionFlag.Const,
     ReflectionFlag.Readonly,

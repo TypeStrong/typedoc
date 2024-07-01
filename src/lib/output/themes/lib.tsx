@@ -98,7 +98,7 @@ export function renderTypeParametersSignature(
     typeParameters: readonly TypeParameterReflection[] | undefined,
 ): JSX.Element {
     if (!typeParameters || typeParameters.length === 0) return <></>;
-    const hideParamTypes = context.options.getValue("hideTypesInSignatureTitle");
+    const hideParamTypes = false; // context.options.getValue("hideTypesInSignatureTitle");
 
     if (hideParamTypes) {
         return (

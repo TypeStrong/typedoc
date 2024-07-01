@@ -29,7 +29,7 @@
           "signatures": [
             {
               "id": 6,
-              "name": "new Demo",
+              "name": "Demo",
               "variant": "signature",
               "kind": 16384,
               "flags": {},

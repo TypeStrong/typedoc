@@ -38,7 +38,7 @@ export function createSignature(
 
     const sigRef = new SignatureReflection(
         kind == ReflectionKind.ConstructorSignature
-            ? `new ${context.scope.parent!.name}`
+            ? context.scope.parent!.name
             : context.scope.name,
         kind,
         context.scope,
@@ -148,7 +148,7 @@ export function createConstructSignatureWithType(
         | undefined;
 
     const sigRef = new SignatureReflection(
-        `new ${context.scope.parent!.name}`,
+        context.scope.parent!.name,
         ReflectionKind.ConstructorSignature,
         context.scope,
     );

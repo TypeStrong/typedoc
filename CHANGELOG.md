@@ -1,7 +1,10 @@
 # Beta
 
--   The `hideParameterTypesInTitle` option has been renamed to `hideTypesInSignatureTitle` and now controls return types as well.
 -   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
+-   Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
+-   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
+    the available horizontal space in rendered pages. TypeDoc now has logic to wrap types/signatures smartly, so this option is
+    no longer necessary.
 
 # Unreleased
 

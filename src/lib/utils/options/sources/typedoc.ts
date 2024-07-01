@@ -506,12 +506,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "hideTypesInSignatureTitle",
-        help: (i18n) => i18n.help_hideTypesInSignatureTitle(),
-        type: ParameterType.Boolean,
-        defaultValue: true,
-    });
-    options.addDeclaration({
         name: "cacheBust",
         help: (i18n) => i18n.help_cacheBust(),
         type: ParameterType.Boolean,

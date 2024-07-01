@@ -21,7 +21,7 @@
           "signatures": [
             {
               "id": 12,
-              "name": "new Class1",
+              "name": "Class1",
               "variant": "signature",
               "kind": 16384,
               "flags": {},
@@ -215,7 +215,7 @@
           "signatures": [
             {
               "id": 21,
-              "name": "new Class2",
+              "name": "Class2",
               "variant": "signature",
               "kind": 16384,
               "flags": {},
@@ -430,7 +430,7 @@
           "signatures": [
             {
               "id": 31,
-              "name": "new Class3",
+              "name": "Class3",
               "variant": "signature",
               "kind": 16384,
               "flags": {},

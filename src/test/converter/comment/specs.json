@@ -46,7 +46,7 @@
               "signatures": [
                 {
                   "id": 4,
-                  "name": "new CommentedClass",
+                  "name": "CommentedClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

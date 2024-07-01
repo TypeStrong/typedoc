@@ -5,6 +5,12 @@
             "options": {
                 "printWidth": 120
             }
+        },
+        {
+            "files": "formatter.tsx",
+            "options": {
+                "printWidth": 80
+            }
         }
     ]
 }

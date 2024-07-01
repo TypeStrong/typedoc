@@ -783,9 +783,9 @@ describe("Behavior Tests", () => {
             ["Meanings.E.E", 0],
             [ReflectionKind.Variable, "Meanings.F"],
 
-            ["Meanings.B.constructor.new B", 0],
-            ["Meanings.B.constructor.new B", 0],
-            ["Meanings.B.constructor.new B", 1],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 1],
 
             [ReflectionKind.EnumMember, "Meanings.A.A"],
             [undefined],
@@ -793,8 +793,8 @@ describe("Behavior Tests", () => {
             ["Meanings.E.E", 0],
             ["Meanings.E.E", 1],
 
-            ["Meanings.B.constructor.new B", 0],
-            ["Meanings.B.constructor.new B", 1],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 1],
 
             ["Meanings.B.__index", undefined],
             [ReflectionKind.Interface, "Meanings.G"],

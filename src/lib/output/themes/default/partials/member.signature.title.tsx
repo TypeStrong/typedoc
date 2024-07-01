@@ -1,70 +1,15 @@
-import { getKindClass, join, renderTypeParametersSignature, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
-import { type ParameterReflection, ReflectionKind, type SignatureReflection } from "../../../../models/index.js";
-
-void JSX; // Trick TS into seeing this as used, the import is required.
-
-function renderParameterWithType(context: DefaultThemeRenderContext, item: ParameterReflection) {
-    return (
-        <>
-            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-            <span class="tsd-kind-parameter">{item.name}</span>
-            <span class="tsd-signature-symbol">
-                {!!item.flags.isOptional && "?"}
-                {!!item.defaultValue && "?"}
-                {": "}
-            </span>
-            {context.type(item.type)}
-        </>
-    );
-}
-
-function renderParameterWithoutType(item: ParameterReflection) {
-    return (
-        <>
-            {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
-            <span class="tsd-kind-parameter">{item.name}</span>
-            {(item.flags.isOptional || item.defaultValue) && <span class="tsd-signature-symbol">?</span>}
-        </>
-    );
-}
+import { type SignatureReflection } from "../../../../models/index.js";
+import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../../formatter.js";
 
 export function memberSignatureTitle(
     context: DefaultThemeRenderContext,
     props: SignatureReflection,
-    {
-        hideName = false,
-        arrowStyle = false,
-        hideTypes = context.options.getValue("hideTypesInSignatureTitle"),
-    }: { hideName?: boolean; arrowStyle?: boolean; hideTypes?: boolean } = {},
+    options: { hideName?: boolean } = {},
 ) {
-    const renderParam = hideTypes ? renderParameterWithoutType : renderParameterWithType.bind(null, context);
-
-    return (
-        <>
-            {!hideName ? (
-                <span class={getKindClass(props)}>{wbr(props.name)}</span>
-            ) : (
-                <>
-                    {props.kind === ReflectionKind.ConstructorSignature && (
-                        <>
-                            {!!props.flags.isAbstract && <span class="tsd-signature-keyword">abstract </span>}
-                            <span class="tsd-signature-keyword">new </span>
-                        </>
-                    )}
-                </>
-            )}
-            {renderTypeParametersSignature(context, props.typeParameters)}
-            <span class="tsd-signature-symbol">(</span>
-            {join(", ", props.parameters ?? [], renderParam)}
-            <span class="tsd-signature-symbol">)</span>
-            {!!props.type && !hideTypes && (
-                <>
-                    <span class="tsd-signature-symbol">{arrowStyle ? " => " : ": "}</span>
-                    {context.type(props.type)}
-                </>
-            )}
-        </>
-    );
+    const builder = new FormattedCodeBuilder(context.urlTo);
+    const tree = builder.signature(props, options);
+    const generator = new FormattedCodeGenerator();
+    generator.node(tree, Wrap.Detect);
+    return generator.toElement();
 }

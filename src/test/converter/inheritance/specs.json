@@ -658,7 +658,7 @@
               "signatures": [
                 {
                   "id": 35,
-                  "name": "new MySubClass",
+                  "name": "MySubClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -856,7 +856,7 @@
               "signatures": [
                 {
                   "id": 28,
-                  "name": "new MyCtor",
+                  "name": "MyCtor",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

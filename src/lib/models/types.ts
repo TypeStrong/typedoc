@@ -37,10 +37,16 @@ export abstract class Type {
     /**
      * Visit this type, returning the value returned by the visitor.
      */
-    visit<T>(visitor: TypeVisitor<T>): T;
-    visit<T>(visitor: Partial<TypeVisitor<T>>): T | undefined;
-    visit(visitor: Partial<TypeVisitor<unknown>>): unknown {
-        return visitor[this.type]?.(this as never);
+    visit<T, A extends any[] = []>(visitor: TypeVisitor<T, A>, ...args: A): T;
+    visit<T, A extends any[] = []>(
+        visitor: Partial<TypeVisitor<T>>,
+        ...args: A
+    ): T | undefined;
+    visit(
+        visitor: Partial<TypeVisitor<unknown, any[]>>,
+        ...args: any[]
+    ): unknown {
+        return visitor[this.type]?.(this as never, ...args);
     }
 
     stringify(context: TypeContext) {
@@ -95,8 +101,8 @@ export interface TypeKindMap {
     unknown: UnknownType;
 }
 
-export type TypeVisitor<T = void> = {
-    [K in TypeKind]: (type: TypeKindMap[K]) => T;
+export type TypeVisitor<T = void, A extends any[] = []> = {
+    [K in TypeKind]: (type: TypeKindMap[K], ...args: A) => T;
 };
 
 export function makeRecursiveVisitor(

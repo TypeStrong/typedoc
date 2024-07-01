@@ -1,10 +1,5 @@
 import type * as ts from "typescript";
-import {
-    type ReferenceType,
-    ReflectionType,
-    type Type,
-    type SomeType,
-} from "../types.js";
+import { type ReferenceType, ReflectionType, type SomeType } from "../types.js";
 import { type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ContainerReflection } from "./container.js";
 import type { SignatureReflection } from "./signature.js";
@@ -28,7 +23,7 @@ export interface DeclarationHierarchy {
     /**
      * The types represented by this node in the hierarchy.
      */
-    types: Type[];
+    types: SomeType[];
 
     /**
      * The next hierarchy level.

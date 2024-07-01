@@ -587,7 +587,7 @@
               "signatures": [
                 {
                   "id": 88,
-                  "name": "new Abstract",
+                  "name": "Abstract",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -678,7 +678,7 @@
               "signatures": [
                 {
                   "id": 77,
-                  "name": "new ComputedNames",
+                  "name": "ComputedNames",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -816,7 +816,7 @@
               "signatures": [
                 {
                   "id": 65,
-                  "name": "new TestAbstractClass",
+                  "name": "TestAbstractClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -942,7 +942,7 @@
               "signatures": [
                 {
                   "id": 71,
-                  "name": "new TestAbstractClassImplementation",
+                  "name": "TestAbstractClassImplementation",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -1124,7 +1124,7 @@
               "signatures": [
                 {
                   "id": 27,
-                  "name": "new TestClass",
+                  "name": "TestClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -1593,7 +1593,7 @@
               "signatures": [
                 {
                   "id": 43,
-                  "name": "new TestSubClass",
+                  "name": "TestSubClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -2216,7 +2216,7 @@
               "signatures": [
                 {
                   "id": 84,
-                  "name": "new Ts38PrivateFields",
+                  "name": "Ts38PrivateFields",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -2408,7 +2408,7 @@
               "signatures": [
                 {
                   "id": 97,
-                  "name": "new Vector2",
+                  "name": "Vector2",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -2640,7 +2640,7 @@
               "signatures": [
                 {
                   "id": 106,
-                  "name": "new Vector3",
+                  "name": "Vector3",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -2968,7 +2968,7 @@
               "signatures": [
                 {
                   "id": 131,
-                  "name": "new DecoratedClass",
+                  "name": "DecoratedClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -3393,7 +3393,7 @@
               "signatures": [
                 {
                   "id": 165,
-                  "name": "new EventDispatcher",
+                  "name": "EventDispatcher",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -4081,7 +4081,7 @@
               "signatures": [
                 {
                   "id": 169,
-                  "name": "new GenericClass",
+                  "name": "GenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -4369,7 +4369,7 @@
               "signatures": [
                 {
                   "id": 179,
-                  "name": "new NonGenericClass",
+                  "name": "NonGenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -4658,7 +4658,7 @@
               "signatures": [
                 {
                   "id": 188,
-                  "name": "new GetterSetter",
+                  "name": "GetterSetter",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -5045,7 +5045,7 @@
               "signatures": [
                 {
                   "id": 213,
-                  "name": "new GenericClass",
+                  "name": "GenericClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},
@@ -5194,7 +5194,7 @@
               "signatures": [
                 {
                   "id": 208,
-                  "name": "new TestClass",
+                  "name": "TestClass",
                   "variant": "signature",
                   "kind": 16384,
                   "flags": {},

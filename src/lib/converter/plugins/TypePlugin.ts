@@ -5,7 +5,7 @@ import {
     type ProjectReflection,
     type Reflection,
 } from "../../models/reflections/index.js";
-import { type Type, ReferenceType } from "../../models/types.js";
+import { type SomeType, type Type, ReferenceType } from "../../models/types.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ApplicationEvents } from "../../application-events.js";
@@ -129,7 +129,7 @@ export class TypePlugin extends ConverterComponent {
 
             let root: DeclarationHierarchy | undefined;
             let hierarchy: DeclarationHierarchy | undefined;
-            function push(types: Type[]) {
+            function push(types: SomeType[]) {
                 const level: DeclarationHierarchy = { types: types };
                 if (hierarchy) {
                     hierarchy.next = level;
