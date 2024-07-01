@@ -5,6 +5,18 @@
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
     the available horizontal space in rendered pages. TypeDoc now has logic to wrap types/signatures smartly, so this option is
     no longer necessary.
+-   Add support for an `@expand` tag which can be placed on type aliases and interfaces.
+    When a type with `@expand` is referenced and TypeDoc has a place to include additional details about the type,
+    the properties of the type will be included in the page where `@expand` is found. Note that use of this tag can
+    _significantly_ increase the size of your generated documentation if it is applied to commonly used types as
+    it will result in inlining the comments for those types everywhere they are referenced, #2303.
+
+TODO:
+
+-   Add an option for controlling print width.
+-   Add an option for non-rendered tags, add `@expand` to it by default.
+-   Finish cleaning up formatter TODO comments, tests
+-   Write docs for `@expand`
 
 # Unreleased
 

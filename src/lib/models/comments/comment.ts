@@ -24,23 +24,18 @@ export type CommentDisplayPart =
      * that TypeDoc knows to skip it when parsing relative links and inline tags.
      **/
     | { kind: "code"; text: string }
-    /**
-     * Represents an inline tag like `{@link Foo}`
-     */
     | InlineTagDisplayPart
-    /**
-     * Represents a reference to a path relative to where the comment resides.
-     * This is used to detect and copy relative image links.
-     * Use {@link FileRegistry} to determine what path on disc this refers to.
-     */
     | RelativeLinkDisplayPart;
 
 /**
+ * Represents an inline tag like `{@link Foo}`
+ *
  * The `@link`, `@linkcode`, and `@linkplain` tags may have a `target`
  * property set indicating which reflection/url they link to. They may also
  * have a `tsLinkText` property which includes the part of the `text` which
  * TypeScript thinks should be displayed as the link text.
  * @category Comments
+ * @expand
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";
@@ -51,9 +46,16 @@ export interface InlineTagDisplayPart {
 }
 
 /**
+ * Represents a reference to a path relative to where the comment resides.
+ * This is used to detect and copy relative image links.
+ *
+ * Use {@link FileRegistry} to determine what path on disc this refers to.
+ *
  * This is used for relative links within comments/documents.
  * It is used to mark pieces of text which need to be replaced
  * to make links work properly.
+ * @category Comments
+ * @expand
  */
 export interface RelativeLinkDisplayPart {
     kind: "relative-link";

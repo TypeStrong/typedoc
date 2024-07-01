@@ -1,5 +1,10 @@
-import type { DeclarationReflection, SignatureReflection } from "../../../../models/index.js";
-import type { SomeType, TypeVisitor } from "../../../../models/types.js";
+import {
+    type Reflection,
+    ReflectionKind,
+    type DeclarationReflection,
+    type SignatureReflection,
+} from "../../../../models/index.js";
+import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
 import { JSX, Raw } from "../../../../utils/index.js";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -17,6 +22,9 @@ const isUsefulVisitor: Partial<TypeVisitor<boolean>> = {
     reflection(type) {
         return renderingChildIsUseful(type.declaration);
     },
+    reference(type) {
+        return shouldExpandReference(type);
+    },
 };
 
 function renderingTypeDetailsIsUseful(type: SomeType) {
@@ -33,6 +41,15 @@ export function typeDeclaration(context: DefaultThemeRenderContext, type: SomeTy
         );
     }
     return null;
+}
+
+const expanded = new Set<Reflection>();
+function shouldExpandReference(reference: ReferenceType) {
+    const target = reference.reflection;
+    if (!target?.kindOf(ReflectionKind.TypeAlias | ReflectionKind.Interface)) return false;
+    if (!target.comment?.hasModifier("@expand")) return false;
+
+    return expanded.has(target) === false;
 }
 
 export function typeDetails(context: DefaultThemeRenderContext, type: SomeType): JSX.Children {
@@ -58,42 +75,18 @@ export function typeDetails(context: DefaultThemeRenderContext, type: SomeType):
         },
         reflection(type) {
             const declaration = type.declaration;
-
-            return (
-                <ul class="tsd-parameters">
-                    {declaration.signatures && (
-                        <li class="tsd-parameter-signature">
-                            <ul
-                                class={classNames(
-                                    { "tsd-signatures": true },
-                                    context.getReflectionClasses(declaration),
-                                )}
-                            >
-                                {declaration.signatures.map((item) => (
-                                    <>
-                                        <li class="tsd-signature" id={item.anchor}>
-                                            {context.memberSignatureTitle(item, {
-                                                hideName: true,
-                                            })}
-                                        </li>
-                                        <li class="tsd-description">
-                                            {context.memberSignatureBody(item, {
-                                                hideSources: true,
-                                            })}
-                                        </li>
-                                    </>
-                                ))}
-                            </ul>
-                        </li>
-                    )}
-                    {declaration.indexSignatures?.map((index) => renderIndexSignature(context, index))}
-                    {declaration.children?.map((child) => renderChild(context, child))}
-                </ul>
-            );
+            return declarationDetails(context, declaration);
         },
-        reference() {
-            // TODO: Check for @expand
-            return null;
+        reference(reference) {
+            if (shouldExpandReference(reference)) {
+                const target = reference.reflection as DeclarationReflection;
+
+                // Ensure we don't go into an infinite loop here
+                expanded.add(target);
+                const details = target.type ? typeDetails(context, target.type) : declarationDetails(context, target);
+                expanded.delete(target);
+                return details;
+            }
         },
         // tuple??
     });
@@ -103,6 +96,38 @@ export function typeDetailsIfUseful(context: DefaultThemeRenderContext, type: So
     if (type && renderingTypeDetailsIsUseful(type)) {
         return context.typeDetails(type);
     }
+}
+
+function declarationDetails(context: DefaultThemeRenderContext, declaration: DeclarationReflection): JSX.Children {
+    return (
+        <>
+            {context.commentSummary(declaration)}
+            <ul class="tsd-parameters">
+                {declaration.signatures && (
+                    <li class="tsd-parameter-signature">
+                        <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(declaration))}>
+                            {declaration.signatures.map((item) => (
+                                <>
+                                    <li class="tsd-signature" id={item.anchor}>
+                                        {context.memberSignatureTitle(item, {
+                                            hideName: true,
+                                        })}
+                                    </li>
+                                    <li class="tsd-description">
+                                        {context.memberSignatureBody(item, {
+                                            hideSources: true,
+                                        })}
+                                    </li>
+                                </>
+                            ))}
+                        </ul>
+                    </li>
+                )}
+                {declaration.indexSignatures?.map((index) => renderIndexSignature(context, index))}
+                {declaration.children?.map((child) => renderChild(context, child))}
+            </ul>
+        </>
+    );
 }
 
 function renderChild(context: DefaultThemeRenderContext, child: DeclarationReflection) {
