@@ -343,4 +343,18 @@ describe("Formatter", () => {
         const text = renderElementToText(renderType(type));
         equal(text, "a | <b");
     });
+
+    it("Adds parenthesis when required", () => {
+        const [a, b, c, d] = Array.from(
+            { length: 4 },
+            (_, i) => new LiteralType(i),
+        );
+        const type = new IntersectionType([
+            new UnionType([a, b]),
+            new UnionType([c, d]),
+        ]);
+
+        const text = renderElementToText(renderType(type));
+        equal(text, "(0 | 1) & (2 | 3)");
+    });
 });
