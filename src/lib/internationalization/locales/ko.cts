@@ -117,6 +117,7 @@ export = localeUtils.buildIncompleteTranslation({
         "모든 것을 sourceLinkTemplate로 링크할 수 있도록 가정합니다. 이 옵션을 사용하려면 sourceLinkTemplate이 설정되어 있어야 합니다. {path}는 basePath에서 시작됩니다",
     help_basePath: "파일 경로를 표시할 때 사용할 기본 경로를 지정합니다",
     help_excludeTags: "문서 주석에서 제거할 블록/수정자 태그를 지정합니다",
+    // help_notRenderedTags
     help_readme:
         "인덱스 페이지에 표시할 readme 파일의 경로를 지정합니다. 'none'을 전달하여 인덱스 페이지를 비활성화하고 글로벌 페이지에서 문서화를 시작합니다",
     help_cname:

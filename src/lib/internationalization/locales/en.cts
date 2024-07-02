@@ -247,6 +247,8 @@ export = {
     help_basePath:
         "Specifies the base path to be used when displaying file paths",
     help_excludeTags: "Remove the listed block/modifier tags from doc comments",
+    help_notRenderedTags:
+        "Tags which will be preserved in doc comments, but not rendered when creating output",
     help_readme:
         "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page",
     help_cname:

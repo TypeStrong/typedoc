@@ -1,4 +1,4 @@
-import type { Options } from "../index.js";
+import type { Options, TypeDocOptionMap } from "../index.js";
 import { LogLevel } from "../../loggers.js";
 import {
     ParameterType,
@@ -21,6 +21,15 @@ import {
     getSupportedThemes,
 } from "../../highlighter.js";
 import { setDifference } from "../../set.js";
+import type { TranslationProxy } from "../../../internationalization/index.js";
+
+function makeTagArrayValidator(name: keyof TypeDocOptionMap) {
+    return (value: string[], i18n: TranslationProxy) => {
+        if (!Validation.validate([Array, Validation.isTagString], value)) {
+            throw new Error(i18n.option_0_values_must_be_array_of_tags(name));
+        }
+    };
+}
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
@@ -438,25 +447,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Path,
     });
     options.addDeclaration({
-        name: "excludeTags",
-        help: (i18n) => i18n.help_excludeTags(),
-        type: ParameterType.Array,
-        defaultValue: [
-            "@override",
-            "@virtual",
-            "@privateRemarks",
-            "@satisfies",
-            "@overload",
-        ],
-        validate(value, i18n) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    i18n.option_0_values_must_be_array_of_tags("excludeTags"),
-                );
-            }
-        },
-    });
-    options.addDeclaration({
         name: "readme",
         help: (i18n) => i18n.help_readme(),
         type: ParameterType.Path,
@@ -711,54 +701,54 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_blockTags(),
         type: ParameterType.Array,
         defaultValue: blockTags,
-        validate(value, i18n) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    i18n.option_0_values_must_be_array_of_tags("blockTags"),
-                );
-            }
-        },
+        validate: makeTagArrayValidator("blockTags"),
     });
     options.addDeclaration({
         name: "inlineTags",
         help: (i18n) => i18n.help_inlineTags(),
         type: ParameterType.Array,
         defaultValue: inlineTags,
-        validate(value, i18n) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    i18n.option_0_values_must_be_array_of_tags("inlineTags"),
-                );
-            }
-        },
+        validate: makeTagArrayValidator("inlineTags"),
     });
     options.addDeclaration({
         name: "modifierTags",
         help: (i18n) => i18n.help_modifierTags(),
         type: ParameterType.Array,
         defaultValue: modifierTags,
-        validate(value, i18n) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    i18n.option_0_values_must_be_array_of_tags("modifierTags"),
-                );
-            }
-        },
+        validate: makeTagArrayValidator("modifierTags"),
+    });
+    options.addDeclaration({
+        name: "excludeTags",
+        help: (i18n) => i18n.help_excludeTags(),
+        type: ParameterType.Array,
+        defaultValue: [
+            "@override",
+            "@virtual",
+            "@privateRemarks",
+            "@satisfies",
+            "@overload",
+        ],
+        validate: makeTagArrayValidator("excludeTags"),
+    });
+    options.addDeclaration({
+        name: "notRenderedTags",
+        help: (i18n) => i18n.help_notRenderedTags(),
+        type: ParameterType.Array,
+        defaultValue: [
+            "@showCategories",
+            "@showGroups",
+            "@hideCategories",
+            "@hideGroups",
+            "@expand",
+        ],
+        validate: makeTagArrayValidator("notRenderedTags"),
     });
     options.addDeclaration({
         name: "cascadedModifierTags",
         help: (i18n) => i18n.help_modifierTags(),
         type: ParameterType.Array,
         defaultValue: ["@alpha", "@beta", "@experimental"],
-        validate(value, i18n) {
-            if (!Validation.validate([Array, Validation.isTagString], value)) {
-                throw new Error(
-                    i18n.option_0_values_must_be_array_of_tags(
-                        "cascadedModifierTags",
-                    ),
-                );
-            }
-        },
+        validate: makeTagArrayValidator("cascadedModifierTags"),
     });
 
     ///////////////////////////

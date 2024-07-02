@@ -10,11 +10,12 @@
     the properties of the type will be included in the page where `@expand` is found. Note that use of this tag can
     _significantly_ increase the size of your generated documentation if it is applied to commonly used types as
     it will result in inlining the comments for those types everywhere they are referenced, #2303.
+-   Add `notRenderedTags` option. This option is similar to the `excludeTags` option, but while `excludeTags` will result in the
+    tag being completely removed from the documentation, `notRenderedTags` only prevents it from being included when rendering.
 
 TODO:
 
 -   Add an option for controlling print width.
--   Add an option for non-rendered tags, add `@expand` to it by default.
 -   Finish cleaning up formatter TODO comments, tests
 -   Write docs for `@expand`
 

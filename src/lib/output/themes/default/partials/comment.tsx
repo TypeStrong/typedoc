@@ -19,12 +19,15 @@ export function commentSummary({ markdown }: DefaultThemeRenderContext, props: R
 export function commentTags(context: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment) return;
 
+    const skippedTags = context.options.getValue("notRenderedTags");
     const beforeTags = context.hook("comment.beforeTags", context, props.comment, props);
     const afterTags = context.hook("comment.afterTags", context, props.comment, props);
 
     const tags = props.kindOf(ReflectionKind.SomeSignature)
-        ? props.comment.blockTags.filter((tag) => tag.tag !== "@returns" && !tag.skipRendering)
-        : props.comment.blockTags.filter((tag) => !tag.skipRendering);
+        ? props.comment.blockTags.filter(
+              (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
+          )
+        : props.comment.blockTags.filter((tag) => !tag.skipRendering && !skippedTags.includes(tag.tag));
 
     return (
         <>
@@ -54,9 +57,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
     );
 }
 
-const flagsNotRendered: `@${string}`[] = ["@showCategories", "@showGroups", "@hideCategories", "@hideGroups"];
-
 export function reflectionFlags(context: DefaultThemeRenderContext, props: Reflection) {
+    const flagsNotRendered = context.options.getValue("notRenderedTags");
     const allFlags = props.flags.getFlagStrings(context.internationalization);
     if (props.comment) {
         for (const tag of props.comment.modifierTags) {

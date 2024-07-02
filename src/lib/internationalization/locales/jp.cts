@@ -270,6 +270,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_basePath: "ファイルパスを表示するときに使用するベースパスを指定します",
     help_excludeTags:
         "ドキュメントコメントからリストされたブロック/修飾子タグを削除します",
+    // help_notRenderedTags
     help_readme:
         "インデックス ページに表示される Readme ファイルへのパス。インデックス ページを無効にしてグローバル ページでドキュメントを開始するには、`none` を渡します。",
     help_cname:

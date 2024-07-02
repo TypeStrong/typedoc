@@ -227,6 +227,7 @@ export = localeUtils.buildIncompleteTranslation({
         "假设所有内容都可以通过 sourceLinkTemplate 进行链接，如果启用此功能，则必须设置 sourceLinkTemplate。{path} 将以 basePath 为根",
     help_basePath: "指定显示文件路径时使用的基本路径",
     help_excludeTags: "从文档注释中删除列出的块/修饰符标签",
+    // help_notRenderedTags
     help_readme:
         "应显示在索引页上的自述文件路径。传递“none”以禁用索引页并在全局页上启动文档",
     help_cname: "设置 CNAME 文件文本，这对于 GitHub Pages 上的自定义域很有用",

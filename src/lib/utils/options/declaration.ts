@@ -200,6 +200,7 @@ export interface TypeDocOptionMap {
     inlineTags: `@${string}`[];
     modifierTags: `@${string}`[];
     excludeTags: `@${string}`[];
+    notRenderedTags: `@${string}`[];
     externalSymbolLinkMappings: ManuallyValidatedOption<
         Record<string, Record<string, string>>
     >;
