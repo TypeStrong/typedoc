@@ -95,9 +95,16 @@ function addNavText(
         if (classes) {
             a.className = classes;
         }
-        if (location.pathname === a.pathname) {
+        if (location.pathname + location.hash === a.pathname + a.hash) {
             a.classList.add("current");
         }
+        a.addEventListener('click', function(e) {
+            if (window.location.hash !== this.hash) {
+                e.preventDefault();
+                window.location.href = this.href;
+                window.location.reload();
+            }
+        })
         if (el.kind) {
             a.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${el.kind}"></use></svg>`;
         }
