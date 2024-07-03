@@ -98,7 +98,7 @@ function addNavText(
         if (location.pathname + location.hash === a.pathname + a.hash) {
             a.classList.add("current");
         }
-        a.addEventListener('click', function(e) {
+        a.addEventListener("click", function(e) {
             if (window.location.hash !== this.hash) {
                 e.preventDefault();
                 window.location.href = this.href;
