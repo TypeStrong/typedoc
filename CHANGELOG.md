@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Page navigation now ensures the current page is visible when the page is first loaded, #2626.
+
 ## v0.26.3 (2024-06-28)
 
 ### Features
