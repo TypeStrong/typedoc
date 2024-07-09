@@ -203,12 +203,23 @@ export function parseCommentString(
     // Check for frontmatter
     let frontmatterData: Record<string, unknown> = {};
     const firstBlock = content[0];
-    if (firstBlock.text.startsWith("---\n")) {
-        const end = firstBlock.text.indexOf("\n---\n");
+
+    let lineBreak: string;
+    switch (firstBlock.text.startsWith("---\r\n")) {
+        case true:
+            lineBreak = "\r\n";
+            break;
+        case false:
+            lineBreak = "\n";
+            break;
+    }
+
+    if (firstBlock.text.startsWith(`---${lineBreak}`)) {
+        const end = firstBlock.text.indexOf(`${lineBreak}---${lineBreak}`);
         if (end !== -1) {
-            const yamlText = firstBlock.text.slice("---\n".length, end);
+            const yamlText = firstBlock.text.slice(`---${lineBreak}`.length, end);
             firstBlock.text = firstBlock.text
-                .slice(end + "\n---\n".length)
+                .slice(end + `${lineBreak}---${lineBreak}`.length)
                 .trimStart();
 
             const frontmatter = parseYamlDoc(yamlText, { prettyErrors: false });
@@ -216,7 +227,7 @@ export function parseCommentString(
                 // Can't translate issues coming from external library...
                 logger.warn(
                     warning.message as TranslatedString,
-                    warning.pos[0] + "---\n".length,
+                    warning.pos[0] + `---${lineBreak}`.length,
                     file,
                 );
             }
@@ -224,7 +235,7 @@ export function parseCommentString(
                 // Can't translate issues coming from external library...
                 logger.error(
                     error.message as TranslatedString,
-                    error.pos[0] + "---\n".length,
+                    error.pos[0] + `---${lineBreak}`.length,
                     file,
                 );
             }
