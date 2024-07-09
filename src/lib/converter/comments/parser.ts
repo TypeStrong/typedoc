@@ -217,7 +217,10 @@ export function parseCommentString(
     if (firstBlock.text.startsWith(`---${lineBreak}`)) {
         const end = firstBlock.text.indexOf(`${lineBreak}---${lineBreak}`);
         if (end !== -1) {
-            const yamlText = firstBlock.text.slice(`---${lineBreak}`.length, end);
+            const yamlText = firstBlock.text.slice(
+                `---${lineBreak}`.length,
+                end,
+            );
             firstBlock.text = firstBlock.text
                 .slice(end + `${lineBreak}---${lineBreak}`.length)
                 .trimStart();
