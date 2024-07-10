@@ -4,6 +4,7 @@
 
 -   The page navigation sidebar no longer incorrectly includes re-exports if the same member is exported with multiple names #2625.
 -   Page navigation now ensures the current page is visible when the page is first loaded, #2626.
+-   If a relative linked image is referenced multiple times, TypeDoc will no longer sometimes produce invalid links to the image #2627.
 -   Comments on re-exports are now rendered.
 
 ### Thanks!

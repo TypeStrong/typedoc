@@ -61,6 +61,10 @@ export class FileRegistry {
         const absolute = this.mediaToPath.get(id);
         if (!absolute) return;
 
+        if (this.names.has(id)) {
+            return this.names.get(id);
+        }
+
         const file = basename(absolute);
         if (!this.nameUsage.has(file)) {
             this.nameUsage.set(file, 1);
