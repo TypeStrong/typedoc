@@ -4,7 +4,6 @@ import { ConverterEvents } from "../converter-events";
 import { Option, type ValidationOptions } from "../../utils";
 import {
     ContainerReflection,
-    DeclarationReflection,
     makeRecursiveVisitor,
     type ProjectReflection,
     type Reflection,
@@ -57,14 +56,18 @@ export class LinkResolverPlugin extends ConverterComponent {
                         },
                     }),
                 );
+
+                if (reflection.readme) {
+                    reflection.readme = this.owner.resolveLinks(
+                        reflection.readme,
+                        reflection,
+                    );
+                }
             }
 
-            if (
-                reflection instanceof DeclarationReflection &&
-                reflection.readme
-            ) {
-                reflection.readme = this.owner.resolveLinks(
-                    reflection.readme,
+            if (reflection.isDocument()) {
+                reflection.content = this.owner.resolveLinks(
+                    reflection.content,
                     reflection,
                 );
             }

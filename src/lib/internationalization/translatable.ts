@@ -103,6 +103,8 @@ export const translatable = {
     failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2: `Failed to resolve link to "{0}" in comment for {1}. You may have wanted "{2}"`,
     failed_to_resolve_link_to_0_in_readme_for_1: `Failed to resolve link to "{0}" in readme for {1}`,
     failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2: `Failed to resolve link to "{0}" in readme for {1}. You may have wanted "{2}"`,
+    failed_to_resolve_link_to_0_in_document_1: `Failed to resolve link to "{0}" in document {1}`,
+    failed_to_resolve_link_to_0_in_document_1_may_have_meant_2: `Failed to resolve link to "{0}" in document {1}. You may have wanted "{2}"`,
     type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs: `{0}, defined in {1}, is referenced by {2} but not included in the documentation`,
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation: `{0} ({1}), defined in {2}, does not have any documentation`,
     invalid_intentionally_not_exported_symbols_0:

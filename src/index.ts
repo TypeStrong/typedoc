@@ -49,6 +49,7 @@ export type {
     RendererHooks,
     NavigationElement,
     RendererEvents,
+    PageHeading,
 } from "./lib/output";
 
 export {

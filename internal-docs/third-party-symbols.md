@@ -1,3 +1,7 @@
+---
+title: Third Party Symbols
+---
+
 # Third Party Symbols
 
 TypeDoc 0.22 added support for linking to third party sites by associating a symbol name with npm packages.
@@ -47,7 +51,8 @@ A wildcard can be used to provide a fallback link to any unmapped type.
 }
 ```
 
-Plugins can add support for linking to third party sites by calling [`app.converter.addUnknownSymbolResolver`][addUnknownSymbolResolver].
+Plugins can add support for linking to third party sites by calling
+{@link Converter.addUnknownSymbolResolver | `app.converter.addUnknownSymbolResolver`}
 
 If the given symbol is unknown, or does not appear in the documentation site, the resolver may return `undefined`
 and no link will be rendered unless provided by another resolver.
@@ -150,12 +155,10 @@ export function load(app: Application) {
 ```
 
 The unknown symbol resolver will also be passed the reflection containing the link
-and, if the link was defined by the user, the [CommentDisplayPart] which was parsed into the [DeclarationReference] provided as the first argument.
+and, if the link was defined by the user, the {@link Models.CommentDisplayPart} which was parsed into the
+{@link DeclarationReference} provided as the first argument.
 
-If `--useTsLinkResolution` is on (the default), it may also be passed a [ReflectionSymbolId] referencing the symbol that TypeScript resolves the link to.
+If `--useTsLinkResolution` is on (the default), it may also be passed a {@link Models.ReflectionSymbolId}
+referencing the symbol that TypeScript resolves the link to.
 
 [externalSymbolLinkMappings]: https://typedoc.org/options/comments/#externalsymbollinkmappings
-[CommentDisplayPart]: https://typedoc.org/api/types/CommentDisplayPart.html
-[DeclarationReference]: https://typedoc.org/api/interfaces/DeclarationReference.html
-[ReflectionSymbolId]: https://typedoc.org/api/classes/Application.html
-[addUnknownSymbolResolver]: https://typedoc.org/api/classes/Converter.html#addUnknownSymbolResolver
