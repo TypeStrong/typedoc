@@ -132,12 +132,12 @@ export function* zip<T extends Iterable<any>[]>(
 }
 
 export function filterMap<T, U>(
-    iter: Iterable<T>,
+    iter: Iterable<T> | undefined,
     fn: (item: T) => U | undefined,
 ): U[] {
     const result: U[] = [];
 
-    for (const item of iter) {
+    for (const item of iter || []) {
         const newItem = fn(item);
         if (newItem !== void 0) {
             result.push(newItem);

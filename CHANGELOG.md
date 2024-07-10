@@ -2,7 +2,13 @@
 
 ### Bug Fixes
 
+-   The page navigation sidebar no longer incorrectly includes re-exports if the same member is exported with multiple names #2625.
 -   Page navigation now ensures the current page is visible when the page is first loaded, #2626.
+-   Comments on re-exports are now rendered.
+
+### Thanks!
+
+-   @garrett-hopper
 
 ## v0.26.3 (2024-06-28)
 
