@@ -1636,4 +1636,9 @@ describe("Issue Tests", () => {
 
         logger.expectNoOtherMessages();
     });
+
+    it("#2634 handles @hidden on function implementations", () => {
+        const project = convert();
+        equal(project.children?.map((c) => c.name) || [], []);
+    });
 });

@@ -7,6 +7,7 @@
 -   If a relative linked image is referenced multiple times, TypeDoc will no longer sometimes produce invalid links to the image #2627.
 -   `@link` tags will now be validated in referenced markdown documents, #2629.
 -   `@link` tags are now resolved in project documents, #2629.
+-   `@hidden` is now properly applied when placed in a function implementation comment.
 -   Comments on re-exports are now rendered.
 
 ### Thanks!
