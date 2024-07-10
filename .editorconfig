@@ -12,3 +12,6 @@ trim_trailing_whitespace = true
 
 [package.json]
 indent_size = 2
+
+[src/test/converter2/issues/gh2631/crlf.md]
+end_of_line = crlf

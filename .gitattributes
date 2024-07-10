@@ -1,5 +1,6 @@
 # Disable core.autocrlf's line ending conversion behavior to prevent test failures on Windows
 * text=auto eol=lf
+src/test/converter2/issues/gh2631/crlf.md text=auto eol=crlf
 
 *.png binary
 *.psd binary

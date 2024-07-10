@@ -1637,6 +1637,14 @@ describe("Issue Tests", () => {
         logger.expectNoOtherMessages();
     });
 
+    it("#2631 handles CRLF line endings in frontmatter", () => {
+        const project = convert();
+        equal(
+            project.documents?.map((d) => d.name),
+            ["Windows Line Endings"],
+        );
+    });
+
     it("#2634 handles @hidden on function implementations", () => {
         const project = convert();
         equal(project.children?.map((c) => c.name) || [], []);
