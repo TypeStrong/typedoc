@@ -291,7 +291,7 @@ export class DefaultTheme extends Theme {
 
     render(page: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>): string {
         const templateOutput = this.defaultLayoutTemplate(page, template);
-        return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
+        return "<!DOCTYPE html>" + JSX.renderElement(templateOutput) + "\n";
     }
 
     private _navigationCache: NavigationElement[] | undefined;
