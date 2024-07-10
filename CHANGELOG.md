@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.4 (2024-07-10)
+
 ### Bug Fixes
 
 -   The page navigation sidebar no longer incorrectly includes re-exports if the same member is exported with multiple names #2625.
