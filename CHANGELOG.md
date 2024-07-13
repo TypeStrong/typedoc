@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Constructor parameters which share a name with a property on a parent class will no longer inherit the comment on the parent class, #2636.
+
 ## v0.26.4 (2024-07-10)
 
 ### Bug Fixes

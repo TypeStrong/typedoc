@@ -1649,4 +1649,10 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(project.children?.map((c) => c.name) || [], []);
     });
+
+    it("#2636 does not treat parameters as class properties", () => {
+        const project = convert();
+        const sig = querySig(project, "B.constructor");
+        equal(sig.parameters?.length, 1);
+    });
 });
