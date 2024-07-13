@@ -34,3 +34,5 @@ export type {
     ManuallyValidatedOption,
     JsDocCompatibility,
 } from "./declaration";
+
+export { OptionDefaults } from "./defaults";

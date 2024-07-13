@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   TypeDoc now exposes array option defaults under `OptionDefaults`, #2640.
+
 ### Bug Fixes
 
 -   Constructor parameters which share a name with a property on a parent class will no longer inherit the comment on the parent class, #2636.
