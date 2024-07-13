@@ -1655,4 +1655,12 @@ describe("Issue Tests", () => {
         const sig = querySig(project, "B.constructor");
         equal(sig.parameters?.length, 1);
     });
+
+    it("#2638 empty markdown file", () => {
+        const project = convert();
+        equal(
+            project.documents?.map((d) => d.content),
+            [[]],
+        );
+    });
 });
