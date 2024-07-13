@@ -202,8 +202,8 @@ export function parseCommentString(
 
     // Check for frontmatter
     let frontmatterData: Record<string, unknown> = {};
-    const firstBlock = content[0];
-    if (firstBlock?.text?.startsWith("---\n")) {
+    const firstBlock = content.at(0);
+    if (firstBlock?.text.startsWith("---\n")) {
         const end = firstBlock.text.indexOf("\n---\n");
         if (end !== -1) {
             const yamlText = firstBlock.text.slice("---\n".length, end);
