@@ -1628,4 +1628,38 @@ describe("Issue Tests", () => {
 
         logger.expectNoOtherMessages();
     });
+
+    it("#2631 handles CRLF line endings in frontmatter", () => {
+        const project = convert();
+        equal(
+            project.documents?.map((d) => d.name),
+            ["Windows Line Endings"],
+        );
+    });
+
+    it("#2634 handles @hidden on function implementations", () => {
+        const project = convert();
+        equal(project.children?.map((c) => c.name) || [], []);
+    });
+
+    it("#2636 does not treat parameters as class properties", () => {
+        const project = convert();
+        const sig = querySig(project, "B.constructor");
+        equal(sig.parameters?.length, 1);
+    });
+
+    it("#2638 empty markdown file", () => {
+        const project = convert();
+        equal(
+            project.documents?.map((d) => d.content),
+            [[]],
+        );
+    });
+
+    it("#2644 allows comments on signature parents to count for being documented", () => {
+        app.options.setValue("validation", { notDocumented: true });
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
 });

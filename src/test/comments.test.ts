@@ -1499,6 +1499,7 @@ describe("Comment Parser", () => {
         ] satisfies CommentDisplayPart[]);
 
         equal(files.getName(1), "&a.png");
+        equal(files.getName(1), "&a.png");
     });
 });
 

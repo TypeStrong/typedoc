@@ -16,7 +16,7 @@ import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
-import { JSX } from "../../../utils/index.js";
+import { filterMap, JSX } from "../../../utils/index.js";
 import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
 import { icons } from "./partials/icon.js";
 
@@ -291,7 +291,7 @@ export class DefaultTheme extends Theme {
 
     render(page: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>): string {
         const templateOutput = this.defaultLayoutTemplate(page, template);
-        return "<!DOCTYPE html>" + JSX.renderElement(templateOutput);
+        return "<!DOCTYPE html>" + JSX.renderElement(templateOutput) + "\n";
     }
 
     private _navigationCache: NavigationElement[] | undefined;
@@ -319,12 +319,21 @@ export class DefaultTheme extends Theme {
 
         function toNavigation(
             element: ReflectionCategory | ReflectionGroup | DeclarationReflection | DocumentReflection,
-        ): NavigationElement {
+        ): NavigationElement | undefined {
+            const children = getNavigationElements(element);
             if (element instanceof ReflectionCategory || element instanceof ReflectionGroup) {
+                if (!children?.length) {
+                    return;
+                }
+
                 return {
                     text: element.title,
-                    children: getNavigationElements(element),
+                    children,
                 };
+            }
+
+            if (!element.hasOwnDocument) {
+                return;
             }
 
             return {
@@ -332,7 +341,7 @@ export class DefaultTheme extends Theme {
                 path: element.url,
                 kind: element.kind,
                 class: classNames({ deprecated: element.isDeprecated() }, theme.getReflectionClasses(element)),
-                children: getNavigationElements(element),
+                children: children?.length ? children : undefined,
             };
         }
 
@@ -345,14 +354,14 @@ export class DefaultTheme extends Theme {
                 | DocumentReflection,
         ): undefined | NavigationElement[] {
             if (parent instanceof ReflectionCategory) {
-                return parent.children.map(toNavigation);
+                return filterMap(parent.children, toNavigation);
             }
 
             if (parent instanceof ReflectionGroup) {
                 if (shouldShowCategories(parent.owningReflection, opts) && parent.categories) {
-                    return parent.categories.map(toNavigation);
+                    return filterMap(parent.categories, toNavigation);
                 }
-                return parent.children.map(toNavigation);
+                return filterMap(parent.children, toNavigation);
             }
 
             if (leaves.includes(parent.getFullName())) {
@@ -364,28 +373,28 @@ export class DefaultTheme extends Theme {
             }
 
             if (parent.isDocument()) {
-                return parent.children?.map(toNavigation);
+                return filterMap(parent.children, toNavigation);
             }
 
             if (!parent.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)) {
                 // Tricky: Non-module children don't show up in the navigation pane,
                 //   but any documents added by them should.
-                return parent.documents?.map(toNavigation);
+                return filterMap(parent.documents, toNavigation);
             }
 
             if (parent.categories && shouldShowCategories(parent, opts)) {
-                return parent.categories.map(toNavigation);
+                return filterMap(parent.categories, toNavigation);
             }
 
             if (parent.groups && shouldShowGroups(parent, opts)) {
-                return parent.groups.map(toNavigation);
+                return filterMap(parent.groups, toNavigation);
             }
 
             if (opts.includeFolders && parent.childrenIncludingDocuments?.some((child) => child.name.includes("/"))) {
                 return deriveModuleFolders(parent.childrenIncludingDocuments);
             }
 
-            return parent.childrenIncludingDocuments?.map(toNavigation);
+            return filterMap(parent.childrenIncludingDocuments, toNavigation);
         }
 
         function deriveModuleFolders(children: Array<DeclarationReflection | DocumentReflection>) {
@@ -414,12 +423,14 @@ export class DefaultTheme extends Theme {
 
             // Note: This might end up putting a module within another module if we document
             // both foo/index.ts and foo/bar.ts.
-            for (const child of children) {
-                const parts = child.name.split("/");
-                const collection = resolveOrCreateParents(parts);
+            for (const child of children.filter((c) => c.hasOwnDocument)) {
                 const nav = toNavigation(child);
-                nav.text = parts[parts.length - 1];
-                collection.push(nav);
+                if (nav) {
+                    const parts = child.name.split("/");
+                    const collection = resolveOrCreateParents(parts);
+                    nav.text = parts[parts.length - 1];
+                    collection.push(nav);
+                }
             }
 
             // Now merge single-possible-paths together so we don't have folders in our navigation

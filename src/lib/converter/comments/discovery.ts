@@ -412,6 +412,12 @@ function declarationToCommentNodeIgnoringParents(
     // ts.SourceFile is a counterexample
     if (!node.parent) return node;
 
+    // function foo(x: number)
+    //              ^^^^^^^^^
+    if (node.kind === ts.SyntaxKind.Parameter) {
+        return node;
+    }
+
     // const abc = 123
     //       ^^^
     if (node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {

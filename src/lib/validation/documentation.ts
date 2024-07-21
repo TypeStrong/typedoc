@@ -100,7 +100,13 @@ export function validateDocumentation(
 
         const symbolId = project.getSymbolIdFromReflection(ref);
 
-        if (!ref.hasComment() && symbolId) {
+        // #2644, signatures may be documented by their parent reflection.
+        const hasComment =
+            ref.hasComment() ||
+            (ref.kindOf(ReflectionKind.SomeSignature) &&
+                ref.parent?.hasComment());
+
+        if (!hasComment && symbolId) {
             if (symbolId.fileName.includes("node_modules")) {
                 continue;
             }

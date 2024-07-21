@@ -7,6 +7,7 @@ import { ReflectionKind } from "../models/reflections/kind.js";
 import type { DeclarationReflection } from "../models/reflections/declaration.js";
 import type { Options } from "./options/index.js";
 import type { DocumentReflection } from "../models/index.js";
+import { OptionDefaults } from "./options/defaults.js";
 
 export const SORT_STRATEGIES = [
     "source-order",
@@ -26,35 +27,6 @@ export const SORT_STRATEGIES = [
 ] as const;
 
 export type SortStrategy = (typeof SORT_STRATEGIES)[number];
-
-const defaultKindSortOrder = [
-    ReflectionKind.Document,
-    ReflectionKind.Reference,
-    ReflectionKind.Project,
-    ReflectionKind.Module,
-    ReflectionKind.Namespace,
-    ReflectionKind.Enum,
-    ReflectionKind.EnumMember,
-    ReflectionKind.Class,
-    ReflectionKind.Interface,
-    ReflectionKind.TypeAlias,
-
-    ReflectionKind.Constructor,
-    ReflectionKind.Property,
-    ReflectionKind.Variable,
-    ReflectionKind.Function,
-    ReflectionKind.Accessor,
-    ReflectionKind.Method,
-
-    ReflectionKind.Parameter,
-    ReflectionKind.TypeParameter,
-    ReflectionKind.TypeLiteral,
-    ReflectionKind.CallSignature,
-    ReflectionKind.ConstructorSignature,
-    ReflectionKind.IndexSignature,
-    ReflectionKind.GetSignature,
-    ReflectionKind.SetSignature,
-] as const;
 
 // Return true if a < b
 const sorts: Record<
@@ -193,9 +165,9 @@ export function getSortFunction(opts: Options) {
         .getValue("kindSortOrder")
         .map((k) => ReflectionKind[k]);
 
-    for (const kind of defaultKindSortOrder) {
-        if (!kindSortOrder.includes(kind)) {
-            kindSortOrder.push(kind);
+    for (const kind of OptionDefaults.kindSortOrder) {
+        if (!kindSortOrder.includes(ReflectionKind[kind])) {
+            kindSortOrder.push(ReflectionKind[kind]);
         }
     }
 

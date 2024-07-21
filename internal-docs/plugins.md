@@ -2,13 +2,14 @@
 title: Plugins
 children:
     - ./components-and-events.md
+    - ./third-party-symbols.md
 ---
 
 # Writing a TypeDoc Plugin
 
 TypeDoc supports plugins which can modify how projects are converted, how converted symbols
 are organized, and how they are displayed, among other things. Plugins are Node modules which
-export a single `load` function that will be called by TypeDoc with the [Application] instance
+export a single `load` function that will be called by TypeDoc with the {@link Application} instance
 which they are to be attached to. Plugins should assume that they may be loaded multiple times
 for different applications, and that a single load of an application class may be used to convert
 multiple projects.
@@ -26,8 +27,8 @@ export function load(app) {
 ```
 
 Plugins affect TypeDoc's execution by attaching event listeners to one or many events that will be
-fired during conversion and rendering. Events are available on the [Application], [Converter],
-[Renderer], and [Serializer]/[Deserializer] classes. There are static `EVENT_*` properties on those
+fired during conversion and rendering. Events are available on the {@link Application}, {@link Converter},
+{@link Renderer}, and {@link Serializer}/{@link Deserializer} classes. There are static `EVENT_*` properties on those
 classes which describe the available events.
 
 The best way to learn what's available to plugins is to browse the docs, or look at the source code
@@ -45,10 +46,5 @@ TypeDoc works. The [development page](https://typedoc.org/guides/development/) o
 If you have specific questions regarding plugin development, please open an issue or ask in the
 [TypeScript Discord] #typedoc channel.
 
-[Application]: https://typedoc.org/api/classes/Application.html
-[Converter]: https://typedoc.org/api/classes/Converter.html
-[Renderer]: https://typedoc.org/api/classes/Renderer.html
-[Serializer]: https://typedoc.org/api/classes/Serializer.html
-[Deserializer]: https://typedoc.org/api/classes/Deserializer.html
 [typedoc-plugin-mdn-links]: https://github.com/Gerrit0/typedoc-plugin-mdn-links/blob/main/src/index.ts
 [TypeScript Discord]: https://discord.gg/typescript

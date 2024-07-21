@@ -620,7 +620,7 @@ export class Application extends AbstractComponent<
         const ser = this.serializer.projectToObject(project, process.cwd());
 
         const space = this.options.getValue("pretty") ? "\t" : "";
-        await writeFile(out, JSON.stringify(ser, null, space));
+        await writeFile(out, JSON.stringify(ser, null, space) + "\n");
         this.logger.info(this.i18n.json_written_to_0(nicePath(out)));
         this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
     }

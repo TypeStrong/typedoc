@@ -28,6 +28,7 @@ import { ConverterEvents } from "../converter-events.js";
 export class ImplementsPlugin extends ConverterComponent {
     private resolved = new WeakSet<Reflection>();
     private postponed = new WeakMap<Reflection, Set<DeclarationReflection>>();
+    private revivingSerialized = false;
 
     /**
      * Create a new ImplementsPlugin instance.
@@ -47,7 +48,7 @@ export class ImplementsPlugin extends ConverterComponent {
             this.onSignature.bind(this),
             1000,
         );
-        this.application.on(ApplicationEvents.REVIVE, this.resolve.bind(this));
+        this.application.on(ApplicationEvents.REVIVE, this.onRevive.bind(this));
     }
 
     /**
@@ -58,7 +59,7 @@ export class ImplementsPlugin extends ConverterComponent {
         classReflection: DeclarationReflection,
         interfaceReflection: DeclarationReflection,
     ) {
-        handleInheritedComments(classReflection, interfaceReflection);
+        this.handleInheritedComments(classReflection, interfaceReflection);
         if (!interfaceReflection.children) {
             return;
         }
@@ -112,7 +113,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 }
             }
 
-            handleInheritedComments(classMember, interfaceMember);
+            this.handleInheritedComments(classMember, interfaceMember);
         });
     }
 
@@ -133,7 +134,7 @@ export class ImplementsPlugin extends ConverterComponent {
         );
 
         for (const parent of extendedTypes) {
-            handleInheritedComments(reflection, parent.reflection);
+            this.handleInheritedComments(reflection, parent.reflection);
 
             for (const parentMember of parent.reflection.children ?? []) {
                 const child = findMatchingMember(parentMember, reflection);
@@ -160,7 +161,7 @@ export class ImplementsPlugin extends ConverterComponent {
                         project,
                     );
 
-                    handleInheritedComments(child, parentMember);
+                    this.handleInheritedComments(child, parentMember);
                 }
             }
         }
@@ -168,6 +169,12 @@ export class ImplementsPlugin extends ConverterComponent {
 
     private onResolveEnd(context: Context) {
         this.resolve(context.project);
+    }
+
+    private onRevive(project: ProjectReflection) {
+        this.revivingSerialized = true;
+        this.resolve(project);
+        this.revivingSerialized = false;
     }
 
     private resolve(project: ProjectReflection) {
@@ -365,6 +372,105 @@ export class ImplementsPlugin extends ConverterComponent {
             }
         }
     }
+
+    /**
+     * Responsible for copying comments from "parent" reflections defined
+     * in either a base class or implemented interface to the child class.
+     */
+    private handleInheritedComments(
+        child: DeclarationReflection,
+        parent: DeclarationReflection,
+    ) {
+        this.copyComment(child, parent);
+
+        if (
+            parent.kindOf(ReflectionKind.Property) &&
+            child.kindOf(ReflectionKind.Accessor)
+        ) {
+            if (child.getSignature) {
+                this.copyComment(child.getSignature, parent);
+                child.getSignature.implementationOf = child.implementationOf;
+            }
+            if (child.setSignature) {
+                this.copyComment(child.setSignature, parent);
+                child.setSignature.implementationOf = child.implementationOf;
+            }
+        }
+        if (
+            parent.kindOf(ReflectionKind.Accessor) &&
+            child.kindOf(ReflectionKind.Accessor)
+        ) {
+            if (parent.getSignature && child.getSignature) {
+                this.copyComment(child.getSignature, parent.getSignature);
+            }
+            if (parent.setSignature && child.setSignature) {
+                this.copyComment(child.setSignature, parent.setSignature);
+            }
+        }
+
+        if (
+            parent.kindOf(ReflectionKind.FunctionOrMethod) &&
+            parent.signatures &&
+            child.signatures
+        ) {
+            for (const [cs, ps] of zip(child.signatures, parent.signatures)) {
+                this.copyComment(cs, ps);
+            }
+        } else if (
+            parent.kindOf(ReflectionKind.Property) &&
+            parent.type instanceof ReflectionType &&
+            parent.type.declaration.signatures &&
+            child.signatures
+        ) {
+            for (const [cs, ps] of zip(
+                child.signatures,
+                parent.type.declaration.signatures,
+            )) {
+                this.copyComment(cs, ps);
+            }
+        }
+    }
+
+    /**
+     * Copy the comment of the source reflection to the target reflection with a JSDoc style copy
+     * function. The TSDoc copy function is in the InheritDocPlugin.
+     */
+    private copyComment(target: Reflection, source: Reflection) {
+        if (!shouldCopyComment(target, source, this.revivingSerialized)) {
+            return;
+        }
+
+        target.comment = source.comment!.clone();
+
+        if (
+            target instanceof DeclarationReflection &&
+            source instanceof DeclarationReflection
+        ) {
+            for (const [tt, ts] of zip(
+                target.typeParameters || [],
+                source.typeParameters || [],
+            )) {
+                this.copyComment(tt, ts);
+            }
+        }
+        if (
+            target instanceof SignatureReflection &&
+            source instanceof SignatureReflection
+        ) {
+            for (const [tt, ts] of zip(
+                target.typeParameters || [],
+                source.typeParameters || [],
+            )) {
+                this.copyComment(tt, ts);
+            }
+            for (const [pt, ps] of zip(
+                target.parameters || [],
+                source.parameters || [],
+            )) {
+                this.copyComment(pt, ps);
+            }
+        }
+    }
 }
 
 function constructorInheritance(
@@ -422,7 +528,9 @@ function createLink(
     }
 
     // Intentionally create broken links here. These will be replaced with real links during
-    // resolution if we can do so.
+    // resolution if we can do so. We create broken links rather than real links because in the
+    // case of an inherited symbol, we'll end up referencing a single symbol ID rather than one
+    // for each class.
     function link(
         target: DeclarationReflection | SignatureReflection | undefined,
     ) {
@@ -451,111 +559,30 @@ function createLink(
     }
 }
 
-/**
- * Responsible for copying comments from "parent" reflections defined
- * in either a base class or implemented interface to the child class.
- */
-function handleInheritedComments(
-    child: DeclarationReflection,
-    parent: DeclarationReflection,
+function shouldCopyComment(
+    target: Reflection,
+    source: Reflection,
+    revivingSerialized: boolean,
 ) {
-    copyComment(child, parent);
-
-    if (
-        parent.kindOf(ReflectionKind.Property) &&
-        child.kindOf(ReflectionKind.Accessor)
-    ) {
-        if (child.getSignature) {
-            copyComment(child.getSignature, parent);
-            child.getSignature.implementationOf = child.implementationOf;
-        }
-        if (child.setSignature) {
-            copyComment(child.setSignature, parent);
-            child.setSignature.implementationOf = child.implementationOf;
-        }
-    }
-    if (
-        parent.kindOf(ReflectionKind.Accessor) &&
-        child.kindOf(ReflectionKind.Accessor)
-    ) {
-        if (parent.getSignature && child.getSignature) {
-            copyComment(child.getSignature, parent.getSignature);
-        }
-        if (parent.setSignature && child.setSignature) {
-            copyComment(child.setSignature, parent.setSignature);
-        }
+    if (!source.comment) {
+        return false;
     }
 
-    if (
-        parent.kindOf(ReflectionKind.FunctionOrMethod) &&
-        parent.signatures &&
-        child.signatures
-    ) {
-        for (const [cs, ps] of zip(child.signatures, parent.signatures)) {
-            copyComment(cs, ps);
-        }
-    } else if (
-        parent.kindOf(ReflectionKind.Property) &&
-        parent.type instanceof ReflectionType &&
-        parent.type.declaration.signatures &&
-        child.signatures
-    ) {
-        for (const [cs, ps] of zip(
-            child.signatures,
-            parent.type.declaration.signatures,
-        )) {
-            copyComment(cs, ps);
-        }
-    }
-}
-
-/**
- * Copy the comment of the source reflection to the target reflection with a JSDoc style copy
- * function. The TSDoc copy function is in the InheritDocPlugin.
- */
-function copyComment(target: Reflection, source: Reflection) {
     if (target.comment) {
+        // If we're reviving, then the revived project might have a better comment
+        // on source, so copy it.
+        if (revivingSerialized && source.comment.similarTo(target.comment)) {
+            return true;
+        }
+
         // We might still want to copy, if the child has a JSDoc style inheritDoc tag.
         const tag = target.comment.getTag("@inheritDoc");
         if (!tag || tag.name) {
-            return;
+            return false;
         }
     }
 
-    if (!source.comment) {
-        return;
-    }
-
-    target.comment = source.comment.clone();
-
-    if (
-        target instanceof DeclarationReflection &&
-        source instanceof DeclarationReflection
-    ) {
-        for (const [tt, ts] of zip(
-            target.typeParameters || [],
-            source.typeParameters || [],
-        )) {
-            copyComment(tt, ts);
-        }
-    }
-    if (
-        target instanceof SignatureReflection &&
-        source instanceof SignatureReflection
-    ) {
-        for (const [tt, ts] of zip(
-            target.typeParameters || [],
-            source.typeParameters || [],
-        )) {
-            copyComment(tt, ts);
-        }
-        for (const [pt, ps] of zip(
-            target.parameters || [],
-            source.parameters || [],
-        )) {
-            copyComment(pt, ps);
-        }
-    }
+    return true;
 }
 
 function findMatchingMember(

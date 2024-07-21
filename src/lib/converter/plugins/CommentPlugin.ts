@@ -633,14 +633,12 @@ export class CommentPlugin extends ConverterComponent {
             (comment.hasModifier("@internal") && this.excludeInternal);
 
         if (
-            isHidden &&
+            !isHidden &&
             reflection.kindOf(ReflectionKind.ContainsCallSignatures)
         ) {
             return (reflection as DeclarationReflection)
                 .getNonIndexSignatures()
-                .every((sig) => {
-                    return !sig.comment || this.isHidden(sig);
-                });
+                .every((sig) => this.isHidden(sig));
         }
 
         return isHidden;

@@ -7,10 +7,20 @@ import { binaryFindPartition } from "./array.js";
 const lineStarts = new WeakMap<MinimalSourceFile, number[]>();
 
 export class MinimalSourceFile implements SourceFileLike {
+    readonly text: string;
     constructor(
-        readonly text: string,
+        text: string,
         readonly fileName: string,
     ) {
+        // This is unfortunate, but the yaml library we use relies on the source
+        // text using LF line endings https://github.com/eemeli/yaml/issues/127.
+        // If we don't do this, in a simple document which includes a single key
+        // like:
+        // ---<CR><LF>
+        // title: Windows line endings<CR><LF>
+        // ---<CR><LF>
+        // we'll end up with a parsed title of "Windows line endings\r"
+        this.text = text.replaceAll("\r\n", "\n");
         lineStarts.set(this, [0]);
     }
 

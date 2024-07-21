@@ -108,6 +108,20 @@ export class CommentTag {
         this.content = text;
     }
 
+    /**
+     * Checks if this block tag is roughly equal to the other tag.
+     * This isn't exactly equal, but just "roughly equal" by the tag
+     * text.
+     */
+    similarTo(other: CommentTag) {
+        return (
+            this.tag === other.tag &&
+            this.name === other.tag &&
+            Comment.combineDisplayParts(this.content) ===
+                Comment.combineDisplayParts(other.content)
+        );
+    }
+
     clone(): CommentTag {
         const tag = new CommentTag(
             this.tag,
@@ -426,6 +440,35 @@ export class Comment {
         this.blockTags = blockTags;
         this.modifierTags = modifierTags;
         extractLabelTag(this);
+    }
+
+    /**
+     * Checks if this comment is roughly equal to the other comment.
+     * This isn't exactly equal, but just "roughly equal" by the comment
+     * text.
+     */
+    similarTo(other: Comment): boolean {
+        if (
+            Comment.combineDisplayParts(this.summary) !==
+            Comment.combineDisplayParts(other.summary)
+        ) {
+            return false;
+        }
+
+        // Ignore modifier tags, as they could cause false negatives
+        // if a cascaded modifier tag is present in one comment but not the other.
+
+        if (this.blockTags.length !== other.blockTags.length) {
+            return false;
+        }
+
+        for (let i = 0; i < this.blockTags.length; ++i) {
+            if (!this.blockTags[i].similarTo(other.blockTags[i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

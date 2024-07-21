@@ -60,6 +60,7 @@ export {
     LogLevel,
     Logger,
     Options,
+    OptionDefaults,
     PackageJsonReader,
     ParameterHint,
     ParameterType,

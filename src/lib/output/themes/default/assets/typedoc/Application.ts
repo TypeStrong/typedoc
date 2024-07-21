@@ -107,13 +107,15 @@ export class Application {
             iter = iter.parentElement;
         }
 
-        if (pageLink && !pageLink.checkVisibility()) {
+        if (pageLink && !checkVisible(pageLink)) {
             const top =
                 pageLink.getBoundingClientRect().top -
                 document.documentElement.clientHeight / 4;
             // If we are showing three columns, this will scroll the site menu down to
             // show the page we just loaded in the navigation.
             document.querySelector(".site-menu")!.scrollTop = top;
+            // If we are showing two columns
+            document.querySelector(".col-sidebar")!.scrollTop = top;
         }
     }
 
@@ -217,4 +219,14 @@ export class Application {
             });
         });
     }
+}
+
+// https://stackoverflow.com/a/5354536/7186598
+function checkVisible(elm: Element) {
+    const rect = elm.getBoundingClientRect();
+    const viewHeight = Math.max(
+        document.documentElement.clientHeight,
+        window.innerHeight,
+    );
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
 }

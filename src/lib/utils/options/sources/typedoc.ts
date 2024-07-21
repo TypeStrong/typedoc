@@ -1,4 +1,8 @@
-import type { Options, TypeDocOptionMap } from "../index.js";
+import {
+    OptionDefaults,
+    type Options,
+    type TypeDocOptionMap,
+} from "../index.js";
 import { LogLevel } from "../../loggers.js";
 import {
     ParameterType,
@@ -12,10 +16,7 @@ import { ReflectionKind } from "../../../models/reflections/kind.js";
 import * as Validation from "../../validation.js";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys } from "../../enum.js";
-import type {
-    BundledLanguage,
-    BundledTheme,
-} from "shiki" with { "resolution-mode": "import" };
+import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import {
     getSupportedLanguagesWithoutAliases,
     getSupportedThemes,
@@ -185,27 +186,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 );
             }
         },
-        defaultValue: [
-            ReflectionKind[ReflectionKind.Module],
-            ReflectionKind[ReflectionKind.Namespace],
-            ReflectionKind[ReflectionKind.Enum],
-            // Not including enum member here by default
-            ReflectionKind[ReflectionKind.Variable],
-            ReflectionKind[ReflectionKind.Function],
-            ReflectionKind[ReflectionKind.Class],
-            ReflectionKind[ReflectionKind.Interface],
-            ReflectionKind[ReflectionKind.Constructor],
-            ReflectionKind[ReflectionKind.Property],
-            ReflectionKind[ReflectionKind.Method],
-            ReflectionKind[ReflectionKind.CallSignature],
-            ReflectionKind[ReflectionKind.IndexSignature],
-            ReflectionKind[ReflectionKind.ConstructorSignature],
-            ReflectionKind[ReflectionKind.Accessor],
-            ReflectionKind[ReflectionKind.GetSignature],
-            ReflectionKind[ReflectionKind.SetSignature],
-            ReflectionKind[ReflectionKind.TypeAlias],
-            ReflectionKind[ReflectionKind.Reference],
-        ],
+        defaultValue: OptionDefaults.excludeNotDocumentedKinds,
     });
     options.addDeclaration({
         name: "excludeInternal",
@@ -340,18 +321,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "highlightLanguages",
         help: (i18n) => i18n.help_highlightLanguages(),
         type: ParameterType.Array,
-        defaultValue: [
-            "bash",
-            "console",
-            "css",
-            "html",
-            "javascript",
-            "json",
-            "jsonc",
-            "json5",
-            "tsx",
-            "typescript",
-        ] satisfies BundledLanguage[],
+        defaultValue: OptionDefaults.highlightLanguages,
         validate(value, i18n) {
             const invalid = setDifference(
                 value,
@@ -781,7 +751,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "sort",
         help: (i18n) => i18n.help_sort(),
         type: ParameterType.Array,
-        defaultValue: ["kind", "instance-first", "alphabetical"],
+        defaultValue: OptionDefaults.sort,
         validate(value, i18n) {
             const invalid = new Set(value);
             for (const v of SORT_STRATEGIES) {
@@ -811,18 +781,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         defaultValue: [],
         validate(value, i18n) {
-            const invalid = new Set(value);
-            const valid = getEnumKeys(ReflectionKind);
-            for (const v of valid) {
-                invalid.delete(v);
-            }
+            const invalid = setDifference(value, getEnumKeys(ReflectionKind));
 
             if (invalid.size !== 0) {
                 throw new Error(
                     i18n.option_0_specified_1_but_only_2_is_valid(
                         `kindSortOrder`,
                         Array.from(invalid).join(", "),
-                        valid.join(", "),
+                        getEnumKeys(ReflectionKind).join(", "),
                     ),
                 );
             }
@@ -913,18 +879,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 }
             }
         },
-        defaultValue: [
-            ReflectionKind[ReflectionKind.Enum],
-            ReflectionKind[ReflectionKind.EnumMember],
-            ReflectionKind[ReflectionKind.Variable],
-            ReflectionKind[ReflectionKind.Function],
-            ReflectionKind[ReflectionKind.Class],
-            ReflectionKind[ReflectionKind.Interface],
-            ReflectionKind[ReflectionKind.Property],
-            ReflectionKind[ReflectionKind.Method],
-            ReflectionKind[ReflectionKind.Accessor],
-            ReflectionKind[ReflectionKind.TypeAlias],
-        ],
+        defaultValue: OptionDefaults.requiredToBeDocumented,
     });
 
     options.addDeclaration({

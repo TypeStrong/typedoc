@@ -35,6 +35,7 @@ export {
     ParameterType,
     TSConfigReader,
     TypeDocReader,
+    OptionDefaults,
 } from "./options/index.js";
 export type {
     ArrayDeclarationOption,
