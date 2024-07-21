@@ -15,7 +15,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node }}
             - name: Install working npm
-              run: npm install -g npm@10.8.0
+              run: npm install -g npm@10.7.0
             - name: Install
               run: npm ci
             - name: Build
