@@ -1663,4 +1663,11 @@ describe("Issue Tests", () => {
             [[]],
         );
     });
+
+    it("#2644 allows comments on signature parents to count for being documented", () => {
+        app.options.setValue("validation", { notDocumented: true });
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
 });
