@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.5 (2024-07-21)
+
 ### Features
 
 -   TypeDoc now exposes array option defaults under `OptionDefaults`, #2640.
