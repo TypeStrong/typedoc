@@ -2,7 +2,7 @@ export const emptyArray: readonly [] = [];
 
 /**
  * Inserts an item into an array sorted by priority. If two items have the same priority,
- * the item will be inserted later will be placed earlier in the array.
+ * the item will be inserted later will be placed later in the array.
  * @param arr modified by inserting item.
  * @param item
  */
@@ -10,7 +10,7 @@ export function insertPrioritySorted<T extends { priority: number }>(
     arr: T[],
     item: T,
 ): T[] {
-    const index = binaryFindPartition(arr, (v) => v.priority <= item.priority);
+    const index = binaryFindPartition(arr, (v) => v.priority < item.priority);
     arr.splice(index === -1 ? arr.length : index, 0, item);
     return arr;
 }

@@ -66,13 +66,13 @@ describe("EventDispatcher", () => {
         equal(calls, 3);
     });
 
-    it("Calls listeners according to their order", () => {
+    it("Calls listeners according to their priority", () => {
         const emitter = new EventDispatcher<{ a: [] }>();
 
         const calls: number[] = [];
         emitter.on("a", () => calls.push(3), 25);
-        emitter.on("a", () => calls.push(2), 50);
         emitter.on("a", () => calls.push(1), 50);
+        emitter.on("a", () => calls.push(2), 50);
 
         emitter.trigger("a");
         equal(calls, [1, 2, 3]);

@@ -37,9 +37,9 @@ describe("Array utils", () => {
             ]);
         });
 
-        it("inserts new items first", () => {
-            const item0 = { priority: 1, first: true };
-            equal(insertPrioritySorted([item1], item0), [item0, item1]);
+        it("inserts new items last", () => {
+            const item0 = { priority: 1, first: false };
+            equal(insertPrioritySorted([item1], item0), [item1, item0]);
         });
     });
 

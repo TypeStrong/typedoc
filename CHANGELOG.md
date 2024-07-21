@@ -9,6 +9,7 @@
 -   Constructor parameters which share a name with a property on a parent class will no longer inherit the comment on the parent class, #2636.
 -   Packages mode will now attempt to use the comment declared in the comment class for inherited members, #2622.
 -   TypeDoc no longer crashes when `@document` includes an empty file, #2638.
+-   API: Event listeners added later with the same priority will be called later, #2643.
 
 ### Thanks!
 
