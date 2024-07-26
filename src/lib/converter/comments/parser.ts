@@ -18,6 +18,7 @@ import type {
 } from "../../internationalization/internationalization";
 import { FileRegistry } from "../../models/FileRegistry";
 import { textContent, TextParserReentryState } from "./textParser";
+import { hasDeclarationFileExtension } from "../../utils/fs";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -111,7 +112,7 @@ export function parseComment(
     function warningImpl(message: TranslatedString, token: Token) {
         if (
             config.suppressCommentWarningsInDeclarationFiles &&
-            file.fileName.endsWith(".d.ts")
+            hasDeclarationFileExtension(file.fileName)
         ) {
             return;
         }

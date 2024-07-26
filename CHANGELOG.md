@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   The `suppressCommentWarningsInDeclarationFiles` option now correctly ignores warnings in `.d.cts` and `.d.mts` files, #2647.
+
 ## v0.26.5 (2024-07-21)
 
 ### Features
