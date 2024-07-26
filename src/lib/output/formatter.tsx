@@ -142,6 +142,12 @@ export class FormattedCodeGenerator {
         this.size = startWidth;
     }
 
+    forceWrap(wrapped: Set<number>) {
+        for (const id of wrapped) {
+            this.wrapped.add(id);
+        }
+    }
+
     toElement(): JSX.Element {
         return <>{this.buffer}</>;
     }
@@ -159,7 +165,7 @@ export class FormattedCodeGenerator {
                     nodeWidth(n, this.wrapped),
                 );
                 let wrap: Wrap;
-                if (this.size + width > this.max) {
+                if (this.size + width > this.max || this.wrapped.has(node.id)) {
                     this.wrapped.add(node.id);
                     wrap = Wrap.Enable;
                 } else {
@@ -729,6 +735,7 @@ const typeBuilder: TypeVisitor<
  * Responsible for generating Nodes from a type tree.
  */
 export class FormattedCodeBuilder {
+    forceWrap = new Set<number>();
     id = 0;
 
     constructor(readonly urlTo: (refl: Reflection) => string) {}
@@ -810,6 +817,9 @@ export class FormattedCodeBuilder {
 
         if (members.length) {
             const id = this.newId();
+            if (options.topLevelLinks) {
+                this.forceWrap.add(id);
+            }
             return group(id, [
                 simpleElement(<span class="tsd-signature-symbol">{"{"}</span>),
                 spaceOrLine(),

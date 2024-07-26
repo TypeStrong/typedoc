@@ -14,8 +14,8 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
     if (props.kindOf(ReflectionKind.Interface) && props.children) {
         const builder = new FormattedCodeBuilder(context.urlTo);
         const tree = builder.interface(props);
-        // Pass infinity to force properties onto new lines
-        const generator = new FormattedCodeGenerator(undefined, Infinity);
+        const generator = new FormattedCodeGenerator();
+        generator.forceWrap(builder.forceWrap); // Ensure elements are added to new lines.
         generator.node(tree, Wrap.Enable);
 
         return <div class="tsd-signature">{generator.toElement()}</div>;
