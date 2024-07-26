@@ -16,7 +16,6 @@
 TODO:
 
 -   Add an option for controlling print width.
--   Finish cleaning up formatter TODO comments, tests
 -   Write docs for `@expand`
 
 # Unreleased

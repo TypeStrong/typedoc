@@ -21,7 +21,7 @@ Plugins may be either ESM or CommonJS.
 import td from "typedoc";
 /** @param {td.Application} app */
 export function load(app) {
-    // todo: Add event listeners to app, app.converter, etc.
+    // Add event listeners to app, app.converter, etc.
     // this function may be async
 }
 ```

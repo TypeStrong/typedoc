@@ -12,6 +12,7 @@ import {
     PredicateType,
     QueryType,
     ReferenceType,
+    ReflectionType,
     RestType,
     TemplateLiteralType,
     TupleType,
@@ -26,8 +27,12 @@ import { dedent } from "../utils.js";
 import {
     DeclarationReflection,
     FileRegistry,
+    ParameterReflection,
     ProjectReflection,
+    ReflectionFlag,
     ReflectionKind,
+    SignatureReflection,
+    TypeParameterReflection,
 } from "../../lib/models/index.js";
 import {
     FormattedCodeBuilder,
@@ -281,7 +286,311 @@ describe("Formatter", () => {
         );
     });
 
-    // TODO: reflection
+    it("Handles an index signature reflection type", () => {
+        const decl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        decl.indexSignatures = [
+            new SignatureReflection(
+                "__index",
+                ReflectionKind.IndexSignature,
+                decl,
+            ),
+        ];
+        decl.indexSignatures[0].type = new IntrinsicType("string");
+        decl.indexSignatures[0].parameters = [
+            new ParameterReflection("x", ReflectionKind.Parameter),
+        ];
+        decl.indexSignatures[0].parameters[0].type = new IntrinsicType(
+            "number",
+        );
+
+        const type = new ReflectionType(decl);
+        const text = renderElementToText(renderType(type));
+        equal(text, `{ [x: number]: string }`);
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                {
+                    [x: number]: string;
+                }
+            `),
+        );
+    });
+
+    it("Handles single signature callback reflection types", () => {
+        const decl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const sig = new SignatureReflection(
+            "__call",
+            ReflectionKind.CallSignature,
+            decl,
+        );
+        decl.signatures = [sig];
+        sig.type = new LiteralType("str");
+        sig.parameters = [
+            new ParameterReflection("x", ReflectionKind.Parameter),
+            new ParameterReflection("y", ReflectionKind.Parameter),
+        ];
+        sig.parameters[0].setFlag(ReflectionFlag.Optional);
+        sig.parameters[1].setFlag(ReflectionFlag.Rest);
+        sig.parameters[0].type = new IntrinsicType("string");
+        sig.parameters[1].type = new IntrinsicType("number");
+
+        const type = new ReflectionType(decl);
+        const text = renderElementToText(renderType(type));
+        equal(text, `(x?: string, ...y: number) => "str"`);
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+            (
+                x?: string,
+                ...y: number,
+            ) => "str"
+            `),
+        );
+    });
+
+    it("Handles abstract construct signature", () => {
+        const decl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const sig = new SignatureReflection(
+            "__call",
+            ReflectionKind.ConstructorSignature,
+            decl,
+        );
+        sig.type = new IntrinsicType("Number");
+        sig.flags.setFlag(ReflectionFlag.Abstract, true);
+        decl.signatures = [sig];
+
+        const type = new ReflectionType(decl);
+        const text = renderElementToText(renderType(type));
+        equal(text, `abstract new () => Number`);
+    });
+
+    it("Handles multiple signature callback reflection types", () => {
+        const decl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const sig = new SignatureReflection(
+            "__call",
+            ReflectionKind.CallSignature,
+            decl,
+        );
+        decl.signatures = [sig, sig];
+        sig.type = new LiteralType("str");
+        sig.parameters = [
+            new ParameterReflection("x", ReflectionKind.Parameter),
+            new ParameterReflection("y", ReflectionKind.Parameter),
+        ];
+        sig.parameters[0].type = new IntrinsicType("string");
+        sig.parameters[1].type = new IntrinsicType("number");
+
+        const type = new ReflectionType(decl);
+        const text = renderElementToText(renderType(type, 1000, 0));
+        equal(
+            text,
+            `{ (x: string, y: number): "str"; (x: string, y: number): "str" }`,
+        );
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+            {
+                (
+                    x: string,
+                    y: number,
+                ): "str";
+                (
+                    x: string,
+                    y: number,
+                ): "str";
+            }
+            `),
+        );
+    });
+
+    it("Handles type parameters on signatures", () => {
+        const decl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const sig = new SignatureReflection(
+            "__call",
+            ReflectionKind.CallSignature,
+            decl,
+        );
+        const a = new TypeParameterReflection("a", sig, undefined);
+        a.setFlag(ReflectionFlag.Const);
+        a.type = new IntrinsicType("string");
+        const b = new TypeParameterReflection("b", sig, "in out");
+        const c = new TypeParameterReflection("c", sig, undefined);
+        c.default = new IntrinsicType("string");
+        sig.typeParameters = [a, b, c];
+        decl.signatures = [sig];
+
+        const type = new ReflectionType(decl);
+        const text = renderElementToText(renderType(type));
+        equal(text, `<const a extends string, in out b, c = string>() => any`);
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                <
+                    const a extends
+                        string,
+                    in out b,
+                    c = string,
+                >() => any
+            `),
+        );
+    });
+
+    it("Handles simple object types", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const a = new DeclarationReflection("a", ReflectionKind.Property, refl);
+        a.type = new IntrinsicType("string");
+        refl.addChild(a);
+        const b = new DeclarationReflection("b", ReflectionKind.Property, refl);
+        b.getSignature = new SignatureReflection(
+            "b",
+            ReflectionKind.GetSignature,
+            b,
+        );
+        b.getSignature.type = new IntrinsicType("string");
+        b.setSignature = new SignatureReflection(
+            "b",
+            ReflectionKind.SetSignature,
+            b,
+        );
+        b.setSignature.type = new IntrinsicType("void");
+        b.setSignature.parameters = [
+            new ParameterReflection("value", ReflectionKind.Parameter),
+        ];
+        b.setSignature.parameters[0].type = new UnionType([
+            new IntrinsicType("string"),
+            new IntrinsicType("number"),
+        ]);
+        refl.addChild(b);
+
+        const type = new ReflectionType(refl);
+        const text = renderElementToText(renderType(type));
+        equal(
+            text,
+            "{ a: string; get b(): string; set b(value: string | number): void }",
+        );
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                {
+                    a: string;
+                    get b(): string;
+                    set b(
+                        value:
+                            | string
+                            | number,
+                    ): void;
+                }
+            `),
+        );
+    });
+
+    it("Handles get/set only properties", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const a = new DeclarationReflection("a", ReflectionKind.Property, refl);
+        a.getSignature = new SignatureReflection(
+            "a",
+            ReflectionKind.GetSignature,
+            a,
+        );
+        a.getSignature.type = new IntrinsicType("string");
+        refl.addChild(a);
+        const b = new DeclarationReflection("b", ReflectionKind.Property, refl);
+        b.setSignature = new SignatureReflection(
+            "b",
+            ReflectionKind.SetSignature,
+            b,
+        );
+        b.setSignature.type = new IntrinsicType("void");
+        b.setSignature.parameters = [
+            new ParameterReflection("value", ReflectionKind.Parameter),
+        ];
+        b.setSignature.parameters[0].type = new UnionType([
+            new IntrinsicType("string"),
+            new IntrinsicType("number"),
+        ]);
+        refl.addChild(b);
+
+        const type = new ReflectionType(refl);
+        const text = renderElementToText(renderType(type));
+        equal(text, "{ get a(): string; set b(value: string | number): void }");
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                {
+                    get a(): string;
+                    set b(
+                        value:
+                            | string
+                            | number,
+                    ): void;
+                }
+            `),
+        );
+    });
+
+    it("Handles callable members", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const a = new DeclarationReflection("a", ReflectionKind.Property, refl);
+        const sig = new SignatureReflection(
+            "a",
+            ReflectionKind.CallSignature,
+            a,
+        );
+        sig.type = new IntrinsicType("string");
+        a.signatures = [sig, sig];
+        refl.addChild(a);
+
+        const type = new ReflectionType(refl);
+        const text = renderElementToText(renderType(type));
+        equal(text, "{ a(): string; a(): string }");
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                {
+                    a(): string;
+                    a(): string;
+                }
+            `),
+        );
+    });
 
     it("Handles rest types", () => {
         const type = new RestType(new LiteralType("x"));

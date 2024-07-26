@@ -25,25 +25,30 @@ import {
 // Non breaking space
 const INDENT = "\u00A0\u00A0\u00A0\u00A0";
 
-type Node =
+export type FormatterNode =
     | { type: "text"; content: string }
     | { type: "element"; content: JSX.Element; length: number }
     | { type: "line" }
     | { type: "space_or_line" }
-    | { type: "indent"; content: Node[] }
-    | { type: "group"; id: number; content: Node[] }
-    | { type: "nodes"; content: Node[] }
-    | { type: "if_wrap"; id: number; true: Node; false: Node };
+    | { type: "indent"; content: FormatterNode[] }
+    | { type: "group"; id: number; content: FormatterNode[] }
+    | { type: "nodes"; content: FormatterNode[] }
+    | {
+          type: "if_wrap";
+          id: number;
+          true: FormatterNode;
+          false: FormatterNode;
+      };
 
 const emptyNode = textNode("");
 
 function space() {
     return textNode(" ");
 }
-function textNode(content: string): Node {
+function textNode(content: string): FormatterNode {
     return { type: "text", content };
 }
-function simpleElement(element: JSX.Element): Node {
+function simpleElement(element: JSX.Element): FormatterNode {
     ok(element.children.length === 1);
     ok(typeof element.children[0] === "string");
     return {
@@ -52,31 +57,35 @@ function simpleElement(element: JSX.Element): Node {
         length: element.children[0].length,
     };
 }
-function line(): Node {
+function line(): FormatterNode {
     return { type: "line" };
 }
-function spaceOrLine(): Node {
+function spaceOrLine(): FormatterNode {
     return { type: "space_or_line" };
 }
-function indent(content: Node[]): Node {
+function indent(content: FormatterNode[]): FormatterNode {
     return { type: "indent", content };
 }
-function group(id: number, content: Node[]): Node {
+function group(id: number, content: FormatterNode[]): FormatterNode {
     return { type: "group", id, content };
 }
-function nodes(...content: Node[]): Node {
+function nodes(...content: FormatterNode[]): FormatterNode {
     return { type: "nodes", content };
 }
 function ifWrap(
     id: number,
-    trueBranch: Node,
-    falseBranch: Node = emptyNode,
-): Node {
+    trueBranch: FormatterNode,
+    falseBranch: FormatterNode = emptyNode,
+): FormatterNode {
     return { type: "if_wrap", id, true: trueBranch, false: falseBranch };
 }
 
-function join<T>(joiner: Node, list: readonly T[], cb: (x: T) => Node): Node {
-    const content: Node[] = [];
+function join<T>(
+    joiner: FormatterNode,
+    list: readonly T[],
+    cb: (x: T) => FormatterNode,
+): FormatterNode {
+    const content: FormatterNode[] = [];
 
     for (const item of list) {
         if (content.length > 0) {
@@ -88,7 +97,7 @@ function join<T>(joiner: Node, list: readonly T[], cb: (x: T) => Node): Node {
     return { type: "nodes", content };
 }
 
-function nodeWidth(node: Node, wrapped: Set<number>): number {
+function nodeWidth(node: FormatterNode, wrapped: Set<number>): number {
     switch (node.type) {
         case "text":
             return node.content.length;
@@ -137,7 +146,7 @@ export class FormattedCodeGenerator {
         return <>{this.buffer}</>;
     }
 
-    node(node: Node, wrap: Wrap): void {
+    node(node: FormatterNode, wrap: Wrap): void {
         switch (node.type) {
             case "nodes": {
                 for (const n of node.content) {
@@ -285,7 +294,7 @@ function getNamespacedPath(reflection: Reflection): Reflection[] {
 }
 
 const typeBuilder: TypeVisitor<
-    Node,
+    FormatterNode,
     [FormattedCodeBuilder, { topLevelLinks: boolean }]
 > = {
     array(type, builder) {
@@ -400,7 +409,7 @@ const typeBuilder: TypeVisitor<
         );
     },
     mapped(type, builder) {
-        const parts: Node[] = [];
+        const parts: FormatterNode[] = [];
 
         switch (type.readonlyModifier) {
             case "+":
@@ -493,7 +502,7 @@ const typeBuilder: TypeVisitor<
         );
     },
     predicate(type, builder) {
-        const content: Node[] = [];
+        const content: FormatterNode[] = [];
         if (type.asserts) {
             content.push(
                 simpleElement(
@@ -527,7 +536,7 @@ const typeBuilder: TypeVisitor<
     },
     reference(type, builder) {
         const reflection = type.reflection;
-        let name: Node;
+        let name: FormatterNode;
 
         if (reflection) {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
@@ -623,7 +632,7 @@ const typeBuilder: TypeVisitor<
         );
     },
     templateLiteral(type, builder) {
-        const content: Node[] = [];
+        const content: FormatterNode[] = [];
         content.push(
             simpleElement(<span class="tsd-signature-symbol">`</span>),
         );
@@ -732,34 +741,33 @@ export class FormattedCodeBuilder {
         type: SomeType | undefined,
         where: TypeContext,
         options: { topLevelLinks: boolean } = { topLevelLinks: false },
-    ): Node {
+    ): FormatterNode {
         if (!type) {
             return simpleElement(<span class="tsd-signature-type">any</span>);
         }
 
-        const rendered = type.visit(typeBuilder, this, options);
         if (type.needsParenthesis(where)) {
             const id = this.newId();
             return group(id, [
                 textNode("("),
                 line(),
-                indent([rendered]),
+                indent([type.visit(typeBuilder, this, options)]),
                 line(),
                 textNode(")"),
             ]);
         }
-        return rendered;
+        return type.visit(typeBuilder, this, options);
     }
 
     reflection(
         reflection: DeclarationReflection,
         options: { topLevelLinks: boolean },
-    ): Node {
-        const members: Node[] = [];
+    ): FormatterNode {
+        const members: FormatterNode[] = [];
         const children = reflection.children || [];
 
         for (const item of children) {
-            members.push(this.member(item, options));
+            this.member(members, item, options);
         }
 
         if (reflection.indexSignatures) {
@@ -775,7 +783,7 @@ export class FormattedCodeBuilder {
                             </span>,
                         ),
                         simpleElement(
-                            <span class="tsd-signature-symbol">]</span>,
+                            <span class="tsd-signature-symbol">:</span>,
                         ),
                         space(),
                         this.type(index.parameters![0].type, TypeContext.none),
@@ -817,10 +825,13 @@ export class FormattedCodeBuilder {
                         (node) => node,
                     ),
                 ]),
+                ifWrap(
+                    id,
+                    simpleElement(<span class="tsd-signature-symbol">;</span>),
+                ),
                 spaceOrLine(),
                 simpleElement(<span class="tsd-signature-symbol">{"}"}</span>),
             ]);
-            //
         }
 
         return simpleElement(<span class="tsd-signature-symbol">{"{}"}</span>);
@@ -837,38 +848,47 @@ export class FormattedCodeBuilder {
         );
     }
 
-    member(item: DeclarationReflection, options: { topLevelLinks: boolean }) {
+    member(
+        members: FormatterNode[],
+        item: DeclarationReflection,
+        options: { topLevelLinks: boolean },
+    ): void {
         if (item.getSignature && item.setSignature) {
-            return nodes(
+            members.push(
                 this.signature(item.getSignature, options),
-                line(),
-                this.signature(item.getSignature, options),
+                this.signature(item.setSignature, options),
             );
+            return;
         }
 
         if (item.getSignature) {
-            return this.signature(item.getSignature, options);
+            members.push(this.signature(item.getSignature, options));
+            return;
         }
 
         if (item.setSignature) {
-            return this.signature(item.setSignature, options);
+            members.push(this.signature(item.setSignature, options));
+            return;
         }
 
         if (item.signatures) {
-            return nodes(
+            members.push(
                 ...item.signatures.map((sig) => this.signature(sig, options)),
             );
+            return;
         }
 
-        return nodes(
-            this.propertyName(item, options),
-            simpleElement(
-                <span class="tsd-signature-symbol">
-                    {item.flags.isOptional ? "?:" : ":"}
-                </span>,
+        members.push(
+            nodes(
+                this.propertyName(item, options),
+                simpleElement(
+                    <span class="tsd-signature-symbol">
+                        {item.flags.isOptional ? "?:" : ":"}
+                    </span>,
+                ),
+                space(),
+                this.type(item.type, TypeContext.none),
             ),
-            space(),
-            this.type(item.type, TypeContext.none),
         );
     }
 
@@ -879,8 +899,8 @@ export class FormattedCodeBuilder {
             hideName?: boolean;
             arrowStyle?: boolean;
         },
-    ): Node {
-        let name: Node = options.hideName
+    ): FormatterNode {
+        let name: FormatterNode = options.hideName
             ? emptyNode
             : this.propertyName(sig, options);
         switch (sig.kind) {
@@ -895,6 +915,7 @@ export class FormattedCodeBuilder {
                     );
                 }
                 label = nodes(
+                    label,
                     simpleElement(
                         <span class="tsd-signature-keyword">new</span>,
                     ),
@@ -931,12 +952,13 @@ export class FormattedCodeBuilder {
             this.typeParameters(sig),
             ...this.parameters(sig, id),
             nodes(
+                options.arrowStyle ? space() : emptyNode,
                 simpleElement(
-                    // TODO
                     <span class="tsd-signature-symbol">
-                        {options.arrowStyle ? " => " : ": "}
+                        {options.arrowStyle ? "=>" : ":"}
                     </span>,
                 ),
+                space(),
                 this.type(sig.type, TypeContext.none),
             ),
         ]);
@@ -944,7 +966,7 @@ export class FormattedCodeBuilder {
 
     private typeParameters(
         sig: SignatureReflection | DeclarationReflection,
-    ): Node {
+    ): FormatterNode {
         if (!sig.typeParameters?.length) {
             return emptyNode;
         }
@@ -1028,7 +1050,7 @@ export class FormattedCodeBuilder {
         return group(this.newId(), content);
     }
 
-    private parameters(sig: SignatureReflection, id: number): Node[] {
+    private parameters(sig: SignatureReflection, id: number): FormatterNode[] {
         if (!sig.parameters?.length) {
             return [
                 simpleElement(<span class="tsd-signature-symbol">()</span>),
@@ -1060,7 +1082,7 @@ export class FormattedCodeBuilder {
     }
 
     private parameter(param: ParameterReflection) {
-        const content: Node[] = [];
+        const content: FormatterNode[] = [];
         if (param.flags.isRest) {
             content.push(
                 simpleElement(<span class="tsd-signature-symbol">...</span>),
@@ -1079,7 +1101,11 @@ export class FormattedCodeBuilder {
                 simpleElement(<span class="tsd-signature-symbol">:</span>),
             );
         }
-        content.push(space());
+        // Tricky: We don't introduce a branch here via group()
+        // the branch may be introduced by the union type if the parameter
+        // value is a union.
+        const id = this.newId();
+        content.push(ifWrap(id, emptyNode, space()));
         content.push(this.type(param.type, TypeContext.none));
         return nodes(...content);
     }
@@ -1087,7 +1113,7 @@ export class FormattedCodeBuilder {
     private propertyName(
         reflection: Reflection,
         options: { topLevelLinks?: boolean },
-    ): Node {
+    ): FormatterNode {
         const entityName = /^[A-Z_$][\w$]*$/i.test(reflection.name)
             ? reflection.name
             : JSON.stringify(reflection.name);
