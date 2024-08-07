@@ -17,7 +17,7 @@ export function footer(context: DefaultThemeRenderContext) {
             generatorDisplay = (
                 <p class="tsd-generator">
                     {pre}
-                    <a href="https://typedoc.org/" target="_blank">
+                    <a href="https://typedoc.org/" target="_blank" rel="noopener noreferrer">
                         TypeDoc
                     </a>
                     {post}
