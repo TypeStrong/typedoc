@@ -21,6 +21,7 @@ export const blockTags = [
     "@categoryDescription",
     "@default",
     "@document",
+    "@extends",
     "@group",
     "@groupDescription",
     "@import",

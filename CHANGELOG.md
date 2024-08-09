@@ -1,5 +1,10 @@
 # Unreleased
 
+### Features
+
+-   Use of the `@extends` block tag no longer produces warnings, #2659.
+    This tag should only be used in JavaScript projects to specify the type parameters used when extending a parent class. It will not be rendered.
+
 ### Bug Fixes
 
 -   The `suppressCommentWarningsInDeclarationFiles` option now correctly ignores warnings in `.d.cts` and `.d.mts` files, #2647.
