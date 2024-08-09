@@ -10,7 +10,7 @@ import type { ModelToObject } from "./schema";
  * Additionally, each {@link Serializer} plugin must define a predicate that instructs the group
  * it belongs to.
  */
-export interface SerializerComponent<T extends {}> {
+export interface SerializerComponent<T extends object> {
     /**
      * The priority this serializer should be executed with.
      * A higher priority means the {@link Serializer} will be applied earlier.

@@ -156,10 +156,12 @@ export class JavascriptIndexPlugin extends RendererComponent {
             reflection.signatures?.forEach(
                 (s) => s.comment && comments.push(s.comment),
             );
-            reflection.getSignature?.comment &&
+            if (reflection.getSignature?.comment) {
                 comments.push(reflection.getSignature.comment);
-            reflection.setSignature?.comment &&
+            }
+            if (reflection.setSignature?.comment) {
                 comments.push(reflection.setSignature.comment);
+            }
         }
 
         if (!comments.length) {

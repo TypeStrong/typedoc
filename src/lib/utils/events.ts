@@ -12,7 +12,7 @@ export class EventDispatcher<T extends Record<keyof T, unknown[]>> {
     private _listeners = new Map<
         keyof T,
         {
-            listener: Function;
+            listener: (..._: any) => any;
             priority: number;
         }[]
     >();

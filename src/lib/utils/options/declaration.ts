@@ -653,7 +653,7 @@ const converters: {
     [ParameterType.Object](value, option, i18n, _configPath, oldValue) {
         option.validate?.(value, i18n);
         if (typeof oldValue !== "undefined")
-            value = { ...(oldValue as {}), ...(value as {}) };
+            value = { ...(oldValue as object), ...(value as object) };
         return value;
     },
     [ParameterType.Flags](value, option, i18n) {

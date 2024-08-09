@@ -49,7 +49,7 @@ import {
 import { loadShikiMetadata } from "./utils/highlighter";
 import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageInfo = require("../../package.json") as {
     version: string;
     peerDependencies: { typescript: string };

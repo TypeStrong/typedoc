@@ -15,6 +15,7 @@ export async function loadPlugins(
         try {
             let instance: any;
             try {
+                // eslint-disable-next-line @typescript-eslint/no-require-imports
                 instance = require(plugin);
             } catch (error: any) {
                 if (error.code === "ERR_REQUIRE_ESM") {

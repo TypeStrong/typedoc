@@ -14,7 +14,7 @@ export interface Component<E extends Record<keyof E, unknown[]> = {}>
 export interface ComponentClass<
     T extends Component,
     O extends ComponentHost = ComponentHost,
-> extends Function {
+> {
     new (owner: O): T;
 }
 
