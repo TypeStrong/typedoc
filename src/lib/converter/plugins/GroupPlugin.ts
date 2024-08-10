@@ -15,7 +15,6 @@ import { ConverterEvents } from "../converter-events.js";
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
     ReflectionKind.Document,
-    ReflectionKind.Reference,
     // project is never a child so never added to a group
     ReflectionKind.Module,
     ReflectionKind.Namespace,
@@ -32,6 +31,7 @@ const defaultGroupOrder = [
     ReflectionKind.Accessor,
     ReflectionKind.Method,
 
+    ReflectionKind.Reference,
     // others are never added to groups
 ];
 

@@ -67,10 +67,9 @@ export const OptionDefaults: {
         "tsx",
         "typescript",
     ],
-    sort: ["kind", "instance-first", "alphabetical"],
+    sort: ["kind", "instance-first", "alphabetical-ignoring-documents"],
     kindSortOrder: [
         "Document",
-        "Reference",
         "Project",
         "Module",
         "Namespace",
@@ -87,14 +86,7 @@ export const OptionDefaults: {
         "Accessor",
         "Method",
 
-        "Parameter",
-        "TypeParameter",
-        "TypeLiteral",
-        "CallSignature",
-        "ConstructorSignature",
-        "IndexSignature",
-        "GetSignature",
-        "SetSignature",
+        "Reference",
     ],
     requiredToBeDocumented: [
         "Enum",

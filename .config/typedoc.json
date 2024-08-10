@@ -14,7 +14,7 @@
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,
-    "excludeReferences": true,
+    // "excludeReferences": true,
     "jsDocCompatibility": false,
     "treatWarningsAsErrors": false,
     "categorizeByGroup": false,
