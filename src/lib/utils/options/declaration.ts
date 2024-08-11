@@ -137,6 +137,7 @@ export interface TypeDocOptionMap {
     darkHighlightTheme: ShikiTheme;
     highlightLanguages: string[];
     customCss: string;
+    customJs: string;
     markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**
      * Will be called when TypeDoc is setting up the markdown parser to use to render markdown.
