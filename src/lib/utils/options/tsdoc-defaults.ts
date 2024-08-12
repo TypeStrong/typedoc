@@ -22,6 +22,7 @@ export const blockTags = [
     "@default",
     "@document",
     "@extends",
+    "@yields",
     "@group",
     "@groupDescription",
     "@import",

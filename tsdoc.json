@@ -85,6 +85,10 @@
             "syntaxKind": "block"
         },
         {
+            "tagName": "@yields",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@enum",
             "syntaxKind": "modifier"
         },
