@@ -383,7 +383,17 @@ export class DefaultTheme extends Theme {
             }
 
             if (parent.categories && shouldShowCategories(parent, opts)) {
-                return filterMap(parent.categories, toNavigation);
+                const noneCategory = parent.categories.find((x) => x.title === "none");
+                const otherCategories = parent.categories.filter((x) => x.title !== "none");
+
+                const mappedOthers = filterMap(otherCategories, toNavigation);
+
+                if (noneCategory) {
+                    const noneMappedChildren = filterMap(noneCategory.children, toNavigation);
+                    return [...noneMappedChildren, ...mappedOthers];
+                }
+
+                return mappedOthers;
             }
 
             if (parent.groups && shouldShowGroups(parent, opts)) {
