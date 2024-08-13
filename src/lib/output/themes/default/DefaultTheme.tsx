@@ -383,11 +383,11 @@ export class DefaultTheme extends Theme {
             }
 
             if (parent.categories && shouldShowCategories(parent, opts)) {
-                return filterMap(parent.categories, toNavigation);
+                return filterMapWithNoneCollection(parent.categories);
             }
 
             if (parent.groups && shouldShowGroups(parent, opts)) {
-                return filterMap(parent.groups, toNavigation);
+                return filterMapWithNoneCollection(parent.groups);
             }
 
             if (opts.includeFolders && parent.childrenIncludingDocuments?.some((child) => child.name.includes("/"))) {
@@ -395,6 +395,20 @@ export class DefaultTheme extends Theme {
             }
 
             return filterMap(parent.childrenIncludingDocuments, toNavigation);
+        }
+
+        function filterMapWithNoneCollection(reflection: ReflectionGroup[] | ReflectionCategory[]) {
+            const none = reflection.find((x) => x.title.toLocaleLowerCase() === "none");
+            const others = reflection.filter((x) => x.title.toLocaleLowerCase() !== "none");
+
+            const mappedOthers = filterMap(others, toNavigation);
+
+            if (none) {
+                const noneMappedChildren = filterMap(none.children, toNavigation);
+                return [...noneMappedChildren, ...mappedOthers];
+            }
+
+            return mappedOthers;
         }
 
         function deriveModuleFolders(children: Array<DeclarationReflection | DocumentReflection>) {
