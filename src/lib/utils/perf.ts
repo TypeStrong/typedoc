@@ -4,7 +4,10 @@ import { performance } from "perf_hooks";
 
 const benchmarks: { name: string; calls: number; time: number }[] = [];
 
-export function bench<T extends Function>(fn: T, name: string = fn.name): T {
+export function bench<T extends (..._: any) => any>(
+    fn: T,
+    name: string = fn.name,
+): T {
     const matching = benchmarks.find((b) => b.name === name);
     const timer = matching || {
         name,
@@ -43,10 +46,10 @@ export function bench<T extends Function>(fn: T, name: string = fn.name): T {
     } as any;
 }
 
-export function Bench<T extends Function>(
+export function Bench<T extends (..._: any) => any>(
     value: T,
     context: ClassMethodDecoratorContext,
-) {
+): T {
     let runner: T | undefined;
     return function (this: any, ...args: any) {
         if (!runner) {
@@ -56,7 +59,7 @@ export function Bench<T extends Function>(
             runner = bench(value, `${className}.${String(context.name)}`);
         }
         return runner.apply(this, args);
-    };
+    } as any;
 }
 
 export function measure<T>(cb: () => T): T {

@@ -5,7 +5,7 @@ import { ReferenceReflection } from "./reference.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { SignatureReflection } from "./signature.js";
 import type { ParameterReflection } from "./parameter.js";
-import { IntrinsicType } from "../types.js";
+import { IntrinsicType, makeRecursiveVisitor, type Type } from "../types.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
 import { assertNever, removeIf, removeIfPresent } from "../../utils/index.js";
 import { ReflectionKind } from "./kind.js";
@@ -49,7 +49,7 @@ export class ProjectReflection extends ContainerReflection {
      *
      * This may be replaced with a `Map<number, Reflection>` someday.
      */
-    reflections: { [id: number]: Reflection } = {};
+    reflections: { [id: number]: Reflection } = { [this.id]: this };
 
     /**
      * The name of the package that this reflection documents according to package.json.
@@ -151,6 +151,22 @@ export class ProjectReflection extends ContainerReflection {
         if (filePath) {
             this.files.registerReflection(filePath, reflection);
         }
+    }
+
+    /**
+     * Removes references to reflections contained within the provided type.
+     * Plugins which overwrite types on reflections should pass the type to this
+     * method before overwriting the property.
+     * @since 0.26.6
+     */
+    removeTypeReflections(type: Type | undefined) {
+        type?.visit(
+            makeRecursiveVisitor({
+                reflection: (type) => {
+                    this.removeReflection(type.declaration);
+                },
+            }),
+        );
     }
 
     /**

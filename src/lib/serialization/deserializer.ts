@@ -240,7 +240,6 @@ export class Deserializer {
             name || projectObj.name,
             registry,
         );
-        project.registerReflection(project, undefined, undefined);
         this.project = project;
         this.projectRoot = projectRoot;
         this.oldIdToNewId = { [projectObj.id]: project.id };

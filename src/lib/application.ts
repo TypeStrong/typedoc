@@ -40,7 +40,6 @@ import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
 import { findTsConfigFile } from "./utils/tsconfig.js";
 import { deriveRootDir, glob, readFile } from "./utils/fs.js";
-import { resetReflectionID } from "./models/reflections/abstract.js";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
 import {
     Internationalization,
@@ -712,13 +711,13 @@ export class Application extends AbstractComponent<
             }
 
             // When debugging memory issues, it's useful to set these
-            // here so that a breakpoint on resetReflectionID below
+            // here so that a breakpoint on the continue statement below
             // gets the memory as it ought to be with all TS objects released.
             project = undefined;
             this.files = undefined!;
             // global.gc!();
 
-            resetReflectionID();
+            continue;
         }
 
         this.options = origOptions;

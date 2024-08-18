@@ -271,6 +271,10 @@ export function hasTsExtension(path: string): boolean {
     return /\.[cm]?ts$|\.tsx$/.test(path);
 }
 
+export function hasDeclarationFileExtension(path: string) {
+    return /\.d\.[cm]?ts$/.test(path);
+}
+
 export function discoverInParentDir<T extends {}>(
     name: string,
     dir: string,

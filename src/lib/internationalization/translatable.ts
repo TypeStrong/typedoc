@@ -51,20 +51,18 @@ type TranslationConstraint = [
 // Compiler errors here which says a property is missing indicates that the value on translatable
 // is not a literal string. It should be so that TypeDoc's placeholder replacement detection
 // can validate that all placeholders have been specified.
-const _validateLiteralStrings: {
+({}) satisfies {
     [K in keyof typeof translatable as string extends (typeof translatable)[K]
         ? K
         : never]: never;
-} = {};
-_validateLiteralStrings;
+};
 
 // Compiler errors here which says a property is missing indicates that the key on translatable
 // contains a placeholder _0/_1, etc. but the value does not match the expected constraint.
-const _validatePlaceholdersPresent: {
+translatable satisfies {
     [K in keyof typeof translatable]: K extends `${string}_1${string}`
         ? TranslationConstraint[2]
         : K extends `${string}_0${string}`
           ? TranslationConstraint[1]
           : TranslationConstraint[0];
-} = translatable;
-_validatePlaceholdersPresent;
+};

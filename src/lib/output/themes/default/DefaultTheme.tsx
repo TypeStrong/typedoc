@@ -332,10 +332,6 @@ export class DefaultTheme extends Theme {
                 };
             }
 
-            if (!element.hasOwnDocument) {
-                return;
-            }
-
             return {
                 text: getDisplayName(element),
                 path: element.url,
@@ -383,11 +379,11 @@ export class DefaultTheme extends Theme {
             }
 
             if (parent.categories && shouldShowCategories(parent, opts)) {
-                return filterMap(parent.categories, toNavigation);
+                return filterMapWithNoneCollection(parent.categories);
             }
 
             if (parent.groups && shouldShowGroups(parent, opts)) {
-                return filterMap(parent.groups, toNavigation);
+                return filterMapWithNoneCollection(parent.groups);
             }
 
             if (opts.includeFolders && parent.childrenIncludingDocuments?.some((child) => child.name.includes("/"))) {
@@ -395,6 +391,20 @@ export class DefaultTheme extends Theme {
             }
 
             return filterMap(parent.childrenIncludingDocuments, toNavigation);
+        }
+
+        function filterMapWithNoneCollection(reflection: ReflectionGroup[] | ReflectionCategory[]) {
+            const none = reflection.find((x) => x.title.toLocaleLowerCase() === "none");
+            const others = reflection.filter((x) => x.title.toLocaleLowerCase() !== "none");
+
+            const mappedOthers = filterMap(others, toNavigation);
+
+            if (none) {
+                const noneMappedChildren = filterMap(none.children, toNavigation);
+                return [...noneMappedChildren, ...mappedOthers];
+            }
+
+            return mappedOthers;
         }
 
         function deriveModuleFolders(children: Array<DeclarationReflection | DocumentReflection>) {
@@ -435,19 +445,21 @@ export class DefaultTheme extends Theme {
 
             // Now merge single-possible-paths together so we don't have folders in our navigation
             // which contain only another single folder.
-            const queue = [...result];
-            while (queue.length) {
-                const review = queue.shift()!;
-                queue.push(...(review.children || []));
-                if (review.kind || review.path) continue;
+            if (opts.compactFolders) {
+                const queue = [...result];
+                while (queue.length) {
+                    const review = queue.shift()!;
+                    queue.push(...(review.children || []));
+                    if (review.kind || review.path) continue;
 
-                if (review.children?.length === 1) {
-                    const copyFrom = review.children[0];
-                    const fullName = `${review.text}/${copyFrom.text}`;
-                    delete review.children;
-                    Object.assign(review, copyFrom);
-                    review.text = fullName;
-                    queue.push(review);
+                    if (review.children?.length === 1) {
+                        const copyFrom = review.children[0];
+                        const fullName = `${review.text}/${copyFrom.text}`;
+                        delete review.children;
+                        Object.assign(review, copyFrom);
+                        review.text = fullName;
+                        queue.push(review);
+                    }
                 }
             }
 

@@ -177,11 +177,12 @@ describe("Sort", () => {
 
     it("Should sort by kind", () => {
         const arr = [
-            new DeclarationReflection("14", ReflectionKind.Reference),
+            new DeclarationReflection("15", ReflectionKind.Reference),
             new DeclarationReflection("2", ReflectionKind.Module),
             new DeclarationReflection("3", ReflectionKind.Namespace),
             new DeclarationReflection("4", ReflectionKind.Enum),
             new DeclarationReflection("5", ReflectionKind.EnumMember),
+            new DeclarationReflection("14", ReflectionKind.Method),
             new DeclarationReflection("7", ReflectionKind.Interface),
             new DeclarationReflection("8", ReflectionKind.TypeAlias),
             new DeclarationReflection("9", ReflectionKind.Constructor),

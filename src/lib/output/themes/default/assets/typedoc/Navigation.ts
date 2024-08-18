@@ -95,7 +95,7 @@ function addNavText(
         if (classes) {
             a.className = classes;
         }
-        if (location.pathname === a.pathname) {
+        if (location.pathname === a.pathname && !a.href.includes("#")) {
             a.classList.add("current");
         }
         if (el.kind) {

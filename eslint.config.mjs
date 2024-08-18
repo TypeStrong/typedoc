@@ -30,6 +30,9 @@ const config = {
             },
         ],
 
+        // This can probably be turned back on in 0.27, when the component hierarchy goes away
+        "@typescript-eslint/no-unsafe-function-type": "off",
+
         // This one is just annoying since it complains at incomplete code
         "no-empty": "off",
 
@@ -58,6 +61,7 @@ const config = {
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
 
         // Really annoying, doesn't provide any value.
         "@typescript-eslint/no-empty-function": "off",

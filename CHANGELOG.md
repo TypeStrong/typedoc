@@ -22,6 +22,21 @@ TODO:
 
 # Unreleased
 
+## v0.26.6 (2024-08-18)
+
+### Features
+
+-   Use of the `@extends` block tag no longer produces warnings, #2659.
+    This tag should only be used in JavaScript projects to specify the type parameters used when extending a parent class. It will not be rendered.
+-   Added new `navigation.compactFolders` option to prevent TypeDoc from compacting folders, similar to the VSCode option. #2667.
+
+### Bug Fixes
+
+-   The `suppressCommentWarningsInDeclarationFiles` option now correctly ignores warnings in `.d.cts` and `.d.mts` files, #2647.
+-   Restored re-exports in the page navigation menu, #2671.
+-   JSON serialized projects will no longer contain reflection IDs for other projects created in the same run. Gerrit0/typedoc-plugin-zod#6.
+-   In packages mode the reflection ID counter will no longer be reset when converting projects. This previously could result in links to files not working as expected.
+
 ## v0.26.5 (2024-07-21)
 
 ### Features

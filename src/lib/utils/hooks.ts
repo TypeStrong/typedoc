@@ -2,7 +2,7 @@ import { insertOrderSorted } from "./array.js";
 
 const momentos = new WeakMap<
     EventHooksMomento<never, unknown>,
-    Map<any, { listener: Function; once?: boolean; order: number }[]>
+    Map<any, { listener: (..._: any) => any; once?: boolean; order: number }[]>
 >();
 
 type EventHooksMomento<T extends Record<keyof T, unknown[]>, _R> = {
@@ -30,7 +30,7 @@ export class EventHooks<T extends Record<keyof T, unknown[]>, R> {
     // contracts in the methods while not casting everywhere this is used.
     private _listeners = new Map<
         keyof T,
-        { listener: Function; once?: boolean; order: number }[]
+        { listener: (..._: any) => any; once?: boolean; order: number }[]
     >();
 
     /**
@@ -98,7 +98,7 @@ export class EventHooks<T extends Record<keyof T, unknown[]>, R> {
         const momento = {} as EventHooksMomento<T, R>;
         const save = new Map<
             keyof T,
-            { listener: Function; once?: boolean; order: number }[]
+            { listener: (..._: any) => any; once?: boolean; order: number }[]
         >();
 
         for (const [key, val] of this._listeners) {

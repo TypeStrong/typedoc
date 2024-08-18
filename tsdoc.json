@@ -76,8 +76,20 @@
             "syntaxKind": "block"
         },
         {
+            "tagName": "@extends",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@augments",
+            "syntaxKind": "block"
+        },
+        {
             // TSDoc defines @returns, we also recognize @return for JSDoc compat
             "tagName": "@return",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@yields",
             "syntaxKind": "block"
         },
         {

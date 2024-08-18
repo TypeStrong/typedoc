@@ -31,7 +31,12 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
      */
     projectRoot!: string;
 
-    addSerializer<T extends {}>(serializer: SerializerComponent<T>): void {
+    /**
+     * Only set when serializing
+     */
+    project!: ProjectReflection;
+
+    addSerializer<T extends object>(serializer: SerializerComponent<T>): void {
         insertPrioritySorted(this.serializers, serializer);
     }
 
@@ -75,6 +80,7 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
         projectRoot: string,
     ): ModelToObject<ProjectReflection> {
         this.projectRoot = projectRoot;
+        this.project = value;
 
         const eventBegin = new SerializeEvent(value);
         this.trigger(Serializer.EVENT_BEGIN, eventBegin);
@@ -83,6 +89,9 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
 
         const eventEnd = new SerializeEvent(value, project);
         this.trigger(Serializer.EVENT_END, eventEnd);
+
+        this.project = undefined!;
+        this.projectRoot = undefined!;
 
         return project;
     }

@@ -21,6 +21,9 @@ export const blockTags = [
     "@categoryDescription",
     "@default",
     "@document",
+    "@extends",
+    "@augments", //Alias for @extends
+    "@yields",
     "@group",
     "@groupDescription",
     "@import",

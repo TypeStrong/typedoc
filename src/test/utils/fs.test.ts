@@ -120,7 +120,7 @@ describe("fs.ts", () => {
 
         describe("when node_modules is present in the pattern", function () {
             it("should traverse node_modules", function () {
-                fix.dir("node_modules").addFile("test.ts").path;
+                fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
                     glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) =>
@@ -133,7 +133,7 @@ describe("fs.ts", () => {
 
         describe("when node_modules is not present in the pattern", function () {
             it("should not traverse node_modules", function () {
-                fix.dir("node_modules").addFile("test.ts").path;
+                fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
                     glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) =>
