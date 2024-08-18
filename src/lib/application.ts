@@ -40,7 +40,6 @@ import { validateLinks } from "./validation/links";
 import { ApplicationEvents } from "./application-events";
 import { findTsConfigFile } from "./utils/tsconfig";
 import { deriveRootDir, glob, readFile } from "./utils/fs";
-import { resetReflectionID } from "./models/reflections/abstract";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId";
 import {
     Internationalization,
@@ -706,13 +705,13 @@ export class Application extends ChildableComponent<
             }
 
             // When debugging memory issues, it's useful to set these
-            // here so that a breakpoint on resetReflectionID below
+            // here so that a breakpoint on the continue statement below
             // gets the memory as it ought to be with all TS objects released.
             project = undefined;
             this.files = undefined!;
             // global.gc!();
 
-            resetReflectionID();
+            continue;
         }
 
         this.options = origOptions;

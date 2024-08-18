@@ -101,7 +101,11 @@ export class FileRegistry {
             result.entries[key] = normalizePath(relative(ser.projectRoot, val));
         }
         for (const [key, val] of this.mediaToReflection.entries()) {
-            result.reflections[key] = val.id;
+            // A registry may be shared by multiple projects. When serializing,
+            // only save reflection mapping for reflections in the serialized project.
+            if (ser.project.getReflectionById(val.id)) {
+                result.reflections[key] = val.id;
+            }
         }
 
         return result;
