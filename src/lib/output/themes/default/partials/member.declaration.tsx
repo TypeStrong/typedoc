@@ -4,8 +4,6 @@ import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap, type FormatterNode 
 import { hasTypeParameters } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
-void JSX; // TS is confused and thinks this is unused
-
 export function memberDeclaration(context: DefaultThemeRenderContext, props: DeclarationReflection) {
     const builder = new FormattedCodeBuilder(context.urlTo);
     const content: FormatterNode[] = [];

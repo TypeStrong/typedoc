@@ -4,8 +4,6 @@ import type { PageEvent } from "../../../events.js";
 import { getDisplayName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header class="tsd-page-toolbar">
         <div class="tsd-toolbar-contents container">

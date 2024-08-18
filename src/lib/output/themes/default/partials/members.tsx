@@ -2,8 +2,6 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import { filterMap, JSX } from "../../../../utils/index.js";
 import { type ContainerReflection } from "../../../../models/index.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 function getMemberSections(parent: ContainerReflection) {
     if (parent.categories?.length) {
         return filterMap(parent.categories, (cat) => {

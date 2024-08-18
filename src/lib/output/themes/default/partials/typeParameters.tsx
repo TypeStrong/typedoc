@@ -2,8 +2,6 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import type { TypeParameterReflection } from "../../../../models/index.js";
 import { JSX } from "../../../../utils/index.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {
     return (
         <>

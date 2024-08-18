@@ -3,8 +3,6 @@ import { JSX } from "../../../../utils/index.js";
 import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../../formatter.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 export function reflectionPreview(context: DefaultThemeRenderContext, props: Reflection) {
     if (!(props instanceof DeclarationReflection)) return;
 

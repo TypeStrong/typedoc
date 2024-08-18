@@ -2,8 +2,6 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import { JSX } from "../../../../utils/index.js";
 import type { DeclarationHierarchy, Type } from "../../../../models/index.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 const isLinkedReferenceType = (type: Type) =>
     type.visit({
         reference: (ref) => ref.reflection !== undefined,

@@ -3,8 +3,6 @@ import { JSX } from "../../../../utils/index.js";
 import { classNames } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
-void JSX; // Trick TS into seeing this as used, the import is required.
-
 export const memberGetterSetter = (context: DefaultThemeRenderContext, props: DeclarationReflection) => (
     <>
         <ul

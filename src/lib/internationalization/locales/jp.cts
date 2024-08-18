@@ -99,7 +99,7 @@ export = localeUtils.buildIncompleteTranslation({
     not_all_search_group_boosts_used_0:
         "searchGroupBoosts で指定されたすべてのグループがドキュメントで使用されているわけではありません。使用されていないグループは次のとおりです:\n{0}",
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group:
-        "{0} のコメントに「{1}」の @categoryDe​​scription が含まれていますが、そのカテゴリに子が配置されていません",
+        "{0} のコメントに「{1}」の @categoryDescription が含まれていますが、そのカテゴリに子が配置されていません",
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
         '{0} のコメントに "{1}" の @groupDescription が含まれていますが、そのグループには子が配置されていません',
     label_0_for_1_cannot_be_referenced:
