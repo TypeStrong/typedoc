@@ -445,19 +445,21 @@ export class DefaultTheme extends Theme {
 
             // Now merge single-possible-paths together so we don't have folders in our navigation
             // which contain only another single folder.
-            const queue = [...result];
-            while (queue.length) {
-                const review = queue.shift()!;
-                queue.push(...(review.children || []));
-                if (review.kind || review.path) continue;
+            if (opts.compactFolders) {
+                const queue = [...result];
+                while (queue.length) {
+                    const review = queue.shift()!;
+                    queue.push(...(review.children || []));
+                    if (review.kind || review.path) continue;
 
-                if (review.children?.length === 1) {
-                    const copyFrom = review.children[0];
-                    const fullName = `${review.text}/${copyFrom.text}`;
-                    delete review.children;
-                    Object.assign(review, copyFrom);
-                    review.text = fullName;
-                    queue.push(review);
+                    if (review.children?.length === 1) {
+                        const copyFrom = review.children[0];
+                        const fullName = `${review.text}/${copyFrom.text}`;
+                        delete review.children;
+                        Object.assign(review, copyFrom);
+                        review.text = fullName;
+                        queue.push(review);
+                    }
                 }
             }
 

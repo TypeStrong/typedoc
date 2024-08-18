@@ -4,6 +4,7 @@
 
 -   Use of the `@extends` block tag no longer produces warnings, #2659.
     This tag should only be used in JavaScript projects to specify the type parameters used when extending a parent class. It will not be rendered.
+-   Added new `navigation.compactFolders` option to prevent TypeDoc from compacting folders, similar to the VSCode option. #2667.
 
 ### Bug Fixes
 
