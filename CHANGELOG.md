@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.6 (2024-08-18)
+
 ### Features
 
 -   Use of the `@extends` block tag no longer produces warnings, #2659.
