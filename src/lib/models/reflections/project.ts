@@ -4,7 +4,7 @@ import { ReferenceReflection } from "./reference";
 import type { DeclarationReflection } from "./declaration";
 import type { SignatureReflection } from "./signature";
 import type { ParameterReflection } from "./parameter";
-import { IntrinsicType, makeRecursiveVisitor, Type } from "../types";
+import { IntrinsicType, makeRecursiveVisitor, type Type } from "../types";
 import type { TypeParameterReflection } from "./type-parameter";
 import { assertNever, removeIf, removeIfPresent } from "../../utils";
 import type * as ts from "typescript";

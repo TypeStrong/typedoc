@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.26.5",
+  "version": "0.26.6",
   "homepage": "https://typedoc.org",
   "exports": {
     ".": "./dist/index.js",
