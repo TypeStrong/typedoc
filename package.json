@@ -76,7 +76,7 @@
     "build:themes": "node scripts/build_themes.js",
     "build:prod": "npm run build:prod:tsc && npm run build:themes",
     "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
-    "lint": "eslint . && npm run prettier -- --check .",
+    "lint": "eslint . --max-warnings 0 && npm run prettier -- --check .",
     "prettier": "prettier --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
     "prepack": "node scripts/set_strict.js false && npm run build:prod",
     "prepare": "node scripts/prepare.mjs",

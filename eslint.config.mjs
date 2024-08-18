@@ -63,6 +63,14 @@ const config = {
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-empty-object-type": "off",
 
+        // Needed for the locales today, don't want to make every contributor to those turn it off.
+        "@typescript-eslint/no-require-imports": [
+            "error",
+            {
+                allow: ["/[^/]+\\.cjs"],
+            },
+        ],
+
         // Really annoying, doesn't provide any value.
         "@typescript-eslint/no-empty-function": "off",
 

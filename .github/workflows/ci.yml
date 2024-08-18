@@ -21,7 +21,7 @@ jobs:
             - name: Test
               run: npm run test:full
             - name: Lint
-              run: npm run lint -- --max-warnings 0
+              run: npm run lint
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v2.0.2
               with:

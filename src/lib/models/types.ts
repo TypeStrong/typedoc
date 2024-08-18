@@ -39,7 +39,7 @@ export abstract class Type {
      */
     visit<T, A extends any[] = []>(visitor: TypeVisitor<T, A>, ...args: A): T;
     visit<T, A extends any[] = []>(
-        visitor: Partial<TypeVisitor<T>>,
+        visitor: Partial<TypeVisitor<T, A>>,
         ...args: A
     ): T | undefined;
     visit(
