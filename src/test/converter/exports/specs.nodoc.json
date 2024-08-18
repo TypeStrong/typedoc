@@ -87,54 +87,6 @@
       "flags": {},
       "children": [
         {
-          "id": 31,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 30
-        },
-        {
-          "id": 32,
-          "name": "c",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export with a module specifier that comes from this file."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 18,
-              "character": 14,
-              "url": "typedoc://mod.ts#L18"
-            }
-          ],
-          "target": 30
-        },
-        {
           "id": 30,
           "name": "a",
           "variant": "declaration",
@@ -207,16 +159,57 @@
               }
             }
           ]
+        },
+        {
+          "id": 31,
+          "name": "b",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "typedoc://mod.ts#L13"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 32,
+          "name": "c",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export with a module specifier that comes from this file."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 18,
+              "character": 14,
+              "url": "typedoc://mod.ts#L18"
+            }
+          ],
+          "target": 30
         }
       ],
       "groups": [
-        {
-          "title": "References",
-          "children": [
-            31,
-            32
-          ]
-        },
         {
           "title": "Variables",
           "children": [
@@ -227,6 +220,13 @@
           "title": "Functions",
           "children": [
             36
+          ]
+        },
+        {
+          "title": "References",
+          "children": [
+            31,
+            32
           ]
         }
       ],

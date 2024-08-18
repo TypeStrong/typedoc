@@ -510,10 +510,10 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(
             project.children?.map((c) => c.name),
-            ["default", "foo"],
+            ["foo", "default"],
         );
-        ok(project.children[0].kind === ReflectionKind.Reference);
-        ok(project.children[1].kind !== ReflectionKind.Reference);
+        ok(project.children[0].kind !== ReflectionKind.Reference);
+        ok(project.children[1].kind === ReflectionKind.Reference);
     });
 
     it("#1804", () => {

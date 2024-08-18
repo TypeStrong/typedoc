@@ -13,150 +13,6 @@
       "flags": {},
       "children": [
         {
-          "id": 48,
-          "name": "GH1453Helper",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 42,
-              "character": 12,
-              "url": "typedoc://mod.ts#L42"
-            }
-          ],
-          "target": 35
-        },
-        {
-          "id": 41,
-          "name": "Mod",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 5,
-              "character": 22,
-              "url": "typedoc://export.ts#L5"
-            }
-          ],
-          "target": 29
-        },
-        {
-          "id": 43,
-          "name": "Mod2",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 14,
-              "character": 12,
-              "url": "typedoc://export.ts#L14"
-            }
-          ],
-          "target": 29
-        },
-        {
-          "id": 42,
-          "name": "ModDefault",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 5,
-              "character": 27,
-              "url": "typedoc://export.ts#L5"
-            }
-          ],
-          "target": 36
-        },
-        {
-          "id": 47,
-          "name": "ThisModule",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 40,
-              "character": 12,
-              "url": "typedoc://mod.ts#L40"
-            }
-          ],
-          "target": 34
-        },
-        {
-          "id": 44,
-          "name": "a",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 8,
-              "character": 13,
-              "url": "typedoc://mod.ts#L8"
-            }
-          ],
-          "target": 30
-        },
-        {
-          "id": 45,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 31
-        },
-        {
-          "id": 40,
-          "name": "c",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 5,
-              "character": 14,
-              "url": "typedoc://export.ts#L5"
-            }
-          ],
-          "target": 30
-        },
-        {
           "id": 20,
           "name": "GH1453",
           "variant": "declaration",
@@ -413,22 +269,153 @@
               }
             }
           ]
+        },
+        {
+          "id": 48,
+          "name": "GH1453Helper",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 42,
+              "character": 12,
+              "url": "typedoc://mod.ts#L42"
+            }
+          ],
+          "target": 35
+        },
+        {
+          "id": 41,
+          "name": "Mod",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 22,
+              "url": "typedoc://export.ts#L5"
+            }
+          ],
+          "target": 29
+        },
+        {
+          "id": 43,
+          "name": "Mod2",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 14,
+              "character": 12,
+              "url": "typedoc://export.ts#L14"
+            }
+          ],
+          "target": 29
+        },
+        {
+          "id": 42,
+          "name": "ModDefault",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 27,
+              "url": "typedoc://export.ts#L5"
+            }
+          ],
+          "target": 36
+        },
+        {
+          "id": 47,
+          "name": "ThisModule",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 40,
+              "character": 12,
+              "url": "typedoc://mod.ts#L40"
+            }
+          ],
+          "target": 34
+        },
+        {
+          "id": 44,
+          "name": "a",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 8,
+              "character": 13,
+              "url": "typedoc://mod.ts#L8"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 45,
+          "name": "b",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "typedoc://mod.ts#L13"
+            }
+          ],
+          "target": 31
+        },
+        {
+          "id": 40,
+          "name": "c",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 14,
+              "url": "typedoc://export.ts#L5"
+            }
+          ],
+          "target": 30
         }
       ],
       "groups": [
-        {
-          "title": "References",
-          "children": [
-            48,
-            41,
-            43,
-            42,
-            47,
-            44,
-            45,
-            40
-          ]
-        },
         {
           "title": "Namespaces",
           "children": [
@@ -440,6 +427,19 @@
           "children": [
             15,
             26
+          ]
+        },
+        {
+          "title": "References",
+          "children": [
+            48,
+            41,
+            43,
+            42,
+            47,
+            44,
+            45,
+            40
           ]
         }
       ],
@@ -705,70 +705,6 @@
       "flags": {},
       "children": [
         {
-          "id": 34,
-          "name": "ThisModule",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 40,
-              "character": 12,
-              "url": "typedoc://mod.ts#L40"
-            }
-          ],
-          "target": 29
-        },
-        {
-          "id": 31,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 30
-        },
-        {
-          "id": 32,
-          "name": "c",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export with a module specifier that comes from this file."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 18,
-              "character": 14,
-              "url": "typedoc://mod.ts#L18"
-            }
-          ],
-          "target": 30
-        },
-        {
           "id": 35,
           "name": "GH1453Helper",
           "variant": "declaration",
@@ -860,17 +796,73 @@
               }
             }
           ]
+        },
+        {
+          "id": 34,
+          "name": "ThisModule",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 40,
+              "character": 12,
+              "url": "typedoc://mod.ts#L40"
+            }
+          ],
+          "target": 29
+        },
+        {
+          "id": 31,
+          "name": "b",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "typedoc://mod.ts#L13"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 32,
+          "name": "c",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export with a module specifier that comes from this file."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 18,
+              "character": 14,
+              "url": "typedoc://mod.ts#L18"
+            }
+          ],
+          "target": 30
         }
       ],
       "groups": [
-        {
-          "title": "References",
-          "children": [
-            34,
-            31,
-            32
-          ]
-        },
         {
           "title": "Type Aliases",
           "children": [
@@ -887,6 +879,14 @@
           "title": "Functions",
           "children": [
             36
+          ]
+        },
+        {
+          "title": "References",
+          "children": [
+            34,
+            31,
+            32
           ]
         }
       ],
