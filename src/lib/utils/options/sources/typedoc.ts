@@ -1,8 +1,4 @@
-import {
-    OptionDefaults,
-    type Options,
-    type TypeDocOptionMap,
-} from "../index.js";
+import { type Options, type TypeDocOptionMap } from "../index.js";
 import { LogLevel } from "../../loggers.js";
 import {
     ParameterType,
@@ -10,6 +6,7 @@ import {
     EmitStrategy,
     CommentStyle,
 } from "../declaration.js";
+import { OptionDefaults } from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
 import { ReflectionKind } from "../../../models/reflections/kind.js";
