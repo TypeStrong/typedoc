@@ -41,6 +41,8 @@
         "Enumerations": 2.0,
         "Type Aliases": 2.0
     },
+    "searchInComments": true,
+    "searchInDocuments": true,
     "navigation": {
         "includeCategories": true,
         "includeGroups": false

@@ -332,10 +332,6 @@ export class DefaultTheme extends Theme {
                 };
             }
 
-            if (!element.hasOwnDocument) {
-                return;
-            }
-
             return {
                 text: getDisplayName(element),
                 path: element.url,
