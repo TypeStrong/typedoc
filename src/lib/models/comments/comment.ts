@@ -463,6 +463,7 @@ export class Comment {
                     assertNever(part);
             }
         });
+        const foundEnd = partsEnd !== -1;
         if (partsEnd === -1) {
             partsEnd = this.summary.length - 1;
         }
@@ -477,7 +478,7 @@ export class Comment {
                     ...this.summary[partsEnd],
                     text: text.slice(0, paragraphEnd),
                 });
-            } else if (this.summary[partsEnd].kind === "text") {
+            } else if (!foundEnd) {
                 summaryParts.push(this.summary[partsEnd]);
             }
         }

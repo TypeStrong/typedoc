@@ -39,6 +39,7 @@ export const blockTags = [
     "@template", // Alias for @typeParam
     "@type",
     "@typedef",
+    "@summary",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
