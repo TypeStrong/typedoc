@@ -443,6 +443,49 @@ export class Comment {
     }
 
     /**
+     * Gets either the `@summary` tag, or a short version of the comment summary
+     * section for rendering in module/namespace pages.
+     */
+    getShortSummary(): readonly CommentDisplayPart[] {
+        const tag = this.getTag("@summary");
+        if (tag) return tag.content;
+
+        let partsEnd = this.summary.findIndex((part) => {
+            switch (part.kind) {
+                case "text":
+                    return part.text.includes("\n\n");
+                case "code":
+                    return part.text.includes("\n");
+                case "inline-tag":
+                case "relative-link":
+                    return false;
+                default:
+                    assertNever(part);
+            }
+        });
+        if (partsEnd === -1) {
+            partsEnd = this.summary.length - 1;
+        }
+
+        const summaryParts = this.summary.slice(0, partsEnd);
+
+        if (partsEnd !== -1) {
+            const text = this.summary[partsEnd].text;
+            const paragraphEnd = text.indexOf("\n\n");
+            if (paragraphEnd !== -1) {
+                summaryParts.push({
+                    ...this.summary[partsEnd],
+                    text: text.slice(0, paragraphEnd),
+                });
+            } else if (this.summary[partsEnd].kind === "text") {
+                summaryParts.push(this.summary[partsEnd]);
+            }
+        }
+
+        return summaryParts;
+    }
+
+    /**
      * Checks if this comment is roughly equal to the other comment.
      * This isn't exactly equal, but just "roughly equal" by the comment
      * text.

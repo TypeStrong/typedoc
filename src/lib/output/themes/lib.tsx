@@ -1,5 +1,6 @@
 import type { DefaultThemeRenderContext } from "../index.js";
 import {
+    ContainerReflection,
     DeclarationReflection,
     ProjectReflection,
     ReferenceReflection,
@@ -8,7 +9,7 @@ import {
     SignatureReflection,
     type TypeParameterReflection,
 } from "../../models/index.js";
-import { JSX } from "../../utils/index.js";
+import { DefaultMap, filterMap, JSX } from "../../utils/index.js";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {
@@ -179,4 +180,85 @@ export function getHierarchyRoots(project: ProjectReflection): DeclarationReflec
     });
 
     return roots.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function getMemberSections(
+    parent: ContainerReflection,
+    childFilter: (refl: Reflection) => boolean = () => true,
+) {
+    if (parent.categories?.length) {
+        return filterMap(parent.categories, (cat) => {
+            const children = cat.children.filter(childFilter);
+            if (!children.length) return;
+            return {
+                title: cat.title,
+                children,
+            };
+        });
+    }
+
+    if (parent.groups?.length) {
+        return parent.groups.flatMap((group) => {
+            if (group.categories?.length) {
+                return filterMap(group.categories, (cat) => {
+                    const children = cat.children.filter(childFilter);
+                    if (!children.length) return;
+                    return {
+                        title: `${group.title} - ${cat.title}`,
+                        children,
+                    };
+                });
+            }
+
+            const children = group.children.filter(childFilter);
+            if (!children.length) return [];
+            return {
+                title: group.title,
+                children,
+            };
+        });
+    }
+
+    return [];
+}
+
+const nameCollisionCache = new WeakMap<ProjectReflection, DefaultMap<string, number>>();
+function getNameCollisionCount(project: ProjectReflection, name: string): number {
+    let collisions = nameCollisionCache.get(project);
+    if (collisions === undefined) {
+        collisions = new DefaultMap(() => 0);
+        for (const reflection of project.getReflectionsByKind(ReflectionKind.SomeExport)) {
+            collisions.set(reflection.name, collisions.get(reflection.name) + 1);
+        }
+        nameCollisionCache.set(project, collisions);
+    }
+    return collisions.get(name);
+}
+
+function getNamespacedPath(reflection: Reflection): Reflection[] {
+    const path = [reflection];
+    let parent = reflection.parent;
+    while (parent?.kindOf(ReflectionKind.Namespace)) {
+        path.unshift(parent);
+        parent = parent.parent;
+    }
+    return path;
+}
+
+/**
+ * Returns a (hopefully) globally unique path for the given reflection.
+ *
+ * This only works for exportable symbols, so e.g. methods are not affected by this.
+ *
+ * If the given reflection has a globally unique name already, then it will be returned as is. If the name is
+ * ambiguous (i.e. there are two classes with the same name in different namespaces), then the namespaces path of the
+ * reflection will be returned.
+ */
+export function getUniquePath(reflection: Reflection): Reflection[] {
+    if (reflection.kindOf(ReflectionKind.SomeExport)) {
+        if (getNameCollisionCount(reflection.project, reflection.name) >= 2) {
+            return getNamespacedPath(reflection);
+        }
+    }
+    return [reflection];
 }

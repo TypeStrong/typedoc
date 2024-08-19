@@ -1,44 +1,10 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { filterMap, JSX } from "../../../../utils/index.js";
+import { JSX } from "../../../../utils/index.js";
 import { type ContainerReflection } from "../../../../models/index.js";
-
-function getMemberSections(parent: ContainerReflection) {
-    if (parent.categories?.length) {
-        return filterMap(parent.categories, (cat) => {
-            if (!cat.allChildrenHaveOwnDocument()) {
-                return {
-                    title: cat.title,
-                    children: cat.children.filter((child) => !child.hasOwnDocument),
-                };
-            }
-        });
-    }
-
-    if (parent.groups?.length) {
-        return parent.groups.flatMap((group) => {
-            if (group.categories?.length) {
-                return filterMap(group.categories, (cat) => {
-                    if (!cat.allChildrenHaveOwnDocument()) {
-                        return {
-                            title: `${group.title} - ${cat.title}`,
-                            children: cat.children.filter((child) => !child.hasOwnDocument),
-                        };
-                    }
-                });
-            }
-
-            return {
-                title: group.title,
-                children: group.children.filter((child) => !child.hasOwnDocument),
-            };
-        });
-    }
-
-    return [];
-}
+import { getMemberSections } from "../../lib.js";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
-    const sections = getMemberSections(props).filter((sect) => sect.children.length);
+    const sections = getMemberSections(props, (child) => !child.hasOwnDocument);
 
     return (
         <>

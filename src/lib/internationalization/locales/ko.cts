@@ -321,8 +321,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_inherited_from: "상속받은 타입:",
     theme_overrides: "오버라이드 대상:",
     theme_returns: "반환 형식:",
-    theme_re_exports: "다시 내보내진 원본:",
-    theme_renames_and_re_exports: "새 이름으로 내보내진 원본:",
     theme_generated_using_typedoc: "TypeDoc으로 생성됨",
 
     theme_preparing_search_index: "검색 색인 준비 중...",

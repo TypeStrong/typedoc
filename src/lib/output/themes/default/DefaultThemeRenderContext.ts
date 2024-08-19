@@ -15,6 +15,7 @@ import { defaultLayout } from "./layouts/default.js";
 import { index } from "./partials/index.js";
 import { breadcrumb } from "./partials/breadcrumb.js";
 import {
+    commentShortSummary,
     commentSummary,
     commentTags,
     reflectionFlags,
@@ -26,7 +27,6 @@ import { buildRefIcons, type icons } from "./partials/icon.js";
 import { member } from "./partials/member.js";
 import { memberDeclaration } from "./partials/member.declaration.js";
 import { memberGetterSetter } from "./partials/member.getterSetter.js";
-import { memberReference } from "./partials/member.reference.js";
 import { memberSignatureBody } from "./partials/member.signature.body.js";
 import { memberSignatureTitle } from "./partials/member.signature.title.js";
 import { memberSignatures } from "./partials/member.signatures.js";
@@ -54,6 +54,10 @@ import {
     typeDetails,
     typeDetailsIfUseful,
 } from "./partials/typeDetails.js";
+import {
+    moduleMemberSummary,
+    moduleReflection,
+} from "./partials/moduleReflection.js";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);
@@ -149,6 +153,7 @@ export class DefaultThemeRenderContext {
     typeDeclaration = bind(typeDeclaration, this);
 
     breadcrumb = bind(breadcrumb, this);
+    commentShortSummary = bind(commentShortSummary, this);
     commentSummary = bind(commentSummary, this);
     commentTags = bind(commentTags, this);
     reflectionFlags = bind(reflectionFlags, this);
@@ -157,9 +162,10 @@ export class DefaultThemeRenderContext {
     hierarchy = bind(hierarchy, this);
     index = bind(index, this);
     member = bind(member, this);
+    moduleReflection = bind(moduleReflection, this);
+    moduleMemberSummary = bind(moduleMemberSummary, this);
     memberDeclaration = bind(memberDeclaration, this);
     memberGetterSetter = bind(memberGetterSetter, this);
-    memberReference = bind(memberReference, this);
     memberSignatureBody = bind(memberSignatureBody, this);
     memberSignatureTitle = bind(memberSignatureTitle, this);
     memberSignatures = bind(memberSignatures, this);

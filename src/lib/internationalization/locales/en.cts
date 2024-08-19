@@ -302,6 +302,8 @@ export = {
         "Modifier tags which TypeDoc should recognize when parsing comments",
     help_categorizeByGroup:
         "Specify whether categorization will be done at the group level",
+    help_groupReferencesByType:
+        "If set, references will be grouped with the type they refer to rather than in a 'References' group",
     help_defaultCategory:
         "Specify the default category for reflections without a category",
     help_categoryOrder:
@@ -453,8 +455,6 @@ export = {
     theme_inherited_from: "Inherited from",
     theme_overrides: "Overrides",
     theme_returns: "Returns",
-    theme_re_exports: "Re-exports",
-    theme_renames_and_re_exports: "Renames and re-exports",
     theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
     theme_class_hierarchy_title: "Class Hierarchy",
     // Search

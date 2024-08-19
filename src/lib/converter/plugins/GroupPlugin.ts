@@ -3,6 +3,7 @@ import {
     ContainerReflection,
     type DeclarationReflection,
     type DocumentReflection,
+    ReferenceReflection,
 } from "../../models/reflections/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
@@ -53,6 +54,9 @@ export class GroupPlugin extends ConverterComponent {
 
     @Option("sortEntryPoints")
     accessor sortEntryPoints!: boolean;
+
+    @Option("groupReferencesByType")
+    accessor groupReferencesByType!: boolean;
 
     usedBoosts = new Set<string>();
 
@@ -183,11 +187,22 @@ export class GroupPlugin extends ConverterComponent {
 
         groups.delete("");
         if (groups.size === 0) {
-            groups.add(
-                this.application.internationalization.kindPluralString(
-                    reflection.kind,
-                ),
-            );
+            if (
+                reflection instanceof ReferenceReflection &&
+                this.groupReferencesByType
+            ) {
+                groups.add(
+                    this.application.internationalization.kindPluralString(
+                        reflection.getTargetReflectionDeep().kind,
+                    ),
+                );
+            } else {
+                groups.add(
+                    this.application.internationalization.kindPluralString(
+                        reflection.kind,
+                    ),
+                );
+            }
         }
 
         for (const group of groups) {

@@ -209,6 +209,7 @@ export interface TypeDocOptionMap {
 
     // Organization
     categorizeByGroup: boolean;
+    groupReferencesByType: boolean;
     defaultCategory: string;
     categoryOrder: string[];
     groupOrder: string[];

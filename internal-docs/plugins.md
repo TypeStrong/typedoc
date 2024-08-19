@@ -3,6 +3,7 @@ title: Plugins
 children:
     - ./components-and-events.md
     - ./third-party-symbols.md
+summary: Overview of how to write a TypeDoc plugin
 ---
 
 # Writing a TypeDoc Plugin

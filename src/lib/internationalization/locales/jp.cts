@@ -465,8 +465,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_inherited_from: "継承元",
     theme_overrides: "上書き",
     theme_returns: "戻り値",
-    theme_re_exports: "再エクスポート",
-    theme_renames_and_re_exports: "リネームと再エクスポート",
     theme_generated_using_typedoc: "TypeDocを使用して生成",
     theme_preparing_search_index: "検索インデックスを準備しています...",
     theme_search_index_not_available: "検索インデックスは利用できません",

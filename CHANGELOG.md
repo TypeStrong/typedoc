@@ -14,9 +14,11 @@
     tag being completely removed from the documentation, `notRenderedTags` only prevents it from being included when rendering.
 -   Changed the default `kindSortOrder` to put references last.
 -   Changed the default `sort` order to use `alphabetical-ignoring-documents` instead of `alphabetical`.
+-   Added `groupReferencesByType` option.
 
 TODO:
 
+-   Docs for `@summary`, add `@summary` to default block tags
 -   Add an option for controlling print width.
 -   Write docs for `@expand`
 

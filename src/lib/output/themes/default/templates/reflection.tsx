@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     type SignatureReflection,
 } from "../../../../models/index.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "../../../../utils/index.js";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
@@ -15,6 +15,13 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
         props.model instanceof DeclarationReflection
     ) {
         return context.memberDeclaration(props.model);
+    }
+
+    if (
+        props.model.kindOf(ReflectionKind.ExportContainer) &&
+        (props.model.isDeclaration() || props.model.isProject())
+    ) {
+        return context.moduleReflection(props.model);
     }
 
     return (
@@ -25,13 +32,6 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     {context.commentTags(props.model)}
                 </section>
             )}
-            {props.model instanceof DeclarationReflection &&
-                props.model.kind === ReflectionKind.Module &&
-                props.model.readme?.length && (
-                    <section class="tsd-panel tsd-typography">
-                        <Raw html={context.markdown(props.model.readme)} />
-                    </section>
-                )}
 
             {context.reflectionPreview(props.model)}
 

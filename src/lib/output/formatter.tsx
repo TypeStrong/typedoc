@@ -11,9 +11,8 @@ import {
 } from "../models/types.js";
 import { aggregate } from "../utils/array.js";
 import { assertNever, JSX } from "../utils/index.js";
-import { getKindClass, stringify } from "./themes/lib.js";
+import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 import {
-    type ProjectReflection,
     ReflectionKind,
     type Reflection,
     type DeclarationReflection,
@@ -241,62 +240,6 @@ export class FormattedCodeGenerator {
         this.buffer.push(<br />);
         this.buffer.push(INDENT.repeat(this.indent));
     }
-}
-
-const EXPORTABLE: ReflectionKind =
-    ReflectionKind.Class |
-    ReflectionKind.Interface |
-    ReflectionKind.Enum |
-    ReflectionKind.TypeAlias |
-    ReflectionKind.Function |
-    ReflectionKind.Variable |
-    ReflectionKind.Namespace;
-
-const nameCollisionCache = new WeakMap<
-    ProjectReflection,
-    Record<string, number | undefined>
->();
-function getNameCollisionCount(
-    project: ProjectReflection,
-    name: string,
-): number {
-    let collisions = nameCollisionCache.get(project);
-    if (collisions === undefined) {
-        collisions = {};
-        for (const reflection of project.getReflectionsByKind(EXPORTABLE)) {
-            collisions[reflection.name] =
-                (collisions[reflection.name] ?? 0) + 1;
-        }
-        nameCollisionCache.set(project, collisions);
-    }
-    return collisions[name] ?? 0;
-}
-
-/**
- * Returns a (hopefully) globally unique path for the given reflection.
- *
- * This only works for exportable symbols, so e.g. methods are not affected by this.
- *
- * If the given reflection has a globally unique name already, then it will be returned as is. If the name is
- * ambiguous (i.e. there are two classes with the same name in different namespaces), then the namespaces path of the
- * reflection will be returned.
- */
-function getUniquePath(reflection: Reflection): Reflection[] {
-    if (reflection.kindOf(EXPORTABLE)) {
-        if (getNameCollisionCount(reflection.project, reflection.name) >= 2) {
-            return getNamespacedPath(reflection);
-        }
-    }
-    return [reflection];
-}
-function getNamespacedPath(reflection: Reflection): Reflection[] {
-    const path = [reflection];
-    let parent = reflection.parent;
-    while (parent?.kindOf(ReflectionKind.Namespace)) {
-        path.unshift(parent);
-        parent = parent.parent;
-    }
-    return path;
 }
 
 const typeBuilder: TypeVisitor<

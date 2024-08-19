@@ -15,6 +15,5 @@ export class Component<E extends HTMLElement = HTMLElement> {
     constructor(options: IComponentOptions) {
         this.el = options.el as E;
         this.app = options.app;
-        console.log("Created", this, "for", options);
     }
 }

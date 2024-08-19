@@ -9,7 +9,7 @@ import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/hi
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml } from "../../utils/html.js";
 import type { DefaultTheme, DefaultThemeRenderContext } from "../index.js";
-import { Slugger } from "./default/DefaultTheme.js";
+import { Slugger } from "./default/Slugger.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import { ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
 

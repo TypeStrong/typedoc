@@ -1,10 +1,29 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, Raw } from "../../../../utils/index.js";
-import { type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
 import { anchorIcon } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
+
+export function commentShortSummary({ markdown }: DefaultThemeRenderContext, props: Reflection) {
+    let shortSummary: readonly CommentDisplayPart[] | undefined;
+    if (props.isDocument()) {
+        if (typeof props.frontmatter["summary"] === "string") {
+            shortSummary = [{ kind: "text", text: props.frontmatter["summary"] }];
+        }
+    } else {
+        shortSummary = props.comment?.getShortSummary();
+    }
+
+    if (!shortSummary?.some((part) => part.text)) return;
+
+    return (
+        <div class="tsd-comment tsd-typography">
+            <Raw html={markdown(shortSummary)} />
+        </div>
+    );
+}
 
 export function commentSummary({ markdown }: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment?.summary.some((part) => part.text)) return;

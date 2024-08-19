@@ -730,6 +730,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: false,
     });
     options.addDeclaration({
+        name: "groupReferencesByType",
+        help: (i18n) => i18n.help_groupReferencesByType(),
+        type: ParameterType.Boolean,
+        defaultValue: false,
+    });
+    options.addDeclaration({
         name: "defaultCategory",
         help: (i18n) => i18n.help_defaultCategory(),
         defaultValue: "Other",

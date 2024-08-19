@@ -12,7 +12,7 @@ export type { RendererHooks } from "./renderer.js";
 export { Theme } from "./theme.js";
 export {
     DefaultTheme,
-    Slugger,
     type NavigationElement,
 } from "./themes/default/DefaultTheme.js";
+export { Slugger } from "./themes/default/Slugger.js";
 export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";

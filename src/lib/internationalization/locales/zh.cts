@@ -394,8 +394,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_inherited_from: "继承自",
     theme_overrides: "覆写了",
     theme_returns: "返回",
-    theme_re_exports: "重新导出",
-    theme_renames_and_re_exports: "重命名并重新导出",
     theme_generated_using_typedoc: "使用 TypeDoc 生成",
     theme_preparing_search_index: "正在准备搜索索引...",
     theme_search_index_not_available: "搜索索引不可用",

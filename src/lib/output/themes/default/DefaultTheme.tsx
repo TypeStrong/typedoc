@@ -19,6 +19,7 @@ import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { filterMap, JSX } from "../../../utils/index.js";
 import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
 import { icons } from "./partials/icon.js";
+import { Slugger } from "./Slugger.js";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -48,43 +49,6 @@ export interface NavigationElement {
     kind?: ReflectionKind;
     class?: string;
     children?: NavigationElement[];
-}
-
-/**
- * Responsible for getting a unique anchor for elements within a page.
- */
-export class Slugger {
-    private seen = new Map<string, number>();
-
-    private serialize(value: string) {
-        // Extracted from marked@4.3.0
-        return (
-            value
-                .toLowerCase()
-                .trim()
-                // remove html tags
-                .replace(/<[!/a-z].*?>/gi, "")
-                // remove unwanted chars
-                .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, "")
-                .replace(/\s/g, "-")
-        );
-    }
-
-    slug(value: string) {
-        const originalSlug = this.serialize(value);
-        let slug = originalSlug;
-        let count = 0;
-        if (this.seen.has(slug)) {
-            count = this.seen.get(originalSlug)!;
-            do {
-                count++;
-                slug = `${originalSlug}-${count}`;
-            } while (this.seen.has(slug));
-        }
-        this.seen.set(originalSlug, count);
-        this.seen.set(slug, 0);
-        return slug;
-    }
 }
 
 /**

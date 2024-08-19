@@ -321,7 +321,7 @@ ul {
 }
 
 dd {
-    margin: 0 0 0 40px;
+    margin: 0 0 0 34px;
 }
 
 .container {
@@ -1178,11 +1178,17 @@ img {
     max-width: 100%;
 }
 
+.tsd-member-summary-name {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem;
+    text-decoration: none;
+}
+
 .tsd-anchor-icon {
     display: inline-flex;
     align-items: center;
     margin-left: 0.5rem;
-    vertical-align: middle;
     color: var(--color-text);
 }
 
@@ -1192,6 +1198,7 @@ img {
     visibility: hidden;
 }
 
+.tsd-member-summary-name:hover > .tsd-anchor-icon svg,
 .tsd-anchor-link:hover > .tsd-anchor-icon svg {
     visibility: visible;
 }

@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { Comment, type CommentDisplayPart } from "../../index.js";
+import { Comment, CommentTag, type CommentDisplayPart } from "../../index.js";
 
 describe("Comment.combineDisplayParts", () => {
     it("Handles text and code", () => {
@@ -82,5 +82,77 @@ describe("Comment.splitPartsToHeaderAndBody", () => {
             header: "Header",
             body: [],
         });
+    });
+});
+
+describe("Comment.getShortSummary", () => {
+    it("Gets the @summary tag if present", () => {
+        const comment = new Comment(
+            [{ kind: "text", text: "Summary" }],
+            [new CommentTag("@summary", [{ kind: "text", text: "Tag" }])],
+        );
+
+        equal(comment.getShortSummary(), [{ kind: "text", text: "Tag" }]);
+    });
+
+    it("Handles an empty comment", () => {
+        const comment = new Comment([]);
+        equal(comment.getShortSummary(), []);
+    });
+
+    it("Handles a one line comment", () => {
+        const comment = new Comment([{ kind: "text", text: "Hi" }]);
+        equal(comment.getShortSummary(), [{ kind: "text", text: "Hi" }]);
+    });
+
+    it("Handles a multi-paragraph comment", () => {
+        const comment = new Comment([
+            {
+                kind: "text",
+                text: "Paragraph one\n\nParagraph two",
+            },
+        ]);
+
+        equal(comment.getShortSummary(), [
+            { kind: "text", text: "Paragraph one" },
+        ]);
+    });
+
+    it("Gets the first paragraph of a comment", () => {
+        const comment = new Comment([
+            {
+                kind: "text",
+                text: "Stuff\nwith\nnewlines ",
+            },
+            {
+                kind: "inline-tag",
+                tag: "@link",
+                text: "Element",
+            },
+            {
+                kind: "text",
+                text: "\nmore text\n",
+            },
+            {
+                kind: "code",
+                text: "```json\n{}\n```",
+            },
+        ]);
+
+        equal(comment.getShortSummary(), [
+            {
+                kind: "text",
+                text: "Stuff\nwith\nnewlines ",
+            },
+            {
+                kind: "inline-tag",
+                tag: "@link",
+                text: "Element",
+            },
+            {
+                kind: "text",
+                text: "\nmore text\n",
+            },
+        ]);
     });
 });
