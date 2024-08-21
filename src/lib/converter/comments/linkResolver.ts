@@ -4,7 +4,7 @@ import {
     type CommentDisplayPart,
     DeclarationReflection,
     type InlineTagDisplayPart,
-    type Reflection,
+    Reflection,
     ReflectionSymbolId,
 } from "../../models";
 import {
@@ -112,6 +112,12 @@ function resolveLinkTag(
     externalResolver: ExternalSymbolResolver,
     options: LinkResolverOptions,
 ): InlineTagDisplayPart {
+    // This tag may have already been resolved to if we are running in packages mode
+    // or when reading in a JSON file. #2680.
+    if (typeof part.target === "string" || part.target instanceof Reflection) {
+        return part;
+    }
+
     let defaultDisplayText = "";
     let pos = 0;
     const end = part.text.length;

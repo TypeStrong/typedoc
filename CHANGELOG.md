@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed an issue where links in packages mode would be resolved incorrectly, #2680.
+
 ## v0.26.6 (2024-08-18)
 
 ### Features
