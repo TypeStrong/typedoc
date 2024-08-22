@@ -1670,4 +1670,31 @@ describe("Issue Tests", () => {
         app.validate(project);
         logger.expectNoOtherMessages();
     });
+
+    it("#2683 supports @param on parameters with functions", () => {
+        const project = convert();
+        const action = querySig(project, "action");
+        const callback = action.parameters![0];
+        equal(
+            Comment.combineDisplayParts(callback.comment?.summary),
+            "Param comment",
+        );
+
+        equal(callback.type?.type, "reflection");
+        const data = callback.type.declaration.signatures![0].parameters![0];
+        equal(Comment.combineDisplayParts(data?.comment?.summary), "Data");
+
+        const action2 = querySig(project, "action2");
+        const callback2 = action2.parameters![0];
+        equal(
+            Comment.combineDisplayParts(callback2.comment?.summary),
+            "Param comment2",
+        );
+
+        equal(callback2.type?.type, "reflection");
+        const data2 = callback2.type.declaration.signatures![0].parameters![0];
+        // Overwritten by the @param on the wrapping signature, so we never
+        // had a chance to copy the data's @param to the parameter.
+        equal(data2.comment, undefined);
+    });
 });

@@ -3,12 +3,12 @@ import { Converter } from "../converter";
 import type { Context } from "../context";
 import {
     type Reflection,
+    ParameterReflection,
     ReflectionFlag,
     ReflectionKind,
     type TypeParameterReflection,
     DeclarationReflection,
     SignatureReflection,
-    type ParameterReflection,
     Comment,
     type SourceReference,
     type TypeVisitor,
@@ -417,11 +417,15 @@ export class CommentPlugin extends ConverterComponent {
             }
         }
 
-        if (reflection instanceof DeclarationReflection && reflection.comment) {
-            let sigs: SignatureReflection[];
+        if (
+            (reflection instanceof DeclarationReflection ||
+                reflection instanceof ParameterReflection) &&
+            reflection.comment
+        ) {
+            let sigs: SignatureReflection[] = [];
             if (reflection.type instanceof ReflectionType) {
                 sigs = reflection.type.declaration.getNonIndexSignatures();
-            } else {
+            } else if (reflection instanceof DeclarationReflection) {
                 sigs = reflection.getNonIndexSignatures();
             }
 
