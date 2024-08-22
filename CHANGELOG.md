@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   Added `navigation.excludeReferences` option to prevent re-exports from appearing in the left hand navigation, #2685.
+
 ### Bug Fixes
 
 -   Fixed an issue where links in packages mode would be resolved incorrectly, #2680.

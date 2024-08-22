@@ -11,6 +11,7 @@ import {
     ReflectionGroup,
     TypeParameterReflection,
     type DocumentReflection,
+    ReferenceReflection,
 } from "../../../models";
 import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
@@ -330,6 +331,10 @@ export class DefaultTheme extends Theme {
                     text: element.title,
                     children,
                 };
+            }
+
+            if (opts.excludeReferences && element instanceof ReferenceReflection) {
+                return;
             }
 
             return {
