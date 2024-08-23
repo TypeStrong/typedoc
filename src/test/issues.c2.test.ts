@@ -1671,6 +1671,16 @@ describe("Issue Tests", () => {
         logger.expectNoOtherMessages();
     });
 
+    it("#2681 reports warnings on @link tags which resolve to a type not included in the documentation", () => {
+        const project = convert();
+        app.options.setValue("validation", false);
+        app.options.setValue("validation", { invalidLink: true });
+        app.validate(project);
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Generator" in comment for bug',
+        );
+    });
+
     it("#2683 supports @param on parameters with functions", () => {
         const project = convert();
         const action = querySig(project, "action");

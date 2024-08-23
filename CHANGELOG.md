@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 -   Fixed an issue where links in packages mode would be resolved incorrectly, #2680.
+-   `@link` tags to symbols which are not included in the documentation will produce invalid link warnings again, #2681.
 -   Fixed handling of `@param` tags on comments attached to function callback parameters, #2683.
 
 ## v0.26.6 (2024-08-18)
