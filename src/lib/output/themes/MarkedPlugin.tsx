@@ -272,6 +272,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 // that becomes a real thing.
                 if (this.markdownLinkExternal && /https?:\/\//i.test(href)) {
                     token.attrSet("target", "_blank");
+                    const classes = token.attrGet("class")?.split(" ") || [];
+                    classes.push("external");
+                    token.attrSet("class", classes.join(" "));
                 }
 
                 token.attrSet("href", href);
