@@ -270,6 +270,8 @@ export const translatable = {
         "Set the CNAME file text, it's useful for custom domains on GitHub Pages",
     help_sourceLinkExternal:
         "Specifies that source links should be treated as external links to be opened in a new tab",
+    help_markdownLinkExternal:
+        "Specifies that http[s]:// links in comments and markdown files should be treated as external links to be opened in a new tab",
     help_githubPages:
         "Generate a .nojekyll file to prevent 404 errors in GitHub Pages. Defaults to `true`",
     help_hostedBaseUrl:

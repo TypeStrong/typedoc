@@ -36,6 +36,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     @Option("markdownItOptions")
     accessor markdownItOptions!: Record<string, unknown>;
 
+    @Option("markdownLinkExternal")
+    accessor markdownLinkExternal!: boolean;
+
     private parser?: markdown;
 
     /**
@@ -263,6 +266,14 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             const token = tokens[idx];
             const href = token.attrGet("href")?.replace(/^#(?:md:)?(.+)/, "#md:$1");
             if (href) {
+                // Note: This doesn't catch @link tags to reflections as those
+                // will be relative links. This will likely have to change with
+                // the introduction of support for customized routers whenever
+                // that becomes a real thing.
+                if (this.markdownLinkExternal && /https?:\/\//i.test(href)) {
+                    token.attrSet("target", "_blank");
+                }
+
                 token.attrSet("href", href);
             }
             return self.renderToken(tokens, idx, options);
