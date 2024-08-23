@@ -159,7 +159,7 @@ export class PageEvent<out Model = unknown> {
         if (typeof nameOrModel === "string") {
             this.model = model!;
         } else {
-            this.model = nameOrModel as Model;
+            this.model = nameOrModel;
         }
     }
 }
