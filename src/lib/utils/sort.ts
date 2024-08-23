@@ -62,7 +62,7 @@ const sorts: Record<
         return false;
     },
     alphabetical(a, b) {
-        return a.name < b.name;
+        return a.name.localeCompare(b.name) < 0;
     },
     "alphabetical-ignoring-documents"(a, b) {
         if (
@@ -71,7 +71,7 @@ const sorts: Record<
         ) {
             return false;
         }
-        return a.name < b.name;
+        return a.name.localeCompare(b.name) < 0;
     },
     "enum-value-ascending"(a, b) {
         if (

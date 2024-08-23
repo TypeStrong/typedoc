@@ -1416,7 +1416,7 @@ describe("Issue Tests", () => {
         const project = convert();
 
         const theme = new DefaultTheme(app.renderer);
-        const page = new PageEvent("hierarchy", project);
+        const page = new PageEvent(project);
         page.project = project;
         const context = theme.getRenderContext(page);
         context.hierarchyTemplate(page);

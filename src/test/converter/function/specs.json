@@ -716,6 +716,72 @@
           ]
         },
         {
+          "id": 39,
+          "name": "assertionFunction",
+          "variant": "declaration",
+          "kind": 64,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 131,
+              "character": 16,
+              "url": "typedoc://function.ts#L131"
+            }
+          ],
+          "signatures": [
+            {
+              "id": 40,
+              "name": "assertionFunction",
+              "variant": "signature",
+              "kind": 4096,
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "This is an assertion function."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 131,
+                  "character": 16,
+                  "url": "typedoc://function.ts#L131"
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 41,
+                  "name": "condition",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "comment": {
+                    "summary": [
+                      {
+                        "kind": "text",
+                        "text": "The condition that is asserted to be true when this function returns."
+                      }
+                    ]
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "condition",
+                "asserts": true
+              }
+            }
+          ]
+        },
+        {
           "id": 45,
           "name": "assertIsNonNull",
           "variant": "declaration",
@@ -801,72 +867,6 @@
                   "package": "typedoc",
                   "refersToTypeParameter": true
                 }
-              }
-            }
-          ]
-        },
-        {
-          "id": 39,
-          "name": "assertionFunction",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 131,
-              "character": 16,
-              "url": "typedoc://function.ts#L131"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 40,
-              "name": "assertionFunction",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is an assertion function."
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 131,
-                  "character": 16,
-                  "url": "typedoc://function.ts#L131"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 41,
-                  "name": "condition",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "The condition that is asserted to be true when this function returns."
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "boolean"
-                  }
-                }
-              ],
-              "type": {
-                "type": "predicate",
-                "name": "condition",
-                "asserts": true
               }
             }
           ]
@@ -2028,8 +2028,8 @@
           "title": "Functions",
           "children": [
             76,
-            45,
             39,
+            45,
             53,
             42,
             2,

@@ -13,30 +13,6 @@
       "flags": {},
       "children": [
         {
-          "id": 43,
-          "name": "Mod2",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 14,
-              "character": 12,
-              "url": "typedoc://export.ts#L14"
-            }
-          ],
-          "target": 29
-        },
-        {
           "id": 45,
           "name": "b",
           "variant": "reference",
@@ -59,14 +35,38 @@
             }
           ],
           "target": 31
+        },
+        {
+          "id": 43,
+          "name": "Mod2",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 14,
+              "character": 12,
+              "url": "typedoc://export.ts#L14"
+            }
+          ],
+          "target": 29
         }
       ],
       "groups": [
         {
           "title": "References",
           "children": [
-            43,
-            45
+            45,
+            43
           ]
         }
       ],

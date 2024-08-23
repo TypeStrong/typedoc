@@ -13,6 +13,62 @@
       "flags": {},
       "children": [
         {
+          "id": 44,
+          "name": "a",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 8,
+              "character": 13,
+              "url": "typedoc://mod.ts#L8"
+            }
+          ],
+          "target": 30
+        },
+        {
+          "id": 45,
+          "name": "b",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "comment": {
+            "summary": [
+              {
+                "kind": "text",
+                "text": "An export of a local under a different name."
+              }
+            ]
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 13,
+              "character": 14,
+              "url": "typedoc://mod.ts#L13"
+            }
+          ],
+          "target": 31
+        },
+        {
+          "id": 40,
+          "name": "c",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 5,
+              "character": 14,
+              "url": "typedoc://export.ts#L5"
+            }
+          ],
+          "target": 30
+        },
+        {
           "id": 48,
           "name": "GH1453Helper",
           "variant": "reference",
@@ -99,62 +155,6 @@
             }
           ],
           "target": 34
-        },
-        {
-          "id": 44,
-          "name": "a",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 8,
-              "character": 13,
-              "url": "typedoc://mod.ts#L8"
-            }
-          ],
-          "target": 30
-        },
-        {
-          "id": 45,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 31
-        },
-        {
-          "id": 40,
-          "name": "c",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 5,
-              "character": 14,
-              "url": "typedoc://export.ts#L5"
-            }
-          ],
-          "target": 30
         },
         {
           "id": 20,
@@ -419,14 +419,14 @@
         {
           "title": "References",
           "children": [
+            44,
+            45,
+            40,
             48,
             41,
             43,
             42,
-            47,
-            44,
-            45,
-            40
+            47
           ]
         },
         {
@@ -705,22 +705,6 @@
       "flags": {},
       "children": [
         {
-          "id": 34,
-          "name": "ThisModule",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 40,
-              "character": 12,
-              "url": "typedoc://mod.ts#L40"
-            }
-          ],
-          "target": 29
-        },
-        {
           "id": 31,
           "name": "b",
           "variant": "reference",
@@ -767,6 +751,22 @@
             }
           ],
           "target": 30
+        },
+        {
+          "id": 34,
+          "name": "ThisModule",
+          "variant": "reference",
+          "kind": 4194304,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 40,
+              "character": 12,
+              "url": "typedoc://mod.ts#L40"
+            }
+          ],
+          "target": 29
         },
         {
           "id": 35,
@@ -866,9 +866,9 @@
         {
           "title": "References",
           "children": [
-            34,
             31,
-            32
+            32,
+            34
           ]
         },
         {
