@@ -114,6 +114,9 @@ export = {
     disable_git_set_and_git_revision_used: `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided`,
     git_remote_0_not_valid: `The provided git remote "{0}" was not valid. Source links will be broken`,
 
+    include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist.`,
+    include_0_in_1_specified_2_circular_include_3: `{0} tag in comment for {1} specified "{2}" to include, which resulted in a circular include:\n\t{3}`,
+
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist`,
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}`,

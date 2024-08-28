@@ -1,0 +1,109 @@
+import path from "path";
+import fs from "fs";
+
+import { ConverterComponent } from "../components.js";
+import { ConverterEvents } from "../converter-events.js";
+import type { CommentDisplayPart, Reflection } from "../../models/index.js";
+import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+
+/**
+ * Handles `@include` and `@includeCode` within comments/documents.
+ */
+export class IncludePlugin extends ConverterComponent {
+    get logger() {
+        return this.application.logger;
+    }
+
+    override initialize() {
+        const converter = this.owner;
+        const onCreate = this.onCreate.bind(this);
+        converter.on(ConverterEvents.CREATE_DOCUMENT, onCreate);
+        converter.on(ConverterEvents.CREATE_DECLARATION, onCreate);
+        converter.on(ConverterEvents.CREATE_PARAMETER, onCreate);
+        converter.on(ConverterEvents.CREATE_SIGNATURE, onCreate);
+        converter.on(ConverterEvents.CREATE_TYPE_PARAMETER, onCreate);
+    }
+
+    private onCreate(_context: unknown, refl: Reflection) {
+        if (!refl.comment?.sourcePath) return;
+
+        if (refl.isDocument()) {
+            // We know it must be present as documents are always associated with a file.
+            const relative = this.application.files.getReflectionPath(refl)!;
+            this.checkIncludeTagsParts(refl, relative, refl.content);
+        }
+
+        const relative = path.dirname(refl.comment.sourcePath);
+        this.checkIncludeTagsParts(refl, relative, refl.comment.summary);
+        for (const tag of refl.comment.blockTags) {
+            this.checkIncludeTagsParts(refl, relative, tag.content);
+        }
+    }
+
+    private checkIncludeTagsParts(
+        refl: Reflection,
+        relative: string,
+        parts: CommentDisplayPart[],
+        included: string[] = [],
+    ) {
+        for (let i = 0; i < parts.length; ++i) {
+            const part = parts[i];
+
+            if (
+                part.kind !== "inline-tag" ||
+                !["@include", "@includeCode"].includes(part.tag)
+            ) {
+                continue;
+            }
+
+            const file = path.resolve(relative, part.text.trim());
+            if (included.includes(file) && part.tag === "@include") {
+                this.logger.error(
+                    this.logger.i18n.include_0_in_1_specified_2_circular_include_3(
+                        part.tag,
+                        refl.getFriendlyFullName(),
+                        part.text,
+                        included.join("\n\t"),
+                    ),
+                );
+            } else if (fs.existsSync(file)) {
+                const text = fs.readFileSync(file, "utf-8");
+                if (part.tag === "@include") {
+                    const sf = new MinimalSourceFile(text, file);
+                    const { content } = this.owner.parseRawComment(
+                        sf,
+                        refl.project.files,
+                    );
+                    this.checkIncludeTagsParts(
+                        refl,
+                        path.dirname(file),
+                        content,
+                        [...included, file],
+                    );
+                    parts.splice(i, 1, ...content);
+                } else {
+                    parts[i] = {
+                        kind: "code",
+                        text: makeCodeBlock(
+                            path.extname(file).substring(1),
+                            text,
+                        ),
+                    };
+                }
+            } else {
+                this.logger.warn(
+                    this.logger.i18n.include_0_in_1_specified_2_resolved_to_3_does_not_exist(
+                        part.tag,
+                        refl.getFriendlyFullName(),
+                        part.text,
+                        file,
+                    ),
+                );
+            }
+        }
+    }
+}
+function makeCodeBlock(lang: string, code: string) {
+    const escaped = code.replace(/`(?=`)/g, "`\u200B");
+    return "\n\n```" + lang + "\n" + escaped.trimEnd() + "\n```";
+}

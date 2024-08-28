@@ -61,11 +61,13 @@ import { LinkResolverPlugin } from "./plugins/LinkResolverPlugin.js";
 import { PackagePlugin } from "./plugins/PackagePlugin.js";
 import { SourcePlugin } from "./plugins/SourcePlugin.js";
 import { TypePlugin } from "./plugins/TypePlugin.js";
+import { IncludePlugin } from "./plugins/IncludePlugin.js";
 
 export interface ConverterEvents {
     begin: [Context];
     end: [Context];
     createDeclaration: [Context, DeclarationReflection];
+    createDocument: [undefined, DocumentReflection];
     createSignature: [
         Context,
         SignatureReflection,
@@ -267,6 +269,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         new PackagePlugin(this);
         new SourcePlugin(this);
         new TypePlugin(this);
+        new IncludePlugin(this);
     }
 
     /**
@@ -635,6 +638,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
 
         parent.addChild(docRefl);
         parent.project.registerReflection(docRefl, undefined, file.fileName);
+        this.trigger(ConverterEvents.CREATE_DOCUMENT, undefined, docRefl);
 
         const childrenToAdd: [string, string][] = [];
         if (children && typeof children === "object") {

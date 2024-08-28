@@ -1,3 +1,6 @@
+/**
+ * @module TypeDoc API
+ */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
 export { EventDispatcher } from "./lib/utils/events.js";

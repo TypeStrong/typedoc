@@ -64,6 +64,7 @@ export const OptionDefaults: {
         "json",
         "jsonc",
         "json5",
+        "yaml",
         "tsx",
         "typescript",
     ],

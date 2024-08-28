@@ -19,6 +19,8 @@ describe("Merging projects", () => {
                 join(base, "alias/specs.json"),
                 join(base, "class/*specs.json"),
             ],
+            projectDocuments: [],
+            name: "typedoc",
         });
         const logger = new TestLogger();
         app.logger = logger;

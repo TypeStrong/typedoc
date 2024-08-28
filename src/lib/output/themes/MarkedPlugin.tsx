@@ -11,7 +11,7 @@ import { escapeHtml } from "../../utils/html.js";
 import type { DefaultTheme, DefaultThemeRenderContext } from "../index.js";
 import { Slugger } from "./default/Slugger.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
-import { ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
+import { Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -110,7 +110,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     private displayPartsToMarkdown(
-        page: PageEvent<any>,
+        page: PageEvent<Reflection>,
         context: DefaultThemeRenderContext,
         parts: readonly CommentDisplayPart[],
     ): string {
@@ -169,15 +169,22 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 case "relative-link":
                     switch (typeof part.target) {
                         case "number": {
-                            const refl = page.project.files.resolve(part.target);
+                            const refl = page.project.files.resolve(part.target, page.model.project);
+                            let url: string | undefined;
                             if (typeof refl === "object") {
-                                result.push(context.urlTo(refl));
-                                break;
+                                url = context.urlTo(refl);
+                            } else {
+                                const fileName = page.project.files.getName(part.target);
+                                if (fileName) {
+                                    url = context.relativeURL(`media/${fileName}`);
+                                }
                             }
 
-                            const fileName = page.project.files.getName(part.target);
-                            if (fileName) {
-                                result.push(context.relativeURL(`media/${fileName}`));
+                            if (url) {
+                                if (!url.includes("#") && part.text.includes("#")) {
+                                    url += part.text.substring(part.text.indexOf("#"));
+                                }
+                                result.push(url);
                                 break;
                             }
                         }

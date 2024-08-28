@@ -241,6 +241,8 @@ export type ReflectionVisitor = {
     [K in keyof ReflectionVariant]?: (refl: ReflectionVariant[K]) => void;
 };
 
+export type ReflectionId = number & { __reflectionIdBrand: never };
+
 /**
  * Base class for all reflection classes.
  *
@@ -262,7 +264,7 @@ export abstract class Reflection {
     /**
      * Unique id of this reflection.
      */
-    id: number;
+    id: ReflectionId;
 
     /**
      * The symbol name of this reflection.
@@ -318,7 +320,7 @@ export abstract class Reflection {
     private _aliases?: Map<string, number>;
 
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
-        this.id = REFLECTION_ID++;
+        this.id = REFLECTION_ID++ as ReflectionId;
         this.parent = parent;
         this.project = parent?.project || (this as any as ProjectReflection);
         this.name = name;

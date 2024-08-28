@@ -46,6 +46,7 @@ type TranslationConstraint = [
     BuildConstraint<0>,
     BuildConstraint<0 | 1>,
     BuildConstraint<0 | 1 | 2>,
+    BuildConstraint<0 | 1 | 2 | 3>,
 ];
 
 // Compiler errors here which says a property is missing indicates that the value on translatable

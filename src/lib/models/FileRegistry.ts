@@ -2,16 +2,17 @@ import { basename, dirname, parse, relative, resolve } from "path";
 import type { Deserializer, Serializer } from "../serialization/index.js";
 import type { FileRegistry as JSONFileRegistry } from "../serialization/schema.js";
 import { isFile, normalizePath } from "../utils/index.js";
-import type { Reflection } from "./reflections/index.js";
+import type { ProjectReflection, Reflection } from "./reflections/index.js";
+import type { ReflectionId } from "./reflections/abstract.js";
 
 export class FileRegistry {
     protected nextId = 1;
 
     // The combination of these two make up the registry
-    protected mediaToReflection = new Map<number, Reflection>();
+    protected mediaToReflection = new Map<number, ReflectionId>();
     protected mediaToPath = new Map<number, string>();
 
-    protected reflectionToPath = new Map<Reflection, string>();
+    protected reflectionToPath = new Map<ReflectionId, string>();
     protected pathToMedia = new Map<string, number>();
 
     // Lazily created as we get names for rendering
@@ -19,7 +20,7 @@ export class FileRegistry {
     protected nameUsage = new Map<string, number>();
 
     registerAbsolute(absolute: string) {
-        absolute = normalizePath(absolute);
+        absolute = normalizePath(absolute).replace(/#.*/, "");
         const existing = this.pathToMedia.get(absolute);
         if (existing) {
             return existing;
@@ -35,8 +36,12 @@ export class FileRegistry {
     registerReflection(absolute: string, reflection: Reflection) {
         absolute = normalizePath(absolute);
         const id = this.registerAbsolute(absolute);
-        this.reflectionToPath.set(reflection, absolute);
-        this.mediaToReflection.set(id, reflection);
+        this.reflectionToPath.set(reflection.id, absolute);
+        this.mediaToReflection.set(id, reflection.id);
+    }
+
+    getReflectionPath(reflection: Reflection): string | undefined {
+        return this.reflectionToPath.get(reflection.id);
     }
 
     register(sourcePath: string, relativePath: string): number | undefined {
@@ -46,15 +51,22 @@ export class FileRegistry {
     }
 
     removeReflection(reflection: Reflection): void {
-        const absolute = this.reflectionToPath.get(reflection);
+        const absolute = this.reflectionToPath.get(reflection.id);
         if (absolute) {
             const media = this.pathToMedia.get(absolute)!;
             this.mediaToReflection.delete(media);
         }
     }
 
-    resolve(id: number): string | Reflection | undefined {
-        return this.mediaToReflection.get(id) ?? this.mediaToPath.get(id);
+    resolve(
+        id: number,
+        project: ProjectReflection,
+    ): string | Reflection | undefined {
+        const reflId = this.mediaToReflection.get(id);
+        if (reflId) {
+            return project.getReflectionById(reflId);
+        }
+        return this.mediaToPath.get(id);
     }
 
     getName(id: number): string | undefined {
@@ -103,8 +115,8 @@ export class FileRegistry {
         for (const [key, val] of this.mediaToReflection.entries()) {
             // A registry may be shared by multiple projects. When serializing,
             // only save reflection mapping for reflections in the serialized project.
-            if (ser.project.getReflectionById(val.id)) {
-                result.reflections[key] = val.id;
+            if (ser.project.getReflectionById(val)) {
+                result.reflections[key] = val;
             }
         }
 
@@ -130,7 +142,7 @@ export class FileRegistry {
                 if (refl) {
                     this.mediaToReflection.set(
                         de.oldFileIdToNewFileId[+media]!,
-                        refl,
+                        refl.id,
                     );
                 }
             }
@@ -143,7 +155,10 @@ export class ValidatingFileRegistry extends FileRegistry {
         sourcePath: string,
         relativePath: string,
     ): number | undefined {
-        const absolute = resolve(dirname(sourcePath), relativePath);
+        const absolute = resolve(dirname(sourcePath), relativePath).replace(
+            /#.*/,
+            "",
+        );
         if (!isFile(absolute)) {
             return;
         }
@@ -174,7 +189,7 @@ export class ValidatingFileRegistry extends FileRegistry {
                 if (refl) {
                     this.mediaToReflection.set(
                         de.oldFileIdToNewFileId[+media]!,
-                        refl,
+                        refl.id,
                     );
                 } else {
                     de.logger.warn(

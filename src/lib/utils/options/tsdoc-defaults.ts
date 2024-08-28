@@ -47,6 +47,8 @@ export const inlineTags = [
     ...tsdocInlineTags,
     "@linkcode",
     "@linkplain",
+    "@include",
+    "@includeCode",
 ] as const;
 
 export const tsdocModifierTags = [

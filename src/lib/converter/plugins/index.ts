@@ -7,3 +7,4 @@ export { LinkResolverPlugin } from "./LinkResolverPlugin.js";
 export { PackagePlugin } from "./PackagePlugin.js";
 export { SourcePlugin } from "./SourcePlugin.js";
 export { TypePlugin } from "./TypePlugin.js";
+export { IncludePlugin } from "./IncludePlugin.js";

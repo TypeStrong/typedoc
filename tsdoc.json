@@ -120,6 +120,16 @@
             "allowMultiple": true
         },
         {
+            "tagName": "@include",
+            "syntaxKind": "inline",
+            "allowMultiple": true
+        },
+        {
+            "tagName": "@includeCode",
+            "syntaxKind": "inline",
+            "allowMultiple": true
+        },
+        {
             "tagName": "@private",
             "syntaxKind": "modifier"
         },

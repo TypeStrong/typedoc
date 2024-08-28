@@ -94,7 +94,7 @@ export function expandPackages(
                     nicePath(workspace),
                 ),
             );
-        } else {
+        } else if (expandedPackageJsonPaths.length !== 1) {
             logger.verbose(
                 `Expanded ${nicePath(
                     workspace,

@@ -314,7 +314,7 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
                     nicePath(entry),
                 ),
             );
-        } else {
+        } else if (filtered.length !== 1) {
             logger.verbose(
                 `Expanded ${nicePath(entry)} to:\n\t${filtered
                     .map(nicePath)

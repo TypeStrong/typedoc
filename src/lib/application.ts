@@ -755,7 +755,7 @@ export class Application extends AbstractComponent<
                 this.logger.warn(
                     this.i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
                 );
-            } else {
+            } else if (result.length !== 1) {
                 this.logger.verbose(
                     `Expanded ${nicePath(entry)} to:\n\t${result
                         .map(nicePath)

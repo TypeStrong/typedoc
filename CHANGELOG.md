@@ -15,12 +15,18 @@
 -   Changed the default `kindSortOrder` to put references last.
 -   Changed the default `sort` order to use `alphabetical-ignoring-documents` instead of `alphabetical`.
 -   Added `groupReferencesByType` option.
+-   Added `yaml` to the highlight languages supported by default.
 
 TODO:
 
 -   Add an option for controlling print width.
 -   Write docs for `@expand`
 -   Docs for `@summary`
+-   Write docs for `@import`
+-   Write docs for `@include` and `@includeCode`
+-   https://github.com/ebullient/markdown-it-obsidian-callouts plugin
+-   Validate anchors within relative linked paths?
+-   Include plugin - https://github.com/microsoft/tsdoc/issues/22#issuecomment-2211156557
 
 # Unreleased
 
