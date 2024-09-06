@@ -137,7 +137,9 @@ export class SignatureReflection extends Reflection {
             obj.sources,
             (t) => new SourceReference(t.fileName, t.line, t.character),
         );
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         if (obj.typeParameter) {
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
                 de.constructReflection(t),
             );
