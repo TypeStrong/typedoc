@@ -13,9 +13,11 @@ import { join } from "path";
  */
 @Component({ name: "assets" })
 export class AssetsPlugin extends RendererComponent {
-    /** @internal */
     @Option("customCss")
-    accessor customCss!: string;
+    private accessor customCss!: string;
+
+    @Option("customJs")
+    private accessor customJs!: string;
 
     getTranslatedStrings() {
         return {
@@ -43,6 +45,18 @@ export class AssetsPlugin extends RendererComponent {
                 this.application.logger.error(
                     this.application.i18n.custom_css_file_0_does_not_exist(
                         this.customCss,
+                    ),
+                );
+            }
+        }
+
+        if (this.customJs) {
+            if (existsSync(this.customJs)) {
+                copySync(this.customJs, join(dest, "custom.js"));
+            } else {
+                this.application.logger.error(
+                    this.application.i18n.custom_js_file_0_does_not_exist(
+                        this.customJs,
                     ),
                 );
             }

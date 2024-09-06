@@ -131,6 +131,7 @@ export const translatable = {
 
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist`,
+    custom_js_file_0_does_not_exist: `Custom JavaScript file at {0} does not exist`,
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}`,
     unloaded_language_0_not_highlighted_in_comment_for_1: `Code block with language {0} will not be highlighted in comment for {1} as it was not included in the highlightLanguages option`,
     yaml_frontmatter_not_an_object: `Expected YAML frontmatter to be an object`,
