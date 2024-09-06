@@ -1707,4 +1707,15 @@ describe("Issue Tests", () => {
         // had a chance to copy the data's @param to the parameter.
         equal(data2.comment, undefined);
     });
+
+    it("#2693 handles the @abstract tag", () => {
+        const project = convert();
+        ok(query(project, "Foo.foo").flags.isAbstract);
+        ok(!querySig(project, "Foo.foo").flags.isAbstract);
+        ok(query(project, "Foo.x").flags.isAbstract);
+
+        ok(query(project, "Bar.foo").flags.isAbstract);
+        ok(!querySig(project, "Bar.foo").flags.isAbstract);
+        ok(query(project, "Bar.x").flags.isAbstract);
+    });
 });

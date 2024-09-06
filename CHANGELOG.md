@@ -4,6 +4,7 @@
 
 -   Added `markdownLinkExternal` option to treat `http[s]://` links in markdown documents and comments as external to be opened in a new tab, #2679.
 -   Added `navigation.excludeReferences` option to prevent re-exports from appearing in the left hand navigation, #2685.
+-   Added support for the `@abstract` tag, #2692.
 
 ### Bug Fixes
 

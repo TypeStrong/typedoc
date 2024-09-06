@@ -192,6 +192,15 @@ export class CommentPlugin extends ConverterComponent {
             comment.removeModifier("@interface");
         }
 
+        if (comment.hasModifier("@abstract")) {
+            if (reflection.kindOf(ReflectionKind.SomeSignature)) {
+                reflection.parent!.setFlag(ReflectionFlag.Abstract);
+            } else {
+                reflection.setFlag(ReflectionFlag.Abstract);
+            }
+            comment.removeModifier("@abstract");
+        }
+
         if (comment.hasModifier("@private")) {
             reflection.setFlag(ReflectionFlag.Private);
             if (reflection.kindOf(ReflectionKind.CallSignature)) {
