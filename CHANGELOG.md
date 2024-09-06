@@ -2,6 +2,7 @@
 
 ### Features
 
+-   Added `customJs` option to include a script tag in generated HTML output, #2650.
 -   Added `markdownLinkExternal` option to treat `http[s]://` links in markdown documents and comments as external to be opened in a new tab, #2679.
 -   Added `navigation.excludeReferences` option to prevent re-exports from appearing in the left hand navigation, #2685.
 -   Added support for the `@abstract` tag, #2692.
@@ -12,6 +13,12 @@
 -   `@link` tags to symbols which are not included in the documentation will produce invalid link warnings again, #2681.
 -   Fixed handling of `@param` tags on comments attached to function callback parameters, #2683.
 -   The `alphabetical` and `alphabetical-ignoring-documents` sort options now use `localeCompare` to sort, #2684.
+-   Fixed incorrect placement of parameter default values in some signatures with a `this` parameter, #2698.
+
+### Thanks!
+
+-   @Aryakoste
+-   @waynemwashuma
 
 ## v0.26.6 (2024-08-18)
 
