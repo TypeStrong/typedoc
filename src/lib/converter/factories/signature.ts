@@ -193,6 +193,12 @@ function convertParameters(
         | readonly ts.JSDocParameterTag[]
         | undefined,
 ) {
+    // #2698 if `satisfies` is used to imply a this parameter, we might have
+    // more parameters than parameter nodes and need to shift the parameterNode
+    // access index. Very ugly, but it does the job.
+    const parameterNodeOffset =
+        parameterNodes?.length !== parameters.length ? -1 : 0;
+
     return parameters.map((param, i) => {
         const declaration = param.valueDeclaration;
         assert(
@@ -254,7 +260,9 @@ function convertParameters(
             paramRefl.type = removeUndefined(paramRefl.type);
         }
 
-        paramRefl.defaultValue = convertDefaultValue(parameterNodes?.[i]);
+        paramRefl.defaultValue = convertDefaultValue(
+            parameterNodes?.[i + parameterNodeOffset],
+        );
         paramRefl.setFlag(ReflectionFlag.Optional, isOptional);
 
         // If we have no declaration, then this is an implicitly defined parameter in JS land
@@ -268,7 +276,10 @@ function convertParameters(
         }
 
         paramRefl.setFlag(ReflectionFlag.Rest, isRest);
-        checkForDestructuredParameterDefaults(paramRefl, parameterNodes?.[i]);
+        checkForDestructuredParameterDefaults(
+            paramRefl,
+            parameterNodes?.[i + parameterNodeOffset],
+        );
         return paramRefl;
     });
 }

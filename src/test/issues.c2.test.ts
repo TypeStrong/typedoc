@@ -1707,4 +1707,18 @@ describe("Issue Tests", () => {
         // had a chance to copy the data's @param to the parameter.
         equal(data2.comment, undefined);
     });
+
+    it("#2698 handles this parameters present in type but not node", () => {
+        const project = convert();
+        const animator = querySig(project, "animator");
+        equal(
+            animator.parameters?.map((p) => p.name),
+            ["this", "numSpins", "direction"],
+        );
+
+        equal(
+            animator.parameters.map((p) => p.defaultValue),
+            [undefined, "2", '"counterclockwise"'],
+        );
+    });
 });
