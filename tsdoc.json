@@ -68,6 +68,10 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@abstract",
+            "syntaxKind": "modifier"
+        },
+        {
             "tagName": "@document",
             "syntaxKind": "block"
         },

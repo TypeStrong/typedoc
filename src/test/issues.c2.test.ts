@@ -1708,6 +1708,17 @@ describe("Issue Tests", () => {
         equal(data2.comment, undefined);
     });
 
+    it("#2693 handles the @abstract tag", () => {
+        const project = convert();
+        ok(query(project, "Foo.foo").flags.isAbstract);
+        ok(!querySig(project, "Foo.foo").flags.isAbstract);
+        ok(query(project, "Foo.x").flags.isAbstract);
+
+        ok(query(project, "Bar.foo").flags.isAbstract);
+        ok(!querySig(project, "Bar.foo").flags.isAbstract);
+        ok(query(project, "Bar.x").flags.isAbstract);
+    });
+
     it("#2698 handles this parameters present in type but not node", () => {
         const project = convert();
         const animator = querySig(project, "animator");
