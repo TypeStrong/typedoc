@@ -330,6 +330,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Path,
     });
     options.addDeclaration({
+        name: "customJs",
+        help: (i18n) => i18n.help_customJs(),
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
         name: "markdownItOptions",
         help: (i18n) => i18n.help_markdownItOptions(),
         type: ParameterType.Mixed,

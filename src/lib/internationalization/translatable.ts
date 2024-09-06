@@ -242,6 +242,7 @@ export const translatable = {
     help_highlightLanguages:
         "Specify the languages which will be loaded to highlight code when rendering",
     help_customCss: "Path to a custom CSS file to for the theme to import",
+    help_customJs: "Path to a custom JS file to import",
     help_markdownItOptions:
         "Specify the options passed to markdown-it, the Markdown parser used by TypeDoc",
     help_markdownItLoader:

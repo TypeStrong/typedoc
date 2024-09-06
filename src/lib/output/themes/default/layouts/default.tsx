@@ -28,6 +28,9 @@ export const defaultLayout = (
             {context.options.getValue("customCss") && (
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
+            {context.options.getValue("customJs") && (
+                <script defer src={context.relativeURL("assets/custom.js", true)}></script>
+            )}
             <script defer src={context.relativeURL("assets/main.js", true)}></script>
             <script async src={context.relativeURL("assets/icons.js", true)} id="tsd-icons-script"></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
