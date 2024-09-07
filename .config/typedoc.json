@@ -13,22 +13,10 @@
         "required-first",
         "alphabetical-ignoring-documents"
     ],
+    "name": "TypeDoc API",
+    "entryPointStrategy": "resolve",
     "entryPoints": ["../src/index.ts"],
-    "name": "TypeDoc",
-    "readme": "../site/index.md",
-    "projectDocuments": [
-        "../site/overview.md",
-        "../site/options.md",
-        "../site/doc-comments/index.md",
-        "../site/external-documents.md",
-        "../site/themes.md",
-        "../site/plugins.md",
-        "../site/declaration-references.md",
-        "../site/development/index.md",
-        "../CHANGELOG.md",
-        "../site/tags.md"
-    ],
-    "alwaysCreateEntryPointModule": true,
+
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,
@@ -50,6 +38,8 @@
         "external": false,
         "@internal": false
     },
+    "searchInComments": true,
+    "searchInDocuments": true,
     "searchGroupBoosts": {
         "Documents": 10.0,
         "Classes": 2.0,
@@ -57,8 +47,6 @@
         "Enumerations": 2.0,
         "Type Aliases": 2.0
     },
-    "searchInComments": true,
-    "searchInDocuments": true,
     "navigation": {
         "includeCategories": true,
         "includeGroups": false,

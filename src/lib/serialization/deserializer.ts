@@ -227,10 +227,13 @@ export class Deserializer {
      * contain reflections in their root, not inside a module.
      */
     reviveProject(
-        projectObj: JSONOutput.ProjectReflection,
         name: string,
-        projectRoot: string,
-        registry: FileRegistry,
+        projectObj: JSONOutput.ProjectReflection,
+        options: {
+            projectRoot: string;
+            registry: FileRegistry;
+            addProjectDocuments?: boolean;
+        },
     ): ProjectReflection {
         ok(
             this.deferred.length === 0,
@@ -238,10 +241,13 @@ export class Deserializer {
         );
         const project = new ProjectReflection(
             name || projectObj.name,
-            registry,
+            options.registry,
         );
+        if (options.addProjectDocuments) {
+            this.application.converter.addProjectDocuments(project);
+        }
         this.project = project;
-        this.projectRoot = projectRoot;
+        this.projectRoot = options.projectRoot;
         this.oldIdToNewId = { [projectObj.id]: project.id };
         this.oldFileIdToNewFileId = {};
         this.fromObject(project, projectObj);
@@ -272,16 +278,25 @@ export class Deserializer {
     reviveProjects(
         name: string,
         projects: readonly JSONOutput.ProjectReflection[],
-        projectRoot: string,
-        registry: FileRegistry,
+        options: {
+            projectRoot: string;
+            registry: FileRegistry;
+            addProjectDocuments?: boolean;
+        },
     ): ProjectReflection {
-        if (projects.length === 1) {
-            return this.reviveProject(projects[0], name, projectRoot, registry);
+        if (
+            projects.length === 1 &&
+            !this.application.options.getValue("alwaysCreateEntryPointModule")
+        ) {
+            return this.reviveProject(name, projects[0], options);
         }
 
-        const project = new ProjectReflection(name, registry);
+        const project = new ProjectReflection(name, options.registry);
+        if (options.addProjectDocuments) {
+            this.application.converter.addProjectDocuments(project);
+        }
         this.project = project;
-        this.projectRoot = projectRoot;
+        this.projectRoot = options.projectRoot;
 
         for (const proj of projects) {
             ok(

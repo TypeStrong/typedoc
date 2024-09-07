@@ -19,6 +19,7 @@ import { parseDeclarationReference } from "../comments/declarationReference.js";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * A plugin that handles `@inheritDoc` tags by copying documentation from another API item.
@@ -43,7 +44,8 @@ export class InheritDocPlugin extends ConverterComponent {
     /**
      * Create a new InheritDocPlugin instance.
      */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) =>
             this.processInheritDoc(context.project),
         );

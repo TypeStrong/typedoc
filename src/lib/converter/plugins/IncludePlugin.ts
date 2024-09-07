@@ -5,6 +5,7 @@ import { ConverterComponent } from "../components.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+import type { Converter } from "../converter.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -14,25 +15,28 @@ export class IncludePlugin extends ConverterComponent {
         return this.application.logger;
     }
 
-    override initialize() {
-        const converter = this.owner;
+    constructor(owner: Converter) {
+        super(owner);
         const onCreate = this.onCreate.bind(this);
-        converter.on(ConverterEvents.CREATE_DOCUMENT, onCreate);
-        converter.on(ConverterEvents.CREATE_DECLARATION, onCreate);
-        converter.on(ConverterEvents.CREATE_PARAMETER, onCreate);
-        converter.on(ConverterEvents.CREATE_SIGNATURE, onCreate);
-        converter.on(ConverterEvents.CREATE_TYPE_PARAMETER, onCreate);
+        owner.on(ConverterEvents.CREATE_DOCUMENT, onCreate);
+        owner.on(ConverterEvents.CREATE_DECLARATION, onCreate);
+        owner.on(ConverterEvents.CREATE_PARAMETER, onCreate);
+        owner.on(ConverterEvents.CREATE_SIGNATURE, onCreate);
+        owner.on(ConverterEvents.CREATE_TYPE_PARAMETER, onCreate);
     }
 
     private onCreate(_context: unknown, refl: Reflection) {
-        if (!refl.comment?.sourcePath) return;
-
         if (refl.isDocument()) {
             // We know it must be present as documents are always associated with a file.
             const relative = this.application.files.getReflectionPath(refl)!;
-            this.checkIncludeTagsParts(refl, relative, refl.content);
+            this.checkIncludeTagsParts(
+                refl,
+                path.dirname(relative),
+                refl.content,
+            );
         }
 
+        if (!refl.comment?.sourcePath) return;
         const relative = path.dirname(refl.comment.sourcePath);
         this.checkIncludeTagsParts(refl, relative, refl.comment.summary);
         for (const tag of refl.comment.blockTags) {

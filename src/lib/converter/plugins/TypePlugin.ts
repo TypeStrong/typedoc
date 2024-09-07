@@ -10,6 +10,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * Responsible for adding `implementedBy` / `implementedFrom`
@@ -17,10 +18,8 @@ import { ConverterEvents } from "../converter-events.js";
 export class TypePlugin extends ConverterComponent {
     reflections = new Set<DeclarationReflection>();
 
-    /**
-     * Create a new TypeHandler instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(ConverterEvents.RESOLVE, this.onResolve.bind(this));
         this.owner.on(
             ConverterEvents.RESOLVE_END,

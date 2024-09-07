@@ -9,6 +9,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { Option, getSortFunction, removeIf } from "../../utils/index.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -38,10 +39,8 @@ export class CategoryPlugin extends ConverterComponent {
     static defaultCategory = "Other";
     static WEIGHTS: string[] = [];
 
-    /**
-     * Create a new CategoryPlugin instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(ConverterEvents.BEGIN, this.onBegin.bind(this), -200);
         this.owner.on(
             ConverterEvents.RESOLVE_END,

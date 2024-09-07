@@ -14,6 +14,7 @@ import { Option, writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { gzip } from "zlib";
 import { promisify } from "util";
+import type { Renderer } from "../index.js";
 
 const gzipP = promisify(gzip);
 
@@ -40,7 +41,8 @@ export class JavascriptIndexPlugin extends RendererComponent {
     @Option("searchInDocuments")
     private accessor searchDocuments!: boolean;
 
-    override initialize() {
+    constructor(owner: Renderer) {
+        super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 

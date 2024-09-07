@@ -40,14 +40,6 @@ export abstract class AbstractComponent<
     constructor(owner: O) {
         super();
         this._componentOwner = owner;
-        this.initialize();
-    }
-
-    /**
-     * Initialize this component.
-     */
-    protected initialize() {
-        // empty default implementation
     }
 
     /**

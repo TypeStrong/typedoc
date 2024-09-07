@@ -8,7 +8,7 @@ import { Option, type Logger, renderElement, assertNever } from "../../utils/ind
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml } from "../../utils/html.js";
-import type { DefaultTheme, DefaultThemeRenderContext } from "../index.js";
+import type { DefaultTheme, DefaultThemeRenderContext, Renderer } from "../index.js";
 import { Slugger } from "./default/Slugger.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import { Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
@@ -45,11 +45,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     private renderContext: DefaultThemeRenderContext = null!;
     private lastHeaderSlug = "";
 
-    /**
-     * Create a new MarkedPlugin instance.
-     */
-    override initialize() {
-        super.initialize();
+    constructor(owner: Renderer) {
+        super(owner);
         this.owner.on(MarkdownEvent.PARSE, this.onParseMarkdown.bind(this));
     }
 

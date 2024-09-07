@@ -14,6 +14,7 @@ import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { join } from "path";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -47,7 +48,8 @@ export class PackagePlugin extends ConverterComponent {
      */
     private packageJson?: { name: string; version?: string };
 
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(ConverterEvents.BEGIN, this.onBegin.bind(this));
         this.owner.on(
             ConverterEvents.RESOLVE_BEGIN,

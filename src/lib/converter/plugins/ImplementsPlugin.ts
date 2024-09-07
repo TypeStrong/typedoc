@@ -20,6 +20,7 @@ import type { Context } from "../context.js";
 import { getHumanName } from "../../utils/index.js";
 import type { TranslatedString } from "../../internationalization/internationalization.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -30,10 +31,8 @@ export class ImplementsPlugin extends ConverterComponent {
     private postponed = new WeakMap<Reflection, Set<DeclarationReflection>>();
     private revivingSerialized = false;
 
-    /**
-     * Create a new ImplementsPlugin instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(
             ConverterEvents.RESOLVE_END,
             this.onResolveEnd.bind(this),

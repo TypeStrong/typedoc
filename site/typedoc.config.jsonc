@@ -1,0 +1,46 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "logLevel": "Verbose",
+
+    "entryPointStrategy": "merge",
+    "entryPoints": ["../docs/docs.json"],
+    "alwaysCreateEntryPointModule": true,
+    "out": "../docs-site",
+    "name": "TypeDoc",
+
+    "readme": "index.md",
+    "projectDocuments": [
+        "overview.md",
+        "options.md",
+        "doc-comments/index.md",
+        "external-documents.md",
+        "themes.md",
+        "plugins.md",
+        "declaration-references.md",
+        "development/index.md",
+        "../CHANGELOG.md",
+        "tags.md",
+    ],
+
+    "searchInComments": true,
+    "searchInDocuments": true,
+    "searchGroupBoosts": {
+        "Documents": 10.0,
+        "Classes": 2.0,
+        "Interfaces": 2.0,
+        "Enumerations": 2.0,
+        "Type Aliases": 2.0,
+    },
+    "navigation": {
+        "includeCategories": true,
+        "includeGroups": false,
+        "includeReferences": false,
+    },
+
+    "validation": {
+        "invalidLink": true,
+        "notDocumented": false,
+        // Validated when building the API docs
+        "notExported": false,
+    },
+}

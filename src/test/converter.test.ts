@@ -238,8 +238,10 @@ describe("Converter", function () {
                     const revived = app.deserializer.reviveProject(
                         specs,
                         specs.name,
-                        process.cwd(),
-                        new FileRegistry(),
+                        {
+                            projectRoot: process.cwd(),
+                            registry: new FileRegistry(),
+                        },
                     );
                     const specs2 = JSON.parse(
                         JSON.stringify(

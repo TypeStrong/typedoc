@@ -23,5 +23,4 @@ npx typedoc --entryPointStrategy Expand src
 ```
 
 TypeDoc supports a variety of [options](./options.md) and [themes](./themes.md).
-It is extensible via the [plugin API](./plugins.md). This site is generated using
-TypeDoc.
+It is extensible via the [plugin API](./plugins.md).

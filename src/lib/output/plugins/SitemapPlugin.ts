@@ -5,6 +5,7 @@ import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { writeFile } from "../../utils/index.js";
 import { escapeHtml } from "../../utils/html.js";
 import { Fragment } from "../../utils/jsx.js";
+import type { Renderer } from "../index.js";
 
 export class SitemapPlugin extends RendererComponent {
     private get hostedBaseUrl() {
@@ -12,7 +13,8 @@ export class SitemapPlugin extends RendererComponent {
         return !url || url.endsWith("/") ? url : url + "/";
     }
 
-    override initialize() {
+    constructor(owner: Renderer) {
+        super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 

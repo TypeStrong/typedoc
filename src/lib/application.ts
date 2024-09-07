@@ -732,8 +732,11 @@ export class Application extends AbstractComponent<
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
             projects,
-            process.cwd(),
-            this.files,
+            {
+                projectRoot: process.cwd(),
+                registry: this.files,
+                addProjectDocuments: true,
+            },
         );
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
@@ -781,17 +784,13 @@ export class Application extends AbstractComponent<
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name"),
             jsonProjects,
-            process.cwd(),
-            this.files,
+            {
+                projectRoot: process.cwd(),
+                registry: this.files,
+                addProjectDocuments: true,
+            },
         );
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
-
-        // If we only revived one project, the project documents were set for
-        // it when it was created. If we revived more than one project then
-        // it's convenient to be able to add more documents now.
-        if (jsonProjects.length > 1) {
-            this.converter.addProjectDocuments(result);
-        }
 
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;

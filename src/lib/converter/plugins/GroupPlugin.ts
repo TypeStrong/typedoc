@@ -12,6 +12,7 @@ import { getSortFunction } from "../../utils/sort.js";
 import { Option, removeIf } from "../../utils/index.js";
 import { Comment } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -62,10 +63,8 @@ export class GroupPlugin extends ConverterComponent {
 
     static WEIGHTS: string[] = [];
 
-    /**
-     * Create a new GroupPlugin instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(
             ConverterEvents.RESOLVE_BEGIN,
             () => {

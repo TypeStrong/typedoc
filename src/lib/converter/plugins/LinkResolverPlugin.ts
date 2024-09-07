@@ -1,5 +1,5 @@
 import { ConverterComponent } from "../components.js";
-import type { Context } from "../../converter/index.js";
+import type { Context, Converter } from "../../converter/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
 import {
@@ -19,8 +19,8 @@ export class LinkResolverPlugin extends ConverterComponent {
     @Option("validation")
     accessor validation!: ValidationOptions;
 
-    override initialize() {
-        super.initialize();
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(
             ConverterEvents.RESOLVE_END,
             this.onResolve.bind(this),

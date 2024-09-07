@@ -49,12 +49,8 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     @Option("useHostedBaseUrlForAbsoluteLinks")
     private accessor useHostedBaseUrlForAbsoluteLinks!: boolean;
 
-    /**
-     * Create a new ContextAwareRendererPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
-     */
-    protected override initialize() {
+    constructor(owner: Renderer) {
+        super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onBeginRenderer.bind(this));
         this.owner.on(PageEvent.BEGIN, this.onBeginPage.bind(this));
         this.owner.on(RendererEvent.END, () =>

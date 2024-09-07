@@ -7,6 +7,7 @@ import { Option } from "../../utils/index.js";
 import { existsSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
+import type { Renderer } from "../index.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -17,20 +18,18 @@ export class AssetsPlugin extends RendererComponent {
     @Option("customCss")
     accessor customCss!: string;
 
+    constructor(owner: Renderer) {
+        super(owner);
+        this.owner.on(RendererEvent.BEGIN, this.onRenderBegin.bind(this));
+        this.owner.on(RendererEvent.END, this.onRenderEnd.bind(this));
+    }
+
     getTranslatedStrings() {
         return {
             copy: this.application.i18n.theme_copy(),
             copied: this.application.i18n.theme_copied(),
             normally_hidden: this.application.i18n.theme_normally_hidden(),
         };
-    }
-
-    /**
-     * Create a new AssetsPlugin instance.
-     */
-    override initialize() {
-        this.owner.on(RendererEvent.BEGIN, this.onRenderBegin.bind(this));
-        this.owner.on(RendererEvent.END, this.onRenderEnd.bind(this));
     }
 
     private onRenderBegin(event: RendererEvent) {

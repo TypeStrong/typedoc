@@ -25,6 +25,7 @@ import {
 import { CategoryPlugin } from "./CategoryPlugin.js";
 import { setIntersection } from "../../utils/set.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -150,10 +151,8 @@ export class CommentPlugin extends ConverterComponent {
         return this._excludeKinds;
     }
 
-    /**
-     * Create a new CommentPlugin instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(
             ConverterEvents.CREATE_DECLARATION,
             this.onDeclaration.bind(this),

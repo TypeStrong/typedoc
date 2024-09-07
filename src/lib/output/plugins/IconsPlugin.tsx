@@ -4,6 +4,7 @@ import { writeFile } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { join } from "path";
 import { JSX, renderElement } from "../../utils/index.js";
+import type { Renderer } from "../index.js";
 
 const ICONS_JS = `
 (function() {
@@ -33,7 +34,8 @@ const ICONS_JS = `
 export class IconsPlugin extends RendererComponent {
     iconHtml?: string;
 
-    override initialize() {
+    constructor(owner: Renderer) {
+        super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onBeginRender.bind(this));
     }
 

@@ -16,6 +16,7 @@ import { relative } from "path";
 import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 import { ConverterEvents } from "../converter-events.js";
+import type { Converter } from "../converter.js";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -46,10 +47,8 @@ export class SourcePlugin extends ConverterComponent {
 
     private repositories?: RepositoryManager;
 
-    /**
-     * Create a new SourceHandler instance.
-     */
-    override initialize() {
+    constructor(owner: Converter) {
+        super(owner);
         this.owner.on(ConverterEvents.END, this.onEnd.bind(this));
         this.owner.on(
             ConverterEvents.CREATE_DECLARATION,
