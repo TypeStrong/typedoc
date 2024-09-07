@@ -8,7 +8,7 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
     const builder = new FormattedCodeBuilder(context.urlTo);
     const content: FormatterNode[] = [];
     builder.member(content, props, { topLevelLinks: false });
-    const generator = new FormattedCodeGenerator();
+    const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node({ type: "nodes", content }, Wrap.Detect);
 
     return (

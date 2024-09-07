@@ -229,6 +229,8 @@ export = {
     help_darkHighlightTheme: "Specify the code highlighting theme in dark mode",
     help_highlightLanguages:
         "Specify the languages which will be loaded to highlight code when rendering",
+    help_typePrintWidth:
+        "Width at which to wrap code to a new line when rendering a type",
     help_customCss: "Path to a custom CSS file to for the theme to import",
     help_markdownItOptions:
         "Specify the options passed to markdown-it, the Markdown parser used by TypeDoc",

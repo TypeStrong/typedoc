@@ -12,7 +12,7 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
     if (props.kindOf(ReflectionKind.Interface) && props.children) {
         const builder = new FormattedCodeBuilder(context.urlTo);
         const tree = builder.interface(props);
-        const generator = new FormattedCodeGenerator();
+        const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
         generator.forceWrap(builder.forceWrap); // Ensure elements are added to new lines.
         generator.node(tree, Wrap.Enable);
 

@@ -136,6 +136,7 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     highlightLanguages: string[];
+    typePrintWidth: number;
     customCss: string;
     markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**

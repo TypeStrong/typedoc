@@ -333,6 +333,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "typePrintWidth",
+        help: (i18n) => i18n.help_typePrintWidth(),
+        type: ParameterType.Number,
+        defaultValue: 80,
+    });
 
     options.addDeclaration({
         name: "customCss",

@@ -26,10 +26,10 @@ title: Changelog
 
 TODO:
 
--   Add an option for controlling print width.
 -   Write docs for `@expand`
 -   Docs for `@summary`
 -   Write docs for `@import`
+-   Write docs for `@class`
 -   Write docs for `@include` and `@includeCode`
 -   https://github.com/ebullient/markdown-it-obsidian-callouts plugin
 -   Validate anchors within relative linked paths?

@@ -97,6 +97,15 @@ loads the following languages.
 }
 ```
 
+## typePrintWidth
+
+Specifies the width at which to wrap code when rendering types, defaults to 80.
+Changing this is not advised without tweaks to the theme in use.
+
+```bash
+typedoc --typePrintWidth 120
+```
+
 ## customCss
 
 ```bash

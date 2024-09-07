@@ -9,7 +9,7 @@ export function memberSignatureTitle(
 ) {
     const builder = new FormattedCodeBuilder(context.urlTo);
     const tree = builder.signature(props, options);
-    const generator = new FormattedCodeGenerator();
+    const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node(tree, Wrap.Detect);
     return generator.toElement();
 }
