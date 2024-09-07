@@ -22,6 +22,7 @@ title: Changelog
 -   Added `yaml` to the highlight languages supported by default.
 -   Removed rendering of document icon in default theme
 -   Added `navigation.includeReferences` option
+-   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
 
 TODO:
 

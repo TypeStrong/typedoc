@@ -13,6 +13,8 @@ let supportedLanguagesWithoutAliases: string[] = [];
 let supportedLanguages: string[] = [];
 let supportedThemes: string[] = [];
 
+const plaintextLanguages = ["txt", "text"];
+
 export async function loadShikiMetadata() {
     if (aliases.size) return;
 
@@ -24,12 +26,15 @@ export async function loadShikiMetadata() {
     }
 
     supportedLanguages = unique([
-        "text",
+        ...plaintextLanguages,
         ...aliases.keys(),
         ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
     ]).sort();
 
-    supportedLanguagesWithoutAliases = unique(["text", ...shiki.bundledLanguagesInfo.map((lang) => lang.id)]);
+    supportedLanguagesWithoutAliases = unique([
+        ...plaintextLanguages,
+        ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
+    ]);
 
     supportedThemes = Object.keys(shiki.bundledThemes);
 }
@@ -157,13 +162,13 @@ export function getSupportedThemes(): string[] {
 }
 
 export function isLoadedLanguage(lang: string): boolean {
-    return lang === "text" || (highlighter?.supports(lang) ?? false);
+    return plaintextLanguages.includes(lang) || (highlighter?.supports(lang) ?? false);
 }
 
 export function highlight(code: string, lang: string): string {
     assert(highlighter, "Tried to highlight with an uninitialized highlighter");
 
-    if (lang === "text") {
+    if (plaintextLanguages.includes(lang)) {
         return JSX.renderElement(<>{code}</>);
     }
 

@@ -34,7 +34,10 @@ passed to TypeDoc which are not flags are parsed as entry points. TypeDoc will
 also read configuration from several files. See [Configuration](./options/configuration.md)
 for details on where options are read from.
 
+<details>
+<summary><code>typedoc --help</code></summary>
 {@includeCode generated/help.txt}
+</details>
 
 ## Node Module
 
