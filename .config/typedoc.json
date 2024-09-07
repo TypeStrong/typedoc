@@ -7,14 +7,33 @@
         "MarkedPlugin",
         "MeaningKeywords"
     ],
-    "sort": ["kind", "instance-first", "required-first", "alphabetical"],
+    "sort": [
+        "kind",
+        "instance-first",
+        "required-first",
+        "alphabetical-ignoring-documents"
+    ],
     "entryPoints": ["../src/index.ts"],
-    "alwaysCreateEntryPointModule": false,
-    "projectDocuments": ["../internal-docs/plugins.md"],
+    "name": "TypeDoc",
+    "readme": "../site/index.md",
+    "projectDocuments": [
+        "../site/overview.md",
+        "../site/options.md",
+        "../site/doc-comments/index.md",
+        "../site/external-documents.md",
+        "../site/themes.md",
+        "../site/plugins.md",
+        "../site/declaration-references.md",
+        "../site/development/index.md",
+        "../CHANGELOG.md",
+        "../site/tags.md"
+    ],
+    "alwaysCreateEntryPointModule": true,
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,
     // "excludeReferences": true,
+    "groupReferencesByType": true,
     "jsDocCompatibility": false,
     "treatWarningsAsErrors": false,
     "categorizeByGroup": false,
@@ -32,6 +51,7 @@
         "@internal": false
     },
     "searchGroupBoosts": {
+        "Documents": 10.0,
         "Classes": 2.0,
         "Interfaces": 2.0,
         "Enumerations": 2.0,
@@ -41,7 +61,8 @@
     "searchInDocuments": true,
     "navigation": {
         "includeCategories": true,
-        "includeGroups": false
+        "includeGroups": false,
+        "includeReferences": false
     },
     "includeVersion": true,
     "logLevel": "Verbose",

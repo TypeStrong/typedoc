@@ -1,4 +1,4 @@
-import { type Reflection, ReflectionFlag, ReflectionKind } from "../../../../models/index.js";
+import { type Reflection, ReflectionFlag } from "../../../../models/index.js";
 import { JSX } from "../../../../utils/index.js";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";
@@ -126,8 +126,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
     return (
         <nav class="tsd-navigation">
             <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
-                {context.icons[ReflectionKind.Project]()}
-                <span>{getDisplayName(props.project)}</span>
+                {getDisplayName(props.project)}
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
                 <li>{context.i18n.theme_loading()}</li>

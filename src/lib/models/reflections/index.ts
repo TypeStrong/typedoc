@@ -4,7 +4,11 @@ export {
     ReflectionFlags,
     TraverseProperty,
 } from "./abstract.js";
-export type { ReflectionVisitor, TraverseCallback } from "./abstract.js";
+export type {
+    ReflectionVisitor,
+    TraverseCallback,
+    ReflectionId,
+} from "./abstract.js";
 export { ContainerReflection } from "./container.js";
 export { DeclarationReflection } from "./declaration.js";
 export type { DeclarationHierarchy } from "./declaration.js";

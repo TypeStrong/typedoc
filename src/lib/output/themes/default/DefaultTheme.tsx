@@ -11,6 +11,7 @@ import {
     ReflectionGroup,
     TypeParameterReflection,
     type DocumentReflection,
+    ReferenceReflection,
 } from "../../../models/index.js";
 import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
@@ -284,6 +285,10 @@ export class DefaultTheme extends Theme {
         function toNavigation(
             element: ReflectionCategory | ReflectionGroup | DeclarationReflection | DocumentReflection,
         ): NavigationElement | undefined {
+            if (!opts.includeReferences && element instanceof ReferenceReflection) {
+                return;
+            }
+
             const children = getNavigationElements(element);
             if (element instanceof ReflectionCategory || element instanceof ReflectionGroup) {
                 if (!children?.length) {
@@ -299,7 +304,7 @@ export class DefaultTheme extends Theme {
             return {
                 text: getDisplayName(element),
                 path: element.url,
-                kind: element.kind,
+                kind: element.kind & (ReflectionKind.Document | ReflectionKind.Project) ? undefined : element.kind,
                 class: classNames({ deprecated: element.isDeprecated() }, theme.getReflectionClasses(element)),
                 children: children?.length ? children : undefined,
             };

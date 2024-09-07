@@ -180,6 +180,7 @@ export interface TypeDocOptionMap {
         includeGroups: boolean;
         includeFolders: boolean;
         compactFolders: boolean;
+        includeReferences: boolean;
     };
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;

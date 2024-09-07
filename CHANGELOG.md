@@ -1,3 +1,7 @@
+---
+title: Changelog
+---
+
 # Beta
 
 -   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
@@ -16,6 +20,8 @@
 -   Changed the default `sort` order to use `alphabetical-ignoring-documents` instead of `alphabetical`.
 -   Added `groupReferencesByType` option.
 -   Added `yaml` to the highlight languages supported by default.
+-   Removed rendering of document icon in default theme
+-   Added `navigation.includeReferences` option
 
 TODO:
 
