@@ -16,6 +16,7 @@ import type {
     Internationalization,
     TranslatedString,
 } from "../../internationalization/index.js";
+import type { ParameterReflection } from "./parameter.js";
 
 /**
  * Current reflection id.
@@ -476,6 +477,9 @@ export abstract class Reflection {
         return false;
     }
     isDeclaration(): this is DeclarationReflection {
+        return false;
+    }
+    isParameter(): this is ParameterReflection {
         return false;
     }
     isDocument(): this is DocumentReflection {

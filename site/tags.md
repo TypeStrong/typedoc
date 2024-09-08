@@ -3,8 +3,9 @@ title: Tags
 children:
     - tags/alpha.md
     - tags/beta.md
-    - tags/categoryDescription.md
     - tags/category.md
+    - tags/categoryDescription.md
+    - tags/class.md
     - tags/defaultValue.md
     - tags/deprecated.md
     - tags/document.md
@@ -12,16 +13,19 @@ children:
     - tags/event.md
     - tags/eventProperty.md
     - tags/example.md
+    - tags/expand.md
     - tags/experimental.md
-    - tags/groupDescription.md
     - tags/group.md
+    - tags/groupDescription.md
     - tags/hidden.md
     - tags/hideconstructor.md
     - tags/ignore.md
+    - tags/import.md
     - tags/inheritDoc.md
     - tags/interface.md
     - tags/internal.md
     - tags/label.md
+    - tags/license.md
     - tags/link.md
     - tags/module.md
     - tags/namespace.md
@@ -40,6 +44,7 @@ children:
     - tags/satisfies.md
     - tags/sealed.md
     - tags/see.md
+    - tags/summary.md
     - tags/template.md
     - tags/throws.md
     - tags/typeParam.md

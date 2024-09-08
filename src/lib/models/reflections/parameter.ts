@@ -37,6 +37,10 @@ export class ParameterReflection extends Reflection {
         }
     }
 
+    override isParameter(): this is ParameterReflection {
+        return true;
+    }
+
     /**
      * Return a string representation of this reflection.
      */

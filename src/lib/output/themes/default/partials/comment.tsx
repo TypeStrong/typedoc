@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, Raw } from "../../../../utils/index.js";
-import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { Comment, type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
 import { anchorIcon } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 
@@ -25,14 +25,27 @@ export function commentShortSummary({ markdown }: DefaultThemeRenderContext, pro
     );
 }
 
-export function commentSummary({ markdown }: DefaultThemeRenderContext, props: Reflection) {
-    if (!props.comment?.summary.some((part) => part.text)) return;
-
+function renderSummary(context: DefaultThemeRenderContext, comment: Comment) {
     return (
         <div class="tsd-comment tsd-typography">
-            <Raw html={markdown(props.comment.summary)} />
+            <Raw html={context.markdown(comment.summary)} />
         </div>
     );
+}
+
+export function commentSummary(context: DefaultThemeRenderContext, props: Reflection) {
+    if (props.comment?.summary.some((part) => part.text)) {
+        return renderSummary(context, props.comment);
+    }
+
+    const target =
+        (props.isDeclaration() || props.isParameter()) && props.type?.type === "reference"
+            ? props.type.reflection
+            : undefined;
+
+    if (target?.comment?.hasModifier("@expand") && target?.comment?.summary.some((part) => part.text)) {
+        return renderSummary(context, target.comment);
+    }
 }
 
 export function commentTags(context: DefaultThemeRenderContext, props: Reflection) {
