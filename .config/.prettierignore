@@ -2,6 +2,7 @@
 ../coverage
 ../dist
 ../docs
+../docs-site
 **/package-lock.json
 ../src/test/**/specs*.json
 ../src/test/packages/**/*.js

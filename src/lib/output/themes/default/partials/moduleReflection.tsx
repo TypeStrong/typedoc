@@ -1,7 +1,7 @@
 import {
-    DocumentReflection,
+    type DocumentReflection,
     ReferenceReflection,
-    Reflection,
+    type Reflection,
     ReflectionKind,
     type DeclarationReflection,
     type ProjectReflection,

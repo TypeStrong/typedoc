@@ -1,10 +1,10 @@
-import { type Options, type TypeDocOptionMap } from "../index.js";
 import { LogLevel } from "../../loggers.js";
 import {
     ParameterType,
     ParameterHint,
     EmitStrategy,
     CommentStyle,
+    type TypeDocOptionMap,
 } from "../declaration.js";
 import { OptionDefaults } from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
@@ -20,6 +20,7 @@ import {
 } from "../../highlighter.js";
 import { setDifference } from "../../set.js";
 import type { TranslationProxy } from "../../../internationalization/index.js";
+import type { Options } from "../options.js";
 
 function makeTagArrayValidator(name: keyof TypeDocOptionMap) {
     return (value: string[], i18n: TranslationProxy) => {

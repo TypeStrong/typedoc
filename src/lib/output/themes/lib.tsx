@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../index.js";
 import {
-    ContainerReflection,
+    type ContainerReflection,
     DeclarationReflection,
     ProjectReflection,
     ReferenceReflection,

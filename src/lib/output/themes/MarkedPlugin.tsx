@@ -11,7 +11,7 @@ import { escapeHtml } from "../../utils/html.js";
 import type { DefaultTheme, DefaultThemeRenderContext, Renderer } from "../index.js";
 import { Slugger } from "./default/Slugger.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
-import { Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
+import { type Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {

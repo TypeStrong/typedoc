@@ -125,6 +125,7 @@ export default tslint.config(
             "src/test/renderer/specs",
             "dist",
             "docs",
+            "docs-site",
             "tmp",
             "coverage",
             "static/main.js",
