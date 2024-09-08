@@ -25,6 +25,16 @@ the exports of these files and create documentation according to the exports.
 Entry points can be handled in one of four ways, see [--entryPointStrategy](#entryPointStrategy)
 for details.
 
+If this option is not set, TypeDoc will automatically discover your entry points
+according to the ["exports"](https://nodejs.org/api/packages.html#exports) or
+["main"](https://nodejs.org/api/packages.html#main) fields in your package.json,
+using your tsconfig options to map the JavaScript files back to the original TypeScript
+source.
+
+If a `"typedoc"` [conditional
+export](https://nodejs.org/api/packages.html#conditional-exports) is used,
+TypeDoc will use it instead of the `"import"` export condition.
+
 The set of entry points provided to TypeDoc determines the names displayed in the documentation.
 By default, TypeDoc will derive a [basePath](output.md#basePath) based on your entry point
 paths to determine the displayed module name, but it can be also be set with the [`@module`](../tags/module.md) tag.

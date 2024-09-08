@@ -29,7 +29,8 @@
     "markdown-it": "^14.1.0",
     "minimatch": "^9.0.5",
     "shiki": "^1.9.1",
-    "yaml": "^2.4.5"
+    "yaml": "^2.4.5",
+    "resolve-import": "^1.4.6"
   },
   "peerDependencies": {
     "typescript": "4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x"

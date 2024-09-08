@@ -146,8 +146,7 @@ export = localeUtils.buildIncompleteTranslation({
         "テーマ '{0}' は定義されていません。使用可能なテーマは次のとおりです: {1}",
     custom_theme_does_not_define_getSlugger:
         "カスタムテーマはgetSlugger(reflection)メソッドを定義していませんが、マークダウンをレンダリングしようとします",
-    no_entry_points_provided:
-        "エントリポイントが提供されていません。これは設定ミスである可能性があります。",
+    // no_entry_points_provided:
     unable_to_find_any_entry_points:
         "エントリ ポイントが見つかりません。以前の警告を参照してください",
     watch_does_not_support_packages_mode:

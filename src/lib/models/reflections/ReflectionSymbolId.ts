@@ -141,6 +141,7 @@ function resolveDeclarationMaps(file: string): string {
     return file;
 }
 
+// See also: inferEntryPoints in entry-point.ts
 export function addInferredDeclarationMapPaths(
     opts: ts.CompilerOptions,
     files: readonly string[],

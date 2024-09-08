@@ -492,17 +492,6 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 reflection.comment = context.getFileComment(node);
             }
 
-            if (entryPoint.readmeFile) {
-                const readme = readFile(entryPoint.readmeFile);
-                const { content } = this.parseRawComment(
-                    new MinimalSourceFile(readme, entryPoint.readmeFile),
-                    context.project.files,
-                );
-                reflection.readme = content;
-            }
-
-            reflection.packageVersion = entryPoint.version;
-
             context.finalizeDeclarationReflection(reflection);
             moduleContext = context.withScope(reflection);
         }

@@ -4,13 +4,20 @@ or a JSON model.
 ## Quick Start
 
 TypeDoc generates documentation based on your exports. It will follow re-exports
-to document members declared in other files.
+to document members declared in other files for each entry point.
 
 ```bash
 # Install
 npm install --save-dev typedoc
 
-# Build docs using the exports of src/index.ts
+# Build docs using package.json "exports" or "main" fields as entry points
+npx typedoc
+```
+
+If TypeDoc is unable to discover your entry points, they can be provided manually:
+
+```bash
+# Build docs using exports from src/index.ts
 npx typedoc src/index.ts
 ```
 

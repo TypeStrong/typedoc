@@ -33,7 +33,7 @@ describe("Entry Points", () => {
             entryPointStrategy: EntryPointStrategy.Expand,
         });
 
-        const entryPoints = app.getEntryPoints();
+        const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);
         equal(
             entryPoints.length,
@@ -49,7 +49,7 @@ describe("Entry Points", () => {
             entryPointStrategy: EntryPointStrategy.Expand,
         });
 
-        const entryPoints = app.getEntryPoints();
+        const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);
         equal(
             entryPoints.length,
@@ -65,7 +65,7 @@ describe("Entry Points", () => {
             entryPointStrategy: EntryPointStrategy.Resolve,
         });
 
-        const entryPoints = app.getEntryPoints();
+        const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);
         equal(
             entryPoints.length,

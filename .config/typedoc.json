@@ -14,8 +14,6 @@
         "alphabetical-ignoring-documents"
     ],
     "name": "TypeDoc API",
-    "entryPointStrategy": "resolve",
-    "entryPoints": ["../src/index.ts"],
 
     "excludeExternals": true,
     "excludeInternal": false,

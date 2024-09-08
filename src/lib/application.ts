@@ -31,6 +31,7 @@ import {
     getEntryPoints,
     getPackageDirectories,
     getWatchEntryPoints,
+    inferEntryPoints,
 } from "./utils/entry-point.js";
 import { nicePath } from "./utils/paths.js";
 import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general.js";
@@ -320,11 +321,20 @@ export class Application extends AbstractComponent<
         return ts.version;
     }
 
+    public async getEntryPoints(): Promise<
+        DocumentationEntryPoint[] | undefined
+    > {
+        if (this.options.isSet("entryPoints")) {
+            return this.getDefinedEntryPoints();
+        }
+        return inferEntryPoints(this.logger, this.options);
+    }
+
     /**
      * Gets the entry points to be documented according to the current `entryPoints` and `entryPointStrategy` options.
      * May return undefined if entry points fail to be expanded.
      */
-    public getEntryPoints(): DocumentationEntryPoint[] | undefined {
+    public getDefinedEntryPoints(): DocumentationEntryPoint[] | undefined {
         return getEntryPoints(this.logger, this.options);
     }
 
@@ -362,7 +372,7 @@ export class Application extends AbstractComponent<
             );
         }
 
-        const entryPoints = this.getEntryPoints();
+        const entryPoints = await this.getEntryPoints();
 
         if (!entryPoints) {
             // Fatal error already reported.

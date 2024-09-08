@@ -132,7 +132,7 @@ export = {
 
     // entry points
     no_entry_points_provided:
-        "No entry points were provided, this is likely a misconfiguration",
+        "No entry points were provided or discovered from package.json exports, this is likely a misconfiguration",
     unable_to_find_any_entry_points:
         "Unable to find any entry points. See previous warnings",
     watch_does_not_support_packages_mode:
@@ -140,6 +140,7 @@ export = {
     watch_does_not_support_merge_mode:
         "Watch mode does not support 'merge' style entry points",
     entry_point_0_not_in_program: `The entry point {0} is not referenced by the 'files' or 'include' option in your tsconfig`,
+    failed_to_resolve_0_to_ts_path: `Failed to resolve entry point path {0} from package.json to a TypeScript source file`,
     use_expand_or_glob_for_files_in_dir: `If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob`,
     glob_0_did_not_match_any_files: `The glob {0} did not match any files`,
     entry_point_0_did_not_match_any_files_after_exclude: `The glob {0} did not match any files after applying exclude patterns`,

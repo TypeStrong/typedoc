@@ -1,4 +1,4 @@
-import { join, relative, resolve } from "path";
+import { dirname, join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
@@ -10,8 +10,16 @@ import {
 } from "./paths.js";
 import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
-import { deriveRootDir, glob, isDir } from "./fs.js";
+import {
+    deriveRootDir,
+    discoverPackageJson,
+    getCommonDirectory,
+    glob,
+    isDir,
+} from "./fs.js";
 import { assertNever } from "./general.js";
+import { resolveAllExports } from "resolve-import/resolve-all-exports";
+import { fileURLToPath } from "url";
 
 /**
  * Defines how entry points are interpreted.
@@ -44,15 +52,98 @@ export type EntryPointStrategy =
 
 export interface DocumentationEntryPoint {
     displayName: string;
-    readmeFile?: string;
     program: ts.Program;
     sourceFile: ts.SourceFile;
-    version?: string;
 }
 
 export interface DocumentEntryPoint {
     displayName: string;
     path: string;
+}
+
+export async function inferEntryPoints(logger: Logger, options: Options) {
+    const packageJson = discoverPackageJson(process.cwd());
+    if (!packageJson) {
+        logger.warn(logger.i18n.no_entry_points_provided());
+        return [];
+    }
+
+    const entries = await resolveAllExports(packageJson.file, {
+        conditions: ["typedoc", "import", "node"],
+    });
+    const pathEntries = Object.entries(entries).map(([k, v]) => {
+        if (typeof v === "object") {
+            return [k, fileURLToPath(v)];
+        }
+        return [k, v];
+    });
+
+    // resolveAllExports doesn't create a fake export for "main"
+    // so do that here if we don't have any exports.
+    if (pathEntries.length === 0) {
+        if (
+            "main" in packageJson.content &&
+            typeof packageJson.content["main"] === "string"
+        ) {
+            pathEntries.push([
+                ".",
+                resolve(dirname(packageJson.file), packageJson.content["main"]),
+            ]);
+        }
+    }
+
+    const entryPoints: DocumentationEntryPoint[] = [];
+
+    const programs = getEntryPrograms(
+        pathEntries.map((p) => p[1]),
+        logger,
+        options,
+    );
+
+    // See also: addInferredDeclarationMapPaths in ReflectionSymbolId
+    const jsToTsSource = new Map<string, string>();
+    for (const program of programs) {
+        const opts = program.getCompilerOptions();
+        const rootDir =
+            opts.rootDir || getCommonDirectory(program.getRootFileNames());
+        const outDir = opts.outDir || rootDir;
+
+        for (const tsFile of program.getRootFileNames()) {
+            const jsFile = normalizePath(
+                resolve(outDir, relative(rootDir, tsFile)).replace(
+                    /\.([cm]?)[tj]sx?$/,
+                    ".$1js",
+                ),
+            );
+            jsToTsSource.set(jsFile, tsFile);
+        }
+    }
+
+    for (const [name, path] of pathEntries) {
+        // Strip leading ./ from the display name
+        const displayName = name.replace(/^\.\/?/, "");
+        const targetPath = jsToTsSource.get(path) || path;
+
+        const program = programs.find((p) => p.getSourceFile(targetPath));
+        if (program) {
+            entryPoints.push({
+                displayName,
+                program,
+                sourceFile: program.getSourceFile(targetPath)!,
+            });
+        } else if (/\.[cm]?js$/.test(path)) {
+            logger.warn(
+                logger.i18n.failed_to_resolve_0_to_ts_path(nicePath(path)),
+            );
+        }
+    }
+
+    if (entryPoints.length === 0) {
+        logger.warn(logger.i18n.no_entry_points_provided());
+        return [];
+    }
+
+    return entryPoints;
 }
 
 export function getEntryPoints(

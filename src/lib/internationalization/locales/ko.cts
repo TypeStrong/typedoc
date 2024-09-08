@@ -43,8 +43,7 @@ export = localeUtils.buildIncompleteTranslation({
         "다음 심볼은 의도적으로 내보내지 않았지만 문서화에서 참조되지 않았거나 내보내졌습니다:\n\t{0}",
     defaulting_project_name:
         '--name 옵션이 지정되지 않았고 package.json도 발견되지 않았습니다. 프로젝트 이름을 "Documentation"으로 기본 설정합니다',
-    no_entry_points_provided:
-        "진입점이 제공되지 않았습니다. 이는 구성 오류일 가능성이 높습니다",
+    // no_entry_points_provided:
     unable_to_find_any_entry_points:
         "어떤 진입점도 찾을 수 없습니다. 이전 경고를 확인하세요",
     watch_does_not_support_packages_mode:

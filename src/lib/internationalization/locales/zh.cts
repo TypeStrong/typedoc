@@ -128,7 +128,7 @@ export = localeUtils.buildIncompleteTranslation({
     theme_0_is_not_defined_available_are_1: "主题“{0}”未定义。可用主题为：{1}",
     custom_theme_does_not_define_getSlugger:
         "自定义主题没有定义 getSlugger(reflection) 方法，但尝试渲染 markdown",
-    no_entry_points_provided: "没有提供入口点，这可能是配置错误",
+    // no_entry_points_provided:
     unable_to_find_any_entry_points: "无法找到任何入口点。请参阅先前的警告",
     watch_does_not_support_packages_mode: "监视模式不支持“包”样式的入口点",
     watch_does_not_support_merge_mode: "监视模式不支持“合并”样式的入口点",
