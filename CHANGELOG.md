@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.7 (2024-09-09)
+
 ### Features
 
 -   Support TypeScript 5.6, #2699.
