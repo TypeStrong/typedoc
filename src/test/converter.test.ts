@@ -236,8 +236,8 @@ describe("Converter", function () {
 
                 it(`[${file}] round trips revival`, () => {
                     const revived = app.deserializer.reviveProject(
-                        specs,
                         specs.name,
+                        specs,
                         {
                             projectRoot: process.cwd(),
                             registry: new FileRegistry(),
