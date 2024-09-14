@@ -7,15 +7,19 @@ export = buildIncompleteTranslation({
         "您正在使用不受支持的 TypeScript 版本运行！如果 TypeDoc 崩溃，这就是原因。TypeDoc 支持 {0}",
     no_compiler_options_set:
         "未设置编译器选项。这可能意味着 TypeDoc 没有找到你的 tsconfig.json。生成的文档可能为空",
+
     loaded_plugin_0: "已加载插件 {0}",
+
     solution_not_supported_in_watch_mode:
         "提供的 tsconfig 文件看起来像解决方案样式的 tsconfig，在监视模式下不受支持",
     strategy_not_supported_in_watch_mode:
         "对于监视模式，entryPointStrategy 必须设置为 resolve 或 expand",
     found_0_errors_and_1_warnings: "发现 {0} 个错误和 {1} 个警告",
+
     docs_could_not_be_generated: "由于上述错误，无法生成文档",
     docs_generated_at_0: "文档生成于 {0}",
     json_written_to_0: "JSON 已写入 {0}",
+
     no_entry_points_for_packages: "没有为包模式提供入口点，无法生成文档",
     failed_to_find_packages:
         "找不到任何软件包，请确保您至少提供了一个包含 package.json 的目录作为入口点",
@@ -26,11 +30,13 @@ export = buildIncompleteTranslation({
     converting_project_at_0: "正在转换 {0} 处的项目",
     failed_to_convert_packages: "无法转换一个或多个包，结果将不会合并在一起",
     merging_converted_projects: "合并转换后的项目",
+
     no_entry_points_to_merge: "没有提供合并的入口点",
     entrypoint_did_not_match_files_0: "入口点 glob {0} 与任何文件均不匹配",
     failed_to_parse_json_0: "无法将 {0} 处的文件解析为 json",
+
     failed_to_read_0_when_processing_document_tag_in_1:
-        "处理 {1} 中注释的 @document 标记时无法读取文件 {0}",
+        "处理 {1} 中注释的 @document 标签时无法读取文件 {0}",
     failed_to_read_0_when_processing_project_document:
         "添加项目文档时无法读取文件 {0}",
     failed_to_read_0_when_processing_document_child_in_1:
@@ -44,17 +50,20 @@ export = buildIncompleteTranslation({
     converting_0_as_class_without_construct_signatures:
         "{0} 正在转换为类，但没有任何构造签名",
     comment_for_0_should_not_contain_block_or_modifier_tags:
-        "{0} 的注释不应包含任何块或修饰符标签",
+        "{0} 的注释不应包含任何块级标签或修饰符标签",
     symbol_0_has_multiple_declarations_with_comment:
         "{0} 有多个带注释的声明。将使用任意注释",
     comments_for_0_are_declared_at_1: "{0} 的注释声明于：\n{1}",
+
     multiple_type_parameters_on_template_tag_unsupported:
-        "TypeDoc 不支持在带有注释的单个 @template 标记中定义多个类型参数",
+        "TypeDoc 不支持在带有注释的单个 @template 标签中定义多个类型参数",
     failed_to_find_jsdoc_tag_for_name_0:
         "解析注释后无法找到 {0} 的 JSDoc 标签，请提交错误报告",
-    // relative_path_0_is_not_a_file_and_will_not_be_copied_to_output
+    relative_path_0_is_not_a_file_and_will_not_be_copied_to_output:
+        "找不到相对路径 {0} 对应的文件，该文件不会被复制至输出目录",
+
     inline_inheritdoc_should_not_appear_in_block_tag_in_comment_at_0:
-        "内联 @inheritDoc 标记不应出现在块标记内，因为它不会在 {0} 处的注释中被处理。",
+        "内联 @inheritDoc 标签不应出现在块级标签内，因为它不会在 {0} 处的注释中被处理。",
     at_most_one_remarks_tag_expected_in_comment_at_0:
         "注释中最多应有一个 @remarks 标签，忽略 {0} 处注释中除第一个标签之外的所有标签",
     at_most_one_returns_tag_expected_in_comment_at_0:
@@ -62,49 +71,58 @@ export = buildIncompleteTranslation({
     at_most_one_inheritdoc_tag_expected_in_comment_at_0:
         "注释中最多应有一个 @inheritDoc 标签，忽略 {0} 处注释中除第一个标签之外的所有标签",
     content_in_summary_overwritten_by_inheritdoc_in_comment_at_0:
-        "摘要部分的内容将被 {0} 处注释中的 @inheritDoc 标记覆盖",
+        "摘要部分的内容将被 {0} 处注释中的 @inheritDoc 标签覆盖",
     content_in_remarks_block_overwritten_by_inheritdoc_in_comment_at_0:
-        "@remarks 块中的内容将被 {0} 处注释中的 @inheritDoc 标记覆盖",
+        "@remarks 块中的内容将被 {0} 处注释中的 @inheritDoc 标签覆盖",
     example_tag_literal_name:
-        "示例标签的第一行将按字面意思理解为示例名称，并且只能包含文本",
+        "示例标签的第一行将按原样作为示例名称，并且只能包含文本",
     inheritdoc_tag_properly_capitalized: "@inheritDoc 标签应正确大写",
     treating_unrecognized_tag_0_as_modifier:
         "将无法识别的标签 {0} 视为修饰标签",
     unmatched_closing_brace: "不匹配的右括号",
     unescaped_open_brace_without_inline_tag: "遇到未转义的无内联标签的开括号",
-    unknown_block_tag_0: "遇到未知的区块标记 {0}",
-    unknown_inline_tag_0: "遇到未知的内联标记 {0}",
+    unknown_block_tag_0: "遇到未知的块级标签 {0}",
+    unknown_inline_tag_0: "遇到未知的内联标签 {0}",
     open_brace_within_inline_tag: "在内联标签中遇到左括号，这可能是一个错误",
     inline_tag_not_closed: "内联标签未关闭",
+
     failed_to_resolve_link_to_0_in_comment_for_1:
-        "无法解析“{1}”评论中的“{0}”链接",
+        "无法解析 {1} 注释中指向 “{0}” 的链接",
+    failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2:
+        "无法解析 {1} 的注释中指向 “{0}” 的链接。您可能想要 “{2}”",
+    failed_to_resolve_link_to_0_in_readme_for_1:
+        "无法解析 {1} 的自述文件中指向 “{0}” 的链接",
+    failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2:
+        "无法解析 {1} 的自述文件中指向 “{0}” 的链接。您可能想要 “{2}”",
+    failed_to_resolve_link_to_0_in_document_1:
+        "无法解析文档 {1} 中指向 “{0}” 的链接",
+    failed_to_resolve_link_to_0_in_document_1_may_have_meant_2:
+        "无法解析文档 {1} 中指向 “{0}” 的链接。您可能想要 “{2}”",
     type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs:
         "{0} 在 {1} 中定义，被 {2} 引用，但未包含在文档中",
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation:
         "{0} ({1})，在 {2} 中定义，没有任何文档",
     invalid_intentionally_not_exported_symbols_0:
         "以下符号被标记为有意不导出，但未在文档中引用，或已被导出：\n{0}",
+
     not_all_search_category_boosts_used_0:
         "文档中并未使用 searchCategoryBoosts 中指定的所有类别。未使用的类别包括：\n{0}",
     not_all_search_group_boosts_used_0:
         "文档中并未使用 searchGroupBoosts 中指定的所有组。未使用的组为：\n{0}",
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group:
-        "{0} 的评论包含“{1}”的 @categoryDe​​scription，但该类别中没有子项",
+        "{0} 的注释包含“{1}”的 @categoryDe​​scription，但该类别中没有子项",
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
-        "对 {0} 的评论包含“{1}”的 @groupDescription，但该组中没有子项",
+        "{0} 的注释包含“{1}”的 @groupDescription，但该组中没有子项",
     label_0_for_1_cannot_be_referenced:
         "无法使用声明引用来引用 {1} 的标签“{0}”。标签只能包含 A-Z、0-9 和 _，并且不能以数字开头",
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2:
-        "修饰符标记 {0} 与 {2} 注释中的 {1} 互斥",
+        "修饰符标签 {0} 与 {2} 注释中的 {1} 互斥",
     signature_0_has_unused_param_with_name_1:
         "签名 {0} 有一个名为“{1}”的 @param，但未被使用",
     declaration_reference_in_inheritdoc_for_0_not_fully_parsed:
         "@inheritDoc 中对 {0} 的声明引用未完全解析，可能会解析不正确",
     failed_to_find_0_to_inherit_comment_from_in_1:
-        "在 {1} 的评论中找不到要继承的评论“{0}”",
-    failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2: `无法解析 {1} 的注释中指向"{0}"的链接。您可能想要"{2}"`,
-    failed_to_resolve_link_to_0_in_readme_for_1: `无法解析 {1} 的自述文件中指向"{0}"的链接`,
-    failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2: `无法解析 {1} 的自述文件中指向"{0}"的链接。您可能想要"{2}"`,
+        "在 {1} 的注释中找不到要继承的注释“{0}”",
     reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment:
         "{0} 尝试使用 @inheritDoc 从 {1} 复制注释，但源没有相关注释",
     inheritdoc_circular_inheritance_chain_0: "@inheritDoc 指定循环继承链：{0}",
@@ -112,22 +130,26 @@ export = buildIncompleteTranslation({
     defaulting_project_name:
         "未指定 --name 选项，并且未找到 package.json。将项目名称默认为“Documentation”",
     disable_git_set_but_not_source_link_template:
-        "已设置 disableGit，但未设置 sourceLinkTemplate，因此无法生成源链接。设置 sourceLinkTemplate 或 disableSources 以阻止源跟踪",
+        "已设置 disableGit，但未设置 sourceLinkTemplate，因此无法生成源代码链接。设置 sourceLinkTemplate 或 disableSources 以停用源代码跟踪",
     disable_git_set_and_git_revision_used:
         "disableGit 已设置，并且 sourceLinkTemplate 包含 {gitRevision}，由于未提供修订，因此将替换为空字符串",
     git_remote_0_not_valid: "提供的 git 远程“{0}”无效。源链接将失效",
+
     custom_css_file_0_does_not_exist: "{0} 处的自定义 CSS 文件不存在",
+    custom_js_file_0_does_not_exist: "{0} 处的自定义 JavaScript 文件不存在",
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1:
-        "不支持的突出显示语言 {0} 将不会在 {1} 的评论中突出显示",
+        "不支持的高亮语言 {0} 将不会在 {1} 的注释中高亮",
     unloaded_language_0_not_highlighted_in_comment_for_1:
-        "语言为 {0} 的代码块将不会在 {1} 的注释中突出显示，因为它未包含在 highlightLanguages 选项中",
-    yaml_frontmatter_not_an_object: "预期 YAML 前置内容为对象",
+        "语言为 {0} 的代码块将不会在 {1} 的注释中高亮，因为它未包含在 highlightLanguages 选项中",
+    yaml_frontmatter_not_an_object: "YAML Frontmatter 应当为对象",
+
     could_not_write_0: "无法写入 {0}",
     could_not_empty_output_directory_0: "无法清空输出目录 {0}",
     could_not_create_output_directory_0: "无法创建输出目录 {0}",
     theme_0_is_not_defined_available_are_1: "主题“{0}”未定义。可用主题为：{1}",
     custom_theme_does_not_define_getSlugger:
         "自定义主题没有定义 getSlugger(reflection) 方法，但尝试渲染 markdown",
+
     no_entry_points_provided: "没有提供入口点，这可能是配置错误",
     unable_to_find_any_entry_points: "无法找到任何入口点。请参阅先前的警告",
     watch_does_not_support_packages_mode: "监视模式不支持“包”样式的入口点",
@@ -143,16 +165,21 @@ export = buildIncompleteTranslation({
     entry_point_0_did_not_match_any_packages:
         "入口点 glob {0} 与任何包含 package.json 的目录不匹配",
     file_0_not_an_object: "文件 {0} 不是对象",
+
     serialized_project_referenced_0_not_part_of_project:
         "序列化项目引用了反射 {0}，但它不是项目的一部分",
-    // saved_relative_path_0_resolved_from_1_is_not_a_file
+    saved_relative_path_0_resolved_from_1_is_not_a_file:
+        "序列化项目引用的 {0} 不存在或无法在 {1} 下找到",
+
     circular_reference_extends_0: "{0} 的“extends”字段出现循环引用",
     failed_resolve_0_to_file_in_1: "无法将 {0} 解析为 {1} 中的文件",
+
     option_0_can_only_be_specified_by_config_file:
         "“{0}”选项只能通过配置文件指定",
     option_0_expected_a_value_but_none_provided:
         "--{0} 需要一个值，但没有给出任何参数",
-    unknown_option_0_may_have_meant_1: "未知选项：{0}，你可能指的是：\n{1}",
+    unknown_option_0_may_have_meant_1: "未知选项：{0}，你可能指的是：\n\t{1}",
+
     typedoc_key_in_0_ignored:
         "{0} 中的“typedoc”键已被旧包 entryPointStrategy 使用，将被忽略",
     typedoc_options_must_be_object_in_0:
@@ -166,11 +193,14 @@ export = buildIncompleteTranslation({
         "typedoc.json 中定义的 {0} 将被 tsdoc.json 中的配置覆盖",
     failed_read_tsdoc_json_0: "无法读取位于 {0} 的 tsdoc.json 文件",
     invalid_tsdoc_json_0: "文件 {0} 不是有效的 tsdoc.json 文件",
+
     options_file_0_does_not_exist: "选项文件 {0} 不存在",
     failed_read_options_file_0: "无法解析 {0}，请确保其存在并导出对象",
+
     invalid_plugin_0_missing_load_function:
         "插件 {0} 中的结构无效，未找到加载函数",
     plugin_0_could_not_be_loaded: "无法加载插件 {0}",
+
     help_options:
         "指定应加载的 json 选项文件。如果未指定，TypeDoc 将在当前目录中查找“typedoc.json”",
     help_tsconfig:
@@ -207,8 +237,9 @@ export = buildIncompleteTranslation({
     help_theme: "指定用于呈现文档的主题名称",
     help_lightHighlightTheme: "指定浅色模式下的代码高亮主题",
     help_darkHighlightTheme: "指定暗黑模式下的代码高亮主题",
-    help_highlightLanguages: "指定渲染时将加载哪些语言来突出显示代码",
+    help_highlightLanguages: "指定渲染时将加载哪些语言来高亮代码",
     help_customCss: "要导入主题的自定义 CSS 文件的路径",
+    help_customJs: "要导入的自定义 JS 文件的路径",
     help_markdownItOptions:
         "指定传递给 markdown-it（TypeDoc 使用的 Markdown 解析器）的选项",
     help_markdownItLoader:
@@ -226,11 +257,14 @@ export = buildIncompleteTranslation({
     help_disableGit:
         "假设所有内容都可以通过 sourceLinkTemplate 进行链接，如果启用此功能，则必须设置 sourceLinkTemplate。{path} 将以 basePath 为根",
     help_basePath: "指定显示文件路径时使用的基本路径",
-    help_excludeTags: "从文档注释中删除列出的块/修饰符标签",
+    help_excludeTags: "从文档注释中删除列出的块级/修饰符标签",
     help_readme:
         "应显示在索引页上的自述文件路径。传递“none”以禁用索引页并在全局页上启动文档",
     help_cname: "设置 CNAME 文件文本，这对于 GitHub Pages 上的自定义域很有用",
-    help_sourceLinkExternal: "指定源链接应被视为外部链接，并在新选项卡中打开",
+    help_sourceLinkExternal:
+        "指定哪些源代码链接应被视为外部链接，并在新选项卡中打开",
+    help_markdownLinkExternal:
+        "指定注释与 Markdown 文件中哪些 http[s]:// 链接应被视为外部链接，并在新选项卡中打开",
     help_githubPages:
         "生成 .nojekyll 文件以防止 GitHub Pages 中出现 404 错误。默认为“true”",
     help_hostedBaseUrl:
@@ -244,7 +278,7 @@ export = buildIncompleteTranslation({
     help_hideParameterTypesInTitle: "隐藏签名标题中的参数类型，以便于扫描",
     help_cacheBust: "在静态资产链接中包含生成时间",
     help_searchInComments:
-        "如果设置，搜索索引还将包括评论。这将大大增加搜索索引的大小",
+        "如果设置，搜索索引还将包括注释。这将大大增加搜索索引的大小",
     help_searchInDocuments:
         "如果设置，搜索索引还将包含文档。这将大大增加搜索索引的大小",
     help_cleanOutputDir: "如果设置，TypeDoc 将在写入输出之前删除输出目录",
@@ -264,7 +298,7 @@ export = buildIncompleteTranslation({
         "使用 TypeScript 的链接解析来确定 @link 标签指向的位置。这仅适用于 JSDoc 样式注释",
     help_preserveLinkText:
         "如果设置，不带链接文本的 @link 标签将使用文本内容作为链接。如果未设置，将使用目标反射名称",
-    help_blockTags: "TypeDoc 在解析注释时应该识别的块标签",
+    help_blockTags: "TypeDoc 在解析注释时应该识别的块级标签",
     help_inlineTags: "TypeDoc 在解析注释时应该识别的内联标签",
     help_modifierTags: "TypeDoc 在解析注释时应该识别的修饰符标签",
     help_categorizeByGroup: "指定是否在组级别进行分类",
@@ -288,6 +322,7 @@ export = buildIncompleteTranslation({
     help_intentionallyNotExported: "不应产生“引用但未记录”警告的类型列表",
     help_requiredToBeDocumented: "必须记录的反射类型列表",
     help_validation: "指定 TypeDoc 应对生成的文档执行哪些验证步骤",
+
     unknown_option_0_you_may_have_meant_1: "未知选项“{0}” 你可能指的是：\n{1}",
     option_0_must_be_between_1_and_2: "{0} 必须介于 {1} 和 {2} 之间",
     option_0_must_be_equal_to_or_greater_than_1: "{0} 必须等于或大于 {1}",
@@ -322,6 +357,7 @@ export = buildIncompleteTranslation({
     option_0_values_must_be_array_of_tags: "{0} 必须是有效标签名称的数组",
     option_0_specified_1_but_only_2_is_valid:
         "{0} 只能指定已知值，并且提供了无效值 ({1})。有效的排序策略为：\n{2}",
+
     kind_project: "项目",
     kind_module: "模块",
     kind_namespace: "命名空间",
@@ -338,38 +374,40 @@ export = buildIncompleteTranslation({
     kind_index_signature: "索引签名",
     kind_constructor_signature: "构造函数签名",
     kind_parameter: "范围",
-    kind_type_literal: "类型文字",
+    kind_type_literal: "类型字面量",
     kind_type_parameter: "类型参数",
     kind_accessor: "访问器",
-    kind_get_signature: "获取签名",
-    kind_set_signature: "设置签名",
+    kind_get_signature: "Getter 签名",
+    kind_set_signature: "Setter 签名",
     kind_type_alias: "类型别名",
     kind_reference: "参考",
     kind_document: "文档",
+
     kind_plural_project: "项目",
     kind_plural_module: "模块",
     kind_plural_namespace: "命名空间",
     kind_plural_enum: "枚举",
     kind_plural_enum_member: "枚举成员",
     kind_plural_variable: "变量",
-    kind_plural_function: "功能",
+    kind_plural_function: "函数",
     kind_plural_class: "类",
     kind_plural_interface: "接口",
     kind_plural_constructor: "构造函数",
-    kind_plural_property: "特性",
+    kind_plural_property: "属性",
     kind_plural_method: "方法",
-    kind_plural_call_signature: "呼叫签名",
+    kind_plural_call_signature: "调用签名",
     kind_plural_index_signature: "索引签名",
     kind_plural_constructor_signature: "构造函数签名",
     kind_plural_parameter: "参数",
-    kind_plural_type_literal: "类型文字",
+    kind_plural_type_literal: "类型字面量",
     kind_plural_type_parameter: "类型参数",
     kind_plural_accessor: "访问器",
-    kind_plural_get_signature: "获取签名",
-    kind_plural_set_signature: "设置签名",
+    kind_plural_get_signature: "Getter 签名",
+    kind_plural_set_signature: "Setter 签名",
     kind_plural_type_alias: "类型别名",
     kind_plural_reference: "参考",
     kind_plural_document: "文档",
+
     flag_protected: "受保护",
     flag_private: "私有",
     flag_external: "外部",
@@ -381,6 +419,7 @@ export = buildIncompleteTranslation({
     flag_abstract: "抽象",
     flag_const: "常量",
     flag_readonly: "只读",
+
     theme_implements: "实现",
     theme_indexable: "可索引",
     theme_type_declaration: "类型声明",
@@ -391,7 +430,7 @@ export = buildIncompleteTranslation({
     theme_defined_in: "定义于",
     theme_implementation_of: "实现了",
     theme_inherited_from: "继承自",
-    theme_overrides: "覆写了",
+    theme_overrides: "重写了",
     theme_returns: "返回",
     theme_re_exports: "重新导出",
     theme_renames_and_re_exports: "重命名并重新导出",
@@ -408,12 +447,78 @@ export = buildIncompleteTranslation({
     theme_search: "搜索",
     theme_menu: "菜单",
     theme_permalink: "永久链接",
-    tag_see: "参阅",
-    tag_group: "所属分组",
-    tag_example: "示例",
     theme_copy: "复制",
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
     theme_class_hierarchy_title: "类继承图表",
     theme_loading: "加载中……",
+
+    tag_defaultValue: "默认值",
+    tag_deprecated: "已被弃用",
+    tag_example: "示例",
+    tag_param: "参数",
+    tag_privateRemarks: "私有备注",
+    tag_remarks: "备注",
+    tag_returns: "返回",
+    tag_see: "参阅",
+    tag_throws: "抛出",
+    tag_typeParam: "类型参数",
+
+    tag_author: "作者",
+    tag_callback: "回调",
+    tag_category: "类别",
+    tag_categoryDescription: "类别描述",
+    tag_default: "默认值",
+    tag_document: "文档",
+    tag_extends: "继承自",
+    tag_augments: "继承自",
+    tag_yields: "生成",
+    tag_group: "分组",
+    tag_groupDescription: "分组描述",
+    tag_import: "导入",
+    tag_inheritDoc: "继承文档",
+    tag_jsx: "JSX",
+    tag_license: "许可协议",
+    tag_module: "模块",
+    tag_prop: "属性",
+    tag_property: "属性",
+    tag_return: "返回",
+    tag_satisfies: "满足",
+    tag_since: "添加于",
+    tag_template: "类型参数",
+    tag_type: "类型",
+    tag_typedef: "类型定义",
+    tag_link: "链接",
+    tag_label: "标记",
+
+    tag_linkcode: "链接",
+    tag_linkplain: "链接",
+
+    tag_alpha: "alpha",
+    tag_beta: "beta",
+    tag_eventProperty: "事件属性",
+    tag_experimental: "实验性",
+    tag_internal: "内部成员",
+    tag_override: "重写",
+    tag_packageDocumentation: "包文档",
+    tag_public: "公共成员",
+    tag_readonly: "只读",
+    tag_sealed: "无法继承",
+    tag_virtual: "虚函数",
+    tag_abstract: "抽象类",
+    tag_class: "类",
+    tag_enum: "枚举",
+    tag_event: "事件",
+    tag_hidden: "隐藏",
+    tag_hideCategories: "在类别中隐藏",
+    tag_hideconstructor: "隐藏构造器",
+    tag_hideGroups: "在分组中隐藏",
+    tag_ignore: "隐藏",
+    tag_interface: "接口",
+    tag_namespace: "命名空间",
+    tag_overload: "重载",
+    tag_private: "私有成员",
+    tag_protected: "受保护成员",
+    tag_showCategories: "在类别中显示",
+    tag_showGroups: "在分组中显示",
 });
