@@ -928,21 +928,6 @@ export class ReferenceType extends Type {
             .fileName.replace(/\\/g, "/");
         if (!symbolPath) return ref;
 
-        // Attempt to decide package name from path if it contains "node_modules"
-        let startIndex = symbolPath.lastIndexOf("node_modules/");
-        if (startIndex !== -1) {
-            startIndex += "node_modules/".length;
-            let stopIndex = symbolPath.indexOf("/", startIndex);
-            // Scoped package, e.g. `@types/node`
-            if (symbolPath[startIndex] === "@") {
-                stopIndex = symbolPath.indexOf("/", stopIndex + 1);
-            }
-            const packageName = symbolPath.substring(startIndex, stopIndex);
-            ref.package = packageName;
-            return ref;
-        }
-
-        // Otherwise, look for a "package.json" file in a parent path
         ref.package = findPackageForPath(symbolPath);
         return ref;
     }

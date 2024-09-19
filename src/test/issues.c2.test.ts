@@ -16,6 +16,7 @@ import {
     QueryType,
     ReferenceReflection,
     ReflectionKind,
+    ReflectionSymbolId,
     ReflectionType,
     SignatureReflection,
     UnionType,
@@ -1731,5 +1732,52 @@ describe("Issue Tests", () => {
             animator.parameters.map((p) => p.defaultValue),
             [undefined, "2", '"counterclockwise"'],
         );
+    });
+
+    it("#2700a correctly parses links to global properties", () => {
+        const project = convert();
+        app.options.setValue("validation", {
+            invalidLink: true,
+            notDocumented: false,
+            notExported: false,
+        });
+
+        app.validate(project);
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size | size user specified" in comment for abc',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size user specified" in comment for abc',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size" in comment for abc',
+        );
+
+        const abc = query(project, "abc");
+        const link = abc.comment?.summary.find((c) => c.kind === "inline-tag");
+        ok(link?.target instanceof ReflectionSymbolId);
+    });
+
+    it("#2700b respects user specified link text when resolving external links", () => {
+        const project = convert();
+
+        const abc = query(project, "abc");
+        ok(abc.comment);
+
+        const resolvers = app.converter["_externalSymbolResolvers"].slice();
+        app.converter.addUnknownSymbolResolver(() => {
+            return {
+                target: "https://typedoc.org",
+                caption: "resolver caption",
+            };
+        });
+        app.converter.resolveLinks(abc.comment, abc);
+        app.converter["_externalSymbolResolvers"] = resolvers;
+
+        equal(getLinks(abc), [
+            { display: "size user specified", target: "https://typedoc.org" },
+            { display: "user specified", target: "https://typedoc.org" },
+            { display: "resolver caption", target: "https://typedoc.org" },
+        ]);
     });
 });

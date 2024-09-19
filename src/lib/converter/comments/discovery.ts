@@ -362,6 +362,18 @@ function findJsDocForComment(
             .getJSDocCommentsAndTags(node)
             .map((doc) => ts.findAncestor(doc, ts.isJSDoc)) as ts.JSDoc[];
 
+        if (ts.isSourceFile(node)) {
+            if (node.statements.length) {
+                jsDocs.push(
+                    ...(ts
+                        .getJSDocCommentsAndTags(node.statements[0])
+                        .map((doc) =>
+                            ts.findAncestor(doc, ts.isJSDoc),
+                        ) as ts.JSDoc[]),
+                );
+            }
+        }
+
         return jsDocs.find((doc) => doc.pos === ranges[0].pos);
     }
 }

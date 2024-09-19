@@ -141,23 +141,26 @@ function resolveLinkTag(
             defaultDisplayText =
                 part.tsLinkText ||
                 (options.preserveLinkText ? part.text : target.name);
-        } else if (declRef) {
+        } else {
             // If we didn't find a target, we might be pointing to a symbol in another project that will be merged in
             // or some external symbol, so ask external resolvers to try resolution. Don't use regular declaration ref
             // resolution in case it matches something that would have been merged in later.
+            if (declRef) {
+                pos = declRef[1];
+            }
 
             const externalResolveResult = externalResolver(
-                declRef[0],
+                declRef?.[0] ?? part.target.toDeclarationReference(),
                 reflection,
                 part,
-                part.target instanceof ReflectionSymbolId
-                    ? part.target
-                    : undefined,
+                part.target,
             );
 
-            defaultDisplayText = options.preserveLinkText
-                ? part.text
-                : part.text.substring(0, pos);
+            defaultDisplayText =
+                part.tsLinkText ||
+                (options.preserveLinkText
+                    ? part.text
+                    : part.text.substring(0, pos));
 
             switch (typeof externalResolveResult) {
                 case "string":

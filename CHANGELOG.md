@@ -1,5 +1,10 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Correctly handle external link resolver link text when referencing an external symbol, #2700.
+-   Corrected handling of `@link` tags present in comments at the start of source files.
+
 ## v0.26.7 (2024-09-09)
 
 ### Features

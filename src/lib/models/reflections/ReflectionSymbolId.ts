@@ -2,10 +2,16 @@ import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index";
-import { getCommonDirectory, readFile } from "../../utils/fs";
+import {
+    findPackageForPath,
+    getCommonDirectory,
+    readFile,
+} from "../../utils/fs";
 import { normalizePath } from "../../utils/paths";
 import { getQualifiedName } from "../../utils/tsutils";
 import { optional, validate } from "../../utils/validation";
+import type { DeclarationReference } from "../../converter/comments/declarationReference";
+import { splitUnquotedString } from "./utils";
 
 /**
  * See {@link ReflectionSymbolId}
@@ -76,6 +82,21 @@ export class ReflectionSymbolId {
         } else {
             return `${this.fileName}\0${this.qualifiedName}` as ReflectionSymbolIdString;
         }
+    }
+
+    toDeclarationReference(): DeclarationReference {
+        return {
+            resolutionStart: "global",
+            moduleSource: findPackageForPath(this.fileName),
+            symbolReference: {
+                path: splitUnquotedString(this.qualifiedName, ".").map(
+                    (path) => ({
+                        navigation: ".",
+                        path,
+                    }),
+                ),
+            },
+        };
     }
 
     toObject(serializer: Serializer) {
