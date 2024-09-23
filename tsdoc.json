@@ -105,6 +105,10 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@inline",
+            "syntaxKind": "modifier"
+        },
+        {
             "tagName": "@template",
             "syntaxKind": "block",
             "allowMultiple": true

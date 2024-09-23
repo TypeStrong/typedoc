@@ -726,9 +726,10 @@ const referenceConverter: TypeConverter<
 > = {
     kind: [ts.SyntaxKind.TypeReference],
     convert(context, node) {
+        const type = context.checker.getTypeAtLocation(node.typeName);
         const isArray =
             context.checker.typeToTypeNode(
-                context.checker.getTypeAtLocation(node.typeName),
+                type,
                 void 0,
                 ts.NodeBuilderFlags.IgnoreErrors,
             )?.kind === ts.SyntaxKind.ArrayType;
@@ -739,17 +740,32 @@ const referenceConverter: TypeConverter<
 
         const symbol = context.expectSymbolAtLocation(node.typeName);
 
+        // Ignore @inline if there are type arguments, as they won't be resolved
+        // in the type we just retrieved from node.typeName.
+        if (
+            !node.typeArguments &&
+            context
+                .getComment(symbol, ReflectionKind.Interface)
+                ?.hasModifier("@inline")
+        ) {
+            // typeLiteralConverter doesn't use the node, so we can get away with lying here.
+            // This might not actually be safe, it appears that it is in the relatively small
+            // amount of testing I've done with it, but I wouldn't be surprised if someone manages
+            // to find a crash.
+            return typeLiteralConverter.convertType(context, type, null!);
+        }
+
         const name = node.typeName.getText();
 
-        const type = ReferenceType.createSymbolReference(
+        const ref = ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
             name,
         );
-        type.typeArguments = node.typeArguments?.map((type) =>
+        ref.typeArguments = node.typeArguments?.map((type) =>
             convertType(context, type),
         );
-        return type;
+        return ref;
     },
     convertType(context, type, node) {
         // typeName.symbol handles the case where this is a union which happens to refer
@@ -766,6 +782,18 @@ const referenceConverter: TypeConverter<
             );
             ref.refersToTypeParameter = true;
             return ref;
+        }
+
+        if (
+            context
+                .getComment(symbol, ReflectionKind.Interface)
+                ?.hasModifier("@inline")
+        ) {
+            // typeLiteralConverter doesn't use the node, so we can get away with lying here.
+            // This might not actually be safe, it appears that it is in the relatively small
+            // amount of testing I've done with it, but I wouldn't be surprised if someone manages
+            // to find a crash.
+            return typeLiteralConverter.convertType(context, type, null!);
         }
 
         let name;

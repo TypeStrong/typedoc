@@ -15,6 +15,11 @@ title: Changelog
     the properties of the type will be included in the page where `@expand` is found. Note that use of this tag can
     _significantly_ increase the size of your generated documentation if it is applied to commonly used types as
     it will result in inlining the comments for those types everywhere they are referenced, #2303.
+-   Add support for an `@inline` tag which can be placed on type aliases and interfaces.
+    When a type with `@inline` is referenced, TypeDoc will resolve the referenced type and convert the type as if
+    it was included directly within the referencing type. Note that use of this tag can
+    _significantly_ increase the size of your generated documentation if it is applied to commonly used types as
+    it will result in inlining the comments for those types everywhere they are referenced, #2303.
 -   Add `notRenderedTags` option. This option is similar to the `excludeTags` option, but while `excludeTags` will result in the
     tag being completely removed from the documentation, `notRenderedTags` only prevents it from being included when rendering.
 -   Changed the default `kindSortOrder` to put references last.

@@ -1236,4 +1236,40 @@ describe("Behavior Tests", () => {
             "warn: The modifier tag @alpha is mutually exclusive with @beta in the comment for mutuallyExclusive",
         );
     });
+
+    it("Handles the @inline tag on type nodes", () => {
+        const project = convert("inlineTag");
+
+        const foo = querySig(project, "foo");
+        equal(
+            foo.parameters?.map((p) => p.type?.toString()),
+            ["{ inlined: true }"],
+        );
+        // GERRIT: Should we just use types everywhere to get rid of this?
+        // It still wouldn't get rid of it when converting type aliases...
+        equal(foo.type?.toString(), "Complex<number>");
+
+        const bar = querySig(project, "bar");
+        equal(
+            bar.parameters?.map((p) => p.type?.toString()),
+            ["Record<string, { inlined: true }>"],
+        );
+    });
+
+    it("Handles the @inline tag on types", () => {
+        const project = convert("inlineTag");
+
+        const foo = querySig(project, "Class.foo");
+        equal(
+            foo.parameters?.map((p) => p.type?.toString()),
+            ["{ inlined: true }"],
+        );
+        equal(foo.type?.toString(), "{ imag: number; real: number }");
+
+        const bar = querySig(project, "Class.bar");
+        equal(
+            bar.parameters?.map((p) => p.type?.toString()),
+            ["Record<string, { inlined: true }>"],
+        );
+    });
 });

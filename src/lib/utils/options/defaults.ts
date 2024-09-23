@@ -50,6 +50,7 @@ export const OptionDefaults: {
         "@privateRemarks",
         "@satisfies",
         "@overload",
+        "@inline",
     ],
     blockTags: TagDefaults.blockTags,
     inlineTags: TagDefaults.inlineTags,

@@ -71,6 +71,7 @@ export const modifierTags = [
     "@enum",
     "@event",
     "@expand",
+    "@inline",
     "@hidden",
     "@hideCategories",
     "@hideconstructor",
