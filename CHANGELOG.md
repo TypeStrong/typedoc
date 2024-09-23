@@ -29,6 +29,7 @@ title: Changelog
 -   Removed rendering of document icon in default theme
 -   Added `navigation.includeReferences` option
 -   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
+-   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
 
 TODO:
 
