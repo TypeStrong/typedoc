@@ -37,6 +37,8 @@ export class ProjectReflection extends ContainerReflection {
 
     private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
+    private removedSymbolIds = new StableKeyMap<ReflectionSymbolId, true>();
+
     // Maps a reflection ID to all references eventually referring to it.
     private referenceGraph?: Map<number, number[]>;
     // Maps a reflection ID to all reflections with it as their parent.
@@ -291,8 +293,12 @@ export class ProjectReflection extends ContainerReflection {
             const saved = this.symbolToReflectionIdMap.get(symbolId);
             if (saved === reflection.id) {
                 this.symbolToReflectionIdMap.delete(symbolId);
+                this.removedSymbolIds.set(symbolId, true);
             } else if (typeof saved === "object") {
                 removeIfPresent(saved, reflection.id);
+                if (saved.length === 0) {
+                    this.removedSymbolIds.set(symbolId, true);
+                }
             }
         }
 
@@ -359,6 +365,10 @@ export class ProjectReflection extends ContainerReflection {
         } else {
             this.symbolToReflectionIdMap.set(id, reflection.id);
         }
+    }
+
+    symbolIdHasBeenRemoved(id: ReflectionSymbolId) {
+        return this.removedSymbolIds.has(id);
     }
 
     /**

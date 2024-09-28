@@ -213,6 +213,7 @@ export function discoverComment(
     logger: Logger,
     commentStyle: CommentStyle,
     checker: ts.TypeChecker,
+    declarationWarnings: boolean,
 ): DiscoveredComment | undefined {
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
@@ -277,7 +278,9 @@ export function discoverComment(
         default: {
             if (
                 discovered.filter((n) => !n.inheritedFromParentDeclaration)
-                    .length > 1
+                    .length > 1 &&
+                (declarationWarnings ||
+                    discovered.some((dc) => !dc.file.isDeclarationFile))
             ) {
                 logger.warn(
                     logger.i18n.symbol_0_has_multiple_declarations_with_comment(

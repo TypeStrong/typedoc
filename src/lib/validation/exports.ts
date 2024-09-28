@@ -80,7 +80,8 @@ export function validateExports(
             !type.externalUrl &&
             !type.isIntentionallyBroken() &&
             !intentional.has(type, type.qualifiedName) &&
-            !warned.has(uniqueId!)
+            !warned.has(uniqueId!) &&
+            !project.symbolIdHasBeenRemoved(type.symbolId!)
         ) {
             warned.add(uniqueId!);
 

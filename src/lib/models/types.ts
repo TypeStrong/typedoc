@@ -851,6 +851,12 @@ export class ReferenceType extends Type {
      * to a reflection. This happens for type parameters and when representing a mapped type.
      */
     isIntentionallyBroken(): boolean {
+        if (
+            typeof this._target === "object" &&
+            this._project?.symbolIdHasBeenRemoved(this._target)
+        ) {
+            return true;
+        }
         return this._target === -1 || this.refersToTypeParameter;
     }
 
@@ -996,12 +1002,18 @@ export class ReferenceType extends Type {
     }
 
     override toObject(serializer: Serializer): JSONOutput.ReferenceType {
+        let target: JSONOutput.ReferenceType["target"];
+        if (typeof this._target === "number") {
+            target = this._target;
+        } else if (this._project?.symbolIdHasBeenRemoved(this._target)) {
+            target = -1;
+        } else {
+            target = this._target.toObject(serializer);
+        }
+
         const result: JSONOutput.ReferenceType = {
             type: this.type,
-            target:
-                typeof this._target === "number"
-                    ? this._target
-                    : this._target.toObject(serializer),
+            target,
             typeArguments: serializer.toObjectsOptional(this.typeArguments),
             name: this.name,
             package: this.package,

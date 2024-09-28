@@ -183,7 +183,14 @@ export function getComment(
     });
 
     const comment = getCommentImpl(
-        discoverComment(symbol, kind, logger, config.commentStyle, checker),
+        discoverComment(
+            symbol,
+            kind,
+            logger,
+            config.commentStyle,
+            checker,
+            !config.suppressCommentWarningsInDeclarationFiles,
+        ),
         config,
         logger,
         isModule,

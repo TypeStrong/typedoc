@@ -1606,6 +1606,10 @@ describe("Issue Tests", () => {
     });
 
     it("#2611 can suppress warnings from comments in declaration files", () => {
+        app.options.setValue(
+            "suppressCommentWarningsInDeclarationFiles",
+            false,
+        );
         convert();
         logger.expectMessage(
             "warn: Encountered an unknown block tag @tagThatIsNotDefined",
@@ -1658,6 +1662,16 @@ describe("Issue Tests", () => {
 
     it("#2644 allows comments on signature parents to count for being documented", () => {
         app.options.setValue("validation", { notDocumented: true });
+        const project = convert();
+        app.validate(project);
+        logger.expectNoOtherMessages();
+    });
+
+    it("#2704 implicitly adds symbols tagged with @ignore to intentionallyNotExported list", () => {
+        app.options.setValue("validation", {
+            notExported: true,
+            notDocumented: false,
+        });
         const project = convert();
         app.validate(project);
         logger.expectNoOtherMessages();

@@ -30,6 +30,7 @@ title: Changelog
 -   Added `navigation.includeReferences` option
 -   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
 -   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
+-   Items which are hidden with `@ignore` or `@hidden` but still referenced by other types will no longer produce warnings about not being exported.
 
 TODO:
 
