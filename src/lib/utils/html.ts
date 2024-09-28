@@ -1,6 +1,8 @@
 import { assertNever } from "./general.js";
 import { htmlEntities } from "./html-entities.js";
 
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+
 interface EntityData {
     /** code points associated with this escape */
     p: number[];
@@ -83,7 +85,6 @@ export function createNormalizedUrl(url: string) {
     return String.fromCharCode(...codePoints);
 }
 
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 const enum Chars {
     EOF = -1,
     NULL = 0,

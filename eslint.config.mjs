@@ -112,6 +112,8 @@ const config = {
                     "Use type.getSymbol() instead, Type.symbol is not properly typed.",
             },
         ],
+
+        "no-fallthrough": ["error", { allowEmptyCase: true }],
     },
 };
 
