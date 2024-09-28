@@ -35,6 +35,54 @@ export function escapeHtml(html: string) {
     return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
 }
 
+/**
+ * Replaces non-[URL code points](https://url.spec.whatwg.org/#url-code-points)
+ * with an underscore. Also disallows some additional special characters which either
+ * result in confusing file names or invalid file names on some platform.
+ *
+ * Ref: #2714
+ */
+export function createNormalizedUrl(url: string) {
+    const codePoints: number[] = [...url].map((c) => c.codePointAt(0)!);
+
+    for (let i = 0; i < codePoints.length; ++i) {
+        if (isalnum(codePoints[i])) continue;
+
+        switch (codePoints[i]) {
+            // case Chars.BANG: // commonly used for shell history access
+            // case Chars.DOLLAR: // variable reference in shells
+            // case Chars.AMPERSAND: // confusing in urls with params
+            // case Chars.APOSTROPHE: // sometimes permitted for quoting
+            case Chars.LEFT_PAREN:
+            case Chars.RIGHT_PAREN:
+            // case Chars.ASTERISK: // not allowed in file names on windows
+            case Chars.PLUS:
+            case Chars.COMMA:
+            case Chars.DASH:
+            case Chars.DOT:
+            // case Chars.SOLIDUS: // not allowed in file names
+            // case Chars.COLON: // not allowed in file names on windows
+            // case Chars.SEMICOLON: // appears suspiciously close to colon
+            // case Chars.EQUALS: // confusing in urls with params
+            // case Chars.QUESTION_MARK: // not allowed in file names on windows
+            // case Chars.AT: // avoid confusing some (bad) software that thinks this is an email
+            case Chars.UNDERSCORE:
+                // case Chars.TILDE: // reference to $HOME on Linux
+                continue;
+        }
+
+        if (0xa0 <= codePoints[i] && codePoints[i] <= 0x10fffd) {
+            if (!isSurrogate(codePoints[i])) {
+                continue;
+            }
+        }
+
+        codePoints[i] = Chars.UNDERSCORE;
+    }
+
+    return String.fromCharCode(...codePoints);
+}
+
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 const enum Chars {
     EOF = -1,
@@ -44,25 +92,39 @@ const enum Chars {
     FF = 0xc,
     SPACE = 0x20,
     NUMBER_SIGN = 0x23,
-    SOLIDUS = 0x2f,
+    BANG = 0x21,
     QUOTATION_MARK = 0x22,
+    DOLLAR = 0x24,
     AMPERSAND = 0x26,
-    APOTROPHE = 0x27,
-    SEMICOLON = 0x3b,
+    APOSTROPHE = 0x27,
+    LEFT_PAREN = 0x28,
+    RIGHT_PAREN = 0x29,
+    ASTERISK = 0x2a,
+    PLUS = 0x2b,
+    COMMA = 0x2c,
+    DASH = 0x2d,
+    DOT = 0x2e,
+    SOLIDUS = 0x2f,
     ZERO = 0x30,
     NINE = 0x39,
+    COLON = 0x3a,
+    SEMICOLON = 0x3b,
     LESS_THAN = 0x3c,
     EQUALS = 0x3d,
     GREATER_THAN = 0x3e,
+    QUESTION_MARK = 0x3f,
+    AT = 0x40,
     UPPERCASE_A = 0x41,
     UPPERCASE_F = 0x46,
     UPPERCASE_X = 0x58,
     UPPERCASE_Z = 0x5a,
+    UNDERSCORE = 0x5f,
     GRAVE_ACCENT = 0x60,
     LOWERCASE_A = 0x61,
     LOWERCASE_F = 0x66,
     LOWERCASE_X = 0x78,
     LOWERCASE_Z = 0x7a,
+    TILDE = 0x7e,
 }
 
 function isalpha(ch: number) {
@@ -204,7 +266,7 @@ export class HtmlAttributeParser {
                     this.state = ParserState.BeforeAttributeValue;
                     break loop;
                 case Chars.QUOTATION_MARK:
-                case Chars.APOTROPHE:
+                case Chars.APOSTROPHE:
                 case Chars.LESS_THAN:
                 // This is an unexpected-character-in-attribute-name parse error. Treat it as per the "anything else" entry below.
                 // fall through
@@ -266,7 +328,7 @@ export class HtmlAttributeParser {
                 case Chars.QUOTATION_MARK:
                     this.attributeValueDoubleQuoted();
                     break loop;
-                case Chars.APOTROPHE:
+                case Chars.APOSTROPHE:
                     this.attributeValueSingleQuoted();
                     break loop;
                 case Chars.GREATER_THAN:
@@ -311,7 +373,7 @@ export class HtmlAttributeParser {
         this.currentAttributeValueStart = this.pos;
         loop: for (;;) {
             switch (this.consume()) {
-                case Chars.APOTROPHE:
+                case Chars.APOSTROPHE:
                     this.currentAttributeValueEnd = this.pos - 1;
                     this.afterAttributeValueQuoted();
                     break loop;
@@ -359,7 +421,7 @@ export class HtmlAttributeParser {
                     this.state = ParserState.END; // eof-in-tag parse error
                     break loop;
                 case Chars.QUOTATION_MARK:
-                case Chars.APOTROPHE:
+                case Chars.APOSTROPHE:
                 case Chars.LESS_THAN:
                 case Chars.EQUALS:
                 case Chars.GRAVE_ACCENT:

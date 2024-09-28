@@ -1,5 +1,9 @@
 import { deepStrictEqual as equal } from "assert";
-import { HtmlAttributeParser, ParserState } from "../../lib/utils/html.js";
+import {
+    HtmlAttributeParser,
+    createNormalizedUrl,
+    ParserState,
+} from "../../lib/utils/html.js";
 
 describe("HtmlAttributeParser", () => {
     enum State {
@@ -277,5 +281,15 @@ describe("HtmlAttributeParser", () => {
         equal(parseAttrsToObject("a='trailing surrogate:&#xdc01;x'>"), {
             a: "trailing surrogate:\ufffdx",
         });
+    });
+});
+
+describe("createNormalizedUrl", () => {
+    it("Permits simple names", () => {
+        equal(createNormalizedUrl("Aa.1.test"), "Aa.1.test");
+    });
+
+    it("Permits Chinese characters", () => {
+        equal(createNormalizedUrl("文档"), "文档");
     });
 });

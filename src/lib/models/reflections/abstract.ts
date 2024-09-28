@@ -17,6 +17,7 @@ import type {
     TranslatedString,
 } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
+import { createNormalizedUrl } from "../../utils/html.js";
 
 /**
  * Current reflection id.
@@ -395,7 +396,7 @@ export abstract class Reflection {
      */
     getAlias(): string {
         this._alias ||= this.getUniqueAliasInPage(
-            this.name.replace(/\W/g, "_") || `reflection-${this.id}`,
+            createNormalizedUrl(this.name) || `reflection-${this.id}`,
         );
 
         return this._alias;

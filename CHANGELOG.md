@@ -5,6 +5,7 @@ title: Changelog
 # Beta
 
 -   TypeDoc will now discover entry points from `package.json` exports if they are not provided manually, #1937.
+-   Relaxed requirements for file names and generated url fragments. This may result in a different file name structure, #2714.
 -   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
 -   Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
