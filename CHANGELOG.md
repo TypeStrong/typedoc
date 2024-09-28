@@ -242,8 +242,6 @@ TODO:
 -   @steve02081504
 -   @tristanzander
 
-# Unreleased
-
 ## v0.25.13 (2024-04-07)
 
 ### Features
@@ -1713,8 +1711,8 @@ TODO:
 
 ### Thanks!
 
--   efokschaner
--   Martin
+-   @efokschaner
+-   @Unnvaldr
 
 ## v0.20.37 (2021-06-16)
 
@@ -1728,8 +1726,8 @@ TODO:
 
 ### Thanks!
 
--   Martin
--   Nick
+-   @Fleker
+-   @Unnvaldr
 
 ## v0.20.36 (2021-04-23)
 
@@ -1745,7 +1743,7 @@ TODO:
 
 ### Thanks!
 
--   cAttte
+-   @cAttte
 
 ## v0.20.35 (2021-04-03)
 
@@ -1760,7 +1758,7 @@ TODO:
 
 ### Thanks!
 
--   Masato Makino
+-   @MasatoMakino
 
 ## v0.20.34 (2021-03-25)
 
@@ -1795,7 +1793,7 @@ TODO:
 
 ### Thanks!
 
--   Vladimir Ivakin
+-   @Minhir
 
 ## v0.20.30 (2021-03-06)
 
@@ -1829,7 +1827,7 @@ TODO:
 
 ### Thanks!
 
--   michaelf
+-   @MichaelFroeschen
 
 ## v0.20.26 (2021-02-20)
 
@@ -1862,7 +1860,7 @@ TODO:
 
 ### Thanks!
 
--   Siddharth VP
+-   @siddharthvp
 
 ## v0.20.22 (2021-02-06)
 
@@ -1891,7 +1889,7 @@ TODO:
 
 ### Thanks!
 
--   Matthias Law
+-   @nzmattman
 
 ## v0.20.19 (2021-01-25)
 
@@ -1917,7 +1915,7 @@ TODO:
 
 ### Thanks!
 
--   dergash
+-   @Dergash
 
 ## v0.20.16 (2021-01-17)
 
@@ -1942,7 +1940,7 @@ TODO:
 
 ### Thanks!
 
--   Bruno Zorić
+-   @brunozoric
 
 ## v0.20.14 (2021-01-09)
 
@@ -1955,7 +1953,7 @@ TODO:
 
 ### Thanks!
 
--   Krisztián Balla
+-   @krisztianb
 
 ## v0.20.13 (2021-01-06)
 
@@ -1973,7 +1971,7 @@ TODO:
 
 ### Thanks!
 
--   Krisztián Balla
+-   @krisztianb
 
 ## v0.20.11 (2021-01-04)
 
@@ -2117,9 +2115,9 @@ TODO:
 
 ### Thanks!
 
--   Denis Sikuler
--   Krisztián Balla
--   Soc Sieng
+-   @gamtiq
+-   @krisztianb
+-   @socsieng
 
 ## v0.19.2 (2020-09-21)
 
@@ -2135,7 +2133,7 @@ TODO:
 
 ### Thanks!
 
--   Constantine Dergachev
+-   @Dergash
 
 # v0.19.0 (2020-08-28)
 
@@ -2154,9 +2152,9 @@ TODO:
 
 ### Thanks!
 
--   Eric ZHANG
--   Krisztián Balla
--   MathBunny
+-   @ericzhangjx
+-   @krisztianb
+-   @MathBunny
 
 # v0.18.0 (2020-08-09)
 
@@ -2177,10 +2175,10 @@ TODO:
 
 ### Thanks!
 
--   Brandon Istenes
--   Chris Thielen
--   Nickolay Platonov
--   TheBrokenRail
+-   @brandones
+-   @christopherthielen
+-   @canonic-epicure
+-   @TheBrokenRail
 
 ## v0.17.7 (2020-05-17)
 
@@ -2226,15 +2224,15 @@ TODO:
 
 ### Thanks!
 
--   Alexander Cerutti
--   Krisztián Balla
--   Martin
--   Nickolay Platonov
--   Radics Laszlo
--   Sergei Grishchenko
--   Soc Sieng
--   Stephan Bijzitter
--   William Johnes
+-   @alexandercerutti
+-   @krisztianb
+-   @Unnvaldr
+-   @canonic-epicure
+-   @garaboncias
+-   @sgrishchenko
+-   @socsieng
+-   @StephanBijzitter
+-   @WilliamJns
 
 ## v0.16.11 (2020-02-28)
 
@@ -2253,12 +2251,12 @@ TODO:
 
 ### Thanks!
 
--   Adam Epling
--   Emily Marigold Klassen
--   Khải
--   Nickolay Platonov
--   Richie Bendall
--   Robin Stevens
+-   @epzilla
+-   @forivall
+-   @KSXGitHub
+-   @canonic-epicure
+-   @Richienb
+-   @PissedCapslock
 
 ## v0.16.10 (2020-02-16)
 
@@ -2275,9 +2273,9 @@ TODO:
 
 ### Thanks!
 
--   Raynor Chen
--   Robin Stevens
--   Zack Slayton
+-   @capraynor
+-   @PissedCapslock
+-   @zslayton
 
 ## v0.16.9 (2020-01-25)
 
@@ -2287,7 +2285,7 @@ TODO:
 
 ### Thanks!
 
--   Anton Golub
+-   @antongolub
 
 ## v0.16.8 (2020-01-21)
 
@@ -2307,7 +2305,7 @@ TODO:
 
 ### Thanks!
 
--   Robin Stevens
+-   @PissedCapslock
 
 ## v0.16.6 (2020-01-16)
 

@@ -41,19 +41,26 @@
 
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
+    // Ignore usernames in the Thanks sections of the changelog
+    "cSpell.ignoreRegExpList": ["/^- +@[A-Z0-9_]+/igm"],
     "cSpell.words": [
         "cname",
         "Combinatorially",
+        "deconfliction",
         "deserializers",
         "frontmatter",
         "githubprivate",
+        "hideconstructor",
         "linkcode",
         "linkplain",
+        "Msys",
         "nodoc",
         "shiki",
         "tsbuildinfo",
         "tsdoc",
+        "typeof",
         "typestrong",
-        "uncategorized"
+        "uncategorized",
+        "WCAG"
     ]
 }
