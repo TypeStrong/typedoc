@@ -36,10 +36,8 @@ title: Changelog
 
 TODO:
 
--   Write docs for `@include` and `@includeCode`
 -   https://github.com/ebullient/markdown-it-obsidian-callouts plugin
 -   Validate anchors within relative linked paths?
--   Include plugin - https://github.com/microsoft/tsdoc/issues/22#issuecomment-2211156557
 
 # Unreleased
 

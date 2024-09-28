@@ -21,6 +21,7 @@ children:
     - tags/hideconstructor.md
     - tags/ignore.md
     - tags/import.md
+    - tags/include.md
     - tags/inheritDoc.md
     - tags/interface.md
     - tags/internal.md
