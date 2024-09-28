@@ -507,6 +507,21 @@ function declarationToCommentNodes(
         });
     }
 
+    // With overloaded functions/methods, TypeScript will use the comment on the first signature
+    // declaration
+    if (
+        (ts.isFunctionDeclaration(node) || ts.isMethodDeclaration(node)) &&
+        node.name
+    ) {
+        const symbol = checker.getSymbolAtLocation(node.name);
+        if (symbol && symbol.declarations![0] !== node) {
+            result.push({
+                node: symbol.declarations![0],
+                inheritedFromParentDeclaration: true,
+            });
+        }
+    }
+
     return result;
 }
 

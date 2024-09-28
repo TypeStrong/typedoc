@@ -1676,4 +1676,15 @@ describe("Issue Tests", () => {
         app.validate(project);
         logger.expectNoOtherMessages();
     });
+
+    it("#2718 uses the comment on the first signature for subsequent signatures", () => {
+        const project = convert();
+        equal(getSigComment(project, "foo", 0), "First");
+        equal(getSigComment(project, "foo", 1), "First");
+        equal(getSigComment(project, "foo", 2), "Third");
+
+        equal(getSigComment(project, "Foo.bar", 0), "First");
+        equal(getSigComment(project, "Foo.bar", 1), "First");
+        equal(getSigComment(project, "Foo.bar", 2), "Third");
+    });
 });
