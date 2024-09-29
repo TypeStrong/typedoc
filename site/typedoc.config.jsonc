@@ -17,10 +17,11 @@
         "themes.md",
         "plugins.md",
         "declaration-references.md",
-        "development/index.md",
-        "../CHANGELOG.md",
         "tags.md",
+        "../CHANGELOG.md",
+        "development/index.md",
     ],
+    "customCss": "custom.css",
 
     "searchInComments": true,
     "searchInDocuments": true,

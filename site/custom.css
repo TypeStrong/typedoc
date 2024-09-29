@@ -1,0 +1,15 @@
+/* Custom styling for the themes and plugins pages */
+.box {
+    padding: 0.5em;
+    padding-left: 1em;
+    margin-bottom: 1em;
+}
+
+.box .title {
+    padding-left: 0;
+}
+
+.box p {
+    margin: 0;
+    padding-left: 1em;
+}

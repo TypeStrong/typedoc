@@ -3,8 +3,7 @@
 set -e
 
 node bin/typedoc --help --logLevel Error > site/generated/help.txt
-echo TODO > site/generated/plugins.md
-echo TODO > site/generated/themes.md
+node scripts/generate_site_plugins.js
 
 # Build the API docs, only build JSON output here to remove ~2s from
 # the time it takes to run this script.
