@@ -25,6 +25,7 @@
  * ```
  *
  * For documentation on the JSON output properties, view the corresponding model.
+ * @summary Contains interfaces which describe the JSON output.
  * @module
  */
 

@@ -1,4 +1,13 @@
 /**
+ * The most commonly useful items in the API are:
+ *
+ * - {@link Application}
+ * - {@link Options}
+ * - {@link Converter}
+ * - {@link Serializer}
+ * - {@link Deserializer}
+ * - {@link Renderer}
+ *
  * @module TypeDoc API
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
@@ -14,10 +23,15 @@ export { resetReflectionID } from "./lib/models/reflections/abstract.js";
  * @categoryDescription Reflections
  * Describes a documentation entry. The root entry is a {@link ProjectReflection}
  * and contains {@link DeclarationReflection} instances.
+ *
+ * @summary
+ * TypeDoc converts source code into these object types.
  */
 export * as Models from "./lib/models/index.js";
 /**
  * All symbols documented under the Configuration namespace are also available in the root import.
+ * @summary
+ * Controls how TypeDoc reads option files and what options are available.
  */
 export * as Configuration from "./lib/utils/options/index.js";
 export * from "./lib/models/index.js";

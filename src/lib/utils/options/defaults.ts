@@ -18,6 +18,7 @@ export const OptionDefaults: {
     inlineTags: readonly `@${string}`[];
     modifierTags: readonly `@${string}`[];
     cascadedModifierTags: readonly `@${string}`[];
+    notRenderedTags: readonly `@${string}`[];
     highlightLanguages: readonly BundledLanguage[];
     sort: readonly string[];
     kindSortOrder: readonly EnumKeys<typeof ReflectionKind>[];
@@ -56,6 +57,14 @@ export const OptionDefaults: {
     inlineTags: TagDefaults.inlineTags,
     modifierTags: TagDefaults.modifierTags,
     cascadedModifierTags: ["@alpha", "@beta", "@experimental"],
+    notRenderedTags: [
+        "@showCategories",
+        "@showGroups",
+        "@hideCategories",
+        "@hideGroups",
+        "@expand",
+        "@summary",
+    ],
     highlightLanguages: [
         "bash",
         "console",

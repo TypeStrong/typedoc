@@ -10,6 +10,7 @@
  *     "jsxFragmentFactory": "JSX.Fragment"
  * }
  * ```
+ * @summary Custom JSX module designed specifically for TypeDoc's needs.
  * @module
  */
 

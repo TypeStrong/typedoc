@@ -714,33 +714,21 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "excludeTags",
         help: (i18n) => i18n.help_excludeTags(),
         type: ParameterType.Array,
-        defaultValue: [
-            "@override",
-            "@virtual",
-            "@privateRemarks",
-            "@satisfies",
-            "@overload",
-        ],
+        defaultValue: OptionDefaults.excludeTags,
         validate: makeTagArrayValidator("excludeTags"),
     });
     options.addDeclaration({
         name: "notRenderedTags",
         help: (i18n) => i18n.help_notRenderedTags(),
         type: ParameterType.Array,
-        defaultValue: [
-            "@showCategories",
-            "@showGroups",
-            "@hideCategories",
-            "@hideGroups",
-            "@expand",
-        ],
+        defaultValue: OptionDefaults.notRenderedTags,
         validate: makeTagArrayValidator("notRenderedTags"),
     });
     options.addDeclaration({
         name: "cascadedModifierTags",
         help: (i18n) => i18n.help_modifierTags(),
         type: ParameterType.Array,
-        defaultValue: ["@alpha", "@beta", "@experimental"],
+        defaultValue: OptionDefaults.cascadedModifierTags,
         validate: makeTagArrayValidator("cascadedModifierTags"),
     });
 
