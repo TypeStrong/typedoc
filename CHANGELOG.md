@@ -42,6 +42,7 @@ TODO:
 
 -   https://github.com/ebullient/markdown-it-obsidian-callouts plugin
 -   Validate anchors within relative linked paths?
+-   Figure out automation for beta releases
 
 # Unreleased
 
