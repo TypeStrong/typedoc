@@ -1011,7 +1011,7 @@ function convertVariableAsEnum(
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
-    const declaration = symbol.declarations?.find(ts.isVariableDeclaration)!;
+    const declaration = symbol.declarations!.find(ts.isVariableDeclaration)!;
     const type = context.checker.getTypeAtLocation(declaration);
 
     for (const prop of type.getProperties()) {
