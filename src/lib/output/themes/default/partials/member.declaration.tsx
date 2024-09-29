@@ -32,8 +32,15 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
      /** Fix for #2717. If type is the same as value the type is omited */
     function shouldRenderType(){
         if(props.type && props.type.type === "literal"){
-            let typeObject = props.type.toObject();
-            let reflectionTypeString: string = typeObject.value?.toString()!;
+            const typeObject = props.type.toObject();
+            const value = typeObject.value;
+            if(!value) { // should be unreachable
+                return true;
+            }
+            if(typeof value === "object") {
+                return true;
+            }
+            const reflectionTypeString: string = value.toString();
             let defaultValue = props.defaultValue!;
             if(defaultValue){
                 // If the default value is string and it's wrapped in ' in the code, the value is wrapped in " and vice-versa
