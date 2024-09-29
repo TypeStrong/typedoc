@@ -968,24 +968,6 @@ function convertVariable(
     setModifiers(symbol, declaration, reflection);
 
     reflection.defaultValue = convertDefaultValue(declaration);
-
-    /** Fix for #2717. If type is the same as value the type is omited */
-    if(reflection.type.type === "literal") {
-        let reflectionTypeString: string = (reflection.type as LiteralType).value?.toString()!;
-        let defaultValue = reflection.defaultValue!;
-
-        /** If the default value is string and it's wrapped in ' in the code, the value is wrapped in " and vice-versa */
-        if( (defaultValue[0] === '"' && defaultValue[defaultValue.length - 1] === '"') ||
-            (defaultValue[0] === "'" && defaultValue[defaultValue.length - 1] === "'")
-          ) {
-            defaultValue = defaultValue.slice(1, -1);
-          }
-          
-        if( reflectionTypeString === defaultValue.toString() ) {
-            reflection.type = new LiteralType("")
-        }
-    }
-
     context.finalizeDeclarationReflection(reflection);
 
     return ts.SymbolFlags.Property;
