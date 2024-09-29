@@ -33,6 +33,7 @@ title: Changelog
 -   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
 -   Items which are hidden with `@ignore` or `@hidden` but still referenced by other types will no longer produce warnings about not being exported.
 -   TypeDoc will now use the first signature's comment for later signatures in overloads if present, #2718.
+-   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 
 TODO:
 

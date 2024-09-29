@@ -1026,7 +1026,10 @@ function convertVariableAsEnum(
             declaration,
         );
 
-        reflection.type = context.converter.convertType(context, propType);
+        reflection.type = context.converter.convertType(
+            rc.withScope(reflection),
+            propType,
+        );
 
         rc.finalizeDeclarationReflection(reflection);
     }
