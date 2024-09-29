@@ -49,11 +49,14 @@ Specifies how specified entry points should be handled.
 
 ### resolve (default)
 
-Expects all entry points to be contained within the root level tsconfig project. If a directory is given, includes `<directory>/index` as the entry point.
+Expects all entry points to be contained within the root level tsconfig project.
+If a directory is given, includes `<directory>/index` as the entry point.
 
 ### expand (default prior to v0.22.0)
 
-Expects all entry points to be contained within the root level tsconfig project. If a directory is given, files within it are recursively expanded. Effectively, this will make a separate page for each individual TypeScript file.
+Expects all entry points to be contained within the root level tsconfig project.
+If a directory is given, its contents are recursively expanded and treated as
+entry points.
 
 ### packages
 
@@ -285,4 +288,6 @@ Prevents TypeDoc from using Git to try to determine if sources can be linked, wi
 typedoc --readme <path/to/readme|none>
 ```
 
-Path to the readme file that should be displayed on the index page. If no readme is discovered or read, the index page will be disabled.
+Path to the readme file that should be displayed on the index page. If set to
+`none`, or no readme file is automatically discovered, the index page will be
+disabled.
