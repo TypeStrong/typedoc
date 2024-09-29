@@ -439,3 +439,18 @@ is used to generate a sitemap, generate canonical `<link>` tags, and enable the
 
 If set, TypeDoc will generate absolute links to pages rather than relative links.
 Defaults to false.
+
+## useFirstParagraphOfCommentAsSummary
+
+```json
+// typedoc.json
+{
+    "useFirstParagraphOfCommentAsSummary": true
+}
+```
+
+When rendering a module or namespace, TypeDoc includes a "short summary" in the
+page for each member which is rendered on another page. If the
+[`@summary`](../tags/summary.md) tag is used, it will specify the short summary
+text. If `@summary` is not used, this option controls whether TypeDoc will use
+the first paragraph from the comment as the short summary or leave it blank.
