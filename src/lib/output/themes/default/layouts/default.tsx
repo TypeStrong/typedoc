@@ -4,6 +4,21 @@ import { JSX, Raw } from "../../../../utils/index.js";
 import type { PageEvent } from "../../../events.js";
 import { getDisplayName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { extname } from "path";
+
+function favicon(context: DefaultThemeRenderContext) {
+    const fav = context.options.getValue("favicon");
+    if (!fav) return null;
+
+    switch (extname(fav)) {
+        case ".ico":
+            return <link rel="icon" href={context.relativeURL("assets/favicon.ico", true)} />;
+        case ".svg":
+            return <link rel="icon" href={context.relativeURL("assets/favicon.svg", true)} type="image/svg+xml" />;
+        default:
+            return null;
+    }
+}
 
 export const defaultLayout = (
     context: DefaultThemeRenderContext,
@@ -20,6 +35,7 @@ export const defaultLayout = (
                     ? getDisplayName(props.model)
                     : `${getDisplayName(props.model)} | ${getDisplayName(props.project)}`}
             </title>
+            {favicon(context)}
             <meta name="description" content={"Documentation for " + props.project.name} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 

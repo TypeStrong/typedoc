@@ -162,6 +162,7 @@ export interface TypeDocOptionMap {
     markdownItLoader: ManuallyValidatedOption<(parser: any) => void>;
     basePath: string;
     cname: string;
+    favicon: string;
     githubPages: boolean;
     hostedBaseUrl: string;
     useHostedBaseUrlForAbsoluteLinks: boolean;

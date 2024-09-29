@@ -21,6 +21,7 @@ import {
 import { setDifference } from "../../set.js";
 import type { TranslationProxy } from "../../../internationalization/index.js";
 import type { Options } from "../options.js";
+import { extname } from "path";
 
 function makeTagArrayValidator(name: keyof TypeDocOptionMap) {
     return (value: string[], i18n: TranslationProxy) => {
@@ -428,6 +429,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "cname",
         help: (i18n) => i18n.help_cname(),
+    });
+    options.addDeclaration({
+        name: "favicon",
+        help: (i18n) => i18n.help_favicon(),
+        validate(value, i18n) {
+            if (![".ico", ".svg"].includes(extname(value))) {
+                throw new Error(i18n.favicon_must_be_ico_or_svg());
+            }
+        },
+        type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "sourceLinkExternal",

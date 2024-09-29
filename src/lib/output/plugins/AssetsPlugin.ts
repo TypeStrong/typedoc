@@ -5,7 +5,7 @@ import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
 import { Option } from "../../utils/index.js";
 import { existsSync } from "fs";
-import { join } from "path";
+import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import type { Renderer } from "../index.js";
 
@@ -14,9 +14,11 @@ import type { Renderer } from "../index.js";
  * source folder to the output directory.
  */
 export class AssetsPlugin extends RendererComponent {
-    /** @internal */
+    @Option("favicon")
+    private accessor favicon!: string;
+
     @Option("customCss")
-    accessor customCss!: string;
+    private accessor customCss!: string;
 
     constructor(owner: Renderer) {
         super(owner);
@@ -34,6 +36,15 @@ export class AssetsPlugin extends RendererComponent {
 
     private onRenderBegin(event: RendererEvent) {
         const dest = join(event.outputDirectory, "assets");
+
+        switch (extname(this.favicon)) {
+            case ".ico":
+                copySync(this.favicon, join(dest, "favicon.ico"));
+                break;
+            case ".svg":
+                copySync(this.favicon, join(dest, "favicon.svg"));
+                break;
+        }
 
         if (this.customCss) {
             if (existsSync(this.customCss)) {

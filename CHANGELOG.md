@@ -37,6 +37,7 @@ title: Changelog
 -   TypeDoc will now use the first signature's comment for later signatures in overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 -   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes improve their documentation, #2654.
+-   Introduced `--favicon` option to specify a `.ico` or `.svg` favicon to reference.
 
 TODO:
 
