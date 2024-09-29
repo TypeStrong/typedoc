@@ -1687,4 +1687,15 @@ describe("Issue Tests", () => {
         equal(getSigComment(project, "Foo.bar", 1), "First");
         equal(getSigComment(project, "Foo.bar", 2), "Third");
     });
+
+    it("#2719 handles @enum where types are declared before the variable", () => {
+        const project = convert();
+        const tz = query(project, "Timezone");
+        equal(tz.kind, ReflectionKind.Enum);
+
+        equal(
+            tz.children?.map((c) => c.name),
+            ["Africa/Abidjan", "Africa/Accra"],
+        );
+    });
 });
