@@ -75,27 +75,6 @@ Will be rendered as:
 > function example(): void;
 > ```
 
-## TSDoc Compliance
-
-The TSDoc standard is a proposal to standardize parsing of JSDoc-like comments. TypeDoc aims to be
-compliant with the TSDoc standard, but does not enforce it. This means that while TypeDoc should be able
-to parse all (or nearly all) TSDoc-complaint comments, it does not require that your comments follow the standard.
-
-This approach has several benefits, including better support for projects originally written using JSDoc and
-support for more markdown constructs (including day-to-day features like
-[headings](https://github.com/microsoft/tsdoc/issues/197), and
-[lists](https://github.com/microsoft/tsdoc/issues/178)). However, for projects requiring stricter validation
-of comment formats, this laxness may not be acceptable. In this case, [api-extractor](https://api-extractor.com/)
-is recommended instead of TypeDoc for it's much stricter conformance to TSDoc.
-
-## JSDoc Compliance
-
-JSDoc is the de-facto "standard" for comments, but does not specify a rigorous grammar and is fully implemented
-only by the official JSDoc tool. TypeDoc aims to recognize _most_ JSDoc comments in a manner similar to how they
-are handled by TypeScript and Visual Studio Code. Where the JSDoc implementation conflicts with the TSDoc specification,
-TypeDoc generally tries to detect which implementation is intended. JSDoc compatibility can be controlled with
-the [--jsDocCompatibility](../options/comments.md#jsDocCompatibility) option.
-
 ## See Also
 
 -   The [Tags overview](../tags.md)

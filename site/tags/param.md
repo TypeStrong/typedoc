@@ -56,10 +56,13 @@ export function configure(options: { value: string }) {}
 
 ## TSDoc Compatibility
 
-The TSDoc standard requires that the `@param` tag _not_ include types and that the parameter name must be followed
-by a hyphen to separate it from the description. For improved compatibility with projects using TypeScript type
-annotations in JavaScript files and the [JSDoc `@param` tag](https://jsdoc.app/tags-param.html), TypeDoc does
-not enforce these requirements. The following `@param` tags will all be passed in the same way by TypeDoc.
+The TSDoc standard requires that the `@param` tag _not_ include types and that
+the parameter name must be followed by a hyphen to separate it from the
+description. For improved compatibility with projects using TypeScript type
+annotations in JavaScript files and the [JSDoc `@param`
+tag](https://jsdoc.app/tags-param.html), TypeDoc does not enforce these
+requirements. The following `@param` tags will all be passed in the same way by
+TypeDoc.
 
 ```ts
 /**

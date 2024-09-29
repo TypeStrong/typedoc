@@ -39,7 +39,6 @@
     "searchInComments": true,
     "searchInDocuments": true,
     "searchGroupBoosts": {
-        "Documents": 10.0,
         "Classes": 2.0,
         "Interfaces": 2.0,
         "Enumerations": 2.0,

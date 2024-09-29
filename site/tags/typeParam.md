@@ -23,10 +23,11 @@ export function identity<T>(x: T): T {
 
 ## TSDoc Compatibility
 
-The TSDoc standard requires that the `@param` tag _not_ include types and that the parameter name must be followed
-by a hyphen to separate it from the description. For improved compatibility with projects using TypeScript type
-annotations in JavaScript files, TypeDoc does not enforce these requirements. The following `@typeParam` tags will
-all be passed in the same way by TypeDoc.
+The TSDoc standard requires that the `@typeParam` tag _not_ include types and
+that the parameter name must be followed by a hyphen to separate it from the
+description. For improved compatibility with projects using TypeScript type
+annotations in JavaScript files, TypeDoc does not enforce these requirements.
+The following `@typeParam` tags will all be passed in the same way by TypeDoc.
 
 ```ts
 /**

@@ -58,16 +58,21 @@ typedoc.json (defaults):
 }
 ```
 
-JSDoc specifies that the `@example` and `@default` tags indicate that the following content should be parsed
-as code. This conflicts with the TSDoc standard. With this option on, TypeDoc will attempt to infer from the
-tag content whether it should be parsed as code by checking if the tag content contains a code block.
+JSDoc specifies that the `@example` and `@default` tags indicate that the
+following content should be parsed as code. This conflicts with the TSDoc
+standard. With this option on, TypeDoc will attempt to infer from the tag
+content whether it should be parsed as code by checking if the tag content
+contains a code block.
 
-TSDoc specifies that `@inheritdoc` should be spelled with a capitalized `D`, `@inheritDoc`. If `inheritDocTag`
-is set to `false`, TypeDoc will produce a warning when rewriting `@inheritdoc` to `@inheritDoc`.
+TSDoc specifies that `@inheritdoc` should be spelled with a capitalized `D`,
+`@inheritDoc`. If `inheritDocTag` is set to `false`, TypeDoc will produce a
+warning when rewriting `@inheritdoc` to `@inheritDoc`.
 
-TSDoc specifies that braces (`{}`) must be escaped within comments to avoid ambiguity between the start of
-an inline tag and a brace to be included in the rendered text. TypeDoc's `ignoreUnescapedBraces` option
-determines if warnings are emitted if a brace is found within regular comment text without being escaped.
+TSDoc specifies that braces (`{}`) must be escaped within comments to avoid
+ambiguity between the start of an inline tag and a brace to be included in the
+rendered text. TypeDoc's `ignoreUnescapedBraces` option determines if warnings
+are emitted if a brace is found within regular comment text without being
+escaped.
 
 ## suppressCommentWarningsInDeclarationFiles
 
