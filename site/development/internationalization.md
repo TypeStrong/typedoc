@@ -1,5 +1,5 @@
 ---
-title: "Adding Locales"
+title: "Internationalization"
 group: Guides
 ---
 
@@ -42,7 +42,7 @@ runtime.
 > Please do not submit machine generated translations for languages you are unfamiliar with.
 > TypeDoc relies on contributors to ensure the accuracy of included translations.
 
-## Validation
+### Validation
 
 The `buildTranslation` and `buildIncompleteTranslation` functions will attempt to
 validate that the provided translation strings include the same number of
@@ -53,3 +53,38 @@ TypeDoc. That issue will automatically be caught by a unit test if it occurs.
 The builder functions will also validate that translations do not provide keys
 which are not present in the default locale if a fresh object is provided directly
 to them as suggested in the example above.
+
+## Translating Plugin Defined Strings
+
+Plugins may use TypeDoc's internationalization module to provide multiple
+translations for strings declared within them. To do this, they should call
+{@link Internationalization.Internationalization.addTranslations |
+Application.internationalization.addTranslations} with their expected values.
+
+The `addTranslations` method expects that all translatable strings have been
+declared in the `TranslatableStrings` interface. To do this, use declaration
+merging to define the expected number of placeholders for each translation string.
+
+```ts
+import td from "typedoc";
+
+declare module "typedoc" {
+    interface TranslatableStrings {
+        // Define a translatable string with no arguments
+        plugin_example_hello_world: [];
+        // Define a translatable string requiring one argument
+        // By convention, keys should include index numbers for each placeholder
+        plugin_example_hello_0: [string];
+    }
+}
+
+export function load(app: td.Application) {
+    app.internationalization.addTranslations("en", {
+        plugin_example_hello_world: "Hello World!",
+        plugin_example_hello_0: "Hello {0}!",
+    });
+
+    app.logger.info(app.i18n.plugin_example_hello_world()); // Logs "Hello World!"
+    app.logger.info(app.i18n.plugin_example_hello_0("TypeDoc")); // Logs "Hello TypeDoc!"
+}
+```

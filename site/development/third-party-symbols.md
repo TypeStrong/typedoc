@@ -51,6 +51,8 @@ A wildcard can be used to provide a fallback link to any unmapped type.
 }
 ```
 
+## Plugins
+
 Plugins can add support for linking to third party sites by calling
 {@link Converter.addUnknownSymbolResolver | `app.converter.addUnknownSymbolResolver`}
 

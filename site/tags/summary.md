@@ -12,11 +12,16 @@ text (text before any [block tags](../tags.md#Block-Tags)) as the member's
 summary on the modules page. As this may not always be suitable for standalone
 display, if a `@summary` tag is present TypeDoc will render that block instead.
 
+If an `@summary` tag is not specified and `--useFirstParagraphOfCommentAsSummary` is
+specified, TypeDoc will use the first paragraph of the comment as the short summary
+to include on the modules page.
+
 ## Example
 
 ```ts
 /**
- * This description will be used on the **module** page
+ * This description will be used on the **module** page if --useFirstParagraphOfCommentAsSummary is set
+ * If not set, this function will not have a description on the module page.
  */
 export function runProcess(): void;
 

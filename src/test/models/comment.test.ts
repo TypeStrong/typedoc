@@ -92,17 +92,22 @@ describe("Comment.getShortSummary", () => {
             [new CommentTag("@summary", [{ kind: "text", text: "Tag" }])],
         );
 
-        equal(comment.getShortSummary(), [{ kind: "text", text: "Tag" }]);
+        equal(comment.getShortSummary(true), [{ kind: "text", text: "Tag" }]);
+    });
+
+    it("Ignores the body if instructed", () => {
+        const comment = new Comment([{ kind: "text", text: "Hi" }]);
+        equal(comment.getShortSummary(false), []);
     });
 
     it("Handles an empty comment", () => {
         const comment = new Comment([]);
-        equal(comment.getShortSummary(), []);
+        equal(comment.getShortSummary(true), []);
     });
 
     it("Handles a one line comment", () => {
         const comment = new Comment([{ kind: "text", text: "Hi" }]);
-        equal(comment.getShortSummary(), [{ kind: "text", text: "Hi" }]);
+        equal(comment.getShortSummary(true), [{ kind: "text", text: "Hi" }]);
     });
 
     it("Handles a multi-paragraph comment", () => {
@@ -113,7 +118,7 @@ describe("Comment.getShortSummary", () => {
             },
         ]);
 
-        equal(comment.getShortSummary(), [
+        equal(comment.getShortSummary(true), [
             { kind: "text", text: "Paragraph one" },
         ]);
     });
@@ -139,7 +144,7 @@ describe("Comment.getShortSummary", () => {
             },
         ]);
 
-        equal(comment.getShortSummary(), [
+        equal(comment.getShortSummary(true), [
             {
                 kind: "text",
                 text: "Stuff\nwith\nnewlines ",

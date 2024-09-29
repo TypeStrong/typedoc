@@ -446,9 +446,10 @@ export class Comment {
      * Gets either the `@summary` tag, or a short version of the comment summary
      * section for rendering in module/namespace pages.
      */
-    getShortSummary(): readonly CommentDisplayPart[] {
+    getShortSummary(useFirstParagraph: boolean): readonly CommentDisplayPart[] {
         const tag = this.getTag("@summary");
         if (tag) return tag.content;
+        if (!useFirstParagraph) return [];
 
         let partsEnd = this.summary.findIndex((part) => {
             switch (part.kind) {

@@ -6,6 +6,7 @@ import { ConverterEvents } from "../converter-events.js";
 import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
+import { isFile } from "../../utils/fs.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -70,7 +71,7 @@ export class IncludePlugin extends ConverterComponent {
                         included.join("\n\t"),
                     ),
                 );
-            } else if (fs.existsSync(file)) {
+            } else if (isFile(file)) {
                 const text = fs.readFileSync(file, "utf-8");
                 if (part.tag === "@include") {
                     const sf = new MinimalSourceFile(text, file);

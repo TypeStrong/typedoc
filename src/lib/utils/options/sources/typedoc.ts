@@ -628,6 +628,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "useFirstParagraphOfCommentAsSummary",
+        help: (i18n) => i18n.help_useFirstParagraphOfCommentAsSummary(),
+        type: ParameterType.Boolean,
+    });
 
     ///////////////////////////
     ///// Comment Options /////

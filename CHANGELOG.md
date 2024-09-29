@@ -32,6 +32,8 @@ title: Changelog
 -   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
 -   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
 -   Items which are hidden with `@ignore` or `@hidden` but still referenced by other types will no longer produce warnings about not being exported.
+-   If a project only has one module within it, TypeDoc will now consider that module when resolving `@link` tags.
+-   Added `useFirstParagraphOfCommentAsSummary` option to configure how TypeDoc handles comments for module members without the `@summary` tag.
 -   TypeDoc will now use the first signature's comment for later signatures in overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 
@@ -1386,7 +1388,7 @@ TODO:
 ### Features
 
 -   Added hooks which can be used to inject HTML without completely replacing a template, #1773.
-    See the documentation in [custom-themes.md](https://github.com/TypeStrong/typedoc/blob/master/internal-docs/custom-themes.md) for details.
+    See the documentation in [custom-themes.md](https://github.com/TypeStrong/typedoc/blob/v0.22.8/internal-docs/custom-themes.md) for details.
 
 ### Bug Fixes
 

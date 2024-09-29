@@ -6,14 +6,14 @@ import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
 
-export function commentShortSummary({ markdown }: DefaultThemeRenderContext, props: Reflection) {
+export function commentShortSummary({ markdown, options }: DefaultThemeRenderContext, props: Reflection) {
     let shortSummary: readonly CommentDisplayPart[] | undefined;
     if (props.isDocument()) {
         if (typeof props.frontmatter["summary"] === "string") {
             shortSummary = [{ kind: "text", text: props.frontmatter["summary"] }];
         }
     } else {
-        shortSummary = props.comment?.getShortSummary();
+        shortSummary = props.comment?.getShortSummary(options.getValue("useFirstParagraphOfCommentAsSummary"));
     }
 
     if (!shortSummary?.some((part) => part.text)) return;

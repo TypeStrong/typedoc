@@ -192,6 +192,7 @@ export interface TypeDocOptionMap {
     }>;
     searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
     searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
+    useFirstParagraphOfCommentAsSummary: boolean;
 
     // Comment
     commentStyle: typeof CommentStyle;

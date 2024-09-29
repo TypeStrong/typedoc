@@ -113,6 +113,8 @@ export {
 } from "./lib/serialization/index.js";
 
 export * as Internationalization from "./lib/internationalization/index.js";
+// Re-exported here so that declaration merging works as expected
+export type { TranslatableStrings } from "./lib/internationalization/internationalization.js";
 
 import TypeScript from "typescript";
 export { TypeScript };

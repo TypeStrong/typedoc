@@ -1,8 +1,8 @@
 ---
-title: "{@include}"
+title: "\{\@include\}"
 ---
 
-# {@include}
+# \{\@include\}
 
 **Tag Kind:** [Inline](../tags.md#Inline-Tags)
 

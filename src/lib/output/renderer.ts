@@ -164,8 +164,6 @@ export interface RendererEvents {
  * * {@link Renderer.EVENT_PREPARE_INDEX}<br>
  *    Triggered when the JavascriptIndexPlugin is preparing the search index. Listeners receive
  *    an instance of {@link IndexEvent}.
- *
- * @document ../../../internal-docs/custom-themes.md
  */
 export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([

@@ -114,7 +114,7 @@ export = {
     disable_git_set_and_git_revision_used: `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided`,
     git_remote_0_not_valid: `The provided git remote "{0}" was not valid. Source links will be broken`,
 
-    include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist.`,
+    include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist or is not a file.`,
     include_0_in_1_specified_2_circular_include_3: `{0} tag in comment for {1} specified "{2}" to include, which resulted in a circular include:\n\t{3}`,
 
     // output plugins
@@ -293,6 +293,8 @@ export = {
         "Configure search to give a relevance boost to selected categories",
     help_searchGroupBoosts:
         'Configure search to give a relevance boost to selected kinds (eg "class")',
+    help_useFirstParagraphOfCommentAsSummary:
+        "If set and no @summary tag is specified, TypeDoc will use the first paragraph of comments as the short summary in the module/namespace view",
     help_jsDocCompatibility:
         "Sets compatibility options for comment parsing that increase similarity with JSDoc comments",
     help_commentStyle: "Determines how TypeDoc searches for comments",

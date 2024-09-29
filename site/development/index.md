@@ -3,6 +3,8 @@ title: Development
 children:
     - plugins.md
     - themes.md
+    - internationalization.md
+    - third-party-symbols.md
 ---
 
 # Development
@@ -32,7 +34,7 @@ Output is split into two folders, for JSON output see the `src/lib/serialization
 
 Plugins may effect any part of the process after step 2 by listening to events
 fired by each component or adding / replacing handlers for a given task. As an
-example, the {@link "TypeDoc API".Converter | Converter} fires events before
+example, the {@link Converter | Converter} fires events before
 starting conversion, when declarations are converted and when the project should
 be resolved.
 
@@ -44,10 +46,23 @@ If changing the behavior of a converter or resolver, it should be possible to mo
 Bug fixes or feature additions which need to change one of the `specs*.json` files should run `npm run rebuild_specs [converter|renderer] [converter filter]` to run the current build of TypeDoc on the source files and generate new specs.
 For other components, we use [Mocha](https://mochajs.org/) to write tests.
 
+### Running the Visual Regression Tests
+
+When making changes to the themes, it is useful to be able to compare screenshots
+from the new/old runs.
+
+1. Run `node scripts/visual_regression.js`
+2. Make the UI change
+3. Run `node scripts/visual_regression.js`
+
+The visual regression script accepts several arguments to control what it does,
+run it with `--help` to see a summary of the available options.
+
 ## Components
 
-For more detailed information about the implementation and API surface of each component, consult its API documentation.
-All components are available on the {@link "TypeDoc API".Application | Application} class, which is passed to plugins.
+For more detailed information about the implementation and API surface of each
+component, consult its API documentation. All components are available on the
+{@link Application} class, which is passed to plugins.
 
 ### Options
 
@@ -68,9 +83,10 @@ There are 11 builtin option types as specified by the [ParameterType](https://ty
 -   `ModuleArray` - An array of modules/paths. Items will be resolved if they start with `.`.
 -   `GlobArray` - An array of globs. Globs will be resolved if they do not start with `**`, after skipping leading `!` and `#` characters.
 
-Options are discovered and set by option readers, which are documented in the {@link "TypeDoc API".Configuration.OptionsReader | OptionsReader} interface.
+Options are discovered and set by option readers, which are documented in the
+{@link Configuration.OptionsReader} interface.
 
-Plugins can declare their own options by calling {@link "TypeDoc API".Options.addDeclaration | Options.addDeclaration}
+Plugins can declare their own options by calling {@link Options.addDeclaration}
 
 ### Plugins
 
@@ -98,7 +114,7 @@ export function load(app: Application) {
 
 ### Converters
 
-TypeDoc converts the syntax tree created by TypeScript into its own structure of {@link "TypeDoc API".Models.Reflection | Reflections} to allow themes and serialization to work with a standard object format. Conversion is done primarily in three files.
+TypeDoc converts the syntax tree created by TypeScript into its own structure of {@link Models.Reflection | Reflections} to allow themes and serialization to work with a standard object format. Conversion is done primarily in three files.
 
 -   [symbols.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/symbols.ts) - contains converters for each `ts.Symbol` that is exported from entry points.
 -   [types.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/types.ts) - contains converters for `ts.Type`s and `ts.TypeNode`s.
@@ -106,8 +122,13 @@ TypeDoc converts the syntax tree created by TypeScript into its own structure of
 
 ### JSON Output
 
-Docs to come - TypeDoc's JSON output is defined according to serializers which support some or all reflections.
+TypeDoc can produce JSON output which can be consumed by other tools. The format
+of this JSON is defined by the {@link JSONOutput.ProjectReflection} interface.
+If plugins want to cause custom properties to be included in the output JSON,
+they can achieve this by adding a serializer to {@link Serializer }. If custom
+properties are added, they should generally also be revived with a {@link
+Deserializer} so that they can be used with TypeDoc's packages mode.
 
 ### HTML Output
 
-See [Development/Themes](./themes.md) for creating a theme.
+See [Custom Themes](./themes.md) for creating a theme.

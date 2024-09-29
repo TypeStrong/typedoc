@@ -2,6 +2,7 @@ import { ok } from "assert";
 import {
     ContainerReflection,
     DeclarationReflection,
+    type ProjectReflection,
     ReferenceReflection,
     type Reflection,
     ReflectionKind,
@@ -37,6 +38,9 @@ export function resolveDeclarationReference(
             ) || [];
     } else if (ref.resolutionStart === "global") {
         high.push(reflection.project);
+        if (reflection.project.children?.length === 1) {
+            high.push(reflection.project.children[0]);
+        }
     } else {
         // Work around no-unnecessary-condition, should be unnecessary... want a trap if it ever becomes false.
         ok(
@@ -56,6 +60,13 @@ export function resolveDeclarationReference(
                 high.push(refl);
             } else {
                 low.push(refl);
+            }
+
+            if (
+                refl.kindOf(ReflectionKind.Project) &&
+                (refl as ProjectReflection).children?.length === 1
+            ) {
+                high.push((refl as ProjectReflection).children![0]);
             }
         }
 
