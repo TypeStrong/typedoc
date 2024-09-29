@@ -1272,4 +1272,10 @@ describe("Behavior Tests", () => {
             ["Record<string, { inlined: true }>"],
         );
     });
+
+    it("Handles the @useDeclaredType tag on types", () => {
+        const project = convert("useDeclaredTypeTag");
+        const data = query(project, "Data");
+        equal(data.type?.toString(), "{ abc: number }[]");
+    });
 });

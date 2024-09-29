@@ -196,6 +196,10 @@
         {
             "tagName": "@summary",
             "syntaxKind": "block"
+        },
+        {
+            "tagName": "@useDeclaredType",
+            "syntaxKind": "modifier"
         }
     ]
 }

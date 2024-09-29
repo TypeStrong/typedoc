@@ -345,10 +345,18 @@ function convertTypeAlias(
             exportSymbol,
         );
 
-        reflection.type = context.converter.convertType(
-            context.withScope(reflection),
-            declaration.type,
-        );
+        if (reflection.comment?.hasModifier("@useDeclaredType")) {
+            reflection.comment.removeModifier("@useDeclaredType");
+            reflection.type = context.converter.convertType(
+                context.withScope(reflection),
+                context.checker.getDeclaredTypeOfSymbol(symbol),
+            );
+        } else {
+            reflection.type = context.converter.convertType(
+                context.withScope(reflection),
+                declaration.type,
+            );
+        }
 
         if (reflection.type.type === "union") {
             attachUnionComments(context, declaration, reflection.type);

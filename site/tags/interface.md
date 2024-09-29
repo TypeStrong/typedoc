@@ -6,8 +6,8 @@ title: "@interface"
 
 **Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
 
-If present on a type alias, will cause it to be converted as an interface. This will result in all "dynamic" properties
-being expanded to real properties.
+If present on a type alias, will cause it to be converted as an interface. This
+will result in all "dynamic" properties being expanded to real properties.
 
 ## Example
 
@@ -36,3 +36,4 @@ export interface Resolved {
 
 -   The [`@property`](property.md) tag
 -   The [`@namespace`](namespace.md) tag
+-   The [`@useDeclaredType`](useDeclaredType.md) tag

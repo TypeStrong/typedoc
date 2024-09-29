@@ -50,3 +50,7 @@ export function Hello2(props: HelloProps) {
     return {};
 }
 ```
+
+## See Also
+
+-   The [`@inline`](inline.md) tag

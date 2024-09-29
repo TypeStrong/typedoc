@@ -3,8 +3,8 @@ title: Tags
 children:
     - tags/alpha.md
     - tags/beta.md
-    - tags/category.md
     - tags/categoryDescription.md
+    - tags/category.md
     - tags/class.md
     - tags/defaultValue.md
     - tags/deprecated.md
@@ -15,14 +15,15 @@ children:
     - tags/example.md
     - tags/expand.md
     - tags/experimental.md
-    - tags/group.md
     - tags/groupDescription.md
+    - tags/group.md
     - tags/hidden.md
     - tags/hideconstructor.md
     - tags/ignore.md
     - tags/import.md
     - tags/include.md
     - tags/inheritDoc.md
+    - tags/inline.md
     - tags/interface.md
     - tags/internal.md
     - tags/label.md
@@ -49,6 +50,7 @@ children:
     - tags/template.md
     - tags/throws.md
     - tags/typeParam.md
+    - tags/useDeclaredType.md
     - tags/virtual.md
 ---
 

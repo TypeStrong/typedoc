@@ -36,6 +36,7 @@ title: Changelog
 -   Added `useFirstParagraphOfCommentAsSummary` option to configure how TypeDoc handles comments for module members without the `@summary` tag.
 -   TypeDoc will now use the first signature's comment for later signatures in overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
+-   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes improve their documentation, #2654.
 
 TODO:
 
