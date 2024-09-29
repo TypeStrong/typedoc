@@ -1,54 +1,67 @@
 import { Component, IComponentOptions } from "../Component.js";
 import { storage } from "../utils/storage.js";
 
+const ACCORDION_INSTANCES = new Map<string, AccordionImpl>();
+
+class AccordionImpl {
+    open: boolean;
+    accordions: HTMLDetailsElement[] = [];
+    key: string;
+
+    constructor(key: string, open: boolean) {
+        this.key = key;
+        this.open = open;
+    }
+
+    add(accordion: HTMLDetailsElement) {
+        this.accordions.push(accordion);
+        accordion.open = this.open;
+        accordion.addEventListener("toggle", () => {
+            this.toggle(accordion.open);
+        });
+    }
+
+    toggle(open: boolean) {
+        for (const acc of this.accordions) {
+            acc.open = open;
+        }
+        storage.setItem(this.key, open.toString());
+    }
+}
+
 /**
  * Handles accordion dropdown behavior.
  */
 export class Accordion extends Component<HTMLDetailsElement> {
-    /**
-     * The heading container for this accordion.
-     */
-    private summary: HTMLElement;
-
-    /**
-     * The chevron icon next to this accordion's heading.
-     */
-    private icon: SVGElement;
-
-    /**
-     * The key by which to store this accordion's state in storage.
-     */
-    private readonly key: string;
-
     constructor(options: IComponentOptions) {
         super(options);
 
-        this.summary = this.el.querySelector(".tsd-accordion-summary")!;
-        this.icon = this.summary.querySelector("svg")!;
-        this.key = `tsd-accordion-${
-            this.summary.dataset.key ??
-            this.summary.textContent!.trim().replace(/\s+/g, "-").toLowerCase()
-        }`;
-
-        const stored = storage.getItem(this.key);
-        this.el.open = stored ? stored === "true" : this.el.open;
-
-        this.el.addEventListener("toggle", () => this.update());
+        const summary = this.el.querySelector("summary")!;
 
         // Safari is broken and doesn't let you click on a link within
         // a <summary> tag, so we have to manually handle clicks there.
-        const link = this.summary.querySelector("a");
+        const link = summary.querySelector("a");
         if (link) {
             link.addEventListener("click", () => {
                 location.assign(link.href);
             });
         }
 
-        this.update();
-    }
+        const key = `tsd-accordion-${
+            summary.dataset.key ??
+            summary.textContent!.trim().replace(/\s+/g, "-").toLowerCase()
+        }`;
 
-    private update() {
-        this.icon.style.transform = `rotate(${this.el.open ? 0 : -90}deg)`;
-        storage.setItem(this.key, this.el.open.toString());
+        let inst: AccordionImpl;
+        if (ACCORDION_INSTANCES.has(key)) {
+            inst = ACCORDION_INSTANCES.get(key)!;
+        } else {
+            const stored = storage.getItem(key);
+            const open = stored ? stored === "true" : this.el.open;
+            inst = new AccordionImpl(key, open);
+            ACCORDION_INSTANCES.set(key, inst);
+        }
+
+        inst.add(this.el);
     }
 }

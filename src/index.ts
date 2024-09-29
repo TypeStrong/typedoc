@@ -1,13 +1,4 @@
 /**
- * The most commonly useful items in the API are:
- *
- * - {@link Application}
- * - {@link Options}
- * - {@link Converter}
- * - {@link Serializer}
- * - {@link Deserializer}
- * - {@link Renderer}
- *
  * @module TypeDoc API
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";

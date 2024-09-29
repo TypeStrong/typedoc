@@ -24,6 +24,7 @@
     "treatWarningsAsErrors": false,
     "categorizeByGroup": false,
     "categoryOrder": ["Reflections", "Types", "Comments", "*"],
+    "groupOrder": ["Common", "*"],
     "validation": {
         "notExported": true,
         "invalidLink": true,

@@ -206,7 +206,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
         if (section.title) {
             sections.push(
                 <details open class="tsd-accordion tsd-page-navigation-section">
-                    <summary class="tsd-accordion-summary" data-key={`tsd-otp-${section.title}`}>
+                    <summary class="tsd-accordion-summary" data-key={`section-${section.title}`}>
                         {context.icons.chevronDown()}
                         {section.title}
                     </summary>

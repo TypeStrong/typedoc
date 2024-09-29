@@ -11,6 +11,12 @@ export interface SerializerEvents {
     end: [SerializeEvent];
 }
 
+/**
+ * Serializes TypeDoc's models to JSON
+ *
+ * @group Common
+ * @summary Serializes TypeDoc's models to JSON
+ */
 export class Serializer extends EventDispatcher<SerializerEvents> {
     /**
      * Triggered when the {@link Serializer} begins transforming a project.

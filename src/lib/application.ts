@@ -104,6 +104,9 @@ export interface ApplicationEvents {
  *
  * Access to an Application instance can be retrieved with {@link Application.bootstrap} or
  * {@link Application.bootstrapWithPlugins}. It can not be constructed manually.
+ *
+ * @group Common
+ * @summary Root level class which contains most useful behavior.
  */
 export class Application extends AbstractComponent<
     Application,

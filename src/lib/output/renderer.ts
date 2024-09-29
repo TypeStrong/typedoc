@@ -164,6 +164,9 @@ export interface RendererEvents {
  * * {@link Renderer.EVENT_PREPARE_INDEX}<br>
  *    Triggered when the JavascriptIndexPlugin is preparing the search index. Listeners receive
  *    an instance of {@link IndexEvent}.
+ *
+ * @summary Writes HTML output from TypeDoc's models
+ * @group Common
  */
 export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private themes = new Map<string, new (renderer: Renderer) => Theme>([

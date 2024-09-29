@@ -38,6 +38,8 @@ title: Changelog
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 -   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes improve their documentation, #2654.
 -   Introduced `--favicon` option to specify a `.ico` or `.svg` favicon to reference.
+-   Sections within the page and in the "On This Page" navigation are now tied together and will expand/collapse together, #2335.
+-   The arrows to indicate whether or not a section is open now work when JavaScript is disabled.
 
 TODO:
 

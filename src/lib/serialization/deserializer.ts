@@ -49,6 +49,12 @@ export interface Deserializable<T> {
     fromObject(d: Deserializer, o: T): void;
 }
 
+/**
+ * Deserializes TypeDoc's JSON output back to {@link Reflection} instances.
+ *
+ * @group Common
+ * @summary Deserializes TypeDoc's JSON output
+ */
 export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];

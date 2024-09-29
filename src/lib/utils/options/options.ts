@@ -86,6 +86,9 @@ const optionSnapshots = new WeakMap<
  * 3. tsconfig-json (200) - Last config file reader, cannot specify the typedoc.json file to read.
  * 4. argv (300) - Read argv again since any options set there should override those set in config
  *    files.
+ *
+ * @group Common
+ * @summary Contains all of TypeDoc's option declarations & values
  */
 export class Options {
     private _readers: OptionsReader[] = [];
