@@ -29,34 +29,16 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
 
     const visitor = { reflection: renderTypeDeclaration };
 
-    /** Fix for #2717. If type is the same as value the type is omited */
+    /** Fix for #2717. If type is the same as value the type is omitted */
     function shouldRenderType() {
         if (props.type && props.type.type === "literal") {
-            const typeObject = props.type.toObject();
-            const value = typeObject.value;
-            if (!value) {
-                // should be unreachable
-                return true;
-            }
-            if (typeof value === "object") {
-                return true;
-            }
-            const reflectionTypeString: string = value.toString();
-            let defaultValue = props.defaultValue!;
-            if (defaultValue) {
-                // If the default value is string and it's wrapped in ' in the code, the value is wrapped in " and vice-versa
-                if (
-                    (defaultValue[0] === '"' && defaultValue[defaultValue.length - 1] === '"') ||
-                    (defaultValue[0] === "'" && defaultValue[defaultValue.length - 1] === "'")
-                ) {
-                    defaultValue = defaultValue.slice(1, -1);
-                }
-            }
+            const reflectionTypeString = props.type.toString();
 
-            if (reflectionTypeString === defaultValue.toString()) {
+            const defaultValue = props.defaultValue;
+
+            if (defaultValue === undefined || reflectionTypeString === defaultValue.toString()) {
                 return false;
             }
-            return true;
         }
         return true;
     }
