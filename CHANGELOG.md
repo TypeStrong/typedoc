@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 -   Correctly handle external link resolver link text when referencing an external symbol, #2700.
+-   Big integer literals are now supported as default values, #2721.
 -   Corrected handling of `@link` tags present in comments at the start of source files.
 
 ### Thanks!

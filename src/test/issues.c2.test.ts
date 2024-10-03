@@ -1780,4 +1780,10 @@ describe("Issue Tests", () => {
             { display: "resolver caption", target: "https://typedoc.org" },
         ]);
     });
+
+    it("#2721 handles bigint literals in default values", () => {
+        const project = convert();
+        equal(query(project, "big").defaultValue, "123n");
+        equal(query(project, "neg").defaultValue, "-123n");
+    });
 });

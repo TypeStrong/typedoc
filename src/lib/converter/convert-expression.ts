@@ -24,9 +24,16 @@ export function convertExpression(expression: ts.Expression): string {
         case ts.SyntaxKind.FalseKeyword:
         case ts.SyntaxKind.NullKeyword:
         case ts.SyntaxKind.NumericLiteral:
-        case ts.SyntaxKind.PrefixUnaryExpression:
+        case ts.SyntaxKind.BigIntLiteral:
         case ts.SyntaxKind.Identifier:
             return expression.getText();
+    }
+
+    if (ts.isPrefixUnaryExpression(expression)) {
+        const inner = convertExpression(expression.operand);
+        if (inner != "...") {
+            return expression.getText();
+        }
     }
 
     if (
