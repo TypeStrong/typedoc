@@ -3,6 +3,7 @@
 ### Features
 
 -   Updated Chinese translations, #2706.
+-   Exported constants no longer render the type and default value if they are the same, #2717.
 
 ### Bug Fixes
 
@@ -12,6 +13,7 @@
 
 ### Thanks!
 
+-   @Corso02
 -   @XeroAlpha
 
 ## v0.26.7 (2024-09-09)
