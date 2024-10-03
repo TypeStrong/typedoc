@@ -61,7 +61,7 @@ export class ReflectionSymbolId {
             } else {
                 this.qualifiedName = getQualifiedName(symbol, symbol.name);
             }
-            this.pos = declaration?.pos ?? Infinity;
+            this.pos = declaration?.getStart() ?? Infinity;
             if (symbol.flags & ts.SymbolFlags.Transient) {
                 this.transientId = transientIds.get(symbol) ?? ++transientCount;
                 transientIds.set(symbol, this.transientId);
