@@ -29,12 +29,26 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
 
     const visitor = { reflection: renderTypeDeclaration };
 
+    /** Fix for #2717. If type is the same as value the type is omitted */
+    function shouldRenderType() {
+        if (props.type && props.type.type === "literal") {
+            const reflectionTypeString = props.type.toString();
+
+            const defaultValue = props.defaultValue;
+
+            if (defaultValue === undefined || reflectionTypeString === defaultValue.toString()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     return (
         <>
             <div class="tsd-signature">
                 <span class={getKindClass(props)}>{wbr(props.name)}</span>
                 {renderTypeParametersSignature(context, props.typeParameters)}
-                {props.type && (
+                {shouldRenderType() && (
                     <>
                         <span class="tsd-signature-symbol">{!!props.flags.isOptional && "?"}:</span>{" "}
                         {context.type(props.type)}
