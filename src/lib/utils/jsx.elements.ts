@@ -126,7 +126,7 @@ export interface IntrinsicElements {
     use: JsxUseElementProps;
 }
 
-export const JsxFragment = Symbol();
+export const JsxFragment: unique symbol = Symbol();
 
 export type JsxComponent<P> = (props: P) => JsxElement | null | undefined;
 
