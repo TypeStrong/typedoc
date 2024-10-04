@@ -1786,4 +1786,16 @@ describe("Issue Tests", () => {
         equal(query(project, "big").defaultValue, "123n");
         equal(query(project, "neg").defaultValue, "-123n");
     });
+
+    it("#2725 respects symbol IDs when resolving links with user configured resolver", () => {
+        app.options.setValue("externalSymbolLinkMappings", {
+            typescript: {
+                "ts.Node": "https://typescriptlang.org",
+            },
+        });
+        const project = convert();
+        equal(getLinks(query(project, "node")), [
+            { display: "Node", target: "https://typescriptlang.org" },
+        ]);
+    });
 });
