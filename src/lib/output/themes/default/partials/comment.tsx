@@ -74,12 +74,14 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
                     return (
                         <>
-                            <h4 class="tsd-anchor-link">
-                                <a id={anchor} class="tsd-anchor"></a>
-                                {name}
-                                {anchorIcon(context, anchor)}
-                            </h4>
-                            <Raw html={context.markdown(item.content)} />
+                            <div class={`tsd-tag-${name}`}>
+                                <h4 class="tsd-anchor-link">
+                                    <a id={anchor} class="tsd-anchor"></a>
+                                    {name}
+                                    {anchorIcon(context, anchor)}
+                                </h4>
+                                <Raw html={context.markdown(item.content)} />
+                            </div>
                         </>
                     );
                 })}

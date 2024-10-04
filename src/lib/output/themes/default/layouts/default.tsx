@@ -45,6 +45,9 @@ export const defaultLayout = (
                 <link rel="stylesheet" href={context.relativeURL("assets/custom.css", true)} />
             )}
             <script defer src={context.relativeURL("assets/main.js", true)}></script>
+            {context.options.getValue("customJs") && (
+                <script defer src={context.relativeURL("assets/custom.js", true)}></script>
+            )}
             <script async src={context.relativeURL("assets/icons.js", true)} id="tsd-icons-script"></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
             <script async src={context.relativeURL("assets/navigation.js", true)} id="tsd-nav-script"></script>

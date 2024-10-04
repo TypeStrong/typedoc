@@ -74,7 +74,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     {!props.model.signatures && context.memberSources(props.model)}
                 </>
             )}
-            {!!props.model.children?.length && context.index(props.model)}
+            {!!props.model.childrenIncludingDocuments?.length && context.index(props.model)}
             {context.members(props.model)}
         </>
     );

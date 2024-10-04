@@ -20,6 +20,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "forceConsistentCasingInFileNames": true,
+        "noUncheckedSideEffectImports": true,
         // Library
         "preserveConstEnums": true,
         "declaration": true,

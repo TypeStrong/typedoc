@@ -149,13 +149,11 @@ export interface RendererEvents {
  *
  *    * {@link Renderer.EVENT_BEGIN_PAGE}<br>
  *      Triggered before a document will be rendered. The listener receives an instance of
- *      {@link PageEvent}. By calling {@link PageEvent.preventDefault} the generation of the
- *      document can be canceled.
+ *      {@link PageEvent}.
  *
  *    * {@link Renderer.EVENT_END_PAGE}<br>
  *      Triggered after a document has been rendered, just before it is written to disc. The
- *      listener receives an instance of {@link PageEvent}. When calling
- *      {@link PageEvent.preventDefault} the the document will not be saved to disc.
+ *      listener receives an instance of {@link PageEvent}.
  *
  *  * {@link Renderer.EVENT_END}<br>
  *    Triggered after the renderer has written all documents. The listener receives

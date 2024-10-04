@@ -67,6 +67,7 @@ export const tsdocModifierTags = [
 
 export const modifierTags = [
     ...tsdocModifierTags,
+    "@abstract",
     "@class",
     "@enum",
     "@event",

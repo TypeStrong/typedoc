@@ -119,6 +119,7 @@ export = {
 
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist`,
+    custom_js_file_0_does_not_exist: `Custom JavaScript file at {0} does not exist`,
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1: `Unsupported highlight language {0} will not be highlighted in comment for {1}`,
     unloaded_language_0_not_highlighted_in_comment_for_1: `Code block with language {0} will not be highlighted in comment for {1} as it was not included in the highlightLanguages option`,
     yaml_frontmatter_not_an_object: `Expected YAML frontmatter to be an object`,
@@ -233,6 +234,7 @@ export = {
     help_typePrintWidth:
         "Width at which to wrap code to a new line when rendering a type",
     help_customCss: "Path to a custom CSS file to for the theme to import",
+    help_customJs: "Path to a custom JS file to import",
     help_markdownItOptions:
         "Specify the options passed to markdown-it, the Markdown parser used by TypeDoc",
     help_markdownItLoader:

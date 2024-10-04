@@ -2,10 +2,16 @@ import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index.js";
-import { getCommonDirectory, readFile } from "../../utils/fs.js";
+import {
+    findPackageForPath,
+    getCommonDirectory,
+    readFile,
+} from "../../utils/fs.js";
 import { normalizePath } from "../../utils/paths.js";
 import { getQualifiedName } from "../../utils/tsutils.js";
 import { optional, validate } from "../../utils/validation.js";
+import type { DeclarationReference } from "../../converter/index.js";
+import { splitUnquotedString } from "./utils.js";
 
 /**
  * See {@link ReflectionSymbolId}
@@ -55,7 +61,7 @@ export class ReflectionSymbolId {
             } else {
                 this.qualifiedName = getQualifiedName(symbol, symbol.name);
             }
-            this.pos = declaration?.pos ?? Infinity;
+            this.pos = declaration?.getStart() ?? Infinity;
             if (symbol.flags & ts.SymbolFlags.Transient) {
                 this.transientId = transientIds.get(symbol) ?? ++transientCount;
                 transientIds.set(symbol, this.transientId);
@@ -76,6 +82,21 @@ export class ReflectionSymbolId {
         } else {
             return `${this.fileName}\0${this.qualifiedName}` as ReflectionSymbolIdString;
         }
+    }
+
+    toDeclarationReference(): DeclarationReference {
+        return {
+            resolutionStart: "global",
+            moduleSource: findPackageForPath(this.fileName),
+            symbolReference: {
+                path: splitUnquotedString(this.qualifiedName, ".").map(
+                    (path) => ({
+                        navigation: ".",
+                        path,
+                    }),
+                ),
+            },
+        };
     }
 
     toObject(serializer: Serializer) {

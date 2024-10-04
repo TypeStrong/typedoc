@@ -348,6 +348,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Path,
     });
     options.addDeclaration({
+        name: "customJs",
+        help: (i18n) => i18n.help_customJs(),
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
         name: "markdownItOptions",
         help: (i18n) => i18n.help_markdownItOptions(),
         type: ParameterType.Mixed,
@@ -446,6 +451,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "markdownLinkExternal",
+        help: (i18n) => i18n.help_markdownLinkExternal(),
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
         name: "githubPages",
         help: (i18n) => i18n.help_githubPages(),
         type: ParameterType.Boolean,
@@ -455,7 +466,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "hostedBaseUrl",
         help: (i18n) => i18n.help_hostedBaseUrl(),
         validate(value, i18n) {
-            if (!/https?:\/\//.test(value)) {
+            if (!/https?:\/\//i.test(value)) {
                 throw new Error(i18n.hostedBaseUrl_must_start_with_http());
             }
         },
@@ -558,7 +569,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             includeGroups: false,
             includeFolders: true,
             compactFolders: true,
-            includeReferences: true,
+            excludeReferences: false,
         },
     });
 

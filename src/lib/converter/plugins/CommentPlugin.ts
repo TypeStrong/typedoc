@@ -2,12 +2,12 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import {
     type Reflection,
+    ParameterReflection,
     ReflectionFlag,
     ReflectionKind,
     type TypeParameterReflection,
     DeclarationReflection,
     SignatureReflection,
-    type ParameterReflection,
     Comment,
     type SourceReference,
     type TypeVisitor,
@@ -188,6 +188,15 @@ export class CommentPlugin extends ConverterComponent {
 
         if (reflection.kindOf(ReflectionKind.Interface)) {
             comment.removeModifier("@interface");
+        }
+
+        if (comment.hasModifier("@abstract")) {
+            if (reflection.kindOf(ReflectionKind.SomeSignature)) {
+                reflection.parent!.setFlag(ReflectionFlag.Abstract);
+            } else {
+                reflection.setFlag(ReflectionFlag.Abstract);
+            }
+            comment.removeModifier("@abstract");
         }
 
         if (comment.hasModifier("@private")) {
@@ -415,11 +424,15 @@ export class CommentPlugin extends ConverterComponent {
             }
         }
 
-        if (reflection instanceof DeclarationReflection && reflection.comment) {
-            let sigs: SignatureReflection[];
+        if (
+            (reflection instanceof DeclarationReflection ||
+                reflection instanceof ParameterReflection) &&
+            reflection.comment
+        ) {
+            let sigs: SignatureReflection[] = [];
             if (reflection.type instanceof ReflectionType) {
                 sigs = reflection.type.declaration.getNonIndexSignatures();
-            } else {
+            } else if (reflection instanceof DeclarationReflection) {
                 sigs = reflection.getNonIndexSignatures();
             }
 

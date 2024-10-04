@@ -770,6 +770,10 @@ function inlineTag(
     };
     if (tagName.tsLinkTarget) {
         inlineTag.target = tagName.tsLinkTarget;
+    }
+    // Separated from tsLinkTarget to avoid storing a useless empty string
+    // if TS doesn't have an opinion on what the link text should be.
+    if (tagName.tsLinkText) {
         inlineTag.tsLinkText = tagName.tsLinkText;
     }
     block.push(inlineTag);

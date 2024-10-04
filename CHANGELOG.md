@@ -49,6 +49,50 @@ TODO:
 
 # Unreleased
 
+### Features
+
+-   Updated Chinese translations, #2706.
+-   Exported constants no longer render the type and default value if they are the same, #2717.
+-   The HTML output now wraps tag blocks with `<div>` tags and includes the tag name in a class name, #2723.
+
+### Bug Fixes
+
+-   Correctly handle external link resolver link text when referencing an external symbol, #2700.
+-   Big integer literals are now supported as default values, #2721.
+-   Corrected handling of `@link` tags present in comments at the start of source files.
+-   The index will now display when a module only contains documents, #2722.
+-   `ReflectionSymbolId.pos` no longer references the position _before_ any doc comments for a symbol.
+    This could cause typedoc-plugin-dt-links to produce links which didn't go to the expected location in a file.
+
+### Thanks!
+
+-   @Corso02
+-   @lriggle-strib
+-   @XeroAlpha
+
+## v0.26.7 (2024-09-09)
+
+### Features
+
+-   Support TypeScript 5.6, #2699.
+-   Added `customJs` option to include a script tag in generated HTML output, #2650.
+-   Added `markdownLinkExternal` option to treat `http[s]://` links in markdown documents and comments as external to be opened in a new tab, #2679.
+-   Added `navigation.excludeReferences` option to prevent re-exports from appearing in the left hand navigation, #2685.
+-   Added support for the `@abstract` tag, #2692.
+
+### Bug Fixes
+
+-   Fixed an issue where links in packages mode would be resolved incorrectly, #2680.
+-   `@link` tags to symbols which are not included in the documentation will produce invalid link warnings again, #2681.
+-   Fixed handling of `@param` tags on comments attached to function callback parameters, #2683.
+-   The `alphabetical` and `alphabetical-ignoring-documents` sort options now use `localeCompare` to sort, #2684.
+-   Fixed incorrect placement of parameter default values in some signatures with a `this` parameter, #2698.
+
+### Thanks!
+
+-   @Aryakoste
+-   @waynemwashuma
+
 ## v0.26.6 (2024-08-18)
 
 ### Features

@@ -11,11 +11,26 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node({ type: "nodes", content }, Wrap.Detect);
 
+    // GERRIT: It'd be nice to bring this back to omitting the type rather than the value
+    /** Fix for #2717. If type is the same as value the type is omitted */
+    function shouldRenderDefaultValue() {
+        if (props.type && props.type.type === "literal") {
+            const reflectionTypeString = props.type.toString();
+
+            const defaultValue = props.defaultValue;
+
+            if (defaultValue === undefined || reflectionTypeString === defaultValue.toString()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     return (
         <>
             <div class="tsd-signature">
                 {generator.toElement()}
-                {!!props.defaultValue && (
+                {!!props.defaultValue && shouldRenderDefaultValue() && (
                     <>
                         <span class="tsd-signature-symbol">
                             {" = "}

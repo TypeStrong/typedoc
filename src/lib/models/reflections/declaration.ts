@@ -357,8 +357,10 @@ export class DeclarationReflection extends ContainerReflection {
         );
 
         // TypeDoc 0.25, remove check with 0.28.
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         if (obj.indexSignature) {
             this.indexSignatures = [
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
                 de.revive(obj.indexSignature, (r) => de.constructReflection(r)),
             ];
         } else {

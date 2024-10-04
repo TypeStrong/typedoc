@@ -338,6 +338,18 @@ export function discoverPackageJson(dir: string) {
 const packageCache = new Map<string, string>();
 
 export function findPackageForPath(sourcePath: string): string | undefined {
+    // Attempt to decide package name from path if it contains "node_modules"
+    let startIndex = sourcePath.lastIndexOf("node_modules/");
+    if (startIndex !== -1) {
+        startIndex += "node_modules/".length;
+        let stopIndex = sourcePath.indexOf("/", startIndex);
+        // Scoped package, e.g. `@types/node`
+        if (sourcePath[startIndex] === "@") {
+            stopIndex = sourcePath.indexOf("/", stopIndex + 1);
+        }
+        return sourcePath.substring(startIndex, stopIndex);
+    }
+
     const dir = dirname(sourcePath);
     const cache = packageCache.get(dir);
     if (cache) {

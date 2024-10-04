@@ -547,6 +547,14 @@
                         "name": "T",
                         "package": "typedoc",
                         "refersToTypeParameter": true
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "any"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "any"
                       }
                     ],
                     "name": "Iterable",
@@ -697,6 +705,14 @@
                                 "name": "T",
                                 "package": "typedoc",
                                 "refersToTypeParameter": true
+                              },
+                              {
+                                "type": "intrinsic",
+                                "name": "any"
+                              },
+                              {
+                                "type": "intrinsic",
+                                "name": "any"
                               }
                             ],
                             "name": "Iterable",

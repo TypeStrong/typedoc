@@ -61,7 +61,7 @@ export class RendererEvent {
     public createPageEvent<Model>(
         mapping: UrlMapping<Model>,
     ): [RenderTemplate<PageEvent<Model>>, PageEvent<Model>] {
-        const event = new PageEvent<Model>(PageEvent.BEGIN, mapping.model);
+        const event = new PageEvent<Model>(mapping.model);
         event.project = this.project;
         event.url = mapping.url;
         event.filename = Path.join(this.outputDirectory, mapping.url);
@@ -84,7 +84,7 @@ export interface PageHeading {
  * @see {@link Renderer.EVENT_BEGIN_PAGE}
  * @see {@link Renderer.EVENT_END_PAGE}
  */
-export class PageEvent<out Model = unknown> extends Event {
+export class PageEvent<out Model = unknown> {
     /**
      * The project the renderer is currently processing.
      */
@@ -152,9 +152,15 @@ export class PageEvent<out Model = unknown> extends Event {
      */
     static readonly END = "endPage";
 
-    constructor(name: string, model: Model) {
-        super(name);
-        this.model = model;
+    constructor(model: Model);
+    /** @deprecated use the single constructor arg instead, will be removed in 0.27 */
+    constructor(name: string, model: Model);
+    constructor(nameOrModel: string | Model, model?: Model) {
+        if (typeof nameOrModel === "string") {
+            this.model = model!;
+        } else {
+            this.model = nameOrModel;
+        }
     }
 }
 

@@ -978,7 +978,6 @@ function convertVariable(
     setModifiers(symbol, declaration, reflection);
 
     reflection.defaultValue = convertDefaultValue(declaration);
-
     context.finalizeDeclarationReflection(reflection);
 
     return ts.SymbolFlags.Property;

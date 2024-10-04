@@ -20,6 +20,9 @@ export class AssetsPlugin extends RendererComponent {
     @Option("customCss")
     private accessor customCss!: string;
 
+    @Option("customJs")
+    private accessor customJs!: string;
+
     constructor(owner: Renderer) {
         super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onRenderBegin.bind(this));
@@ -53,6 +56,18 @@ export class AssetsPlugin extends RendererComponent {
                 this.application.logger.error(
                     this.application.i18n.custom_css_file_0_does_not_exist(
                         this.customCss,
+                    ),
+                );
+            }
+        }
+
+        if (this.customJs) {
+            if (existsSync(this.customJs)) {
+                copySync(this.customJs, join(dest, "custom.js"));
+            } else {
+                this.application.logger.error(
+                    this.application.i18n.custom_js_file_0_does_not_exist(
+                        this.customJs,
                     ),
                 );
             }

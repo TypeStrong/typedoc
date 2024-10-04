@@ -16,6 +16,7 @@ import {
     QueryType,
     ReferenceReflection,
     ReflectionKind,
+    ReflectionSymbolId,
     ReflectionType,
     SignatureReflection,
     UnionType,
@@ -1416,7 +1417,7 @@ describe("Issue Tests", () => {
         const project = convert();
 
         const theme = new DefaultTheme(app.renderer);
-        const page = new PageEvent("hierarchy", project);
+        const page = new PageEvent(project);
         page.project = project;
         const context = theme.getRenderContext(page);
         context.hierarchyTemplate(page);
@@ -1667,6 +1668,115 @@ describe("Issue Tests", () => {
         logger.expectNoOtherMessages();
     });
 
+    it("#2681 reports warnings on @link tags which resolve to a type not included in the documentation", () => {
+        const project = convert();
+        app.options.setValue("validation", false);
+        app.options.setValue("validation", { invalidLink: true });
+        app.validate(project);
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Generator" in comment for bug',
+        );
+    });
+
+    it("#2683 supports @param on parameters with functions", () => {
+        const project = convert();
+        const action = querySig(project, "action");
+        const callback = action.parameters![0];
+        equal(
+            Comment.combineDisplayParts(callback.comment?.summary),
+            "Param comment",
+        );
+
+        equal(callback.type?.type, "reflection");
+        const data = callback.type.declaration.signatures![0].parameters![0];
+        equal(Comment.combineDisplayParts(data?.comment?.summary), "Data");
+
+        const action2 = querySig(project, "action2");
+        const callback2 = action2.parameters![0];
+        equal(
+            Comment.combineDisplayParts(callback2.comment?.summary),
+            "Param comment2",
+        );
+
+        equal(callback2.type?.type, "reflection");
+        const data2 = callback2.type.declaration.signatures![0].parameters![0];
+        // Overwritten by the @param on the wrapping signature, so we never
+        // had a chance to copy the data's @param to the parameter.
+        equal(data2.comment, undefined);
+    });
+
+    it("#2693 handles the @abstract tag", () => {
+        const project = convert();
+        ok(query(project, "Foo.foo").flags.isAbstract);
+        ok(!querySig(project, "Foo.foo").flags.isAbstract);
+        ok(query(project, "Foo.x").flags.isAbstract);
+
+        ok(query(project, "Bar.foo").flags.isAbstract);
+        ok(!querySig(project, "Bar.foo").flags.isAbstract);
+        ok(query(project, "Bar.x").flags.isAbstract);
+    });
+
+    it("#2698 handles this parameters present in type but not node", () => {
+        const project = convert();
+        const animator = querySig(project, "animator");
+        equal(
+            animator.parameters?.map((p) => p.name),
+            ["this", "numSpins", "direction"],
+        );
+
+        equal(
+            animator.parameters.map((p) => p.defaultValue),
+            [undefined, "2", '"counterclockwise"'],
+        );
+    });
+
+    it("#2700a correctly parses links to global properties", () => {
+        const project = convert();
+        app.options.setValue("validation", {
+            invalidLink: true,
+            notDocumented: false,
+            notExported: false,
+        });
+
+        app.validate(project);
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size | size user specified" in comment for abc',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size user specified" in comment for abc',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "Map.size" in comment for abc',
+        );
+
+        const abc = query(project, "abc");
+        const link = abc.comment?.summary.find((c) => c.kind === "inline-tag");
+        ok(link?.target instanceof ReflectionSymbolId);
+    });
+
+    it("#2700b respects user specified link text when resolving external links", () => {
+        const project = convert();
+
+        const abc = query(project, "abc");
+        ok(abc.comment);
+
+        const resolvers = app.converter["_externalSymbolResolvers"].slice();
+        app.converter.addUnknownSymbolResolver(() => {
+            return {
+                target: "https://typedoc.org",
+                caption: "resolver caption",
+            };
+        });
+        app.converter.resolveLinks(abc.comment, abc);
+        app.converter["_externalSymbolResolvers"] = resolvers;
+
+        equal(getLinks(abc), [
+            { display: "size user specified", target: "https://typedoc.org" },
+            { display: "user specified", target: "https://typedoc.org" },
+            { display: "resolver caption", target: "https://typedoc.org" },
+        ]);
+    });
+
     it("#2704 implicitly adds symbols tagged with @ignore to intentionallyNotExported list", () => {
         app.options.setValue("validation", {
             notExported: true,
@@ -1697,5 +1807,11 @@ describe("Issue Tests", () => {
             tz.children?.map((c) => c.name),
             ["Africa/Abidjan", "Africa/Accra"],
         );
+    });
+
+    it("#2721 handles bigint literals in default values", () => {
+        const project = convert();
+        equal(query(project, "big").defaultValue, "123n");
+        equal(query(project, "neg").defaultValue, "-123n");
     });
 });

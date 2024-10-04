@@ -122,6 +122,7 @@ export interface TypeDocOptionMap {
     disableSources: boolean;
     sourceLinkTemplate: string;
     sourceLinkExternal: boolean;
+    markdownLinkExternal: boolean;
     disableGit: boolean;
     gitRevision: string;
     gitRemote: string;
@@ -138,6 +139,7 @@ export interface TypeDocOptionMap {
     highlightLanguages: string[];
     typePrintWidth: number;
     customCss: string;
+    customJs: string;
     markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**
      * Will be called when TypeDoc is setting up the markdown parser to use to render markdown.
@@ -182,7 +184,7 @@ export interface TypeDocOptionMap {
         includeGroups: boolean;
         includeFolders: boolean;
         compactFolders: boolean;
-        includeReferences: boolean;
+        excludeReferences: boolean;
     };
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;

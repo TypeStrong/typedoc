@@ -285,7 +285,7 @@ export class DefaultTheme extends Theme {
         function toNavigation(
             element: ReflectionCategory | ReflectionGroup | DeclarationReflection | DocumentReflection,
         ): NavigationElement | undefined {
-            if (!opts.includeReferences && element instanceof ReferenceReflection) {
+            if (opts.excludeReferences && element instanceof ReferenceReflection) {
                 return;
             }
 

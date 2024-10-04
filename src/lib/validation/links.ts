@@ -4,6 +4,7 @@ import {
     type Comment,
     type CommentDisplayPart,
     type ProjectReflection,
+    ReflectionSymbolId,
 } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
 
@@ -16,7 +17,7 @@ function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
         if (
             part.kind === "inline-tag" &&
             linkTags.includes(part.tag) &&
-            !part.target
+            (!part.target || part.target instanceof ReflectionSymbolId)
         ) {
             links.push(part.text.trim());
         }
