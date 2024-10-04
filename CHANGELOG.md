@@ -11,6 +11,7 @@
 -   Correctly handle external link resolver link text when referencing an external symbol, #2700.
 -   Big integer literals are now supported as default values, #2721.
 -   Corrected handling of `@link` tags present in comments at the start of source files.
+-   The index will now display when a module only contains documents, #2722.
 -   `ReflectionSymbolId.pos` no longer references the position _before_ any doc comments for a symbol.
     This could cause typedoc-plugin-dt-links to produce links which didn't go to the expected location in a file.
 
