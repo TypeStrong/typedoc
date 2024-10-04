@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.8 (2024-10-04)
+
 ### Features
 
 -   Updated Chinese translations, #2706.
