@@ -13,3 +13,6 @@
 ../example/docs/
 **/tmp
 **/.vs
+
+../site/generated/
+../site/googlede482cdb17c37ad4.html
