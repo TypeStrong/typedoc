@@ -8,7 +8,9 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
     const HeadingLevel = props.model.isProject() ? "h2" : "h1";
     return (
         <div class="tsd-page-title">
-            {!!props.model.parent && <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>}
+            {!!props.url && props.url !== "index.html" && props.url !== "hierarchy.html" && (
+                <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>
+            )}
             {!props.model.isDocument() && (
                 <HeadingLevel class={classNames({ deprecated: props.model.isDeprecated() })}>
                     {props.model.kind !== ReflectionKind.Project &&
