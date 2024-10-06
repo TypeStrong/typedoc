@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 -   `externalSymbolLinkMappings` now uses the TypeScript reported link target if available, #2725.
+-   TypeDoc will no longer omit the modules page if a project contains only modules/documents, #2730.
 
 ## v0.26.8 (2024-10-04)
 
