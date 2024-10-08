@@ -28,16 +28,16 @@
     --light-color-ts-function: #572be7;
     --light-color-ts-class: #1f70c2;
     --light-color-ts-interface: #108024;
-    --light-color-ts-constructor: var(--light-color-ts-class);
-    --light-color-ts-property: var(--light-color-ts-variable);
-    --light-color-ts-method: var(--light-color-ts-function);
+    --light-color-ts-constructor: #4d7fff;
+    --light-color-ts-property: #ff984d;
+    --light-color-ts-method: #ff4db8;
     --light-color-ts-call-signature: var(--light-color-ts-method);
     --light-color-ts-index-signature: var(--light-color-ts-property);
     --light-color-ts-constructor-signature: var(--light-color-ts-constructor);
     --light-color-ts-parameter: var(--light-color-ts-variable);
     /* type literal not included as links will never be generated to it */
     --light-color-ts-type-parameter: #a55c0e;
-    --light-color-ts-accessor: var(--light-color-ts-property);
+    --light-color-ts-accessor: #ff4d4d;
     --light-color-ts-get-signature: var(--light-color-ts-accessor);
     --light-color-ts-set-signature: var(--light-color-ts-accessor);
     --light-color-ts-type-alias: #d51270;
@@ -76,16 +76,16 @@
     --dark-color-ts-function: #a280ff;
     --dark-color-ts-class: #8ac4ff;
     --dark-color-ts-interface: #6cff87;
-    --dark-color-ts-constructor: var(--dark-color-ts-class);
-    --dark-color-ts-property: var(--dark-color-ts-variable);
-    --dark-color-ts-method: var(--dark-color-ts-function);
+    --dark-color-ts-constructor: #4d7fff;
+    --dark-color-ts-property: #ff984d;
+    --dark-color-ts-method: #ff4db8;
     --dark-color-ts-call-signature: var(--dark-color-ts-method);
     --dark-color-ts-index-signature: var(--dark-color-ts-property);
     --dark-color-ts-constructor-signature: var(--dark-color-ts-constructor);
     --dark-color-ts-parameter: var(--dark-color-ts-variable);
     /* type literal not included as links will never be generated to it */
     --dark-color-ts-type-parameter: #e07d13;
-    --dark-color-ts-accessor: var(--dark-color-ts-property);
+    --dark-color-ts-accessor: #ff4d4d;
     --dark-color-ts-get-signature: var(--dark-color-ts-accessor);
     --dark-color-ts-set-signature: var(--dark-color-ts-accessor);
     --dark-color-ts-type-alias: #ff6492;
