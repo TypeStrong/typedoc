@@ -12,7 +12,6 @@
     --light-color-icon-background: var(--light-color-background);
     --light-color-icon-text: var(--light-color-text);
 
-    /* these are used in the code below but never defined. Making a guess */
     --light-color-comment-tag-text: var(--light-color-text);
     --light-color-comment-tag: var(--light-color-background);
 
@@ -61,7 +60,6 @@
     --dark-color-icon-background: var(--dark-color-background-secondary);
     --dark-color-icon-text: var(--dark-color-text);
 
-    /* these are used in the code below but never defined. Making a guess */
     --dark-color-comment-tag-text: var(--dark-color-text);
     --dark-color-comment-tag: var(--dark-color-background);
 
@@ -118,7 +116,6 @@
         --color-icon-background: var(--light-color-icon-background);
         --color-icon-text: var(--light-color-icon-text);
 
-        /* these are used in the code below but never defined. Making a guess */
         --color-comment-tag-text: var(--light-color-text);
         --color-comment-tag: var(--light-color-background);
 
@@ -170,7 +167,6 @@
         --color-icon-background: var(--dark-color-icon-background);
         --color-icon-text: var(--dark-color-icon-text);
 
-        /* these are used in the code below but never defined. Making a guess */
         --color-comment-tag-text: var(--dark-color-text);
         --color-comment-tag: var(--dark-color-background);
 
@@ -228,7 +224,6 @@ body {
     --color-text-aside: var(--light-color-text-aside);
     --color-icon-text: var(--light-color-icon-text);
 
-    /* these are used in the code below but never defined. Making a guess */
     --color-comment-tag-text: var(--light-color-text);
     --color-comment-tag: var(--light-color-background);
 
@@ -277,7 +272,6 @@ body {
     --color-text-aside: var(--dark-color-text-aside);
     --color-icon-text: var(--dark-color-icon-text);
 
-    /* these are used in the code below but never defined. Making a guess */
     --color-comment-tag-text: var(--dark-color-text);
     --color-comment-tag: var(--dark-color-background);
 
