@@ -238,7 +238,7 @@ export const icons: Record<
             >
                 R
             </text>,
-            "#FF4D82", // extract into a CSS variable potentially?
+            "var(--color-ts-reference)",
             true,
         ),
     [ReflectionKind.SetSignature]() {

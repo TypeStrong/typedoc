@@ -31,6 +31,7 @@
     --light-color-ts-constructor: #4d7fff;
     --light-color-ts-property: #ff984d;
     --light-color-ts-method: #ff4db8;
+    --light-color-ts-reference: #ff4d82;
     --light-color-ts-call-signature: var(--light-color-ts-method);
     --light-color-ts-index-signature: var(--light-color-ts-property);
     --light-color-ts-constructor-signature: var(--light-color-ts-constructor);
@@ -79,6 +80,7 @@
     --dark-color-ts-constructor: #4d7fff;
     --dark-color-ts-property: #ff984d;
     --dark-color-ts-method: #ff4db8;
+    --dark-color-ts-reference: #ff4d82;
     --dark-color-ts-call-signature: var(--dark-color-ts-method);
     --dark-color-ts-index-signature: var(--dark-color-ts-property);
     --dark-color-ts-constructor-signature: var(--dark-color-ts-constructor);
@@ -135,6 +137,7 @@
         --color-ts-constructor: var(--light-color-ts-constructor);
         --color-ts-property: var(--light-color-ts-property);
         --color-ts-method: var(--light-color-ts-method);
+        --color-ts-reference: var(--light-color-ts-reference);
         --color-ts-call-signature: var(--light-color-ts-call-signature);
         --color-ts-index-signature: var(--light-color-ts-index-signature);
         --color-ts-constructor-signature: var(
@@ -186,6 +189,7 @@
         --color-ts-constructor: var(--dark-color-ts-constructor);
         --color-ts-property: var(--dark-color-ts-property);
         --color-ts-method: var(--dark-color-ts-method);
+        --color-ts-reference: var(--dark-color-ts-reference);
         --color-ts-call-signature: var(--dark-color-ts-call-signature);
         --color-ts-index-signature: var(--dark-color-ts-index-signature);
         --color-ts-constructor-signature: var(
@@ -243,6 +247,7 @@ body {
     --color-ts-constructor: var(--light-color-ts-constructor);
     --color-ts-property: var(--light-color-ts-property);
     --color-ts-method: var(--light-color-ts-method);
+    --color-ts-reference: var(--light-color-ts-reference);
     --color-ts-call-signature: var(--light-color-ts-call-signature);
     --color-ts-index-signature: var(--light-color-ts-index-signature);
     --color-ts-constructor-signature: var(
@@ -291,6 +296,7 @@ body {
     --color-ts-constructor: var(--dark-color-ts-constructor);
     --color-ts-property: var(--dark-color-ts-property);
     --color-ts-method: var(--dark-color-ts-method);
+    --color-ts-reference: var(--dark-color-ts-reference);
     --color-ts-call-signature: var(--dark-color-ts-call-signature);
     --color-ts-index-signature: var(--dark-color-ts-index-signature);
     --color-ts-constructor-signature: var(
@@ -1284,6 +1290,9 @@ img {
 }
 .tsd-kind-method {
     color: var(--color-ts-method);
+}
+.tsd-kind-reference {
+    color: var(--color-ts-reference);
 }
 .tsd-kind-call-signature {
     color: var(--color-ts-call-signature);
