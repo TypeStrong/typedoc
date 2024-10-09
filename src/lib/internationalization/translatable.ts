@@ -300,6 +300,7 @@ export const translatable = {
     help_navigationLeaves:
         "Branches of the navigation tree which should not be expanded",
     help_navigation: "Determines how the navigation sidebar is organized",
+    help_headings: "Determines which optional headings are rendered",
     help_visibilityFilters:
         "Specify the default visibility for builtin filters and additional filters according to modifier tags",
     help_searchCategoryBoosts:

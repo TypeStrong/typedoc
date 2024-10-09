@@ -1,10 +1,15 @@
 # Unreleased
 
+### Features
+
+-   Added `headings` option to control optional headings, #2729.
+
 ### Bug Fixes
 
 -   `externalSymbolLinkMappings` now uses the TypeScript reported link target if available, #2725.
 -   TypeDoc will no longer omit the modules page if a project contains only modules/documents, #2730.
 -   Fixed missing breadcrumbs on project page, #2728.
+-   TypeDoc will no longer render an empty readme page if no readme was found.
 
 ## v0.26.8 (2024-10-04)
 
