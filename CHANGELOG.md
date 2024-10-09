@@ -11,6 +11,11 @@
 -   Fixed missing breadcrumbs on project page, #2728.
 -   TypeDoc will no longer render an empty readme page if no readme was found.
 
+### Thanks!
+
+-   @lriggle-strib
+-   @mrfigg
+
 ## v0.26.8 (2024-10-04)
 
 ### Features
