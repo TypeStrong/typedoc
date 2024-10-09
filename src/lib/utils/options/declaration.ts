@@ -185,6 +185,10 @@ export interface TypeDocOptionMap {
         compactFolders: boolean;
         excludeReferences: boolean;
     };
+    headings: {
+        readme: boolean;
+        document: boolean;
+    };
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;
