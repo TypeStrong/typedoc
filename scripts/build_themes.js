@@ -2,7 +2,7 @@
 const esbuild = require("esbuild");
 const fs = require("fs");
 
-const watch = process.argv.slice(2).includes("--watch");
+const watch = process.argv.slice(2).some((t) => t == "--watch" || t == "-w");
 
 // It's convenient to be able to build the themes in watch mode without rebuilding the whole docs
 // to test some change to the frontend JS.

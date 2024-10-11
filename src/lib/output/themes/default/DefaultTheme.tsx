@@ -205,7 +205,7 @@ export class DefaultTheme extends Theme {
         const urls: UrlMapping[] = [];
         this.sluggers.set(project, new Slugger());
 
-        if (!hasReadme(this.application.options.getValue("readme"))) {
+        if (!project.readme?.length) {
             project.url = "index.html";
             urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
         } else {
@@ -505,10 +505,6 @@ export class DefaultTheme extends Theme {
             return true;
         });
     }
-}
-
-function hasReadme(readme: string) {
-    return !readme.endsWith("none");
 }
 
 function getReflectionClasses(

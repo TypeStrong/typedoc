@@ -103,7 +103,8 @@ function addNavText(
         }
         a.appendChild(document.createElement("span")).textContent = el.text;
     } else {
-        parent.appendChild(document.createElement("span")).textContent =
-            el.text;
+        const span = parent.appendChild(document.createElement("span"));
+        span.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-folder"></use></svg>`;
+        span.appendChild(document.createElement("span")).textContent = el.text;
     }
 }
