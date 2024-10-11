@@ -1174,7 +1174,7 @@ export interface JsxUseElementProps
 /**
  * Properties permitted on the `<text>` element.
  *
- * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
  */
 export interface JsxTextElementProps
     extends JsxSvgCoreProps,

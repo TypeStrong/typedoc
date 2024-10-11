@@ -19,6 +19,15 @@ const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (
     </svg>
 );
 
+const textIcon = (letter: string, color: string, circular = false) =>
+    kindIcon(
+        <text fill="var(--color-icon-text)" x="50%" y="50%" dominant-baseline="central" text-anchor="middle">
+            {letter}
+        </text>,
+        color,
+        circular,
+    );
+
 export function buildRefIcons<T extends Record<string, () => JSX.Element>>(
     icons: T,
     context: DefaultThemeRenderContext,
@@ -50,239 +59,52 @@ export const icons: Record<
     ReflectionKind | "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor" | "folder",
     () => JSX.Element
 > = {
-    [ReflectionKind.Accessor]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="6.5"
-                y="17.5"
-            >
-                A
-            </text>,
-            "var(--color-ts-accessor)",
-            true,
-        ),
+    [ReflectionKind.Accessor]: () => textIcon("A", "var(--color-ts-accessor)", true),
     [ReflectionKind.CallSignature]() {
         return this[ReflectionKind.Function]();
     },
-    [ReflectionKind.Class]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="6.5"
-                y="18"
-            >
-                C
-            </text>,
-            "var(--color-ts-class)",
-        ),
-    [ReflectionKind.Constructor]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="6"
-                y="17.5"
-            >
-                C
-            </text>,
-            "var(--color-ts-constructor)",
-            true,
-        ),
+    [ReflectionKind.Class]: () => textIcon("C", "var(--color-ts-class)"),
+    [ReflectionKind.Constructor]: () => textIcon("C", "var(--color-ts-constructor)", true),
     [ReflectionKind.ConstructorSignature]() {
         return this[ReflectionKind.Constructor]();
     },
-    [ReflectionKind.Enum]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7"
-                y="17.5"
-            >
-                E
-            </text>,
-            "var(--color-ts-enum)",
-        ),
+    [ReflectionKind.Enum]: () => textIcon("E", "var(--color-ts-enum)"),
     [ReflectionKind.EnumMember]() {
         return this[ReflectionKind.Property]();
     },
-    [ReflectionKind.Function]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7"
-                y="18"
-            >
-                F
-            </text>,
-            "var(--color-ts-function)",
-        ),
+    [ReflectionKind.Function]: () => textIcon("F", "var(--color-ts-function)"),
     [ReflectionKind.GetSignature]() {
         return this[ReflectionKind.Accessor]();
     },
     [ReflectionKind.IndexSignature]() {
         return this[ReflectionKind.Property]();
     },
-    [ReflectionKind.Interface]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="10"
-                y="18"
-            >
-                I
-            </text>,
-            "var(--color-ts-interface)",
-        ),
-    [ReflectionKind.Method]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="5"
-                y="17.5"
-            >
-                M
-            </text>,
-            "var(--color-ts-method)",
-            true,
-        ),
-    [ReflectionKind.Module]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="5"
-                y="17.5"
-            >
-                M
-            </text>,
-            "var(--color-ts-module)",
-        ),
-    [ReflectionKind.Namespace]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="6"
-                y="18"
-            >
-                N
-            </text>,
-            "var(--color-ts-namespace)",
-        ),
+    [ReflectionKind.Interface]: () => textIcon("I", "var(--color-ts-interface)"),
+    [ReflectionKind.Method]: () => textIcon("M", "var(--color-ts-method)", true),
+    [ReflectionKind.Module]: () => textIcon("M", "var(--color-ts-module)"),
+    [ReflectionKind.Namespace]: () => textIcon("N", "var(--color-ts-namespace)"),
     [ReflectionKind.Parameter]() {
         return this[ReflectionKind.Property]();
     },
     [ReflectionKind.Project]() {
         return this[ReflectionKind.Module]();
     },
-    [ReflectionKind.Property]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7.5"
-                y="18"
-            >
-                P
-            </text>,
-            "var(--color-ts-property)",
-            true,
-        ),
-    [ReflectionKind.Reference]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7"
-                y="17.5"
-            >
-                R
-            </text>,
-            "var(--color-ts-reference)",
-            true,
-        ),
+    [ReflectionKind.Property]: () => textIcon("P", "var(--color-ts-property)", true),
+    [ReflectionKind.Reference]: () => textIcon("R", "var(--color-ts-reference)", true),
     [ReflectionKind.SetSignature]() {
         return this[ReflectionKind.Accessor]();
     },
-    [ReflectionKind.TypeAlias]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7"
-                y="17.5"
-            >
-                T
-            </text>,
-            "var(--color-ts-type-alias)",
-        ),
+    [ReflectionKind.TypeAlias]: () => textIcon("T", "var(--color-ts-type-alias)"),
     [ReflectionKind.TypeLiteral]() {
         return this[ReflectionKind.TypeAlias]();
     },
     [ReflectionKind.TypeParameter]() {
         return this[ReflectionKind.TypeAlias]();
     },
-    [ReflectionKind.Variable]: () =>
-        kindIcon(
-            <text
-                fill="var(--color-icon-text)"
-                font-family="var(--icon-font-family)"
-                font-size="var(--icon-font-size)"
-                font-weight="var(--icon-font-weight)"
-                font-style="var(--icon-font-style)"
-                x="7"
-                y="18"
-            >
-                V
-            </text>,
-            "var(--color-ts-variable)",
-        ),
+    [ReflectionKind.Variable]: () => textIcon("V", "var(--color-ts-variable)"),
     [ReflectionKind.Document]: () =>
         kindIcon(
-            <g stroke="var(--color-text)" fill="none" stroke-width="1.5">
+            <g stroke="var(--color-icon-text)" fill="none" stroke-width="1.5">
                 <polygon points="6,5 6,19 18,19, 18,10 13,5" />
                 <line x1="9" y1="9" x2="13" y2="9" />
                 <line x1="9" y1="12" x2="15" y2="12" />
@@ -292,7 +114,7 @@ export const icons: Record<
         ),
     folder: () =>
         kindIcon(
-            <g stroke="var(--color-text)" fill="none" stroke-width="1.5">
+            <g stroke="var(--color-icon-text)" fill="none" stroke-width="1.5">
                 <polygon points="5,5 10,5 12,8 19,8 19,18 5,18" />
             </g>,
             "var(--color-document)",
