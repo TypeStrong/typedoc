@@ -3,6 +3,7 @@
 ### Features
 
 -   Added `headings` option to control optional headings, #2729.
+-   Added a folder icon to page navigation elements which are not links, #2741.
 
 ### Bug Fixes
 

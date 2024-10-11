@@ -47,7 +47,7 @@ export function buildRefIcons<T extends Record<string, () => JSX.Element>>(
 }
 
 export const icons: Record<
-    ReflectionKind | "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor",
+    ReflectionKind | "chevronDown" | "checkbox" | "menu" | "search" | "chevronSmall" | "anchor" | "folder",
     () => JSX.Element
 > = {
     [ReflectionKind.Accessor]: () =>
@@ -186,11 +186,18 @@ export const icons: Record<
         ),
     [ReflectionKind.Document]: () =>
         kindIcon(
-            <g stroke="var(--color-text)" fill="var(--color-icon-background)">
-                <polygon points="6,5 6,19 18,19, 18,9 15,5" />
-                <line x1="9" y1="9" x2="14" y2="9" />
+            <g stroke="var(--color-text)" fill="none" stroke-width="1.5">
+                <polygon points="6,5 6,19 18,19, 18,10 13,5" />
+                <line x1="9" y1="9" x2="13" y2="9" />
                 <line x1="9" y1="12" x2="15" y2="12" />
                 <line x1="9" y1="15" x2="15" y2="15" />
+            </g>,
+            "var(--color-document)",
+        ),
+    folder: () =>
+        kindIcon(
+            <g stroke="var(--color-text)" fill="none" stroke-width="1.5">
+                <polygon points="5,5 10,5 12,8 19,8 19,18 5,18" />
             </g>,
             "var(--color-document)",
         ),
