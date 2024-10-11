@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.9 (2024-10-11)
+
 ### Features
 
 -   Added `headings` option to control optional headings, #2729.
