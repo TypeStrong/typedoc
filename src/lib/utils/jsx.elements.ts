@@ -124,6 +124,7 @@ export interface IntrinsicElements {
     polyline: JsxPolylineElementProps;
     line: JsxLineElementProps;
     use: JsxUseElementProps;
+    text: JsxTextElementProps;
 }
 
 export const JsxFragment = Symbol();
@@ -943,9 +944,9 @@ export interface JsxSvgPresentationProps {
     "font-size"?: string;
     "font-size-adjust"?: "none" | number;
     "font-stretch"?: string;
-    "font-style"?: "normal" | "italic" | "oblique";
+    "font-style"?: "normal" | "italic" | "oblique" | string;
     "font-variant"?: string;
-    "font-weight"?: "normal" | "bold" | "bolder" | "lighter" | number;
+    "font-weight"?: "normal" | "bold" | "bolder" | "lighter" | number | string;
     "image-rendering"?: "auto" | "optimizeSpeed" | "optimizeQuality";
     "letter-spacing"?: string;
     "lighting-color"?: string;
@@ -1168,4 +1169,17 @@ export interface JsxUseElementProps
     y?: string | number;
     width?: string | number;
     height?: string | number;
+}
+
+/**
+ * Properties permitted on the `<text>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
+ */
+export interface JsxTextElementProps
+    extends JsxSvgCoreProps,
+        JsxSvgStyleProps,
+        JsxSvgPresentationProps {
+    x?: string | number;
+    y?: string | number;
 }
