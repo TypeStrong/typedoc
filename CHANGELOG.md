@@ -3,6 +3,7 @@
 ### Features
 
 -   Added `headings` option to control optional headings, #2729.
+-   Updated Chinese translations, #2739.
 -   Added a folder icon to page navigation elements which are not links, #2741.
 
 ### Bug Fixes
@@ -16,6 +17,7 @@
 
 -   @lriggle-strib
 -   @mrfigg
+-   @XeroAlpha
 
 ## v0.26.8 (2024-10-04)
 
