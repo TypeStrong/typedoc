@@ -6,7 +6,7 @@ import { DefaultTheme } from "../themes/default/DefaultTheme";
 import { gzip } from "zlib";
 import { promisify } from "util";
 import { type Reflection } from "../../models";
-import { UrlMapping } from "..";
+import { UrlMapping } from "../models/UrlMapping";
 
 const gzipP = promisify(gzip);
 
