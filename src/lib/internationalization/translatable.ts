@@ -469,7 +469,6 @@ export const translatable = {
     theme_index: "Index",
     theme_hierarchy: "Hierarchy",
     theme_hierarchy_summary: "Hierarchy Summary",
-    theme_hierarchy_view_full: "view full",
     theme_hierarchy_view_summary: "View Summary",
     theme_hierarchy_expand: "Expand",
     theme_hierarchy_collapse: "Collapse",
@@ -482,7 +481,6 @@ export const translatable = {
     theme_re_exports: "Re-exports",
     theme_renames_and_re_exports: "Renames and re-exports",
     theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
-    theme_class_hierarchy_title: "Class Hierarchy",
     // Search
     theme_preparing_search_index: "Preparing search index...",
     theme_search_index_not_available: "The search index is not available",

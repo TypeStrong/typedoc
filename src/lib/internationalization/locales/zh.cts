@@ -426,7 +426,6 @@ export = buildIncompleteTranslation({
     theme_type_declaration: "类型声明",
     theme_index: "索引",
     theme_hierarchy: "层级",
-    theme_hierarchy_view_full: "查看完整内容",
     theme_implemented_by: "实现于",
     theme_defined_in: "定义于",
     theme_implementation_of: "实现了",
@@ -451,7 +450,6 @@ export = buildIncompleteTranslation({
     theme_copy: "复制",
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
-    theme_class_hierarchy_title: "类继承图表",
     theme_loading: "加载中……",
 
     tag_defaultValue: "默认值",
