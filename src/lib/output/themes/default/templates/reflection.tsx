@@ -39,7 +39,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
             {hasTypeParameters(props.model) && <> {context.typeParameters(props.model.typeParameters)} </>}
             {props.model instanceof DeclarationReflection && (
                 <>
-                    {context.hierarchy(props.model.typeHierarchy)}
+                    {context.hierarchy(props.model)}
 
                     {!!props.model.implementedTypes && (
                         <section class="tsd-panel">

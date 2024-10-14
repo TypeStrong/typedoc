@@ -301,6 +301,8 @@ export const translatable = {
         "Branches of the navigation tree which should not be expanded",
     help_navigation: "Determines how the navigation sidebar is organized",
     help_headings: "Determines which optional headings are rendered",
+    help_includeHierarchySummary:
+        "If set, a reflections hierarchy summary will be rendered to a summary page. Defaults to `true`",
     help_visibilityFilters:
         "Specify the default visibility for builtin filters and additional filters according to modifier tags",
     help_searchCategoryBoosts:
@@ -466,7 +468,11 @@ export const translatable = {
     theme_type_declaration: "Type declaration",
     theme_index: "Index",
     theme_hierarchy: "Hierarchy",
+    theme_hierarchy_summary: "Hierarchy Summary",
     theme_hierarchy_view_full: "view full",
+    theme_hierarchy_view_summary: "View Summary",
+    theme_hierarchy_expand: "Expand",
+    theme_hierarchy_collapse: "Collapse",
     theme_implemented_by: "Implemented by",
     theme_defined_in: "Defined in",
     theme_implementation_of: "Implementation of",

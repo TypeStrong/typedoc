@@ -12,6 +12,8 @@ import {
     TypeParameterReflection,
     type DocumentReflection,
     ReferenceReflection,
+    type Type,
+    ReferenceType,
 } from "../../../models";
 import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping";
 import type { PageEvent } from "../../events";
@@ -49,6 +51,15 @@ export interface NavigationElement {
     kind?: ReflectionKind;
     class?: string;
     children?: NavigationElement[];
+}
+
+export interface HierarchyElement {
+    html: string;
+    text: string;
+    path: string;
+    kind: ReflectionKind;
+    parents?: ({ path: string } | { html: string; text: string })[];
+    children?: ({ path: string } | { html: string; text: string })[];
 }
 
 /**
@@ -125,7 +136,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
     hierarchyTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).hierarchyTemplate();
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
@@ -214,7 +225,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
-        if (getHierarchyRoots(project).length) {
+        if (this.application.options.getValue("includeHierarchySummary") && getHierarchyRoots(project).length) {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
@@ -465,6 +476,30 @@ export class DefaultTheme extends Theme {
 
             return result;
         }
+    }
+
+    buildHierarchy(project: ProjectReflection, renderType: (type: Type) => string): HierarchyElement[] {
+        return (project.getReflectionsByKind(ReflectionKind.ClassOrInterface) as DeclarationReflection[])
+            .filter((reflection) => reflection.extendedTypes?.length || reflection.extendedBy?.length)
+            .map((reflection) => ({
+                html: renderType(
+                    ReferenceType.createResolvedReference(reflection.name, reflection, reflection.project),
+                ),
+                // Full name should be safe here, since this list only includes classes/interfaces.
+                text: reflection.getFullName(),
+                path: reflection.url!,
+                kind: reflection.kind,
+                parents: reflection.extendedTypes?.map((type) =>
+                    !(type instanceof ReferenceType) || !(type.reflection instanceof DeclarationReflection)
+                        ? { html: renderType(type), text: type.toString() }
+                        : { path: type.reflection.url! },
+                ),
+                children: reflection.extendedBy?.map((type) =>
+                    !(type instanceof ReferenceType) || !(type.reflection instanceof DeclarationReflection)
+                        ? { html: renderType(type), text: type.toString() }
+                        : { path: type.reflection.url! },
+                ),
+            }));
     }
 
     private sluggers = new Map<Reflection, Slugger>();
