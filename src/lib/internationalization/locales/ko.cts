@@ -317,7 +317,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_type_declaration: "타입 선언",
     theme_index: "둘러보기",
     theme_hierarchy: "계층",
-    theme_hierarchy_view_full: "전체 보기",
     theme_implemented_by: "구현",
     theme_defined_in: "정의 위치:",
     theme_implementation_of: "구현하는 타입:",

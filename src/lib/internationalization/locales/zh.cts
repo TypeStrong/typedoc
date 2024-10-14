@@ -459,7 +459,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_type_declaration: "类型声明",
     theme_index: "索引",
     theme_hierarchy: "层级",
-    theme_hierarchy_view_full: "查看完整内容",
     theme_implemented_by: "实现于",
     theme_defined_in: "定义于",
     theme_implementation_of: "实现了",
@@ -467,7 +466,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_overrides: "重写了",
     theme_returns: "返回",
     theme_generated_using_typedoc: "使用 TypeDoc 生成",
-    theme_class_hierarchy_title: "类继承图表",
 
     theme_preparing_search_index: "正在准备搜索索引...",
     theme_search_index_not_available: "搜索索引不可用",

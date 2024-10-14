@@ -34,6 +34,7 @@ import { setRenderSettings } from "../utils/jsx.js";
 
 import {
     AssetsPlugin,
+    HierarchyPlugin,
     IconsPlugin,
     JavascriptIndexPlugin,
     MarkedPlugin,
@@ -259,6 +260,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.markedPlugin = new MarkedPlugin(this);
         new AssetsPlugin(this);
         new IconsPlugin(this);
+        new HierarchyPlugin(this);
         new JavascriptIndexPlugin(this);
         new NavigationPlugin(this);
         new SitemapPlugin(this);

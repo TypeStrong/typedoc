@@ -2,7 +2,7 @@ import type { RenderTemplate } from "../../../index.js";
 import type { Reflection } from "../../../../models/index.js";
 import { JSX, Raw } from "../../../../utils/index.js";
 import type { PageEvent } from "../../../events.js";
-import { getDisplayName } from "../../lib.js";
+import { getDisplayName, getHierarchyRoots } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { extname } from "path";
 
@@ -80,6 +80,9 @@ export const defaultLayout = (
             <script async src={context.relativeURL("assets/icons.js", true)} id="tsd-icons-script"></script>
             <script async src={context.relativeURL("assets/search.js", true)} id="tsd-search-script"></script>
             <script async src={context.relativeURL("assets/navigation.js", true)} id="tsd-nav-script"></script>
+            {!!getHierarchyRoots(props.project).length && (
+                <script async src={context.relativeURL("assets/hierarchy.js", true)} id="tsd-hierarchy-script"></script>
+            )}
             {context.hook("head.end", context)}
         </head>
         <body>

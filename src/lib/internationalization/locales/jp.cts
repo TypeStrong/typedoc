@@ -458,7 +458,6 @@ export = localeUtils.buildIncompleteTranslation({
     theme_type_declaration: "型宣言",
     theme_index: "インデックス",
     theme_hierarchy: "階層",
-    theme_hierarchy_view_full: "完全な階層を表示",
     theme_implemented_by: "実装者",
     theme_defined_in: "定義",
     theme_implementation_of: "の実装",
@@ -485,6 +484,5 @@ export = localeUtils.buildIncompleteTranslation({
     theme_copied: "コピー完了！",
     theme_normally_hidden:
         "このメンバーは、フィルター設定のため、通常は非表示になっています。",
-    theme_class_hierarchy_title: "クラス継承図",
     theme_loading: "読み込み中...",
 });

@@ -5,6 +5,7 @@ import { Filter } from "./typedoc/components/Filter.js";
 import { Accordion } from "./typedoc/components/Accordion.js";
 import { initTheme } from "./typedoc/Theme.js";
 import { initNav } from "./typedoc/Navigation.js";
+import { initHierarchy } from "./typedoc/Hierarchy.js";
 
 registerComponent(Toggle, "a[data-toggle]");
 registerComponent(Accordion, ".tsd-accordion");
@@ -24,3 +25,4 @@ Object.defineProperty(window, "app", { value: app });
 
 initSearch();
 initNav();
+initHierarchy();

@@ -201,6 +201,7 @@ export interface TypeDocOptionMap {
     sluggerConfiguration: {
         lowercase: boolean;
     };
+    includeHierarchySummary: boolean;
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;

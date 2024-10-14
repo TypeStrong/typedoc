@@ -301,6 +301,8 @@ export = {
     help_sluggerConfiguration:
         "Determines how anchors within rendered HTML are determined.",
     help_navigation: "Determines how the navigation sidebar is organized",
+    help_includeHierarchySummary:
+        "If set, a reflections hierarchy summary will be rendered to a summary page. Defaults to `true`",
     help_visibilityFilters:
         "Specify the default visibility for builtin filters and additional filters according to modifier tags",
     help_searchCategoryBoosts:
@@ -480,7 +482,10 @@ export = {
     theme_type_declaration: "Type declaration",
     theme_index: "Index",
     theme_hierarchy: "Hierarchy",
-    theme_hierarchy_view_full: "view full",
+    theme_hierarchy_summary: "Hierarchy Summary",
+    theme_hierarchy_view_summary: "View Summary",
+    theme_hierarchy_expand: "Expand",
+    theme_hierarchy_collapse: "Collapse",
     theme_implemented_by: "Implemented by",
     theme_defined_in: "Defined in",
     theme_implementation_of: "Implementation of",
@@ -488,7 +493,6 @@ export = {
     theme_overrides: "Overrides",
     theme_returns: "Returns",
     theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
-    theme_class_hierarchy_title: "Class Hierarchy",
     // Search
     theme_preparing_search_index: "Preparing search index...",
     theme_search_index_not_available: "The search index is not available",

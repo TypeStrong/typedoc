@@ -183,7 +183,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
-        if (getHierarchyRoots(project).length) {
+        if (this.application.options.getValue("includeHierarchySummary") && getHierarchyRoots(project).length) {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 
