@@ -1,6 +1,6 @@
 import * as Path from "path";
 import { Component, RendererComponent } from "../components";
-import { RendererEvent } from "../events";
+import { PageEvent, RendererEvent } from "../events";
 import { JSX, writeFile } from "../../utils";
 import { DefaultTheme } from "../themes/default/DefaultTheme";
 import { gzip } from "zlib";
@@ -9,9 +9,7 @@ import {
     DeclarationReflection,
     ReferenceType,
     ReflectionKind,
-    type Reflection,
 } from "../../models";
-import { UrlMapping } from "../models/UrlMapping";
 
 const gzipP = promisify(gzip);
 
@@ -43,15 +41,7 @@ export class HierarchyPlugin extends RendererComponent {
     private async buildHierarchy(event: RendererEvent) {
         const theme = this.owner.theme as DefaultTheme;
 
-        const [_, pageEvent] = event.createPageEvent<Reflection>(
-            new UrlMapping<Reflection>(
-                "assets/hierarchy.js",
-                event.project,
-                () => "",
-            ),
-        );
-
-        const context = theme.getRenderContext(pageEvent);
+        const context = theme.getRenderContext(new PageEvent(event.project));
 
         const hierarchy = (
             event.project.getReflectionsByKind(
