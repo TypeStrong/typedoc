@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { DeclarationHierarchy, DeclarationReflection, Type } from "../../../../models";
+import type { DeclarationHierarchy, Type } from "../../../../models";
 
 const isLinkedReferenceType = (type: Type) =>
     type.visit({
@@ -15,11 +15,15 @@ function hasAnyLinkedReferenceType(h: DeclarationHierarchy | undefined): boolean
     return hasAnyLinkedReferenceType(h.next);
 }
 
-export function hierarchy(context: DefaultThemeRenderContext, props: DeclarationReflection) {
-    if (!props.typeHierarchy) return;
+export function hierarchy(
+    context: DefaultThemeRenderContext,
+    typeHierarchy: DeclarationHierarchy | undefined,
+    targetPath: string | undefined,
+) {
+    if (!typeHierarchy) return;
 
     const summaryLink =
-        context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(props.typeHierarchy) ? (
+        context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(typeHierarchy) ? (
             <>
                 {" "}
                 (
@@ -37,7 +41,7 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
             class="tsd-panel tsd-hierarchy"
             id="tsd-hierarchy-container"
             data-base={context.relativeURL("./")}
-            data-target-path={props.url!}
+            data-target-path={targetPath}
         >
             <input id="tsd-full-hierarchy-toggle" type="checkbox" />
 
@@ -50,7 +54,7 @@ export function hierarchy(context: DefaultThemeRenderContext, props: Declaration
                 </label>
             </h4>
 
-            {hierarchyList(context, props.typeHierarchy)}
+            {hierarchyList(context, typeHierarchy)}
         </section>
     );
 }

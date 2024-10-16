@@ -8,10 +8,9 @@ import type {
     CommentDisplayPart,
     DeclarationReflection,
     Reflection,
-    Type,
 } from "../../../models";
-import { JSX, type NeverIfInternal, type Options } from "../../../utils";
-import type { DefaultTheme, HierarchyElement } from "./DefaultTheme";
+import { type NeverIfInternal, type Options } from "../../../utils";
+import type { DefaultTheme } from "./DefaultTheme";
 import { defaultLayout } from "./layouts/default";
 import { index } from "./partials";
 import { breadcrumb } from "./partials/breadcrumb";
@@ -107,19 +106,6 @@ export class DefaultThemeRenderContext {
     };
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
-
-    private _hierarchyCache: HierarchyElement[] | undefined;
-
-    getHierarchy = () => {
-        if (this._hierarchyCache) {
-            return this._hierarchyCache;
-        }
-
-        return (this._hierarchyCache = this.theme.buildHierarchy(
-            this.page.project,
-            (value: Type) => JSX.renderElement(type(this, value)),
-        ));
-    };
 
     getReflectionClasses = (refl: DeclarationReflection | DocumentReflection) =>
         this.theme.getReflectionClasses(refl);

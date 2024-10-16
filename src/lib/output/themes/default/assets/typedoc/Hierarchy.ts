@@ -315,10 +315,21 @@ function buildList(
             } else if (item.classList.contains("tsd-hierarchy-target")) {
                 item.innerHTML += `<span>${currentBranch.text}</span>`;
             } else {
-                item.innerHTML += currentBranch.html.replace(
-                    /(?<=<a [^>]*(?<=\s)href=")(?![a-zA-Z]+:\/\/)([^"]*)(?="[^>]*>)/g,
-                    `${baseUrl.replace(/\$/g, "$$$$")}$1`,
-                );
+                item.innerHTML += currentBranch.html;
+
+                const anchors = item.querySelectorAll("a");
+
+                anchors.forEach((anchor) => {
+                    const href = anchor.getAttribute("href");
+
+                    if (
+                        typeof href !== "string" ||
+                        /^[a-zA-Z]+:\/\//.test(href)
+                    )
+                        return;
+
+                    anchor.setAttribute("href", baseUrl + href);
+                });
             }
         }
 
