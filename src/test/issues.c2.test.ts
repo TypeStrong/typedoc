@@ -1420,7 +1420,7 @@ describe("Issue Tests", () => {
         const page = new PageEvent(project);
         page.project = project;
         const context = theme.getRenderContext(page);
-        context.hierarchyTemplate(page);
+        context.hierarchyTemplate();
     });
 
     it("#2496 Correctly cleans up references to functions ", () => {

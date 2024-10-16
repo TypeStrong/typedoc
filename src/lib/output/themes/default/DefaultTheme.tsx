@@ -125,7 +125,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
     hierarchyTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
+        return this.getRenderContext(pageEvent).hierarchyTemplate();
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
@@ -214,7 +214,7 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         }
 
-        if (getHierarchyRoots(project).length) {
+        if (this.application.options.getValue("includeHierarchySummary") && getHierarchyRoots(project).length) {
             urls.push(new UrlMapping("hierarchy.html", project, this.hierarchyTemplate));
         }
 

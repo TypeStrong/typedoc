@@ -575,6 +575,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "includeHierarchySummary",
+        help: (i18n) => i18n.help_includeHierarchySummary(),
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+
+    options.addDeclaration({
         name: "visibilityFilters",
         help: (i18n) => i18n.help_visibilityFilters(),
         type: ParameterType.Mixed,
