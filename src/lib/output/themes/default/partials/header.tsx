@@ -26,7 +26,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
         renderTitle = opts.document;
     } else {
         renderTitle = true;
-        titleKindString = " " + context.internationalization.kindSingularString(props.model.kind);
+        titleKindString = context.internationalization.kindSingularString(props.model.kind) + " ";
     }
 
     return (

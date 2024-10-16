@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fixed missing space on page headers, #2748.
+
 ## v0.26.9 (2024-10-11)
 
 ### Features
