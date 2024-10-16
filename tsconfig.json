@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "Node16",
-        "lib": ["es2021"],
+        "lib": ["es2023"],
         "target": "es2021",
 
         // Add our `ts` internal types

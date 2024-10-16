@@ -27,14 +27,14 @@ export class SignatureReflection extends Reflection {
         super(name, kind, parent);
     }
 
-    override kind!:
+    declare kind:
         | ReflectionKind.SetSignature
         | ReflectionKind.GetSignature
         | ReflectionKind.IndexSignature
         | ReflectionKind.CallSignature
         | ReflectionKind.ConstructorSignature;
 
-    override parent!: DeclarationReflection;
+    declare parent: DeclarationReflection;
 
     /**
      * A list of all source files that contributed to this reflection.

@@ -175,11 +175,7 @@ export class GitRepository implements Repository {
  */
 export class RepositoryManager {
     private cache = new Map<string, Repository | undefined>();
-    private assumedRepo = new AssumedRepository(
-        this.basePath,
-        this.gitRevision,
-        this.sourceLinkTemplate,
-    );
+    private assumedRepo: AssumedRepository;
 
     constructor(
         private basePath: string,
@@ -188,7 +184,13 @@ export class RepositoryManager {
         private sourceLinkTemplate: string,
         private disableGit: boolean,
         private logger: Logger,
-    ) {}
+    ) {
+        this.assumedRepo = new AssumedRepository(
+            this.basePath,
+            this.gitRevision,
+            this.sourceLinkTemplate,
+        );
+    }
 
     /**
      * Check whether the given file is placed inside a repository.
