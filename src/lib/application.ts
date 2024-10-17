@@ -263,7 +263,12 @@ export class Application extends ChildableComponent<
         }
         this.trigger(ApplicationEvents.BOOTSTRAP_END, this);
 
-        if (!this.internationalization.hasTranslations(this.lang)) {
+        if (
+            !this.internationalization
+                .getSupportedLanguages()
+                .includes(this.lang) &&
+            !this.internationalization.hasTranslations(this.lang)
+        ) {
             // Not internationalized as by definition we don't know what to include here.
             this.logger.warn(
                 `Options specified "${this.lang}" as the language to use, but TypeDoc does not support it.` as TranslatedString,

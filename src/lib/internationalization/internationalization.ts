@@ -309,11 +309,14 @@ export class Internationalization {
      * Gets a list of all languages with at least one translation.
      */
     getSupportedLanguages(): string[] {
+        const langWithTranslations = Object.entries(this.allTranslations)
+            .filter(([_, translations]) => translations.size > 0)
+            .map(([lang]) => lang);
         return unique([
             ...readdirSync(join(__dirname, "locales")).map((x) =>
                 x.substring(0, x.indexOf(".")),
             ),
-            ...this.allTranslations.keys(),
+            ...langWithTranslations,
         ]).sort();
     }
 }
