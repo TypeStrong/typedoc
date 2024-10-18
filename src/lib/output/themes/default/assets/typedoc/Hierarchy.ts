@@ -1,11 +1,10 @@
 export interface HierarchyElement {
     html: string;
     text: string;
-    class: string;
     path?: string;
-    kind?: number;
     parents?: HierarchyElement[];
     children?: HierarchyElement[];
+    class: string;
     depth?: number;
 }
 
@@ -35,45 +34,41 @@ async function buildHierarchy() {
         .pipeThrough(new DecompressionStream("gzip"));
 
     const hierarchy = loadJson(await new Response(json).json());
+    let baseUrl = container.dataset.base;
+    const targetPath = container.dataset.targetPath;
 
-    let baseUrl = container.dataset.base!;
+    if (!hierarchy.length || !baseUrl || !targetPath) return;
 
     if (!baseUrl.endsWith("/")) baseUrl += "/";
 
-    const targetPath = container.dataset.targetPath;
+    const seeds = hierarchy.filter((element) => {
+        if (element.path === targetPath) {
+            element.class += " tsd-hierarchy-target";
 
-    const seeds = !targetPath
-        ? hierarchy.slice()
-        : hierarchy.filter((element) => {
-              if (element.path === targetPath) {
-                  element.class += " tsd-hierarchy-target";
+            element.parents?.forEach(
+                (parent) => (parent.class += " tsd-hierarchy-close-relative"),
+            );
 
-                  element.parents?.forEach(
-                      (parent) =>
-                          (parent.class += " tsd-hierarchy-close-relative"),
-                  );
+            element.children?.forEach(
+                (child) => (child.class += " tsd-hierarchy-close-relative"),
+            );
 
-                  element.children?.forEach(
-                      (child) =>
-                          (child.class += " tsd-hierarchy-close-relative"),
-                  );
+            return true;
+        }
 
-                  return true;
-              }
+        if (
+            !element.parents?.some(({ path }) => path === targetPath) &&
+            !element.children?.some(({ path }) => path === targetPath)
+        ) {
+            element.class += " tsd-hierarchy-distant-relative";
 
-              if (
-                  !element.parents?.some(({ path }) => path === targetPath) &&
-                  !element.children?.some(({ path }) => path === targetPath)
-              ) {
-                  element.class += " tsd-hierarchy-distant-relative";
+            return false;
+        }
 
-                  return false;
-              }
+        return false;
+    });
 
-              return false;
-          });
-
-    const trees = getTrees(seeds, !targetPath);
+    const trees = getTrees(seeds);
 
     if (!trees.length) return;
 
@@ -85,22 +80,12 @@ async function buildHierarchy() {
         const list = buildList(
             tree.filter((branch) => !branch.parents?.length),
             baseUrl,
-            !targetPath,
         )!;
 
         list.classList.add("tsd-full-hierarchy");
 
         container.append(list);
     });
-
-    if (!targetPath && window.location.hash) {
-        const anchor = document.getElementById(
-            window.location.hash.substring(1),
-        );
-
-        if (anchor && container.contains(anchor))
-            window.scrollTo(0, anchor.offsetTop);
-    }
 }
 
 function loadJson(hierarchy: HierarchyElement[]) {
@@ -115,7 +100,6 @@ function loadJson(hierarchy: HierarchyElement[]) {
                     return hierarchy.find(({ path }) => path === parent.path);
 
                 parent.class = "tsd-hierarchy-item";
-                parent.kind = element.kind;
                 parent.children = [element];
 
                 leaves.push(parent);
@@ -124,13 +108,14 @@ function loadJson(hierarchy: HierarchyElement[]) {
             })
             .filter((parent) => !!parent);
 
+        if (!element.parents?.length) delete element.parents;
+
         element.children = element.children
             ?.map((child) => {
                 if (child.path)
                     return hierarchy.find(({ path }) => path === child.path);
 
                 child.class = "tsd-hierarchy-item";
-                child.kind = element.kind;
                 child.parents = [element];
 
                 leaves.push(child);
@@ -138,6 +123,8 @@ function loadJson(hierarchy: HierarchyElement[]) {
                 return child;
             })
             .filter((child) => !!child);
+
+        if (!element.children?.length) delete element.children;
     });
 
     hierarchy.push(...leaves);
@@ -147,7 +134,7 @@ function loadJson(hierarchy: HierarchyElement[]) {
     return hierarchy;
 }
 
-function getTrees(seeds: HierarchyElement[], prune: boolean) {
+function getTrees(seeds: HierarchyElement[]) {
     const stack = seeds.slice();
 
     const trees: HierarchyElement[][] = [];
@@ -163,15 +150,11 @@ function getTrees(seeds: HierarchyElement[], prune: boolean) {
             if (idx !== -1) stack.splice(idx, 1);
         });
 
-        if (prune) {
-            tree = pruneBranches(tree);
-
-            if (tree.length <= 1) continue;
-        }
-
         tree = sortBranches(tree);
 
         tree = growBranches(tree);
+
+        tree = pruneBranches(tree);
 
         trees.push(tree);
     }
@@ -199,22 +182,6 @@ function findBranches(
     branch.children?.forEach((child) => findBranches(child, tree, depth + 1));
 
     return tree;
-}
-
-function pruneBranches(tree: HierarchyElement[]) {
-    return tree.filter((branch) => {
-        if (branch.path) return true;
-
-        branch.parents?.forEach((parent) =>
-            parent.children!.splice(parent.children!.indexOf(branch), 1),
-        );
-
-        branch.children?.forEach((child) =>
-            child.parents!.splice(child.parents!.indexOf(branch), 1),
-        );
-
-        return false;
-    });
 }
 
 function sortBranches(tree: HierarchyElement[]) {
@@ -275,47 +242,63 @@ function growBranches(tree: HierarchyElement[]) {
     return tree;
 }
 
+function pruneBranches(
+    tree: HierarchyElement[],
+    branches?: HierarchyElement[],
+    seenBranches: Set<HierarchyElement> = new Set(),
+) {
+    if (!branches)
+        branches = tree.filter((branch) => !branch.parents?.length).reverse();
+
+    branches.forEach((branch) => {
+        if (seenBranches.has(branch)) return;
+
+        seenBranches.add(branch);
+
+        branch.children = branch.children?.filter((child) => {
+            if (!seenBranches.has(child)) return true;
+
+            child.parents = child.parents?.filter(
+                (parent) => parent !== branch,
+            );
+
+            return false;
+        });
+
+        if (!branch.children?.length) {
+            delete branch.children;
+
+            return;
+        }
+
+        pruneBranches(tree, branch.children, seenBranches);
+    });
+
+    return tree;
+}
+
 function buildList(
     branches: HierarchyElement[],
     baseUrl: string,
-    summary: boolean,
-    reverse: boolean = true,
-    renderedBranches: Set<HierarchyElement> = new Set(),
+    isRoots: boolean = true,
 ) {
-    if (branches.every((branch) => renderedBranches.has(branch)))
-        return undefined;
+    if (!branches.length) return undefined;
 
     const list = document.createElement("ul");
     list.classList.add("tsd-hierarchy");
 
-    if (reverse) branches = branches.slice().reverse();
+    if (!isRoots) list.classList.add("tsd-full-hierarchy");
 
-    branches.forEach((currentBranch) => {
-        if (renderedBranches.has(currentBranch)) return;
-
-        renderedBranches.add(currentBranch);
-
+    branches.forEach((branch) => {
         const item = document.createElement("li");
+        item.className = branch.class;
+        list.append(item);
 
-        if (reverse) list.prepend(item);
-        else list.append(item);
-
-        item.className = currentBranch.class;
-
-        if (currentBranch.text) {
-            if (summary) {
-                item.innerHTML += `<a id="${currentBranch.text}" class="tsd-anchor"></a>`;
-
-                const anchor = document.createElement("a");
-                anchor.href = baseUrl + currentBranch.path!;
-                item.append(anchor);
-
-                anchor.innerHTML += `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${currentBranch.kind!}"></use></svg>`;
-                anchor.innerHTML += `<span>${currentBranch.text}</span>`;
-            } else if (item.classList.contains("tsd-hierarchy-target")) {
-                item.innerHTML += `<span>${currentBranch.text}</span>`;
+        if (branch.text) {
+            if (item.classList.contains("tsd-hierarchy-target")) {
+                item.innerHTML += `<span>${branch.text}</span>`;
             } else {
-                item.innerHTML += currentBranch.html;
+                item.innerHTML += branch.html;
 
                 const anchors = item.querySelectorAll("a");
 
@@ -333,15 +316,9 @@ function buildList(
             }
         }
 
-        if (!currentBranch.children?.length) return;
+        if (!branch.children?.length) return;
 
-        const childrenList = buildList(
-            currentBranch.children,
-            baseUrl,
-            summary,
-            false,
-            renderedBranches,
-        );
+        const childrenList = buildList(branch.children, baseUrl, false);
 
         if (childrenList) item.append(childrenList);
     });

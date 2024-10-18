@@ -125,7 +125,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).indexTemplate(pageEvent);
     };
     hierarchyTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
-        return this.getRenderContext(pageEvent).hierarchyTemplate();
+        return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
     };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);

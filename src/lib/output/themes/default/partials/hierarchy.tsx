@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext";
 import { JSX } from "../../../../utils";
-import type { DeclarationHierarchy, DeclarationReflection, Type } from "../../../../models";
+import type { DeclarationHierarchy, Type } from "../../../../models";
 
 const isLinkedReferenceType = (type: Type) =>
     type.visit({
@@ -15,11 +15,7 @@ function hasAnyLinkedReferenceType(h: DeclarationHierarchy | undefined): boolean
     return hasAnyLinkedReferenceType(h.next);
 }
 
-export function hierarchy(
-    context: DefaultThemeRenderContext,
-    typeHierarchy: DeclarationHierarchy | undefined,
-    reflection: DeclarationReflection,
-) {
+export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: DeclarationHierarchy | undefined) {
     if (!typeHierarchy) return;
 
     const summaryLink =
@@ -41,7 +37,7 @@ export function hierarchy(
             class="tsd-panel tsd-hierarchy"
             id="tsd-hierarchy-container"
             data-base={context.relativeURL("./")}
-            data-target-path={reflection.url!}
+            data-target-path={context.page.url}
         >
             <input id="tsd-full-hierarchy-toggle" type="checkbox" />
 

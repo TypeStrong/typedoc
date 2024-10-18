@@ -17,7 +17,6 @@ export interface HierarchyElement {
     html: string;
     text: string;
     path: string;
-    kind: ReflectionKind;
     parents?: ({ path: string } | { html: string; text: string })[];
     children?: ({ path: string } | { html: string; text: string })[];
 }
@@ -66,7 +65,6 @@ export class HierarchyPlugin extends RendererComponent {
                 // Full name should be safe here, since this list only includes classes/interfaces.
                 text: reflection.getFullName(),
                 path: reflection.url!,
-                kind: reflection.kind,
                 parents: reflection.extendedTypes?.map((type) =>
                     !(type instanceof ReferenceType) ||
                     !(type.reflection instanceof DeclarationReflection)
@@ -88,6 +86,12 @@ export class HierarchyPlugin extends RendererComponent {
             }));
 
         if (!hierarchy.length) return;
+
+        hierarchy.forEach((element) => {
+            if (!element.parents?.length) delete element.parents;
+
+            if (!element.children?.length) delete element.children;
+        });
 
         const hierarchyJs = Path.join(
             event.outputDirectory,
