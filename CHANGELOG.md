@@ -1,5 +1,9 @@
 # Unreleased
 
+### Bug Fixes
+
+-   Fix type errors when using `"module": "ESNext"` and importing TypeDoc, #2747.
+
 ## v0.26.10 (2024-10-16)
 
 ### Bug Fixes
