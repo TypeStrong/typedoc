@@ -13,23 +13,13 @@ export async function loadPlugins(
         const pluginDisplay = getPluginDisplayName(plugin);
 
         try {
-            let instance: any;
-            try {
-                // eslint-disable-next-line @typescript-eslint/no-require-imports
-                instance = require(plugin);
-            } catch (error: any) {
-                if (error.code === "ERR_REQUIRE_ESM") {
-                    // On Windows, we need to ensure this path is a file path.
-                    // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
-                    const esmPath = isAbsolute(plugin)
-                        ? pathToFileURL(plugin).toString()
-                        : plugin;
-                    instance = await import(esmPath);
-                } else {
-                    throw error;
-                }
-            }
-            const initFunction = instance.load;
+            // On Windows, we need to ensure this path is a file path.
+            // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+            const esmPath = isAbsolute(plugin)
+                ? pathToFileURL(plugin).toString()
+                : plugin;
+            let instance: any = await import(esmPath);
+            const initFunction = instance.load || instance.default?.load;
 
             if (typeof initFunction === "function") {
                 await initFunction(app);
