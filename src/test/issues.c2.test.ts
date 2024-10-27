@@ -1798,4 +1798,16 @@ describe("Issue Tests", () => {
             { display: "Node", target: "https://typescriptlang.org" },
         ]);
     });
+
+    it("#2755 handles multiple signature when discovering inherited comments", () => {
+        const project = convert();
+        equal(getSigComment(project, "Test.method", 0), "A");
+        equal(getSigComment(project, "Test.method", 1), "B");
+
+        equal(getSigComment(project, "Class.method", 0), "A");
+        equal(getSigComment(project, "Class.method", 1), "B");
+
+        equal(getSigComment(project, "Callable", 0), "A");
+        equal(getSigComment(project, "Callable", 1), "B");
+    });
 });
