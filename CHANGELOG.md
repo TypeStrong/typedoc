@@ -1,5 +1,9 @@
 # Unreleased
 
+### Features
+
+-   If `hostedBaseUrl` is set to the root page on a website, TypeDoc will now include `WebSite` structured data, #2760.
+
 ### Bug Fixes
 
 -   Fix support for ESM config files with Node 23, #2752.
