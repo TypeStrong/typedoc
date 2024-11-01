@@ -51,6 +51,7 @@ import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import { Outputs } from "./output/output.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -117,8 +118,10 @@ export class Application extends AbstractComponent<
      */
     converter: Converter;
 
+    outputs = new Outputs(this);
+
     /**
-     * The renderer used to generate the documentation output.
+     * The renderer used to generate the HTML documentation output.
      */
     renderer: Renderer;
 
@@ -205,6 +208,16 @@ export class Application extends AbstractComponent<
         this.converter = new Converter(this);
         this.renderer = new Renderer(this);
         this.logger.i18n = this.i18n;
+
+        this.outputs.addOutput("json", async (out, project) => {
+            const ser = this.serializer.projectToObject(project, process.cwd());
+            const space = this.options.getValue("pretty") ? "\t" : "";
+            await writeFile(out, JSON.stringify(ser, null, space) + "\n");
+        });
+
+        this.outputs.addOutput("html", async (out, project) => {
+            await this.renderer.render(project, out);
+        });
     }
 
     /**
@@ -299,17 +312,21 @@ export class Application extends AbstractComponent<
         }
     }
 
-    private setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {
+    /** @internal */
+    setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {
+        let success = true;
         for (const [key, val] of Object.entries(options)) {
             try {
                 this.options.setValue(key as never, val as never);
             } catch (error) {
+                success = false;
                 ok(error instanceof Error);
                 if (reportErrors) {
                     this.logger.error(error.message as TranslatedString);
                 }
             }
         }
+        return success;
     }
 
     /**
@@ -599,22 +616,26 @@ export class Application extends AbstractComponent<
     }
 
     /**
+     * Render outputs selected with options for the specified project
+     */
+    public async generateOutputs(project: ProjectReflection): Promise<void> {
+        await this.outputs.writeOutputs(project);
+    }
+
+    /**
      * Render HTML for the given project
      */
     public async generateDocs(
         project: ProjectReflection,
         out: string,
     ): Promise<void> {
-        const start = Date.now();
-        out = Path.resolve(out);
-        await this.renderer.render(project, out);
-
-        if (this.logger.hasErrors()) {
-            this.logger.error(this.i18n.docs_could_not_be_generated());
-        } else {
-            this.logger.info(this.i18n.docs_generated_at_0(nicePath(out)));
-            this.logger.verbose(`HTML rendering took ${Date.now() - start}ms`);
-        }
+        await this.outputs.writeOutput(
+            {
+                name: "html",
+                path: out,
+            },
+            project,
+        );
     }
 
     /**
@@ -627,14 +648,13 @@ export class Application extends AbstractComponent<
         project: ProjectReflection,
         out: string,
     ): Promise<void> {
-        const start = Date.now();
-        out = Path.resolve(out);
-        const ser = this.serializer.projectToObject(project, process.cwd());
-
-        const space = this.options.getValue("pretty") ? "\t" : "";
-        await writeFile(out, JSON.stringify(ser, null, space) + "\n");
-        this.logger.info(this.i18n.json_written_to_0(nicePath(out)));
-        this.logger.verbose(`JSON rendering took ${Date.now() - start}ms`);
+        await this.outputs.writeOutput(
+            {
+                name: "json",
+                path: out,
+            },
+            project,
+        );
     }
 
     /**

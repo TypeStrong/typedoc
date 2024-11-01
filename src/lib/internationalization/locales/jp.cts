@@ -14,10 +14,8 @@ export = localeUtils.buildIncompleteTranslation({
         "ウォッチモードの場合、entryPointStrategy は、resolve または expand のいずれかに設定する必要があります。",
     found_0_errors_and_1_warnings:
         "{0} 件のエラーと {1} 件の警告が見つかりました",
-    docs_could_not_be_generated:
-        "上記のエラーのためドキュメントを生成できませんでした",
-    docs_generated_at_0: "{0} で生成されたドキュメント",
-    json_written_to_0: "JSON が {0} に書き込まれました",
+    // output_0_could_not_be_generated
+    // output_0_generated_at_1
     no_entry_points_for_packages:
         "パッケージ モードにエントリ ポイントが提供されていないため、ドキュメントを生成できません",
     failed_to_find_packages:

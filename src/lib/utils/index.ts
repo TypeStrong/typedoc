@@ -58,6 +58,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
     JsDocCompatibility,
+    OutputSpecification,
 } from "./options/index.js";
 export { loadPlugins } from "./plugins.js";
 export { getSortFunction } from "./sort.js";

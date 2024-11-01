@@ -16,9 +16,8 @@ export = localeUtils.buildIncompleteTranslation({
         "对于监视模式，entryPointStrategy 必须设置为 resolve 或 expand",
     found_0_errors_and_1_warnings: "发现 {0} 个错误和 {1} 个警告",
 
-    docs_could_not_be_generated: "由于上述错误，无法生成文档",
-    docs_generated_at_0: "文档生成于 {0}",
-    json_written_to_0: "JSON 已写入 {0}",
+    // output_0_could_not_be_generated
+    // output_0_generated_at_1
 
     no_entry_points_for_packages: "没有为包模式提供入口点，无法生成文档",
     failed_to_find_packages:

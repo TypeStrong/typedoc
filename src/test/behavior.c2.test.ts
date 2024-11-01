@@ -1245,7 +1245,7 @@ describe("Behavior Tests", () => {
             foo.parameters?.map((p) => p.type?.toString()),
             ["{ inlined: true }"],
         );
-        // GERRIT: Should we just use types everywhere to get rid of this?
+        // Future: Should we just use types everywhere to get rid of this?
         // It still wouldn't get rid of it when converting type aliases...
         equal(foo.type?.toString(), "Complex<number>");
 

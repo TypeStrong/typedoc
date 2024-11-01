@@ -1,8 +1,8 @@
 import localeUtils = require("../locale-utils.cjs");
 
 export = localeUtils.buildIncompleteTranslation({
-    docs_generated_at_0: "문서가 {0}에 생성되었습니다",
-    json_written_to_0: "{0}에 JSON이 작성되었습니다",
+    // output_0_could_not_be_generated
+    // output_0_generated_at_1
 
     no_entry_points_for_packages:
         "패키지 모드에 대한 진입점이 제공되지 않았으므로 문서를 생성할 수 없습니다",
@@ -244,7 +244,6 @@ export = localeUtils.buildIncompleteTranslation({
     found_0_errors_and_1_warnings:
         "{0}개의 오류와 {1}개의 경고를 발견했습니다.",
 
-    docs_could_not_be_generated: "위 오류로 인해 문서를 생성할 수 없습니다.",
     // ReflectionFlag translations
     flag_private: "Private",
     flag_protected: "Protected",

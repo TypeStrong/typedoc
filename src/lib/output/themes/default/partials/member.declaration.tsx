@@ -11,8 +11,7 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node({ type: "nodes", content }, Wrap.Detect);
 
-    // GERRIT: It'd be nice to bring this back to omitting the type rather than the value
-    /** Fix for #2717. If type is the same as value the type is omitted */
+    /** Fix for #2717. If type is the same as value the default value is omitted */
     function shouldRenderDefaultValue() {
         if (props.type && props.type.type === "literal") {
             const reflectionTypeString = props.type.toString();

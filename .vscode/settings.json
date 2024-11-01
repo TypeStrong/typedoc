@@ -52,6 +52,7 @@
         "githubprivate",
         "hideconstructor",
         "linkcode",
+        "linkify",
         "linkplain",
         "Msys",
         "nodoc",

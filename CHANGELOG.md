@@ -6,6 +6,8 @@ title: Changelog
 
 -   TypeDoc will now discover entry points from `package.json` exports if they are not provided manually, #1937.
 -   Relaxed requirements for file names and generated url fragments. This may result in a different file name structure, #2714.
+-   Added a new `outputs` option which is an array of outputs. This can be used to render the documentation multiple times
+    with different rendering options or output types, #2597.
 -   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
 -   Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
@@ -40,6 +42,7 @@ title: Changelog
 -   Introduced `--favicon` option to specify a `.ico` or `.svg` favicon to reference.
 -   Sections within the page and in the "On This Page" navigation are now tied together and will expand/collapse together, #2335.
 -   The arrows to indicate whether or not a section is open now work when JavaScript is disabled.
+-   API: Introduced a new `app.outputs` object for defining new output strategies.
 
 TODO:
 

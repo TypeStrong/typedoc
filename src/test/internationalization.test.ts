@@ -48,12 +48,9 @@ describe("Internationalization", () => {
     });
 
     it("Supports translating with placeholders", () => {
-        equal(
-            app.i18n.docs_generated_at_0("X"),
-            "Documentation generated at X",
-        );
+        equal(app.i18n.loaded_plugin_0("X"), "Loaded plugin X");
         app.options.setValue("lang", "zh");
-        equal(app.i18n.docs_generated_at_0("X"), "文档生成于 X");
+        equal(app.i18n.loaded_plugin_0("X"), "已加载插件 X");
     });
 });
 

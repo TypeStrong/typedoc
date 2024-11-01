@@ -1,6 +1,7 @@
 import type * as ts from "typescript";
+import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
-import type { NeverIfInternal } from "../index.js";
+import type { NeverIfInternal, OutputSpecification } from "../index.js";
 import { DefaultMap } from "../map.js";
 import type { Application } from "../../../index.js";
 import { insertOrderSorted, unique } from "../array.js";
@@ -335,8 +336,9 @@ export class Options {
         }
 
         let oldValue = this._values[declaration.name];
-        if (typeof oldValue === "undefined")
+        if (typeof oldValue === "undefined") {
             oldValue = getDefaultValue(declaration);
+        }
 
         const converted = convert(
             value,
@@ -352,6 +354,17 @@ export class Options {
                 this._values[declaration.name],
                 converted,
             );
+        } else if (declaration.name === "outputs") {
+            // This is very unfortunate... there's probably some smarter way to define options
+            // so that this can be done intelligently via the convert function.
+            this._values[declaration.name] = (
+                converted as OutputSpecification[]
+            ).map((c) => {
+                return {
+                    ...c,
+                    path: resolve(configPath ?? process.cwd(), c.path),
+                };
+            });
         } else {
             this._values[declaration.name] = converted;
         }

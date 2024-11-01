@@ -51,6 +51,8 @@ export function commentSummary(context: DefaultThemeRenderContext, props: Reflec
 export function commentTags(context: DefaultThemeRenderContext, props: Reflection) {
     if (!props.comment) return;
 
+    const skipSave = props.comment.blockTags.map((tag) => tag.skipRendering);
+
     const skippedTags = context.options.getValue("notRenderedTags");
     const beforeTags = context.hook("comment.beforeTags", context, props.comment, props);
     const afterTags = context.hook("comment.afterTags", context, props.comment, props);
@@ -60,6 +62,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
               (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
           )
         : props.comment.blockTags.filter((tag) => !tag.skipRendering && !skippedTags.includes(tag.tag));
+
+    skipSave.forEach((skip, i) => (props.comment!.blockTags[i].skipRendering = skip));
 
     return (
         <>

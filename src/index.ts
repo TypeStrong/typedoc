@@ -60,6 +60,8 @@ export type {
     PageHeading,
 } from "./lib/output/index.js";
 
+export { Outputs } from "./lib/output/output.js";
+
 export {
     ArgumentsReader,
     Option,
@@ -104,6 +106,7 @@ export type {
     ManuallyValidatedOption,
     EnumKeys,
     JsDocCompatibility,
+    OutputSpecification,
 } from "./lib/utils/index.js";
 
 export {

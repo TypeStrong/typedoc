@@ -17,10 +17,9 @@ export = {
         "entryPointStrategy must be set to either resolve or expand for watch mode",
     found_0_errors_and_1_warnings: "Found {0} errors and {1} warnings",
 
-    docs_could_not_be_generated:
-        "Documentation could not be generated due to the errors above",
-    docs_generated_at_0: "Documentation generated at {0}",
-    json_written_to_0: "JSON written to {0}",
+    output_0_could_not_be_generated:
+        "{0} output could not be generated due to the errors above",
+    output_0_generated_at_1: "{0} generated at {1}",
 
     no_entry_points_for_packages:
         "No entry points provided to packages mode, documentation cannot be generated",
@@ -388,6 +387,8 @@ export = {
     option_0_values_must_be_array_of_tags:
         "{0} must be an array of valid tag names",
     option_0_specified_1_but_only_2_is_valid: `{0} may only specify known values, and invalid values were provided ({1}). The valid sort strategies are:\n{2}`,
+    option_outputs_must_be_array: `"outputs" option must be an array of { name: string, path: string, options?: TypeDocOptions } values.`,
+    specified_output_0_has_not_been_defined: `Specified output "{0}" has not been defined.`,
 
     // ReflectionKind singular translations
     kind_project: "Project",

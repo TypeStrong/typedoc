@@ -249,7 +249,34 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     ///////////////////////////
 
     options.addDeclaration({
+        name: "outputs",
+        help: (i18n) => i18n.help_out(),
+        type: ParameterType.Mixed,
+        configFileOnly: true,
+        defaultValue: undefined,
+        validate(value, i18n) {
+            if (
+                !Validation.validate(
+                    [
+                        Array,
+                        {
+                            name: String,
+                            path: String,
+                            options: Validation.optional({
+                                [Validation.additionalProperties]: true,
+                            }),
+                        },
+                    ],
+                    value,
+                )
+            ) {
+                throw new Error(i18n.option_outputs_must_be_array());
+            }
+        },
+    });
+    options.addDeclaration({
         name: "out",
+        outputShortcut: "html",
         help: (i18n) => i18n.help_out(),
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
@@ -257,6 +284,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "json",
+        outputShortcut: "json",
         help: (i18n) => i18n.help_json(),
         type: ParameterType.Path,
         hint: ParameterHint.File,

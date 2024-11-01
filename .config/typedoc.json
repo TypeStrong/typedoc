@@ -15,6 +15,17 @@
     ],
     "name": "TypeDoc API",
 
+    "outputs": [
+        {
+            "name": "html",
+            "path": "../docs"
+        },
+        {
+            "name": "json",
+            "path": "../docs/docs.json"
+        }
+    ],
+
     "excludeExternals": true,
     "excludeInternal": false,
     "excludePrivate": true,

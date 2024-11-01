@@ -31,6 +31,12 @@ export const CommentStyle = {
 } as const;
 export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
 
+export type OutputSpecification = {
+    name: string;
+    path: string;
+    options?: Partial<TypeDocOptions>;
+};
+
 /**
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
@@ -129,8 +135,9 @@ export interface TypeDocOptionMap {
     readme: string;
 
     // Output
-    out: string;
-    json: string;
+    outputs: ManuallyValidatedOption<Array<OutputSpecification>>;
+    out: string; // shortcut for defining an output
+    json: string; // shortcut for defining an output
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;
@@ -404,6 +411,16 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
      * An optional hint for the type of input expected, will be displayed in the help output.
      */
     hint?: ParameterHint;
+
+    /**
+     * If specified, when this output is specified TypeDoc will automatically add
+     * an output to the `outputs` option whose name is the value of this property with
+     * the path set to the value of this option. Should only be used with `type`
+     * set to {@link ParameterType.Path}.
+     *
+     * If any output shortcuts are set, the `outputs` option will be ignored.
+     */
+    outputShortcut?: string;
 
     /**
      * An optional validation function that validates a potential value of this option.

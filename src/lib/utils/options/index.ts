@@ -33,6 +33,7 @@ export type {
     ParameterTypeToOptionTypeMap,
     ManuallyValidatedOption,
     JsDocCompatibility,
+    OutputSpecification,
 } from "./declaration.js";
 
 export { OptionDefaults } from "./defaults.js";
