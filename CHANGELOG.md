@@ -1,5 +1,7 @@
 # Unreleased
 
+## v0.26.11 (2024-11-01)
+
 ### Features
 
 -   If `hostedBaseUrl` is set to the root page on a website, TypeDoc will now include `WebSite` structured data, #2760.
