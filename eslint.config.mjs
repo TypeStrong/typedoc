@@ -127,6 +127,7 @@ export default tslint.config(
             "src/test/renderer/specs",
             "dist",
             "docs",
+            "docs2",
             "docs-site",
             "tmp",
             "coverage",
@@ -142,9 +143,6 @@ export default tslint.config(
             "src/test/slow/entry-points",
             "scripts",
             "bin",
-
-            // Not long for this world
-            "src/test/events.test.ts",
         ],
     },
 );

@@ -586,12 +586,14 @@ const converters: {
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
     [ParameterType.String](value, option, i18n) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         const stringValue = value == null ? "" : String(value);
         option.validate?.(stringValue, i18n);
         return stringValue;
     },
     [ParameterType.Path](value, option, i18n, configPath) {
         const stringValue =
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             value == null ? "" : resolve(configPath, String(value));
         option.validate?.(stringValue, i18n);
         return stringValue;
