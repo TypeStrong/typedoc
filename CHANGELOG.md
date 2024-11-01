@@ -52,6 +52,47 @@ TODO:
 
 # Unreleased
 
+## v0.26.11 (2024-11-01)
+
+### Features
+
+-   If `hostedBaseUrl` is set to the root page on a website, TypeDoc will now include `WebSite` structured data, #2760.
+
+### Bug Fixes
+
+-   Fix support for ESM config files with Node 23, #2752.
+-   Fix type errors when using `"module": "ESNext"` and importing TypeDoc, #2747.
+-   Inherited comments on overloaded methods now consider the overload position when inheriting a comment, #2755.
+
+## v0.26.10 (2024-10-16)
+
+### Bug Fixes
+
+-   Fixed missing space on page headers, #2748.
+
+## v0.26.9 (2024-10-11)
+
+### Features
+
+-   Added `headings` option to control optional headings, #2729.
+-   Updated Chinese translations, #2739.
+-   Added a folder icon to page navigation elements which are not links, #2741.
+
+### Bug Fixes
+
+-   `externalSymbolLinkMappings` now uses the TypeScript reported link target if available, #2725.
+-   TypeDoc will no longer omit the modules page if a project contains only modules/documents, #2730.
+-   Fixed missing breadcrumbs on project page, #2728.
+-   TypeDoc will no longer render an empty readme page if no readme was found.
+
+### Thanks!
+
+-   @lriggle-strib
+-   @mrfigg
+-   @XeroAlpha
+
+## v0.26.8 (2024-10-04)
+
 ### Features
 
 -   Updated Chinese translations, #2706.

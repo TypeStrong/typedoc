@@ -602,6 +602,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
 
     options.addDeclaration({
+        name: "headings",
+        help: (i18n) => i18n.help_headings(),
+        type: ParameterType.Flags,
+        defaults: {
+            readme: true,
+            document: false,
+        },
+    });
+
+    options.addDeclaration({
         name: "visibilityFilters",
         help: (i18n) => i18n.help_visibilityFilters(),
         type: ParameterType.Mixed,

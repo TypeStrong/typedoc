@@ -291,6 +291,7 @@ export = {
     help_sidebarLinks: "Defines links to be included in the sidebar",
     help_navigationLeaves:
         "Branches of the navigation tree which should not be expanded",
+    help_headings: "Determines which optional headings are rendered",
     help_navigation: "Determines how the navigation sidebar is organized",
     help_visibilityFilters:
         "Specify the default visibility for builtin filters and additional filters according to modifier tags",

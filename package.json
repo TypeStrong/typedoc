@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.26.8",
+  "version": "0.26.11",
   "homepage": "https://typedoc.org",
   "type": "module",
   "exports": {
@@ -50,8 +50,8 @@
     "semver": "^7.6.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.15.7",
-    "typescript-eslint": "^8.4.0",
-    "typescript": "5.6.1-rc"
+    "typescript": "5.6.3",
+    "typescript-eslint": "^8.4.0"
   },
   "files": [
     "/bin",

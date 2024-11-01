@@ -1814,4 +1814,28 @@ describe("Issue Tests", () => {
         equal(query(project, "big").defaultValue, "123n");
         equal(query(project, "neg").defaultValue, "-123n");
     });
+
+    it("#2725 respects symbol IDs when resolving links with user configured resolver", () => {
+        app.options.setValue("externalSymbolLinkMappings", {
+            typescript: {
+                "ts.Node": "https://typescriptlang.org",
+            },
+        });
+        const project = convert();
+        equal(getLinks(query(project, "node")), [
+            { display: "Node", target: "https://typescriptlang.org" },
+        ]);
+    });
+
+    it("#2755 handles multiple signature when discovering inherited comments", () => {
+        const project = convert();
+        equal(getSigComment(project, "Test.method", 0), "A");
+        equal(getSigComment(project, "Test.method", 1), "B");
+
+        equal(getSigComment(project, "Class.method", 0), "A");
+        equal(getSigComment(project, "Class.method", 1), "B");
+
+        equal(getSigComment(project, "Callable", 0), "A");
+        equal(getSigComment(project, "Callable", 1), "B");
+    });
 });

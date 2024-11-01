@@ -502,13 +502,33 @@ function declarationToCommentNodes(
             },
         ];
 
+    let overloadIndex: number | undefined = undefined;
+    if (ts.isMethodDeclaration(node)) {
+        const symbol = checker.getSymbolAtLocation(node.name || node);
+        if (symbol) {
+            overloadIndex = symbol.declarations
+                ?.filter((d) => d.kind === node.kind)
+                .indexOf(node);
+            ok(overloadIndex !== -1, "Should always find declaration");
+        }
+    }
+
     const seenSymbols = new Set<ts.Symbol>();
     const bases = findBaseOfDeclaration(checker, node, (symbol) => {
         if (!seenSymbols.has(symbol)) {
             seenSymbols.add(symbol);
-            return symbol.declarations?.map(
-                (node) => declarationToCommentNodeIgnoringParents(node) || node,
-            );
+            if (overloadIndex === undefined) {
+                return symbol.declarations?.map(
+                    (node) =>
+                        declarationToCommentNodeIgnoringParents(node) || node,
+                );
+            } else if (symbol.declarations?.[overloadIndex]) {
+                const parentSigNode = symbol.declarations[overloadIndex];
+                return [
+                    declarationToCommentNodeIgnoringParents(parentSigNode) ||
+                        parentSigNode,
+                ];
+            }
         }
     });
 

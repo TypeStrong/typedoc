@@ -234,7 +234,21 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     constructor(owner: Application) {
         super(owner);
 
-        this.addUnknownSymbolResolver((ref) => {
+        const userConfiguredSymbolResolver: ExternalSymbolResolver = (
+            ref,
+            refl,
+            _part,
+            symbolId,
+        ) => {
+            if (symbolId) {
+                return userConfiguredSymbolResolver(
+                    symbolId.toDeclarationReference(),
+                    refl,
+                    undefined,
+                    undefined,
+                );
+            }
+
             // Require global links, matching local ones will likely hide mistakes where the
             // user meant to link to a local type.
             if (ref.resolutionStart !== "global" || !ref.symbolReference) {
@@ -261,7 +275,8 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             if (typeof modLinks["*"] === "string") {
                 return modLinks["*"];
             }
-        });
+        };
+        this.addUnknownSymbolResolver(userConfiguredSymbolResolver);
 
         new CategoryPlugin(this);
         new CommentPlugin(this);

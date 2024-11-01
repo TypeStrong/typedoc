@@ -12,7 +12,7 @@ const ICONS_JS = `
     function addIcons() {
         if (document.readyState === "loading") return document.addEventListener("DOMContentLoaded", addIcons);
         const svg = document.body.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
-        svg.innerHTML = \`"SVG_HTML"\`;
+        svg.innerHTML = \`SVG_HTML\`;
         svg.style.display = "none";
         if (location.protocol === "file:") updateUseElements();
     }
@@ -50,7 +50,11 @@ export class IconsPlugin extends RendererComponent {
         const icons = (this.owner.theme as DefaultTheme).icons;
 
         for (const [name, icon] of Object.entries(icons)) {
-            children.push(<g id={`icon-${name}`}>{icon.call(icons).children}</g>);
+            children.push(
+                <g id={`icon-${name}`} class="tsd-no-select">
+                    {icon.call(icons).children}
+                </g>,
+            );
         }
 
         const svg = renderElement(<svg xmlns="http://www.w3.org/2000/svg">{children}</svg>);

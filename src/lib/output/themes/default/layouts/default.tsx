@@ -20,6 +20,34 @@ function favicon(context: DefaultThemeRenderContext) {
     }
 }
 
+// See #2760
+function buildSiteMetadata(context: DefaultThemeRenderContext) {
+    try {
+        // We have to know where we are hosted in order to generate this block
+        const url = new URL(context.options.getValue("hostedBaseUrl"));
+
+        // No point in generating this if we aren't the root page on the site
+        if (url.pathname !== "/") {
+            return null;
+        }
+
+        return (
+            <script type="application/ld+json">
+                <Raw
+                    html={JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        name: context.page.project.name,
+                        url: url.toString(),
+                    })}
+                />
+            </script>
+        );
+    } catch {
+        return null;
+    }
+}
+
 export const defaultLayout = (
     context: DefaultThemeRenderContext,
     template: RenderTemplate<PageEvent<Reflection>>,
@@ -36,6 +64,7 @@ export const defaultLayout = (
                     : `${getDisplayName(props.model)} | ${getDisplayName(props.project)}`}
             </title>
             {favicon(context)}
+            {props.url === "index.html" && buildSiteMetadata(context)}
             <meta name="description" content={"Documentation for " + props.project.name} />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
 

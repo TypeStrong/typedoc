@@ -287,6 +287,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_sidebarLinks: "定义要包含在侧边栏中的链接",
     help_navigationLeaves: "导航树中不应扩展的分支",
     help_navigation: "确定导航侧边栏的组织方式",
+    help_headings: "确定标题是否需要被渲染",
     help_visibilityFilters:
         "根据修饰符标签指定内置过滤器和附加过滤器的默认可见性",
     help_searchCategoryBoosts: "配置搜索以提高所选类别的相关性",

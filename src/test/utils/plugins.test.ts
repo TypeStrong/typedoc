@@ -14,7 +14,7 @@ describe("loadPlugins", () => {
         logger = fakeApp.logger = new TestLogger();
     });
 
-    it("Should support loading a basic plugin", async () => {
+    it("Should support loading a CJS plugin with directory target", async () => {
         using project = tempdirProject();
         project.addJsonFile("package.json", {
             type: "commonjs",
@@ -24,6 +24,22 @@ describe("loadPlugins", () => {
         project.write();
 
         const plugin = resolve(project.cwd, "index.js");
+        await loadPlugins(fakeApp, [plugin]);
+        logger.expectMessage(`info: Loaded plugin ${plugin}`);
+    });
+
+    it("Should support loading a CJS plugin with full path", async () => {
+        using project = tempdirProject();
+        project.addJsonFile("package.json", {
+            type: "commonjs",
+            main: "index.js",
+        });
+        const plugin = project.addFile(
+            "index.js",
+            "exports.load = function load() {}",
+        ).path;
+        project.write();
+
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`info: Loaded plugin ${plugin}`);
     });

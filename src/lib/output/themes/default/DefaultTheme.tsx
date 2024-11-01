@@ -169,14 +169,9 @@ export class DefaultTheme extends Theme {
         const urls: UrlMapping[] = [];
         this.sluggers.set(project, new Slugger());
 
-        if (!hasReadme(this.application.options.getValue("readme"))) {
+        if (!project.readme?.length) {
             project.url = "index.html";
             urls.push(new UrlMapping<ContainerReflection>("index.html", project, this.reflectionTemplate));
-        } else if (project.children?.every((child) => child.kindOf(ReflectionKind.Module))) {
-            // If there are no non-module children, then there's no point in having a modules page since there
-            // will be nothing on it besides the navigation, so redirect the module page to the readme page
-            project.url = "index.html";
-            urls.push(new UrlMapping("index.html", project, this.indexTemplate));
         } else {
             project.url = "modules.html";
             urls.push(new UrlMapping("modules.html", project, this.reflectionTemplate));
@@ -474,10 +469,6 @@ export class DefaultTheme extends Theme {
             return true;
         });
     }
-}
-
-function hasReadme(readme: string) {
-    return !readme.endsWith("none");
 }
 
 function getReflectionClasses(
