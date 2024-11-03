@@ -56,3 +56,36 @@ A Random Shakespeare Quote
 ## An Image
 
  <img src="../../media/typescript-logo.svg" width="120" />
+
+## Alerts
+
+GitHub supports [alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+to highlight important content. TypeDoc also recognizes alerts and will style them similarly to GitHub.
+
+To use an alert, include a blockquote in any markdown content which starts with an alert tag:
+
+-   `[!NOTE]`
+-   `[!TIP]`
+-   `[!IMPORTANT]`
+-   `[!WARNING]`
+-   `[!CAUTION]`
+
+```md
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+```
+
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.

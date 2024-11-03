@@ -8,6 +8,7 @@ title: Changelog
 -   Relaxed requirements for file names and generated url fragments. This may result in a different file name structure, #2714.
 -   Added a new `outputs` option which is an array of outputs. This can be used to render the documentation multiple times
     with different rendering options or output types, #2597.
+-   Added support for rendering alerts (or callouts) in markdown.
 -   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
 -   Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
@@ -46,7 +47,6 @@ title: Changelog
 
 TODO:
 
--   https://github.com/ebullient/markdown-it-obsidian-callouts plugin
 -   Validate anchors within relative linked paths?
 -   Figure out automation for beta releases
 

@@ -391,6 +391,13 @@ export = {
     option_outputs_must_be_array: `"outputs" option must be an array of { name: string, path: string, options?: TypeDocOptions } values.`,
     specified_output_0_has_not_been_defined: `Specified output "{0}" has not been defined.`,
 
+    // https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
+    alert_note: "Note",
+    alert_tip: "Tip",
+    alert_important: "Important",
+    alert_warning: "Warning",
+    alert_caution: "Caution",
+
     // ReflectionKind singular translations
     kind_project: "Project",
     kind_module: "Module",

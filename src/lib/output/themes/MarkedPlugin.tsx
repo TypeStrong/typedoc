@@ -1,4 +1,4 @@
-import markdown from "markdown-it";
+import MarkdownIt from "markdown-it";
 // @types/markdown-it is busted, this type isn't exported with ESM.
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
@@ -12,6 +12,7 @@ import type { DefaultTheme, DefaultThemeRenderContext, Renderer } from "../index
 import { Slugger } from "./default/Slugger.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import { type Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
+import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
 
 let defaultSlugger: Slugger | undefined;
 function getDefaultSlugger(logger: Logger) {
@@ -39,7 +40,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     @Option("markdownLinkExternal")
     accessor markdownLinkExternal!: boolean;
 
-    private parser?: markdown;
+    private parser?: MarkdownIt;
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
@@ -225,7 +226,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      * @returns The options object for the markdown parser.
      */
     private setupParser() {
-        this.parser = markdown({
+        this.parser = MarkdownIt({
             ...this.markdownItOptions,
             highlight: (code, lang) => {
                 code = this.getHighlighted(code, lang || "ts");
@@ -238,6 +239,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
             },
         });
+
+        githubAlertMarkdownPlugin(this.parser, this.application.i18n);
 
         const loader = this.application.options.getValue("markdownItLoader");
         loader(this.parser);
@@ -285,6 +288,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             }
             return self.renderToken(tokens, idx, options);
         };
+
+        this.parser.renderer.rules["alert_open"] = (tokens, idx) => {
+            const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
+            const iconHtml = renderElement(icon());
+
+            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${tokens[idx].attrGet("alert")}</span></div>`;
+        };
     }
 
     /**
@@ -302,4 +312,64 @@ function getTokenTextContent(token: md.Token): string {
         return token.children.map(getTokenTextContent).join("");
     }
     return token.content;
+}
+
+const kindNames = ["note", "tip", "important", "warning", "caution"];
+const iconNames = ["alertNote", "alertTip", "alertImportant", "alertWarning", "alertCaution"] as const;
+type AlertIconName = (typeof iconNames)[number];
+const kindTranslations: Array<(i18n: TranslationProxy) => TranslatedString> = [
+    (i18n) => i18n.alert_note(),
+    (i18n) => i18n.alert_tip(),
+    (i18n) => i18n.alert_important(),
+    (i18n) => i18n.alert_warning(),
+    (i18n) => i18n.alert_caution(),
+];
+
+function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
+    md.core.ruler.after("block", "typedoc-github-alert-plugin", (state) => {
+        let bqStarts: number[] = [];
+
+        for (let i = 0; i < state.tokens.length; ++i) {
+            const token = state.tokens[i];
+            if (token.type === "blockquote_open") {
+                bqStarts.push(i);
+            } else if (token.type === "blockquote_close") {
+                if (bqStarts.length === 1) {
+                    checkForAlert(state.tokens, bqStarts[0], i, i18n);
+                }
+                bqStarts.pop();
+            }
+        }
+    });
+}
+
+function checkForAlert(tokens: md.Token[], start: number, end: number, i18n: TranslationProxy) {
+    let alertKind = -1;
+
+    // Search for the first "inline" token. That will be the blockquote text.
+    for (let i = start; i < end; ++i) {
+        if (tokens[i].type === "inline") {
+            // Check for `[!NOTE]`
+            const kindString = tokens[i].content.match(/^\[!(\w+)\]/);
+            const kindIndex = kindNames.indexOf(kindString?.[1].toLowerCase() || "");
+            if (kindIndex !== -1) {
+                tokens[i].content = tokens[i].content.substring(kindString![0].length);
+                alertKind = kindIndex;
+            }
+            break;
+        }
+    }
+
+    // If we found an alert, then replace the blockquote_open and blockquote_close tokens with
+    // alert_open and alert_close tokens that can be rendered specially.
+    if (alertKind === -1) return;
+
+    tokens[start].type = "alert_open";
+    tokens[start].tag = "div";
+    tokens[start].attrPush(["class", `tsd-alert tsd-alert-${kindNames[alertKind]}`]);
+    tokens[start].attrPush(["alert", kindTranslations[alertKind](i18n)]);
+    tokens[start].attrPush(["icon", iconNames[alertKind]]);
+
+    tokens[end].type = "alert_close";
+    tokens[end].tag = "div";
 }

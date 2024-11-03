@@ -25,9 +25,11 @@
         "json",
         "jsonc",
         "python",
-        "yaml"
+        "yaml",
+        "markdown"
     ],
     "markdownItOptions": {
         "html": true
-    }
+    },
+    "suppressCommentWarningsInDeclarationFiles": true
 }
