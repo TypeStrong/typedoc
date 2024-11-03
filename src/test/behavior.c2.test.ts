@@ -1278,4 +1278,64 @@ describe("Behavior Tests", () => {
         const data = query(project, "Data");
         equal(data.type?.toString(), "{ abc: number }[]");
     });
+
+    it("Handles highlighted properties on parameter references - type alias", () => {
+        const project = convert("highlightedProperties");
+
+        // Exported case
+        const fn1 = querySig(project, "fn1");
+        equal(fn1.parameters?.length, 1);
+
+        const param = fn1.parameters[0];
+        equal(param.type?.type, "reference");
+        equal(param.type.highlightedProperties?.size, 1);
+        equal(
+            Comment.combineDisplayParts(
+                param.type.highlightedProperties.get("a"),
+            ),
+            "Highlighted prop",
+        );
+
+        logger.expectMessage(
+            'warn: The signature fn1 has an @param with name "options.c", which was not used',
+        );
+
+        // Not exported case
+        const fn2 = querySig(project, "fn2");
+        equal(fn2.parameters?.length, 1);
+
+        const param2 = fn2.parameters[0];
+        equal(param2.type?.type, "reference");
+        equal(param2.type.highlightedProperties?.size, 2);
+        equal(
+            Comment.combineDisplayParts(
+                param2.type.highlightedProperties.get("a"),
+            ),
+            "Highlighted prop",
+        );
+        equal(
+            Comment.combineDisplayParts(
+                param2.type.highlightedProperties.get("c"),
+            ),
+            "does not exist",
+        );
+
+        // Interface case
+        const fn3 = querySig(project, "fn3");
+        equal(fn3.parameters?.length, 1);
+
+        const param3 = fn3.parameters[0];
+        equal(param3.type?.type, "reference");
+        equal(param3.type.highlightedProperties?.size, 1);
+        equal(
+            Comment.combineDisplayParts(
+                param2.type.highlightedProperties.get("a"),
+            ),
+            "Highlighted prop",
+        );
+
+        logger.expectMessage(
+            'warn: The signature fn3 has an @param with name "options.c", which was not used',
+        );
+    });
 });

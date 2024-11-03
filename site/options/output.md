@@ -328,7 +328,7 @@ Defines additional links to be included in the page sidebar.
         "includeGroups": false,
         "includeFolders": true,
         "compactFolders": false,
-        "includeReferences": true
+        "excludeReferences": true
     },
     "categorizeByGroup": false
 }

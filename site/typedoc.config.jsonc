@@ -36,7 +36,7 @@
     "navigation": {
         "includeCategories": true,
         "includeGroups": false,
-        "includeReferences": false,
+        "excludeReferences": true,
     },
 
     "validation": {

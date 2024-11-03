@@ -1,41 +1,42 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, Raw } from "../../../../utils/index.js";
-import { type Comment, type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
 import { anchorIcon } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
 
-export function commentShortSummary({ markdown, options }: DefaultThemeRenderContext, props: Reflection) {
+export function renderDisplayParts(
+    { markdown }: DefaultThemeRenderContext,
+    parts: readonly CommentDisplayPart[] | undefined,
+) {
+    if (!parts?.length) return;
+
+    return (
+        <div class="tsd-comment tsd-typography">
+            <Raw html={markdown(parts)} />
+        </div>
+    );
+}
+
+export function commentShortSummary(context: DefaultThemeRenderContext, props: Reflection) {
     let shortSummary: readonly CommentDisplayPart[] | undefined;
     if (props.isDocument()) {
         if (typeof props.frontmatter["summary"] === "string") {
             shortSummary = [{ kind: "text", text: props.frontmatter["summary"] }];
         }
     } else {
-        shortSummary = props.comment?.getShortSummary(options.getValue("useFirstParagraphOfCommentAsSummary"));
+        shortSummary = props.comment?.getShortSummary(context.options.getValue("useFirstParagraphOfCommentAsSummary"));
     }
 
     if (!shortSummary?.some((part) => part.text)) return;
 
-    return (
-        <div class="tsd-comment tsd-typography">
-            <Raw html={markdown(shortSummary)} />
-        </div>
-    );
-}
-
-function renderSummary(context: DefaultThemeRenderContext, comment: Comment) {
-    return (
-        <div class="tsd-comment tsd-typography">
-            <Raw html={context.markdown(comment.summary)} />
-        </div>
-    );
+    return context.displayParts(shortSummary);
 }
 
 export function commentSummary(context: DefaultThemeRenderContext, props: Reflection) {
     if (props.comment?.summary.some((part) => part.text)) {
-        return renderSummary(context, props.comment);
+        return context.displayParts(props.comment.summary);
     }
 
     const target =
@@ -44,7 +45,7 @@ export function commentSummary(context: DefaultThemeRenderContext, props: Reflec
             : undefined;
 
     if (target?.comment?.hasModifier("@expand") && target?.comment?.summary.some((part) => part.text)) {
-        return renderSummary(context, target.comment);
+        return context.displayParts(target.comment.summary);
     }
 }
 

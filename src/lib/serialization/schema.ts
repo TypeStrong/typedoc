@@ -318,6 +318,7 @@ export interface ReferenceType
     qualifiedName?: string;
     refersToTypeParameter?: boolean;
     preferValues?: boolean;
+    highlightedProperties?: Record<string, CommentDisplayPart[]>;
 }
 
 /** @category Types */

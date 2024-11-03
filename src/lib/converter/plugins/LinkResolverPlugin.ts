@@ -71,6 +71,26 @@ export class LinkResolverPlugin extends ConverterComponent {
                 );
             }
 
+            if (
+                reflection.isParameter() &&
+                reflection.type?.type === "reference" &&
+                reflection.type.highlightedProperties
+            ) {
+                const resolved = new Map(
+                    Array.from(
+                        reflection.type.highlightedProperties,
+                        ([name, parts]) => {
+                            return [
+                                name,
+                                this.owner.resolveLinks(parts, reflection),
+                            ];
+                        },
+                    ),
+                );
+
+                reflection.type.highlightedProperties = resolved;
+            }
+
             if (reflection instanceof ContainerReflection) {
                 if (reflection.groups) {
                     for (const group of reflection.groups) {

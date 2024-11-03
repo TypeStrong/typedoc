@@ -19,6 +19,7 @@ import {
     commentSummary,
     commentTags,
     reflectionFlags,
+    renderDisplayParts,
 } from "./partials/comment.js";
 import { footer } from "./partials/footer.js";
 import { header } from "./partials/header.js";
@@ -112,6 +113,9 @@ export class DefaultThemeRenderContext {
     ) => {
         return this.theme.markedPlugin.parseMarkdown(md || "", this.page, this);
     };
+
+    /** Renders user comment markdown wrapped in a tsd-comment div */
+    displayParts = bind(renderDisplayParts, this);
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 

@@ -838,6 +838,16 @@ export class ReferenceType extends Type {
     }
 
     /**
+     * Sometimes a few properties are more important than the rest
+     * of the properties within a type. This occurs most often with
+     * object parameters, where users want to specify `@param foo.bar`
+     * to highlight something about the `bar` property.
+     *
+     * Does NOT support nested properties.
+     */
+    highlightedProperties?: Map<string, CommentDisplayPart[]>;
+
+    /**
      * If not resolved, the symbol id of the reflection, otherwise undefined.
      */
     get symbolId(): ReflectionSymbolId | undefined {
@@ -1017,6 +1027,20 @@ export class ReferenceType extends Type {
             result.preferValues = true;
         }
 
+        if (this.highlightedProperties) {
+            result.highlightedProperties = Object.fromEntries(
+                Array.from(
+                    this.highlightedProperties.entries(),
+                    ([key, parts]) => {
+                        return [
+                            key,
+                            Comment.serializeDisplayParts(serializer, parts),
+                        ];
+                    },
+                ),
+            );
+        }
+
         return result;
     }
 
@@ -1051,6 +1075,18 @@ export class ReferenceType extends Type {
         this.package = obj.package;
         this.refersToTypeParameter = !!obj.refersToTypeParameter;
         this.preferValues = !!obj.preferValues;
+
+        if (obj.highlightedProperties) {
+            this.highlightedProperties = new Map();
+            for (const [key, parts] of Object.entries(
+                obj.highlightedProperties,
+            )) {
+                this.highlightedProperties.set(
+                    key,
+                    Comment.deserializeDisplayParts(de, parts),
+                );
+            }
+        }
     }
 }
 

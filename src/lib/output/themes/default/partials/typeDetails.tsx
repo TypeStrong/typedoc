@@ -3,9 +3,10 @@ import {
     ReflectionKind,
     type DeclarationReflection,
     type SignatureReflection,
+    type CommentDisplayPart,
 } from "../../../../models/index.js";
 import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "../../../../utils/index.js";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
@@ -46,6 +47,10 @@ export function typeDeclaration(context: DefaultThemeRenderContext, type: SomeTy
 const expanded = new Set<Reflection>();
 function shouldExpandReference(reference: ReferenceType) {
     const target = reference.reflection;
+    if (reference.highlightedProperties) {
+        return !target || expanded.has(target) === false;
+    }
+
     if (!target?.kindOf(ReflectionKind.TypeAlias | ReflectionKind.Interface)) return false;
     if (!target.comment?.hasModifier("@expand")) return false;
 
@@ -53,7 +58,15 @@ function shouldExpandReference(reference: ReferenceType) {
 }
 
 export function typeDetails(context: DefaultThemeRenderContext, type: SomeType): JSX.Children {
-    return type.visit<JSX.Children>({
+    return typeDetailsImpl(context, type);
+}
+
+export function typeDetailsImpl(
+    context: DefaultThemeRenderContext,
+    type: SomeType,
+    highlighted?: Map<string, CommentDisplayPart[]>,
+): JSX.Children {
+    const result = type.visit<JSX.Children>({
         array(type) {
             return context.typeDetails(type.elementType);
         },
@@ -66,7 +79,7 @@ export function typeDetails(context: DefaultThemeRenderContext, type: SomeType):
                 result.push(
                     <li>
                         {context.type(type.types[i])}
-                        <Raw html={context.markdown(type.elementSummaries?.[i] ?? [])} />
+                        {context.displayParts(type.elementSummaries?.[i])}
                         {context.typeDetailsIfUseful(type.types[i])}
                     </li>,
                 );
@@ -75,21 +88,32 @@ export function typeDetails(context: DefaultThemeRenderContext, type: SomeType):
         },
         reflection(type) {
             const declaration = type.declaration;
-            return declarationDetails(context, declaration);
+            return declarationDetails(context, declaration, highlighted);
         },
         reference(reference) {
             if (shouldExpandReference(reference)) {
-                const target = reference.reflection as DeclarationReflection;
+                const target = reference.reflection;
+                if (!target?.isDeclaration()) {
+                    return highlightedPropertyDetails(context, reference.highlightedProperties);
+                }
 
                 // Ensure we don't go into an infinite loop here
                 expanded.add(target);
-                const details = target.type ? typeDetails(context, target.type) : declarationDetails(context, target);
+                const details = target.type
+                    ? typeDetailsImpl(context, target.type, reference.highlightedProperties)
+                    : declarationDetails(context, target, reference.highlightedProperties);
                 expanded.delete(target);
                 return details;
             }
         },
         // tuple??
     });
+
+    if (!result && highlighted) {
+        return highlightedPropertyDetails(context, highlighted);
+    }
+
+    return result;
 }
 
 export function typeDetailsIfUseful(context: DefaultThemeRenderContext, type: SomeType | undefined): JSX.Children {
@@ -98,7 +122,45 @@ export function typeDetailsIfUseful(context: DefaultThemeRenderContext, type: So
     }
 }
 
-function declarationDetails(context: DefaultThemeRenderContext, declaration: DeclarationReflection): JSX.Children {
+function highlightedPropertyDetails(
+    context: DefaultThemeRenderContext,
+    highlighted?: Map<string, CommentDisplayPart[]>,
+) {
+    if (!highlighted?.size) return;
+
+    return (
+        <ul class="tsd-parameters">
+            {Array.from(highlighted.entries(), ([name, parts]) => {
+                return (
+                    <li class="tsd-parameter">
+                        <h5>
+                            <span>{name}</span>
+                        </h5>
+                        {context.displayParts(parts)}
+                    </li>
+                );
+            })}
+        </ul>
+    );
+}
+
+function declarationDetails(
+    context: DefaultThemeRenderContext,
+    declaration: DeclarationReflection,
+    highlightedProperties?: Map<string, CommentDisplayPart[]>,
+): JSX.Children {
+    if (!declaration.comment?.hasModifier("@expand")) {
+        return (
+            <ul class="tsd-parameters">
+                {declaration.children?.map(
+                    (child) =>
+                        highlightedProperties?.has(child.name) &&
+                        renderChild(context, child, highlightedProperties.get(child.name)),
+                )}
+            </ul>
+        );
+    }
+
     return (
         <>
             {context.commentSummary(declaration)}
@@ -124,13 +186,19 @@ function declarationDetails(context: DefaultThemeRenderContext, declaration: Dec
                     </li>
                 )}
                 {declaration.indexSignatures?.map((index) => renderIndexSignature(context, index))}
-                {declaration.children?.map((child) => renderChild(context, child))}
+                {declaration.children?.map((child) =>
+                    renderChild(context, child, highlightedProperties?.get(child.name)),
+                )}
             </ul>
         </>
     );
 }
 
-function renderChild(context: DefaultThemeRenderContext, child: DeclarationReflection) {
+function renderChild(
+    context: DefaultThemeRenderContext,
+    child: DeclarationReflection,
+    highlight?: CommentDisplayPart[],
+) {
     if (child.signatures) {
         return (
             <li class="tsd-parameter">
@@ -143,6 +211,18 @@ function renderChild(context: DefaultThemeRenderContext, child: DeclarationRefle
 
                 {context.memberSignatures(child)}
             </li>
+        );
+    }
+
+    function highlightOrComment(refl: Reflection) {
+        if (highlight) {
+            return context.displayParts(highlight);
+        }
+        return (
+            <>
+                {context.commentSummary(refl)}
+                {context.commentTags(refl)}
+            </>
         );
     }
 
@@ -160,8 +240,7 @@ function renderChild(context: DefaultThemeRenderContext, child: DeclarationRefle
                     </span>
                     {context.type(child.type)}
                 </h5>
-                {context.commentSummary(child)}
-                {context.commentTags(child)}
+                {highlightOrComment(child)}
                 {child.children?.some(renderingChildIsUseful) && (
                     <ul class="tsd-parameters">{child.children.map((c) => renderChild(context, c))}</ul>
                 )}
@@ -182,8 +261,7 @@ function renderChild(context: DefaultThemeRenderContext, child: DeclarationRefle
                         {context.type(child.getSignature.type)}
                     </h5>
 
-                    {context.commentSummary(child.getSignature)}
-                    {context.commentTags(child.getSignature)}
+                    {highlightOrComment(child.getSignature)}
                 </li>
             )}
             {child.setSignature && (
@@ -204,8 +282,7 @@ function renderChild(context: DefaultThemeRenderContext, child: DeclarationRefle
                         {context.type(child.setSignature.type)}
                     </h5>
 
-                    {context.commentSummary(child.setSignature)}
-                    {context.commentTags(child.setSignature)}
+                    {highlightOrComment(child.setSignature)}
                 </li>
             )}
         </>

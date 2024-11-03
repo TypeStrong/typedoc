@@ -4,16 +4,27 @@ title: Changelog
 
 # Beta
 
--   TypeDoc will now discover entry points from `package.json` exports if they are not provided manually, #1937.
+## Breaking Changes
+
 -   Relaxed requirements for file names and generated url fragments. This may result in a different file name structure, #2714.
--   Added a new `outputs` option which is an array of outputs. This can be used to render the documentation multiple times
-    with different rendering options or output types, #2597.
--   Added support for rendering alerts (or callouts) in markdown.
--   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
--   Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
+-   API: Constructor signatures now use the parent class name as their name (e.g. `X`, not `new X`)
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as a workaround for many signatures overflowing
     the available horizontal space in rendered pages. TypeDoc now has logic to wrap types/signatures smartly, so this option is
     no longer necessary.
+-   Changed the default `kindSortOrder` to put references last.
+-   Changed the default `sort` order to use `alphabetical-ignoring-documents` instead of `alphabetical`.
+-   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
+
+## Features
+
+-   TypeDoc will now discover entry points from `package.json` exports if they are not provided manually, #1937.
+-   Improved support for `@param` comments which reference a type alias/interface. Important properties on the referenced type
+    can now be highlighted with `@param options.foo`, which will result in the additional note being included under the documentation
+    for that parameter, #2147.
+    Note: This feature is limited to references. It is not supported on other types of types.
+-   Added a new `outputs` option which is an array of outputs. This can be used to render the documentation multiple times
+    with different rendering options or output types, #2597.
+-   Added support for rendering alerts (or callouts) in markdown.
 -   Add support for an `@expand` tag which can be placed on type aliases and interfaces.
     When a type with `@expand` is referenced and TypeDoc has a place to include additional details about the type,
     the properties of the type will be included in the page where `@expand` is found. Note that use of this tag can
@@ -24,26 +35,26 @@ title: Changelog
     it was included directly within the referencing type. Note that use of this tag can
     _significantly_ increase the size of your generated documentation if it is applied to commonly used types as
     it will result in inlining the comments for those types everywhere they are referenced, #2303.
+-   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes improve their documentation, #2654.
 -   Add `notRenderedTags` option. This option is similar to the `excludeTags` option, but while `excludeTags` will result in the
     tag being completely removed from the documentation, `notRenderedTags` only prevents it from being included when rendering.
--   Changed the default `kindSortOrder` to put references last.
--   Changed the default `sort` order to use `alphabetical-ignoring-documents` instead of `alphabetical`.
 -   Added `groupReferencesByType` option.
--   Added `yaml` to the highlight languages supported by default.
--   Removed rendering of document icon in default theme
--   Added `navigation.includeReferences` option
--   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
--   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
--   Items which are hidden with `@ignore` or `@hidden` but still referenced by other types will no longer produce warnings about not being exported.
--   If a project only has one module within it, TypeDoc will now consider that module when resolving `@link` tags.
+-   Added `navigation.excludeReferences` option
 -   Added `useFirstParagraphOfCommentAsSummary` option to configure how TypeDoc handles comments for module members without the `@summary` tag.
+-   Introduced `favicon` option to specify a `.ico` or `.svg` favicon to reference.
+-   Sections within the page and in the "On This Page" navigation are now tied together and will expand/collapse together, #2335.
+-   API: Introduced a new `app.outputs` object for defining new output strategies.
+
+## Bug Fixes
+
 -   TypeDoc will now use the first signature's comment for later signatures in overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
--   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes improve their documentation, #2654.
--   Introduced `--favicon` option to specify a `.ico` or `.svg` favicon to reference.
--   Sections within the page and in the "On This Page" navigation are now tied together and will expand/collapse together, #2335.
+-   Fixed an issue where properties were not properly marked optional in some cases. This primarily affected destructured parameters.
+-   Added `yaml` to the highlight languages supported by default.
+-   TypeDoc now recognizes `txt` as an alias of `text` to indicate a code block should not be highlighted.
+-   Items which are hidden with `@ignore` or `@hidden` but still referenced by other types will no longer produce warnings about not being exported.
+-   If a project only has one module within it, TypeDoc will now consider that module when resolving `@link` tags.
 -   The arrows to indicate whether or not a section is open now work when JavaScript is disabled.
--   API: Introduced a new `app.outputs` object for defining new output strategies.
 
 TODO:
 

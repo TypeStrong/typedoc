@@ -299,7 +299,7 @@ export class DefaultTheme extends Theme {
             return {
                 text: getDisplayName(element),
                 path: element.url,
-                kind: element.kind & (ReflectionKind.Document | ReflectionKind.Project) ? undefined : element.kind,
+                kind: element.kind & ReflectionKind.Project ? undefined : element.kind,
                 class: classNames({ deprecated: element.isDeprecated() }, theme.getReflectionClasses(element)),
                 children: children?.length ? children : undefined,
             };

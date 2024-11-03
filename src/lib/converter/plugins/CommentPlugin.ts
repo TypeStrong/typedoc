@@ -13,6 +13,7 @@ import {
     type TypeVisitor,
     CommentTag,
     ReflectionType,
+    ReferenceType,
 } from "../../models/index.js";
 import {
     Option,
@@ -714,6 +715,24 @@ function inTypeLiteral(refl: Reflection | undefined) {
     return false;
 }
 
+function validHighlightedName(ref: ReferenceType, name: string) {
+    const refl = ref.reflection;
+    // Assume external types are documented properly
+    if (!refl) return true;
+
+    // If it is a direct child, it is valid.
+    if (refl.getChildByName([name])) return true;
+
+    // Or if it is the child of the referenced reflection's type
+    if (refl.isDeclaration() && refl.type?.type === "reflection") {
+        if (refl.type.declaration.getChildByName([name])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // Moves tags like `@param foo.bar docs for bar` into the `bar` property of the `foo` parameter.
 function moveNestedParamTags(
     /* in-out */ paramTags: CommentTag[],
@@ -728,7 +747,6 @@ function moveNestedParamTags(
                 const tags = paramTags.filter((t) =>
                     t.name?.startsWith(`${param.name}.`),
                 );
-
                 for (const tag of tags) {
                     const path = tag.name!.split(".");
                     path.shift();
@@ -749,6 +767,28 @@ function moveNestedParamTags(
             },
             intersection(i) {
                 i.types.forEach((t) => t.visit(visitor));
+            },
+            // #2147, support highlighting parts of a referenced type
+            reference(ref) {
+                for (let i = 0; i < paramTags.length; ++i) {
+                    const tag = paramTags[i];
+                    if (tag.name?.startsWith(`${param.name}.`)) {
+                        const childName = tag.name.substring(
+                            param.name.length + 1,
+                        );
+
+                        if (!validHighlightedName(ref, childName)) {
+                            continue;
+                        }
+
+                        ref.highlightedProperties ??= new Map();
+                        ref.highlightedProperties.set(
+                            childName,
+                            paramTags[i].content,
+                        );
+                        used.add(i);
+                    }
+                }
             },
         };
 
