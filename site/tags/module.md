@@ -45,3 +45,4 @@ import * as lib from "lib";
 ## See Also
 
 -   The [`@packageDocumentation`](packageDocumentation.md) tag
+-   The [`@mergeModuleWith`](mergeModuleWith.md) tag

@@ -52,8 +52,10 @@ export class DeclarationReflection extends ContainerReflection {
     sources?: SourceReference[];
 
     /**
-     * A precomputed boost derived from the searchCategoryBoosts and searchGroupBoosts options, used when
-     * boosting search relevance scores at runtime. May be modified by plugins.
+     * Precomputed boost for search results, may be less than 1 to de-emphasize this member in search results.
+     * Does NOT include group/category values as they are computed when building the JS index.
+     *
+     * This is preserved for plugins, and may be removed in 0.28 if no plugins have used it yet.
      */
     relevanceBoost?: number;
 

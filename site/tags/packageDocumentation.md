@@ -35,3 +35,4 @@ import * as lib from "lib";
 ## See Also
 
 -   The [`@module`](module.md) tag
+-   The [`@mergeModuleWIth`](mergeModuleWith.md) tag

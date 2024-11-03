@@ -29,6 +29,7 @@ children:
     - tags/label.md
     - tags/license.md
     - tags/link.md
+    - tags/mergeModuleWith.md
     - tags/module.md
     - tags/namespace.md
     - tags/overload.md

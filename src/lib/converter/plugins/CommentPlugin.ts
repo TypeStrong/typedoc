@@ -1,29 +1,29 @@
-import { ConverterComponent } from "../components.js";
-import type { Context } from "../context.js";
 import {
-    type Reflection,
+    Comment,
+    CommentTag,
+    DeclarationReflection,
     ParameterReflection,
     ReflectionFlag,
     ReflectionKind,
-    type TypeParameterReflection,
-    DeclarationReflection,
-    SignatureReflection,
-    Comment,
-    type SourceReference,
-    type TypeVisitor,
-    CommentTag,
     ReflectionType,
-    ReferenceType,
+    SignatureReflection,
+    type ReferenceType,
+    type Reflection,
+    type SourceReference,
+    type TypeParameterReflection,
+    type TypeVisitor,
 } from "../../models/index.js";
 import {
     Option,
     filterMap,
-    removeIfPresent,
-    unique,
     partition,
     removeIf,
+    removeIfPresent,
+    unique,
 } from "../../utils/index.js";
 import { setIntersection } from "../../utils/set.js";
+import { ConverterComponent } from "../components.js";
+import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 

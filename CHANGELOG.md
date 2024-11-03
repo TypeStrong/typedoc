@@ -8,8 +8,6 @@ title: Changelog
 
 -   Relaxed requirements for file names and generated url fragments. This may
     result in a different file name structure, #2714.
--   API: Constructor signatures now use the parent class name as their name
-    (e.g. `X`, not `new X`)
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as
     a workaround for many signatures overflowing the available horizontal space
     in rendered pages. TypeDoc now has logic to wrap types/signatures smartly,
@@ -21,6 +19,11 @@ title: Changelog
 -   Removed `excludeCategories` option which has existed for over a year, but
     GitHub indicates has only ever been used by one project and breaks with
     changes to make categories work with packages mode.
+-   API: Constructor signatures now use the parent class name as their name
+    (e.g. `X`, not `new X`)
+-   API: `@group`, `@category`, `@groupDescription` and `@categoryDescription`
+    will no longer be removed from the reflections they are present on. They are
+    skipped during rendering with the `notRenderedTags` option.
 
 ## Features
 
@@ -51,7 +54,10 @@ title: Changelog
     commonly used types as it will result in inlining the comments for those
     types everywhere they are referenced, #2303.
 -   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes
-    improve their documentation, #2654.
+    improve their documentation, #2654..
+-   Added a new `@mergeModuleWith` tag which can be used to tell TypeDoc to
+    place a module/namespace's children under a different module/namespace and
+    remove the real parent.
 -   Add `notRenderedTags` option. This option is similar to the `excludeTags`
     option, but while `excludeTags` will result in the tag being completely
     removed from the documentation, `notRenderedTags` only prevents it from
@@ -82,6 +88,10 @@ title: Changelog
     module when resolving `@link` tags.
 -   The arrows to indicate whether or not a section is open now work when
     JavaScript is disabled.
+-   Group/category search boosts are now applied when writing the search index
+    rather than when converting. This prevents issues where boosts used by just
+    one package were incorrectly reported as unused when running with
+    entryPointStrategy set to packages.
 
 TODO:
 

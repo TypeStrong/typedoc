@@ -327,7 +327,7 @@ const kindTranslations: Array<(i18n: TranslationProxy) => TranslatedString> = [
 
 function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
     md.core.ruler.after("block", "typedoc-github-alert-plugin", (state) => {
-        let bqStarts: number[] = [];
+        const bqStarts: number[] = [];
 
         for (let i = 0; i < state.tokens.length; ++i) {
             const token = state.tokens[i];

@@ -33,6 +33,15 @@
               {
                 "tag": "@deprecated",
                 "content": []
+              },
+              {
+                "tag": "@groupDescription",
+                "content": [
+                  {
+                    "kind": "text",
+                    "text": "Methods\nMethods description!"
+                  }
+                ]
               }
             ]
           },

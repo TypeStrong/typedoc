@@ -15,6 +15,8 @@ import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { gzip } from "zlib";
 import { promisify } from "util";
 import type { Renderer } from "../index.js";
+import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
+import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
 
 const gzipP = promisify(gzip);
 
@@ -41,12 +43,27 @@ export class JavascriptIndexPlugin extends RendererComponent {
     @Option("searchInDocuments")
     private accessor searchDocuments!: boolean;
 
+    @Option("searchGroupBoosts")
+    private accessor searchGroupBoosts!: Record<string, number>;
+
+    @Option("searchCategoryBoosts")
+    private accessor searchCategoryBoosts!: Record<string, number>;
+
+    @Option("groupReferencesByType")
+    accessor groupReferencesByType!: boolean;
+
+    private unusedGroupBoosts = new Set<string>();
+    private unusedCatBoosts = new Set<string>();
+
     constructor(owner: Renderer) {
         super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 
     private onRendererBegin(_event: RendererEvent) {
+        this.unusedGroupBoosts = new Set(Object.keys(this.searchGroupBoosts));
+        this.unusedCatBoosts = new Set(Object.keys(this.searchCategoryBoosts));
+
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
@@ -92,24 +109,8 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 continue;
             }
 
-            // GERRIT: Apply category and group boost here too
-            // context.logger.warn(
-            //     context.i18n.not_all_search_category_boosts_used_0(
-            //         Array.from(unusedBoosts).join("\n\t"),
-            //     ),
-            // );
+            const boost = this.getBoost(reflection);
 
-            // if (
-            //     unusedBoosts.size &&
-            //     this.application.options.isSet("searchGroupBoosts")
-            // ) {
-            //     context.logger.warn(
-            //         context.i18n.not_all_search_group_boosts_used_0(
-            //             Array.from(unusedBoosts).join("\n\t"),
-            //         ),
-            //     );
-            // }
-            const boost = reflection.relevanceBoost ?? 1;
             if (boost <= 0) {
                 continue;
             }
@@ -163,6 +164,48 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 "base64",
             )}";`,
         );
+
+        if (
+            this.unusedGroupBoosts.size &&
+            this.application.options.isSet("searchGroupBoosts")
+        ) {
+            this.application.logger.warn(
+                this.application.i18n.not_all_search_group_boosts_used_0(
+                    Array.from(this.unusedGroupBoosts).join("\n\t"),
+                ),
+            );
+        }
+
+        if (
+            this.unusedCatBoosts.size &&
+            this.application.options.isSet("searchCategoryBoosts")
+        ) {
+            this.application.logger.warn(
+                this.application.i18n.not_all_search_category_boosts_used_0(
+                    Array.from(this.unusedCatBoosts).join("\n\t"),
+                ),
+            );
+        }
+    }
+
+    private getBoost(refl: DeclarationReflection | DocumentReflection): number {
+        let boost = refl.relevanceBoost ?? 1;
+
+        for (const group of GroupPlugin.getGroups(
+            refl,
+            this.groupReferencesByType,
+            this.application.internationalization,
+        )) {
+            boost *= this.searchGroupBoosts[group] ?? 1;
+            this.unusedGroupBoosts.delete(group);
+        }
+
+        for (const cat of CategoryPlugin.getCategories(refl)) {
+            boost *= this.searchCategoryBoosts[cat] ?? 1;
+            this.unusedCatBoosts.delete(cat);
+        }
+
+        return boost;
     }
 
     private getCommentSearchText(reflection: Reflection) {

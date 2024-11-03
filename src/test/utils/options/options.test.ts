@@ -111,6 +111,7 @@ describe("Options", () => {
             notExported: true,
             notDocumented: true,
             invalidLink: true,
+            unusedMergeModuleWith: true,
         });
 
         options.setValue("validation", false);
@@ -118,6 +119,7 @@ describe("Options", () => {
             notExported: false,
             notDocumented: false,
             invalidLink: false,
+            unusedMergeModuleWith: false,
         });
     });
 

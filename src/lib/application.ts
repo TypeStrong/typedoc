@@ -52,6 +52,7 @@ import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { Outputs } from "./output/output.js";
+import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -610,6 +611,10 @@ export class Application extends AbstractComponent<
             validateLinks(project, this.logger);
         }
 
+        if (checks.unusedMergeModuleWith) {
+            validateMergeModuleWith(project, this.logger);
+        }
+
         this.trigger(Application.EVENT_VALIDATE_PROJECT, project);
 
         this.logger.verbose(`Validation took ${Date.now() - start}ms`);
@@ -710,7 +715,12 @@ export class Application extends AbstractComponent<
 
             await opts.read(this.logger, dir);
             // Invalid links should only be reported after everything has been merged.
-            opts.setValue("validation", { invalidLink: false });
+            // Same goes for @mergeModuleWith, should only be validated after merging
+            // everything together.
+            opts.setValue("validation", {
+                invalidLink: false,
+                unusedMergeModuleWith: false,
+            });
             if (
                 opts.getValue("entryPointStrategy") ===
                 EntryPointStrategy.Packages

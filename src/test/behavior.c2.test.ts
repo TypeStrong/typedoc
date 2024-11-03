@@ -1006,51 +1006,6 @@ describe("Behavior Tests", () => {
         );
     });
 
-    it("Handles searchCategoryBoosts", () => {
-        app.options.setValue("searchCategoryBoosts", {
-            Cat0: 0,
-            Cat1: 2.0,
-            Cat2: 1.5,
-            CatUnused: 999,
-        });
-        const project = convert("searchCategoryBoosts");
-        const a = query(project, "A");
-        const b = query(project, "B");
-        const c = query(project, "C");
-        equal(a.relevanceBoost, 3.0);
-        equal(b.relevanceBoost, 0.0);
-        equal(c.relevanceBoost, 2.0);
-        logger.expectMessage(
-            "warn: Not all categories specified in searchCategoryBoosts were used in the documentation." +
-                " The unused categories were:\n\tCatUnused",
-        );
-        logger.expectNoOtherMessages();
-    });
-
-    it("Handles searchGroupBoosts", () => {
-        app.options.setValue("searchGroupBoosts", {
-            Group0: 0,
-            Group1: 2.0,
-            Group2: 1.5,
-            GroupUnused: 999,
-            Interfaces: 0.5,
-        });
-        const project = convert("searchGroupBoosts");
-        const a = query(project, "A");
-        const b = query(project, "B");
-        const c = query(project, "C");
-        const d = query(project, "D");
-        equal(a.relevanceBoost, 3.0);
-        equal(b.relevanceBoost, 0.0);
-        equal(c.relevanceBoost, 2.0);
-        equal(d.relevanceBoost, 0.5);
-        logger.expectMessage(
-            "warn: Not all groups specified in searchGroupBoosts were used in the documentation." +
-                " The unused groups were:\n\tGroupUnused",
-        );
-        logger.expectNoOtherMessages();
-    });
-
     it("Handles @see tags", () => {
         const project = convert("seeTags");
         const foo = query(project, "foo");

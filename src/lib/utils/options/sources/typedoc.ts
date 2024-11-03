@@ -950,6 +950,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             notExported: true,
             invalidLink: true,
             notDocumented: false,
+            unusedMergeModuleWith: true,
         },
     });
 }

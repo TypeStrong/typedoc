@@ -257,6 +257,44 @@ export class ProjectReflection extends ContainerReflection {
         });
     }
 
+    /** @internal */
+    mergeModules(
+        source: DeclarationReflection,
+        target: DeclarationReflection | ProjectReflection,
+    ) {
+        // First, tell the children about their new parent
+        delete this.referenceGraph;
+        const oldChildrenIds =
+            this.reflectionChildren.getNoInsert(source.id) || [];
+
+        const newChildren = this.reflectionChildren.get(target.id);
+
+        for (const childId of oldChildrenIds) {
+            const childRefl = this.getReflectionById(childId) as
+                | DocumentReflection
+                | DeclarationReflection;
+
+            // To avoid conflicting with some plugins which do this surgery somewhat incorrectly
+            // (typedoc-plugin-merge-modules and likely others I'm not aware of) only move children
+            // which are still children
+            if (childRefl?.parent === source) {
+                childRefl.parent = target;
+                newChildren.push(childId);
+                target.addChild(childRefl);
+            }
+        }
+
+        // Then remove the now-empty parent
+        this.reflectionChildren.delete(source.id);
+        this.removeReflection(source);
+
+        // And remove any outdated collections of children on the new parent.
+        // So long as this is used before REVIVE(-100) or EVENT_BEGIN_RESOLVE(-100)
+        // this will make the appropriate plugin rebuild the lists.
+        delete target.groups;
+        delete target.categories;
+    }
+
     /**
      * Remove a reflection without updating the parent reflection to remove references to the removed reflection.
      */

@@ -468,14 +468,6 @@ describe("Issue Tests", () => {
         ok(cat, "missing cat");
 
         ok(cat.children.includes(Foo), "not included in cat");
-        ok(!Foo.comment?.getTag("@category"), "has cat tag");
-        ok(!Foo.type.declaration.comment?.getTag("@category"), "has cat tag 2");
-        ok(
-            !Foo.type.declaration.signatures?.some((s) =>
-                s.comment?.getTag("@category"),
-            ),
-            "has cat tag 3",
-        );
     });
 
     it("#1770", () => {

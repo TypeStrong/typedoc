@@ -4,6 +4,7 @@ import {
     type DeclarationReflection,
     type DocumentReflection,
     ReferenceReflection,
+    type ProjectReflection,
 } from "../../models/reflections/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
@@ -14,6 +15,8 @@ import { Comment } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { ApplicationEvents } from "../../application-events.js";
+import assert from "assert";
+import type { Internationalization } from "../../internationalization/index.js";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -62,30 +65,13 @@ export class GroupPlugin extends ConverterComponent {
     constructor(owner: Converter) {
         super(owner);
         this.owner.on(
-            ConverterEvents.RESOLVE_BEGIN,
-            () => {
-                this.sortFunction = getSortFunction(this.application.options);
-                GroupPlugin.WEIGHTS = this.groupOrder;
-                if (GroupPlugin.WEIGHTS.length === 0) {
-                    GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
-                        this.application.internationalization.kindPluralString(
-                            kind,
-                        ),
-                    );
-                }
-            },
-            -100,
-        );
-        this.owner.on(
             ConverterEvents.RESOLVE_END,
             this.onEndResolve.bind(this),
             -100,
         );
         this.application.on(
             ApplicationEvents.REVIVE,
-            (project) => {
-                this.group(project);
-            },
+            this.onRevive.bind(this),
             -100,
         );
     }
@@ -96,6 +82,7 @@ export class GroupPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
+        this.setup();
         this.group(context.project);
 
         for (const id in context.project.reflections) {
@@ -103,6 +90,27 @@ export class GroupPlugin extends ConverterComponent {
             if (reflection instanceof ContainerReflection) {
                 this.group(reflection);
             }
+        }
+    }
+
+    private onRevive(project: ProjectReflection) {
+        this.setup();
+        this.group(project);
+        for (const refl of project.getReflectionsByKind(
+            ReflectionKind.SomeModule,
+        )) {
+            assert(refl.isDeclaration());
+            this.group(refl);
+        }
+    }
+
+    private setup() {
+        this.sortFunction = getSortFunction(this.application.options);
+        GroupPlugin.WEIGHTS = this.groupOrder;
+        if (GroupPlugin.WEIGHTS.length === 0) {
+            GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
+                this.application.internationalization.kindPluralString(kind),
+            );
         }
     }
 
@@ -138,6 +146,18 @@ export class GroupPlugin extends ConverterComponent {
      * If you change this, also update extractCategories in CategoryPlugin accordingly.
      */
     getGroups(reflection: DeclarationReflection | DocumentReflection) {
+        return GroupPlugin.getGroups(
+            reflection,
+            this.groupReferencesByType,
+            this.application.internationalization,
+        );
+    }
+
+    static getGroups(
+        reflection: DeclarationReflection | DocumentReflection,
+        groupReferencesByType: boolean,
+        internationalization: Internationalization,
+    ) {
         const groups = new Set<string>();
         function extractGroupTags(comment: Comment | undefined) {
             if (!comment) return;
@@ -170,18 +190,16 @@ export class GroupPlugin extends ConverterComponent {
         if (groups.size === 0) {
             if (
                 reflection instanceof ReferenceReflection &&
-                this.groupReferencesByType
+                groupReferencesByType
             ) {
                 groups.add(
-                    this.application.internationalization.kindPluralString(
+                    internationalization.kindPluralString(
                         reflection.getTargetReflectionDeep().kind,
                     ),
                 );
             } else {
                 groups.add(
-                    this.application.internationalization.kindPluralString(
-                        reflection.kind,
-                    ),
+                    internationalization.kindPluralString(reflection.kind),
                 );
             }
         }

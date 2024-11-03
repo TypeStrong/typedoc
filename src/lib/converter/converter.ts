@@ -62,6 +62,7 @@ import { PackagePlugin } from "./plugins/PackagePlugin.js";
 import { SourcePlugin } from "./plugins/SourcePlugin.js";
 import { TypePlugin } from "./plugins/TypePlugin.js";
 import { IncludePlugin } from "./plugins/IncludePlugin.js";
+import { MergeModuleWithPlugin } from "./plugins/MergeModuleWithPlugin.js";
 
 export interface ConverterEvents {
     begin: [Context];
@@ -288,6 +289,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         new SourcePlugin(this);
         new TypePlugin(this);
         new IncludePlugin(this);
+        new MergeModuleWithPlugin(this);
     }
 
     /**

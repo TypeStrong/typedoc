@@ -93,6 +93,8 @@ export = {
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation: `{0} ({1}), defined in {2}, does not have any documentation`,
     invalid_intentionally_not_exported_symbols_0:
         "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t{0}",
+    reflection_0_has_unused_mergeModuleWith_tag:
+        "{0} has a @mergeModuleWith tag which could not be resolved",
 
     // conversion plugins
     not_all_search_category_boosts_used_0: `Not all categories specified in searchCategoryBoosts were used in the documentation. The unused categories were:\n\t{0}`,
@@ -112,6 +114,7 @@ export = {
     disable_git_set_but_not_source_link_template: `disableGit is set, but sourceLinkTemplate is not, so source links cannot be produced. Set a sourceLinkTemplate or disableSources to prevent source tracking`,
     disable_git_set_and_git_revision_used: `disableGit is set and sourceLinkTemplate contains {gitRevision}, which will be replaced with an empty string as no revision was provided`,
     git_remote_0_not_valid: `The provided git remote "{0}" was not valid. Source links will be broken`,
+    reflection_0_tried_to_merge_into_child_1: `The reflection {0} tried to use @mergeModuleWith to merge into one of its children: {1}`,
 
     include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist or is not a file.`,
     include_0_in_1_specified_2_circular_include_3: `{0} tag in comment for {1} specified "{2}" to include, which resulted in a circular include:\n\t{3}`,

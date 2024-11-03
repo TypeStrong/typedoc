@@ -1,16 +1,19 @@
+import assert from "assert";
+import { ApplicationEvents } from "../../application-events.js";
 import {
-    ContainerReflection,
-    type DeclarationReflection,
     Comment,
+    ContainerReflection,
+    ReflectionCategory,
+    ReflectionKind,
+    type DeclarationReflection,
     type DocumentReflection,
+    type ProjectReflection,
 } from "../../models/index.js";
-import { ReflectionCategory } from "../../models/index.js";
+import { Option, getSortFunction } from "../../utils/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Option, getSortFunction } from "../../utils/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { ApplicationEvents } from "../../application-events.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -37,7 +40,6 @@ export class CategoryPlugin extends ConverterComponent {
 
     constructor(owner: Converter) {
         super(owner);
-        this.owner.on(ConverterEvents.BEGIN, this.onBegin.bind(this), -200);
         this.owner.on(
             ConverterEvents.RESOLVE_END,
             this.onEndResolve.bind(this),
@@ -45,17 +47,27 @@ export class CategoryPlugin extends ConverterComponent {
         );
         this.application.on(
             ApplicationEvents.REVIVE,
-            (project) => {
-                this.categorize(project);
-            },
+            this.onRevive.bind(this),
             -200,
         );
+    }
+
+    private onRevive(project: ProjectReflection) {
+        this.setup();
+
+        this.categorize(project);
+        for (const refl of project.getReflectionsByKind(
+            ReflectionKind.SomeModule,
+        )) {
+            assert(refl.isDeclaration());
+            this.categorize(refl);
+        }
     }
 
     /**
      * Triggered when the converter begins converting a project.
      */
-    private onBegin(_context: Context) {
+    private setup() {
         this.sortFunction = getSortFunction(this.application.options);
 
         // Set up static properties
@@ -71,6 +83,8 @@ export class CategoryPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
+        this.setup();
+
         const project = context.project;
         this.categorize(project);
 
@@ -145,7 +159,7 @@ export class CategoryPlugin extends ConverterComponent {
         const categories = new Map<string, ReflectionCategory>();
 
         for (const child of reflections) {
-            const childCategories = this.getCategories(child);
+            const childCategories = CategoryPlugin.getCategories(child);
             if (childCategories.size === 0) {
                 childCategories.add(CategoryPlugin.defaultCategory);
             }
@@ -222,7 +236,9 @@ export class CategoryPlugin extends ConverterComponent {
         return aWeight - bWeight;
     }
 
-    getCategories(reflection: DeclarationReflection | DocumentReflection) {
+    static getCategories(
+        reflection: DeclarationReflection | DocumentReflection,
+    ) {
         const categories = new Set<string>();
         function discoverCategories(comment: Comment | undefined) {
             if (!comment) return;

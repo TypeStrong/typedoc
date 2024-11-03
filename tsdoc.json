@@ -12,6 +12,10 @@
             "syntaxKind": "block"
         },
         {
+            "tagName": "@mergeModuleWith",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@type",
             "syntaxKind": "block"
         },

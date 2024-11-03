@@ -20,7 +20,8 @@ typedoc.json (defaults):
     "validation": {
         "notExported": true,
         "invalidLink": true,
-        "notDocumented": false
+        "notDocumented": false,
+        "unusedMergeModuleWith": true
     }
 }
 ```

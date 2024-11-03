@@ -1318,6 +1318,17 @@
                         "kind": "text",
                         "text": "privateMethod short text."
                       }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@category",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "AnotherTest"
+                          }
+                        ]
+                      }
                     ]
                   },
                   "sources": [
@@ -1364,6 +1375,26 @@
                         "kind": "text",
                         "text": "protectedMethod short text."
                       }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@category",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Test"
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "@category",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "AnotherTest"
+                          }
+                        ]
+                      }
                     ]
                   },
                   "sources": [
@@ -1409,6 +1440,26 @@
                       {
                         "kind": "text",
                         "text": "publicMethod short text."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@category",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "AnotherTest"
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "@category",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Test"
+                          }
+                        ]
                       }
                     ]
                   },
@@ -3420,6 +3471,17 @@
                     "kind": "text",
                     "text": "This is an event documentation."
                   }
+                ],
+                "blockTags": [
+                  {
+                    "tag": "@group",
+                    "content": [
+                      {
+                        "kind": "text",
+                        "text": "Events"
+                      }
+                    ]
+                  }
                 ]
               },
               "sources": [
@@ -3556,6 +3618,17 @@
                         "kind": "text",
                         "text": "Subscribe for a general event by name."
                       }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@group",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Events"
+                          }
+                        ]
+                      }
                     ]
                   },
                   "sources": [
@@ -3670,6 +3743,17 @@
                       {
                         "kind": "text",
                         "text": "Subscribe for error notifications."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@group",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Events"
+                          }
+                        ]
                       }
                     ]
                   },
@@ -3786,6 +3870,17 @@
                         "kind": "text",
                         "text": "Subscribe for progress notifications."
                       }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@group",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Events"
+                          }
+                        ]
+                      }
                     ]
                   },
                   "sources": [
@@ -3900,6 +3995,17 @@
                       {
                         "kind": "text",
                         "text": "Subscribe for success notification."
+                      }
+                    ],
+                    "blockTags": [
+                      {
+                        "tag": "@group",
+                        "content": [
+                          {
+                            "kind": "text",
+                            "text": "Events"
+                          }
+                        ]
                       }
                     ]
                   },

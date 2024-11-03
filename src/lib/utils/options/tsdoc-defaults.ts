@@ -31,6 +31,7 @@ export const blockTags = [
     "@jsx",
     "@license",
     "@module",
+    "@mergeModuleWith",
     "@prop",
     "@property",
     "@return",

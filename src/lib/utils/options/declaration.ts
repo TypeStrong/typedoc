@@ -270,6 +270,10 @@ export type ValidationOptions = {
      * If set, TypeDoc will produce warnings about declarations that do not have doc comments
      */
     notDocumented: boolean;
+    /**
+     * If set, TypeDoc will produce warnings about `@mergeModuleWith` tags which were not resolved.
+     */
+    unusedMergeModuleWith: boolean;
 };
 
 export type JsDocCompatibility = {
