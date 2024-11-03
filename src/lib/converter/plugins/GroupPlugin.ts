@@ -9,10 +9,11 @@ import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getSortFunction } from "../../utils/sort.js";
-import { Option, removeIf } from "../../utils/index.js";
+import { Option } from "../../utils/index.js";
 import { Comment } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { ApplicationEvents } from "../../application-events.js";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -47,9 +48,6 @@ export class GroupPlugin extends ConverterComponent {
         reflections: Array<DeclarationReflection | DocumentReflection>,
     ) => void;
 
-    @Option("searchGroupBoosts")
-    accessor boosts!: Record<string, number>;
-
     @Option("groupOrder")
     accessor groupOrder!: string[];
 
@@ -58,8 +56,6 @@ export class GroupPlugin extends ConverterComponent {
 
     @Option("groupReferencesByType")
     accessor groupReferencesByType!: boolean;
-
-    usedBoosts = new Set<string>();
 
     static WEIGHTS: string[] = [];
 
@@ -85,6 +81,13 @@ export class GroupPlugin extends ConverterComponent {
             this.onEndResolve.bind(this),
             -100,
         );
+        this.application.on(
+            ApplicationEvents.REVIVE,
+            (project) => {
+                this.group(project);
+            },
+            -100,
+        );
     }
 
     /**
@@ -100,23 +103,6 @@ export class GroupPlugin extends ConverterComponent {
             if (reflection instanceof ContainerReflection) {
                 this.group(reflection);
             }
-        }
-
-        const unusedBoosts = new Set(Object.keys(this.boosts));
-        for (const boost of this.usedBoosts) {
-            unusedBoosts.delete(boost);
-        }
-        this.usedBoosts.clear();
-
-        if (
-            unusedBoosts.size &&
-            this.application.options.isSet("searchGroupBoosts")
-        ) {
-            context.logger.warn(
-                context.i18n.not_all_search_group_boosts_used_0(
-                    Array.from(unusedBoosts).join("\n\t"),
-                ),
-            );
         }
     }
 
@@ -155,14 +141,11 @@ export class GroupPlugin extends ConverterComponent {
         const groups = new Set<string>();
         function extractGroupTags(comment: Comment | undefined) {
             if (!comment) return;
-            removeIf(comment.blockTags, (tag) => {
+            for (const tag of comment.blockTags) {
                 if (tag.tag === "@group") {
                     groups.add(Comment.combineDisplayParts(tag.content).trim());
-
-                    return true;
                 }
-                return false;
-            });
+            }
         }
 
         if (reflection.isDeclaration()) {
@@ -181,7 +164,6 @@ export class GroupPlugin extends ConverterComponent {
 
         if (reflection.isDocument() && "group" in reflection.frontmatter) {
             groups.add(String(reflection.frontmatter["group"]));
-            delete reflection.frontmatter["group"];
         }
 
         groups.delete("");
@@ -201,14 +183,6 @@ export class GroupPlugin extends ConverterComponent {
                         reflection.kind,
                     ),
                 );
-            }
-        }
-
-        for (const group of groups) {
-            if (group in this.boosts) {
-                this.usedBoosts.add(group);
-                reflection.relevanceBoost =
-                    (reflection.relevanceBoost ?? 1) * this.boosts[group];
             }
         }
 
@@ -242,7 +216,7 @@ export class GroupPlugin extends ConverterComponent {
         });
 
         if (parent.comment) {
-            removeIf(parent.comment.blockTags, (tag) => {
+            for (const tag of parent.comment.blockTags) {
                 if (tag.tag === "@groupDescription") {
                     const { header, body } = Comment.splitPartsToHeaderAndBody(
                         tag.content,
@@ -258,11 +232,8 @@ export class GroupPlugin extends ConverterComponent {
                             ),
                         );
                     }
-
-                    return true;
                 }
-                return false;
-            });
+            }
         }
 
         return Array.from(groups.values()).sort(GroupPlugin.sortGroupCallback);

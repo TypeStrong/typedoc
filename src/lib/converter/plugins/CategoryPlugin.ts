@@ -7,9 +7,10 @@ import {
 import { ReflectionCategory } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Option, getSortFunction, removeIf } from "../../utils/index.js";
+import { Option, getSortFunction } from "../../utils/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { ApplicationEvents } from "../../application-events.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -30,11 +31,6 @@ export class CategoryPlugin extends ConverterComponent {
     @Option("categorizeByGroup")
     accessor categorizeByGroup!: boolean;
 
-    @Option("searchCategoryBoosts")
-    accessor boosts!: Record<string, number>;
-
-    usedBoosts = new Set<string>();
-
     // For use in static methods
     static defaultCategory = "Other";
     static WEIGHTS: string[] = [];
@@ -45,6 +41,13 @@ export class CategoryPlugin extends ConverterComponent {
         this.owner.on(
             ConverterEvents.RESOLVE_END,
             this.onEndResolve.bind(this),
+            -200,
+        );
+        this.application.on(
+            ApplicationEvents.REVIVE,
+            (project) => {
+                this.categorize(project);
+            },
             -200,
         );
     }
@@ -76,20 +79,6 @@ export class CategoryPlugin extends ConverterComponent {
             if (reflection instanceof ContainerReflection) {
                 this.categorize(reflection);
             }
-        }
-
-        const unusedBoosts = new Set(Object.keys(this.boosts));
-        for (const boost of this.usedBoosts) {
-            unusedBoosts.delete(boost);
-        }
-        this.usedBoosts.clear();
-
-        if (unusedBoosts.size) {
-            context.logger.warn(
-                context.i18n.not_all_search_category_boosts_used_0(
-                    Array.from(unusedBoosts).join("\n\t"),
-                ),
-            );
         }
     }
 
@@ -147,8 +136,6 @@ export class CategoryPlugin extends ConverterComponent {
      * Create a categorized representation of the given list of reflections.
      *
      * @param reflections  The reflections that should be categorized.
-     * @param categorySearchBoosts A user-supplied map of category titles, for computing a
-     *   relevance boost to be used when searching
      * @returns An array containing all children of the given reflection categorized
      */
     private getReflectionCategories(
@@ -158,7 +145,7 @@ export class CategoryPlugin extends ConverterComponent {
         const categories = new Map<string, ReflectionCategory>();
 
         for (const child of reflections) {
-            const childCategories = this.extractCategories(child);
+            const childCategories = this.getCategories(child);
             if (childCategories.size === 0) {
                 childCategories.add(CategoryPlugin.defaultCategory);
             }
@@ -177,7 +164,7 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         if (parent.comment) {
-            removeIf(parent.comment.blockTags, (tag) => {
+            for (const tag of parent.comment.blockTags) {
                 if (tag.tag === "@categoryDescription") {
                     const { header, body } = Comment.splitPartsToHeaderAndBody(
                         tag.content,
@@ -193,11 +180,8 @@ export class CategoryPlugin extends ConverterComponent {
                             ),
                         );
                     }
-
-                    return true;
                 }
-                return false;
-            });
+            }
         }
 
         for (const cat of categories.values()) {
@@ -205,52 +189,6 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         return Array.from(categories.values());
-    }
-
-    /**
-     * Return the category of a given reflection.
-     *
-     * @param reflection The reflection.
-     * @returns The category the reflection belongs to
-     *
-     * @privateRemarks
-     * If you change this, also update getGroups in GroupPlugin accordingly.
-     */
-    private extractCategories(
-        reflection: DeclarationReflection | DocumentReflection,
-    ) {
-        const categories = CategoryPlugin.getCategories(reflection);
-
-        reflection.comment?.removeTags("@category");
-        if (reflection.isDeclaration()) {
-            for (const sig of reflection.getNonIndexSignatures()) {
-                sig.comment?.removeTags("@category");
-            }
-
-            if (reflection.type?.type === "reflection") {
-                reflection.type.declaration.comment?.removeTags("@category");
-                for (const sig of reflection.type.declaration.getNonIndexSignatures()) {
-                    sig.comment?.removeTags("@category");
-                }
-            }
-        }
-
-        if (reflection.isDocument() && "category" in reflection.frontmatter) {
-            categories.add(String(reflection.frontmatter["category"]));
-            delete reflection.frontmatter["category"];
-        }
-
-        categories.delete("");
-
-        for (const cat of categories) {
-            if (cat in this.boosts) {
-                this.usedBoosts.add(cat);
-                reflection.relevanceBoost =
-                    (reflection.relevanceBoost ?? 1) * this.boosts[cat];
-            }
-        }
-
-        return categories;
     }
 
     /**
@@ -284,9 +222,7 @@ export class CategoryPlugin extends ConverterComponent {
         return aWeight - bWeight;
     }
 
-    static getCategories(
-        reflection: DeclarationReflection | DocumentReflection,
-    ) {
+    getCategories(reflection: DeclarationReflection | DocumentReflection) {
         const categories = new Set<string>();
         function discoverCategories(comment: Comment | undefined) {
             if (!comment) return;
@@ -311,6 +247,10 @@ export class CategoryPlugin extends ConverterComponent {
                     discoverCategories(sig.comment);
                 }
             }
+        }
+
+        if (reflection.isDocument() && "category" in reflection.frontmatter) {
+            categories.add(String(reflection.frontmatter["category"]));
         }
 
         categories.delete("");

@@ -193,12 +193,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "excludeCategories",
-        help: (i18n) => i18n.help_excludeCategories(),
-        type: ParameterType.Array,
-        defaultValue: [],
-    });
-    options.addDeclaration({
         name: "excludePrivate",
         help: (i18n) => i18n.help_excludePrivate(),
         type: ParameterType.Boolean,

@@ -92,6 +92,23 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 continue;
             }
 
+            // GERRIT: Apply category and group boost here too
+            // context.logger.warn(
+            //     context.i18n.not_all_search_category_boosts_used_0(
+            //         Array.from(unusedBoosts).join("\n\t"),
+            //     ),
+            // );
+
+            // if (
+            //     unusedBoosts.size &&
+            //     this.application.options.isSet("searchGroupBoosts")
+            // ) {
+            //     context.logger.warn(
+            //         context.i18n.not_all_search_group_boosts_used_0(
+            //             Array.from(unusedBoosts).join("\n\t"),
+            //         ),
+            //     );
+            // }
             const boost = reflection.relevanceBoost ?? 1;
             if (boost <= 0) {
                 continue;

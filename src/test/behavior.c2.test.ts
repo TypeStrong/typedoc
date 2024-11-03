@@ -436,16 +436,6 @@ describe("Behavior Tests", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("Handles excludeCategories", () => {
-        app.options.setValue("excludeCategories", ["A", "Default"]);
-        app.options.setValue("defaultCategory", "Default");
-        const project = convert("excludeCategories");
-        equal(
-            project.children?.map((c) => c.name),
-            ["c"],
-        );
-    });
-
     it("Handles excludeNotDocumentedKinds", () => {
         app.options.setValue("excludeNotDocumented", true);
         app.options.setValue("excludeNotDocumentedKinds", ["Property"]);

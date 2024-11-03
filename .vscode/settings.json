@@ -44,6 +44,7 @@
     // Ignore usernames in the Thanks sections of the changelog
     "cSpell.ignoreRegExpList": ["/^- +@[A-Z0-9_]+/igm"],
     "cSpell.words": [
+        "callouts",
         "cname",
         "Combinatorially",
         "deconfliction",

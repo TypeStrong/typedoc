@@ -23,7 +23,6 @@ import {
     partition,
     removeIf,
 } from "../../utils/index.js";
-import { CategoryPlugin } from "./CategoryPlugin.js";
 import { setIntersection } from "../../utils/set.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
@@ -137,9 +136,6 @@ export class CommentPlugin extends ConverterComponent {
 
     @Option("excludeNotDocumented")
     accessor excludeNotDocumented!: boolean;
-
-    @Option("excludeCategories")
-    accessor excludeCategories!: string[];
 
     @Option("defaultCategory")
     accessor defaultCategory!: string;
@@ -570,10 +566,6 @@ export class CommentPlugin extends ConverterComponent {
             return true;
         }
 
-        if (this.excludedByCategory(reflection)) {
-            return true;
-        }
-
         if (
             reflection.kindOf(
                 ReflectionKind.ConstructorSignature |
@@ -655,26 +647,6 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         return isHidden;
-    }
-
-    private excludedByCategory(reflection: Reflection): boolean {
-        const excludeCategories = this.excludeCategories;
-
-        let target: DeclarationReflection | undefined;
-        if (reflection instanceof DeclarationReflection) {
-            target = reflection;
-        } else if (reflection instanceof SignatureReflection) {
-            target = reflection.parent;
-        }
-
-        if (!target || !excludeCategories.length) return false;
-
-        const categories = CategoryPlugin.getCategories(target);
-        if (categories.size === 0) {
-            categories.add(this.defaultCategory);
-        }
-
-        return excludeCategories.some((cat) => categories.has(cat));
     }
 
     private validateParamTags(

@@ -64,6 +64,10 @@ export const OptionDefaults: {
         "@hideGroups",
         "@expand",
         "@summary",
+        "@group",
+        "@groupDescription",
+        "@category",
+        "@categoryDescription",
     ],
     highlightLanguages: [
         "bash",
