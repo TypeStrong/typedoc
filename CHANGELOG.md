@@ -16,9 +16,6 @@ title: Changelog
 -   Changed the default `sort` order to use `alphabetical-ignoring-documents`
     instead of `alphabetical`.
 -   Changed default of `suppressCommentWarningsInDeclarationFiles` to `true`
--   Removed `excludeCategories` option which has existed for over a year, but
-    GitHub indicates has only ever been used by one project and breaks with
-    changes to make categories work with packages mode.
 -   API: Constructor signatures now use the parent class name as their name
     (e.g. `X`, not `new X`)
 -   API: `@group`, `@category`, `@groupDescription` and `@categoryDescription`
