@@ -29,6 +29,7 @@ title: Changelog
 
 -   TypeDoc will now discover entry points from `package.json` exports if they
     are not provided manually, #1937.
+-   Improved support for `@param` comments with nested object types, #2555.
 -   Improved support for `@param` comments which reference a type
     alias/interface. Important properties on the referenced type can now be
     highlighted with `@param options.foo`, which will result in the additional

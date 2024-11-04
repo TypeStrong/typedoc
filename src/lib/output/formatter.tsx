@@ -714,7 +714,7 @@ export class FormattedCodeBuilder {
         options: { topLevelLinks: boolean },
     ): FormatterNode {
         const members: FormatterNode[] = [];
-        const children = reflection.children || [];
+        const children = reflection.getProperties();
 
         for (const item of children) {
             this.member(members, item, options);

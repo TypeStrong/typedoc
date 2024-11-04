@@ -722,7 +722,8 @@ function moveNestedParamTags(
                 for (const tag of tags) {
                     const path = tag.name!.split(".");
                     path.shift();
-                    const child = target.declaration.getChildByName(path);
+                    const child =
+                        target.declaration.getChildOrTypePropertyByName(path);
 
                     if (child && !child.comment) {
                         child.comment = new Comment(

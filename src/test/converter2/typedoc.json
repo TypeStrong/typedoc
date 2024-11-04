@@ -1,4 +1,14 @@
 // This is here so we can point to it with doc:c2 and avoid warnings caused by TypeDoc's actual configuration.
 {
-    "logLevel": "Verbose"
+    "logLevel": "Verbose",
+    "outputs": [
+        {
+            "name": "html",
+            "path": "../../../docs"
+        },
+        {
+            "name": "json",
+            "path": "../../../docs/docs.json"
+        }
+    ]
 }

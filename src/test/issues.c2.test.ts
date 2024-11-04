@@ -1509,6 +1509,39 @@ describe("Issue Tests", () => {
         logger.expectNoOtherMessages();
     });
 
+    it("#2555 allows nested @param comments", () => {
+        const project = convert();
+        const sig = querySig(project, "ComponentWithOptions");
+        const param = sig.parameters?.[0];
+        equal(param?.type?.type, "reflection");
+        const title = param.type.declaration.getChildOrTypePropertyByName([
+            "title",
+        ]);
+        const options = param.type.declaration.getChildOrTypePropertyByName([
+            "options",
+        ]);
+        const featureA = param.type.declaration.getChildOrTypePropertyByName([
+            "options",
+            "featureA",
+        ]);
+        const featureB = param.type.declaration.getChildOrTypePropertyByName([
+            "options",
+            "featureB",
+        ]);
+
+        const comments = [param, title, options, featureA, featureB].map((d) =>
+            Comment.combineDisplayParts(d?.comment?.summary),
+        );
+
+        equal(comments, [
+            "Component properties.",
+            "Title.",
+            "Options.",
+            "Turn on or off featureA.",
+            "Turn on or off featureB.",
+        ]);
+    });
+
     it("#2574 default export", () => {
         const project = convert();
         const sig = querySig(project, "usesDefaultExport");

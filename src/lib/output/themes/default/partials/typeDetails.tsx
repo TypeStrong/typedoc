@@ -88,7 +88,10 @@ export function typeDetailsImpl(
         },
         reflection(type) {
             const declaration = type.declaration;
-            return declarationDetails(context, declaration, highlighted);
+            if (highlighted) {
+                return highlightedDeclarationDetails(context, declaration, highlighted);
+            }
+            return declarationDetails(context, declaration);
         },
         reference(reference) {
             if (shouldExpandReference(reference)) {
@@ -100,8 +103,8 @@ export function typeDetailsImpl(
                 // Ensure we don't go into an infinite loop here
                 expanded.add(target);
                 const details = target.type
-                    ? typeDetailsImpl(context, target.type, reference.highlightedProperties)
-                    : declarationDetails(context, target, reference.highlightedProperties);
+                    ? typeDetailsImpl(context, target.type)
+                    : declarationDetails(context, target);
                 expanded.delete(target);
                 return details;
             }
@@ -144,23 +147,25 @@ function highlightedPropertyDetails(
     );
 }
 
-function declarationDetails(
+function highlightedDeclarationDetails(
     context: DefaultThemeRenderContext,
     declaration: DeclarationReflection,
     highlightedProperties?: Map<string, CommentDisplayPart[]>,
-): JSX.Children {
-    if (!declaration.comment?.hasModifier("@expand")) {
-        return (
-            <ul class="tsd-parameters">
-                {declaration.children?.map(
+) {
+    return (
+        <ul class="tsd-parameters">
+            {declaration
+                .getProperties()
+                ?.map(
                     (child) =>
                         highlightedProperties?.has(child.name) &&
                         renderChild(context, child, highlightedProperties.get(child.name)),
                 )}
-            </ul>
-        );
-    }
+        </ul>
+    );
+}
 
+function declarationDetails(context: DefaultThemeRenderContext, declaration: DeclarationReflection): JSX.Children {
     return (
         <>
             {context.commentSummary(declaration)}
@@ -186,9 +191,7 @@ function declarationDetails(
                     </li>
                 )}
                 {declaration.indexSignatures?.map((index) => renderIndexSignature(context, index))}
-                {declaration.children?.map((child) =>
-                    renderChild(context, child, highlightedProperties?.get(child.name)),
-                )}
+                {declaration.getProperties()?.map((child) => renderChild(context, child))}
             </ul>
         </>
     );
@@ -241,8 +244,8 @@ function renderChild(
                     {context.type(child.type)}
                 </h5>
                 {highlightOrComment(child)}
-                {child.children?.some(renderingChildIsUseful) && (
-                    <ul class="tsd-parameters">{child.children.map((c) => renderChild(context, c))}</ul>
+                {child.getProperties().some(renderingChildIsUseful) && (
+                    <ul class="tsd-parameters">{child.getProperties().map((c) => renderChild(context, c))}</ul>
                 )}
             </li>
         );
@@ -312,19 +315,20 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
 }
 
 function renderingChildIsUseful(refl: DeclarationReflection) {
-    if (refl.hasComment()) return true;
-    if (
-        refl.children?.some((child) => {
-            if (child.hasComment()) return true;
-            if (child.type) {
-                return renderingTypeDetailsIsUseful(child.type);
-            }
-        })
-    ) {
+    if (renderingThisChildIsUseful(refl)) {
         return true;
     }
 
-    return refl.getAllSignatures().some((sig) => {
+    return refl.getProperties().some(renderingThisChildIsUseful);
+}
+
+function renderingThisChildIsUseful(refl: DeclarationReflection) {
+    if (refl.hasComment()) return true;
+
+    const declaration = refl.type?.type === "reflection" ? refl.type.declaration : refl;
+    if (declaration.hasComment()) return true;
+
+    return declaration.getAllSignatures().some((sig) => {
         return sig.hasComment() || sig.parameters?.some((p) => p.hasComment());
     });
 }

@@ -192,13 +192,49 @@ export class DeclarationReflection extends ContainerReflection {
         return result;
     }
 
-    /** @internal */
     getNonIndexSignatures(): SignatureReflection[] {
         return ([] as SignatureReflection[]).concat(
             this.signatures ?? [],
             this.setSignature ?? [],
             this.getSignature ?? [],
         );
+    }
+
+    getProperties(): DeclarationReflection[] {
+        if (this.children?.length) {
+            return this.children;
+        }
+
+        if (this.type?.type === "reflection") {
+            return this.type.declaration.children ?? [];
+        }
+        return [];
+    }
+
+    getChildOrTypePropertyByName(
+        path: string[],
+    ): DeclarationReflection | undefined {
+        if (this.type?.type === "reflection") {
+            for (const child of this.type.declaration.children || []) {
+                if (path[0] === child.name) {
+                    if (path.length === 1) {
+                        return child;
+                    }
+                    return child.getChildOrTypePropertyByName(path.slice(1));
+                }
+            }
+        }
+
+        for (const child of this.children || []) {
+            if (path[0] === child.name) {
+                if (path.length === 1) {
+                    return child;
+                }
+                return child.getChildOrTypePropertyByName(path.slice(1));
+            }
+        }
+
+        return undefined;
     }
 
     override traverse(callback: TraverseCallback) {
