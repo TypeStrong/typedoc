@@ -17,10 +17,11 @@ import { type RenderTemplate, UrlMapping } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
-import { filterMap, JSX } from "../../../utils/index.js";
+import { filterMap, JSX, Option, type TypeDocOptionMap } from "../../../utils/index.js";
 import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
 import { icons } from "./partials/icon.js";
 import { Slugger } from "./Slugger.js";
+import { createNormalizedUrl } from "../../../utils/html.js";
 
 /**
  * Defines a mapping of a {@link Models.Kind} to a template file.
@@ -52,11 +53,14 @@ export interface NavigationElement {
     children?: NavigationElement[];
 }
 
-/**
- * Default theme implementation of TypeDoc. If a theme does not provide a custom
- * {@link Theme} implementation, this theme class will be used.
- */
 export class DefaultTheme extends Theme {
+    // Note: This will always contain lowercased names to avoid issues with
+    // case-insensitive file systems.
+    usedFileNames = new Set<string>();
+
+    @Option("sluggerConfiguration")
+    private accessor sluggerConfiguration!: TypeDocOptionMap["sluggerConfiguration"];
+
     /** @internal */
     markedPlugin: MarkedPlugin;
 
@@ -166,8 +170,9 @@ export class DefaultTheme extends Theme {
      *                 should be rendered to which files.
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
+        this.usedFileNames = new Set();
         const urls: UrlMapping[] = [];
-        this.sluggers.set(project, new Slugger());
+        this.setSlugger(project, new Slugger(this.sluggerConfiguration));
 
         if (!project.readme?.length) {
             project.url = "index.html";
@@ -188,21 +193,29 @@ export class DefaultTheme extends Theme {
     }
 
     /**
-     * Return a url for the given reflection.
-     *
      * @param reflection  The reflection the url should be generated for.
-     * @param relative    The parent reflection the url generation should stop on.
-     * @param separator   The separator used to generate the url.
-     * @returns           The generated url.
      */
-    static getUrl(reflection: Reflection, relative?: Reflection, separator = "."): string {
-        let url = reflection.getAlias();
-
-        if (reflection.parent && reflection.parent !== relative && !(reflection.parent instanceof ProjectReflection)) {
-            url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
+    getFileName(reflection: Reflection): string {
+        const parts = [createNormalizedUrl(reflection.name)];
+        while (reflection.parent && !reflection.parent.isProject()) {
+            reflection = reflection.parent;
+            parts.unshift(createNormalizedUrl(reflection.name));
         }
 
-        return url;
+        const baseName = parts.join(".");
+        const lowerBaseName = baseName.toLocaleLowerCase();
+        if (this.usedFileNames.has(lowerBaseName)) {
+            let index = 1;
+            while (this.usedFileNames.has(`${lowerBaseName}-${index}`)) {
+                ++index;
+            }
+
+            this.usedFileNames.add(`${lowerBaseName}-${index}`);
+            return `${baseName}-${index}.html`;
+        }
+
+        this.usedFileNames.add(lowerBaseName);
+        return `${baseName}.html`;
     }
 
     /**
@@ -226,9 +239,9 @@ export class DefaultTheme extends Theme {
         const mapping = this.getMapping(reflection);
         if (mapping) {
             if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-                const url = [mapping.directory, DefaultTheme.getUrl(reflection) + ".html"].join("/");
+                const url = [mapping.directory, this.getFileName(reflection)].join("/");
                 urls.push(new UrlMapping(url, reflection, mapping.template));
-                this.sluggers.set(reflection, new Slugger());
+                this.setSlugger(reflection, new Slugger(this.sluggerConfiguration));
 
                 reflection.url = url;
                 reflection.hasOwnDocument = true;
@@ -238,12 +251,12 @@ export class DefaultTheme extends Theme {
                 if (child.isDeclaration() || child.isDocument()) {
                     this.buildUrls(child, urls);
                 } else {
-                    DefaultTheme.applyAnchorUrl(child, reflection);
+                    this.applyAnchorUrl(child, reflection);
                 }
                 return true;
             });
         } else if (reflection.parent) {
-            DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
+            this.applyAnchorUrl(reflection, reflection.parent);
         }
 
         return urls;
@@ -431,23 +444,13 @@ export class DefaultTheme extends Theme {
         }
     }
 
-    private sluggers = new Map<Reflection, Slugger>();
-
-    getSlugger(reflection: Reflection): Slugger {
-        if (this.sluggers.has(reflection)) {
-            return this.sluggers.get(reflection)!;
-        }
-        // A slugger should always be defined at least for the project
-        return this.getSlugger(reflection.parent!);
-    }
-
     /**
      * Generate an anchor url for the given reflection and all of its children.
      *
      * @param reflection  The reflection an anchor url should be created for.
      * @param container   The nearest reflection having an own document.
      */
-    static applyAnchorUrl(reflection: Reflection, container: Reflection) {
+    applyAnchorUrl(reflection: Reflection, container: Reflection) {
         if (
             !(reflection instanceof DeclarationReflection) &&
             !(reflection instanceof SignatureReflection) &&
@@ -457,7 +460,17 @@ export class DefaultTheme extends Theme {
         }
 
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-            const anchor = DefaultTheme.getUrl(reflection, container, ".");
+            let refl: Reflection | undefined = reflection;
+            let parts = [refl.name];
+            while (refl.parent && refl.parent !== container && !(reflection.parent instanceof ProjectReflection)) {
+                refl = refl.parent;
+                // Avoid duplicate names for signatures
+                if (parts[0] !== refl.name) {
+                    parts.unshift(refl.name);
+                }
+            }
+
+            const anchor = this.getSlugger(reflection).slug(parts.join("."));
 
             reflection.url = container.url! + "#" + anchor;
             reflection.anchor = anchor;
@@ -465,7 +478,7 @@ export class DefaultTheme extends Theme {
         }
 
         reflection.traverse((child) => {
-            DefaultTheme.applyAnchorUrl(child, container);
+            this.applyAnchorUrl(child, container);
             return true;
         });
     }

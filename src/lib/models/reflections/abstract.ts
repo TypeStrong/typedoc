@@ -17,7 +17,6 @@ import type {
     TranslatedString,
 } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
-import { createNormalizedUrl } from "../../utils/html.js";
 import type { ReferenceReflection } from "./reference.js";
 
 /**
@@ -315,13 +314,6 @@ export abstract class Reflection {
      */
     hasOwnDocument?: boolean;
 
-    /**
-     * Url safe alias for this reflection.
-     */
-    private _alias?: string;
-
-    private _aliases?: Map<string, number>;
-
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++ as ReflectionId;
         this.parent = parent;
@@ -390,45 +382,6 @@ export abstract class Reflection {
      */
     setFlag(flag: ReflectionFlag, value = true) {
         this.flags.setFlag(flag, value);
-    }
-
-    /**
-     * Return an url safe alias for this reflection.
-     */
-    getAlias(): string {
-        this._alias ||= this.getUniqueAliasInPage(
-            createNormalizedUrl(this.name) || `reflection-${this.id}`,
-        );
-
-        return this._alias;
-    }
-
-    // This really ought not live here, it ought to live in the html renderer, but moving that
-    // is more work than I want right now, it can wait for 0.27 when trying to split models into
-    // a bundleable structure.
-    getUniqueAliasInPage(heading: string) {
-        // NTFS/ExFAT use uppercase, so we will too. It probably won't matter
-        // in this case since names will generally be valid identifiers, but to be safe...
-        const upperAlias = heading.toUpperCase();
-
-        let target = this as Reflection;
-        while (target.parent && !target.hasOwnDocument) {
-            target = target.parent;
-        }
-
-        target._aliases ||= new Map();
-
-        let suffix = "";
-        if (!target._aliases.has(upperAlias)) {
-            target._aliases.set(upperAlias, 1);
-        } else {
-            const count = target._aliases.get(upperAlias)!;
-            suffix = "-" + count.toString();
-            target._aliases.set(upperAlias, count + 1);
-        }
-
-        heading += suffix;
-        return heading;
     }
 
     /**

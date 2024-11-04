@@ -9,7 +9,10 @@ import type {
     TranslationProxy,
     TranslatedString,
 } from "../../internationalization/index.js";
-import type { CommentDisplayPart } from "../../models/index.js";
+import type {
+    CommentDisplayPart,
+    RelativeLinkDisplayPart,
+} from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
 import { HtmlAttributeParser, ParserState } from "../../utils/html.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
@@ -32,6 +35,7 @@ interface RelativeLink {
     end: number;
     /** May be undefined if the registry can't find this file */
     target: number | undefined;
+    targetAnchor: string | undefined;
 }
 
 /**
@@ -92,11 +96,13 @@ export function textContent(
             kind: "text",
             text: token.text.slice(lastPartEnd, ref.pos),
         });
-        outContent.push({
+        const link: RelativeLinkDisplayPart = {
             kind: "relative-link",
             text: token.text.slice(ref.pos, ref.end),
             target: ref.target,
-        });
+            targetAnchor: ref.targetAnchor,
+        };
+        outContent.push(link);
         lastPartEnd = ref.end;
         data.pos = ref.end;
         if (!ref.target) {
@@ -190,10 +196,15 @@ function checkMarkdownLink(
             // Only make a relative-link display part if it's actually a relative link.
             // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
             if (isRelativePath(link.str)) {
+                const { target, anchor } = files.register(
+                    sourcePath,
+                    link.str,
+                ) || { target: undefined, anchor: undefined };
                 return {
                     pos: labelEnd + 2,
                     end: link.pos,
-                    target: files.register(sourcePath, link.str),
+                    target,
+                    targetAnchor: anchor,
                 };
             }
 
@@ -241,10 +252,15 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
 
                 if (link.ok) {
                     if (isRelativePath(link.str)) {
+                        const { target, anchor } = files.register(
+                            sourcePath,
+                            link.str,
+                        ) || { target: undefined, anchor: undefined };
                         return {
                             pos: lookahead,
                             end: link.pos,
-                            target: files.register(sourcePath, link.str),
+                            target,
+                            targetAnchor: anchor,
                         };
                     }
 
@@ -286,13 +302,15 @@ function checkAttribute(
 
             if (isRelativePath(parser.currentAttributeValue)) {
                 data.pos = parser.pos;
+                const { target, anchor } = data.files.register(
+                    data.sourcePath,
+                    parser.currentAttributeValue,
+                ) || { target: undefined, anchor: undefined };
                 return {
                     pos: parser.currentAttributeValueStart,
                     end: parser.currentAttributeValueEnd,
-                    target: data.files.register(
-                        data.sourcePath,
-                        parser.currentAttributeValue,
-                    ),
+                    target,
+                    targetAnchor: anchor,
                 };
             }
             return;

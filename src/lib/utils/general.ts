@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import * as Util from "util";
 import url from "url";
+import { DefaultMap } from "./map.js";
 
 /**
  * This type provides a flag that can be used to turn off more lax overloads intended for
@@ -56,11 +57,52 @@ export function assertNever(x: never): never {
     );
 }
 
-export function camelToTitleCase(text: string) {
-    return (
-        text.substring(0, 1).toUpperCase() +
-        text.substring(1).replace(/[a-z][A-Z]/g, (x) => `${x[0]} ${x[1]}`)
-    );
+// Based on https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
+// Slightly modified for improved match results for options
+export function editDistance(s: string, t: string): number {
+    if (s.length < t.length) return editDistance(t, s);
+
+    let v0 = Array.from({ length: t.length + 1 }, (_, i) => i);
+    let v1 = Array.from({ length: t.length + 1 }, () => 0);
+
+    for (let i = 0; i < s.length; i++) {
+        v1[0] = i + 1;
+
+        for (let j = 0; j < s.length; j++) {
+            const deletionCost = v0[j + 1] + 1;
+            const insertionCost = v1[j] + 1;
+            let substitutionCost: number;
+            if (s[i] === t[j]) {
+                substitutionCost = v0[j];
+            } else if (s[i]?.toUpperCase() === t[j]?.toUpperCase()) {
+                substitutionCost = v0[j] + 1;
+            } else {
+                substitutionCost = v0[j] + 3;
+            }
+
+            v1[j + 1] = Math.min(deletionCost, insertionCost, substitutionCost);
+        }
+
+        [v0, v1] = [v1, v0];
+    }
+
+    return v0[t.length];
+}
+
+export function getSimilarValues(values: Iterable<string>, compareTo: string) {
+    const results = new DefaultMap<number, string[]>(() => []);
+    let lowest = Infinity;
+    for (const name of values) {
+        const distance = editDistance(compareTo, name);
+        lowest = Math.min(lowest, distance);
+        results.get(distance).push(name);
+    }
+
+    // Experimenting a bit, it seems an edit distance of 3 is roughly the
+    // right metric for relevant "similar" results without showing obviously wrong suggestions
+    return results
+        .get(lowest)
+        .concat(results.get(lowest + 1), results.get(lowest + 2));
 }
 
 export function NonEnumerable(

@@ -32,7 +32,7 @@ support more versions of TypeScript.
 
 TypeDoc's CLI can be used through your terminal or npm scripts. Any arguments
 passed to TypeDoc which are not flags are parsed as entry points. TypeDoc will
-also read configuration from several files. See [Configuration](./options/configuration.md)
+also read configuration from several files. See [Configuration](./options/configuration.md#compileroptions)
 for details on where options are read from.
 
 <details>

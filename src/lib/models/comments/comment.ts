@@ -68,6 +68,10 @@ export interface RelativeLinkDisplayPart {
      * This may be `undefined` if the relative path does not exist.
      */
     target: number | undefined;
+    /**
+     * Anchor within the target page, validated after rendering if possible
+     */
+    targetAnchor: string | undefined;
 }
 
 /**
@@ -230,7 +234,7 @@ export class Comment {
                 case "relative-link": {
                     return {
                         ...part,
-                    };
+                    } satisfies JSONOutput.CommentDisplayPart;
                 }
             }
         });
@@ -293,11 +297,16 @@ export class Comment {
                             kind: "relative-link",
                             text: part.text,
                             target: null!,
+                            targetAnchor: part.targetAnchor,
                         } satisfies RelativeLinkDisplayPart;
                         files.push([part.target, part2]);
                         return part2;
                     }
-                    return { ...part, target: undefined };
+                    return {
+                        ...part,
+                        target: undefined,
+                        targetAnchor: part.targetAnchor,
+                    };
                 }
             }
         });

@@ -75,7 +75,7 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                         ? `${context.internationalization.translateTagName(item.tag)}: ${item.name}`
                         : context.internationalization.translateTagName(item.tag);
 
-                    const anchor = props.getUniqueAliasInPage(name);
+                    const anchor = context.slugger.slug(name);
 
                     return (
                         <>

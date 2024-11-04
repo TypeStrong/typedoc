@@ -8,6 +8,12 @@ title: Changelog
 
 -   Relaxed requirements for file names and generated url fragments. This may
     result in a different file name structure, #2714.
+-   Anchors to document headings and reflections within a HTML generated pages
+    have changed. They can be partially restored to the previous format by
+    setting `--sluggerConfiguration.lowercase false`. This change was made to
+    more closely match the default behavior of GitHub's markdown rendering and
+    VSCode's autocomplete when creating a relative link to an external markdown
+    file.
 -   Removed the `hideParameterTypesInTitle` option, this was originally added as
     a workaround for many signatures overflowing the available horizontal space
     in rendered pages. TypeDoc now has logic to wrap types/signatures smartly,
@@ -26,6 +32,8 @@ title: Changelog
 
 -   TypeDoc will now discover entry points from `package.json` exports if they
     are not provided manually, #1937.
+-   Relative links to markdown files may now include `#anchor` links to
+    reference a heading within them.
 -   Improved support for `@param` comments with nested object types, #2555.
 -   Improved support for `@param` comments which reference a type
     alias/interface. Important properties on the referenced type can now be
@@ -94,7 +102,6 @@ title: Changelog
 
 TODO:
 
--   Validate anchors within relative linked paths?
 -   Figure out automation for beta releases
 
 # Unreleased

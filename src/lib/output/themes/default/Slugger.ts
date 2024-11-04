@@ -1,3 +1,6 @@
+import { getSimilarValues } from "../../../utils/general.js";
+import type { TypeDocOptionMap } from "../../../utils/index.js";
+
 /**
  * Responsible for getting a unique anchor for elements within a page.
  */
@@ -5,6 +8,9 @@ export class Slugger {
     private seen = new Map<string, number>();
 
     private serialize(value: string) {
+        // Notes:
+        // There are quite a few trade-offs here.
+
         return (
             value
                 .trim()
@@ -19,19 +25,32 @@ export class Slugger {
         );
     }
 
+    constructor(private options: TypeDocOptionMap["sluggerConfiguration"]) {}
+
     slug(value: string) {
         const originalSlug = this.serialize(value);
-        let slug = originalSlug;
+        const lowerOriginalSlug = originalSlug.toLocaleLowerCase();
         let count = 0;
-        if (this.seen.has(slug)) {
-            count = this.seen.get(originalSlug)!;
+        let slug = lowerOriginalSlug;
+        if (this.seen.has(lowerOriginalSlug)) {
+            count = this.seen.get(lowerOriginalSlug)!;
             do {
                 count++;
-                slug = `${originalSlug}-${count}`;
+                slug = `${lowerOriginalSlug}-${count}`;
             } while (this.seen.has(slug));
         }
-        this.seen.set(originalSlug, count);
-        this.seen.set(slug, 0);
+        this.seen.set(lowerOriginalSlug, count);
+        if (!this.options.lowercase) {
+            return count === 0 ? originalSlug : `${originalSlug}-${count}`;
+        }
         return slug;
+    }
+
+    hasAnchor(anchor: string) {
+        return this.seen.has(anchor);
+    }
+
+    getSimilarAnchors(anchor: string) {
+        return getSimilarValues(this.seen.keys(), anchor);
     }
 }

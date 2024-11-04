@@ -4,6 +4,7 @@ import type { RenderTemplate, UrlMapping } from "./models/UrlMapping.js";
 import { RendererComponent } from "./components.js";
 import type { PageEvent } from "./events.js";
 import type { Reflection } from "../models/index.js";
+import type { Slugger } from "./themes/default/Slugger.js";
 
 /**
  * Base class of all themes.
@@ -14,6 +15,8 @@ import type { Reflection } from "../models/index.js";
  * {@link Renderer} to control and manipulate the output process.
  */
 export abstract class Theme extends RendererComponent {
+    private sluggers = new Map<Reflection, Slugger>();
+
     /**
      * Map the models of the given project to the desired output files.
      * It is assumed that with the project structure:
@@ -39,4 +42,16 @@ export abstract class Theme extends RendererComponent {
         page: PageEvent<Reflection>,
         template: RenderTemplate<PageEvent<Reflection>>,
     ): string;
+
+    setSlugger(reflection: Reflection, slugger: Slugger) {
+        this.sluggers.set(reflection, slugger);
+    }
+
+    getSlugger(reflection: Reflection): Slugger {
+        if (this.sluggers.has(reflection)) {
+            return this.sluggers.get(reflection)!;
+        }
+        // A slugger should always be defined at least for the project
+        return this.getSlugger(reflection.parent!);
+    }
 }

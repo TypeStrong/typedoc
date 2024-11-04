@@ -3,25 +3,20 @@ import MarkdownIt from "markdown-it";
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
-import { type RendererEvent, MarkdownEvent, type PageEvent } from "../events.js";
-import { Option, type Logger, renderElement, assertNever } from "../../utils/index.js";
+import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
+import { Option, renderElement, assertNever } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
 import { escapeHtml } from "../../utils/html.js";
-import type { DefaultTheme, DefaultThemeRenderContext, Renderer } from "../index.js";
-import { Slugger } from "./default/Slugger.js";
+import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
-import { type Reflection, ReflectionKind, type CommentDisplayPart } from "../../models/index.js";
+import {
+    type Reflection,
+    ReflectionKind,
+    type CommentDisplayPart,
+    type RelativeLinkDisplayPart,
+} from "../../models/index.js";
 import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
-
-let defaultSlugger: Slugger | undefined;
-function getDefaultSlugger(logger: Logger) {
-    if (!defaultSlugger) {
-        logger.warn(logger.i18n.custom_theme_does_not_define_getSlugger());
-        defaultSlugger = new Slugger();
-    }
-    return defaultSlugger;
-}
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -42,6 +37,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     private parser?: MarkdownIt;
 
+    private renderedRelativeLinks: {
+        source: Reflection;
+        target: Reflection;
+        link: RelativeLinkDisplayPart;
+    }[] = [];
+
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
      * Revisit when adding support for arbitrary pages in 0.26.
@@ -52,6 +53,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     constructor(owner: Renderer) {
         super(owner);
         this.owner.on(MarkdownEvent.PARSE, this.onParseMarkdown.bind(this));
+        this.owner.on(RendererEvent.END, this.onEnd.bind(this));
     }
 
     /**
@@ -182,8 +184,21 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                             }
 
                             if (url) {
-                                if (!url.includes("#") && part.text.includes("#")) {
-                                    url += part.text.substring(part.text.indexOf("#"));
+                                if (part.targetAnchor) {
+                                    url += "#" + part.targetAnchor;
+
+                                    if (typeof refl === "object") {
+                                        this.renderedRelativeLinks.push({
+                                            source: this.page!.model,
+                                            target: refl,
+                                            link: part,
+                                        });
+                                    } else {
+                                        console.log("NOPE", part);
+                                    }
+                                }
+                                if (url.endsWith("Options.Configuration.html")) {
+                                    debugger;
                                 }
                                 result.push(url);
                                 break;
@@ -203,6 +218,27 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         return result.join("");
     }
 
+    private onEnd() {
+        for (const { source, target, link } of this.renderedRelativeLinks) {
+            const slugger = this.owner.theme!.getSlugger(target);
+            if (!slugger.hasAnchor(link.targetAnchor!)) {
+                this.application.logger.warn(
+                    this.application.i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
+                        source.getFriendlyFullName(),
+                        link.text,
+                        slugger
+                            .getSimilarAnchors(link.targetAnchor!)
+                            .map((a) => link.text.replace(/#.*/, "#" + a))
+                            .join("\n\t"),
+                    ),
+                );
+            }
+        }
+
+        // In case we're in watch mode
+        this.renderedRelativeLinks = [];
+    }
+
     /**
      * Triggered before the renderer starts rendering a project.
      *
@@ -214,10 +250,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     private getSlugger() {
-        if ("getSlugger" in this.owner.theme!) {
-            return (this.owner.theme as DefaultTheme).getSlugger(this.page!.model);
-        }
-        return getDefaultSlugger(this.application.logger);
+        return this.owner.theme!.getSlugger(this.page!.model);
     }
 
     /**
@@ -254,24 +287,23 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             const slug = this.getSlugger().slug(content);
             this.lastHeaderSlug = slug;
 
-            // Prefix the slug with an extra `md:` to prevent conflicts with TypeDoc's anchors.
             this.page!.pageHeadings.push({
-                link: `#md:${slug}`,
+                link: `#${slug}`,
                 text: content,
                 level,
             });
 
-            return `<a id="md:${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
+            return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${renderElement(anchorIcon(this.renderContext, `md:${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;
+            return `${renderElement(anchorIcon(this.renderContext, `${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
         // that TypeDoc creates.
         this.parser.renderer.rules["link_open"] = (tokens, idx, options, _env, self) => {
             const token = tokens[idx];
-            const href = token.attrGet("href")?.replace(/^#(?:md:)?(.+)/, "#md:$1");
+            const href = token.attrGet("href");
             if (href) {
                 // Note: This doesn't catch @link tags to reflections as those
                 // will be relative links. This will likely have to change with

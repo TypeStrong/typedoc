@@ -91,6 +91,10 @@ export class DefaultThemeRenderContext {
         return this._refIcons;
     }
 
+    get slugger() {
+        return this.theme.getSlugger(this.page.model);
+    }
+
     hook: Renderer["hooks"]["emit"] = (...params) => {
         return this.theme.owner.hooks.emit(...params);
     };

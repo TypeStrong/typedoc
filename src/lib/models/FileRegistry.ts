@@ -19,32 +19,44 @@ export class FileRegistry {
     protected names = new Map<number, string>();
     protected nameUsage = new Map<string, number>();
 
-    registerAbsolute(absolute: string) {
+    registerAbsolute(absolute: string): {
+        target: number;
+        anchor: string | undefined;
+    } {
+        const anchorIndex = absolute.indexOf("#");
+        let anchor: string | undefined = undefined;
+        if (anchorIndex !== -1) {
+            anchor = absolute.substring(anchorIndex + 1);
+            absolute = absolute.substring(0, anchorIndex);
+        }
         absolute = normalizePath(absolute).replace(/#.*/, "");
         const existing = this.pathToMedia.get(absolute);
         if (existing) {
-            return existing;
+            return { target: existing, anchor };
         }
 
         this.mediaToPath.set(this.nextId, absolute);
         this.pathToMedia.set(absolute, this.nextId);
 
-        return this.nextId++;
+        return { target: this.nextId++, anchor };
     }
 
     /** Called by {@link ProjectReflection.registerReflection} @internal*/
     registerReflection(absolute: string, reflection: Reflection) {
         absolute = normalizePath(absolute);
-        const id = this.registerAbsolute(absolute);
+        const { target } = this.registerAbsolute(absolute);
         this.reflectionToPath.set(reflection.id, absolute);
-        this.mediaToReflection.set(id, reflection.id);
+        this.mediaToReflection.set(target, reflection.id);
     }
 
     getReflectionPath(reflection: Reflection): string | undefined {
         return this.reflectionToPath.get(reflection.id);
     }
 
-    register(sourcePath: string, relativePath: string): number | undefined {
+    register(
+        sourcePath: string,
+        relativePath: string,
+    ): { target: number; anchor: string | undefined } | undefined {
         return this.registerAbsolute(
             resolve(dirname(sourcePath), relativePath),
         );
@@ -131,7 +143,8 @@ export class FileRegistry {
     fromObject(de: Deserializer, obj: JSONFileRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute);
+            de.oldFileIdToNewFileId[+key] =
+                this.registerAbsolute(absolute).target;
         }
 
         de.defer((project) => {
@@ -154,12 +167,10 @@ export class ValidatingFileRegistry extends FileRegistry {
     override register(
         sourcePath: string,
         relativePath: string,
-    ): number | undefined {
-        const absolute = resolve(dirname(sourcePath), relativePath).replace(
-            /#.*/,
-            "",
-        );
-        if (!isFile(absolute)) {
+    ): { target: number; anchor: string | undefined } | undefined {
+        const absolute = resolve(dirname(sourcePath), relativePath);
+        const absoluteWithoutAnchor = absolute.replace(/#.*/, "");
+        if (!isFile(absoluteWithoutAnchor)) {
             return;
         }
         return this.registerAbsolute(absolute);
@@ -178,7 +189,8 @@ export class ValidatingFileRegistry extends FileRegistry {
                 continue;
             }
 
-            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute);
+            de.oldFileIdToNewFileId[+key] =
+                this.registerAbsolute(absolute).target;
         }
 
         de.defer((project) => {

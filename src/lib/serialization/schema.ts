@@ -437,6 +437,10 @@ export interface RelativeLinkDisplayPart {
      * File ID, if present
      */
     target?: number;
+    /**
+     * Anchor within the target file, if present
+     */
+    targetAnchor?: string;
 }
 
 export interface SourceReference

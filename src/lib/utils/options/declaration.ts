@@ -197,6 +197,9 @@ export interface TypeDocOptionMap {
         readme: boolean;
         document: boolean;
     };
+    sluggerConfiguration: {
+        lowercase: boolean;
+    };
     visibilityFilters: ManuallyValidatedOption<{
         protected?: boolean;
         private?: boolean;

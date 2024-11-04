@@ -354,6 +354,38 @@ categories/groups.
 -   `@showCategories`
 -   `@hideCategories`
 
+## headings
+
+```json
+// typedoc.json
+{
+    "headings": {
+        "readme": true,
+        "document": false
+    }
+}
+```
+
+Defines whether a heading describing the reflection should be included on the rendered page.
+
+## sluggerConfiguration
+
+```json
+// typedoc.json
+{
+    "sluggerConfiguration": {
+        "lowercase": true
+    }
+}
+```
+
+Determines how anchors within a page are created. This option exists primarily
+for backwards compatibility. It may be removed in a future release. TypeDoc 0.26
+did not lowercase headings within a page which is inconsistent with how GitHub
+pages sites commonly generate headings and does not play well with VSCode's
+autocomplete to anchors within external markdown files. In 0.27, this option
+defaults to `true`.
+
 ## navigationLeaves
 
 ```json

@@ -802,15 +802,6 @@ describe("Issue Tests", () => {
         notEqual(type.types[1], "intersection");
     });
 
-    it("#2012", () => {
-        const project = convert();
-        project.hasOwnDocument = true;
-        const model = query(project, "model");
-        const Model = query(project, "Model");
-        equal(model.getAlias(), "model");
-        equal(Model.getAlias(), "Model-1");
-    });
-
     it("#2019", () => {
         const project = convert();
         const param = query(project, "A.constructor").signatures![0]

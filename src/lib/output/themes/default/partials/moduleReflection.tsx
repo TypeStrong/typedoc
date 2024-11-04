@@ -8,13 +8,11 @@ import {
 } from "../../../../models/index.js";
 import { JSX, Raw } from "../../../../utils/index.js";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
-import { Slugger } from "../Slugger.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorIcon } from "./anchor-icon.js";
 
 export function moduleReflection(context: DefaultThemeRenderContext, mod: DeclarationReflection | ProjectReflection) {
     const sections = getMemberSections(mod);
-    const slugger = new Slugger();
 
     return (
         <>
@@ -42,7 +40,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                             </h2>
                         </summary>
                         <dl class="tsd-member-summaries">
-                            {children.map((item) => context.moduleMemberSummary(item, slugger))}
+                            {children.map((item) => context.moduleMemberSummary(item))}
                         </dl>
                     </details>
                 );
@@ -54,9 +52,8 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
 export function moduleMemberSummary(
     context: DefaultThemeRenderContext,
     member: DeclarationReflection | DocumentReflection,
-    slugger: Slugger,
 ) {
-    const id = slugger.slug(member.name);
+    const id = context.slugger.slug(member.name);
     context.page.pageHeadings.push({
         link: `#${id}`,
         text: getDisplayName(member),

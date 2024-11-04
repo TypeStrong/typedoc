@@ -600,7 +600,6 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             excludeReferences: false,
         },
     });
-
     options.addDeclaration({
         name: "headings",
         help: (i18n) => i18n.help_headings(),
@@ -608,6 +607,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             readme: true,
             document: false,
+        },
+    });
+    options.addDeclaration({
+        name: "sluggerConfiguration",
+        help: (i18n) => i18n.help_sluggerConfiguration(),
+        type: ParameterType.Flags,
+        defaults: {
+            lowercase: true,
         },
     });
 

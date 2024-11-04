@@ -131,7 +131,7 @@ export = {
     could_not_empty_output_directory_0: `Could not empty the output directory {0}`,
     could_not_create_output_directory_0: `Could not create the output directory {0}`,
     theme_0_is_not_defined_available_are_1: `The theme '{0}' is not defined. The available themes are: {1}`,
-    custom_theme_does_not_define_getSlugger: `Custom theme does not define a getSlugger(reflection) method, but tries to render markdown`,
+    reflection_0_links_to_1_but_anchor_does_not_exist_try_2: `{0} links to {1}, but the anchor does not exist. You may have meant:\n\t{2}`,
 
     // entry points
     no_entry_points_provided:
@@ -295,6 +295,8 @@ export = {
     help_navigationLeaves:
         "Branches of the navigation tree which should not be expanded",
     help_headings: "Determines which optional headings are rendered",
+    help_sluggerConfiguration:
+        "Determines how anchors within rendered HTML are determined.",
     help_navigation: "Determines how the navigation sidebar is organized",
     help_visibilityFilters:
         "Specify the default visibility for builtin filters and additional filters according to modifier tags",

@@ -1354,9 +1354,19 @@ describe("Comment Parser", () => {
 
         equal(comment.summary, [
             { kind: "text", text: "[text](" },
-            { kind: "relative-link", text: "./relative.md", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./relative.md",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: ") ![](" },
-            { kind: "relative-link", text: "image.png", target: 2 },
+            {
+                kind: "relative-link",
+                text: "image.png",
+                target: 2,
+                targetAnchor: undefined,
+            },
             {
                 kind: "text",
                 text: ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)",
@@ -1379,12 +1389,22 @@ describe("Comment Parser", () => {
             { kind: "text", text: "[" },
             { kind: "code", text: "`text`" },
             { kind: "text", text: "](" },
-            { kind: "relative-link", text: "./relative.md", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./relative.md",
+                target: 1,
+                targetAnchor: undefined,
+            },
             // Labels can also include single newlines
             { kind: "text", text: ")\n[" },
             { kind: "code", text: "`text`" },
             { kind: "text", text: "\nmore](" },
-            { kind: "relative-link", text: "./relative.md", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./relative.md",
+                target: 1,
+                targetAnchor: undefined,
+            },
             // But not double!
             { kind: "text", text: ")\n[" },
             { kind: "code", text: "`text`" },
@@ -1401,7 +1421,12 @@ describe("Comment Parser", () => {
             { kind: "text", text: "[" },
             { kind: "code", text: "`text`" },
             { kind: "text", text: "](" },
-            { kind: "relative-link", text: "./relative.md", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./relative.md",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: ")" },
         ] satisfies CommentDisplayPart[]);
     });
@@ -1416,12 +1441,18 @@ describe("Comment Parser", () => {
 
         equal(comment.summary, [
             { kind: "text", text: "[1]: " },
-            { kind: "relative-link", text: "./example.md", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./example.md",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: "\n[2]:" },
             {
                 kind: "relative-link",
                 text: "<./example with space>",
                 target: 2,
+                targetAnchor: undefined,
             },
             {
                 kind: "text",
@@ -1449,12 +1480,18 @@ describe("Comment Parser", () => {
 
         equal(comment.summary, [
             { kind: "text", text: '<img width=100 height="200" src="' },
-            { kind: "relative-link", text: "./test.png", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./test.png",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: '" >\n<img src="' },
             {
                 kind: "relative-link",
                 text: "./test space.png",
                 target: 2,
+                targetAnchor: undefined,
             },
             {
                 kind: "text",
@@ -1473,17 +1510,48 @@ describe("Comment Parser", () => {
 
         equal(comment.summary, [
             { kind: "text", text: '<a data-foo="./path.txt" href="' },
-            { kind: "relative-link", text: "./test.png", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./test.png",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: '" >\n<a href="' },
             {
                 kind: "relative-link",
                 text: "./test space.png",
                 target: 2,
+                targetAnchor: undefined,
             },
             {
                 kind: "text",
                 text: '"/>\n<a href="https://example.com/favicon.ico">\n<a href="#hash">',
             },
+        ] satisfies CommentDisplayPart[]);
+    });
+
+    it("Recognizes anchors within relative links", () => {
+        const comment = getComment(`/**
+            * <a href="./path.md#foo" >
+            * [test](./test.txt#bar)
+            */`);
+
+        equal(comment.summary, [
+            { kind: "text", text: '<a href="' },
+            {
+                kind: "relative-link",
+                text: "./path.md#foo",
+                target: 1,
+                targetAnchor: "foo",
+            },
+            { kind: "text", text: '" >\n[test](' },
+            {
+                kind: "relative-link",
+                text: "./test.txt#bar",
+                target: 2,
+                targetAnchor: "bar",
+            },
+            { kind: "text", text: ")" },
         ] satisfies CommentDisplayPart[]);
     });
 
@@ -1494,7 +1562,12 @@ describe("Comment Parser", () => {
 
         equal(comment.summary, [
             { kind: "text", text: '<a href="' },
-            { kind: "relative-link", text: "./&amp;&#97;.png", target: 1 },
+            {
+                kind: "relative-link",
+                text: "./&amp;&#97;.png",
+                target: 1,
+                targetAnchor: undefined,
+            },
             { kind: "text", text: '" >' },
         ] satisfies CommentDisplayPart[]);
 

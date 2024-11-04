@@ -142,8 +142,6 @@ export = localeUtils.buildIncompleteTranslation({
         "出力ディレクトリ {0} を作成できませんでした",
     theme_0_is_not_defined_available_are_1:
         "テーマ '{0}' は定義されていません。使用可能なテーマは次のとおりです: {1}",
-    custom_theme_does_not_define_getSlugger:
-        "カスタムテーマはgetSlugger(reflection)メソッドを定義していませんが、マークダウンをレンダリングしようとします",
     // no_entry_points_provided:
     unable_to_find_any_entry_points:
         "エントリ ポイントが見つかりません。以前の警告を参照してください",
