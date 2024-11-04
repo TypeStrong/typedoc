@@ -374,7 +374,7 @@ export = buildIncompleteTranslation({
     kind_call_signature: "调用签名",
     kind_index_signature: "索引签名",
     kind_constructor_signature: "构造函数签名",
-    kind_parameter: "范围",
+    kind_parameter: "参数",
     kind_type_literal: "类型字面量",
     kind_type_parameter: "类型参数",
     kind_accessor: "访问器",
