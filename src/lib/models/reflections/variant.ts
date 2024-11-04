@@ -19,3 +19,5 @@ export interface ReflectionVariant {
     typeParam: TypeParameterReflection;
     document: DocumentReflection;
 }
+
+export type SomeReflection = ReflectionVariant[keyof ReflectionVariant];

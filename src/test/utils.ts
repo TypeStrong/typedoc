@@ -9,14 +9,44 @@ import {
 } from "../index.js";
 import { filterMap } from "../lib/utils/index.js";
 import { equal } from "assert/strict";
+import type { SomeReflection } from "../lib/models/reflections/variant.js";
 
 export function query(
     project: ProjectReflection,
     name: string,
 ): DeclarationReflection {
-    const reflection = project.getChildByName(name);
-    ok(reflection instanceof DeclarationReflection, `Failed to find ${name}`);
-    return reflection;
+    let refl: SomeReflection | undefined = project;
+    const parts = name.split(".");
+
+    for (let i = 0; i < parts.length; ++i) {
+        if (!refl) break;
+        if (refl.isReference()) {
+            refl = refl.getTargetReflectionDeep() as SomeReflection;
+        }
+
+        if (refl.isDocument()) {
+            throw new Error("Found document");
+        }
+
+        if (refl.isProject()) {
+            refl = refl.getChildByName([parts[i]]) as
+                | SomeReflection
+                | undefined;
+            continue;
+        }
+
+        if (refl.type?.type === "reflection") {
+            refl = refl.type.declaration.getChildByName([parts[i]]) as
+                | SomeReflection
+                | undefined;
+            continue;
+        }
+
+        refl = refl.getChildByName([parts[i]]) as SomeReflection | undefined;
+    }
+
+    ok(refl instanceof DeclarationReflection, `Failed to find ${name}`);
+    return refl;
 }
 
 export function querySig(

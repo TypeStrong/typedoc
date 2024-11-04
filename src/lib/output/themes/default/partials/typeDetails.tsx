@@ -37,7 +37,7 @@ export function typeDeclaration(context: DefaultThemeRenderContext, type: SomeTy
         return (
             <div class="tsd-type-declaration">
                 <h4>{context.i18n.theme_type_declaration()}</h4>
-                {context.typeDetails(type)}
+                {context.typeDetails(type, true)}
             </div>
         );
     }
@@ -57,21 +57,22 @@ function shouldExpandReference(reference: ReferenceType) {
     return expanded.has(target) === false;
 }
 
-export function typeDetails(context: DefaultThemeRenderContext, type: SomeType): JSX.Children {
-    return typeDetailsImpl(context, type);
+export function typeDetails(context: DefaultThemeRenderContext, type: SomeType, renderAnchors: boolean): JSX.Children {
+    return typeDetailsImpl(context, type, renderAnchors);
 }
 
 export function typeDetailsImpl(
     context: DefaultThemeRenderContext,
     type: SomeType,
+    renderAnchors: boolean,
     highlighted?: Map<string, CommentDisplayPart[]>,
 ): JSX.Children {
     const result = type.visit<JSX.Children>({
         array(type) {
-            return context.typeDetails(type.elementType);
+            return context.typeDetails(type.elementType, renderAnchors);
         },
         intersection(type) {
-            return type.types.map(context.typeDetails);
+            return type.types.map((t) => context.typeDetails(t, renderAnchors));
         },
         union(type) {
             const result: JSX.Children = [];
@@ -89,9 +90,9 @@ export function typeDetailsImpl(
         reflection(type) {
             const declaration = type.declaration;
             if (highlighted) {
-                return highlightedDeclarationDetails(context, declaration, highlighted);
+                return highlightedDeclarationDetails(context, declaration, renderAnchors, highlighted);
             }
-            return declarationDetails(context, declaration);
+            return declarationDetails(context, declaration, renderAnchors);
         },
         reference(reference) {
             if (shouldExpandReference(reference)) {
@@ -103,8 +104,8 @@ export function typeDetailsImpl(
                 // Ensure we don't go into an infinite loop here
                 expanded.add(target);
                 const details = target.type
-                    ? typeDetailsImpl(context, target.type)
-                    : declarationDetails(context, target);
+                    ? context.typeDetails(target.type, renderAnchors)
+                    : declarationDetails(context, target, renderAnchors);
                 expanded.delete(target);
                 return details;
             }
@@ -121,7 +122,7 @@ export function typeDetailsImpl(
 
 export function typeDetailsIfUseful(context: DefaultThemeRenderContext, type: SomeType | undefined): JSX.Children {
     if (type && renderingTypeDetailsIsUseful(type)) {
-        return context.typeDetails(type);
+        return context.typeDetails(type, false);
     }
 }
 
@@ -150,6 +151,7 @@ function highlightedPropertyDetails(
 function highlightedDeclarationDetails(
     context: DefaultThemeRenderContext,
     declaration: DeclarationReflection,
+    renderAnchors: boolean,
     highlightedProperties?: Map<string, CommentDisplayPart[]>,
 ) {
     return (
@@ -159,13 +161,17 @@ function highlightedDeclarationDetails(
                 ?.map(
                     (child) =>
                         highlightedProperties?.has(child.name) &&
-                        renderChild(context, child, highlightedProperties.get(child.name)),
+                        renderChild(context, child, renderAnchors, highlightedProperties.get(child.name)),
                 )}
         </ul>
     );
 }
 
-function declarationDetails(context: DefaultThemeRenderContext, declaration: DeclarationReflection): JSX.Children {
+function declarationDetails(
+    context: DefaultThemeRenderContext,
+    declaration: DeclarationReflection,
+    renderAnchors: boolean,
+): JSX.Children {
     return (
         <>
             {context.commentSummary(declaration)}
@@ -191,7 +197,7 @@ function declarationDetails(context: DefaultThemeRenderContext, declaration: Dec
                     </li>
                 )}
                 {declaration.indexSignatures?.map((index) => renderIndexSignature(context, index))}
-                {declaration.getProperties()?.map((child) => renderChild(context, child))}
+                {declaration.getProperties()?.map((child) => renderChild(context, child, renderAnchors))}
             </ul>
         </>
     );
@@ -200,6 +206,7 @@ function declarationDetails(context: DefaultThemeRenderContext, declaration: Dec
 function renderChild(
     context: DefaultThemeRenderContext,
     child: DeclarationReflection,
+    renderAnchors: boolean,
     highlight?: CommentDisplayPart[],
 ) {
     if (child.signatures) {
@@ -208,6 +215,7 @@ function renderChild(
                 <h5>
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
+                    <a id={child.anchor} class="tsd-anchor"></a>
                     <span class="tsd-signature-symbol">{!!child.flags.isOptional && "?"}:</span>
                     function
                 </h5>
@@ -237,6 +245,7 @@ function renderChild(
                     {context.reflectionFlags(child)}
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
+                    <a id={child.anchor} class="tsd-anchor"></a>
                     <span class="tsd-signature-symbol">
                         {!!child.flags.isOptional && "?"}
                         {": "}
@@ -245,7 +254,9 @@ function renderChild(
                 </h5>
                 {highlightOrComment(child)}
                 {child.getProperties().some(renderingChildIsUseful) && (
-                    <ul class="tsd-parameters">{child.getProperties().map((c) => renderChild(context, c))}</ul>
+                    <ul class="tsd-parameters">
+                        {child.getProperties().map((c) => renderChild(context, c, renderAnchors))}
+                    </ul>
                 )}
             </li>
         );
@@ -260,6 +271,7 @@ function renderChild(
                         {context.reflectionFlags(child.getSignature)}
                         <span class="tsd-signature-keyword">get </span>
                         <span class={getKindClass(child)}>{child.name}</span>
+                        <a id={child.anchor} class="tsd-anchor"></a>
                         <span class="tsd-signature-symbol">(): </span>
                         {context.type(child.getSignature.type)}
                     </h5>
@@ -273,6 +285,7 @@ function renderChild(
                         {context.reflectionFlags(child.setSignature)}
                         <span class="tsd-signature-keyword">set </span>
                         <span class={getKindClass(child)}>{child.name}</span>
+                        {!child.getSignature && <a id={child.anchor} class="tsd-anchor"></a>}
                         <span class="tsd-signature-symbol">(</span>
                         {child.setSignature.parameters?.map((item) => (
                             <>

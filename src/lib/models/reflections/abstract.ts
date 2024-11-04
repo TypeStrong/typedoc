@@ -18,6 +18,7 @@ import type {
 } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import { createNormalizedUrl } from "../../utils/html.js";
+import type { ReferenceReflection } from "./reference.js";
 
 /**
  * Current reflection id.
@@ -485,6 +486,9 @@ export abstract class Reflection {
     }
     isDocument(): this is DocumentReflection {
         return false;
+    }
+    isReference(): this is ReferenceReflection {
+        return this.variant === "reference";
     }
 
     /**

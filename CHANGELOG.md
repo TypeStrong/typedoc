@@ -75,6 +75,7 @@ title: Changelog
     overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 -   Fixed empty top level modules page in packages mode, #2753.
+-   TypeDoc can now link to type alias properties, #2524.
 -   Fixed an issue where properties were not properly marked optional in some
     cases. This primarily affected destructured parameters.
 -   Added `yaml` to the highlight languages supported by default.

@@ -1471,6 +1471,37 @@ describe("Issue Tests", () => {
         equal(getSigComment(project, "fooWithComment", 1), "Overload 2");
     });
 
+    it("#2524 Handles links to type alias properties", () => {
+        const project = convert();
+        app.options.setValue("validation", false);
+        app.options.setValue("validation", { invalidLink: true });
+        app.validate(project);
+
+        const def = query(project, "Alias.default");
+        equal(getLinks(def), [
+            {
+                display: "other",
+                target: [ReflectionKind.Property, "Alias.__type.other"],
+            },
+            {
+                display: "other",
+                target: [ReflectionKind.Property, "Alias.__type.other"],
+            },
+        ]);
+
+        const other = query(project, "Alias.other");
+        equal(getLinks(other), [
+            {
+                display: "default",
+                target: [ReflectionKind.Property, "Alias.__type.default"],
+            },
+            {
+                display: "default",
+                target: [ReflectionKind.Property, "Alias.__type.default"],
+            },
+        ]);
+    });
+
     it("#2545 discovers comments from non-exported 'parent' methods", () => {
         const project = convert();
 

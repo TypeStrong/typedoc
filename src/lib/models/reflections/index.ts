@@ -24,4 +24,4 @@ export {
 export { SignatureReflection } from "./signature.js";
 export { TypeParameterReflection, VarianceModifier } from "./type-parameter.js";
 export { splitUnquotedString } from "./utils.js";
-export type { ReflectionVariant } from "./variant.js";
+export type { ReflectionVariant, SomeReflection } from "./variant.js";
