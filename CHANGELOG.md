@@ -63,7 +63,7 @@ title: Changelog
     improve their documentation, #2654..
 -   Added a new `@mergeModuleWith` tag which can be used to tell TypeDoc to
     place a module/namespace's children under a different module/namespace and
-    remove the real parent.
+    remove the real parent, #2281.
 -   Add `notRenderedTags` option. This option is similar to the `excludeTags`
     option, but while `excludeTags` will result in the tag being completely
     removed from the documentation, `notRenderedTags` only prevents it from
