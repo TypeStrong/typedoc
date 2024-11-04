@@ -193,12 +193,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                             target: refl,
                                             link: part,
                                         });
-                                    } else {
-                                        console.log("NOPE", part);
                                     }
-                                }
-                                if (url.endsWith("Options.Configuration.html")) {
-                                    debugger;
                                 }
                                 result.push(url);
                                 break;
@@ -296,7 +291,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${renderElement(anchorIcon(this.renderContext, `${this.lastHeaderSlug}`))}</${tokens[idx].tag}>`;
+            return `${renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors

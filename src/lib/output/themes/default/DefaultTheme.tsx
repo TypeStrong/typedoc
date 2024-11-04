@@ -461,7 +461,7 @@ export class DefaultTheme extends Theme {
 
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
             let refl: Reflection | undefined = reflection;
-            let parts = [refl.name];
+            const parts = [refl.name];
             while (refl.parent && refl.parent !== container && !(reflection.parent instanceof ProjectReflection)) {
                 refl = refl.parent;
                 // Avoid duplicate names for signatures
