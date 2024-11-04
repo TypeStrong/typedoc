@@ -19,9 +19,7 @@ export class DefaultMap<K, V> extends Map<K, V> {
     }
 }
 
-export class StableKeyMap<K extends { getStableKey(): string }, V>
-    implements Map<K, V>
-{
+export class StableKeyMap<K extends { getStableKey(): string }, V> {
     [Symbol.toStringTag] = "StableKeyMap";
     private impl = new Map<string, [K, V]>();
 

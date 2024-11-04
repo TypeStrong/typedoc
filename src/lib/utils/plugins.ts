@@ -14,17 +14,19 @@ export async function loadPlugins(
 
         try {
             let instance: any;
+            // Try importing first to avoid warnings about requiring ESM being experimental.
+            // If that fails due to importing a directory, fall back to require.
             try {
-                // eslint-disable-next-line @typescript-eslint/no-require-imports
-                instance = require(plugin);
+                // On Windows, we need to ensure this path is a file path.
+                // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                const esmPath = isAbsolute(plugin)
+                    ? pathToFileURL(plugin).toString()
+                    : plugin;
+                instance = await import(esmPath);
             } catch (error: any) {
-                if (error.code === "ERR_REQUIRE_ESM") {
-                    // On Windows, we need to ensure this path is a file path.
-                    // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
-                    const esmPath = isAbsolute(plugin)
-                        ? pathToFileURL(plugin).toString()
-                        : plugin;
-                    instance = await import(esmPath);
+                if (error.code === "ERR_UNSUPPORTED_DIR_IMPORT") {
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
+                    instance = require(plugin);
                 } else {
                     throw error;
                 }

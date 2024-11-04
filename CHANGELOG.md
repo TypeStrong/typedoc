@@ -1,5 +1,17 @@
 # Unreleased
 
+## v0.26.11 (2024-11-01)
+
+### Features
+
+-   If `hostedBaseUrl` is set to the root page on a website, TypeDoc will now include `WebSite` structured data, #2760.
+
+### Bug Fixes
+
+-   Fix support for ESM config files with Node 23, #2752.
+-   Fix type errors when using `"module": "ESNext"` and importing TypeDoc, #2747.
+-   Inherited comments on overloaded methods now consider the overload position when inheriting a comment, #2755.
+
 ## v0.26.10 (2024-10-16)
 
 ### Bug Fixes

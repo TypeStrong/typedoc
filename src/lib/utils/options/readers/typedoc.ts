@@ -84,19 +84,10 @@ export class TypeDocReader implements OptionsReader {
             }
         } else {
             try {
-                try {
-                    // eslint-disable-next-line @typescript-eslint/no-require-imports
-                    fileContent = await require(file);
-                } catch (error: any) {
-                    if (error?.code === "ERR_REQUIRE_ESM") {
-                        // On Windows, we need to ensure this path is a file path.
-                        // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
-                        const esmPath = pathToFileURL(file).toString();
-                        fileContent = await (await import(esmPath)).default;
-                    } else {
-                        throw error;
-                    }
-                }
+                // On Windows, we need to ensure this path is a file path.
+                // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                const esmPath = pathToFileURL(file).toString();
+                fileContent = await (await import(esmPath)).default;
             } catch (error) {
                 logger.error(
                     logger.i18n.failed_read_options_file_0(nicePath(file)),
