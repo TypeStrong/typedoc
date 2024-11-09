@@ -18,7 +18,7 @@ support more versions of TypeScript.
 
 | TypeDoc Version | TypeScript Version |
 | --------------- | ------------------ |
-| 0.27            | 4.6 through 5.7    |
+| 0.27            | 5.0 through 5.7    |
 | 0.26            | 4.6 through 5.6    |
 | 0.25            | 4.6 through 5.4    |
 | 0.24            | 4.6 through 5.1    |

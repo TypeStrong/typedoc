@@ -459,7 +459,7 @@ function convertTypeAliasAsInterface(
     convertConstructSignatures(rc, symbol);
 
     // And finally, index signatures
-    convertIndexSignatures(rc, symbol);
+    convertIndexSignatures(rc, type);
 }
 
 function convertFunctionOrMethod(
@@ -674,7 +674,7 @@ function convertClassOrInterface(
     convertConstructSignatures(reflectionContext, symbol);
 
     // And finally, index signatures
-    convertIndexSignatures(reflectionContext, symbol);
+    convertIndexSignatures(reflectionContext, instanceType);
 
     // Normally this shouldn't matter, unless someone did something with skipLibCheck on.
     return ts.SymbolFlags.Alias;

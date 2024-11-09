@@ -631,7 +631,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
             );
         }
 
-        convertIndexSignatures(rc, symbol);
+        convertIndexSignatures(rc, type);
 
         return new ReflectionType(reflection);
     },
@@ -670,7 +670,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         }
 
         if (symbol) {
-            convertIndexSignatures(context.withScope(reflection), symbol);
+            convertIndexSignatures(context.withScope(reflection), type);
         }
 
         return new ReflectionType(reflection);

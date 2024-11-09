@@ -21,7 +21,7 @@ import type {
     JsxChildren,
     JsxComponent,
 } from "./jsx.elements.js";
-import { JsxFragment as Fragment } from "./jsx.elements.js";
+import { JsxFragment } from "./jsx.elements.js";
 
 export type {
     JsxElement as Element,
@@ -94,7 +94,7 @@ const blockElements = new Set([
  * @param children
  */
 export function createElement(
-    tag: typeof Fragment | string | JsxComponent<any>,
+    tag: string | JsxComponent<any>,
     props: object | null,
     ...children: JsxChildren[]
 ): JsxElement {
@@ -112,61 +112,55 @@ export function renderElement(element: JsxElement | null | undefined): string {
     }
 
     const { tag, props, children } = element;
+    let html = "";
 
     if (typeof tag === "function") {
         if (tag === Raw) {
             return String((props as any).html);
         }
+        if (tag === JsxFragment) {
+            renderChildren(children);
+            return html;
+        }
         return renderElement(tag(Object.assign({ children }, props)));
     }
 
-    let html = "";
+    if (blockElements.has(tag) && renderPretty && html) {
+        html += "\n";
+    }
+    html += "<";
+    html += tag;
 
-    if (tag !== Fragment) {
-        if (blockElements.has(tag) && renderPretty && html) {
-            html += "\n";
-        }
-        html += "<";
-        html += tag;
+    for (const [key, val] of Object.entries(props ?? {})) {
+        if (val == null) continue;
 
-        for (const [key, val] of Object.entries(props ?? {})) {
-            if (val == null) continue;
-
-            if (typeof val == "boolean") {
-                if (val) {
-                    html += " ";
-                    html += key;
-                }
-            } else {
+        if (typeof val == "boolean") {
+            if (val) {
                 html += " ";
                 html += key;
-                html += '="';
-                html += (
-                    typeof val === "string" ? val : JSON.stringify(val)
-                ).replaceAll('"', "&quot;");
-                html += '"';
             }
+        } else {
+            html += " ";
+            html += key;
+            html += '="';
+            html += (
+                typeof val === "string" ? val : JSON.stringify(val)
+            ).replaceAll('"', "&quot;");
+            html += '"';
         }
     }
 
-    let hasChildren = false;
     if (children.length) {
-        hasChildren = true;
-        if (tag !== Fragment) html += ">";
+        html += ">";
         renderChildren(children);
-    }
-
-    if (tag !== Fragment) {
-        if (!hasChildren) {
-            if (voidElements.has(tag)) {
-                html += "/>";
-            } else {
-                html += "></";
-                html += tag;
-                html += ">";
-            }
+        html += "</";
+        html += tag;
+        html += ">";
+    } else {
+        if (voidElements.has(tag)) {
+            html += "/>";
         } else {
-            html += "</";
+            html += "></";
             html += tag;
             html += ">";
         }
@@ -200,22 +194,22 @@ export function renderElementToText(element: JsxElement | null | undefined) {
     }
 
     const { tag, props, children } = element;
+    let html = "";
 
     if (typeof tag === "function") {
         if (tag === Raw) {
             return String((props as any).html);
+        }
+        if (tag === JsxFragment) {
+            renderChildren(children);
+            return html;
         }
         return renderElementToText(tag(Object.assign({ children }, props)));
     } else if (tag === "br") {
         return "\n";
     }
 
-    let html = "";
-
-    if (children.length) {
-        renderChildren(children);
-    }
-
+    renderChildren(children);
     return html;
 
     function renderChildren(children: JsxChildren[]) {

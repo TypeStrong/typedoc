@@ -8,6 +8,9 @@ const config = {
         parserOptions: {
             project: true,
             tsconfigRootDir: import.meta.dirname,
+            // We're fairly frequently on a later version of the TS compiler than
+            // is officially supported. So far this has never been a real problem.
+            warnOnUnsupportedTypeScriptVersion: false,
         },
     },
     rules: {

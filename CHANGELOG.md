@@ -6,6 +6,7 @@ title: Changelog
 
 ## Breaking Changes
 
+-   Drop support for TypeScript <5.0, no longer supported by DefinitelyTyped
 -   Relaxed requirements for file names and generated url fragments. This may
     result in a different file name structure, #2714.
 -   Anchors to document headings and reflections within a HTML generated pages
@@ -30,6 +31,7 @@ title: Changelog
 
 ## Features
 
+-   Add support for TypeScript 5.7
 -   TypeDoc will now discover entry points from `package.json` exports if they
     are not provided manually, #1937.
 -   Relative links to markdown files may now include `#anchor` links to
@@ -79,6 +81,7 @@ title: Changelog
 
 ## Bug Fixes
 
+-   TypeDoc now properly flags `readonly` index signatures.
 -   TypeDoc will now use the first signature's comment for later signatures in
     overloads if present, #2718.
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.

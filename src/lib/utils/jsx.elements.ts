@@ -127,7 +127,9 @@ export interface IntrinsicElements {
     text: JsxTextElementProps;
 }
 
-export const JsxFragment: unique symbol = Symbol();
+export function JsxFragment(): never {
+    throw new Error("Should never be called");
+}
 
 export type JsxComponent<P> = (props: P) => JsxElement | null | undefined;
 

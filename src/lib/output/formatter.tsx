@@ -724,6 +724,16 @@ export class FormattedCodeBuilder {
             for (const index of reflection.indexSignatures) {
                 members.push(
                     nodes(
+                        ...(index.flags.isReadonly
+                            ? [
+                                  simpleElement(
+                                      <span class="tsd-signature-keyword">
+                                          readonly
+                                      </span>,
+                                  ),
+                                  space(),
+                              ]
+                            : []),
                         simpleElement(
                             <span class="tsd-signature-symbol">[</span>,
                         ),

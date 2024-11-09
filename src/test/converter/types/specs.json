@@ -331,6 +331,158 @@
       "flags": {},
       "children": [
         {
+          "id": 28,
+          "name": "A",
+          "variant": "declaration",
+          "kind": 128,
+          "flags": {},
+          "children": [
+            {
+              "id": 29,
+              "name": "constructor",
+              "variant": "declaration",
+              "kind": 512,
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 30,
+                  "name": "A",
+                  "variant": "signature",
+                  "kind": 16384,
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "target": 28,
+                    "name": "A",
+                    "package": "typedoc"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "children": [
+                29
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 21,
+              "character": 13,
+              "url": "typedoc://index-signature.ts#L21"
+            }
+          ],
+          "indexSignatures": [
+            {
+              "id": 31,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 32,
+                  "name": "key",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "symbol"
+                  }
+                }
+              ],
+              "type": {
+                "type": "union",
+                "types": [
+                  {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 33,
+                      "name": "__type",
+                      "variant": "declaration",
+                      "kind": 65536,
+                      "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index-signature.ts",
+                          "line": 22,
+                          "character": 4,
+                          "url": "typedoc://index-signature.ts#L22"
+                        }
+                      ],
+                      "signatures": [
+                        {
+                          "id": 34,
+                          "name": "__type",
+                          "variant": "signature",
+                          "kind": 4096,
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "index-signature.ts",
+                              "line": 22,
+                              "character": 4,
+                              "url": "typedoc://index-signature.ts#L22"
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 35,
+                      "name": "__type",
+                      "variant": "declaration",
+                      "kind": 65536,
+                      "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "index-signature.ts",
+                          "line": 25,
+                          "character": 4,
+                          "url": "typedoc://index-signature.ts#L25"
+                        }
+                      ],
+                      "signatures": [
+                        {
+                          "id": 36,
+                          "name": "__type",
+                          "variant": "signature",
+                          "kind": 4096,
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "index-signature.ts",
+                              "line": 25,
+                              "character": 4,
+                              "url": "typedoc://index-signature.ts#L25"
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "id": 17,
           "name": "PartialIndex",
           "variant": "declaration",
@@ -384,6 +536,57 @@
               "type": {
                 "type": "intrinsic",
                 "name": "unknown"
+              }
+            }
+          ]
+        },
+        {
+          "id": 25,
+          "name": "ReadonlyIndex",
+          "variant": "declaration",
+          "kind": 256,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "index-signature.ts",
+              "line": 14,
+              "character": 17,
+              "url": "typedoc://index-signature.ts#L14"
+            }
+          ],
+          "indexSignatures": [
+            {
+              "id": 26,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {
+                "isReadonly": true
+              },
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 15,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L15"
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 27,
+                  "name": "x",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
               }
             }
           ]
@@ -492,15 +695,54 @@
                 "type": "intrinsic",
                 "name": "unknown"
               }
+            },
+            {
+              "id": 23,
+              "name": "__index",
+              "variant": "signature",
+              "kind": 8192,
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "index-signature.ts",
+                  "line": 11,
+                  "character": 4,
+                  "url": "typedoc://index-signature.ts#L11"
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 24,
+                  "name": "numName",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
             }
           ]
         }
       ],
       "groups": [
         {
+          "title": "Classes",
+          "children": [
+            28
+          ]
+        },
+        {
           "title": "Interfaces",
           "children": [
             17,
+            25,
             14,
             20
           ]
@@ -516,14 +758,14 @@
       ]
     },
     {
-      "id": 23,
+      "id": 37,
       "name": "mapped",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 34,
+          "id": 48,
           "name": "DoubleKey",
           "variant": "declaration",
           "kind": 2097152,
@@ -538,7 +780,7 @@
           ],
           "typeParameters": [
             {
-              "id": 35,
+              "id": 49,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -556,7 +798,7 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
-                    "target": 35,
+                    "target": 49,
                     "name": "T",
                     "package": "typedoc",
                     "refersToTypeParameter": true
@@ -582,7 +824,7 @@
               },
               "objectType": {
                 "type": "reference",
-                "target": 35,
+                "target": 49,
                 "name": "T",
                 "package": "typedoc",
                 "refersToTypeParameter": true
@@ -623,7 +865,7 @@
           }
         },
         {
-          "id": 32,
+          "id": 46,
           "name": "Mappy",
           "variant": "declaration",
           "kind": 2097152,
@@ -638,7 +880,7 @@
           ],
           "typeParameters": [
             {
-              "id": 33,
+              "id": 47,
               "name": "T",
               "variant": "typeParam",
               "kind": 131072,
@@ -653,7 +895,7 @@
               "operator": "keyof",
               "target": {
                 "type": "reference",
-                "target": 33,
+                "target": 47,
                 "name": "T",
                 "package": "typedoc",
                 "refersToTypeParameter": true
@@ -673,7 +915,7 @@
               },
               "objectType": {
                 "type": "reference",
-                "target": 33,
+                "target": 47,
                 "name": "T",
                 "package": "typedoc",
                 "refersToTypeParameter": true
@@ -682,7 +924,7 @@
           }
         },
         {
-          "id": 28,
+          "id": 42,
           "name": "doubleKey",
           "variant": "declaration",
           "kind": 64,
@@ -697,7 +939,7 @@
           ],
           "signatures": [
             {
-              "id": 29,
+              "id": 43,
               "name": "doubleKey",
               "variant": "signature",
               "kind": 4096,
@@ -712,7 +954,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 30,
+                  "id": 44,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -721,14 +963,14 @@
               ],
               "parameters": [
                 {
-                  "id": 31,
+                  "id": 45,
                   "name": "arg",
                   "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 30,
+                    "target": 44,
                     "name": "T",
                     "package": "typedoc",
                     "refersToTypeParameter": true
@@ -756,7 +998,7 @@
                   },
                   "objectType": {
                     "type": "reference",
-                    "target": 30,
+                    "target": 44,
                     "name": "T",
                     "package": "typedoc",
                     "refersToTypeParameter": true
@@ -799,7 +1041,7 @@
           ]
         },
         {
-          "id": 24,
+          "id": 38,
           "name": "mapped",
           "variant": "declaration",
           "kind": 64,
@@ -814,7 +1056,7 @@
           ],
           "signatures": [
             {
-              "id": 25,
+              "id": 39,
               "name": "mapped",
               "variant": "signature",
               "kind": 4096,
@@ -829,7 +1071,7 @@
               ],
               "typeParameters": [
                 {
-                  "id": 26,
+                  "id": 40,
                   "name": "T",
                   "variant": "typeParam",
                   "kind": 131072,
@@ -838,14 +1080,14 @@
               ],
               "parameters": [
                 {
-                  "id": 27,
+                  "id": 41,
                   "name": "arg",
                   "variant": "param",
                   "kind": 32768,
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "target": 26,
+                    "target": 40,
                     "name": "T",
                     "package": "typedoc",
                     "refersToTypeParameter": true
@@ -887,15 +1129,15 @@
         {
           "title": "Type Aliases",
           "children": [
-            34,
-            32
+            48,
+            46
           ]
         },
         {
           "title": "Functions",
           "children": [
-            28,
-            24
+            42,
+            38
           ]
         }
       ],
@@ -909,14 +1151,14 @@
       ]
     },
     {
-      "id": 36,
+      "id": 50,
       "name": "parens",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 37,
+          "id": 51,
           "name": "ZZ",
           "variant": "declaration",
           "kind": 2097152,
@@ -939,14 +1181,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 38,
+                  "id": 52,
                   "name": "__type",
                   "variant": "declaration",
                   "kind": 65536,
                   "flags": {},
                   "children": [
                     {
-                      "id": 39,
+                      "id": 53,
                       "name": "a",
                       "variant": "declaration",
                       "kind": 1024,
@@ -969,7 +1211,7 @@
                     {
                       "title": "Properties",
                       "children": [
-                        39
+                        53
                       ]
                     }
                   ],
@@ -991,7 +1233,7 @@
         {
           "title": "Type Aliases",
           "children": [
-            37
+            51
           ]
         }
       ],
@@ -1005,14 +1247,14 @@
       ]
     },
     {
-      "id": 40,
+      "id": 54,
       "name": "query",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 42,
+          "id": 56,
           "name": "TypeOfX",
           "variant": "declaration",
           "kind": 2097152,
@@ -1029,14 +1271,14 @@
             "type": "query",
             "queryType": {
               "type": "reference",
-              "target": 41,
+              "target": 55,
               "name": "x",
               "package": "typedoc"
             }
           }
         },
         {
-          "id": 41,
+          "id": 55,
           "name": "x",
           "variant": "declaration",
           "kind": 32,
@@ -1062,13 +1304,13 @@
         {
           "title": "Type Aliases",
           "children": [
-            42
+            56
           ]
         },
         {
           "title": "Variables",
           "children": [
-            41
+            55
           ]
         }
       ],
@@ -1082,14 +1324,14 @@
       ]
     },
     {
-      "id": 43,
+      "id": 57,
       "name": "tuple",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 52,
+          "id": 66,
           "name": "LeadingRest",
           "variant": "declaration",
           "kind": 2097152,
@@ -1123,7 +1365,7 @@
           }
         },
         {
-          "id": 44,
+          "id": 58,
           "name": "NamedTuple",
           "variant": "declaration",
           "kind": 2097152,
@@ -1161,7 +1403,7 @@
           }
         },
         {
-          "id": 50,
+          "id": 64,
           "name": "WithOptionalElements",
           "variant": "declaration",
           "kind": 2097152,
@@ -1199,7 +1441,7 @@
           }
         },
         {
-          "id": 46,
+          "id": 60,
           "name": "WithRestType",
           "variant": "declaration",
           "kind": 2097152,
@@ -1233,7 +1475,7 @@
           }
         },
         {
-          "id": 48,
+          "id": 62,
           "name": "WithRestTypeNames",
           "variant": "declaration",
           "kind": 2097152,
@@ -1274,7 +1516,7 @@
           }
         },
         {
-          "id": 53,
+          "id": 67,
           "name": "leadingRest",
           "variant": "declaration",
           "kind": 32,
@@ -1311,7 +1553,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 45,
+          "id": 59,
           "name": "namedTuple",
           "variant": "declaration",
           "kind": 32,
@@ -1352,7 +1594,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 51,
+          "id": 65,
           "name": "withOptionalElements",
           "variant": "declaration",
           "kind": 32,
@@ -1393,7 +1635,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 47,
+          "id": 61,
           "name": "withRestType",
           "variant": "declaration",
           "kind": 32,
@@ -1430,7 +1672,7 @@
           "defaultValue": "..."
         },
         {
-          "id": 49,
+          "id": 63,
           "name": "withRestTypeNames",
           "variant": "declaration",
           "kind": 32,
@@ -1481,21 +1723,21 @@
         {
           "title": "Type Aliases",
           "children": [
-            52,
-            44,
-            50,
-            46,
-            48
+            66,
+            58,
+            64,
+            60,
+            62
           ]
         },
         {
           "title": "Variables",
           "children": [
-            53,
-            45,
-            51,
-            47,
-            49
+            67,
+            59,
+            65,
+            61,
+            63
           ]
         }
       ],
@@ -1509,14 +1751,14 @@
       ]
     },
     {
-      "id": 54,
+      "id": 68,
       "name": "type-operator",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 56,
+          "id": 70,
           "name": "B",
           "variant": "declaration",
           "kind": 2097152,
@@ -1542,7 +1784,7 @@
           }
         },
         {
-          "id": 57,
+          "id": 71,
           "name": "C",
           "variant": "declaration",
           "kind": 2097152,
@@ -1558,14 +1800,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 58,
+              "id": 72,
               "name": "__type",
               "variant": "declaration",
               "kind": 65536,
               "flags": {},
               "children": [
                 {
-                  "id": 59,
+                  "id": 73,
                   "name": "prop1",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1584,7 +1826,7 @@
                   }
                 },
                 {
-                  "id": 60,
+                  "id": 74,
                   "name": "prop2",
                   "variant": "declaration",
                   "kind": 1024,
@@ -1607,8 +1849,8 @@
                 {
                   "title": "Properties",
                   "children": [
-                    59,
-                    60
+                    73,
+                    74
                   ]
                 }
               ],
@@ -1624,7 +1866,7 @@
           }
         },
         {
-          "id": 61,
+          "id": 75,
           "name": "D",
           "variant": "declaration",
           "kind": 2097152,
@@ -1642,14 +1884,14 @@
             "operator": "keyof",
             "target": {
               "type": "reference",
-              "target": 57,
+              "target": 71,
               "name": "C",
               "package": "typedoc"
             }
           }
         },
         {
-          "id": 55,
+          "id": 69,
           "name": "a",
           "variant": "declaration",
           "kind": 32,
@@ -1679,15 +1921,15 @@
         {
           "title": "Type Aliases",
           "children": [
-            56,
-            57,
-            61
+            70,
+            71,
+            75
           ]
         },
         {
           "title": "Variables",
           "children": [
-            55
+            69
           ]
         }
       ],
@@ -1701,14 +1943,14 @@
       ]
     },
     {
-      "id": 62,
+      "id": 76,
       "name": "union-or-intersection",
       "variant": "declaration",
       "kind": 2,
       "flags": {},
       "children": [
         {
-          "id": 63,
+          "id": 77,
           "name": "FirstType",
           "variant": "declaration",
           "kind": 256,
@@ -1723,7 +1965,7 @@
           },
           "children": [
             {
-              "id": 64,
+              "id": 78,
               "name": "firstProperty",
               "variant": "declaration",
               "kind": 1024,
@@ -1754,7 +1996,7 @@
             {
               "title": "Properties",
               "children": [
-                64
+                78
               ]
             }
           ],
@@ -1768,7 +2010,7 @@
           ]
         },
         {
-          "id": 65,
+          "id": 79,
           "name": "SecondType",
           "variant": "declaration",
           "kind": 256,
@@ -1783,7 +2025,7 @@
           },
           "children": [
             {
-              "id": 66,
+              "id": 80,
               "name": "secondProperty",
               "variant": "declaration",
               "kind": 1024,
@@ -1814,7 +2056,7 @@
             {
               "title": "Properties",
               "children": [
-                66
+                80
               ]
             }
           ],
@@ -1828,7 +2070,7 @@
           ]
         },
         {
-          "id": 67,
+          "id": 81,
           "name": "ThirdType",
           "variant": "declaration",
           "kind": 256,
@@ -1843,7 +2085,7 @@
           },
           "children": [
             {
-              "id": 70,
+              "id": 84,
               "name": "thirdComplexProperty",
               "variant": "declaration",
               "kind": 1024,
@@ -1880,13 +2122,13 @@
                         "types": [
                           {
                             "type": "reference",
-                            "target": 63,
+                            "target": 77,
                             "name": "FirstType",
                             "package": "typedoc"
                           },
                           {
                             "type": "reference",
-                            "target": 65,
+                            "target": 79,
                             "name": "SecondType",
                             "package": "typedoc"
                           }
@@ -1898,7 +2140,7 @@
               }
             },
             {
-              "id": 69,
+              "id": 83,
               "name": "thirdIntersectionProperty",
               "variant": "declaration",
               "kind": 1024,
@@ -1924,13 +2166,13 @@
                 "types": [
                   {
                     "type": "reference",
-                    "target": 63,
+                    "target": 77,
                     "name": "FirstType",
                     "package": "typedoc"
                   },
                   {
                     "type": "reference",
-                    "target": 67,
+                    "target": 81,
                     "name": "ThirdType",
                     "package": "typedoc"
                   }
@@ -1938,7 +2180,7 @@
               }
             },
             {
-              "id": 68,
+              "id": 82,
               "name": "thirdUnionProperty",
               "variant": "declaration",
               "kind": 1024,
@@ -1964,13 +2206,13 @@
                 "types": [
                   {
                     "type": "reference",
-                    "target": 63,
+                    "target": 77,
                     "name": "FirstType",
                     "package": "typedoc"
                   },
                   {
                     "type": "reference",
-                    "target": 65,
+                    "target": 79,
                     "name": "SecondType",
                     "package": "typedoc"
                   }
@@ -1982,9 +2224,9 @@
             {
               "title": "Properties",
               "children": [
-                70,
-                69,
-                68
+                84,
+                83,
+                82
               ]
             }
           ],
@@ -2002,9 +2244,9 @@
         {
           "title": "Interfaces",
           "children": [
-            63,
-            65,
-            67
+            77,
+            79,
+            81
           ]
         }
       ],
@@ -2024,12 +2266,12 @@
       "children": [
         1,
         13,
-        23,
-        36,
-        40,
-        43,
+        37,
+        50,
         54,
-        62
+        57,
+        68,
+        76
       ]
     }
   ],
@@ -2112,194 +2354,226 @@
       "qualifiedName": "UnionIndex.__index"
     },
     "23": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "UnionIndex.__index"
+    },
+    "25": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "ReadonlyIndex"
+    },
+    "26": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "ReadonlyIndex.__index"
+    },
+    "28": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "A"
+    },
+    "33": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "A.__computed"
+    },
+    "34": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "A.__computed"
+    },
+    "35": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "A.__computed"
+    },
+    "36": {
+      "sourceFileName": "src/test/converter/types/index-signature.ts",
+      "qualifiedName": "A.__computed"
+    },
+    "37": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": ""
     },
-    "24": {
+    "38": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "mapped"
     },
-    "25": {
+    "39": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "mapped"
     },
-    "26": {
+    "40": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "T"
     },
-    "27": {
+    "41": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "arg"
     },
-    "28": {
+    "42": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "doubleKey"
     },
-    "29": {
+    "43": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "doubleKey"
     },
-    "30": {
+    "44": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "T"
     },
-    "31": {
+    "45": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "arg"
     },
-    "32": {
+    "46": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "Mappy"
     },
-    "33": {
+    "47": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "T"
     },
-    "34": {
+    "48": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "DoubleKey"
     },
-    "35": {
+    "49": {
       "sourceFileName": "src/test/converter/types/mapped.ts",
       "qualifiedName": "T"
     },
-    "36": {
+    "50": {
       "sourceFileName": "src/test/converter/types/parens.ts",
       "qualifiedName": ""
     },
-    "37": {
+    "51": {
       "sourceFileName": "src/test/converter/types/parens.ts",
       "qualifiedName": "ZZ"
     },
-    "38": {
+    "52": {
       "sourceFileName": "src/test/converter/types/parens.ts",
       "qualifiedName": "__type"
     },
-    "39": {
+    "53": {
       "sourceFileName": "src/test/converter/types/parens.ts",
       "qualifiedName": "__type.a"
     },
-    "40": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": ""
-    },
-    "41": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": "x"
-    },
-    "42": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": "TypeOfX"
-    },
-    "43": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": ""
-    },
-    "44": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "NamedTuple"
-    },
-    "45": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "namedTuple"
-    },
-    "46": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithRestType"
-    },
-    "47": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withRestType"
-    },
-    "48": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithRestTypeNames"
-    },
-    "49": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withRestTypeNames"
-    },
-    "50": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithOptionalElements"
-    },
-    "51": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withOptionalElements"
-    },
-    "52": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "LeadingRest"
-    },
-    "53": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "leadingRest"
-    },
     "54": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "sourceFileName": "src/test/converter/types/query.ts",
       "qualifiedName": ""
     },
     "55": {
+      "sourceFileName": "src/test/converter/types/query.ts",
+      "qualifiedName": "x"
+    },
+    "56": {
+      "sourceFileName": "src/test/converter/types/query.ts",
+      "qualifiedName": "TypeOfX"
+    },
+    "57": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": ""
+    },
+    "58": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "NamedTuple"
+    },
+    "59": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "namedTuple"
+    },
+    "60": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithRestType"
+    },
+    "61": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withRestType"
+    },
+    "62": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithRestTypeNames"
+    },
+    "63": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withRestTypeNames"
+    },
+    "64": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "WithOptionalElements"
+    },
+    "65": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "withOptionalElements"
+    },
+    "66": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "LeadingRest"
+    },
+    "67": {
+      "sourceFileName": "src/test/converter/types/tuple.ts",
+      "qualifiedName": "leadingRest"
+    },
+    "68": {
+      "sourceFileName": "src/test/converter/types/type-operator.ts",
+      "qualifiedName": ""
+    },
+    "69": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "a"
     },
-    "56": {
+    "70": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "B"
     },
-    "57": {
+    "71": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "C"
     },
-    "58": {
+    "72": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "__type"
     },
-    "59": {
+    "73": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "__type.prop1"
     },
-    "60": {
+    "74": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "__type.prop2"
     },
-    "61": {
+    "75": {
       "sourceFileName": "src/test/converter/types/type-operator.ts",
       "qualifiedName": "D"
     },
-    "62": {
+    "76": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": ""
     },
-    "63": {
+    "77": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "FirstType"
     },
-    "64": {
+    "78": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "FirstType.firstProperty"
     },
-    "65": {
+    "79": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "SecondType"
     },
-    "66": {
+    "80": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "SecondType.secondProperty"
     },
-    "67": {
+    "81": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "ThirdType"
     },
-    "68": {
+    "82": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "ThirdType.thirdUnionProperty"
     },
-    "69": {
+    "83": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "ThirdType.thirdIntersectionProperty"
     },
-    "70": {
+    "84": {
       "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
       "qualifiedName": "ThirdType.thirdComplexProperty"
     }
@@ -2318,12 +2592,12 @@
     "reflections": {
       "1": 1,
       "2": 13,
-      "3": 23,
-      "4": 36,
-      "5": 40,
-      "6": 43,
-      "7": 54,
-      "8": 62
+      "3": 37,
+      "4": 50,
+      "5": 54,
+      "6": 57,
+      "7": 68,
+      "8": 76
     }
   }
 }
