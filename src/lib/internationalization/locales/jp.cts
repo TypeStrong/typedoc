@@ -1,3 +1,7 @@
+// Please DO NOT include machine generated translations here.
+// If adding a new key, leave it commented out for a native speaker
+// to update.
+
 import localeUtils = require("../locale-utils.cjs");
 
 export = localeUtils.buildIncompleteTranslation({
@@ -234,9 +238,8 @@ export = localeUtils.buildIncompleteTranslation({
         "シンボルが複数回エクスポートされた場合、最初のエクスポート以外はすべて無視されます。",
     help_externalSymbolLinkMappings:
         "ドキュメントに含まれていないシンボルのカスタムリンクを定義する",
-    help_out: "デフォルトの出力ドキュメントを保存する場所を指定してください。",
-    help_html:
-        "HTMLドキュメントを保存する場所を指定してください。デフォルトテーマでは、これは out オプションと同等です。",
+    // help_out
+    // help_html
     help_json:
         "プロジェクトを説明するJSONファイルが書き込まれる場所とファイル名を指定します",
     help_pretty: "出力JSONをタブでフォーマットするかどうかを指定します",

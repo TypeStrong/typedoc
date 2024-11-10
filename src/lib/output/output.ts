@@ -1,4 +1,5 @@
 import type { Application } from "../application.js";
+import type { TranslatedString } from "../internationalization/index.js";
 import type { ProjectReflection } from "../models/index.js";
 import {
     ParameterType,
@@ -13,12 +14,7 @@ export class Outputs {
         (path: string, project: ProjectReflection) => Promise<void>
     >();
 
-    private defaultOutput = () => {
-        return {
-            name: "html",
-            path: this.application.options.getValue("out"),
-        };
-    };
+    private defaultOutput = "html";
 
     constructor(readonly application: Application) {}
 
@@ -32,11 +28,11 @@ export class Outputs {
         this.outputs.set(name, output);
     }
 
-    setDefaultOutput(retriever: () => OutputSpecification) {
-        this.defaultOutput = retriever;
+    setDefaultOutputName(name: string) {
+        this.defaultOutput = name;
     }
 
-    async writeOutputs(project: ProjectReflection): Promise<void> {
+    getOutputSpecs(): OutputSpecification[] {
         const options = this.application.options;
 
         let outputs: OutputSpecification[] = [];
@@ -48,22 +44,42 @@ export class Outputs {
                     decl.type === ParameterType.Path && decl.outputShortcut,
             );
 
+        // --out is a special case. It isn't marked as a shortcut as what it is
+        // a shortcut for may be modified by plugins. However, it is effectively
+        // treated as an output shortcut, so check it here.
+        if (options.isSet("out")) {
+            outputs.push({
+                name: this.defaultOutput,
+                path: options.getValue("out"),
+            });
+        }
         for (const shortcut of outputShortcuts) {
-            if (options.isSet(shortcut.name as "out")) {
+            if (options.isSet(shortcut.name as "html")) {
                 outputs.push({
                     name: (shortcut as StringDeclarationOption).outputShortcut!,
-                    path: options.getValue(shortcut.name as "out"),
+                    path: options.getValue(shortcut.name as "html"),
                 });
             }
         }
 
+        // If no shortcuts have been defined, use the dedicated outputs option
         if (outputs.length === 0) {
             outputs = options.getValue("outputs") || [];
         }
 
+        // If no outputs have been defined, just write the default output.
         if (!outputs.length) {
-            outputs.push(this.defaultOutput.call(null));
+            outputs.push({
+                name: this.defaultOutput,
+                path: options.getValue("out"),
+            });
         }
+
+        return outputs;
+    }
+
+    async writeOutputs(project: ProjectReflection): Promise<void> {
+        const outputs = this.getOutputSpecs();
 
         for (const output of outputs) {
             await this.writeOutput(output, project);
@@ -91,7 +107,13 @@ export class Outputs {
         const preErrors = this.application.logger.errorCount;
 
         const start = Date.now();
-        await writer(output.path, project);
+        try {
+            await writer(output.path, project);
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : String(error);
+            this.application.logger.error(message as TranslatedString);
+        }
 
         if (this.application.logger.errorCount === preErrors) {
             this.application.logger.info(

@@ -1,3 +1,7 @@
+// Please DO NOT include machine generated translations here.
+// If adding a new key, leave it commented out for a native speaker
+// to update.
+
 import localeUtils = require("../locale-utils.cjs");
 
 export = localeUtils.buildIncompleteTranslation({
@@ -227,8 +231,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeReferences:
         "如果一个符号被导出多次，则忽略除第一次导出之外的所有导出",
     help_externalSymbolLinkMappings: "为文档中未包含的符号定义自定义链接",
-    help_out: "指定默认输出文档的保存位置。",
-    help_html: "指定HTML文档的保存位置。对于默认主题，这相当于out选项。",
+    // help_out
+    // help_html
     help_json: "指定描述项目的 JSON 文件写入的位置和文件名",
     help_pretty: "指定输出 JSON 是否应使用制表符进行格式化",
     help_emit: "指定 TypeDoc 应发出的内容，“docs”、“both”或“none”",

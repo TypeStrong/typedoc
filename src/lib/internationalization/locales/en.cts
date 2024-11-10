@@ -222,9 +222,9 @@ export = {
     help_externalSymbolLinkMappings:
         "Define custom links for symbols not included in the documentation",
     help_out:
-        "Specify the location the documentation for the default output should be written to",
+        "Specify the location the documentation for the default output should be written to. The default output type may be changed by plugins.",
     help_html:
-        "Specify the location where the html documentation should be written to. For the default theme, this is equivalent to the out option",
+        "Specify the location where html documentation should be written to.",
     help_json:
         "Specify the location and filename a JSON file describing the project is written to",
     help_pretty:
