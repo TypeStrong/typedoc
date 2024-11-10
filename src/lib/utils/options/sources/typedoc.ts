@@ -276,11 +276,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "out",
-        outputShortcut: "html",
         help: (i18n) => i18n.help_out(),
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
         defaultValue: "./docs",
+    });
+    options.addDeclaration({
+        name: "html",
+        outputShortcut: "html",
+        help: (i18n) => i18n.help_html(),
+        type: ParameterType.Path,
+        hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "json",

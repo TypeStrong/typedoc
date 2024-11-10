@@ -86,7 +86,9 @@ export = localeUtils.buildIncompleteTranslation({
         "심볼이 여러 번 내보내진 경우 첫 번째 내보내기를 제외하고 모두 무시합니다",
     help_externalSymbolLinkMappings:
         "문서에 포함되지 않은 심볼에 대한 사용자 정의 링크를 정의합니다",
-    help_out: "문서가 쓰여질 위치를 지정합니다",
+    help_out: "기본 출력 문서가 작성될 위치를 지정하세요.",
+    help_html:
+        "HTML 문서가 작성될 위치를 지정하세요. 기본 테마의 경우, 이는 out 옵션과 동일합니다.",
     help_json: "프로젝트를 설명하는 JSON 파일의 위치와 파일 이름을 지정합니다",
     help_pretty: "출력 JSON을 탭으로 포맷팅할 지 여부를 지정합니다",
     help_emit:

@@ -221,7 +221,10 @@ export = {
         "If a symbol is exported multiple times, ignore all but the first export",
     help_externalSymbolLinkMappings:
         "Define custom links for symbols not included in the documentation",
-    help_out: "Specify the location the documentation should be written to",
+    help_out:
+        "Specify the location the documentation for the default output should be written to",
+    help_html:
+        "Specify the location where the html documentation should be written to. For the default theme, this is equivalent to the out option",
     help_json:
         "Specify the location and filename a JSON file describing the project is written to",
     help_pretty:

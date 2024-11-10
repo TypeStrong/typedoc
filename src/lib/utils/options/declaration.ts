@@ -136,8 +136,9 @@ export interface TypeDocOptionMap {
 
     // Output
     outputs: ManuallyValidatedOption<Array<OutputSpecification>>;
-    out: string; // shortcut for defining an output
-    json: string; // shortcut for defining an output
+    out: string; // default output directory
+    html: string; // shortcut for defining html output
+    json: string; // shortcut for defining json output
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;

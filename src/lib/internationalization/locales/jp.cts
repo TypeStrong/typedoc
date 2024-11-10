@@ -234,7 +234,9 @@ export = localeUtils.buildIncompleteTranslation({
         "シンボルが複数回エクスポートされた場合、最初のエクスポート以外はすべて無視されます。",
     help_externalSymbolLinkMappings:
         "ドキュメントに含まれていないシンボルのカスタムリンクを定義する",
-    help_out: "ドキュメントを書き込む場所を指定します",
+    help_out: "デフォルトの出力ドキュメントを保存する場所を指定してください。",
+    help_html:
+        "HTMLドキュメントを保存する場所を指定してください。デフォルトテーマでは、これは out オプションと同等です。",
     help_json:
         "プロジェクトを説明するJSONファイルが書き込まれる場所とファイル名を指定します",
     help_pretty: "出力JSONをタブでフォーマットするかどうかを指定します",
