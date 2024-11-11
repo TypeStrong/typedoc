@@ -3,7 +3,7 @@
 Documentation generator for TypeScript projects.
 
 [![CI](https://github.com/TypeStrong/typedoc/workflows/CI/badge.svg)](https://github.com/TypeStrong/typedoc/actions)
-[![NPM Version](https://img.shields.io/npm/v/typedoc?color=33cd56&logo=npm)](https://www.npmjs.com/package/typedoc)
+[![NPM Version](https://img.shields.io/npm/v/typedoc?color=33cd56&logo=npm)](https://www.npmjs.com/package/typedoc) [![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20TypeDoc%20Guru-006BFF)](https://gurubase.io/g/typedoc)
 
 ## Documentation
 
