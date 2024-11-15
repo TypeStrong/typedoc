@@ -79,7 +79,7 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
                     return (
                         <>
-                            <div class={`tsd-tag-${name}`}>
+                            <div class={`tsd-tag-${item.tag.substring(1)}`}>
                                 <h4 class="tsd-anchor-link">
                                     <a id={anchor} class="tsd-anchor"></a>
                                     {name}
