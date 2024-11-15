@@ -812,7 +812,8 @@ function getExports(
                             exp.declarations?.some(
                                 (d) => d.getSourceFile() === node,
                             ),
-                        );
+                        )
+                        .map((s) => context.checker.getMergedSymbol(s));
                 }
             }
         }

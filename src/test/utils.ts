@@ -45,7 +45,10 @@ export function query(
         refl = refl.getChildByName([parts[i]]) as SomeReflection | undefined;
     }
 
-    ok(refl instanceof DeclarationReflection, `Failed to find ${name}`);
+    ok(
+        refl instanceof DeclarationReflection,
+        `Failed to find ${name}\n${project.toStringHierarchy()}`,
+    );
     return refl;
 }
 

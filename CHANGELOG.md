@@ -87,6 +87,8 @@ title: Changelog
 -   Fixed handling of `@enum` if the type was declared before the variable, #2719.
 -   Fixed empty top level modules page in packages mode, #2753.
 -   TypeDoc can now link to type alias properties, #2524.
+-   TypeDoc will now document the merged symbol type when considering globals
+    declared inside `declare global`, #2774
 -   Fixed an issue where properties were not properly marked optional in some
     cases. This primarily affected destructured parameters.
 -   Added `yaml` to the highlight languages supported by default.
@@ -102,10 +104,6 @@ title: Changelog
     rather than when converting. This prevents issues where boosts used by just
     one package were incorrectly reported as unused when running with
     entryPointStrategy set to packages.
-
-TODO:
-
--   Figure out automation for beta releases
 
 # Unreleased
 

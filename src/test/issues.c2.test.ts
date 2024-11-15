@@ -42,34 +42,42 @@ const base = getConverter2Base();
 const app = getConverter2App();
 const program = getConverter2Program();
 
-function doConvert(entry: string) {
-    const entryPoint = [
-        join(base, `issues/${entry}.ts`),
-        join(base, `issues/${entry}.d.ts`),
-        join(base, `issues/${entry}.tsx`),
-        join(base, `issues/${entry}.js`),
-        join(base, "issues", entry, "index.ts"),
-        join(base, "issues", entry, "index.js"),
-    ].find(existsSync);
+function doConvert(entries: string[]) {
+    const entryPoints = entries
+        .map((entry) =>
+            [
+                join(base, `issues/${entry}.ts`),
+                join(base, `issues/${entry}.d.ts`),
+                join(base, `issues/${entry}.tsx`),
+                join(base, `issues/${entry}.js`),
+                join(base, "issues", entry, "index.ts"),
+                join(base, "issues", entry, "index.js"),
+                join(base, "issues", entry),
+            ].find(existsSync),
+        )
+        .filter((x) => x !== undefined);
 
-    ok(entryPoint, `No entry point found for ${entry}`);
-    const sourceFile = program.getSourceFile(entryPoint);
-    ok(sourceFile, `No source file found for ${entryPoint}`);
+    const files = entryPoints.map((e) => program.getSourceFile(e));
+    for (const [index, file] of files.entries()) {
+        ok(file, `No source file found for ${entryPoints[index]}`);
+    }
 
-    app.options.setValue("entryPoints", [entryPoint]);
+    app.options.setValue("entryPoints", entryPoints);
     clearCommentCache();
-    return app.converter.convert([
-        {
-            displayName: entry,
-            program,
-            sourceFile,
-        },
-    ]);
+    return app.converter.convert(
+        files.map((file, index) => {
+            return {
+                displayName: entries[index].replace(/\.[tj]sx?$/, ""),
+                program,
+                sourceFile: file!,
+            };
+        }),
+    );
 }
 
 describe("Issue Tests", () => {
     let logger: TestLogger;
-    let convert: (name?: string) => ProjectReflection;
+    let convert: (...entries: string[]) => ProjectReflection;
     let optionsSnap: { __optionSnapshot: never };
 
     beforeEach(function () {
@@ -77,7 +85,8 @@ describe("Issue Tests", () => {
         optionsSnap = app.options.snapshot();
         const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
         ok(issueNumber, "Test name must contain an issue number.");
-        convert = (name = `gh${issueNumber}`) => doConvert(name);
+        convert = (...entries) =>
+            doConvert(entries.length ? entries : [`gh${issueNumber}`]);
     });
 
     afterEach(() => {
@@ -1884,5 +1893,19 @@ describe("Issue Tests", () => {
 
         equal(getSigComment(project, "Callable", 0), "A");
         equal(getSigComment(project, "Callable", 1), "B");
+    });
+
+    it("#2774 gets global symbols in a consistent manner", () => {
+        const project = convert(
+            "gh2774/gh2774.ts",
+            "gh2774/globalAugment.ts",
+            "gh2774/moduleAugment.ts",
+        );
+
+        const decl = query(project, "gh2774/gh2774.GH2774");
+        equal(
+            decl.children?.map((c) => c.name),
+            ["Extensions"],
+        );
     });
 });

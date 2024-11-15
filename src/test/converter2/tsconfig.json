@@ -5,8 +5,9 @@
         "checkJs": true,
         "outDir": "dist",
         "target": "ESNext",
-
         "noImplicitAny": false,
+        // GH2774 test case needs global files
+        "moduleDetection": "legacy",
 
         "skipLibCheck": true
     },
