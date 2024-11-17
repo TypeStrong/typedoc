@@ -20,8 +20,8 @@ export = localeUtils.buildIncompleteTranslation({
         "对于监视模式，entryPointStrategy 必须设置为 resolve 或 expand",
     found_0_errors_and_1_warnings: "发现 {0} 个错误和 {1} 个警告",
 
-    // output_0_could_not_be_generated
-    // output_0_generated_at_1
+    output_0_could_not_be_generated: "由于以上错误无法生成 {0} 输出",
+    output_0_generated_at_1: "已生成 {0} 输出，位于 {1}",
 
     no_entry_points_for_packages: "没有为包模式提供入口点，无法生成文档",
     failed_to_find_packages:
@@ -107,6 +107,8 @@ export = localeUtils.buildIncompleteTranslation({
         "{0} ({1})，在 {2} 中定义，没有任何文档",
     invalid_intentionally_not_exported_symbols_0:
         "以下符号被标记为有意不导出，但未在文档中引用，或已被导出：\n{0}",
+    reflection_0_has_unused_mergeModuleWith_tag:
+        "{0} 中存在无法解析的 @mergeModuleWith 标签",
 
     not_all_search_category_boosts_used_0:
         "文档中并未使用 searchCategoryBoosts 中指定的所有类别。未使用的类别包括：\n{0}",
@@ -137,6 +139,13 @@ export = localeUtils.buildIncompleteTranslation({
     disable_git_set_and_git_revision_used:
         "disableGit 已设置，并且 sourceLinkTemplate 包含 {gitRevision}，由于未提供修订，因此将替换为空字符串",
     git_remote_0_not_valid: "提供的 git 远程“{0}”无效。源链接将失效",
+    reflection_0_tried_to_merge_into_child_1:
+        "反射 {0} 尝试使用 @mergeModuleWith 合并到其子项之一：{1}",
+
+    include_0_in_1_specified_2_resolved_to_3_does_not_exist:
+        "{1} 的注释中 {0} 标签指定了包含 “{2}”，解析为 “{3}”，该文件并不存在或并非文件。",
+    include_0_in_1_specified_2_circular_include_3:
+        "{1} 的注释中 {0} 标签指定了包含 “{2}”，导致了循环包含：\n\t{3}",
 
     custom_css_file_0_does_not_exist: "{0} 处的自定义 CSS 文件不存在",
     custom_js_file_0_does_not_exist: "{0} 处的自定义 JavaScript 文件不存在",
@@ -150,6 +159,8 @@ export = localeUtils.buildIncompleteTranslation({
     could_not_empty_output_directory_0: "无法清空输出目录 {0}",
     could_not_create_output_directory_0: "无法创建输出目录 {0}",
     theme_0_is_not_defined_available_are_1: "主题“{0}”未定义。可用主题为：{1}",
+    reflection_0_links_to_1_but_anchor_does_not_exist_try_2:
+        "{0} 链接至 {1}，但对应锚点不存在。你是否是指：\n\t{2}",
 
     no_entry_points_provided: "没有提供入口点，这可能是配置错误",
     unable_to_find_any_entry_points: "无法找到任何入口点。请参阅先前的警告",
@@ -157,6 +168,8 @@ export = localeUtils.buildIncompleteTranslation({
     watch_does_not_support_merge_mode: "监视模式不支持“合并”样式的入口点",
     entry_point_0_not_in_program:
         "入口点 {0} 未被 tsconfig 中的“files”或“include”选项引用",
+    failed_to_resolve_0_to_ts_path:
+        "无法将 package.json 中的入口点 {0} 解析至 TypeScript 源文件",
     use_expand_or_glob_for_files_in_dir:
         "如果要包含此目录中的文件，请设置 --entryPointStrategy 以展开或指定 glob",
     glob_0_did_not_match_any_files: "glob {0} 与任何文件均不匹配",
@@ -231,8 +244,9 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeReferences:
         "如果一个符号被导出多次，则忽略除第一次导出之外的所有导出",
     help_externalSymbolLinkMappings: "为文档中未包含的符号定义自定义链接",
-    // help_out
-    // help_html
+    help_out:
+        "指定默认类型输出的文档写入的位置。插件可能会改变默认的输出类型。",
+    help_html: "指定 HTML 文档写入的位置",
     help_json: "指定描述项目的 JSON 文件写入的位置和文件名",
     help_pretty: "指定输出 JSON 是否应使用制表符进行格式化",
     help_emit: "指定 TypeDoc 应发出的内容，“docs”、“both”或“none”",
@@ -240,6 +254,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_lightHighlightTheme: "指定浅色模式下的代码高亮主题",
     help_darkHighlightTheme: "指定暗黑模式下的代码高亮主题",
     help_highlightLanguages: "指定渲染时将加载哪些语言来高亮代码",
+    help_typePrintWidth: "渲染类型时触发自动换行的代码宽度",
     help_customCss: "要导入主题的自定义 CSS 文件的路径",
     help_customJs: "要导入的自定义 JS 文件的路径",
     help_markdownItOptions:
@@ -260,10 +275,11 @@ export = localeUtils.buildIncompleteTranslation({
         "假设所有内容都可以通过 sourceLinkTemplate 进行链接，如果启用此功能，则必须设置 sourceLinkTemplate。{path} 将以 basePath 为根",
     help_basePath: "指定显示文件路径时使用的基本路径",
     help_excludeTags: "从文档注释中删除列出的块级/修饰符标签",
-    // help_notRenderedTags
+    help_notRenderedTags: "保留在文档注释中但在创建输出时不渲染的标签",
     help_readme:
         "应显示在索引页上的自述文件路径。传递“none”以禁用索引页并在全局页上启动文档",
     help_cname: "设置 CNAME 文件文本，这对于 GitHub Pages 上的自定义域很有用",
+    help_favicon: "作为站点图标包含的 favicon.ico 或 favicon.svg 的路径",
     help_sourceLinkExternal:
         "指定哪些源代码链接应被视为外部链接，并在新选项卡中打开",
     help_markdownLinkExternal:
@@ -278,7 +294,6 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc 链接后的自定义页脚",
     help_customFooterHtmlDisableWrapper:
         "如果设置，则禁用 customFooterHtml 的包装元素",
-    // help_hideTypesInSignatureTitle
     help_cacheBust: "在静态资产链接中包含生成时间",
     help_searchInComments:
         "如果设置，搜索索引还将包括注释。这将大大增加搜索索引的大小",
@@ -289,12 +304,15 @@ export = localeUtils.buildIncompleteTranslation({
     help_navigationLinks: "定义要包含在标题中的链接",
     help_sidebarLinks: "定义要包含在侧边栏中的链接",
     help_navigationLeaves: "导航树中不应扩展的分支",
-    help_navigation: "确定导航侧边栏的组织方式",
     help_headings: "确定标题是否需要被渲染",
+    help_sluggerConfiguration: "确定渲染的 HTML 中锚点的确定方式",
+    help_navigation: "确定导航侧边栏的组织方式",
     help_visibilityFilters:
         "根据修饰符标签指定内置过滤器和附加过滤器的默认可见性",
     help_searchCategoryBoosts: "配置搜索以提高所选类别的相关性",
     help_searchGroupBoosts: "配置搜索以增强所选种类（例如“类别”）的相关性",
+    help_useFirstParagraphOfCommentAsSummary:
+        "如果设置，且没有指定 @summary 标签，TypeDoc 会使用注释的第一行作为在模块/命名空间一览里的概述",
     help_jsDocCompatibility:
         "设置注释解析的兼容性选项，以增加与 JSDoc 注释的相似度",
     help_commentStyle: "确定 TypeDoc 如何搜索注释",
@@ -306,6 +324,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_inlineTags: "TypeDoc 在解析注释时应该识别的内联标签",
     help_modifierTags: "TypeDoc 在解析注释时应该识别的修饰符标签",
     help_categorizeByGroup: "指定是否在组级别进行分类",
+    help_groupReferencesByType:
+        "如果设置，引用将按照它们的类型进行分类，而非直接分在“引用”类型中",
     help_defaultCategory: "为没有类别的反射指定默认类别",
     help_categoryOrder: "指定类别出现的顺序。* 表示不在列表中的类别的相对顺序",
     help_groupOrder: "指定组的显示顺序。* 表示不在列表中的组的相对顺序",
@@ -349,6 +369,7 @@ export = localeUtils.buildIncompleteTranslation({
         "hostingBaseUrl 必须以 http:// 或 https:// 开头",
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "useHostedBaseUrlForAbsoluteLinks 选项要求设置 hostingBaseUrl",
+    favicon_must_be_ico_or_svg: "Favicon 文件必须是一个 .ico 或 .svg 文件",
     option_0_must_be_an_object: "“{0}”选项必须是非数组对象",
     option_0_must_be_a_function: "‘{0}’ 选项必须是一个函数",
     option_0_must_be_object_with_urls:
@@ -361,6 +382,15 @@ export = localeUtils.buildIncompleteTranslation({
     option_0_values_must_be_array_of_tags: "{0} 必须是有效标签名称的数组",
     option_0_specified_1_but_only_2_is_valid:
         "{0} 只能指定已知值，并且提供了无效值 ({1})。有效的排序策略为：\n{2}",
+    option_outputs_must_be_array:
+        "“outputs” 选项必须为一个数组，其成员均为 { name: string, path: string, options?: TypeDocOptions }。",
+    specified_output_0_has_not_been_defined: "指定的输出类型 {0} 未被定义。",
+
+    alert_note: "注意",
+    alert_tip: "提示",
+    alert_important: "重要",
+    alert_warning: "警告",
+    alert_caution: "小心",
 
     kind_project: "项目",
     kind_module: "模块",
@@ -412,17 +442,17 @@ export = localeUtils.buildIncompleteTranslation({
     kind_plural_reference: "参考",
     kind_plural_document: "文档",
 
-    flag_protected: "受保护",
     flag_private: "私有",
-    flag_external: "外部",
-    flag_inherited: "继承",
+    flag_protected: "受保护",
     flag_public: "公开",
     flag_static: "静态",
+    flag_external: "外部",
     flag_optional: "可选",
     flag_rest: "动态参数",
     flag_abstract: "抽象",
     flag_const: "常量",
     flag_readonly: "只读",
+    flag_inherited: "继承",
 
     theme_implements: "实现",
     theme_indexable: "可索引",
@@ -437,8 +467,13 @@ export = localeUtils.buildIncompleteTranslation({
     theme_overrides: "重写了",
     theme_returns: "返回",
     theme_generated_using_typedoc: "使用 TypeDoc 生成",
+    theme_class_hierarchy_title: "类继承图表",
+
     theme_preparing_search_index: "正在准备搜索索引...",
     theme_search_index_not_available: "搜索索引不可用",
+
+    theme_loading: "加载中……",
+
     theme_settings: "显示设置",
     theme_member_visibility: "成员可见性",
     theme_theme: "配色",
@@ -446,14 +481,14 @@ export = localeUtils.buildIncompleteTranslation({
     theme_light: "浅色",
     theme_dark: "深色",
     theme_on_this_page: "目录",
+
     theme_search: "搜索",
     theme_menu: "菜单",
     theme_permalink: "永久链接",
+
     theme_copy: "复制",
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
-    theme_class_hierarchy_title: "类继承图表",
-    theme_loading: "加载中……",
 
     tag_defaultValue: "默认值",
     tag_deprecated: "已被弃用",
@@ -482,6 +517,7 @@ export = localeUtils.buildIncompleteTranslation({
     tag_jsx: "JSX",
     tag_license: "许可协议",
     tag_module: "模块",
+    tag_mergeModuleWith: "合并模块至",
     tag_prop: "属性",
     tag_property: "属性",
     tag_return: "返回",
@@ -490,11 +526,14 @@ export = localeUtils.buildIncompleteTranslation({
     tag_template: "类型参数",
     tag_type: "类型",
     tag_typedef: "类型定义",
+    tag_summary: "概述",
     tag_link: "链接",
     tag_label: "标记",
 
     tag_linkcode: "链接",
     tag_linkplain: "链接",
+    tag_include: "包含",
+    tag_includeCode: "包含",
 
     tag_alpha: "alpha",
     tag_beta: "beta",
@@ -507,15 +546,18 @@ export = localeUtils.buildIncompleteTranslation({
     tag_readonly: "只读",
     tag_sealed: "无法继承",
     tag_virtual: "虚函数",
+
     tag_abstract: "抽象类",
     tag_class: "类",
     tag_enum: "枚举",
     tag_event: "事件",
+    tag_expand: "展开",
     tag_hidden: "隐藏",
     tag_hideCategories: "在类别中隐藏",
     tag_hideconstructor: "隐藏构造器",
     tag_hideGroups: "在分组中隐藏",
     tag_ignore: "隐藏",
+    tag_inline: "内联",
     tag_interface: "接口",
     tag_namespace: "命名空间",
     tag_overload: "重载",
@@ -523,4 +565,5 @@ export = localeUtils.buildIncompleteTranslation({
     tag_protected: "受保护成员",
     tag_showCategories: "在类别中显示",
     tag_showGroups: "在分组中显示",
+    tag_useDeclaredType: "使用声明类型",
 });
