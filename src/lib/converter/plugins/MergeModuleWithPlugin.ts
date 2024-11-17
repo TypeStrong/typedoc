@@ -71,7 +71,7 @@ export class MergeModuleWithPlugin extends ConverterComponent {
                     ),
                 );
             }
-            tempRefl = refl.parent!;
+            tempRefl = tempRefl.parent!;
         }
 
         this.application.logger.verbose(
