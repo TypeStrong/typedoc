@@ -1,25 +1,34 @@
 import * as Path from "path";
 import { RendererComponent } from "../components.js";
-import { PageEvent, RendererEvent } from "../events.js";
-import { JSX, writeFile } from "../../utils/index.js";
+import { RendererEvent } from "../events.js";
+import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { gzip } from "zlib";
 import { promisify } from "util";
-import {
-    DeclarationReflection,
-    ReferenceType,
-    ReflectionKind,
-} from "../../models/index.js";
+
 import type { Renderer } from "../index.js";
+import {
+    getHierarchyRoots,
+    getKindClass,
+    getUniquePath,
+} from "../themes/lib.js";
+import type { DeclarationReflection } from "../../models/index.js";
 
 const gzipP = promisify(gzip);
 
-export interface HierarchyElement {
-    html: string;
-    text: string;
-    path: string;
-    parents?: ({ path: string } | { html: string; text: string })[];
-    children?: ({ path: string } | { html: string; text: string })[];
+interface JsonHierarchyElement {
+    name: string;
+    kind: number;
+    url: string;
+    children?: number[];
+    uniqueNameParents?: number[];
+    class: string;
+}
+
+interface JsonHierarchy {
+    // ids of root instances
+    roots: number[];
+    reflections: Record<number, JsonHierarchyElement>;
 }
 
 export class HierarchyPlugin extends RendererComponent {
@@ -39,60 +48,53 @@ export class HierarchyPlugin extends RendererComponent {
     }
 
     private async buildHierarchy(event: RendererEvent) {
-        const theme = this.owner.theme as DefaultTheme;
+        const project = event.project;
 
-        const context = theme.getRenderContext(new PageEvent(event.project));
+        const hierarchy: JsonHierarchy = {
+            roots: getHierarchyRoots(project).map((refl) => refl.id),
+            reflections: {},
+        };
 
-        const hierarchy = (
-            event.project.getReflectionsByKind(
-                ReflectionKind.ClassOrInterface,
-            ) as DeclarationReflection[]
-        )
-            .filter(
-                (reflection) =>
-                    reflection.extendedTypes?.length ||
-                    reflection.extendedBy?.length,
-            )
-            .map((reflection) => ({
-                html: JSX.renderElement(
-                    context.type(
-                        ReferenceType.createResolvedReference(
-                            reflection.name,
-                            reflection,
-                            reflection.project,
-                        ),
-                    ),
-                ),
-                // Full name should be safe here, since this list only includes classes/interfaces.
-                text: reflection.getFullName(),
-                path: reflection.url!,
-                parents: reflection.extendedTypes?.map((type) =>
-                    !(type instanceof ReferenceType) ||
-                    !(type.reflection instanceof DeclarationReflection)
-                        ? {
-                              html: JSX.renderElement(context.type(type)),
-                              text: type.toString(),
-                          }
-                        : { path: type.reflection.url! },
-                ),
-                children: reflection.extendedBy?.map((type) =>
-                    !(type instanceof ReferenceType) ||
-                    !(type.reflection instanceof DeclarationReflection)
-                        ? {
-                              html: JSX.renderElement(context.type(type)),
-                              text: type.toString(),
-                          }
-                        : { path: type.reflection.url! },
-                ),
-            }));
+        const queue = [...hierarchy.roots];
 
-        if (!hierarchy.length) return;
+        while (queue.length) {
+            const id = queue.pop()!;
+            const refl = project.getReflectionById(id) as DeclarationReflection;
+            if (id in hierarchy.reflections) continue;
+            if (!refl.url) continue;
 
-        hierarchy.forEach((element) => {
-            if (!element.parents?.length) delete element.parents;
+            const jsonRecord: JsonHierarchyElement = {
+                name: refl.name,
+                kind: refl.kind,
+                url: refl.url,
+                class: getKindClass(refl),
+            };
 
-            if (!element.children?.length) delete element.children;
-        });
+            const path = getUniquePath(refl);
+            if (path.length > 1) {
+                jsonRecord.uniqueNameParents = path
+                    .slice(0, -1)
+                    .map((r) => r.id);
+                queue.push(...jsonRecord.uniqueNameParents);
+            }
+
+            const children = [
+                ...(refl.implementedBy || []),
+                ...(refl.extendedBy || []),
+            ];
+
+            for (const child of children) {
+                if (child.reflection) {
+                    jsonRecord.children ||= [];
+                    jsonRecord.children.push(child.reflection.id);
+                }
+            }
+            if (jsonRecord.children) {
+                queue.push(...jsonRecord.children);
+            }
+
+            hierarchy.reflections[id] = jsonRecord;
+        }
 
         const hierarchyJs = Path.join(
             event.outputDirectory,

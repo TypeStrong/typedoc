@@ -128,7 +128,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
             <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
                 {getDisplayName(props.project)}
             </a>
-            <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base={context.relativeURL("./")}>
+            <ul class="tsd-small-nested-navigation" id="tsd-nav-container">
                 <li>{context.i18n.theme_loading()}</li>
             </ul>
         </nav>

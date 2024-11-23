@@ -484,8 +484,6 @@ export = {
     theme_hierarchy: "Hierarchy",
     theme_hierarchy_summary: "Hierarchy Summary",
     theme_hierarchy_view_summary: "View Summary",
-    theme_hierarchy_expand: "Expand",
-    theme_hierarchy_collapse: "Collapse",
     theme_implemented_by: "Implemented by",
     theme_defined_in: "Defined in",
     theme_implementation_of: "Implementation of",
@@ -513,8 +511,12 @@ export = {
     theme_permalink: "Permalink",
 
     // Used by the frontend JS
+    // For the English translations only, these should also be added to
+    // src/lib/output/themes/default/assets/typedoc/Application.ts
     theme_copy: "Copy",
     theme_copied: "Copied!",
     theme_normally_hidden:
         "This member is normally hidden due to your filter settings.",
+    theme_hierarchy_expand: "Expand",
+    theme_hierarchy_collapse: "Collapse",
 } as const;

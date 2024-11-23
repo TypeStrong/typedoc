@@ -6,9 +6,21 @@ declare global {
             copy: string;
             copied: string;
             normally_hidden: string;
+            hierarchy_expand: string;
+            hierarchy_collapse: string;
         };
     }
 }
+
+// For debugging with a watch build
+window.translations ||= {
+    copy: "Copy",
+    copied: "Copied!",
+    normally_hidden:
+        "This member is normally hidden due to your filter settings.",
+    hierarchy_expand: "Expand",
+    hierarchy_collapse: "Collapse",
+};
 
 /**
  * Component definition.

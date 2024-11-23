@@ -1,30 +1,109 @@
-export interface HierarchyElement {
-    html: string;
-    text: string;
-    path?: string;
-    parents?: HierarchyElement[];
-    children?: HierarchyElement[];
-    class: string;
-    depth?: number;
-}
-
 declare global {
     interface Window {
-        // Base64 encoded data url, gzipped, JSON encoded HierarchyElement[]
+        // Base64 encoded data url, gzipped, JSON encoded JsonHierarchy
         hierarchyData?: string;
     }
 }
 
+interface JsonHierarchyElement {
+    name: string;
+    kind: number;
+    url: string;
+    children?: number[];
+    uniqueNameParents?: number[];
+    class: string;
+}
+
+interface JsonHierarchy {
+    // ids of root instances
+    roots: number[];
+    reflections: Record<number, JsonHierarchyElement>;
+}
+
+let BASE_URL = document.documentElement.dataset.base!;
+if (!BASE_URL.endsWith("/")) BASE_URL += "/";
+
 export function initHierarchy() {
+    if (document.querySelector(".tsd-full-hierarchy")) {
+        initFullHierarchy();
+    } else if (document.querySelector(".tsd-hierarchy")) {
+        initPartialHierarchy();
+    }
+}
+
+function initFullHierarchy() {
+    document.addEventListener("click", (event) => {
+        let target = event.target as HTMLElement;
+        while (target.parentElement && target.parentElement.tagName != "LI") {
+            target = target.parentElement;
+        }
+
+        if (target.dataset.dropdown) {
+            target.dataset.dropdown = String(
+                target.dataset.dropdown !== "true",
+            );
+        }
+    });
+
+    const hierarchyRefs = new Map<string, HTMLElement>();
+    const duplicates = new Set<string>();
+
+    for (const el of document.querySelectorAll<HTMLElement>(
+        ".tsd-full-hierarchy [data-refl]",
+    )) {
+        const children = el.querySelector("ul");
+
+        if (hierarchyRefs.has(el.dataset.refl!)) {
+            duplicates.add(el.dataset.refl!);
+        } else if (children) {
+            hierarchyRefs.set(el.dataset.refl!, children);
+        }
+    }
+
+    for (const dup of duplicates) {
+        addExpandButton(dup);
+    }
+
+    function addExpandButton(reflId: string) {
+        const expanded = hierarchyRefs
+            .get(reflId)!
+            .cloneNode(true) as HTMLElement;
+        expanded.querySelectorAll("[id]").forEach((el) => {
+            el.removeAttribute("id");
+        });
+        expanded
+            .querySelectorAll<HTMLElement>("[data-dropdown]")
+            .forEach((el) => {
+                el.dataset.dropdown = "false";
+            });
+
+        for (const owner of document.querySelectorAll(
+            `[data-refl="${reflId}"]`,
+        )) {
+            const icon = makeIcon();
+            const ul = owner.querySelector("ul");
+            owner.insertBefore(icon, ul);
+            icon.dataset.dropdown = String(!!ul);
+
+            if (!ul) {
+                owner.appendChild(expanded.cloneNode(true));
+            }
+        }
+    }
+}
+
+function initPartialHierarchy() {
     const script = document.getElementById("tsd-hierarchy-script");
     if (!script) return;
 
-    script.addEventListener("load", buildHierarchy);
-    buildHierarchy();
+    script.addEventListener("load", buildHierarchyToggle);
+    buildHierarchyToggle();
 }
 
-async function buildHierarchy() {
-    const container = document.getElementById("tsd-hierarchy-container");
+async function buildHierarchyToggle() {
+    const container = document.querySelector<HTMLElement>(
+        ".tsd-panel.tsd-hierarchy:has(h4 a)",
+    );
     if (!container || !window.hierarchyData) return;
 
     const res = await fetch(window.hierarchyData);
@@ -33,295 +112,138 @@ async function buildHierarchy() {
         .stream()
         .pipeThrough(new DecompressionStream("gzip"));
 
-    const hierarchy = loadJson(await new Response(json).json());
-    let baseUrl = container.dataset.base;
-    const targetPath = container.dataset.targetPath;
-
-    if (!hierarchy.length || !baseUrl || !targetPath) return;
-
-    if (!baseUrl.endsWith("/")) baseUrl += "/";
-
-    const seeds = hierarchy.filter((element) => {
-        if (element.path === targetPath) {
-            element.class += " tsd-hierarchy-target";
-
-            element.parents?.forEach(
-                (parent) => (parent.class += " tsd-hierarchy-close-relative"),
-            );
-
-            element.children?.forEach(
-                (child) => (child.class += " tsd-hierarchy-close-relative"),
-            );
-
-            return true;
-        }
-
-        if (
-            !element.parents?.some(({ path }) => path === targetPath) &&
-            !element.children?.some(({ path }) => path === targetPath)
-        ) {
-            element.class += " tsd-hierarchy-distant-relative";
-
-            return false;
-        }
-
-        return false;
-    });
-
-    const trees = getTrees(seeds);
-
-    if (!trees.length) return;
-
+    const expandCollapseButton = document.createElement("span");
+    expandCollapseButton.classList.add("tsd-hierarchy-toggle");
+    expandCollapseButton.textContent = window.translations.hierarchy_expand;
     container
-        .querySelectorAll("ul.tsd-full-hierarchy")
-        ?.forEach((list) => list.remove());
-
-    trees.forEach((tree) => {
-        const list = buildList(
-            tree.filter((branch) => !branch.parents?.length),
-            baseUrl,
-        )!;
-
-        list.classList.add("tsd-full-hierarchy");
-
-        container.append(list);
-    });
-}
-
-function loadJson(hierarchy: HierarchyElement[]) {
-    const leaves: HierarchyElement[] = [];
-
-    hierarchy.forEach((element) => {
-        element.class = "tsd-hierarchy-item";
-
-        element.parents = element.parents
-            ?.map((parent) => {
-                if (parent.path)
-                    return hierarchy.find(({ path }) => path === parent.path);
-
-                parent.class = "tsd-hierarchy-item";
-                parent.children = [element];
-
-                leaves.push(parent);
-
-                return parent;
-            })
-            .filter((parent) => !!parent);
-
-        if (!element.parents?.length) delete element.parents;
-
-        element.children = element.children
-            ?.map((child) => {
-                if (child.path)
-                    return hierarchy.find(({ path }) => path === child.path);
-
-                child.class = "tsd-hierarchy-item";
-                child.parents = [element];
-
-                leaves.push(child);
-
-                return child;
-            })
-            .filter((child) => !!child);
-
-        if (!element.children?.length) delete element.children;
-    });
-
-    hierarchy.push(...leaves);
-
-    hierarchy.forEach((element) => delete element.depth);
-
-    return hierarchy;
-}
-
-function getTrees(seeds: HierarchyElement[]) {
-    const stack = seeds.slice();
-
-    const trees: HierarchyElement[][] = [];
-
-    while (stack.length > 0) {
-        const seed = stack.shift()!;
-
-        let tree = findBranches(seed);
-
-        tree.forEach((branch) => {
-            const idx = stack.indexOf(branch);
-
-            if (idx !== -1) stack.splice(idx, 1);
-        });
-
-        tree = sortBranches(tree);
-
-        tree = growBranches(tree);
-
-        tree = pruneBranches(tree);
-
-        trees.push(tree);
-    }
-
-    return trees;
-}
-
-function findBranches(
-    branch: HierarchyElement,
-    tree: HierarchyElement[] = [],
-    depth: number = 0,
-) {
-    if (tree.includes(branch)) {
-        branch.depth = Math.min(branch.depth!, depth);
-
-        return tree;
-    }
-
-    tree.push(branch);
-
-    branch.depth = depth;
-
-    branch.parents?.forEach((parent) => findBranches(parent, tree, depth - 1));
-
-    branch.children?.forEach((child) => findBranches(child, tree, depth + 1));
-
-    return tree;
-}
-
-function sortBranches(tree: HierarchyElement[]) {
-    tree = tree.slice();
-
-    tree.sort((a, b) => b.text.localeCompare(a.text));
-
-    tree.forEach((branch) => {
-        branch.parents?.sort((a, b) => a.text.localeCompare(b.text));
-
-        branch.children?.sort((a, b) => a.text.localeCompare(b.text));
-    });
-
-    const reverseTree: HierarchyElement[] = [];
-
-    const visited: Set<HierarchyElement> = new Set();
-
-    function visit(branch: HierarchyElement) {
-        visited.add(branch);
-
-        branch.children?.forEach(
-            (child) => !visited.has(child) && visit(child),
-        );
-
-        reverseTree.push(branch);
-    }
-
-    tree.forEach((branch) => !visited.has(branch) && visit(branch));
-
-    return reverseTree.reverse();
-}
-
-function growBranches(tree: HierarchyElement[]) {
-    tree = tree.slice();
-
-    const roots = tree.filter((branch) => !branch.parents?.length);
-
-    const minDepth = Math.min(...roots.map((branch) => branch.depth!));
-
-    roots.forEach((root) => {
-        while (root.depth! > minDepth) {
-            const newRoot = {
-                html: "",
-                text: "",
-                children: [root],
-                class: "tsd-hierarchy-spacer",
-                depth: root.depth! - 1,
-            };
-
-            root.parents = [newRoot];
-
-            tree.splice(tree.indexOf(root), 0, newRoot);
-
-            root = newRoot;
-        }
-    });
-
-    return tree;
-}
-
-function pruneBranches(
-    tree: HierarchyElement[],
-    branches?: HierarchyElement[],
-    seenBranches: Set<HierarchyElement> = new Set(),
-) {
-    if (!branches)
-        branches = tree.filter((branch) => !branch.parents?.length).reverse();
-
-    branches.forEach((branch) => {
-        if (seenBranches.has(branch)) return;
-
-        seenBranches.add(branch);
-
-        branch.children = branch.children?.filter((child) => {
-            if (!seenBranches.has(child)) return true;
-
-            child.parents = child.parents?.filter(
-                (parent) => parent !== branch,
+        .querySelector("h4 a")
+        ?.insertAdjacentElement("afterend", expandCollapseButton);
+    expandCollapseButton.insertAdjacentText("beforebegin", ", ");
+    expandCollapseButton.addEventListener("click", () => {
+        if (
+            expandCollapseButton.textContent ===
+            window.translations.hierarchy_expand
+        ) {
+            collapsedHierarchy.insertAdjacentElement(
+                "afterend",
+                expandedHierarchy,
             );
-
-            return false;
-        });
-
-        if (!branch.children?.length) {
-            delete branch.children;
-
-            return;
+            collapsedHierarchy.remove();
+            expandCollapseButton.textContent =
+                window.translations.hierarchy_collapse;
+        } else {
+            expandedHierarchy.insertAdjacentElement(
+                "afterend",
+                collapsedHierarchy,
+            );
+            expandedHierarchy.remove();
+            expandCollapseButton.textContent =
+                window.translations.hierarchy_expand;
         }
-
-        pruneBranches(tree, branch.children, seenBranches);
     });
 
-    return tree;
+    const baseReflId = +container.dataset.refl!;
+    const hierarchy: JsonHierarchy = await new Response(json).json();
+
+    const collapsedHierarchy = container.querySelector("ul")!;
+    const expandedHierarchy = document.createElement("ul");
+    expandedHierarchy.classList.add("tsd-hierarchy");
+    buildExpandedHierarchy(expandedHierarchy, hierarchy, baseReflId);
 }
 
-function buildList(
-    branches: HierarchyElement[],
-    baseUrl: string,
-    isRoots: boolean = true,
+function buildExpandedHierarchy(
+    container: HTMLElement,
+    hierarchy: JsonHierarchy,
+    id: number,
 ) {
-    if (!branches.length) return undefined;
+    // Figure out which roots contain the target ID
+    const roots = hierarchy.roots.filter((root) =>
+        rootContainsElement(hierarchy, root, id),
+    );
 
-    const list = document.createElement("ul");
-    list.classList.add("tsd-hierarchy");
+    for (const root of roots) {
+        container.appendChild(followHierarchy(hierarchy, root, id)!);
+    }
+}
 
-    if (!isRoots) list.classList.add("tsd-full-hierarchy");
+function followHierarchy(
+    hierarchy: JsonHierarchy,
+    id: number,
+    targetId: number,
+    seen = new Set(),
+): HTMLElement | undefined {
+    if (seen.has(id)) return;
+    seen.add(id);
 
-    branches.forEach((branch) => {
-        const item = document.createElement("li");
-        item.className = branch.class;
-        list.append(item);
+    const item = hierarchy.reflections[id];
+    const container = document.createElement("li");
+    container.classList.add("tsd-hierarchy");
 
-        if (branch.text) {
-            if (item.classList.contains("tsd-hierarchy-target")) {
-                item.innerHTML += `<span>${branch.text}</span>`;
-            } else {
-                item.innerHTML += branch.html;
-
-                const anchors = item.querySelectorAll("a");
-
-                anchors.forEach((anchor) => {
-                    const href = anchor.getAttribute("href");
-
-                    if (
-                        typeof href !== "string" ||
-                        /^[a-zA-Z]+:\/\//.test(href)
-                    )
-                        return;
-
-                    anchor.setAttribute("href", baseUrl + href);
-                });
-            }
+    if (id === targetId) {
+        const text = container.appendChild(document.createElement("span"));
+        text.textContent = item.name;
+        text.classList.add("tsd-hierarchy-target");
+    } else {
+        for (const parent of item.uniqueNameParents || []) {
+            const parentItem = hierarchy.reflections[parent];
+            const link = container.appendChild(document.createElement("a"));
+            link.textContent = parentItem.name;
+            link.href = BASE_URL + parentItem.url;
+            link.className = parentItem.class + " tsd-signature-type";
+            container.append(document.createTextNode("."));
         }
+        const link = container.appendChild(document.createElement("a"));
+        link.textContent = hierarchy.reflections[id].name;
+        link.href = BASE_URL + item.url;
+        link.className = item.class + " tsd-signature-type";
+    }
 
-        if (!branch.children?.length) return;
+    if (item.children) {
+        const ul = container.appendChild(document.createElement("ul"));
+        ul.classList.add("tsd-hierarchy");
+        for (const child of item.children) {
+            const h = followHierarchy(hierarchy, child, targetId, seen);
+            if (h) ul.appendChild(h);
+        }
+    }
 
-        const childrenList = buildList(branch.children, baseUrl, false);
+    seen.delete(id);
+    return container;
+}
 
-        if (childrenList) item.append(childrenList);
-    });
+function rootContainsElement(
+    hierarchy: JsonHierarchy,
+    rootId: number,
+    id: number,
+) {
+    if (rootId === id) {
+        return true;
+    }
 
-    return list;
+    const seen = new Set<JsonHierarchyElement>();
+    const queue = [hierarchy.reflections[rootId]];
+    while (queue.length) {
+        const item = queue.pop()!;
+        if (seen.has(item)) continue;
+        seen.add(item);
+
+        for (const child of item.children || []) {
+            if (child === id) {
+                return true;
+            }
+            queue.push(hierarchy.reflections[child]);
+        }
+    }
+
+    return false;
+}
+
+function makeIcon() {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "20");
+    svg.setAttribute("height", "20");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.innerHTML = `<use href="#icon-chevronDown"></use>`;
+    return svg;
 }

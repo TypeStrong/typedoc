@@ -7,7 +7,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => (
     <header class="tsd-page-toolbar">
         <div class="tsd-toolbar-contents container">
-            <div class="table-cell" id="tsd-search" data-base={context.relativeURL("./")}>
+            <div class="table-cell" id="tsd-search">
                 <div class="field">
                     <label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption">
                         {context.icons.search()}

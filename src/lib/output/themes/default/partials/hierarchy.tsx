@@ -33,21 +33,10 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
         );
 
     return (
-        <section
-            class="tsd-panel tsd-hierarchy"
-            id="tsd-hierarchy-container"
-            data-base={context.relativeURL("./")}
-            data-target-path={context.page.url}
-        >
-            <input id="tsd-full-hierarchy-toggle" type="checkbox" />
-
+        <section class="tsd-panel tsd-hierarchy" data-refl={context.page.model.id}>
             <h4>
                 {context.i18n.theme_hierarchy()}
-                {summaryLink}{" "}
-                <label for="tsd-full-hierarchy-toggle">
-                    (<span class="expand">{context.i18n.theme_hierarchy_expand()}</span>
-                    <span class="collapse">{context.i18n.theme_hierarchy_collapse()}</span>)
-                </label>
+                {summaryLink}
             </h4>
 
             {hierarchyList(context, typeHierarchy)}
@@ -59,10 +48,8 @@ function hierarchyList(context: DefaultThemeRenderContext, props: DeclarationHie
     return (
         <ul class="tsd-hierarchy">
             {props.types.map((item, i, l) => (
-                <li
-                    class={`tsd-hierarchy-item ${props.isTarget ? "tsd-hierarchy-target" : "tsd-hierarchy-close-relative"}`}
-                >
-                    {props.isTarget ? <span>{item.toString()}</span> : context.type(item)}
+                <li class="tsd-hierarchy-item">
+                    {props.isTarget ? <span class="tsd-hierarchy-target">{item.toString()}</span> : context.type(item)}
                     {i === l.length - 1 && !!props.next && hierarchyList(context, props.next)}
                 </li>
             ))}

@@ -151,7 +151,12 @@ export function renderName(refl: Reflection) {
     return wbr(refl.name);
 }
 
+// This is cached to avoid slowness with large projects.
+const rootsCache = new WeakMap<ProjectReflection, DeclarationReflection[]>();
 export function getHierarchyRoots(project: ProjectReflection): DeclarationReflection[] {
+    const cached = rootsCache.get(project);
+    if (cached) return cached;
+
     const allClasses = project.getReflectionsByKind(ReflectionKind.ClassOrInterface) as DeclarationReflection[];
 
     const roots = allClasses.filter((refl) => {
@@ -179,7 +184,9 @@ export function getHierarchyRoots(project: ProjectReflection): DeclarationReflec
         );
     });
 
-    return roots.sort((a, b) => a.name.localeCompare(b.name));
+    const result = roots.sort((a, b) => a.name.localeCompare(b.name));
+    rootsCache.set(project, result);
+    return result;
 }
 
 export function getMemberSections(

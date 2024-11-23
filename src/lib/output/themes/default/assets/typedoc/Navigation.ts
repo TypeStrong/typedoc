@@ -34,7 +34,7 @@ async function buildNav() {
         .pipeThrough(new DecompressionStream("gzip"));
     const nav: NavigationElement[] = await new Response(json).json();
 
-    BASE_URL = container.dataset.base!;
+    BASE_URL = document.documentElement.dataset.base!;
     if (!BASE_URL.endsWith("/")) BASE_URL += "/";
     container.innerHTML = "";
     for (const el of nav) {

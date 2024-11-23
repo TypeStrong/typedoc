@@ -761,63 +761,37 @@ input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
     margin: 0.75rem 0.75rem 0 0;
 }
 
-.tsd-hierarchy input,
-.tsd-hierarchy:not(:has(.tsd-hierarchy-distant-relative)) label,
-.tsd-hierarchy input:not(:checked) ~ h4 label .collapse,
-.tsd-hierarchy input:checked ~ h4 label .expand {
-    display: none;
-}
-
-.tsd-hierarchy h4 label span {
-    color: var(--color-link);
-    cursor: pointer;
-}
-
 .tsd-hierarchy h4 label:hover span {
     text-decoration: underline;
 }
 
 .tsd-hierarchy {
-    list-style: none;
+    list-style: square;
     margin: 0;
 }
-
-.tsd-hierarchy-item {
-    list-style: square;
-}
-
-.tsd-hierarchy-target > span {
+.tsd-hierarchy-target {
     font-weight: bold;
 }
-
-.tsd-hierarchy input:not(:checked) ~ .tsd-full-hierarchy {
-    display: none;
+.tsd-hierarchy-toggle {
+    color: var(--color-link);
+    cursor: pointer;
 }
 
-.tsd-hierarchy input:checked ~ .tsd-hierarchy:not(.tsd-full-hierarchy) {
-    display: none;
-}
-
-ul.tsd-full-hierarchy:has(~ ul.tsd-full-hierarchy) {
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-accent);
-}
-
-ul.tsd-full-hierarchy:has(svg) {
-    padding-left: 1.5rem;
-}
-
-ul.tsd-full-hierarchy:has(svg) li {
-    list-style: none;
-}
-
-ul.tsd-full-hierarchy:has(svg) a {
+.tsd-full-hierarchy a {
     padding: 0.25rem 0 !important;
     font-size: 1rem;
     display: inline-flex;
     align-items: center;
     color: var(--color-text);
+}
+.tsd-full-hierarchy svg[data-dropdown] {
+    cursor: pointer;
+}
+.tsd-full-hierarchy svg[data-dropdown="false"] {
+    transform: rotate(-90deg);
+}
+.tsd-full-hierarchy svg[data-dropdown="false"] ~ ul {
+    display: none;
 }
 
 .tsd-panel-group.tsd-index-group {

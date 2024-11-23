@@ -34,6 +34,9 @@ export class AssetsPlugin extends RendererComponent {
             copy: this.application.i18n.theme_copy(),
             copied: this.application.i18n.theme_copied(),
             normally_hidden: this.application.i18n.theme_normally_hidden(),
+            hierarchy_expand: this.application.i18n.theme_hierarchy_expand(),
+            hierarchy_collapse:
+                this.application.i18n.theme_hierarchy_collapse(),
         };
     }
 
