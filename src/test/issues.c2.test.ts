@@ -1908,4 +1908,20 @@ describe("Issue Tests", () => {
             ["Extensions"],
         );
     });
+
+    it("#2778 creates modules for declare module blocks", () => {
+        const project = convert();
+        equal(
+            project.children?.map((c) => c.name),
+            ["common", "foo/bar1", "foo/bar2"],
+        );
+        equal(
+            project.children.map((c) => c.kind),
+            [
+                ReflectionKind.Module,
+                ReflectionKind.Module,
+                ReflectionKind.Module,
+            ],
+        );
+    });
 });

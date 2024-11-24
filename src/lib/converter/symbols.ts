@@ -287,10 +287,24 @@ function convertNamespace(
     if (existingReflection?.kind === ReflectionKind.Namespace) {
         reflection = existingReflection as DeclarationReflection;
     } else {
+        let kind = ReflectionKind.Namespace;
+        let nameOverride: string | undefined;
+
+        // #2778 - always treat declare module "foo" as a module, not a namespace
+        const declareModule = symbol.declarations?.find(
+            (mod): mod is ts.ModuleDeclaration =>
+                ts.isModuleDeclaration(mod) && ts.isStringLiteral(mod.name),
+        );
+        if (declareModule) {
+            kind = ReflectionKind.Module;
+            nameOverride = declareModule.name.text;
+        }
+
         reflection = context.createDeclarationReflection(
-            ReflectionKind.Namespace,
+            kind,
             symbol,
             exportSymbol,
+            nameOverride,
         );
         context.finalizeDeclarationReflection(reflection);
     }
