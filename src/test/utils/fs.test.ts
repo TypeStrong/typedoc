@@ -2,8 +2,12 @@ import * as fs from "fs";
 import { createServer } from "net";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
-import { basename, dirname, resolve, normalize } from "path";
-import { getCommonDirectory, glob } from "../../lib/utils/fs.js";
+import { basename, dirname, resolve, normalize, join } from "path";
+import {
+    getCommonDirectory,
+    glob,
+    inferPackageEntryPointPaths,
+} from "../../lib/utils/fs.js";
 
 describe("fs.ts", () => {
     describe("getCommonDirectory", () => {
@@ -167,6 +171,142 @@ describe("fs.ts", () => {
                         });
                     }
                 });
+        });
+    });
+
+    describe("inferPackageEntryPointPaths", () => {
+        const fixture = tempdirProject();
+        afterEach(() => fixture.rm());
+
+        it("Supports string exports shorthand", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                main: "./main.js",
+                exports: "./exp.js",
+            });
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                [".", join(fixture.cwd, "exp.js")],
+            ]);
+        });
+
+        it("Uses the main field if exports are not defined", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                main: "./main.js",
+            });
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                [".", join(fixture.cwd, "main.js")],
+            ]);
+        });
+
+        it("Supports simple object exports", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                exports: {
+                    ".": "main.js",
+                    foo: "foo.js",
+                },
+            });
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                [".", join(fixture.cwd, "main.js")],
+                ["foo", join(fixture.cwd, "foo.js")],
+            ]);
+        });
+
+        it("Uses export conditions", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                exports: {
+                    ".": "main.js",
+                    a: {
+                        typedoc: "a.ts",
+                        default: "a.js",
+                    },
+                    b: {
+                        import: "b.ts",
+                        default: "b.js",
+                    },
+                    c: {
+                        node: "c.ts",
+                        default: "c.js",
+                    },
+                    d: {
+                        "not-recognized": "d.ts",
+                        default: "d.js",
+                    },
+                },
+            });
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                [".", join(fixture.cwd, "main.js")],
+                ["a", join(fixture.cwd, "a.ts")],
+                ["b", join(fixture.cwd, "b.ts")],
+                ["c", join(fixture.cwd, "c.ts")],
+                ["d", join(fixture.cwd, "d.js")],
+            ]);
+        });
+
+        it("Handles arrays of export conditions", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                exports: {
+                    ".": ["main.js"],
+                    a: ["does-not-exist.js", "exists.js"],
+                },
+            });
+            fixture.addFile("main.js");
+            fixture.addFile("exists.js");
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                [".", join(fixture.cwd, "main.js")],
+                ["a", join(fixture.cwd, "exists.js")],
+            ]);
+        });
+
+        it("Handles nested export conditions", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                exports: {
+                    a: {
+                        notMatched: {
+                            typedoc: "nope.js",
+                        },
+                        typedoc: {
+                            node: "a.ts",
+                        },
+                        default: "a.js",
+                    },
+                },
+            });
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                ["a", join(fixture.cwd, "a.ts")],
+            ]);
+        });
+
+        it("Handles a single wildcard", () => {
+            const pkg = fixture.addJsonFile("package.json", {
+                exports: {
+                    "a/*.js": "src/*.js",
+                    "b/*.js": "src/*/*.ts",
+                },
+            });
+            fixture.addFile("src/1.js");
+            fixture.addFile("src/2.js");
+            fixture.addFile("src/3/4.js");
+            fixture.addFile("src/5.ts");
+            fixture.addFile("src/6/6.ts");
+            fixture.write();
+
+            equal(inferPackageEntryPointPaths(pkg.path), [
+                ["a/1.js", join(fixture.cwd, "src/1.js")],
+                ["a/2.js", join(fixture.cwd, "src/2.js")],
+                ["a/3/4.js", join(fixture.cwd, "src/3/4.js")],
+                ["b/6.js", join(fixture.cwd, "src/6/6.ts")],
+            ]);
         });
     });
 });

@@ -1,4 +1,4 @@
-import { dirname, join, relative, resolve } from "path";
+import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
@@ -15,11 +15,10 @@ import {
     discoverPackageJson,
     getCommonDirectory,
     glob,
+    inferPackageEntryPointPaths,
     isDir,
 } from "./fs.js";
 import { assertNever } from "./general.js";
-import { resolveAllExports } from "resolve-import/resolve-all-exports";
-import { fileURLToPath } from "url";
 
 /**
  * Defines how entry points are interpreted.
@@ -61,36 +60,14 @@ export interface DocumentEntryPoint {
     path: string;
 }
 
-export async function inferEntryPoints(logger: Logger, options: Options) {
+export function inferEntryPoints(logger: Logger, options: Options) {
     const packageJson = discoverPackageJson(process.cwd());
     if (!packageJson) {
         logger.warn(logger.i18n.no_entry_points_provided());
         return [];
     }
 
-    const entries = await resolveAllExports(packageJson.file, {
-        conditions: ["typedoc", "import", "node"],
-    });
-    const pathEntries = Object.entries(entries).map(([k, v]) => {
-        if (typeof v === "object") {
-            return [k, fileURLToPath(v)];
-        }
-        return [k, v];
-    });
-
-    // resolveAllExports doesn't create a fake export for "main"
-    // so do that here if we don't have any exports.
-    if (pathEntries.length === 0) {
-        if (
-            "main" in packageJson.content &&
-            typeof packageJson.content["main"] === "string"
-        ) {
-            pathEntries.push([
-                ".",
-                resolve(dirname(packageJson.file), packageJson.content["main"]),
-            ]);
-        }
-    }
+    const pathEntries = inferPackageEntryPointPaths(packageJson.file);
 
     const entryPoints: DocumentationEntryPoint[] = [];
 

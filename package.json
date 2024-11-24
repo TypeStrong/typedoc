@@ -28,7 +28,6 @@
     "lunr": "^2.3.9",
     "markdown-it": "^14.1.0",
     "minimatch": "^10.0.1",
-    "resolve-import": "^1.4.6",
     "shiki": "^1.23.1",
     "yaml": "^2.6.1"
   },

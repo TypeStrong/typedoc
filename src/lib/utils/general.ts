@@ -57,6 +57,11 @@ export function assertNever(x: never): never {
     );
 }
 
+// From MDN
+export function escapeRegExp(s: string) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
+
 // Based on https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
 // Slightly modified for improved match results for options
 export function editDistance(s: string, t: string): number {

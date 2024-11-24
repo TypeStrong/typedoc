@@ -342,9 +342,7 @@ export class Application extends AbstractComponent<
         return ts.version;
     }
 
-    public async getEntryPoints(): Promise<
-        DocumentationEntryPoint[] | undefined
-    > {
+    public getEntryPoints(): DocumentationEntryPoint[] | undefined {
         if (this.options.isSet("entryPoints")) {
             return this.getDefinedEntryPoints();
         }
@@ -393,7 +391,7 @@ export class Application extends AbstractComponent<
             );
         }
 
-        const entryPoints = await this.getEntryPoints();
+        const entryPoints = this.getEntryPoints();
 
         if (!entryPoints) {
             // Fatal error already reported.
