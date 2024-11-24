@@ -1924,4 +1924,13 @@ describe("Issue Tests", () => {
             ],
         );
     });
+
+    it("#2779 handles import type references", () => {
+        const project = convert();
+        const Bar = query(project, "bar.Nested.Bar");
+        const Foo = query(project, "foo.Foo");
+
+        equal(Foo.type?.type, "reference");
+        equal(Foo.type.reflection?.getFullName(), Bar.getFullName());
+    });
 });

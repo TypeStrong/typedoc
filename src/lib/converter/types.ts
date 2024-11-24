@@ -421,8 +421,7 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
     kind: [ts.SyntaxKind.ImportType],
     convert(context, node) {
         const name = node.qualifier?.getText() ?? "__module";
-        const symbol = context.checker.getSymbolAtLocation(node);
-        assert(symbol, "Missing symbol when converting import type node");
+        const symbol = context.expectSymbolAtLocation(node.qualifier || node);
         return ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,

@@ -90,6 +90,7 @@ title: Changelog
 -   TypeDoc will now document the merged symbol type when considering globals
     declared inside `declare global`, #2774
 -   TypeDoc now converts `declare module "foo"` as a module rather than a namespace, #2778.
+-   Import types in type aliases now use module member references if present, #2779.
 -   Fixed an issue where properties were not properly marked optional in some
     cases. This primarily affected destructured parameters.
 -   Added `yaml` to the highlight languages supported by default.
