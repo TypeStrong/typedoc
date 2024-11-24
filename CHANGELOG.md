@@ -6,6 +6,7 @@ title: Changelog
 
 ## Breaking Changes
 
+-   Convert to ESM to enable easier use of ESM-only dependencies.
 -   Drop support for TypeScript <5.0, no longer supported by DefinitelyTyped
 -   Relaxed requirements for file names and generated url fragments. This may
     result in a different file name structure, #2714.
