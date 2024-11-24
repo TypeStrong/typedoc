@@ -27,7 +27,7 @@
   "dependencies": {
     "lunr": "^2.3.9",
     "markdown-it": "^14.1.0",
-    "minimatch": "^10.0.1",
+    "minimatch": "^9.0.5",
     "shiki": "^1.23.1",
     "yaml": "^2.6.1"
   },
