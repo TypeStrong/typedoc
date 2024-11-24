@@ -181,31 +181,32 @@ describe("fs.ts", () => {
         const packagePath = (path: string) =>
             normalizePath(join(fixture.cwd, path));
 
+        const inferExports = () =>
+            inferPackageEntryPointPaths(fixture.cwd + "/package.json").map(
+                (s) => [s[0], normalizePath(s[1])],
+            );
+
         it("Supports string exports shorthand", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 main: "./main.js",
                 exports: "./exp.js",
             });
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", packagePath("exp.js")],
-            ]);
+            equal(inferExports(), [[".", packagePath("exp.js")]]);
         });
 
         it("Uses the main field if exports are not defined", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 main: "./main.js",
             });
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", packagePath("main.js")],
-            ]);
+            equal(inferExports(), [[".", packagePath("main.js")]]);
         });
 
         it("Supports simple object exports", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 exports: {
                     ".": "main.js",
                     foo: "foo.js",
@@ -213,14 +214,14 @@ describe("fs.ts", () => {
             });
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
+            equal(inferExports(), [
                 [".", packagePath("main.js")],
                 ["foo", packagePath("foo.js")],
             ]);
         });
 
         it("Uses export conditions", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 exports: {
                     ".": "main.js",
                     a: {
@@ -243,7 +244,7 @@ describe("fs.ts", () => {
             });
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
+            equal(inferExports(), [
                 [".", packagePath("main.js")],
                 ["a", packagePath("a.ts")],
                 ["b", packagePath("b.ts")],
@@ -253,7 +254,7 @@ describe("fs.ts", () => {
         });
 
         it("Handles arrays of export conditions", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 exports: {
                     ".": ["main.js"],
                     a: ["does-not-exist.js", "exists.js"],
@@ -263,14 +264,14 @@ describe("fs.ts", () => {
             fixture.addFile("exists.js");
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
+            equal(inferExports(), [
                 [".", packagePath("main.js")],
                 ["a", packagePath("exists.js")],
             ]);
         });
 
         it("Handles nested export conditions", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 exports: {
                     a: {
                         notMatched: {
@@ -285,13 +286,11 @@ describe("fs.ts", () => {
             });
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
-                ["a", packagePath("a.ts")],
-            ]);
+            equal(inferExports(), [["a", packagePath("a.ts")]]);
         });
 
         it("Handles a single wildcard", () => {
-            const pkg = fixture.addJsonFile("package.json", {
+            fixture.addJsonFile("package.json", {
                 exports: {
                     "a/*.js": "src/*.js",
                     "b/*.js": "src/*/*.ts",
@@ -304,7 +303,7 @@ describe("fs.ts", () => {
             fixture.addFile("src/6/6.ts");
             fixture.write();
 
-            equal(inferPackageEntryPointPaths(pkg.path), [
+            equal(inferExports(), [
                 ["a/1.js", packagePath("src/1.js")],
                 ["a/2.js", packagePath("src/2.js")],
                 ["a/3/4.js", packagePath("src/3/4.js")],
