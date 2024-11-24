@@ -8,6 +8,7 @@ import {
     glob,
     inferPackageEntryPointPaths,
 } from "../../lib/utils/fs.js";
+import { normalizePath } from "../../lib/utils/paths.js";
 
 describe("fs.ts", () => {
     describe("getCommonDirectory", () => {
@@ -177,6 +178,8 @@ describe("fs.ts", () => {
     describe("inferPackageEntryPointPaths", () => {
         const fixture = tempdirProject();
         afterEach(() => fixture.rm());
+        const packagePath = (path: string) =>
+            normalizePath(join(fixture.cwd, path));
 
         it("Supports string exports shorthand", () => {
             const pkg = fixture.addJsonFile("package.json", {
@@ -186,7 +189,7 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", join(fixture.cwd, "exp.js")],
+                [".", packagePath("exp.js")],
             ]);
         });
 
@@ -197,7 +200,7 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", join(fixture.cwd, "main.js")],
+                [".", packagePath("main.js")],
             ]);
         });
 
@@ -211,8 +214,8 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", join(fixture.cwd, "main.js")],
-                ["foo", join(fixture.cwd, "foo.js")],
+                [".", packagePath("main.js")],
+                ["foo", packagePath("foo.js")],
             ]);
         });
 
@@ -241,11 +244,11 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", join(fixture.cwd, "main.js")],
-                ["a", join(fixture.cwd, "a.ts")],
-                ["b", join(fixture.cwd, "b.ts")],
-                ["c", join(fixture.cwd, "c.ts")],
-                ["d", join(fixture.cwd, "d.js")],
+                [".", packagePath("main.js")],
+                ["a", packagePath("a.ts")],
+                ["b", packagePath("b.ts")],
+                ["c", packagePath("c.ts")],
+                ["d", packagePath("d.js")],
             ]);
         });
 
@@ -261,8 +264,8 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                [".", join(fixture.cwd, "main.js")],
-                ["a", join(fixture.cwd, "exists.js")],
+                [".", packagePath("main.js")],
+                ["a", packagePath("exists.js")],
             ]);
         });
 
@@ -283,7 +286,7 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                ["a", join(fixture.cwd, "a.ts")],
+                ["a", packagePath("a.ts")],
             ]);
         });
 
@@ -302,10 +305,10 @@ describe("fs.ts", () => {
             fixture.write();
 
             equal(inferPackageEntryPointPaths(pkg.path), [
-                ["a/1.js", join(fixture.cwd, "src/1.js")],
-                ["a/2.js", join(fixture.cwd, "src/2.js")],
-                ["a/3/4.js", join(fixture.cwd, "src/3/4.js")],
-                ["b/6.js", join(fixture.cwd, "src/6/6.ts")],
+                ["a/1.js", packagePath("src/1.js")],
+                ["a/2.js", packagePath("src/2.js")],
+                ["a/3/4.js", packagePath("src/3/4.js")],
+                ["b/6.js", packagePath("src/6/6.ts")],
             ]);
         });
     });
