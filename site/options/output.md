@@ -68,8 +68,7 @@ $ typedoc --html <path/to/documentation/>
 ```
 
 Specifies the location the html documentation should be written to. The HTML
-output produced by running TypeDoc on itself can be seen at {@link "TypeDoc
-API"}
+output produced by running TypeDoc on itself can be seen at {@link "TypeDoc API"}
 
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.

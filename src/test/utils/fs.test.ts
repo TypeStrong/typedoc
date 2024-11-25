@@ -176,7 +176,7 @@ describe("fs.ts", () => {
     });
 
     describe("inferPackageEntryPointPaths", () => {
-        const fixture = tempdirProject();
+        using fixture = tempdirProject();
         afterEach(() => fixture.rm());
         const packagePath = (path: string) =>
             normalizePath(join(fixture.cwd, path));

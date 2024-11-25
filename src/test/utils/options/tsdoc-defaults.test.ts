@@ -3,6 +3,9 @@ import { join } from "path";
 import ts from "typescript";
 import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "url";
+import { unique } from "../../../lib/utils/array.js";
+import { readdirSync } from "fs";
+import { TYPEDOC_ROOT } from "../../../lib/utils/general.js";
 
 describe("tsdoc-defaults.ts", () => {
     const tsdoc = ts.readConfigFile(
@@ -58,5 +61,20 @@ describe("tsdoc-defaults.ts", () => {
             .sort((a, b) => a.localeCompare(b));
 
         equal(tsdocTags, typedocTags);
+    });
+
+    // GERRIT Failing currently, ~20 tags to document still
+    it.skip("Should only include tags which are documented on the website", () => {
+        const tags = unique([
+            ...defaults.blockTags,
+            ...defaults.modifierTags,
+            ...defaults.inlineTags,
+        ]).sort();
+
+        const documentedTags = readdirSync(TYPEDOC_ROOT + "/site/tags")
+            .map((file) => "@" + file.replace(".md", ""))
+            .sort();
+
+        equal(tags, documentedTags);
     });
 });
