@@ -22,7 +22,7 @@ typedoc --entryPoints src/index.ts --entryPoints src/alt.ts
 
 Specifies the entry points to be documented by TypeDoc. TypeDoc will examine
 the exports of these files and create documentation according to the exports.
-Entry points can be handled in one of four ways, see [--entryPointStrategy](#entryPointStrategy)
+Entry points can be handled in one of four ways, see [--entryPointStrategy](#entrypointstrategy)
 for details.
 
 If this option is not set, TypeDoc will automatically discover your entry points
@@ -36,7 +36,7 @@ export](https://nodejs.org/api/packages.html#conditional-exports) is used,
 TypeDoc will use it instead of the `"import"` export condition.
 
 The set of entry points provided to TypeDoc determines the names displayed in the documentation.
-By default, TypeDoc will derive a [basePath](output.md#basePath) based on your entry point
+By default, TypeDoc will derive a [basePath](output.md#basepath) based on your entry point
 paths to determine the displayed module name, but it can be also be set with the [`@module`](../tags/module.md) tag.
 
 ## entryPointStrategy
@@ -80,7 +80,7 @@ By default, if TypeDoc is given only one entry point, it will place exports of t
 the generated project. If this option is specified, TypeDoc will instead always create a module for the entry point.
 Has no effect if more than one entry point is passed to TypeDoc.
 
-If [`--projectDocuments`](#projectDocuments) is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
+If [`--projectDocuments`](#projectdocuments) is used to add documents, this option defaults to `true`, otherwise, defaults to `false`.
 
 ```bash
 typedoc --alwaysCreateEntryPointModule

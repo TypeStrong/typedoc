@@ -4,7 +4,7 @@ title: "@readonly"
 
 # @readonly
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@readonly](https://tsdoc.org/pages/tags/readonly/)
 
 The `@readonly` tag indicates that a reflection should be documented as non-writable, even if writable

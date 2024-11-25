@@ -4,7 +4,7 @@ title: "@categoryDescription"
 
 # @categoryDescription
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@categoryDescription` tag can be used to provide additional context about a category of reflections
 which was created with the [`@category`](category.md) tag.
@@ -45,7 +45,7 @@ export function ref(): void;
 -   The [`@category`](category.md) tag
 -   The [`@group`](group.md) tag
 -   The [`@module`](module.md) tag
--   The [`--categorizeByGroup`](../options/organization.md#categorizeByGroup) option
--   The [`--defaultCategory`](../options/organization.md#defaultCategory) option
--   The [`--categoryOrder`](../options/organization.md#categoryOrder) option
--   The [`--searchCategoryBoosts`](../options/output.md#searchCategoryBoosts) option
+-   The [`--categorizeByGroup`](../options/organization.md#categorizebygroup) option
+-   The [`--defaultCategory`](../options/organization.md#defaultcategory) option
+-   The [`--categoryOrder`](../options/organization.md#categoryorder) option
+-   The [`--searchCategoryBoosts`](../options/output.md#searchcategoryboosts) option

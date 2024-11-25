@@ -4,7 +4,7 @@ title: "@internal"
 
 # @internal
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@internal](https://tsdoc.org/pages/tags/internal/)
 
 The `@internal` tag indicates that a reflection is not intended to be used by API consumers.
@@ -25,5 +25,5 @@ export class Visibility {
 -   The [`@alpha`](alpha.md) tag
 -   The [`@beta`](beta.md) tag
 -   The [`@experimental`](experimental.md) tag
--   The [`--excludeInternal`](../options/input.md#excludeInternal) option
+-   The [`--excludeInternal`](../options/input.md#excludeinternal) option
 -   The [`--stripInternal`](https://www.typescriptlang.org/tsconfig#stripInternal) TypeScript compiler option

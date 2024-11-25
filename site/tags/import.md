@@ -4,7 +4,7 @@ title: "@import"
 
 # @import
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@import` tag is recognized for use in JavaScript projects which can use it
 to declare type imports since TypeScript 5.5. Any comment containing `@import`

@@ -4,7 +4,7 @@ title: "@groupDescription"
 
 # @groupDescription
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@groupDescription` tag can be used to provide additional context about a group of reflections.
 TypeDoc automatically groups reflections according to their TypeScript kind, but custom groups can
@@ -48,4 +48,4 @@ export class App extends EventEmitter {
 -   The [`@group`](group.md) tag
 -   The [`@category`](category.md) tag
 -   The [`@categoryDescription`](categoryDescription.md) tag
--   The [`--searchGroupBoosts`](../options/output.md#searchGroupBoosts) option
+-   The [`--searchGroupBoosts`](../options/output.md#searchgroupboosts) option

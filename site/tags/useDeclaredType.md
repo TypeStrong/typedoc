@@ -4,7 +4,7 @@ title: "@useDeclaredType"
 
 # @useDeclaredType
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 
 This tag can be specified on type aliases to tell TypeDoc to convert them
 using the declared type rather than the type node. This can result in better

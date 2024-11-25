@@ -4,7 +4,7 @@ title: "@param"
 
 # @param
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@param](https://tsdoc.org/pages/tags/param/)
 
 The `@param` tag is used to document a parameter of a function or method.

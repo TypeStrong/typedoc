@@ -4,7 +4,7 @@ title: "@virtual"
 
 # @virtual
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@virtual](https://tsdoc.org/pages/tags/virtual/)
 
 TypeDoc parses the `@virtual` tag for compatibility with TSDoc, but does not attach any meaning to it's use.
@@ -22,4 +22,4 @@ export class Visibility {
 
 -   The [`@sealed`](sealed.md) tag
 -   The [`@override`](override.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityFilters) option
+-   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

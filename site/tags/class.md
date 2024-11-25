@@ -4,7 +4,7 @@ title: "@class"
 
 # @class
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 If present on a variable, will cause it to be converted as a class. This
 will result in all "dynamic" properties being expanded to real properties.

@@ -4,7 +4,7 @@ title: "@document"
 
 # @document
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 Instructs TypeDoc to include the path specified in the tag content as a document
 within the generated site. See the [External Documents](../external-documents.md) guide
@@ -23,4 +23,4 @@ export class Promise<T> {
 
 ## See Also
 
--   The [`projectDocuments`](../options/input.md#projectDocuments) option
+-   The [`projectDocuments`](../options/input.md#projectdocuments) option

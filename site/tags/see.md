@@ -4,7 +4,7 @@ title: "@see"
 
 # @see
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@see](https://tsdoc.org/pages/tags/see/)
 **JSDoc Reference:** [@see](https://jsdoc.app/tags-see)
 

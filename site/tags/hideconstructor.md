@@ -4,7 +4,7 @@ title: "@hideconstructor"
 
 # @hideconstructor
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 This tag should only be used to work around [TypeScript#58653](https://github.com/microsoft/TypeScript/issues/58653).
 Prefer the [`@hidden`](hidden.md) or [`@ignore`](ignore.md) tags instead.

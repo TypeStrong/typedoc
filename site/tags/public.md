@@ -4,7 +4,7 @@ title: "@public"
 
 # @public
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@public](https://tsdoc.org/pages/tags/public/)
 
 This tag should generally not be used. The `@public` tag overrides the visibility of a reflection to be public.

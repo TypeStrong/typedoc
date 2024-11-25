@@ -4,7 +4,7 @@ title: "@property"
 
 # @property
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@property` (or `@prop`) tag can be used to add a comment to a child of the current reflection.
 It is intended for use with the [`@namespace`](namespace.md) and [`@interface`](interface.md) tags

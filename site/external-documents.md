@@ -46,7 +46,7 @@ to include multiple documents.
 
 TypeDoc's default [sorting](options/organization.md#sort) options
 will cause project documents to be re-ordered alphabetically. If not desired, sorting
-for entry points can be disabled with the [sortEntryPoints](options/organization.md#sortEntryPoints)
+for entry points can be disabled with the [sortEntryPoints](options/organization.md#sortentrypoints)
 option.
 
 ## Document Content
@@ -86,4 +86,4 @@ Documents may also include `{@link}` inline tags, which will be resolved as
 [declaration references](declaration-references.md) by
 TypeDoc.
 
-[projectDocuments]: options/input.md#projectDocuments
+[projectDocuments]: options/input.md#projectdocuments

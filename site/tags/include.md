@@ -4,7 +4,7 @@ title: "\{\@include\}"
 
 # \{\@include\}
 
-**Tag Kind:** [Inline](../tags.md#Inline-Tags)
+**Tag Kind:** [Inline](../tags.md#inline-tags)
 
 The `@include` tag can be used to include external markdown content within
 the comment for a member. It is an inline tag which will be replaced with the

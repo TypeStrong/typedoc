@@ -4,13 +4,13 @@ title: "@mergeModuleWith"
 
 # @mergeModuleWith
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@mergeModuleWith` tag can be used to tell TypeDoc to place the children of
 a module or namespace within another module and remove the current module. This
 is intended to support projects which combine the results of multiple TypeScript
 projects into a single exported module but run TypeDoc on each project
-individually with the [packages entryPointStrategy](../options/input.md#entryPointStrategy)
+individually with the [packages entryPointStrategy](../options/input.md#entrypointstrategy)
 
 The `@mergeModuleWith` tag should be given the qualified name of the module the
 current module should be merged into. This should be a `.` separated path of module

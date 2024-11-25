@@ -4,7 +4,7 @@ title: "@protected"
 
 # @protected
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 This tag should generally not be used and may be removed in a future release.
 The `@protected` tag overrides the visibility of a reflection to be protected.
@@ -28,4 +28,4 @@ export class Visibility {
 -   The [`@public`](public.md) tag
 -   The [`@private`](private.md) tag
 -   The [`@internal`](internal.md) tag
--   The [`--excludeProtected`](../options/input.md#excludeProtected) option
+-   The [`--excludeProtected`](../options/input.md#excludeprotected) option

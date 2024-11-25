@@ -4,7 +4,7 @@ title: "@enum"
 
 # @enum
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 If present on an object with string or number literal values, TypeDoc will convert the variable as an
 enumeration instead of a variable.

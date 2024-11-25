@@ -10,7 +10,7 @@ to recognize _most_ JSDoc comments in a manner similar to how they are handled
 by TypeScript and Visual Studio Code. Where the JSDoc implementation conflicts
 with the TSDoc specification, TypeDoc generally tries to detect which
 implementation is intended. JSDoc compatibility can be controlled with the
-[--jsDocCompatibility](../options/comments.md#jsDocCompatibility) option.
+[--jsDocCompatibility](../options/comments.md#jsdoccompatibility) option.
 
 ## Notable Differences
 

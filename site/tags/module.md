@@ -4,7 +4,7 @@ title: "@module"
 
 # @module
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@module` tag is used to mark a comment as referring to a file rather than the declaration following it.
 It may optionally be used to rename a module whose name TypeDoc guesses incorrectly.

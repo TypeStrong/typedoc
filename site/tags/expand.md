@@ -4,7 +4,7 @@ title: "@expand"
 
 # @expand
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 The `@expand` tag may be placed on type aliases and interfaces. When a type is
 annotated with `@expand`, TypeDoc will inline the type declaration of that type

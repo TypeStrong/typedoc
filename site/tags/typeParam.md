@@ -4,7 +4,7 @@ title: "@typeParam"
 
 # @typeParam
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@typeParam](https://tsdoc.org/pages/tags/typeParam/)
 
 The `@typeParam` tag is used to document a type parameter of a function, method, class, interface or type alias.

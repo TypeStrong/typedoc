@@ -4,7 +4,7 @@ title: "@deprecated"
 
 # @deprecated
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@deprecated](https://tsdoc.org/pages/tags/deprecated/)
 
 The `@deprecated` tag indicates that a declaration should not be used and may be removed in a future release.

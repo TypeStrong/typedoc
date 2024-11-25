@@ -4,7 +4,7 @@ title: "@remarks"
 
 # @remarks
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@remarks](https://tsdoc.org/pages/tags/remarks/)
 
 The `@remarks` tag can be used to separate the summary section of a documentation content from

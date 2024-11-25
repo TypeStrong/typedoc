@@ -4,7 +4,7 @@ title: "@alpha"
 
 # @alpha
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@alpha](https://tsdoc.org/pages/tags/alpha/)
 
 This tag can be used to indicate that the associated member is intended
@@ -25,4 +25,4 @@ export class Visibility {
 -   The [`@beta`](beta.md) tag
 -   The [`@experimental`](experimental.md) tag
 -   The [`@public`](public.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityFilters) option
+-   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

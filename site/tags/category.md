@@ -4,7 +4,7 @@ title: "@category"
 
 # @category
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@category` tag can be used to place several related API items under a common header when
 listed in a page's index. It may be specified multiple times to list a reflection under several
@@ -40,8 +40,8 @@ the comment on the parent reflection.
 
 -   The [`@group`](group.md) tag
 -   The [`@categoryDescription`](categoryDescription.md) tag
--   The [`--categorizeByGroup`](../options/organization.md#categorizeByGroup) option
--   The [`--defaultCategory`](../options/organization.md#defaultCategory) option
--   The [`--categoryOrder`](../options/organization.md#categoryOrder) option
--   The [`--searchCategoryBoosts`](../options/output.md#searchCategoryBoosts) option
+-   The [`--categorizeByGroup`](../options/organization.md#categorizebygroup) option
+-   The [`--defaultCategory`](../options/organization.md#defaultcategory) option
+-   The [`--categoryOrder`](../options/organization.md#categoryorder) option
+-   The [`--searchCategoryBoosts`](../options/output.md#searchcategoryboosts) option
 -   The [`--navigation.includeCategories`](../options/output.md#navigation) option

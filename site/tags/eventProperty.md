@@ -4,7 +4,7 @@ title: "@eventProperty"
 
 # @eventProperty
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@eventProperty](https://tsdoc.org/pages/tags/eventProperty/)
 
 The `@eventProperty` tag is used to mark a reflection as belonging in the "Events" group.

@@ -4,7 +4,7 @@ title: "@inline"
 
 # @inline
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 The `@inline` tag may be placed on type aliases and interfaces. When a type is
 annotated with `@inline` and the type is referenced, TypeDoc will attempt to inline

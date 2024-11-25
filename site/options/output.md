@@ -336,7 +336,7 @@ Defines additional links to be included in the page sidebar.
 
 Determines how the left hand side navigation will be built.
 
-The [categorizeByGroup](./organization.md#categorizeByGroup) option also affects this behavior.
+The [categorizeByGroup](./organization.md#categorizebygroup) option also affects this behavior.
 If set (the default), and `includeGroups` is _not_ set, the value of `includeCategories` will be effectively
 ignored since categories will be created only within groups.
 

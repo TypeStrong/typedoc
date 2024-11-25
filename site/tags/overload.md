@@ -4,10 +4,10 @@ title: "@overload"
 
 # @overload
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 The `@overload` tag is recognized for use in JavaScript projects which can use it to declare overloads since TypeScript 5.0. It is automatically removed from the rendered
-documentation with the [--excludeTags](../options/comments.md#excludeTags) option
+documentation with the [--excludeTags](../options/comments.md#excludetags) option
 
 ## Example
 
@@ -35,4 +35,4 @@ function printValue(value, maximumFractionDigits) {}
 ## See Also
 
 -   The [TypeScript 5.0 release notes](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#overload-support-in-jsdoc)
--   The [--excludeTags](../options/comments.md#excludeTags) option.
+-   The [--excludeTags](../options/comments.md#excludetags) option.

@@ -4,7 +4,7 @@ title: "@group"
 
 # @group
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@group` tag can be used to place several related API items under a common header when
 listed in a page's index. It may be specified multiple times to list a reflection under several
@@ -48,5 +48,5 @@ the comment on the parent reflection.
 
 -   The [`@category`](category.md) tag
 -   The [`@groupDescription`](groupDescription.md) tag
--   The [`--searchGroupBoosts`](../options/output.md#searchGroupBoosts) option
+-   The [`--searchGroupBoosts`](../options/output.md#searchgroupboosts) option
 -   The [`--navigation.includeGroups`](../options/output.md#navigation) option

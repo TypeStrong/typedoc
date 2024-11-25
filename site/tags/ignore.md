@@ -4,7 +4,7 @@ title: "@ignore"
 
 # @ignore
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 Reflections marked with the `@hidden` tag will be removed from the documentation.
 It is equivalent to the `@ignore` JSDoc tag.

@@ -4,7 +4,7 @@ title: "\{\@label\}"
 
 # {@label}
 
-**Tag Kind:** [Inline](../tags.md#Inline-Tags) <br>
+**Tag Kind:** [Inline](../tags.md#inline-tags) <br>
 **TSDoc Reference:** [@label](https://tsdoc.org/pages/tags/label/)
 
 The `@label` tag can be used to give an overloaded signature a name that it can be referenced

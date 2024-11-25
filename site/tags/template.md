@@ -4,7 +4,7 @@ title: "@template"
 
 # @template
 
-**Tag Kind:** [Block](../tags.md#Block-Tags)
+**Tag Kind:** [Block](../tags.md#block-tags)
 
 The `@template` tag is used to document a type parameter of a function, method, class, interface or type alias.
 

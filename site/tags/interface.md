@@ -4,7 +4,7 @@ title: "@interface"
 
 # @interface
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 If present on a type alias, will cause it to be converted as an interface. This
 will result in all "dynamic" properties being expanded to real properties.

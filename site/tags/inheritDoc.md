@@ -2,7 +2,7 @@
 title: "\{\@inheritDoc\}"
 ---
 
-**Tag Kind:** [Inline](../tags.md#Inline-Tags) / [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Inline](../tags.md#inline-tags) / [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@inheritDoc](https://tsdoc.org/pages/tags/inheritDoc/)
 
 The `@inheritDoc` tag is used to create a reflection's documentation by copying it from another

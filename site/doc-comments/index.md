@@ -25,8 +25,8 @@ TypeDoc will ignore comments containing `@license` or `@import`.
 TypeDoc supports code blocks in markdown and uses
 [Shiki](https://shiki.matsu.io/) to provide syntax highlighting. You can specify
 the syntax highlighting theme with the
-[`--lightHighlightTheme`](../options/output.md#lightHighlightTheme) and
-[`--darkHighlightTheme`](../options/output.md#darkHighlightTheme) options.
+[`--lightHighlightTheme`](../options/output.md#lighthighlighttheme) and
+[`--darkHighlightTheme`](../options/output.md#darkhighlighttheme) options.
 
 ````ts
 /**

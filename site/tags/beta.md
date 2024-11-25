@@ -4,7 +4,7 @@ title: "@beta"
 
 # @beta
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags) <br>
+**Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
 **TSDoc Reference:** [@beta](https://tsdoc.org/pages/tags/beta/)
 
 This tag can be used to indicate that the associated member is intended to eventually be used by third-party
@@ -27,4 +27,4 @@ export class Visibility {
 -   The [`@alpha`](alpha.md) tag
 -   The [`@experimental`](experimental.md) tag
 -   The [`@public`](public.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityFilters) option
+-   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

@@ -4,7 +4,7 @@ title: "@example"
 
 # @example
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@example](https://tsdoc.org/pages/tags/example/)
 
 The example tag indicates that the following text is an example of how to use the function.

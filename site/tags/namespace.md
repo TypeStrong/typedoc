@@ -4,7 +4,7 @@ title: "@namespace"
 
 # @namespace
 
-**Tag Kind:** [Modifier](../tags.md#Modifier-Tags)
+**Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
 The `@namespace` tag can be used to tell TypeDoc to convert a variable as a namespace. This will cause
 any properties to be resolved and documented as exported variables/functions.

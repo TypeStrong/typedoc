@@ -110,8 +110,8 @@ behavior for how the reflection is processed by setting some binary flag. For
 example, [`@hidden`](./tags/hidden.md) will remove a reflection from the
 documentation while [`@internal`](./tags/internal.md) will mark the reflection
 as internal for use with
-[`--visibilityFilters`](./options/output.md#visibilityFilters) or
-[`--excludeInternal`](./options/input.md#excludeInternal).
+[`--visibilityFilters`](./options/output.md#visibilityfilters) or
+[`--excludeInternal`](./options/input.md#excludeinternal).
 
 ## Inline Tags
 

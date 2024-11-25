@@ -21,7 +21,7 @@ recommended instead of TypeDoc for it's much stricter conformance to TSDoc.
 
 ## Notable Differences
 
--   The [jsDocCompatibility](../options/comments.md#jsDocCompatibility) option
+-   The [jsDocCompatibility](../options/comments.md#jsdoccompatibility) option
     can be used to configure TypeDoc to parse comments more similarly to
     JSDoc/TypeScript than TSDoc.
 -   TypeDoc takes advantage that TSDoc syntax is (with the exception of tags) a

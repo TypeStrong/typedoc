@@ -4,7 +4,7 @@ title: "@defaultValue"
 
 # @defaultValue
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@defaultValue](https://tsdoc.org/pages/tags/defaultValue/)
 
 The `@defaultValue` tag can be used to document the default value for an accessor or property.

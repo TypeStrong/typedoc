@@ -4,7 +4,7 @@ title: Declaration References
 
 # Declaration References
 
-Note: If [--useTsLinkResolution](options/comments.md#useTsLinkResolution) is turned on (the default) this page likely
+Note: If [--useTsLinkResolution](options/comments.md#usetslinkresolution) is turned on (the default) this page likely
 **does not apply** for your links. Declaration references are used only if that option is off or TypeScript
 fails to resolve a link.
 

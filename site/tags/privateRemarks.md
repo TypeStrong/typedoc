@@ -4,7 +4,7 @@ title: "@privateRemarks"
 
 # @privateRemarks
 
-**Tag Kind:** [Block](../tags.md#Block-Tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@privateRemarks](https://tsdoc.org/pages/tags/privateRemarks/)
 
 The `@privateRemarks` tag can be used to include documentation text that should not be included
@@ -30,4 +30,4 @@ the `--excludeTags` list if it is set.
 ## See also
 
 -   The [`@remarks`](remarks.md) tag
--   The [`--excludeTags`](../options/comments.md#excludeTags) option
+-   The [`--excludeTags`](../options/comments.md#excludetags) option

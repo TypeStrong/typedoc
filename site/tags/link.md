@@ -4,7 +4,7 @@ title: "\{\@link\}"
 
 # \{\@link\}
 
-**Tag Kind:** [Inline](../tags.md#Inline-Tags) <br>
+**Tag Kind:** [Inline](../tags.md#inline-tags) <br>
 **TSDoc Reference:** [@link](https://tsdoc.org/pages/tags/link/)
 
 The `@link` tag is used to refer to another documented declaration. It takes one of the following forms:

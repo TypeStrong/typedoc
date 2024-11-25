@@ -91,7 +91,7 @@ Prevents warnings due to unspecified tags from being reported in comments within
 }
 ```
 
-This specifics all of the [block tags](../tags.md#Block-Tags) that TypeDoc considers to be valid.
+This specifies all of the [block tags](../tags.md#block-tags) that TypeDoc considers to be valid.
 
 TypeDoc will warn when it finds an unknown tag. If you need to add a custom one, you can extend the defaults by using a JavaScript configuration file:
 
@@ -111,7 +111,7 @@ export default config;
 
 Note that this option will be set by `tsdoc.json`, if present. (Using a `tsdoc.json` file is an alternate way to add a custom tag.)
 
-Also see [`inlineTags`](#inlineTags) and [`modifierTags`](#modifierTags).
+Also see [`inlineTags`](#inlinetags) and [`modifierTags`](#modifiertags).
 
 ## inlineTags
 
@@ -122,7 +122,7 @@ Also see [`inlineTags`](#inlineTags) and [`modifierTags`](#modifierTags).
 }
 ```
 
-This specifics all of the [inline tags](../tags.md#Inline-Tags) that TypeDoc considers to be valid.
+This specifics all of the [inline tags](../tags.md#inline-tags) that TypeDoc considers to be valid.
 
 TypeDoc will warn when it finds a non-valid tag. If you need to add a custom one, you can extend the defaults by using a JavaScript configuration file:
 
@@ -142,7 +142,7 @@ export default config;
 
 Note that this option will be set by `tsdoc.json`, if present. (Using a `tsdoc.json` file is an alternate way to add a custom tag.)
 
-Also see [`blockTags`](#blockTags) and [`modifierTags`](#modifierTags).
+Also see [`blockTags`](#blocktags) and [`modifierTags`](#modifiertags).
 
 ## modifierTags
 
@@ -153,7 +153,7 @@ Also see [`blockTags`](#blockTags) and [`modifierTags`](#modifierTags).
 }
 ```
 
-This specifics all of the [modifier tags](../tags.md#Modifier-Tags) that TypeDoc considers to be valid.
+This specifics all of the [modifier tags](../tags.md#modifier-tags) that TypeDoc considers to be valid.
 
 TypeDoc will warn when it finds a non-valid tag. If you need to add a custom one, you can extend the defaults by using a JavaScript configuration file:
 
@@ -173,7 +173,7 @@ export default config;
 
 Note that this option will be set by `tsdoc.json`, if present. (Using a `tsdoc.json` file is an alternate way to add a custom tag.)
 
-Also see [`blockTags`](#blockTags) and [`inlineTags`](#inlineTags).
+Also see [`blockTags`](#blocktags) and [`inlineTags`](#inlinetags).
 
 ## cascadedModifierTags
 
