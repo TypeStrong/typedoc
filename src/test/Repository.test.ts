@@ -137,7 +137,7 @@ describe("Repository", function () {
 
             git(project.cwd, "init", "-b", "test");
             git(project.cwd, "add", ".");
-            git(project.cwd, "commit", "-m", "Test commit");
+            git(project.cwd, "commit", "-m", "Test commit", "--no-gpg-sign");
             git(
                 project.cwd,
                 "remote",
@@ -181,7 +181,7 @@ describe("RepositoryManager - git enabled", () => {
         function createRepo(path: string) {
             git(path, "init", "-b", "test");
             git(path, "add", ".");
-            git(path, "commit", "-m", "Test commit");
+            git(path, "commit", "-m", "Test commit", "--no-gpg-sign");
         }
 
         fix = tempdirProject();
