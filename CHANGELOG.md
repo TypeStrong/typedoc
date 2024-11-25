@@ -2,7 +2,7 @@
 title: Changelog
 ---
 
-# Beta
+# Unreleased
 
 ## Breaking Changes
 
@@ -108,7 +108,12 @@ title: Changelog
     one package were incorrectly reported as unused when running with
     entryPointStrategy set to packages.
 
-# Unreleased
+## Thanks!
+
+-   @Huxpro
+-   @mrfigg
+-   @tgreyuk
+-   @XeroAlpha
 
 ## v0.26.11 (2024-11-01)
 
