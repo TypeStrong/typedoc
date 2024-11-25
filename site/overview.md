@@ -12,9 +12,10 @@ version or newer. It can be installed either locally to your project or globally
 > means that plugins and themes will get their own installation of TypeDoc unless you use the
 > `--legacy-peer-deps` flag. This will break many plugins and cause warnings from TypeDoc.
 
-TypeDoc aims to support the two latest TypeScript releases for the latest release. Depending
+TypeDoc aims to support the two latest TypeScript releases for the current release. Depending
 on the scale of breaking changes introduced in a new TypeScript version, a given version may
-support more versions of TypeScript.
+support more versions of TypeScript. TypeDoc may work with older TypeScript versions, but
+the supported version range will generally not include versions not supported by DefinitelyTyped.
 
 | TypeDoc Version | TypeScript Version |
 | --------------- | ------------------ |

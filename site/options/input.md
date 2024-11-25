@@ -74,6 +74,24 @@ Configuration specified in the root level project will _not_ be copied to child 
 
 Expects all entry points to be `.json` files generated with a previous run of TypeDoc with the [`--json`](./output.md#json) option set. These entry points will be merged into a single project.
 
+## packageOptions
+
+```json
+// typedoc.json
+{
+    "entryPointStrategy": "packages",
+    "entryPoints": ["packages/*"],
+    "packageOptions": {
+        "entryPoints": ["src/index.ts"]
+    }
+}
+```
+
+Options to set be set within each package when entryPointStrategy is set to
+packages. Unlike most options in TypeDoc, paths within this object are
+interpreted relative to the package directory. This option has no effect if
+[entryPointStrategy](#entrypointstrategy) is not set to `packages.
+
 ## alwaysCreateEntryPointModule
 
 By default, if TypeDoc is given only one entry point, it will place exports of that entry point directly within
@@ -218,6 +236,14 @@ typedoc --excludeCategories A --excludeCategories B
 
 Removes reflections associated with any of the given categories.
 
+## maxTypeConversionDepth
+
+```bash
+typedoc --maxTypeConversionDepth 2
+```
+
+Specifies the maximum depth to recurse when converting types, defaults to `10`.
+
 ## name
 
 ```bash
@@ -291,3 +317,12 @@ typedoc --readme <path/to/readme|none>
 Path to the readme file that should be displayed on the index page. If set to
 `none`, or no readme file is automatically discovered, the index page will be
 disabled.
+
+## includeHierarchySummary
+
+```bash
+typedoc --includeHierarchySummary false
+```
+
+Specifies whether or not to generate the `hierarchy.html` page in the output
+which lists the full class hierarchy for generated members. Defaults to `true`.

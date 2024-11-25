@@ -37,6 +37,7 @@ to HTML or JSON.
 
 -   [entryPoints](options/input.md#entrypoints)
 -   [entryPointStrategy](options/input.md#entrypointstrategy)
+-   [packageOptions](options/input.md#packageoptions)
 -   [alwaysCreateEntryPointModule](options/input.md#alwayscreateentrypointmodule)
 -   [projectDocuments](options/input.md#projectdocuments)
 -   [exclude](options/input.md#exclude)
@@ -49,6 +50,7 @@ to HTML or JSON.
 -   [excludeProtected](options/input.md#excludeprotected)
 -   [excludeReferences](options/input.md#excludereferences)
 -   [excludeCategories](options/input.md#excludecategories)
+-   [maxTypeConversionDepth](options/input.md#maxtypeconversiondepth)
 -   [name](options/input.md#name)
 -   [includeVersion](options/input.md#includeversion)
 -   [disableSources](options/input.md#disablesources)
@@ -57,12 +59,15 @@ to HTML or JSON.
 -   [gitRemote](options/input.md#gitremote)
 -   [disableGit](options/input.md#disablegit)
 -   [readme](options/input.md#readme)
+-   [includeHierarchySummary](options/input.md#includehierarchysummary)
 
 ## Output Options
 
 Options which control TypeDoc's HTML output.
 
+-   [outputs](options/output.md#outputs)
 -   [out](options/output.md#out)
+-   [html](options/output.md#html)
 -   [json](options/output.md#json)
 -   [pretty](options/output.md#pretty)
 -   [emit](options/output.md#emit)
@@ -72,13 +77,16 @@ Options which control TypeDoc's HTML output.
 -   [highlightLanguages](options/output.md#highlightlanguages)
 -   [typePrintWidth](options/output.md#typeprintwidth)
 -   [customCss](options/output.md#customcss)
+-   [customJs](options/output.md#customjs)
 -   [customFooterHtml](options/output.md#customfooterhtml)
 -   [customFooterHtmlDisableWrapper](options/output.md#customfooterhtmldisablewrapper)
 -   [markdownItOptions](options/output.md#markdownitoptions)
 -   [markdownItLoader](options/output.md#markdownitloader)
 -   [basePath](options/output.md#basepath)
 -   [cname](options/output.md#cname)
+-   [favicon](options/output.md#favicon)
 -   [sourceLinkExternal](options/output.md#sourcelinkexternal)
+-   [markdownLinkExternal](options/output.md#markdownlinkexternal)
 -   [lang](options/output.md#lang)
 -   [locales](options/output.md#locales)
 -   [githubPages](options/output.md#githubpages)
@@ -92,6 +100,8 @@ Options which control TypeDoc's HTML output.
 -   [navigationLinks](options/output.md#navigationlinks)
 -   [sidebarLinks](options/output.md#sidebarlinks)
 -   [navigation](options/output.md#navigation)
+-   [headings](options/output.md#headings)
+-   [sluggerConfiguration](options/output.md#sluggerconfiguration)
 -   [navigationLeaves](options/output.md#navigationleaves)
 -   [visibilityFilters](options/output.md#visibilityfilters)
 -   [searchCategoryBoosts](options/output.md#searchcategoryboosts)
@@ -114,12 +124,14 @@ Options which control how TypeDoc parses comments.
 -   [modifierTags](options/comments.md#modifiertags)
 -   [cascadedModifierTags](options/comments.md#cascadedmodifiertags)
 -   [excludeTags](options/comments.md#excludetags)
+-   [notRenderedTags](options/comments.md#notrenderedtags)
 -   [externalSymbolLinkMappings](options/comments.md#externalsymbollinkmappings)
 
 ## Organization Options
 
 Controls how TypeDoc organizes content within a converted project.
 
+-   [groupReferencesByType](options/organization.md#groupreferencesbytype)
 -   [categorizeByGroup](options/organization.md#categorizebygroup)
 -   [defaultCategory](options/organization.md#defaultcategory)
 -   [categoryOrder](options/organization.md#categoryorder)

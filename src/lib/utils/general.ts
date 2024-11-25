@@ -123,6 +123,11 @@ export function NonEnumerable(
     });
 }
 
+// transform /abs/path/to/typedoc/dist/lib/utils/general -> /abs/path/to/typedoc
+export const TYPEDOC_ROOT = dirname(
+    dirname(dirname(dirname(url.fileURLToPath(import.meta.url)))),
+);
+
 /**
  * This is a hack to make it possible to detect and warn about installation setups
  * which result in TypeDoc being installed multiple times. If TypeDoc has been loaded
@@ -139,10 +144,7 @@ const g = globalThis as TypeDocGlobals;
 
 g[loadSymbol] = (g[loadSymbol] || 0) + 1;
 g[pathSymbol] ||= [];
-// transform /abs/path/to/typedoc/dist/lib/utils/general -> /abs/path/to/typedoc
-g[pathSymbol].push(
-    dirname(dirname(dirname(dirname(url.fileURLToPath(import.meta.url))))),
-);
+g[pathSymbol].push(TYPEDOC_ROOT);
 
 export function hasBeenLoadedMultipleTimes() {
     return g[loadSymbol] !== 1;

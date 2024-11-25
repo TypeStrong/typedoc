@@ -22,7 +22,7 @@ export {
 } from "./fs.js";
 export { normalizePath } from "./paths.js";
 export type { IfInternal, NeverIfInternal, Chars } from "./general.js";
-export { assertNever } from "./general.js";
+export { assertNever, TYPEDOC_ROOT } from "./general.js";
 export { ConsoleLogger, Logger, LogLevel } from "./loggers.js";
 export { DefaultMap } from "./map.js";
 export {

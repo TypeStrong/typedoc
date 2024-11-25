@@ -4,17 +4,79 @@ title: Output
 
 These options control TypeDoc's output.
 
+## outputs
+
+```json
+// typedoc.json
+{
+    "outputs": [
+        {
+            "name": "html",
+            "path": "./docs_html"
+        },
+        {
+            "name": "html",
+            "path": "./docs_html_full_nav",
+            "options": {
+                "navigation": {
+                    "includeCategories": true,
+                    "includeGroups": true,
+                    "excludeReferences": false,
+                    "includeFolders": true
+                }
+            }
+        },
+        {
+            "name": "json",
+            "path": "./docs.json"
+        },
+        {
+            // requires typedoc-plugin-markdown
+            "name": "markdown",
+            "path": "./docs_markdown"
+        }
+    ]
+}
+```
+
+Specifies the outputs which should be rendered by TypeDoc. Outputs specify the
+name of the output type, a path to render it to, and optionally a set of options
+to be set when rendering the output.
+
+The output types which ship with TypeDoc by default are `html` and `json`. Note
+that any option may be set in the `options` key, but if the option is used
+during conversion rather than output it will have no effect when rendering the
+output.
+
 ## out
 
 ```bash
 $ typedoc --out <path/to/documentation/>
 ```
 
-Specifies the location the html documentation should be written to.
-The HTML output produced by running TypeDoc on itself can be seen at {@link "TypeDoc API"}
+Specifies the location the default output type should be written to. By default,
+this will cause TypeDoc to generate HTML documentation, but this option may be
+used by plugins (like [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown)) which change the default output type.
 
-This entire site is generated using TypeDoc's [external document](../external-documents.md) support
-to include markdown documents alongside the API documentation.
+This option is an output shortcut. If specified, the [outputs](#outputs) option
+will be overwritten by this option and any other specified output shortcuts.
+
+## html
+
+```bash
+$ typedoc --html <path/to/documentation/>
+```
+
+Specifies the location the html documentation should be written to. The HTML
+output produced by running TypeDoc on itself can be seen at {@link "TypeDoc
+API"}
+
+This option is an output shortcut. If specified, the [outputs](#outputs) option
+will be overwritten by this option and any other specified output shortcuts.
+
+This entire site is generated using TypeDoc's [external
+document](../external-documents.md) support to include markdown documents
+alongside the API documentation.
 
 ## json
 
@@ -24,6 +86,9 @@ $ typedoc --json <path/to/out-file.json>
 
 Specifies the location to output a JSON file containing all of the reflection data.
 An example of the JSON output from running TypeDoc on itself can be seen at [/docs.json](../../docs/docs.json).
+
+This option is an output shortcut. If specified, the [outputs](#outputs) option
+will be overwritten by this option and any other specified output shortcuts.
 
 ## pretty
 
@@ -114,6 +179,15 @@ $ typedoc --customCss ./theme/style.css
 
 Specifies an extra CSS file that should be copied into the assets directory and referenced by the theme.
 
+## customJs
+
+```bash
+$ typedoc --customJs ./theme/custom.js
+```
+
+Specifies a JavaScript script (not module) file that should be copied into the
+assets directory and referenced by the theme.
+
 ## customFooterHtml
 
 ```bash
@@ -181,6 +255,14 @@ $ typedoc --cname typedoc.org
 
 Create a CNAME file in the output directory with the specified text.
 
+## favicon
+
+```bash
+$ typedoc --favicon favicon.ico
+```
+
+Specify a `favicon.ico` or `favicon.svg` file to reference as the site favicon.
+
 ## sourceLinkExternal
 
 ```bash
@@ -188,6 +270,15 @@ $ typedoc --sourceLinkExternal
 ```
 
 Treat source links as external links that open in a new tab when generating HTML.
+
+## markdownLinkExternal
+
+```bash
+$ typedoc --markdownLinkExternal
+```
+
+Specifies that `http[s]://` links in comments and markdown files should be
+treated as external links to be opened in a new tab
 
 ## lang
 
@@ -336,13 +427,15 @@ Defines additional links to be included in the page sidebar.
 
 Determines how the left hand side navigation will be built.
 
-The [categorizeByGroup](./organization.md#categorizebygroup) option also affects this behavior.
-If set (the default), and `includeGroups` is _not_ set, the value of `includeCategories` will be effectively
-ignored since categories will be created only within groups.
+The [categorizeByGroup](./organization.md#categorizebygroup) option also affects
+this behavior. If set (the default), and `includeGroups` is _not_ set, the value
+of `includeCategories` will be effectively ignored since categories will be
+created only within groups.
 
-Also determines if project "folders" should become nested dropdowns in the navigation pane. This option
-will only have an effect if your project includes multiple entry points in different folders. `navigation.includeFolders`
-defaults to `true`.
+Also determines if project "folders" should become nested dropdowns in the
+navigation pane. This option will only have an effect if your project includes
+multiple entry points in different folders. `navigation.includeFolders` defaults
+to `true`.
 
 The `includeCategories` and `includeGroups` option can be
 overwritten on a per-reflection basis by using the following

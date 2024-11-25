@@ -4,6 +4,16 @@ title: Organization
 
 These options control how content is structured on generated pages.
 
+## groupReferencesByType
+
+```bash
+$ typedoc --groupReferencesByType
+```
+
+Specifies that re-exports to a member already included in the documentation
+should be grouped under the type that the referenced member is grouped within.
+By default, TypeDoc will group these references in a `References` group.
+
 ## categorizeByGroup
 
 ```bash

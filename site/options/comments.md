@@ -197,6 +197,17 @@ $ typedoc --excludeTags apidefine
 Specify tags that should be removed from doc comments when parsing.
 Useful if your project uses [apiDoc](https://apidocjs.com/) for documenting RESTful web APIs.
 
+## notRenderedTags
+
+```bash
+$ typedoc --notRenderedTags beta
+```
+
+Specify tags which should be preserved in the doc comments, but not rendered
+when creating output. This is intended to support tags which carry some meaning
+about how to render a member or instructions for TypeDoc to do something after a
+package has been deserialized from JSON in packages mode.
+
 ## externalSymbolLinkMappings
 
 ```json
