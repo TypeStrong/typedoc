@@ -25,10 +25,10 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "@gerrit0/mini-shiki": "^1.23.2",
     "lunr": "^2.3.9",
     "markdown-it": "^14.1.0",
     "minimatch": "^9.0.5",
-    "shiki": "^1.23.1",
     "yaml": "^2.6.1"
   },
   "peerDependencies": {

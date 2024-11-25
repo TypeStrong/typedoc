@@ -13,7 +13,7 @@ import { ReflectionKind } from "../../../models/reflections/kind.js";
 import * as Validation from "../../validation.js";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys } from "../../enum.js";
-import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
+import type { BundledTheme } from "@gerrit0/mini-shiki";
 import {
     getSupportedLanguagesWithoutAliases,
     getSupportedThemes,

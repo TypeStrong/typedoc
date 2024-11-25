@@ -53,7 +53,7 @@ export function initSearch() {
     if (!searchEl) return;
 
     const state: SearchState = {
-        base: searchEl.dataset["base"] + "/",
+        base: document.documentElement.dataset.base! + "/",
     };
 
     const searchScript = document.getElementById(

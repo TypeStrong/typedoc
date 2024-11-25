@@ -46,7 +46,6 @@ import {
     Internationalization,
     type TranslatedString,
 } from "./internationalization/internationalization.js";
-import { loadShikiMetadata } from "./utils/highlighter.js";
 import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -228,7 +227,6 @@ export class Application extends AbstractComponent<
         options: Partial<TypeDocOptions> = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
-        await loadShikiMetadata();
         const app = new Application(DETECTOR);
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
@@ -258,7 +256,6 @@ export class Application extends AbstractComponent<
         options: Partial<TypeDocOptions> = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
-        await loadShikiMetadata();
         const app = new Application(DETECTOR);
         readers.forEach((r) => app.options.addReader(r));
         await app._bootstrap(options);

@@ -1,51 +1,37 @@
-import { ok as assert, ok } from "assert";
-import type {
-    BundledLanguage,
-    BundledTheme,
-    Highlighter,
-    TokenStyles,
-} from "shiki" with { "resolution-mode": "import" };
+import * as shiki from "@gerrit0/mini-shiki";
+import type { ShikiInternal } from "@shikijs/types";
 import * as JSX from "./jsx.js";
 import { unique } from "./array.js";
+import assert from "assert";
 
 const aliases = new Map<string, string>();
-let supportedLanguagesWithoutAliases: string[] = [];
-let supportedLanguages: string[] = [];
-let supportedThemes: string[] = [];
+for (const lang of shiki.bundledLanguagesInfo) {
+    for (const alias of lang.aliases || []) {
+        aliases.set(alias, lang.id);
+    }
+}
 
 const plaintextLanguages = ["txt", "text"];
 
-export async function loadShikiMetadata() {
-    if (aliases.size) return;
+const supportedLanguagesWithoutAliases = unique([
+    ...plaintextLanguages,
+    ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
+]);
+const supportedLanguages: string[] = unique([
+    ...plaintextLanguages,
+    ...aliases.keys(),
+    ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
+]).sort();
 
-    const shiki = await import("shiki");
-    for (const lang of shiki.bundledLanguagesInfo) {
-        for (const alias of lang.aliases || []) {
-            aliases.set(alias, lang.id);
-        }
-    }
-
-    supportedLanguages = unique([
-        ...plaintextLanguages,
-        ...aliases.keys(),
-        ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
-    ]).sort();
-
-    supportedLanguagesWithoutAliases = unique([
-        ...plaintextLanguages,
-        ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
-    ]);
-
-    supportedThemes = Object.keys(shiki.bundledThemes);
-}
+const supportedThemes: string[] = Object.keys(shiki.bundledThemes);
 
 class DoubleHighlighter {
     private schemes = new Map<string, string>();
 
     constructor(
-        private highlighter: Highlighter,
-        private light: BundledTheme,
-        private dark: BundledTheme,
+        private highlighter: ShikiInternal,
+        private light: shiki.BundledTheme,
+        private dark: shiki.BundledTheme,
     ) {}
 
     supports(lang: string) {
@@ -53,9 +39,9 @@ class DoubleHighlighter {
     }
 
     highlight(code: string, lang: string) {
-        const tokens = this.highlighter.codeToTokensWithThemes(code, {
+        const tokens = shiki.codeToTokensWithThemes(this.highlighter, code, {
             themes: { light: this.light, dark: this.dark },
-            lang: lang as BundledLanguage,
+            lang: lang as shiki.BundledLanguage,
         });
 
         const docEls: JSX.Element[] = [];
@@ -121,7 +107,7 @@ class DoubleHighlighter {
         return style.join("\n");
     }
 
-    private getClass(variants: Record<string, TokenStyles>): string {
+    private getClass(variants: Record<string, shiki.TokenStyles>): string {
         const key = `${variants["light"].color} | ${variants["dark"].color}`;
         let scheme = this.schemes.get(key);
         if (scheme == null) {
@@ -132,13 +118,26 @@ class DoubleHighlighter {
     }
 }
 
+let shikiEngine: shiki.RegexEngine | undefined;
 let highlighter: DoubleHighlighter | undefined;
 
-export async function loadHighlighter(lightTheme: BundledTheme, darkTheme: BundledTheme, langs: BundledLanguage[]) {
+export async function loadHighlighter(
+    lightTheme: shiki.BundledTheme,
+    darkTheme: shiki.BundledTheme,
+    langs: shiki.BundledLanguage[],
+) {
     if (highlighter) return;
 
-    const shiki = await import("shiki");
-    const hl = await shiki.createHighlighter({ themes: [lightTheme, darkTheme], langs });
+    if (!shikiEngine) {
+        await shiki.loadBuiltinWasm();
+        shikiEngine = await shiki.createOnigurumaEngine();
+    }
+
+    const hl = await shiki.createShikiInternal({
+        engine: shikiEngine,
+        themes: [shiki.bundledThemes[lightTheme], shiki.bundledThemes[darkTheme]],
+        langs: langs.map((lang) => shiki.bundledLanguages[lang]),
+    });
     highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
 }
 
@@ -147,17 +146,14 @@ export function isSupportedLanguage(lang: string) {
 }
 
 export function getSupportedLanguages(): string[] {
-    ok(supportedLanguages.length > 0, "loadShikiMetadata has not been called");
     return supportedLanguages;
 }
 
 export function getSupportedLanguagesWithoutAliases(): string[] {
-    ok(supportedLanguagesWithoutAliases.length > 0, "loadShikiMetadata has not been called");
-    return supportedLanguages;
+    return supportedLanguagesWithoutAliases;
 }
 
 export function getSupportedThemes(): string[] {
-    ok(supportedThemes.length > 0, "loadShikiMetadata has not been called");
     return supportedThemes;
 }
 

@@ -1,4 +1,4 @@
-import type { BundledTheme as ShikiTheme } from "shiki" with { "resolution-mode": "import" };
+import type { BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 import type { LogLevel } from "../loggers.js";
 import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";

@@ -26,7 +26,7 @@ import { loadHighlighter } from "../utils/highlighter.js";
 import type {
     BundledLanguage,
     BundledTheme as ShikiTheme,
-} from "shiki" with { "resolution-mode": "import" };
+} from "@gerrit0/mini-shiki";
 import { type Comment, Reflection } from "../models/index.js";
 import type { JsxElement } from "../utils/jsx.elements.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";

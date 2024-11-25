@@ -6,7 +6,7 @@ import { ContextAwareRendererComponent } from "../components.js";
 import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
 import { Option, renderElement, assertNever } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
-import type { BundledTheme } from "shiki" with { "resolution-mode": "import" };
+import type { BundledTheme } from "@gerrit0/mini-shiki";
 import { escapeHtml } from "../../utils/html.js";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
