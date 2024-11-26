@@ -79,6 +79,7 @@ title: Changelog
 -   Sections within the page and in the "On This Page" navigation are now tied
     together and will expand/collapse together, #2335.
 -   API: Introduced a new `app.outputs` object for defining new output strategies.
+-   API: TypeDoc's CSS is now wrapped in `@layer typedoc`, #2782.
 
 ### Bug Fixes
 
