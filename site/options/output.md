@@ -328,14 +328,6 @@ When enabled, TypeDoc will include the generation time in `<script>` and `<link>
 to prevent assets from a previous build of the documentation from being used. This should generally not
 be necessary with a properly configured web server.
 
-## hideParameterTypesInTitle
-
-```bash
-$ typedoc --hideParameterTypesInTitle false
-```
-
-Hide parameter types the signature "title" for easier scanning. When enabled, parameter types are still visible in the parameters list after the function summary. Defaults to true.
-
 ## hideGenerator
 
 ```bash

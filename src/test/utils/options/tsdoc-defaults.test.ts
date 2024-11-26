@@ -3,9 +3,8 @@ import { join } from "path";
 import ts from "typescript";
 import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "url";
-import { unique } from "../../../lib/utils/array.js";
-import { readdirSync } from "fs";
 import { TYPEDOC_ROOT } from "../../../lib/utils/general.js";
+import { readFile } from "../../../lib/utils/fs.js";
 
 describe("tsdoc-defaults.ts", () => {
     const tsdoc = ts.readConfigFile(
@@ -63,18 +62,42 @@ describe("tsdoc-defaults.ts", () => {
         equal(tsdocTags, typedocTags);
     });
 
-    // GERRIT Failing currently, ~20 tags to document still
-    it.skip("Should only include tags which are documented on the website", () => {
-        const tags = unique([
-            ...defaults.blockTags,
-            ...defaults.modifierTags,
-            ...defaults.inlineTags,
-        ]).sort();
+    const allDocumentedTags = getDocumentedTags();
 
-        const documentedTags = readdirSync(TYPEDOC_ROOT + "/site/tags")
-            .map((file) => "@" + file.replace(".md", ""))
+    it("Should only include block tags which are documented on the website", () => {
+        const tags: string[] = [...defaults.blockTags].sort();
+        const documentedTags = allDocumentedTags
+            .filter((tag) => tags.includes(tag))
             .sort();
+        equal(tags, documentedTags);
+    });
 
+    it("Should only include modifier tags which are documented on the website", () => {
+        const tags: string[] = [...defaults.modifierTags].sort();
+        const documentedTags = allDocumentedTags
+            .filter((tag) => tags.includes(tag))
+            .sort();
+        equal(tags, documentedTags);
+    });
+
+    it("Should only include inline tags which are documented on the website", () => {
+        const tags: string[] = [...defaults.inlineTags].sort();
+        const documentedTags = allDocumentedTags
+            .filter((tag) => tags.includes(tag))
+            .sort();
         equal(tags, documentedTags);
     });
 });
+
+function getDocumentedTags() {
+    const text = readFile(TYPEDOC_ROOT + "/site/tags.md");
+    const tags: string[] = [];
+
+    for (const line of text.split("\n")) {
+        if (line.startsWith("-   [")) {
+            tags.push(...Array.from(line.matchAll(/(@\w+)/g), (m) => m[1]));
+        }
+    }
+
+    return tags;
+}

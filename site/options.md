@@ -91,7 +91,6 @@ Options which control TypeDoc's HTML output.
 -   [locales](options/output.md#locales)
 -   [githubPages](options/output.md#githubpages)
 -   [cacheBust](options/output.md#cachebust)
--   [hideParameterTypesInTitle](options/output.md#hideparametertypesintitle)
 -   [hideGenerator](options/output.md#hidegenerator)
 -   [searchInComments](options/output.md#searchincomments)
 -   [searchInDocuments](options/output.md#searchindocuments)

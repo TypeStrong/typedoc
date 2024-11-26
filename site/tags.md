@@ -1,9 +1,10 @@
 ---
 title: Tags
 children:
+    - tags/abstract.md
     - tags/alpha.md
+    - tags/author.md
     - tags/beta.md
-    - tags/categoryDescription.md
     - tags/category.md
     - tags/class.md
     - tags/defaultValue.md
@@ -15,7 +16,6 @@ children:
     - tags/example.md
     - tags/expand.md
     - tags/experimental.md
-    - tags/groupDescription.md
     - tags/group.md
     - tags/hidden.md
     - tags/hideconstructor.md
@@ -44,8 +44,8 @@ children:
     - tags/readonly.md
     - tags/remarks.md
     - tags/returns.md
-    - tags/satisfies.md
     - tags/sealed.md
+    - tags/since.md
     - tags/see.md
     - tags/summary.md
     - tags/template.md
@@ -53,6 +53,7 @@ children:
     - tags/typeParam.md
     - tags/useDeclaredType.md
     - tags/virtual.md
+showGroups: true
 ---
 
 # Tags
@@ -85,9 +86,10 @@ the file **must** be placed alongside `tsconfig.json`. See the
 
 ## Block Tags
 
-Block tags are tags that are associated with the following text. They can be used to divide documentation
-into sections ([`@remarks`](./tags/remarks.md)), modify how the reflection is processed ([`@group`](./tags/group.md))
-or provide examples for how to use the export ([`@example`](./tags/example.md)).
+Block tags are tags that are associated with the following text. They can be
+used to divide documentation into sections ([`@remarks`](./tags/remarks.md)),
+modify how the reflection is organized ([`@group`](./tags/group.md)) or provide
+examples for how to use the export ([`@example`](./tags/example.md)).
 
 ````ts
 /**
@@ -103,6 +105,30 @@ or provide examples for how to use the export ([`@example`](./tags/example.md)).
  */
 ````
 
+-   [`@author`](./tags/author.md)
+-   [`@category`, `@categoryDescription`, `@showCategories`, `@hideCategories`](./tags/category.md)
+-   [`@defaultValue`, `@default`](./tags/defaultValue.md)
+-   [`@deprecated`](./tags/deprecated.md)
+-   [`@document`](./tags/document.md)
+-   [`@example`](./tags/example.md)
+-   [`@group`, `@groupDescription`, `@showGroups`, `@hideGroups`](./tags/group.md)
+-   [`@import`](./tags/import.md)
+-   [`@license`](./tags/license.md)
+-   [`@mergeModuleWith`](./tags/mergeModuleWith.md)
+-   [`@module`](./tags/module.md)
+-   [`@param`](./tags/param.md)
+-   [`@privateRemarks`](./tags/privateRemarks.md)
+-   [`@property`, `@prop`](./tags/property.md)
+-   [`@remarks`](./tags/remarks.md)
+-   [`@returns`, `@return`](./tags/returns.md)
+-   [`@see`](./tags/see.md)
+-   [`@since`](./tags/since.md)
+-   [`@summary`](./tags/summary.md)
+-   [`@template`](./tags/template.md)
+-   [`@throws`](./tags/throws.md)
+-   [`@typeParam`](./tags/typeParam.md)
+-   [`@type`, `@yields`, `@jsx`, `@typedef`, `@extends`, `@augments`, `@satisfies`, `@callback`](./tags/typescript.md)
+
 ## Modifier Tags
 
 Modifier tags have no associated content and serve only to specify some special
@@ -113,10 +139,42 @@ as internal for use with
 [`--visibilityFilters`](./options/output.md#visibilityfilters) or
 [`--excludeInternal`](./options/input.md#excludeinternal).
 
+-   [`@abstract`](./tags/abstract.md)
+-   [`@alpha`](./tags/alpha.md)
+-   [`@beta`](./tags/beta.md)
+-   [`@class`](./tags/class.md)
+-   [`@enum`](./tags/enum.md)
+-   [`@event`](./tags/event.md)
+-   [`@eventProperty`](./tags/eventProperty.md)
+-   [`@expand`](./tags/expand.md)
+-   [`@experimental`](./tags/experimental.md)
+-   [`@hidden`](./tags/hidden.md)
+-   [`@hideconstructor`](./tags/hideconstructor.md)
+-   [`@ignore`](./tags/ignore.md)
+-   [`@inline`](./tags/inline.md)
+-   [`@interface`](./tags/interface.md)
+-   [`@internal`](./tags/internal.md)
+-   [`@namespace`](./tags/namespace.md)
+-   [`@overload`](./tags/overload.md)
+-   [`@override`](./tags/override.md)
+-   [`@packageDocumentation`](./tags/packageDocumentation.md)
+-   [`@private`](./tags/private.md)
+-   [`@protected`](./tags/protected.md)
+-   [`@public`](./tags/public.md)
+-   [`@readonly`](./tags/readonly.md)
+-   [`@sealed`](./tags/sealed.md)
+-   [`@useDeclaredType`](./tags/useDeclaredType.md)
+-   [`@virtual`](./tags/virtual.md)
+
 ## Inline Tags
 
 Inline tags are used to mark text within a paragraph for processing by TypeDoc. The most important ones are the
 [`@link`](./tags/link.md) and [`@inheritDoc`](./tags/inheritDoc.md) tags.
+
+-   [`@include`, `@includeCode`](./tags/include.md)
+-   [`@inheritDoc`](./tags/inheritDoc.md)
+-   [`@label`](./tags/label.md)
+-   [`@link`, `@linkcode`, `@linkplain`](./tags/link.md)
 
 ## TypeScript in JavaScript
 

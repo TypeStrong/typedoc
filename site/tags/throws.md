@@ -4,7 +4,7 @@ title: "@throws"
 
 # @throws
 
-**Tag Kind:** [Modifier](../tags.md#block-tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@throws](https://tsdoc.org/pages/tags/throws/)
 
 The `@throws` tag can be used to document an exception that can be thrown by a function or method.
