@@ -2,9 +2,9 @@
 title: Changelog
 ---
 
-# Unreleased
+## Unreleased
 
-## Breaking Changes
+### Breaking Changes
 
 -   Convert to ESM to enable easier use of ESM-only dependencies.
 -   Drop support for TypeScript <5.0, no longer supported by DefinitelyTyped
@@ -30,7 +30,7 @@ title: Changelog
     will no longer be removed from the reflections they are present on. They are
     skipped during rendering with the `notRenderedTags` option.
 
-## Features
+### Features
 
 -   Add support for TypeScript 5.7
 -   TypeDoc will now discover entry points from `package.json` exports if they
@@ -80,7 +80,7 @@ title: Changelog
     together and will expand/collapse together, #2335.
 -   API: Introduced a new `app.outputs` object for defining new output strategies.
 
-## Bug Fixes
+### Bug Fixes
 
 -   TypeDoc now properly flags `readonly` index signatures.
 -   TypeDoc will now use the first signature's comment for later signatures in
@@ -108,7 +108,7 @@ title: Changelog
     one package were incorrectly reported as unused when running with
     entryPointStrategy set to packages.
 
-## Thanks!
+### Thanks!
 
 -   @Huxpro
 -   @mrfigg
@@ -301,7 +301,7 @@ title: Changelog
 
 -   @KNU-K
 
-# v0.26.0 (2024-06-22)
+## v0.26.0 (2024-06-22)
 
 ### Breaking Changes
 
@@ -643,7 +643,7 @@ title: Changelog
 -   @hrueger
 -   @typhonrt
 
-# v0.25.0 (2023-08-25)
+## v0.25.0 (2023-08-25)
 
 ### Breaking Changes
 
@@ -828,7 +828,7 @@ title: Changelog
 -   Improve detection for legacy JSDoc `@example` tags, #2222.
 -   The page footer will now appear at the bottom of the page even if the page is short, #2223.
 
-# v0.24.0 (2023-04-08)
+## v0.24.0 (2023-04-08)
 
 ### Breaking Changes
 
@@ -1291,7 +1291,7 @@ title: Changelog
 
 -   If a declaration has multiple comments associated with it, the last one should be used, #1961.
 
-# v0.23.0 (2022-06-26)
+## v0.23.0 (2022-06-26)
 
 ### Breaking Changes
 
@@ -1686,7 +1686,7 @@ title: Changelog
 -   Validation for non-exported symbols will now only produce one warning per symbol, instead of one warning per reference.
 -   Syntax highlighting when the preferred color scheme is dark but dark theme is not explicitly selected will now properly use the dark highlighting theme.
 
-# v0.22.0 (2021-09-10)
+## v0.22.0 (2021-09-10)
 
 ### Breaking Changes
 
@@ -1841,7 +1841,7 @@ title: Changelog
 -   `readme` could not be set to `none` in a config file, closes #1608
 -   Correctly handle minimatch excludes on Windows, closes #1610
 
-# v0.21.0 (2021-06-18)
+## v0.21.0 (2021-06-18)
 
 ### Breaking Changes
 
@@ -2211,7 +2211,7 @@ title: Changelog
 
 -   Initializers should only be included if "simple", closes #1288, #1224, #764
 
-# v0.20.0 (2020-12-28)
+## v0.20.0 (2020-12-28)
 
 ### Breaking Changes
 
@@ -2294,7 +2294,7 @@ title: Changelog
 
 -   @Dergash
 
-# v0.19.0 (2020-08-28)
+## v0.19.0 (2020-08-28)
 
 ### Features
 
@@ -2315,7 +2315,7 @@ title: Changelog
 -   @krisztianb
 -   @MathBunny
 
-# v0.18.0 (2020-08-09)
+## v0.18.0 (2020-08-09)
 
 ### Breaking Changes
 

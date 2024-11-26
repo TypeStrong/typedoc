@@ -86,14 +86,14 @@ async function main() {
     const heading = patch === "0" ? "#" : "##";
     let start = fullChangelog.indexOf(`${heading} ${currentVersion}`);
 
-    // If this version isn't in the changelog yet, take everything under # Unreleased and include that
+    // If this version isn't in the changelog yet, take everything under ## Unreleased and include that
     // as this version.
     if (start === -1) {
-        start = fullChangelog.indexOf("# Unreleased");
+        start = fullChangelog.indexOf("## Unreleased");
         if (start === -1) {
             start = 0;
         } else {
-            start += "# Unreleased".length;
+            start += "## Unreleased".length;
         }
 
         const date = new Date();
@@ -103,7 +103,7 @@ async function main() {
             date.getUTCDate().toString().padStart(2, "0"),
         ].join("-");
         fullChangelog =
-            "# Unreleased\n\n" +
+            "## Unreleased\n\n" +
             `${heading} ${currentVersion} (${dateStr})` +
             fullChangelog.substring(start);
         start = fullChangelog.indexOf(`${heading} ${currentVersion}`);
