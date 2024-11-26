@@ -16,11 +16,11 @@ export function load(app: Application) {
 }
 ```
 
-This isn't very interesting since it exactly duplicates the default theme.
-Most themes need to adjust the templates in some way. This can be done by
-providing them class which returns a different context class. Say we wanted
-to replace TypeDoc's default footer with one that mentioned your copyright.
-This could be done with the following theme.
+This isn't very interesting since it exactly duplicates the default theme. Most
+themes need to adjust the templates in some way. This can be done by providing
+them class which returns a different context class. Say we wanted to replace
+TypeDoc's default footer with one that mentioned your copyright. This could be
+done with the following theme.
 
 In this case, it would probably be better to add this content using a render
 hook for `footer.begin` or `footer.end`, but it can be done in this way as well.
@@ -55,10 +55,11 @@ export function load(app: Application) {
 
 ## Hooks
 
-When rendering themes, TypeDoc's default theme will call several functions to allow plugins to inject HTML
-into a page without completely overwriting a theme. Hooks live on the parent `Renderer` and may be called
-by child themes which overwrite a helper with a custom implementation. As an example, the following plugin
-will cause a popup on every page when loaded.
+When rendering themes, TypeDoc's default theme will call several functions to
+allow plugins to inject HTML into a page without completely overwriting a theme.
+Hooks live on the parent `Renderer` and may be called by child themes which
+overwrite a helper with a custom implementation. As an example, the following
+plugin will cause a popup on every page when loaded.
 
 ```tsx
 import { Application, JSX } from "typedoc";
@@ -71,15 +72,16 @@ export function load(app: Application) {
 }
 ```
 
-For documentation on the available hooks, see the {@link RendererHooks |
-RendererHooks} documentation on the website.
+For documentation on the available hooks, see the [RendererHooks] documentation
+on the website.
 
 ## Async Jobs
 
-Themes which completely override TypeDoc's builtin renderer may need to perform some async initialization
-or teardown after rendering. To support this, there are two arrays of functions available on `Renderer`
-which plugins may add a callback to. The renderer will call each function within these arrays when rendering
-and await the results.
+Themes which completely override TypeDoc's builtin renderer may need to perform
+some async initialization or teardown after rendering. To support this, there
+are two arrays of functions available on `Renderer` which plugins may add a
+callback to. The renderer will call each function within these arrays when
+rendering and await the results.
 
 ```ts
 import { Application, RendererEvent } from "typedoc";
@@ -99,3 +101,5 @@ export function load(app: Application) {
     });
 }
 ```
+
+[RendererHooks]: https://typedoc.org/api/interfaces/RendererHooks.html

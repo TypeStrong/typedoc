@@ -34,7 +34,7 @@ Output is split into two folders, for JSON output see the `src/lib/serialization
 
 Plugins may effect any part of the process after step 2 by listening to events
 fired by each component or adding / replacing handlers for a given task. As an
-example, the {@link Converter | Converter} fires events before
+example, the [Converter](https://typedoc.org/api/classes/Converter.html) fires events before
 starting conversion, when declarations are converted and when the project should
 be resolved.
 
@@ -62,7 +62,7 @@ run it with `--help` to see a summary of the available options.
 
 For more detailed information about the implementation and API surface of each
 component, consult its API documentation. All components are available on the
-{@link Application} class, which is passed to plugins.
+[Application](https://typedoc.org/api/classes/Application.html) class, which is passed to plugins.
 
 ### Options
 
@@ -84,9 +84,9 @@ There are 11 builtin option types as specified by the [ParameterType](https://ty
 -   `GlobArray` - An array of globs. Globs will be resolved if they do not start with `**`, after skipping leading `!` and `#` characters.
 
 Options are discovered and set by option readers, which are documented in the
-{@link Configuration.OptionsReader} interface.
+[Configuration.OptionsReader](https://typedoc.org/api/interfaces/Configuration.OptionsReader.html) interface.
 
-Plugins can declare their own options by calling {@link Options.addDeclaration}
+Plugins can declare their own options by calling [Options.addDeclaration](https://typedoc.org/api/classes/Configuration.Options.html#adddeclaration)
 
 ### Plugins
 
@@ -114,7 +114,10 @@ export function load(app: Application) {
 
 ### Converters
 
-TypeDoc converts the syntax tree created by TypeScript into its own structure of {@link Models.Reflection | Reflections} to allow themes and serialization to work with a standard object format. Conversion is done primarily in three files.
+TypeDoc converts the syntax tree created by TypeScript into its own structure of
+[Reflections](https://typedoc.org/api/classes/Models.Reflection.html) to allow
+themes and serialization to work with a standard object format. Conversion is
+done primarily in three files.
 
 -   [symbols.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/symbols.ts) - contains converters for each `ts.Symbol` that is exported from entry points.
 -   [types.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/types.ts) - contains converters for `ts.Type`s and `ts.TypeNode`s.
@@ -123,11 +126,14 @@ TypeDoc converts the syntax tree created by TypeScript into its own structure of
 ### JSON Output
 
 TypeDoc can produce JSON output which can be consumed by other tools. The format
-of this JSON is defined by the {@link JSONOutput.ProjectReflection} interface.
-If plugins want to cause custom properties to be included in the output JSON,
-they can achieve this by adding a serializer to {@link Serializer }. If custom
-properties are added, they should generally also be revived with a {@link
-Deserializer} so that they can be used with TypeDoc's packages mode.
+of this JSON is defined by the
+[JSONOutput.ProjectReflection](https://typedoc.org/api/interfaces/JSONOutput.ProjectReflection.html)
+interface. If plugins want to cause custom properties to be included in the
+output JSON, they can achieve this by adding a serializer to
+[Serializer](https://typedoc.org/api/classes/Serializer.html). If custom
+properties are added, they should generally also be revived with a
+[Deserializer](https://typedoc.org/api/classes/Deserializer.html) so that they
+can be used with TypeDoc's packages mode.
 
 ### HTML Output
 

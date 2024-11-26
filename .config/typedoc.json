@@ -36,6 +36,11 @@
     "categorizeByGroup": false,
     "categoryOrder": ["Reflections", "Types", "Comments", "*"],
     "groupOrder": ["Common", "*"],
+    "navigationLinks": {
+        "Docs": "https://typedoc.org",
+        "Example": "https://typedoc.org/example/index.html",
+        "GitHub": "https://github.com/TypeStrong/typedoc"
+    },
     "validation": {
         "notExported": true,
         "invalidLink": true,

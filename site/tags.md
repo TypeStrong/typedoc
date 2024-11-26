@@ -53,6 +53,7 @@ children:
     - tags/typeParam.md
     - tags/useDeclaredType.md
     - tags/virtual.md
+    - tags/typescript.md
 showGroups: true
 ---
 

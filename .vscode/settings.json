@@ -42,7 +42,7 @@
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
     // Ignore usernames in the Thanks sections of the changelog
-    "cSpell.ignoreRegExpList": ["/^- +@[A-Z0-9_]+/igm"],
+    "cSpell.ignoreRegExpList": ["/^- +@[A-Z0-9_-]+/igm"],
     "cSpell.words": [
         "callouts",
         "cname",
@@ -60,6 +60,7 @@
         "shiki",
         "tsbuildinfo",
         "tsdoc",
+        "typedoc",
         "typeof",
         "typestrong",
         "uncategorized",

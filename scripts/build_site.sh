@@ -5,13 +5,26 @@ set -e
 node bin/typedoc --help --logLevel Error > site/generated/help.txt
 node scripts/generate_site_plugins.js
 
-# Build the API docs, only build JSON output here to remove ~2s from
-# the time it takes to run this script.
-# node bin/typedoc --json docs/docs.json --readme none
+# Build the API docs
+if [[ -n "$CI" || ! -d docs ]]; then
+    node bin/typedoc --html docs --json docs/docs.json --readme none
+fi
+
+# Build the example
+if [[ -n "$CI" || ! -d example/docs ]]; then
+    cd example
+    npm i
+    npm run typedoc -- --logLevel Error
+    cd ..
+fi
 
 # Build the actual site, references the API docs
 node bin/typedoc --options site/typedoc.config.jsonc
 
 # Create/copy static files
 node scripts/generate_options_schema.js docs-site/schema.json
+# cspell: words googlede
 cp site/googlede482cdb17c37ad4.html docs-site/googlede482cdb17c37ad4.html
+
+cp -r example/docs docs-site/example
+cp -r docs docs-site/api

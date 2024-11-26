@@ -12,11 +12,9 @@
         "Classes": 1.5
     },
     "navigationLinks": {
-        "Docs": "https://typedoc.org/guides/overview",
+        "Docs": "https://typedoc.org",
+        "API": "https://typedoc.org/api/index.html",
         "GitHub": "https://github.com/TypeStrong/typedoc"
-    },
-    "sidebarLinks": {
-        "API": "https://typedoc.org/api"
     },
     "highlightLanguages": [
         "typescript",

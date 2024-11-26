@@ -56,7 +56,9 @@ $ typedoc --out <path/to/documentation/>
 
 Specifies the location the default output type should be written to. By default,
 this will cause TypeDoc to generate HTML documentation, but this option may be
-used by plugins (like [typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown)) which change the default output type.
+used by plugins (like
+[typedoc-plugin-markdown](https://www.npmjs.com/package/typedoc-plugin-markdown))
+which change the default output type.
 
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.
@@ -68,7 +70,7 @@ $ typedoc --html <path/to/documentation/>
 ```
 
 Specifies the location the html documentation should be written to. The HTML
-output produced by running TypeDoc on itself can be seen at {@link "TypeDoc API"}
+output produced by running TypeDoc on itself can be seen at [TypeDoc API](https://typedoc.org/api/)
 
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.
@@ -84,7 +86,7 @@ $ typedoc --json <path/to/out-file.json>
 ```
 
 Specifies the location to output a JSON file containing all of the reflection data.
-An example of the JSON output from running TypeDoc on itself can be seen at [/docs.json](../../docs/docs.json).
+An example of the JSON output from running TypeDoc on itself can be seen at [/media/docs.json](../../docs/docs.json).
 
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.

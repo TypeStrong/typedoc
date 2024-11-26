@@ -39,6 +39,7 @@ translation keys include numbers to indicate placeholders in the English string,
 the translated strings should include `{n}` where the placeholder will be filled in at
 runtime.
 
+> [!IMPORTANT]
 > Please do not submit machine generated translations for languages you are unfamiliar with.
 > TypeDoc relies on contributors to ensure the accuracy of included translations.
 
@@ -58,8 +59,7 @@ to them as suggested in the example above.
 
 Plugins may use TypeDoc's internationalization module to provide multiple
 translations for strings declared within them. To do this, they should call
-{@link Internationalization.Internationalization.addTranslations |
-Application.internationalization.addTranslations} with their expected values.
+[Application.internationalization.addTranslations] with their expected values.
 
 The `addTranslations` method expects that all translatable strings have been
 declared in the `TranslatableStrings` interface. To do this, use declaration
@@ -88,3 +88,5 @@ export function load(app: td.Application) {
     app.logger.info(app.i18n.plugin_example_hello_0("TypeDoc")); // Logs "Hello TypeDoc!"
 }
 ```
+
+[Application.internationalization.addTranslations]: https://typedoc.org/api/classes/Internationalization.Internationalization.html#addtranslations

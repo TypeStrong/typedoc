@@ -29,7 +29,7 @@ A TypeScript code block:
 const x: number | string = 12
 ```
 
-See {@link syntaxHighlightingShowcase | `syntaxHighlightingShowcase`} for more code blocks.
+See [the syntax highlighting showcase](./syntax-highlighting.md) for more code blocks.
 
 ## A List
 
