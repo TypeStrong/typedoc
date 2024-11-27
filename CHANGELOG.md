@@ -69,10 +69,12 @@ title: Changelog
     commonly used types as it will result in inlining the comments for those
     types everywhere they are referenced, #2303.
 -   Introduced a new `@useDeclaredType` tag for type aliases which can sometimes
-    improve their documentation, #2654..
+    improve their documentation, #2654.
 -   Added a new `@mergeModuleWith` tag which can be used to tell TypeDoc to
     place a module/namespace's children under a different module/namespace and
     remove the real parent, #2281.
+-   Added new `@include` and `@includeCode` inline tags to include files within
+    comments/documents.
 -   Add `notRenderedTags` option. This option is similar to the `excludeTags`
     option, but while `excludeTags` will result in the tag being completely
     removed from the documentation, `notRenderedTags` only prevents it from
