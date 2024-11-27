@@ -83,8 +83,7 @@ async function main() {
 
     console.log("Updating changelog...");
     let fullChangelog = await readFile(CHANGELOG_MD, "utf-8");
-    const heading = patch === "0" ? "#" : "##";
-    let start = fullChangelog.indexOf(`${heading} ${currentVersion}`);
+    let start = fullChangelog.indexOf(`## ${currentVersion}`);
 
     // If this version isn't in the changelog yet, take everything under ## Unreleased and include that
     // as this version.
@@ -104,9 +103,9 @@ async function main() {
         ].join("-");
         fullChangelog =
             "## Unreleased\n\n" +
-            `${heading} ${currentVersion} (${dateStr})` +
+            `## ${currentVersion} (${dateStr})` +
             fullChangelog.substring(start);
-        start = fullChangelog.indexOf(`${heading} ${currentVersion}`);
+        start = fullChangelog.indexOf(`## ${currentVersion}`);
 
         await writeFile(CHANGELOG_MD, fullChangelog);
         await exec(`git add "${CHANGELOG_MD}"`);
