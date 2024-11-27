@@ -48,8 +48,8 @@ issue or ask in the [TypeScript Discord] #typedoc channel.
 
 [typedoc-plugin-mdn-links]: https://github.com/Gerrit0/typedoc-plugin-mdn-links/blob/main/src/index.ts
 [TypeScript Discord]: https://discord.gg/typescript
-[Application]: file:///home/gerrit/Desktop/typedoc/docs-site/api/classes/Application.html
-[Converter]: file:///home/gerrit/Desktop/typedoc/docs-site/api/classes/Converter.html
-[Renderer]: file:///home/gerrit/Desktop/typedoc/docs-site/api/classes/Renderer.html
-[Serializer]: file:///home/gerrit/Desktop/typedoc/docs-site/api/classes/Serializer.html
-[Deserializer]: file:///home/gerrit/Desktop/typedoc/docs-site/api/classes/Deserializer.html
+[Application]: https://typedoc.org/api/classes/Application.html
+[Converter]: https://typedoc.org/api/classes/Converter.html
+[Renderer]: https://typedoc.org/api/classes/Renderer.html
+[Serializer]: https://typedoc.org/api/classes/Serializer.html
+[Deserializer]: https://typedoc.org/api/classes/Deserializer.html
