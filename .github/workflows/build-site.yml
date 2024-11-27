@@ -1,0 +1,40 @@
+name: CI
+on: [push, pull_request]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        name: Build Site
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - name: Install
+              run: npm ci
+            - name: Build
+              run: npm run build
+            - name: Build Site
+              run: ./scripts/build_site.sh
+            - name: Upload static files as artifact
+              id: deployment
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: docs-site/
+    deploy:
+        needs: build
+        if: github.ref == 'refs/heads/beta'
+        name: Deploy
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
