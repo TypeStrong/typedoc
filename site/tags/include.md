@@ -20,8 +20,16 @@ selecting the syntax highlighting language.
 /**
  * {@include ./doSomething_docs.md}
  *
+ * Quick start:
+ * {@includeCode ../examples/doSomethingQuickStart.ts}
+ *
  * @example
+ * This will only work if the jsdocCompatibility.exampleTag option is false
  * {@includeCode ../test/doSomething.test.ts}
  */
 function doSomething() {}
 ```
+
+## See Also
+
+-   The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.
