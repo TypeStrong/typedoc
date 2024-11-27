@@ -307,6 +307,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_headings: "确定标题是否需要被渲染",
     help_sluggerConfiguration: "确定渲染的 HTML 中锚点的确定方式",
     help_navigation: "确定导航侧边栏的组织方式",
+    help_includeHierarchySummary:
+        "如果设置，反射的层级一览将被渲染至概述页面。默认为 `true`",
     help_visibilityFilters:
         "根据修饰符标签指定内置过滤器和附加过滤器的默认可见性",
     help_searchCategoryBoosts: "配置搜索以提高所选类别的相关性",
@@ -459,6 +461,8 @@ export = localeUtils.buildIncompleteTranslation({
     theme_type_declaration: "类型声明",
     theme_index: "索引",
     theme_hierarchy: "层级",
+    theme_hierarchy_summary: "层级一览",
+    theme_hierarchy_view_summary: "查看层级一览",
     theme_implemented_by: "实现于",
     theme_defined_in: "定义于",
     theme_implementation_of: "实现了",
@@ -487,6 +491,8 @@ export = localeUtils.buildIncompleteTranslation({
     theme_copy: "复制",
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
+    theme_hierarchy_expand: "展开",
+    theme_hierarchy_collapse: "折叠",
 
     tag_defaultValue: "默认值",
     tag_deprecated: "已被弃用",
