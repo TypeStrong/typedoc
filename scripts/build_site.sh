@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Expects to be executed in the typedoc repo root folder
 set -e
 
