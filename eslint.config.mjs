@@ -128,6 +128,7 @@ export default tslint.config(
         ignores: [
             "eslint.config.mjs",
             "src/test/renderer/specs",
+            "site/typedoc-plugin-redirect.js",
             "dist",
             "docs",
             "docs2",
