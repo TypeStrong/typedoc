@@ -24,7 +24,7 @@ jobs:
                   path: docs-site/
     deploy:
         needs: build
-        if: github.ref == 'refs/heads/beta'
+        if: github.ref == 'refs/heads/master'
         name: Deploy
         permissions:
             pages: write
