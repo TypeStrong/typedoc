@@ -20,6 +20,7 @@ fi
 
 # Checkout the changelog as of the last release
 if [[ -n "$CI" ]]; then
+    echo "Reverting changelog to last release"
     git checkout $(git describe --tags --abbrev=0) -- CHANGELOG.md
 fi
 
