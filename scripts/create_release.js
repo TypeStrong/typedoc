@@ -102,6 +102,9 @@ async function main() {
             date.getUTCDate().toString().padStart(2, "0"),
         ].join("-");
         fullChangelog =
+            "---\n" +
+            "title: Changelog\n" +
+            "---\n\n" +
             "## Unreleased\n\n" +
             `## ${currentVersion} (${dateStr})` +
             fullChangelog.substring(start);
