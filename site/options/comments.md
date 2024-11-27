@@ -42,7 +42,7 @@ CLI:
 
 ```bash
 $ typedoc --jsDocCompatibility false
-$ typedoc --jsDocCompatibility.defaultTags false
+$ typedoc --jsDocCompatibility.defaultTag false
 ```
 
 typedoc.json (defaults):
@@ -50,8 +50,8 @@ typedoc.json (defaults):
 ```json
 {
     "jsDocCompatibility": {
-        "exampleTags": true,
-        "defaultTags": true,
+        "exampleTag": true,
+        "defaultTag": true,
         "inheritDocTag": true,
         "ignoreUnescapedBraces": true
     }
