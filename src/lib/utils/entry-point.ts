@@ -61,7 +61,9 @@ export interface DocumentEntryPoint {
 }
 
 export function inferEntryPoints(logger: Logger, options: Options) {
-    const packageJson = discoverPackageJson(process.cwd());
+    const packageJson = discoverPackageJson(
+        options.packageDir ?? process.cwd(),
+    );
     if (!packageJson) {
         logger.warn(logger.i18n.no_entry_points_provided());
         return [];

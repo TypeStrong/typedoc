@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+-   Fixed automatic discovery of entry points in packages mode.
+
 ## v0.27.0 (2024-11-27)
 
 ### Breaking Changes
