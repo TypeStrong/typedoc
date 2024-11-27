@@ -1,7 +1,9 @@
 import type { DefaultThemeRenderContext } from "../index.js";
 import {
+    type CommentDisplayPart,
     type ContainerReflection,
     DeclarationReflection,
+    type DocumentReflection,
     ProjectReflection,
     ReferenceReflection,
     type Reflection,
@@ -189,16 +191,23 @@ export function getHierarchyRoots(project: ProjectReflection): DeclarationReflec
     return result;
 }
 
+export interface MemberSections {
+    title: string;
+    description?: CommentDisplayPart[];
+    children: Array<DocumentReflection | DeclarationReflection>;
+}
+
 export function getMemberSections(
     parent: ContainerReflection,
     childFilter: (refl: Reflection) => boolean = () => true,
-) {
+): MemberSections[] {
     if (parent.categories?.length) {
         return filterMap(parent.categories, (cat) => {
             const children = cat.children.filter(childFilter);
             if (!children.length) return;
             return {
                 title: cat.title,
+                description: cat.description,
                 children,
             };
         });
@@ -212,6 +221,7 @@ export function getMemberSections(
                     if (!children.length) return;
                     return {
                         title: `${group.title} - ${cat.title}`,
+                        description: cat.description,
                         children,
                     };
                 });
@@ -221,6 +231,7 @@ export function getMemberSections(
             if (!children.length) return [];
             return {
                 title: group.title,
+                description: group.description,
                 children,
             };
         });

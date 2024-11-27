@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 -   Fixed automatic discovery of entry points in packages mode.
+-   Fixed handling of `@categoryDescription` and `@groupDescription` on module pages, #2787.
 
 ## v0.27.0 (2024-11-27)
 

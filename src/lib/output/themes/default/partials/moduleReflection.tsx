@@ -29,7 +29,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                 </section>
             )}
 
-            {sections.map(({ title, children }) => {
+            {sections.map(({ title, children, description }) => {
                 context.page.startNewSection(title);
 
                 return (
@@ -39,6 +39,11 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                                 {context.icons.chevronDown()} {title}
                             </h2>
                         </summary>
+                        {description && (
+                            <div class="tsd-comment tsd-typography">
+                                <Raw html={context.markdown(description)} />
+                            </div>
+                        )}
                         <dl class="tsd-member-summaries">
                             {children.map((item) => context.moduleMemberSummary(item))}
                         </dl>
