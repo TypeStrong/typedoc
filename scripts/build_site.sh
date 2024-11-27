@@ -19,7 +19,9 @@ if [[ -n "$CI" || ! -d example/docs ]]; then
 fi
 
 # Checkout the changelog as of the last release
-git checkout $(git describe --tags --abbrev=0) -- CHANGELOG.md
+if [[ -n "$CI" ]]; then
+    git checkout $(git describe --tags --abbrev=0) -- CHANGELOG.md
+fi
 
 # Build the actual site, references the API docs
 node bin/typedoc --options site/typedoc.config.jsonc

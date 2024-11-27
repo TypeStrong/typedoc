@@ -37,6 +37,8 @@
         "API": "https://typedoc.org/api/index.html",
         "GitHub": "https://github.com/TypeStrong/typedoc",
     },
+    // The site doesn't need filters as it doesn't actually include code
+    "visibilityFilters": {},
 
     "validation": {
         "invalidLink": true,
