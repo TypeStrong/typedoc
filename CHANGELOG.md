@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.1 (2024-11-28)
+
 ### Bug Fixes
 
 -   Include classes which inherit from another package in class hierarchy in packages mode, #2467.
