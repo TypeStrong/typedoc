@@ -6,11 +6,7 @@ The TypeDoc team supports the latest minor version. For one minor version prior 
 pull requests providing patches to fix security vulnerabilities will be accepted. Support for the
 previous minor version relies completely on community pull requests.
 
-| Version | Status             |
-| ------- | ------------------ |
-| 0.25.x  | :white_check_mark: |
-| 0.24.x  | :warning:          |
-| < 0.24  | :x:                |
+See https://typedoc.org/documents/Overview.html for the current status.
 
 ## Patching LTS Versions
 
