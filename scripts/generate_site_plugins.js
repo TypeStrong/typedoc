@@ -1,7 +1,4 @@
 // @ts-check
-const PLUGIN_QUERY = `https://www.npmjs.com/search?q=keywords%3Atypedoc-plugin keywords%3Atypedocplugin`;
-const THEME_QUERY = `https://www.npmjs.com/search?q=keywords%3Atypedoc-theme`;
-
 import * as cp from "child_process";
 import { promises as fs, mkdirSync } from "fs";
 import semver from "semver";
@@ -9,6 +6,7 @@ import semver from "semver";
 const CACHE_ROOT = "tmp/site-cache";
 mkdirSync(CACHE_ROOT, { recursive: true });
 
+// cspell: disable
 const EXCLUDED_PLUGINS = [
     // Fork not intended for public use.
     "@zamiell/typedoc-plugin-markdown",
@@ -32,6 +30,7 @@ const EXCLUDED_PLUGIN_USERS = [
     "silei",
     "tivmof",
 ];
+// cspell: enable
 
 /** @type {(command: string) => Promise<string>} */
 function exec(command) {
@@ -54,15 +53,13 @@ async function getSupportedVersions(npmPackage) {
 /**
  * @typedef {object} NpmPackage
  * @prop {string} name
- * @prop {{ name: string}} publisher
- * @prop {string} description
- * @prop {{ ts: number; rel: string}} date
- * @prop {NpmLinks} links
+ * @prop {string[]} keywords
  * @prop {string} version
- */
-
-/**
- * @typedef {NpmPackage & { peer: string}} NpmPackageWithPeer
+ * @prop {string} description
+ * @prop {{ username: string}} publisher
+ * @prop {string} license
+ * @prop {string} date
+ * @prop {NpmLinks} links
  */
 
 /**
@@ -73,9 +70,7 @@ async function getSupportedVersions(npmPackage) {
  */
 
 /**
- * @typedef {object} PackagesResponse
- * @prop {number} total
- * @prop {{ package: NpmPackage }[]} objects
+ * @typedef {NpmPackage & { peer: string}} NpmPackageWithPeer
  */
 
 /**
@@ -83,25 +78,14 @@ async function getSupportedVersions(npmPackage) {
  * @returns {Promise<NpmPackage[]>}
  */
 async function getAllPackages(query) {
-    let page = 0;
-    let total = 0;
+    const FORCE = process.env["CI"] ? " --prefer-online" : "";
+
     /** @type {NpmPackage[]} */
-    const result = [];
-
-    do {
-        /** @type {PackagesResponse} */
-        const data = await (
-            await fetch(`${query}&page=${page++}`, {
-                headers: {
-                    // Ask for JSON. Hasn't changed since 2018 at least...
-                    "x-spiferack": "1",
-                },
-            })
-        ).json();
-
-        total = data.total;
-        result.push(...data.objects.map((x) => x.package));
-    } while (result.length < total);
+    const result = JSON.parse(
+        await exec(
+            `npm search "${query}" --json --long --searchlimit 1000${FORCE}`,
+        ),
+    );
 
     return result;
 }
@@ -117,7 +101,7 @@ function getSupportingPlugins(typedocVersion, plugins) {
 
     for (const plugin of plugins) {
         if (EXCLUDED_PLUGINS.includes(plugin.name)) continue;
-        if (EXCLUDED_PLUGIN_USERS.includes(plugin.publisher.name)) continue;
+        if (EXCLUDED_PLUGIN_USERS.includes(plugin.publisher.username)) continue;
 
         let version = plugin.peer.trim();
         if (!version) continue;
@@ -173,8 +157,46 @@ function getAllVersions(plugins) {
     return Promise.all(plugins.map((p) => getSupportedVersions(p.name)));
 }
 
+/** @param {string} date */
+function relativeDate(date) {
+    const nowHours = Date.now() / 1000 / 60 / 60;
+    const dateHours = Date.parse(date) / 1000 / 60 / 60;
+
+    const deltaHours = nowHours - dateHours;
+    if (deltaHours <= 24) {
+        return "today";
+    }
+
+    const deltaDays = deltaHours / 24;
+    if (deltaDays <= 7) {
+        if (Math.floor(deltaDays) == 1) {
+            return "1 day ago";
+        }
+        return `${Math.floor(deltaDays)} days ago`;
+    }
+
+    const deltaWeeks = Math.floor(deltaDays / 7);
+    if (deltaWeeks <= 3) {
+        return `${deltaWeeks} weeks ago`;
+    }
+
+    // Close enough...
+    const deltaMonths = Math.floor(deltaDays / 30);
+    if (deltaMonths <= 12) {
+        if (deltaMonths < 2) {
+            return "1 month ago";
+        }
+        return `${deltaMonths} months ago`;
+    }
+
+    const deltaYears = Math.floor(deltaDays / 365);
+    if (deltaYears < 2) {
+        return "1 year ago";
+    }
+    return `${deltaYears} years ago`;
+}
+
 /**
- *
  * @param {NpmPackageWithPeer[]} plugins
  * @param {string[]} checkVersions
  * @param {string} path
@@ -184,19 +206,31 @@ async function createInclude(plugins, checkVersions, path) {
     const out = [];
 
     for (const typedocVersion of checkVersions) {
+        const supportingPlugins = getSupportingPlugins(
+            typedocVersion,
+            plugins,
+        ).sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+
+        if (supportingPlugins.length === 0) {
+            continue;
+        }
+
         out.push(`## v${typedocVersion.replace(/\.\d+$/, "")}\n`);
 
-        for (const plugin of getSupportingPlugins(typedocVersion, plugins).sort(
-            (a, b) => b.date.ts - a.date.ts,
-        )) {
+        for (const plugin of supportingPlugins) {
             out.push(`<div class="box">`);
             out.push(
-                `    <p class="title"><a href="${plugin.links.npm}" target="_blank">${plugin.name}</a></p>`,
+                `    <p class="box-title"><a href="${plugin.links.npm}" target="_blank">${plugin.name}</a></p>`,
             );
             out.push(`    <p>${miniMarkdown(plugin.description || "")}</p>`);
-            out.push(`    <p>
-                <a href="https://www.npmjs.com/~${plugin.publisher.name}" target="_blank">${plugin.publisher.name}</a> published ${plugin.version} • ${plugin.date.rel}
-            </p>`);
+            out.push(
+                `    <p>`,
+                `        <a href="https://www.npmjs.com/~${plugin.publisher.username}" target="_blank">${plugin.publisher.username}</a> •`,
+                `        ${plugin.version} •`,
+                `        ${relativeDate(plugin.date)} •`,
+                `        ${plugin.license || "no license"}`,
+                `    </p>`,
+            );
             out.push(`</div>\n`);
         }
 
@@ -239,15 +273,27 @@ function escapeHtml(html) {
 async function main() {
     console.log("Getting themes...");
     const themes = await getLocalCache("themes.json", () =>
-        getAllPackages(THEME_QUERY),
+        getAllPackages("keywords:typedoc-theme"),
     );
 
     console.log("Getting plugins...");
-    const plugins = await getLocalCache("plugins.json", async () =>
-        (await getAllPackages(PLUGIN_QUERY)).filter(
-            (pack) => !themes.some((t) => t.name === pack.name),
-        ),
-    );
+    const plugins = await getLocalCache("plugins.json", async () => {
+        const plugins = await getAllPackages("keywords:typedoc-plugin");
+        const plugins2 = await getAllPackages("keywords:typedocplugin");
+
+        /** @type {NpmPackage[]} */
+        const result = [];
+        for (const pack of [...plugins, ...plugins2]) {
+            if (
+                !result.some((p) => p.name === pack.name) &&
+                !themes.some((p) => p.name === pack.name)
+            ) {
+                result.push(pack);
+            }
+        }
+
+        return result;
+    });
 
     console.log("Getting typedoc versions...");
     const versions = await getLocalCache("versions.json", () =>

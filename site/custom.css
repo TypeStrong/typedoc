@@ -5,11 +5,12 @@
     margin-bottom: 1em;
 }
 
-.box .title {
+.box .box-title {
     padding-left: 0;
+    font-weight: bold;
 }
 
 .box p {
     margin: 0;
-    padding-left: 1em;
+    padding-left: 1.5em;
 }
