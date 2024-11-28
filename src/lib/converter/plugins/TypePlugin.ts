@@ -26,16 +26,16 @@ export class TypePlugin extends ConverterComponent {
             this.onResolveEnd.bind(this),
         );
         this.owner.on(ConverterEvents.END, () => this.reflections.clear());
-        this.application.on(ApplicationEvents.REVIVE, this.onRevive.bind(this));
+        this.application.on(
+            ApplicationEvents.REVIVE,
+            this.onRevive.bind(this),
+            100,
+        );
     }
 
     private onRevive(project: ProjectReflection) {
         for (const id in project.reflections) {
-            this.resolve(
-                project,
-                project.reflections[id],
-                /* create links */ false,
-            );
+            this.resolve(project, project.reflections[id]);
         }
         this.finishResolve(project);
         this.reflections.clear();
@@ -45,11 +45,7 @@ export class TypePlugin extends ConverterComponent {
         this.resolve(context.project, reflection);
     }
 
-    private resolve(
-        project: ProjectReflection,
-        reflection: Reflection,
-        createLinks = true,
-    ) {
+    private resolve(project: ProjectReflection, reflection: Reflection) {
         if (!(reflection instanceof DeclarationReflection)) return;
 
         if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
@@ -58,7 +54,12 @@ export class TypePlugin extends ConverterComponent {
             walk(reflection.implementedTypes, (target) => {
                 this.postpone(target);
                 target.implementedBy ||= [];
-                if (createLinks) {
+
+                if (
+                    !target.implementedBy.some(
+                        (t) => t.reflection === reflection,
+                    )
+                ) {
                     target.implementedBy.push(
                         ReferenceType.createResolvedReference(
                             reflection.name,
@@ -73,7 +74,9 @@ export class TypePlugin extends ConverterComponent {
                 this.postpone(target);
                 target.extendedBy ||= [];
 
-                if (createLinks) {
+                if (
+                    !target.extendedBy.some((t) => t.reflection === reflection)
+                ) {
                     target.extendedBy.push(
                         ReferenceType.createResolvedReference(
                             reflection.name,
