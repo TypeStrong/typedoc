@@ -19,7 +19,7 @@
         "plugins.md",
         "declaration-references.md",
         "tags.md",
-        "../CHANGELOG.md",
+        "generated/CHANGELOG.md",
         "development/index.md",
     ],
     "customCss": "custom.css",
