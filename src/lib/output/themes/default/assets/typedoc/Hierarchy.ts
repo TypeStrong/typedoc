@@ -112,6 +112,26 @@ async function buildHierarchyToggle() {
         .stream()
         .pipeThrough(new DecompressionStream("gzip"));
 
+    const baseReflId = +container.dataset.refl!;
+    const hierarchy: JsonHierarchy = await new Response(json).json();
+
+    const collapsedHierarchy = container.querySelector("ul")!;
+    const expandedHierarchy = document.createElement("ul");
+    expandedHierarchy.classList.add("tsd-hierarchy");
+    buildExpandedHierarchy(expandedHierarchy, hierarchy, baseReflId);
+
+    // No point in showing the expand button if it will be the same content.
+    // It won't be the exact same innerHTML due to links being generated less
+    // intelligently here than in the theme (though they still go to the same place)
+    // but if there are the same number of elements in the hierarchy, there's
+    // no point.
+    if (
+        collapsedHierarchy.querySelectorAll("li").length ==
+        expandedHierarchy.querySelectorAll("li").length
+    ) {
+        return;
+    }
+
     const expandCollapseButton = document.createElement("span");
     expandCollapseButton.classList.add("tsd-hierarchy-toggle");
     expandCollapseButton.textContent = window.translations.hierarchy_expand;
@@ -141,14 +161,6 @@ async function buildHierarchyToggle() {
                 window.translations.hierarchy_expand;
         }
     });
-
-    const baseReflId = +container.dataset.refl!;
-    const hierarchy: JsonHierarchy = await new Response(json).json();
-
-    const collapsedHierarchy = container.querySelector("ul")!;
-    const expandedHierarchy = document.createElement("ul");
-    expandedHierarchy.classList.add("tsd-hierarchy");
-    buildExpandedHierarchy(expandedHierarchy, hierarchy, baseReflId);
 }
 
 function buildExpandedHierarchy(
@@ -177,7 +189,7 @@ function followHierarchy(
 
     const item = hierarchy.reflections[id];
     const container = document.createElement("li");
-    container.classList.add("tsd-hierarchy");
+    container.classList.add("tsd-hierarchy-item");
 
     if (id === targetId) {
         const text = container.appendChild(document.createElement("span"));

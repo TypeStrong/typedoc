@@ -784,6 +784,20 @@
         cursor: pointer;
     }
 
+    .tsd-full-hierarchy:not(:last-child) {
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid var(--color-accent);
+    }
+    .tsd-full-hierarchy,
+    .tsd-full-hierarchy ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .tsd-full-hierarchy ul {
+        padding-left: 1.5rem;
+    }
     .tsd-full-hierarchy a {
         padding: 0.25rem 0 !important;
         font-size: 1rem;

@@ -7,6 +7,8 @@ title: Changelog
 ### Bug Fixes
 
 -   Fixed automatic discovery of entry points in packages mode.
+-   Reverted accidental style change for hierarchy page introduced in 0.27.0
+-   The hierarchy Expand/Collapse link will now only appear if the hierarchies are different.
 -   Fixed handling of `@categoryDescription` and `@groupDescription` on module pages, #2787.
 
 ## v0.27.0 (2024-11-27)
