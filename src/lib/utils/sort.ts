@@ -7,7 +7,7 @@ import { ReflectionKind } from "../models/reflections/kind.js";
 import type { DeclarationReflection } from "../models/reflections/declaration.js";
 import type { Options } from "./options/index.js";
 import type { DocumentReflection } from "../models/index.js";
-import { OptionDefaults } from "./options/defaults.js";
+import * as OptionDefaults from "./options/defaults.js";
 
 export const SORT_STRATEGIES = [
     "source-order",

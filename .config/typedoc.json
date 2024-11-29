@@ -35,7 +35,7 @@
     "treatWarningsAsErrors": false,
     "categorizeByGroup": false,
     "categoryOrder": ["Reflections", "Types", "Comments", "*"],
-    "groupOrder": ["Common", "*"],
+    "groupOrder": ["Common", "Namespaces", "*"],
     "navigationLinks": {
         "Docs": "https://typedoc.org",
         "Example": "https://typedoc.org/example/index.html",

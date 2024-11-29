@@ -6,7 +6,7 @@ import {
     CommentStyle,
     type TypeDocOptionMap,
 } from "../declaration.js";
-import { OptionDefaults } from "../defaults.js";
+import * as OptionDefaults from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
 import { ReflectionKind } from "../../../models/reflections/kind.js";

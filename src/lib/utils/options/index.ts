@@ -36,4 +36,4 @@ export type {
     OutputSpecification,
 } from "./declaration.js";
 
-export { OptionDefaults } from "./defaults.js";
+export * as OptionDefaults from "./defaults.js";
