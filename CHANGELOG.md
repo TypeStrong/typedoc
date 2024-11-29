@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.2 (2024-11-29)
+
 ### Bug Fixes
 
 -   Fix crash with TypeScript 5.5.x, #2789.
