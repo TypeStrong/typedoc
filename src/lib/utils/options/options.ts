@@ -1,4 +1,4 @@
-import type * as ts from "typescript";
+import type ts from "typescript";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
 import type { NeverIfInternal, OutputSpecification } from "../index.js";

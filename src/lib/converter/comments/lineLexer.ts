@@ -1,4 +1,4 @@
-import type * as ts from "typescript";
+import type ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 export function* lexLineComments(

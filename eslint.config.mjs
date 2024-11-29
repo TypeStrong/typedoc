@@ -102,6 +102,7 @@ const config = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
 
+        // https://astexplorer.net/#/gist/82d22728cda8283bf38e956640420af4/4d5e6fbcbceed981f9897a859322ade5f1cb86ee
         "no-restricted-syntax": [
             "warn",
             {
@@ -113,6 +114,16 @@ const config = {
                     "MemberExpression[object.name=type][property.name=symbol]",
                 message:
                     "Use type.getSymbol() instead, Type.symbol is not properly typed.",
+            },
+            {
+                selector:
+                    "ImportDeclaration[source.value=typescript] ImportNamespaceSpecifier",
+                message: "TS before 5.7 does not have non-default exports.",
+            },
+            {
+                selector:
+                    "ImportDeclaration[source.value=typescript] ImportDeclaration",
+                message: "TS before 5.7 does not have non-default exports.",
             },
         ],
 

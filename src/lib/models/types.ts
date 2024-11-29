@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import type { Context } from "../converter/index.js";
 import type { Reflection } from "./reflections/abstract.js";
 import type { DeclarationReflection } from "./reflections/declaration.js";

@@ -1,4 +1,4 @@
-import type * as ts from "typescript";
+import type ts from "typescript";
 import { type ReferenceType, ReflectionType, type SomeType } from "../types.js";
 import { type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ContainerReflection } from "./container.js";
