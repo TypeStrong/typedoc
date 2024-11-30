@@ -4,6 +4,11 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+-   Add special handling for import types with type errors discarded with
+    ts-expect-error, #2792.
+
 ## v0.27.2 (2024-11-29)
 
 ### Bug Fixes

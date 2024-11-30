@@ -1933,4 +1933,13 @@ describe("Issue Tests", () => {
         equal(Foo.type?.type, "reference");
         equal(Foo.type.reflection?.getFullName(), Bar.getFullName());
     });
+
+    it("#2792 handles @ts-expect-error on import types by converting to any", () => {
+        const project = convert();
+        const node = query(project, "TypeNodeType.generated");
+        equal(node.type?.toString(), "any");
+
+        const type = query(project, "typeType");
+        equal(type.type?.toString(), "any");
+    });
 });
