@@ -43,13 +43,8 @@ export class AssetsPlugin extends RendererComponent {
     private onRenderBegin(event: RendererEvent) {
         const dest = join(event.outputDirectory, "assets");
 
-        switch (extname(this.favicon)) {
-            case ".ico":
-                copySync(this.favicon, join(dest, "favicon.ico"));
-                break;
-            case ".svg":
-                copySync(this.favicon, join(dest, "favicon.svg"));
-                break;
+        if ([".ico", ".png", ".svg"].includes(extname(this.favicon))) {
+            copySync(this.favicon, join(dest, "favicon" + extname(this.favicon)));
         }
 
         if (this.customCss) {

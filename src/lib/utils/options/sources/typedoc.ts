@@ -473,7 +473,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "favicon",
         help: (i18n) => i18n.help_favicon(),
         validate(value, i18n) {
-            if (![".ico", ".svg"].includes(extname(value))) {
+            if (![".ico", ".png", ".svg"].includes(extname(value))) {
                 throw new Error(i18n.favicon_must_be_ico_or_svg());
             }
         },

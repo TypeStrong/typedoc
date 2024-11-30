@@ -262,7 +262,7 @@ Create a CNAME file in the output directory with the specified text.
 $ typedoc --favicon favicon.ico
 ```
 
-Specify a `favicon.ico` or `favicon.svg` file to reference as the site favicon.
+Specify a `.ico`, `.png` or `.svg` file to reference as the site favicon.
 
 ## sourceLinkExternal
 
