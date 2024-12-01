@@ -75,9 +75,8 @@ output produced by running TypeDoc on itself can be seen at [TypeDoc API](https:
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.
 
-This entire site is generated using TypeDoc's [external
-document](../external-documents.md) support to include markdown documents
-alongside the API documentation.
+This entire site is generated using TypeDoc's [external document](../external-documents.md)
+support to include markdown documents alongside the API documentation.
 
 ## json
 

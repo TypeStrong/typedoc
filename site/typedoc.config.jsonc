@@ -50,6 +50,7 @@
     "redirects": {
         "guides/overview/": "documents/Overview.html",
         "guides/installation/": "index.html",
+        "guides/options/": "documents/Options.html",
         "options/": "documents/Options.html",
         "options/configuration/": "documents/Options.Configuration.html",
         "options/input/": "documents/Options.Input.html",
@@ -58,8 +59,8 @@
         "options/organization/": "documents/Options.Organization.html",
         "options/validation/": "documents/Options.Validation.html",
         "options/other/": "documents/Options.Other.html",
-        // cspell: words doccoments
-        "guides/doccoments/": "documents/Doc_Comments.html",
+        // cspell: words doccomments
+        "guides/doccomments/": "documents/Doc_Comments.html",
         "guides/documents/": "documents/External_Documents.html",
         "guides/themes/": "documents/Themes.html",
         "guides/plugins/": "documents/Plugins.html",
@@ -86,11 +87,11 @@
         "tags/hidden/": "documents/Tags._hidden.html",
         "tags/hideconstructor/": "documents/Tags._hideconstructor.html",
         "tags/ignore/": "documents/Tags._ignore.html",
-        "tags/inheritDoc/": "documents/Tags._inheritDoc.html",
+        "tags/inheritDoc/": "documents/Tags.__inheritDoc_.html",
         "tags/interface/": "documents/Tags._interface.html",
         "tags/internal/": "documents/Tags._internal.html",
-        "tags/label/": "documents/Tags._label.html",
-        "tags/link/": "documents/Tags._link.html",
+        "tags/label/": "documents/Tags.__label_.html",
+        "tags/link/": "documents/Tags.__link_.html",
         "tags/module/": "documents/Tags._module.html",
         "tags/namespace/": "documents/Tags._namespace.html",
         "tags/overload/": "documents/Tags._overload.html",
