@@ -268,8 +268,7 @@ export = {
         "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page",
     help_cname:
         "Set the CNAME file text, it's useful for custom domains on GitHub Pages",
-    help_favicon:
-        "Path to a favicon.ico or favicon.svg to include as the site icon",
+    help_favicon: "Path to favicon to include as the site icon",
     help_sourceLinkExternal:
         "Specifies that source links should be treated as external links to be opened in a new tab",
     help_markdownLinkExternal:
@@ -388,7 +387,8 @@ export = {
         "hostedBaseUrl must start with http:// or https://",
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "The useHostedBaseUrlForAbsoluteLinks option requires that hostedBaseUrl be set",
-    favicon_must_be_ico_or_svg: "Favicon file must be either a .ico or .svg",
+    favicon_must_have_one_of_the_following_extensions_0:
+        "Favicon must have on of the following extensions: {0}",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object",
     option_0_must_be_a_function: "The '{0}' option must be a function",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values`,

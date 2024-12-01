@@ -279,7 +279,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_readme:
         "应显示在索引页上的自述文件路径。传递“none”以禁用索引页并在全局页上启动文档",
     help_cname: "设置 CNAME 文件文本，这对于 GitHub Pages 上的自定义域很有用",
-    help_favicon: "作为站点图标包含的 favicon.ico 或 favicon.svg 的路径",
+    help_favicon: "作为站点图标包含的 favicon 的路径",
     help_sourceLinkExternal:
         "指定哪些源代码链接应被视为外部链接，并在新选项卡中打开",
     help_markdownLinkExternal:
@@ -371,7 +371,6 @@ export = localeUtils.buildIncompleteTranslation({
         "hostingBaseUrl 必须以 http:// 或 https:// 开头",
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "useHostedBaseUrlForAbsoluteLinks 选项要求设置 hostingBaseUrl",
-    favicon_must_be_ico_or_svg: "Favicon 文件必须是一个 .ico 或 .svg 文件",
     option_0_must_be_an_object: "“{0}”选项必须是非数组对象",
     option_0_must_be_a_function: "‘{0}’ 选项必须是一个函数",
     option_0_must_be_object_with_urls:
