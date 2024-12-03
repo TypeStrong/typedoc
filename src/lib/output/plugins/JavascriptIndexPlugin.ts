@@ -12,13 +12,10 @@ import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
 import { Option, writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { gzip } from "zlib";
-import { promisify } from "util";
 import type { Renderer } from "../index.js";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
 import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
-
-const gzipP = promisify(gzip);
+import { compressJson } from "../../utils/compress.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/themes/default/assets/typedoc/components/Search.ts
@@ -152,17 +149,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
             "search.js",
         );
 
-        const jsonData = JSON.stringify({
+        const data = {
             rows,
             index,
-        });
-        const data = await gzipP(Buffer.from(jsonData));
-
+        };
         await writeFile(
             jsonFileName,
-            `window.searchData = "data:application/octet-stream;base64,${data.toString(
-                "base64",
-            )}";`,
+            `window.searchData = "${await compressJson(data)}";`,
         );
 
         if (

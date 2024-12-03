@@ -3,8 +3,6 @@ import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { gzip } from "zlib";
-import { promisify } from "util";
 
 import type { Renderer } from "../index.js";
 import {
@@ -13,8 +11,7 @@ import {
     getUniquePath,
 } from "../themes/lib.js";
 import type { DeclarationReflection } from "../../models/index.js";
-
-const gzipP = promisify(gzip);
+import { compressJson } from "../../utils/compress.js";
 
 interface JsonHierarchyElement {
     name: string;
@@ -102,13 +99,9 @@ export class HierarchyPlugin extends RendererComponent {
             "hierarchy.js",
         );
 
-        const gz = await gzipP(Buffer.from(JSON.stringify(hierarchy)));
-
         await writeFile(
             hierarchyJs,
-            `window.hierarchyData = "data:application/octet-stream;base64,${gz.toString(
-                "base64",
-            )}"`,
+            `window.hierarchyData = "${await compressJson(hierarchy)}"`,
         );
     }
 }

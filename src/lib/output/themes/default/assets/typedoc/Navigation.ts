@@ -1,3 +1,5 @@
+import { decompressJson } from "./utils/decompress";
+
 export interface NavigationElement {
     text: string;
     path?: string;
@@ -27,12 +29,9 @@ async function buildNav() {
     const container = document.getElementById("tsd-nav-container");
     if (!container || !window.navigationData) return;
 
-    const res = await fetch(window.navigationData);
-    const data = await res.arrayBuffer();
-    const json = new Blob([data])
-        .stream()
-        .pipeThrough(new DecompressionStream("gzip"));
-    const nav: NavigationElement[] = await new Response(json).json();
+    const nav: NavigationElement[] = await decompressJson(
+        window.navigationData,
+    );
 
     BASE_URL = document.documentElement.dataset.base!;
     if (!BASE_URL.endsWith("/")) BASE_URL += "/";
