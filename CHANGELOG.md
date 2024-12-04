@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.3 (2024-12-04)
+
 ### Features
 
 -   Added support for PNG favicons, #2790.
