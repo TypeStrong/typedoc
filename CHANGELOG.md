@@ -9,6 +9,7 @@ title: Changelog
 -   Add special handling for import types with type errors discarded with ts-expect-error, #2792.
 -   Improved support for hosting TypeDoc with strict Content Security Policy rules, #2794.
 -   Fixed low contrast in default colors for properties/accessors in light mode, #2795.
+-   The `highlightLanguages` option now permits Shiki aliases to be specified rather than just the language ID, #2798.
 
 ### Thanks!
 

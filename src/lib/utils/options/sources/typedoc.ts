@@ -15,7 +15,7 @@ import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys } from "../../enum.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
 import {
-    getSupportedLanguagesWithoutAliases,
+    getSupportedLanguages,
     getSupportedThemes,
 } from "../../highlighter.js";
 import { setDifference } from "../../set.js";
@@ -356,10 +356,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         defaultValue: OptionDefaults.highlightLanguages,
         validate(value, i18n) {
-            const invalid = setDifference(
-                value,
-                getSupportedLanguagesWithoutAliases(),
-            );
+            const invalid = setDifference(value, getSupportedLanguages());
             if (invalid.size) {
                 throw new Error(
                     i18n.highlightLanguages_contains_invalid_languages_0(
