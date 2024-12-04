@@ -6,8 +6,8 @@ title: Changelog
 
 ### Bug Fixes
 
--   Add special handling for import types with type errors discarded with
-    ts-expect-error, #2792.
+-   Add special handling for import types with type errors discarded with ts-expect-error, #2792.
+-   Fixed low contrast in default colors for properties/accessors in light mode, #2795.
 
 ## v0.27.2 (2024-11-29)
 
