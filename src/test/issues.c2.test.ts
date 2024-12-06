@@ -1942,4 +1942,19 @@ describe("Issue Tests", () => {
         const type = query(project, "typeType");
         equal(type.type?.toString(), "any");
     });
+
+    it("#2802 preserves @alpha tags on signature types", () => {
+        const project = convert();
+        const alpha1 = query(project, "AlphaOk");
+        equal(Comment.combineDisplayParts(alpha1.comment?.summary), "Docs");
+        ok(alpha1.comment?.hasModifier("@alpha"));
+
+        const alpha2 = query(project, "AlphaNoGo");
+        equal(Comment.combineDisplayParts(alpha2.comment?.summary), "Docs2");
+        ok(alpha2.comment?.hasModifier("@alpha"));
+
+        // Modifiers should not have been cascaded
+        equal(alpha2.type?.type, "reflection");
+        equal(alpha2.type.declaration.comment, undefined);
+    });
 });

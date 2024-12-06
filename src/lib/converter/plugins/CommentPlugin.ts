@@ -453,7 +453,7 @@ export class CommentPlugin extends ConverterComponent {
 
             // Any cascaded tags will show up twice, once on this and once on our signatures
             // This is completely redundant, so remove them from the wrapping function.
-            if (sigs.length) {
+            if (sigs.length && reflection.type?.type !== "reflection") {
                 for (const mod of this.cascadedModifierTags) {
                     reflection.comment.modifierTags.delete(mod);
                 }
@@ -527,7 +527,9 @@ export class CommentPlugin extends ConverterComponent {
 
     private cascadeModifiers(reflection: Reflection) {
         const parentComment = reflection.parent?.comment;
-        if (!parentComment) return;
+        if (!parentComment || reflection.kindOf(ReflectionKind.TypeLiteral)) {
+            return;
+        }
 
         const childMods = reflection.comment?.modifierTags ?? new Set();
 

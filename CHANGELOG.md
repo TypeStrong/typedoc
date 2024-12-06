@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+-   Cascaded modifier tags will no longer be copied into type literals, #2802.
+
 ## v0.27.3 (2024-12-04)
 
 ### Features
