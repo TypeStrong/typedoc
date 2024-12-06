@@ -6,6 +6,7 @@ title: Changelog
 
 ### Bug Fixes
 
+-   Switch from gzip to deflate for compressing assets to make output consistent across different operating systems, #2796.
 -   Cascaded modifier tags will no longer be copied into type literals, #2802.
 
 ## v0.27.3 (2024-12-04)
