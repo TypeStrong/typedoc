@@ -4,9 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+-   API: Introduced new `Converter.EVENT_CREATE_PROJECT` event which fires when a project is created by the converter, #2800.
+
 ### Bug Fixes
 
 -   Switch from gzip to deflate for compressing assets to make output consistent across different operating systems, #2796.
+-   `@include` and `@includeCode` now work for comments on the entry point for projects with a single entry point, #2800.
 -   Cascaded modifier tags will no longer be copied into type literals, #2802.
 
 ## v0.27.3 (2024-12-04)

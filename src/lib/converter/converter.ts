@@ -67,6 +67,7 @@ import { MergeModuleWithPlugin } from "./plugins/MergeModuleWithPlugin.js";
 export interface ConverterEvents {
     begin: [Context];
     end: [Context];
+    createProject: [Context, ProjectReflection];
     createDeclaration: [Context, DeclarationReflection];
     createDocument: [undefined, DocumentReflection];
     createSignature: [
@@ -174,6 +175,13 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     /**
      * Factory events
      */
+
+    /**
+     * Triggered when the converter has created a project reflection.
+     * The listener will be given {@link Context} and a {@link Models.ProjectReflection}.
+     * @event
+     */
+    static readonly EVENT_CREATE_PROJECT = ConverterEvents.CREATE_PROJECT;
 
     /**
      * Triggered when the converter has created a declaration reflection.
@@ -459,6 +467,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 : !!(context.scope as ProjectReflection).documents;
         }
 
+        if (createModuleReflections) {
+            this.trigger(
+                ConverterEvents.CREATE_PROJECT,
+                context,
+                context.project,
+            );
+        }
+
         entries.forEach((e) => {
             context.setActiveProgram(e.entryPoint.program);
             e.context = this.convertExports(
@@ -499,6 +515,11 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 ? context.getComment(symbol, context.project.kind)
                 : context.getFileComment(node);
             this.processDocumentTags(context.project, context.project);
+            this.trigger(
+                ConverterEvents.CREATE_PROJECT,
+                context,
+                context.project,
+            );
             moduleContext = context;
         } else {
             const reflection = context.createDeclarationReflection(

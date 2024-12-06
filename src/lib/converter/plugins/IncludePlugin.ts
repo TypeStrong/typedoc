@@ -19,6 +19,7 @@ export class IncludePlugin extends ConverterComponent {
     constructor(owner: Converter) {
         super(owner);
         const onCreate = this.onCreate.bind(this);
+        owner.on(ConverterEvents.CREATE_PROJECT, onCreate);
         owner.on(ConverterEvents.CREATE_DOCUMENT, onCreate);
         owner.on(ConverterEvents.CREATE_DECLARATION, onCreate);
         owner.on(ConverterEvents.CREATE_PARAMETER, onCreate);

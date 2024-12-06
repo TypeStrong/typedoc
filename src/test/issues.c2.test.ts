@@ -1943,6 +1943,20 @@ describe("Issue Tests", () => {
         equal(type.type?.toString(), "any");
     });
 
+    it("#2800 handles @include tags on project", () => {
+        const project = convert();
+        const includeTag = project.comment?.summary.find(
+            (t) => t.kind === "inline-tag",
+        );
+        equal(includeTag, undefined);
+
+        ok(
+            Comment.combineDisplayParts(project.comment?.summary).includes(
+                "const bug",
+            ),
+        );
+    });
+
     it("#2802 preserves @alpha tags on signature types", () => {
         const project = convert();
         const alpha1 = query(project, "AlphaOk");
