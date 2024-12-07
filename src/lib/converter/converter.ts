@@ -192,6 +192,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         ConverterEvents.CREATE_DECLARATION;
 
     /**
+     * Triggered when the converter has created a document reflection.
+     * The listener will be given `undefined` (for consistency with the
+     * other create events) and a {@link Models.DocumentReflection}.
+     * @event
+     */
+    static readonly EVENT_CREATE_DOCUMENT = ConverterEvents.CREATE_DOCUMENT;
+
+    /**
      * Triggered when the converter has created a signature reflection.
      * The listener will be given {@link Context}, {@link Models.SignatureReflection} | {@link Models.ProjectReflection} the declaration,
      * `ts.SignatureDeclaration | ts.IndexSignatureDeclaration | ts.JSDocSignature | undefined`,

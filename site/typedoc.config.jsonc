@@ -7,7 +7,7 @@
     "alwaysCreateEntryPointModule": true,
     "out": "../docs-site",
     "name": "TypeDoc",
-    "plugin": ["./typedoc-plugin-redirect.js"],
+    "plugin": ["./typedoc-plugin-redirect.js", "./site-plugin.js"],
 
     "readme": "index.md",
     "projectDocuments": [
