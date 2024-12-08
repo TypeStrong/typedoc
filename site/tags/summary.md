@@ -16,6 +16,9 @@ If an `@summary` tag is not specified and `--useFirstParagraphOfCommentAsSummary
 specified, TypeDoc will use the first paragraph of the comment as the short summary
 to include on the modules page.
 
+For overloaded functions, the `@summary` tag may be placed on the comment for the
+first signature or on the comment for the function implementation.
+
 ## Example
 
 ```ts
