@@ -185,6 +185,19 @@ export interface JsxHtmlGlobalProps {
     tabIndex?: number;
     title?: string;
     translate?: boolean;
+
+    // popover attributes
+    /**
+     * Default: 'auto'. true and 'auto' are equivalent
+     *
+     * See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API) for more details
+     */
+    popover?: boolean | 'auto' | 'manual'
+    /**
+     * It must be the popover element id, see [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)
+     */
+    popovertarget?: string
+    popovertargetaction?: 'hide' | 'show' | 'toggle'
 }
 
 /**
