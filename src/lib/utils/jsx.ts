@@ -20,6 +20,7 @@ import type {
     JsxElement,
     JsxChildren,
     JsxComponent,
+    JsxHtmlGlobalProps,
 } from "./jsx.elements.js";
 import { JsxFragment } from "./jsx.elements.js";
 
@@ -50,7 +51,11 @@ export function Raw(_props: { html: string }) {
  * @hidden
  */
 export declare namespace JSX {
-    export { IntrinsicElements, JsxElement as Element };
+    export {
+        IntrinsicElements,
+        JsxElement as Element,
+        JsxHtmlGlobalProps as IntrinsicAttributes,
+    };
 }
 
 const voidElements = new Set([

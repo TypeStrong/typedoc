@@ -103,3 +103,51 @@ export function load(app: Application) {
 ```
 
 [RendererHooks]: https://typedoc.org/api/interfaces/RendererHooks.html
+
+## Registering your own custom elements/attributes
+
+Start by writing a `jsx.d.ts` file somewhere.
+
+````ts
+// src/jsx.d.ts
+import { JSX as TypeDocJSX } from "typedoc";
+
+declare module "typedoc" {
+    namespace JSX {
+        namespace JSX {
+            interface IntrinsicAttributes {
+                popover?: boolean;
+                popovertarget?: string;
+                popovertargetaction?: "hide" | "show" | "toggle";
+            }
+            interface IntrinsicElements {
+                // add your custom elements here, ie:
+                /**
+                 * @example
+                 * ```tsx
+                 * <drop-down trigger="#my-trigger" class="header-menu">
+                 *   <button>Option #1</button>
+                 *   <button>Option #2</button>
+                 * </drop-down>
+                 * ```
+                 */
+                "drop-down": IntrinsicAttributes & {
+                    /**
+                     * A query selector, ie: '#my-trigger'
+                     */
+                    trigger: string;
+                };
+            }
+        }
+    }
+}
+````
+
+Then in your plugin entry point, reference the `jsx.d.ts` file with a triple-slash directive.
+
+```ts
+// src/index.ts
+/// <reference types="./jsx.d.ts" />
+
+export function load(app: Application) { … }
+```
