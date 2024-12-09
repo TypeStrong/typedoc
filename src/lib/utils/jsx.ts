@@ -51,7 +51,11 @@ export function Raw(_props: { html: string }) {
  * @hidden
  */
 export declare namespace JSX {
-    export { IntrinsicElements, JsxElement as Element, JsxHtmlGlobalProps as IntrinsicAttributes };
+    export {
+        IntrinsicElements,
+        JsxElement as Element,
+        JsxHtmlGlobalProps as IntrinsicAttributes,
+    };
 }
 
 const voidElements = new Set([

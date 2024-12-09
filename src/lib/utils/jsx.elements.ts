@@ -192,12 +192,12 @@ export interface JsxHtmlGlobalProps {
      *
      * See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API) for more details
      */
-    popover?: boolean | 'auto' | 'manual'
+    popover?: boolean | "auto" | "manual";
     /**
      * It must be the popover element id, see [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API)
      */
-    popovertarget?: string
-    popovertargetaction?: 'hide' | 'show' | 'toggle'
+    popovertarget?: string;
+    popovertargetaction?: "hide" | "show" | "toggle";
 }
 
 /**

@@ -108,40 +108,40 @@ export function load(app: Application) {
 
 Start by writing a `jsx.d.ts` file somewhere.
 
-```ts
+````ts
 // src/jsx.d.ts
-import { JSX as TypeDocJSX } from 'typedoc'
+import { JSX as TypeDocJSX } from "typedoc";
 
-declare module 'typedoc' {
-  namespace JSX {
+declare module "typedoc" {
     namespace JSX {
-      interface IntrinsicAttributes {
-        popover?: boolean
-        popovertarget?: string
-        popovertargetaction?: 'hide' | 'show' | 'toggle'
-      }
-      interface IntrinsicElements {
-        // add your custom elements here, ie:
-        /**
-         * @example
-         * ```tsx
-         * <drop-down trigger="#my-trigger" class="header-menu">
-         *   <button>Option #1</button>
-         *   <button>Option #2</button>
-         * </drop-down>
-         * ```
-         */
-        'drop-down': IntrinsicAttributes & {
-          /**
-           * A query selector, ie: '#my-trigger'
-           */
-          trigger: string
+        namespace JSX {
+            interface IntrinsicAttributes {
+                popover?: boolean;
+                popovertarget?: string;
+                popovertargetaction?: "hide" | "show" | "toggle";
+            }
+            interface IntrinsicElements {
+                // add your custom elements here, ie:
+                /**
+                 * @example
+                 * ```tsx
+                 * <drop-down trigger="#my-trigger" class="header-menu">
+                 *   <button>Option #1</button>
+                 *   <button>Option #2</button>
+                 * </drop-down>
+                 * ```
+                 */
+                "drop-down": IntrinsicAttributes & {
+                    /**
+                     * A query selector, ie: '#my-trigger'
+                     */
+                    trigger: string;
+                };
+            }
         }
-      }
     }
-  }
 }
-```
+````
 
 Then in your plugin entry point, reference the `jsx.d.ts` file with a triple-slash directive.
 
