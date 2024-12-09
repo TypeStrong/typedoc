@@ -2,9 +2,6 @@
 
 Documentation generator for TypeScript projects.
 
-[![CI](https://github.com/TypeStrong/typedoc/workflows/CI/badge.svg)](https://github.com/TypeStrong/typedoc/actions)
-[![NPM Version](https://img.shields.io/npm/v/typedoc?color=33cd56&logo=npm)](https://www.npmjs.com/package/typedoc)
-
 ## Documentation
 
 For more detailed documentation, the changelog, and TypeDoc documentation rendered with TypeDoc, see https://typedoc.org.
