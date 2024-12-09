@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.4 (2024-12-09)
+
 ### Features
 
 -   API: Introduced new `Converter.EVENT_CREATE_PROJECT` event which fires when a project is created by the converter, #2800.
