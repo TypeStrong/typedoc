@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+-   Fix restoration of groups/categories including documents, #2801.
+
 ## v0.27.4 (2024-12-09)
 
 ### Features
