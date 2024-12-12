@@ -8,6 +8,10 @@ title: Changelog
 
 -   Fix restoration of groups/categories including documents, #2801.
 
+### Thanks!
+
+-   @SacDeNoeuds
+
 ## v0.27.4 (2024-12-09)
 
 ### Features
