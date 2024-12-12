@@ -102,52 +102,34 @@ export function load(app: Application) {
 }
 ```
 
-[RendererHooks]: https://typedoc.org/api/interfaces/RendererHooks.html
-
 ## Registering your own custom elements/attributes
 
-Start by writing a `jsx.d.ts` file somewhere.
+Custom JSX elements can be defined by merging with TypeDoc's `IntrinsicElements`
+interface. TypeScript will pick up properties of this interface as valid element
+names.
 
-````ts
-// src/jsx.d.ts
-import { JSX as TypeDocJSX } from "typedoc";
+```ts
+import { Application, JSX } from "typedoc";
 
 declare module "typedoc" {
-    namespace JSX {
-        namespace JSX {
-            interface IntrinsicAttributes {
-                popover?: boolean;
-                popovertarget?: string;
-                popovertargetaction?: "hide" | "show" | "toggle";
-            }
-            interface IntrinsicElements {
-                // add your custom elements here, ie:
-                /**
-                 * @example
-                 * ```tsx
-                 * <drop-down trigger="#my-trigger" class="header-menu">
-                 *   <button>Option #1</button>
-                 *   <button>Option #2</button>
-                 * </drop-down>
-                 * ```
-                 */
-                "drop-down": IntrinsicAttributes & {
-                    /**
-                     * A query selector, ie: '#my-trigger'
-                     */
-                    trigger: string;
-                };
-            }
+    // JSX.JSX is intentional due to TypeScript's strange JSX type discovery rules
+    namespace JSX.JSX {
+        interface IntrinsicElements {
+            "custom-button": IntrinsicAttributes & {
+                target: string;
+            };
+        }
+
+        // Generally shouldn't be necessary, TypeDoc contains an interface
+        // with all attributes documented on MDN. Properties added here will
+        // be permitted on all JSX elements.
+        interface IntrinsicAttributes {
+            customGlobalAttribute?: string;
         }
     }
 }
-````
 
-Then in your plugin entry point, reference the `jsx.d.ts` file with a triple-slash directive.
-
-```ts
-// src/index.ts
-/// <reference types="./jsx.d.ts" />
-
-export function load(app: Application) { … }
+export function load(app: Application) {}
 ```
+
+[RendererHooks]: https://typedoc.org/api/interfaces/RendererHooks.html
