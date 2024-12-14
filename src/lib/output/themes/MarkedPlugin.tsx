@@ -332,7 +332,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 // will be relative links. This will likely have to change with
                 // the introduction of support for customized routers whenever
                 // that becomes a real thing.
-                if (this.markdownLinkExternal && /https?:\/\//i.test(href)) {
+                if (
+                    this.markdownLinkExternal &&
+                    /https?:\/\//i.test(href) &&
+                    !(href + "/").startsWith(this.hostedBaseUrl)
+                ) {
                     token.attrSet("target", "_blank");
                     const classes = token.attrGet("class")?.split(" ") || [];
                     classes.push("external");
