@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.5 (2024-12-14)
+
 ### Bug Fixes
 
 -   Possibly Breaking: TypeDoc will no longer render anchors within the page for
