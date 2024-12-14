@@ -50,6 +50,12 @@ describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
         return Array.from(lexBlockComment(text));
     }
+    function lexNoPos(text: string): Omit<Token, "pos">[] {
+        return Array.from(lexBlockComment(text), (t) => {
+            const { pos: _, ...noPos } = t;
+            return noPos;
+        });
+    }
 
     it("Should handle an empty comment", () => {
         const tokens = lex("/**/");
@@ -566,6 +572,35 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 12 },
         ]);
     });
+
+    it("Should detect unmatched code ticks within a line", () => {
+        const tokens = lexNoPos(
+            "/** non-code `tick\n\nstill non-code, `code` */",
+        );
+
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "non-code `tick",
+            },
+            {
+                kind: TokenSyntaxKind.NewLine,
+                text: "\n",
+            },
+            {
+                kind: TokenSyntaxKind.NewLine,
+                text: "\n",
+            },
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "still non-code, ",
+            },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "`code`",
+            },
+        ]);
+    });
 });
 
 describe("Line Comment Lexer", () => {
@@ -579,6 +614,13 @@ describe("Line Comment Lexer", () => {
                 },
             ]),
         );
+    }
+
+    function lexNoPos(text: string): Omit<Token, "pos">[] {
+        return lex(text).map((t) => {
+            const { pos: _, ...noPos } = t;
+            return noPos;
+        });
     }
 
     it("Should handle an empty string", () => {
@@ -893,11 +935,46 @@ describe("Line Comment Lexer", () => {
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 11 },
         ]);
     });
+
+    it("Should detect unmatched code ticks within a line", () => {
+        const tokens = lexNoPos(
+            "// non-code `tick\n//\n//still non-code, `code`",
+        );
+
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "non-code `tick",
+            },
+            {
+                kind: TokenSyntaxKind.NewLine,
+                text: "\n",
+            },
+            {
+                kind: TokenSyntaxKind.NewLine,
+                text: "\n",
+            },
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "still non-code, ",
+            },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "`code`",
+            },
+        ]);
+    });
 });
 
 describe("Raw Lexer", () => {
     function lex(text: string): Token[] {
         return Array.from(lexCommentString(text));
+    }
+    function lexNoPos(text: string): Omit<Token, "pos">[] {
+        return Array.from(lexCommentString(text), (t) => {
+            const { pos: _, ...noPos } = t;
+            return noPos;
+        });
     }
 
     it("Should handle an empty string", () => {
@@ -1055,6 +1132,21 @@ describe("Raw Lexer", () => {
                 pos: 7,
             },
             { kind: TokenSyntaxKind.CloseBrace, text: "}", pos: 36 },
+        ]);
+    });
+
+    it("Should detect unmatched code ticks within a line", () => {
+        const tokens = lexNoPos("non-code `tick\n\nstill non-code, `code`");
+
+        equal(tokens, [
+            {
+                kind: TokenSyntaxKind.Text,
+                text: "non-code `tick\n\nstill non-code, ",
+            },
+            {
+                kind: TokenSyntaxKind.Code,
+                text: "`code`",
+            },
         ]);
     });
 });

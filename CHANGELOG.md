@@ -7,6 +7,8 @@ title: Changelog
 ### Bug Fixes
 
 -   Fix restoration of groups/categories including documents, #2801.
+-   Fixed missed relative paths within markdown link references in documents.
+-   Improved handling of incomplete inline code blocks within markdown.
 
 ### Thanks!
 

@@ -47,7 +47,9 @@
         "notExported": false,
     },
 
+    "hostedBaseUrl": "https://typedoc.org/",
     "redirects": {
+        "guides/": "documents/Overview.html",
         "guides/overview/": "documents/Overview.html",
         "guides/installation/": "index.html",
         "guides/options/": "documents/Options.html",
@@ -65,7 +67,7 @@
         "guides/themes/": "documents/Themes.html",
         "guides/plugins/": "documents/Plugins.html",
         "guides/declaration-references/": "documents/Declaration_References.html",
-        "guides/development": "documents/Development.html",
+        "guides/development/": "documents/Development.html",
         "guides/changelog/": "documents/Changelog.html",
 
         // Tags
@@ -106,7 +108,7 @@
         "tags/readonly/": "documents/Tags._readonly.html",
         "tags/remarks/": "documents/Tags._remarks.html",
         "tags/returns/": "documents/Tags._returns.html",
-        "tags/satisfies/": "documents/Tags._satisfies.html",
+        "tags/satisfies/": "documents/Tags.TypeScript_Tags.html",
         "tags/sealed/": "documents/Tags._sealed.html",
         "tags/see/": "documents/Tags._see.html",
         "tags/template/": "documents/Tags._template.html",

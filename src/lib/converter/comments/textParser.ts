@@ -139,6 +139,7 @@ export function textContent(
             continue;
         }
 
+        data.atNewLine = token.text[data.pos] === "\n";
         ++data.pos;
     }
 

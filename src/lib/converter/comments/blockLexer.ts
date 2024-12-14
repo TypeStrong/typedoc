@@ -147,18 +147,31 @@ function* lexBlockComment2(
 
             case "`": {
                 // Markdown's code rules are a royal pain. This could be one of several things.
-                // 1. Inline code: <1-n ticks><text><same number of ticks>
-                // 2. Code block: <3 ticks><language, no ticks>\n<text>\n<3 ticks>\n
+                // 1. Inline code: <1-n ticks><text without multiple consecutive newlines or ticks at start of line><same number of ticks>
+                // 2. Code block: <newline><3+ ticks><language, no ticks>\n<text>\n<3 ticks>\n
                 // 3. Unmatched tick(s), not code, but part of some text.
                 // We don't quite handle #2 correctly yet. PR welcome!
                 braceStartsType = false;
                 let tickCount = 1;
-                let lookahead = pos;
+
+                let lookahead = pos - 1;
+                let atNewline = true;
+                while (lookahead > 0 && file[lookahead] !== "\n") {
+                    if (/\S/.test(file[lookahead])) {
+                        if (!commentHasStars || file[lookahead] !== "*") {
+                            atNewline = false;
+                            break;
+                        }
+                    }
+                    --lookahead;
+                }
+                lookahead = pos;
 
                 while (lookahead + 1 < end && file[lookahead + 1] === "`") {
                     tickCount++;
                     lookahead++;
                 }
+                const isCodeBlock = atNewline && tickCount >= 3;
                 let lookaheadStart = pos;
                 const codeText: string[] = [];
 
@@ -169,12 +182,17 @@ function* lexBlockComment2(
                         codeText.push(
                             file.substring(lookaheadStart, lookahead),
                         );
-                        yield {
-                            kind: TokenSyntaxKind.Code,
-                            text: codeText.join(""),
-                            pos,
-                        };
-                        pos = lookahead;
+                        const codeTextStr = codeText.join("");
+                        if (isCodeBlock || !/\n\s*\n/.test(codeTextStr)) {
+                            yield {
+                                kind: TokenSyntaxKind.Code,
+                                text: codeTextStr,
+                                pos,
+                            };
+                            pos = lookahead;
+                        } else {
+                            yield makeToken(TokenSyntaxKind.Text, tickCount);
+                        }
                         break;
                     } else if (file[lookahead] === "`") {
                         while (lookahead < end && file[lookahead] === "`") {
@@ -216,7 +234,7 @@ function* lexBlockComment2(
 
                 if (lookahead >= end && pos !== lookahead) {
                     if (
-                        tickCount === 3 &&
+                        isCodeBlock &&
                         file.substring(pos, end).includes("\n")
                     ) {
                         codeText.push(file.substring(lookaheadStart, end));

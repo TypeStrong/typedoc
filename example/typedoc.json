@@ -11,6 +11,7 @@
     "searchGroupBoosts": {
         "Classes": 1.5
     },
+    "hostedBaseUrl": "https://typedoc.org/example/",
     "navigationLinks": {
         "Docs": "https://typedoc.org",
         "API": "https://typedoc.org/api/index.html",
