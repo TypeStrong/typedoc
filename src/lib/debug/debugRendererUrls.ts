@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
 import { join } from "node:path";
 import type { Application } from "../application.js";
-import { Reflection, type SomeReflection } from "../models/index.js";
+import {
+    Reflection,
+    ReflectionKind,
+    type SomeReflection,
+} from "../models/index.js";
 import type { SerializerComponent } from "../serialization/components.js";
 import type { JSONOutput } from "../serialization/index.js";
 
@@ -19,7 +23,7 @@ const serializer: SerializerComponent<SomeReflection> = {
         delete obj.categories;
         delete obj.readme;
         delete obj.content;
-        delete obj.kind;
+        obj.kind = ReflectionKind[obj.kind];
         delete obj.flags;
         delete obj.defaultValue;
         delete obj.symbolIdMap;

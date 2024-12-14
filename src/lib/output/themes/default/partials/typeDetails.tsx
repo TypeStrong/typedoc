@@ -334,8 +334,11 @@ function renderingChildIsUseful(refl: DeclarationReflection) {
     // in the default theme, so we'll make the assumption that those properties ought to always
     // be rendered.
     // This should be kept in sync with the DefaultTheme.applyAnchorUrl function.
-    // We know refl.kind == TypeLiteral already here
-    if (refl.parent?.kindOf(ReflectionKind.SomeExport) && refl.type?.type === "reflection") {
+    if (
+        refl.kindOf(ReflectionKind.TypeLiteral) &&
+        refl.parent?.kindOf(ReflectionKind.SomeExport) &&
+        (refl.parent as DeclarationReflection).type?.type === "reflection"
+    ) {
         return true;
     }
 
