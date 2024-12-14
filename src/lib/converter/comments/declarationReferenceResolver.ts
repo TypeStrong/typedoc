@@ -2,6 +2,7 @@ import { ok } from "assert";
 import {
     ContainerReflection,
     DeclarationReflection,
+    type DocumentReflection,
     type ProjectReflection,
     ReferenceReflection,
     type Reflection,
@@ -225,10 +226,18 @@ function resolveSymbolReferencePart(
     let high: Reflection[] = [];
     let low: Reflection[] = [];
 
-    if (
-        !(refl instanceof ContainerReflection) ||
-        !refl.childrenIncludingDocuments
-    ) {
+    let children:
+        | ReadonlyArray<DocumentReflection | DeclarationReflection>
+        | undefined;
+
+    if (refl instanceof ContainerReflection) {
+        children = refl.childrenIncludingDocuments;
+    }
+    if (!children && refl.isDeclaration() && refl.type?.type === "reflection") {
+        children = refl.type.declaration.childrenIncludingDocuments;
+    }
+
+    if (!children) {
         return { high, low };
     }
 
@@ -238,12 +247,12 @@ function resolveSymbolReferencePart(
         // so that resolution doesn't behave very poorly with projects using JSDoc style resolution.
         // Also is more consistent with how TypeScript resolves link tags.
         case ".":
-            high = refl.childrenIncludingDocuments.filter(
+            high = children.filter(
                 (r) =>
                     r.name === path.path &&
                     (r.kindOf(ReflectionKind.SomeExport) || r.flags.isStatic),
             );
-            low = refl.childrenIncludingDocuments.filter(
+            low = children.filter(
                 (r) =>
                     r.name === path.path &&
                     (!r.kindOf(ReflectionKind.SomeExport) || !r.flags.isStatic),
@@ -254,7 +263,7 @@ function resolveSymbolReferencePart(
         // enum members, type literal properties
         case "#":
             high =
-                refl.children?.filter((r) => {
+                children?.filter((r) => {
                     return (
                         r.name === path.path &&
                         r.kindOf(ReflectionKind.SomeMember) &&
@@ -269,7 +278,7 @@ function resolveSymbolReferencePart(
             if (
                 refl.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project)
             ) {
-                high = refl.children?.filter((r) => r.name === path.path) || [];
+                high = children?.filter((r) => r.name === path.path) || [];
             }
             break;
     }

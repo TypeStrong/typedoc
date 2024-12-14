@@ -215,7 +215,7 @@ function renderChild(
                 <h5>
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
-                    <a id={child.anchor} class="tsd-anchor"></a>
+                    {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
                     <span class="tsd-signature-symbol">{!!child.flags.isOptional && "?"}:</span>
                     function
                 </h5>
@@ -245,7 +245,7 @@ function renderChild(
                     {context.reflectionFlags(child)}
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
-                    <a id={child.anchor} class="tsd-anchor"></a>
+                    {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
                     <span class="tsd-signature-symbol">
                         {!!child.flags.isOptional && "?"}
                         {": "}
@@ -271,7 +271,7 @@ function renderChild(
                         {context.reflectionFlags(child.getSignature)}
                         <span class="tsd-signature-keyword">get </span>
                         <span class={getKindClass(child)}>{child.name}</span>
-                        <a id={child.anchor} class="tsd-anchor"></a>
+                        {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
                         <span class="tsd-signature-symbol">(): </span>
                         {context.type(child.getSignature.type)}
                     </h5>
@@ -285,7 +285,7 @@ function renderChild(
                         {context.reflectionFlags(child.setSignature)}
                         <span class="tsd-signature-keyword">set </span>
                         <span class={getKindClass(child)}>{child.name}</span>
-                        {!child.getSignature && <a id={child.anchor} class="tsd-anchor"></a>}
+                        {!child.getSignature && child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
                         <span class="tsd-signature-symbol">(</span>
                         {child.setSignature.parameters?.map((item) => (
                             <>
@@ -329,6 +329,16 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
 }
 
 function renderingChildIsUseful(refl: DeclarationReflection) {
+    // Object types directly under a variable/type alias will always be considered useful.
+    // This probably isn't ideal, but it is an easy thing to check when assigning URLs
+    // in the default theme, so we'll make the assumption that those properties ought to always
+    // be rendered.
+    // This should be kept in sync with the DefaultTheme.applyAnchorUrl function.
+    // We know refl.kind == TypeLiteral already here
+    if (refl.parent?.kindOf(ReflectionKind.SomeExport) && refl.type?.type === "reflection") {
+        return true;
+    }
+
     if (renderingThisChildIsUseful(refl)) {
         return true;
     }

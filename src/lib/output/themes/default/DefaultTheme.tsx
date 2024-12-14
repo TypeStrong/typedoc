@@ -459,12 +459,30 @@ export class DefaultTheme extends Theme {
             return;
         }
 
-        if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
+        // We support linking to reflections for types directly contained within an export
+        // but not any deeper. This is because TypeDoc may or may not render the type details
+        // for a property depending on whether or not it is deemed useful, and defining a link
+        // which might not be used may result in a link being generated which isn't valid. #2808.
+        // This should be kept in sync with the renderingChildIsUseful function.
+        if (
+            reflection.kindOf(ReflectionKind.TypeLiteral) &&
+            (!reflection.parent?.kindOf(ReflectionKind.SomeExport) ||
+                (reflection.parent as DeclarationReflection).type?.type !== "reflection")
+        ) {
+            return;
+        }
+
+        if (
+            (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) &&
+            !reflection.kindOf(ReflectionKind.TypeLiteral)
+        ) {
             let refl: Reflection | undefined = reflection;
             const parts = [refl.name];
             while (refl.parent && refl.parent !== container && !(reflection.parent instanceof ProjectReflection)) {
                 refl = refl.parent;
                 // Avoid duplicate names for signatures
+                // BREAKING: In 0.28, also add !refl.kindOf(ReflectionKind.TypeLiteral) to this check to improve anchor
+                // generation by omitting useless __type prefixes.
                 if (parts[0] !== refl.name) {
                     parts.unshift(refl.name);
                 }

@@ -95,6 +95,7 @@ export = {
         "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t{0}",
     reflection_0_has_unused_mergeModuleWith_tag:
         "{0} has a @mergeModuleWith tag which could not be resolved",
+    reflection_0_links_to_1_with_text_2_but_resolved_to_3: `"{0}" links to "{1}" with text "{2}" which exists but does not have a link in the documentation, will link to "{3}" instead.`,
 
     // conversion plugins
     not_all_search_category_boosts_used_0: `Not all categories specified in searchCategoryBoosts were used in the documentation. The unused categories were:\n\t{0}`,

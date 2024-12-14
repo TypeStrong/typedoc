@@ -833,7 +833,13 @@ export class ReferenceType extends Type {
         const resolved =
             resolvePotential.find((refl) => refl.kindOf(kind)) ||
             resolvePotential.find((refl) => refl.kindOf(~kind))!;
-        this._target = resolved.id;
+
+        // Do not mark the type as resolved at this point so that if it
+        // points to a member which is removed (e.g. by typedoc-plugin-zod)
+        // and then replaced it still ends up pointing at the right reflection.
+        // We will lock type reference resolution when serializing to JSON.
+        // this._target = resolved.id;
+
         return resolved;
     }
 
@@ -1002,6 +1008,8 @@ export class ReferenceType extends Type {
             target = this._target;
         } else if (this._project?.symbolIdHasBeenRemoved(this._target)) {
             target = -1;
+        } else if (this.reflection) {
+            target = this.reflection.id;
         } else {
             target = this._target.toObject(serializer);
         }
@@ -1023,7 +1031,7 @@ export class ReferenceType extends Type {
             result.refersToTypeParameter = true;
         }
 
-        if (typeof this._target !== "number" && this.preferValues) {
+        if (typeof target !== "number" && this.preferValues) {
             result.preferValues = true;
         }
 

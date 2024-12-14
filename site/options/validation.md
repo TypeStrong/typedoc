@@ -20,13 +20,32 @@ typedoc.json (defaults):
     "validation": {
         "notExported": true,
         "invalidLink": true,
+        "rewrittenLink": true,
         "notDocumented": false,
         "unusedMergeModuleWith": true
     }
 }
 ```
 
-Specifies validation steps TypeDoc should perform on your generated documentation.
+Specifies validation steps TypeDoc should perform on your generated
+documentation. Most validation occurs before rendering, but `rewrittenLink` is
+done during HTML rendering as links have not been generated before rendering
+begins.
+
+-   **notExported** - Produce warnings if a type is referenced by the
+    documentation but the type isn't exported and therefore included in the
+    documentation.
+-   **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
+-   **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
+    but whose target does not have a unique URL in the documentation. TypeDoc
+    will rewrite these links to point to the first parent with a URL.
+-   **notDocumented** - Produce warnings for reflections which do not have a
+    documentation comment. This is also controlled by the
+    [requiredToBeDocumented](#requiredtobedocumented) option.
+-   **unusedMergeModuleWith** - Produce warnings for
+    [`@mergeModuleWith`](../tags/mergeModuleWith.md) tags which are not
+    resolved. This option should generally be disabled if generating JSON which
+    will be combined with another document later.
 
 ## treatWarningsAsErrors
 

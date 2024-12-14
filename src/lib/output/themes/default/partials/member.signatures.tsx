@@ -10,7 +10,7 @@ export const memberSignatures = (context: DefaultThemeRenderContext, props: Decl
             {props.signatures?.map((item) => (
                 <>
                     <li class="tsd-signature tsd-anchor-link">
-                        <a id={item.anchor} class="tsd-anchor"></a>
+                        {item.anchor && <a id={item.anchor} class="tsd-anchor"></a>}
                         {context.memberSignatureTitle(item)}
                         {anchorIcon(context, item.anchor)}
                     </li>

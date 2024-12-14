@@ -4,7 +4,7 @@ import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
 import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
-import { Option, renderElement, assertNever } from "../../utils/index.js";
+import { Option, renderElement, assertNever, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
 import { escapeHtml } from "../../utils/html.js";
@@ -34,6 +34,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     @Option("markdownLinkExternal")
     accessor markdownLinkExternal!: boolean;
+
+    @Option("validation")
+    accessor validation!: ValidationOptions;
 
     private parser?: MarkdownIt;
 
@@ -141,21 +144,46 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     url = part.target;
                                 } else if ("id" in part.target) {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
-                                    // tried and failed during the resolution step.
+                                    // tried and failed during the resolution step. Warnings related to those broken links
+                                    // have already been emitted.
                                     url = context.urlTo(part.target);
                                     kindClass = ReflectionKind.classString(part.target.kind);
+
+                                    // If we don't have a URL the user probably linked to some deeply nested property
+                                    // which doesn't get an assigned URL. We'll walk upwards until we find a reflection
+                                    // which has a URL and link to that instead.
+                                    if (!url) {
+                                        // Walk upwards to find something we can link to.
+                                        let target = part.target.parent!;
+                                        url = context.urlTo(target);
+                                        while (!url && target.parent) {
+                                            target = target.parent;
+                                            // We know we'll always end up with a URL here eventually as the
+                                            // project always has a URL.
+                                            url = context.urlTo(target)!;
+                                        }
+
+                                        if (this.validation.rewrittenLink) {
+                                            this.application.logger.warn(
+                                                this.application.i18n.reflection_0_links_to_1_with_text_2_but_resolved_to_3(
+                                                    page.model.getFriendlyFullName(),
+                                                    part.target.getFriendlyFullName(),
+                                                    part.text,
+                                                    target.getFriendlyFullName(),
+                                                ),
+                                            );
+                                        }
+                                    }
                                 }
 
                                 if (useHtml) {
                                     const text = part.tag === "@linkcode" ? `<code>${part.text}</code>` : part.text;
                                     result.push(
-                                        url
-                                            ? `<a href="${url}"${kindClass ? ` class="${kindClass}"` : ""}>${text}</a>`
-                                            : part.text,
+                                        `<a href="${url}"${kindClass ? ` class="${kindClass}"` : ""}>${text}</a>`,
                                     );
                                 } else {
                                     const text = part.tag === "@linkcode" ? "`" + part.text + "`" : part.text;
-                                    result.push(url ? `[${text}](${url})` : text);
+                                    result.push(`[${text}](${url})`);
                                 }
                             } else {
                                 result.push(part.text);

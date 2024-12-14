@@ -122,3 +122,17 @@ export namespace Navigation {
         foo = 456;
     }
 }
+
+/**
+ * {@link GH2808DeeplyNestedLink.prop.nested.here}
+ */
+export interface GH2808DeeplyNestedLink {
+    /** Prop docs */
+    prop: {
+        /** Nested docs */
+        nested: {
+            /** Here docs */
+            here: true;
+        };
+    };
+}

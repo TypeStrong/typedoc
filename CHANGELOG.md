@@ -6,6 +6,16 @@ title: Changelog
 
 ### Bug Fixes
 
+-   Possibly Breaking: TypeDoc will no longer render anchors within the page for
+    deeply nested properties. This only affects links to properties of
+    properties of types, which did not have a clickable link exposed so are
+    unlikely to have been linked to. Furthermore, these links were not always
+    created by TypeDoc, only being created if all parent properties contained
+    comments, #2808.
+-   TypeDoc will now warn if a property which does not have a URL within the
+    rendered document and the parent property/page will be linked to instead,
+    #2808. These warnings can be disabled with the `validation.rewrittenLink`
+    option.
 -   Fix restoration of groups/categories including documents, #2801.
 -   Fixed missed relative paths within markdown link references in documents.
 -   Improved handling of incomplete inline code blocks within markdown.

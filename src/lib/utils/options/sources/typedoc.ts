@@ -977,6 +977,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             notExported: true,
             invalidLink: true,
+            rewrittenLink: true,
             notDocumented: false,
             unusedMergeModuleWith: true,
         },

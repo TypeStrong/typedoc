@@ -159,6 +159,7 @@ describe("Options - ArgumentsReader", () => {
                 notExported: true,
                 notDocumented: false,
                 invalidLink: true,
+                rewrittenLink: true,
                 unusedMergeModuleWith: true,
             });
         },
@@ -179,6 +180,7 @@ describe("Options - ArgumentsReader", () => {
                 notExported: false,
                 notDocumented: false,
                 invalidLink: true,
+                rewrittenLink: true,
                 unusedMergeModuleWith: true,
             });
         },
@@ -194,6 +196,7 @@ describe("Options - ArgumentsReader", () => {
                 notExported: true,
                 notDocumented: true,
                 invalidLink: true,
+                rewrittenLink: true,
                 unusedMergeModuleWith: true,
             });
         },
@@ -209,6 +212,7 @@ describe("Options - ArgumentsReader", () => {
                 notExported: true,
                 notDocumented: true,
                 invalidLink: true,
+                rewrittenLink: true,
                 unusedMergeModuleWith: true,
             });
         },
@@ -224,6 +228,7 @@ describe("Options - ArgumentsReader", () => {
                 notExported: false,
                 notDocumented: false,
                 invalidLink: false,
+                rewrittenLink: false,
                 unusedMergeModuleWith: false,
             });
         },

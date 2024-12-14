@@ -108,13 +108,13 @@ export class Internationalization {
      * Get the translation of the specified key, replacing placeholders
      * with the arguments specified.
      */
-    translate<T extends keyof typeof translatable>(
+    translate<T extends keyof TranslatableStrings>(
         key: T,
         ...args: TranslatableStrings[T]
     ): TranslatedString {
         return (
             this.allTranslations.get(this.application?.lang ?? "en").get(key) ??
-            translatable[key]
+            translatable[key as keyof typeof translatable]
         ).replace(/\{(\d+)\}/g, (_, index) => {
             return args[+index] ?? "(no placeholder)";
         }) as TranslatedString;
