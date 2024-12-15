@@ -127,7 +127,9 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
         <nav class="tsd-navigation">
             <a
                 href={context.urlTo(props.project)}
-                class={classNames({ current: props.url === props.model.url && props.model.isProject() })}
+                class={classNames({
+                    current: props.url === context.router.getFullUrl(props.model) && props.model.isProject(),
+                })}
             >
                 {getDisplayName(props.project)}
             </a>
