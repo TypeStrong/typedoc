@@ -2,7 +2,6 @@ import type { Application } from "../application.js";
 import {
     type DeclarationReflection,
     ReflectionKind,
-    TraverseProperty,
     type ProjectReflection,
     type Reflection,
 } from "../models/index.js";
@@ -93,6 +92,9 @@ export interface Router {
     getSlugger(reflection: Reflection): Slugger;
 }
 
+/**
+ * TypeDoc's default router implementation.
+ */
 export class DefaultRouter implements Router {
     // Note: This will always contain lowercased names to avoid issues with
     // case-insensitive file systems.
@@ -108,6 +110,8 @@ export class DefaultRouter implements Router {
     private accessor includeHierarchySummary!: boolean;
 
     constructor(readonly application: Application) {}
+
+    extension = "html";
 
     directories = new Map<ReflectionKind, [dir: string, kind: PageKind]>([
         [ReflectionKind.Class, ["classes", PageKind.Reflection]],
@@ -131,18 +135,18 @@ export class DefaultRouter implements Router {
 
         if (project.readme?.length) {
             pages.push({
-                url: "index.html",
+                url: `index.${this.extension}`,
+                kind: PageKind.Index,
+                model: project,
+            });
+            pages.push({
+                url: `modules.${this.extension}`,
                 kind: PageKind.Reflection,
                 model: project,
             });
         } else {
             pages.push({
-                url: "index.html",
-                kind: PageKind.Index,
-                model: project,
-            });
-            pages.push({
-                url: "modules.html",
+                url: `index.${this.extension}`,
                 kind: PageKind.Reflection,
                 model: project,
             });
@@ -152,7 +156,7 @@ export class DefaultRouter implements Router {
 
         if (this.includeHierarchySummary && getHierarchyRoots(project)) {
             pages.push({
-                url: "hierarchy.html",
+                url: `hierarchy.${this.extension}`,
                 kind: PageKind.Hierarchy,
                 model: project,
             });
@@ -183,12 +187,27 @@ export class DefaultRouter implements Router {
 
     relativeUrl(from: Reflection, to: Reflection): string {
         let slashes = 0;
-        const full = this.getFullUrl(from);
-        for (let i = 0; i < full.length; ++i) {
-            if (full[i] === "/") ++slashes;
+        const fromUrl = this.getFullUrl(from);
+        const toUrl = this.getFullUrl(to);
+        let equal = true;
+        let start = 0;
+
+        for (let i = 0; i < fromUrl.length; ++i) {
+            equal = equal && fromUrl[i] === toUrl[i];
+            if (fromUrl[i] === "/") {
+                if (equal) {
+                    start = i + 1;
+                } else {
+                    ++slashes;
+                }
+            }
         }
 
-        return "../".repeat(slashes) + this.getFullUrl(to);
+        if (equal) {
+            return `#${this.getAnchor(to)}`;
+        }
+
+        return "../".repeat(slashes) + toUrl.substring(start);
     }
 
     baseRelativeUrl(from: Reflection, target: string): string {
@@ -279,39 +298,35 @@ export class DefaultRouter implements Router {
             return;
         }
 
-        let refl: Reflection | undefined = reflection;
-        const parts = [refl.name];
-        while (refl.parent && refl.parent !== pageReflection) {
-            refl = refl.parent;
-            // Avoid duplicate names for signatures and useless __type in anchors
-            if (
-                !refl.kindOf(
-                    ReflectionKind.TypeLiteral |
-                        ReflectionKind.FunctionOrMethod,
-                )
-            ) {
-                parts.unshift(refl.name);
+        if (!reflection.kindOf(ReflectionKind.TypeLiteral)) {
+            let refl: Reflection | undefined = reflection;
+            const parts = [refl.name];
+            while (refl.parent && refl.parent !== pageReflection) {
+                refl = refl.parent;
+                // Avoid duplicate names for signatures and useless __type in anchors
+                if (
+                    !refl.kindOf(
+                        ReflectionKind.TypeLiteral |
+                            ReflectionKind.FunctionOrMethod,
+                    )
+                ) {
+                    parts.unshift(refl.name);
+                }
             }
+
+            const anchor = this.getSlugger(pageReflection).slug(
+                parts.join("."),
+            );
+
+            this.fullUrls.set(
+                reflection,
+                this.fullUrls.get(pageReflection)! + "#" + anchor,
+            );
+            this.anchors.set(reflection, anchor);
         }
 
-        const anchor = this.getSlugger(pageReflection).slug(parts.join("."));
-
-        this.fullUrls.set(
-            reflection,
-            this.fullUrls.get(pageReflection)! + "#" + anchor,
-        );
-        this.anchors.set(reflection, anchor);
-
-        reflection.traverse((child, prop) => {
-            switch (prop) {
-                case TraverseProperty.Children:
-                case TraverseProperty.GetSignature:
-                case TraverseProperty.SetSignature:
-                case TraverseProperty.IndexSignature:
-                case TraverseProperty.Signatures:
-                case TraverseProperty.TypeParameter:
-                    this.buildAnchors(child, pageReflection);
-            }
+        reflection.traverse((child) => {
+            this.buildAnchors(child, pageReflection);
             return true;
         });
     }
@@ -332,10 +347,10 @@ export class DefaultRouter implements Router {
             }
 
             this.usedFileNames.add(`${lowerBaseName}-${index}`);
-            return `${baseName}-${index}.html`;
+            return `${baseName}-${index}.${this.extension}`;
         }
 
         this.usedFileNames.add(lowerBaseName);
-        return `${baseName}.html`;
+        return `${baseName}.${this.extension}`;
     }
 }

@@ -3,9 +3,6 @@ import {
     notDeepStrictEqual as notEqual,
     ok,
 } from "assert";
-import { existsSync } from "fs";
-import { join } from "path";
-import { clearCommentCache } from "../lib/converter/comments/index.js";
 import {
     Comment,
     CommentTag,
@@ -22,11 +19,7 @@ import {
     UnionType,
 } from "../lib/models/index.js";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment.js";
-import {
-    getConverter2App,
-    getConverter2Base,
-    getConverter2Program,
-} from "./programs.js";
+import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import {
     equalKind,
@@ -38,42 +31,7 @@ import {
 } from "./utils.js";
 import { DefaultRouter, DefaultTheme, PageEvent } from "../index.js";
 
-const base = getConverter2Base();
 const app = getConverter2App();
-const program = getConverter2Program();
-
-function doConvert(entries: string[]) {
-    const entryPoints = entries
-        .map((entry) =>
-            [
-                join(base, `issues/${entry}.ts`),
-                join(base, `issues/${entry}.d.ts`),
-                join(base, `issues/${entry}.tsx`),
-                join(base, `issues/${entry}.js`),
-                join(base, "issues", entry, "index.ts"),
-                join(base, "issues", entry, "index.js"),
-                join(base, "issues", entry),
-            ].find(existsSync),
-        )
-        .filter((x) => x !== undefined);
-
-    const files = entryPoints.map((e) => program.getSourceFile(e));
-    for (const [index, file] of files.entries()) {
-        ok(file, `No source file found for ${entryPoints[index]}`);
-    }
-
-    app.options.setValue("entryPoints", entryPoints);
-    clearCommentCache();
-    return app.converter.convert(
-        files.map((file, index) => {
-            return {
-                displayName: entries[index].replace(/\.[tj]sx?$/, ""),
-                program,
-                sourceFile: file!,
-            };
-        }),
-    );
-}
 
 describe("Issue Tests", () => {
     let logger: TestLogger;
@@ -86,7 +44,10 @@ describe("Issue Tests", () => {
         const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
         ok(issueNumber, "Test name must contain an issue number.");
         convert = (...entries) =>
-            doConvert(entries.length ? entries : [`gh${issueNumber}`]);
+            getConverter2Project(
+                entries.length ? entries : [`gh${issueNumber}`],
+                "issues",
+            );
     });
 
     afterEach(() => {
