@@ -18,7 +18,13 @@ export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderCo
 export { Slugger } from "./themes/default/Slugger.js";
 
 export {
-    DefaultRouter,
+    BaseRouter,
+    KindRouter,
+    KindDirRouter,
+    StructureRouter,
+    StructureDirRouter,
+    GroupRouter,
+    CategoryRouter,
     PageKind,
     type PageDefinition,
     type Router,

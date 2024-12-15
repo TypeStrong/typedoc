@@ -56,7 +56,13 @@ export {
     RendererEvent,
     MarkdownEvent,
     IndexEvent,
-    DefaultRouter,
+    BaseRouter,
+    KindRouter,
+    KindDirRouter,
+    StructureRouter,
+    StructureDirRouter,
+    GroupRouter,
+    CategoryRouter,
     PageKind,
 } from "./lib/output/index.js";
 export type {

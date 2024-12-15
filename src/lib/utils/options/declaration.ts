@@ -142,6 +142,7 @@ export interface TypeDocOptionMap {
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;
+    router: string;
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     highlightLanguages: string[];
