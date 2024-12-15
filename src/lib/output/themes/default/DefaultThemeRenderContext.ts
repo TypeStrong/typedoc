@@ -102,7 +102,7 @@ export class DefaultThemeRenderContext {
 
     /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string, cacheBust = false) => {
-        const result = this.theme.router!.baseRelativeUrl(this.page.model, url);
+        const result = this.router.baseRelativeUrl(this.page.model, url);
         if (cacheBust && this.theme.owner.cacheBust) {
             return result + `?cache=${this.theme.owner.renderStartTime}`;
         }

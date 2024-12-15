@@ -2,7 +2,7 @@ import type { Application } from "../application.js";
 import { CategoryPlugin } from "../converter/plugins/CategoryPlugin.js";
 import { GroupPlugin } from "../converter/plugins/GroupPlugin.js";
 import {
-    Reflection,
+    type Reflection,
     type DeclarationReflection,
     ReflectionKind,
     type ProjectReflection,
@@ -517,12 +517,10 @@ export class GroupRouter extends BaseRouter {
     }
 
     protected override getIdealBaseName(reflection: Reflection): string {
-        const group = [
-            this.getGroup(reflection)
-                .split("/")
-                .map(createNormalizedUrl)
-                .join("/"),
-        ];
+        const group = this.getGroup(reflection)
+            .split("/")
+            .map(createNormalizedUrl)
+            .join("/");
         const parts = [createNormalizedUrl(reflection.name)];
         while (reflection.parent && !reflection.parent.isProject()) {
             reflection = reflection.parent;
@@ -556,12 +554,10 @@ export class CategoryRouter extends BaseRouter {
     }
 
     protected override getIdealBaseName(reflection: Reflection): string {
-        const cat = [
-            this.getCategory(reflection)
-                .split("/")
-                .map(createNormalizedUrl)
-                .join("/"),
-        ];
+        const cat = this.getCategory(reflection)
+            .split("/")
+            .map(createNormalizedUrl)
+            .join("/");
         const parts = [createNormalizedUrl(reflection.name)];
         while (reflection.parent && !reflection.parent.isProject()) {
             reflection = reflection.parent;

@@ -34,7 +34,7 @@ export function bench<T extends (..._: any) => any>(
                     end();
                     return res;
                 },
-                (reason) => {
+                (reason: unknown) => {
                     end();
                     throw reason;
                 },
