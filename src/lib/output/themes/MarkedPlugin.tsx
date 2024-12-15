@@ -146,8 +146,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step. Warnings related to those broken links
                                     // have already been emitted.
-                                    url = context.urlTo(part.target);
                                     kindClass = ReflectionKind.classString(part.target.kind);
+                                    if (context.router.hasUrl(part.target)) {
+                                        url = context.urlTo(part.target);
+                                    }
 
                                     // If we don't have a URL the user probably linked to some deeply nested property
                                     // which doesn't get an assigned URL. We'll walk upwards until we find a reflection
@@ -155,13 +157,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     if (!url) {
                                         // Walk upwards to find something we can link to.
                                         let target = part.target.parent!;
-                                        url = context.urlTo(target);
-                                        while (!url && target.parent) {
-                                            target = target.parent;
-                                            // We know we'll always end up with a URL here eventually as the
-                                            // project always has a URL.
-                                            url = context.urlTo(target)!;
+                                        while (!context.router.hasUrl(target)) {
+                                            target = target.parent!;
                                         }
+
+                                        // We know we'll always end up with a URL here eventually as the
+                                        // project always has a URL.
+                                        url = context.urlTo(target);
 
                                         if (this.validation.rewrittenLink) {
                                             this.application.logger.warn(
