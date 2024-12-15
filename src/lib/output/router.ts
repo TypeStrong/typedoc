@@ -100,10 +100,6 @@ export class DefaultRouter implements Router {
     protected fullUrls = new Map<Reflection, string>();
     protected anchors = new Map<Reflection, string>();
 
-    // #2386, we get URLs a lot, saving a cache helps.
-    // ... but does it actually? Retest.
-    // private fullToRelativeUrlCache = new Map<string, string>();
-
     @Option("sluggerConfiguration")
     private accessor sluggerConfiguration!: TypeDocOptionMap["sluggerConfiguration"];
 
