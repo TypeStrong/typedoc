@@ -314,6 +314,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.String,
         defaultValue: "default",
     });
+    options.addDeclaration({
+        name: "router",
+        help: (i18n) => i18n.help_router(),
+        type: ParameterType.String,
+        defaultValue: "kind",
+    });
 
     const defaultLightTheme: BundledTheme = "light-plus";
     const defaultDarkTheme: BundledTheme = "dark-plus";

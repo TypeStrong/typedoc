@@ -40,7 +40,16 @@ import {
     NavigationPlugin,
     SitemapPlugin,
 } from "./plugins/index.js";
-import { DefaultRouter, type PageDefinition, type Router } from "./router.js";
+import {
+    CategoryRouter,
+    GroupRouter,
+    KindDirRouter,
+    KindRouter,
+    StructureDirRouter,
+    StructureRouter,
+    type PageDefinition,
+    type Router,
+} from "./router.js";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -169,7 +178,12 @@ export interface RendererEvents {
  */
 export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private routers = new Map<string, new (app: Application) => Router>([
-        ["default", DefaultRouter],
+        ["kind", KindRouter],
+        ["structure", StructureRouter],
+        ["kind-dir", KindDirRouter],
+        ["structure-dir", StructureDirRouter],
+        ["group", GroupRouter],
+        ["category", CategoryRouter],
     ]);
 
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
@@ -234,6 +248,10 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
     /** @internal */
     @Option("theme")
     private accessor themeName!: string;
+
+    /** @internal */
+    @Option("router")
+    private accessor routerName!: string;
 
     @Option("cleanOutputDir")
     private accessor cleanOutputDir!: boolean;
@@ -320,17 +338,15 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         const momento = this.hooks.saveMomento();
         this.renderStartTime = Date.now();
 
-        // GERRIT: Support user input
-        this.router = new (this.routers.get("default")!)(this.application);
-
         if (
+            !this.prepareRouter() ||
             !this.prepareTheme() ||
             !(await this.prepareOutputDirectory(outputDirectory))
         ) {
             return;
         }
 
-        const pages = this.router.buildPages(project);
+        const pages = this.router!.buildPages(project);
 
         const output = new RendererEvent(outputDirectory, project, pages);
         this.trigger(RendererEvent.BEGIN, output);
@@ -406,14 +422,25 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         }
     }
 
-    /**
-     * Ensure that a theme has been setup.
-     *
-     * If a the user has set a theme we try to find and load it. If no theme has
-     * been specified we load the default theme.
-     *
-     * @returns TRUE if a theme has been setup, otherwise FALSE.
-     */
+    private prepareRouter(): boolean {
+        if (!this.theme) {
+            const ctor = this.routers.get(this.routerName);
+            if (!ctor) {
+                this.application.logger.error(
+                    this.application.i18n.router_0_is_not_defined_available_are_1(
+                        this.routerName,
+                        [...this.routers.keys()].join(", "),
+                    ),
+                );
+                return false;
+            } else {
+                this.router = new ctor(this.application);
+            }
+        }
+
+        return true;
+    }
+
     private prepareTheme(): boolean {
         if (!this.theme) {
             const ctor = this.themes.get(this.themeName);

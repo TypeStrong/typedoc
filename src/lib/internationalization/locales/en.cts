@@ -145,6 +145,7 @@ export = {
     could_not_empty_output_directory_0: `Could not empty the output directory {0}`,
     could_not_create_output_directory_0: `Could not create the output directory {0}`,
     theme_0_is_not_defined_available_are_1: `The theme '{0}' is not defined. The available themes are: {1}`,
+    router_0_is_not_defined_available_are_1: `The router '{0}' is not defined. The available routers are: {1}`,
     reflection_0_links_to_1_but_anchor_does_not_exist_try_2: `{0} links to {1}, but the anchor does not exist. You may have meant:\n\t{2}`,
 
     // entry points
@@ -245,6 +246,8 @@ export = {
         "Specify whether the output JSON should be formatted with tabs",
     help_emit: "Specify what TypeDoc should emit, 'docs', 'both', or 'none'",
     help_theme: "Specify the theme name to render the documentation with",
+    help_router:
+        "Specify the router name to use to determine file names in the documentation",
     help_lightHighlightTheme:
         "Specify the code highlighting theme in light mode",
     help_darkHighlightTheme: "Specify the code highlighting theme in dark mode",

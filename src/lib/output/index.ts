@@ -19,7 +19,13 @@ export type { Icons } from "./themes/default/partials/icon.js";
 export { Slugger } from "./themes/default/Slugger.js";
 
 export {
-    DefaultRouter,
+    BaseRouter,
+    KindRouter,
+    KindDirRouter,
+    StructureRouter,
+    StructureDirRouter,
+    GroupRouter,
+    CategoryRouter,
     PageKind,
     type PageDefinition,
     type Router,
