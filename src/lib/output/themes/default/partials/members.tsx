@@ -4,7 +4,7 @@ import { type ContainerReflection } from "../../../../models/index.js";
 import { getMemberSections } from "../../lib.js";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
-    const sections = getMemberSections(props, (child) => !child.hasOwnDocument);
+    const sections = getMemberSections(props, (child) => !context.router.hasOwnDocument(child));
 
     return (
         <>

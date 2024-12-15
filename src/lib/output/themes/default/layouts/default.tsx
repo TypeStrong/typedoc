@@ -37,7 +37,7 @@ function buildSiteMetadata(context: DefaultThemeRenderContext) {
                     html={JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "WebSite",
-                        name: context.page.project.name,
+                        name: context.model.project.name,
                         url: url.toString(),
                     })}
                 />

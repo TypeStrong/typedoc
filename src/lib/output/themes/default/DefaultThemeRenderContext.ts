@@ -1,6 +1,7 @@
 import type { PageEvent, Renderer } from "../../index.js";
 import type {
     Internationalization,
+    TranslatedString,
     TranslationProxy,
 } from "../../../internationalization/internationalization.js";
 import type {
@@ -13,7 +14,7 @@ import { type NeverIfInternal, type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
 import { defaultLayout } from "./layouts/default.js";
 import { index } from "./partials/index.js";
-import { breadcrumb } from "./partials/breadcrumb.js";
+import { breadcrumbs } from "./partials/breadcrumb.js";
 import {
     commentShortSummary,
     commentSummary,
@@ -59,6 +60,7 @@ import {
     moduleMemberSummary,
     moduleReflection,
 } from "./partials/moduleReflection.js";
+import type { Router } from "../../router.js";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);
@@ -70,15 +72,19 @@ export class DefaultThemeRenderContext {
     internationalization: Internationalization;
     i18n: TranslationProxy;
 
+    model: Reflection;
+
     constructor(
+        readonly router: Router,
         readonly theme: DefaultTheme,
         public page: PageEvent<Reflection>,
         options: Options,
     ) {
+        this._refIcons = buildRefIcons(theme.icons, this);
         this.options = options;
         this.internationalization = theme.application.internationalization;
         this.i18n = this.internationalization.proxy;
-        this._refIcons = buildRefIcons(theme.icons, this);
+        this.model = page.model;
     }
 
     /**
@@ -92,7 +98,7 @@ export class DefaultThemeRenderContext {
     }
 
     get slugger() {
-        return this.theme.getSlugger(this.page.model);
+        return this.router.getSlugger(this.page.model);
     }
 
     hook: Renderer["hooks"]["emit"] = (...params) => {
@@ -101,15 +107,33 @@ export class DefaultThemeRenderContext {
 
     /** Avoid this in favor of urlTo if possible */
     relativeURL = (url: string, cacheBust = false) => {
-        const result = this.theme.markedPlugin.getRelativeUrl(url);
+        const result = this.theme.router!.baseRelativeUrl(this.page.model, url);
         if (cacheBust && this.theme.owner.cacheBust) {
             return result + `?cache=${this.theme.owner.renderStartTime}`;
         }
         return result;
     };
 
-    urlTo = (reflection: Reflection) => {
-        return reflection.url ? this.relativeURL(reflection.url) : "";
+    getAnchor = (reflection: Reflection): string | undefined => {
+        const anchor = this.router.getAnchor(reflection);
+        if (!anchor) {
+            // This will go to debug level before release
+            this.theme.application.logger.warn(
+                `${reflection.getFullName()} does not have an anchor but one was requested when generating page for ${this.model.getFullName()}, this is a bug` as TranslatedString,
+            );
+        }
+        return anchor;
+    };
+
+    urlTo = (reflection: Reflection): string | undefined => {
+        if (this.router.hasUrl(reflection)) {
+            return this.router.relativeUrl(this.page.model, reflection);
+        }
+        // This will go to debug level before release
+        this.theme.application.logger.warn(
+            `${reflection.getFullName()} does not have a URL but was linked to when generating page for ${this.model.getFullName()}, this is a bug` as TranslatedString,
+        );
+        return undefined;
     };
 
     markdown = (
@@ -160,7 +184,7 @@ export class DefaultThemeRenderContext {
      */
     typeDeclaration = bind(typeDeclaration, this);
 
-    breadcrumb = bind(breadcrumb, this);
+    breadcrumbs = bind(breadcrumbs, this);
     commentShortSummary = bind(commentShortSummary, this);
     commentSummary = bind(commentSummary, this);
     commentTags = bind(commentTags, this);

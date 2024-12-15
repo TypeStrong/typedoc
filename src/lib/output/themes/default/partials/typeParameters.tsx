@@ -1,6 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { TypeParameterReflection } from "../../../../models/index.js";
 import { JSX } from "../../../../utils/index.js";
+import { anchorLinkIfPresent } from "./anchor-icon.js";
 
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {
     return (
@@ -11,7 +12,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                     {typeParameters.map((item) => (
                         <li>
                             <span>
-                                <a id={item.anchor} class="tsd-anchor"></a>
+                                {anchorLinkIfPresent(context, item)}
                                 {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
                                 {item.varianceModifier && (
                                     <span class="tsd-signature-keyword">{item.varianceModifier} </span>

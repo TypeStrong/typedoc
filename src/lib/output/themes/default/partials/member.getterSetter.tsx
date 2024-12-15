@@ -15,7 +15,7 @@ export const memberGetterSetter = (context: DefaultThemeRenderContext, props: De
         >
             {!!props.getSignature && (
                 <>
-                    <li class="tsd-signature" id={props.getSignature.anchor}>
+                    <li class="tsd-signature" id={context.getAnchor(props.getSignature)}>
                         {context.memberSignatureTitle(props.getSignature)}
                     </li>
                     <li class="tsd-description">{context.memberSignatureBody(props.getSignature)}</li>
@@ -23,7 +23,7 @@ export const memberGetterSetter = (context: DefaultThemeRenderContext, props: De
             )}
             {!!props.setSignature && (
                 <>
-                    <li class="tsd-signature" id={props.setSignature.anchor}>
+                    <li class="tsd-signature" id={context.getAnchor(props.setSignature)}>
                         {context.memberSignatureTitle(props.setSignature)}
                     </li>
                     <li class="tsd-description">{context.memberSignatureBody(props.setSignature)}</li>

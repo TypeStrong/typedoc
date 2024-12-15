@@ -5,7 +5,7 @@ import { hasTypeParameters } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function memberDeclaration(context: DefaultThemeRenderContext, props: DeclarationReflection) {
-    const builder = new FormattedCodeBuilder(context.urlTo);
+    const builder = new FormattedCodeBuilder(context.router, context.model);
     const content: FormatterNode[] = [];
     builder.member(content, props, { topLevelLinks: false });
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));

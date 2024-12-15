@@ -51,6 +51,8 @@ export {
     RendererEvent,
     MarkdownEvent,
     IndexEvent,
+    DefaultRouter,
+    PageKind,
 } from "./lib/output/index.js";
 export type {
     RenderTemplate,
@@ -58,6 +60,8 @@ export type {
     NavigationElement,
     RendererEvents,
     PageHeading,
+    Router,
+    PageDefinition,
 } from "./lib/output/index.js";
 
 export { Outputs } from "./lib/output/output.js";

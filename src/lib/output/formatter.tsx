@@ -20,6 +20,7 @@ import {
     type TypeParameterReflection,
     type ParameterReflection,
 } from "../models/index.js";
+import type { Router } from "./index.js";
 
 // Non breaking space
 const INDENT = "\u00A0\u00A0\u00A0\u00A0";
@@ -286,15 +287,28 @@ const typeBuilder: TypeVisitor<
             ]);
             if (childReflection) {
                 const displayed = stringify(type.indexType.value);
-                indexType = {
-                    type: "element",
-                    content: (
-                        <a href={builder.urlTo(childReflection)}>
+
+                if (builder.router.hasUrl(childReflection)) {
+                    indexType = {
+                        type: "element",
+                        content: (
+                            <a href={builder.urlTo(childReflection)}>
+                                <span class="tsd-signature-type">
+                                    {displayed}
+                                </span>
+                            </a>
+                        ),
+                        length: displayed.length,
+                    };
+                } else {
+                    indexType = {
+                        type: "element",
+                        content: (
                             <span class="tsd-signature-type">{displayed}</span>
-                        </a>
-                    ),
-                    length: displayed.length,
-                };
+                        ),
+                        length: displayed.length,
+                    };
+                }
             }
         }
 
@@ -489,29 +503,51 @@ const typeBuilder: TypeVisitor<
 
         if (reflection) {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
-                name = simpleElement(
-                    <a
-                        class="tsd-signature-type tsd-kind-type-parameter"
-                        href={builder.urlTo(reflection)}
-                    >
-                        {reflection.name}
-                    </a>,
-                );
+                if (builder.router.hasUrl(reflection)) {
+                    name = simpleElement(
+                        <a
+                            class="tsd-signature-type tsd-kind-type-parameter"
+                            href={builder.urlTo(reflection)}
+                        >
+                            {reflection.name}
+                        </a>,
+                    );
+                } else {
+                    name = simpleElement(
+                        <span class="tsd-signature-type tsd-kind-type-parameter">
+                            {reflection.name}
+                        </span>,
+                    );
+                }
             } else {
                 name = join(
                     simpleElement(<span class="tsd-signature-symbol">.</span>),
                     getUniquePath(reflection),
-                    (item) =>
-                        simpleElement(
-                            <a
-                                href={builder.urlTo(item)}
+                    (item) => {
+                        if (builder.router.hasUrl(item)) {
+                            return simpleElement(
+                                <a
+                                    href={builder.urlTo(item)}
+                                    class={
+                                        "tsd-signature-type " +
+                                        getKindClass(item)
+                                    }
+                                >
+                                    {item.name}
+                                </a>,
+                            );
+                        }
+
+                        return simpleElement(
+                            <span
                                 class={
                                     "tsd-signature-type " + getKindClass(item)
                                 }
                             >
                                 {item.name}
-                            </a>,
-                        ),
+                            </span>,
+                        );
+                    },
                 );
             }
         } else if (type.externalUrl) {
@@ -681,7 +717,14 @@ export class FormattedCodeBuilder {
     forceWrap = new Set<number>();
     id = 0;
 
-    constructor(readonly urlTo: (refl: Reflection) => string) {}
+    constructor(
+        readonly router: Router,
+        readonly relativeReflection: Reflection,
+    ) {}
+
+    urlTo(refl: Reflection) {
+        return this.router.relativeUrl(this.relativeReflection, refl);
+    }
 
     newId() {
         return ++this.id;
@@ -978,17 +1021,29 @@ export class FormattedCodeBuilder {
                 space(),
             );
         }
-        const content = [
-            prefix,
-            simpleElement(
-                <a
-                    class="tsd-signature-type tsd-kind-type-parameter"
-                    href={this.urlTo(param)}
-                >
-                    {param.name}
-                </a>,
-            ),
-        ];
+
+        const content = [prefix];
+
+        if (this.router.hasUrl(param)) {
+            content.push(
+                simpleElement(
+                    <a
+                        class="tsd-signature-type tsd-kind-type-parameter"
+                        href={this.urlTo(param)}
+                    >
+                        {param.name}
+                    </a>,
+                ),
+            );
+        } else {
+            content.push(
+                simpleElement(
+                    <span class="tsd-signature-type tsd-kind-type-parameter">
+                        {param.name}
+                    </span>,
+                ),
+            );
+        }
 
         if (param.type) {
             content.push(

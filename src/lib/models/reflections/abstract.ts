@@ -18,6 +18,8 @@ import type {
 } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { ReferenceReflection } from "./reference.js";
+import type { SignatureReflection } from "./signature.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
 
 /**
  * Current reflection id.
@@ -294,26 +296,6 @@ export abstract class Reflection {
      */
     comment?: Comment;
 
-    /**
-     * The url of this reflection in the generated documentation.
-     * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
-     */
-    url?: string;
-
-    /**
-     * The name of the anchor of this child.
-     * TODO: Reflections shouldn't know anchors exist. Move this to a serializer.
-     */
-    anchor?: string;
-
-    /**
-     * Is the url pointing to an individual document?
-     *
-     * When FALSE, the url points to an anchor tag on a page of a different reflection.
-     * TODO: Reflections shouldn't know how they are rendered. Move this to the correct serializer.
-     */
-    hasOwnDocument?: boolean;
-
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++ as ReflectionId;
         this.parent = parent;
@@ -432,6 +414,12 @@ export abstract class Reflection {
         return false;
     }
     isDeclaration(): this is DeclarationReflection {
+        return false;
+    }
+    isSignature(): this is SignatureReflection {
+        return false;
+    }
+    isTypeParameter(): this is TypeParameterReflection {
         return false;
     }
     isParameter(): this is ParameterReflection {

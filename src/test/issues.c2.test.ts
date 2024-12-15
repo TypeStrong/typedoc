@@ -36,7 +36,7 @@ import {
     query,
     querySig,
 } from "./utils.js";
-import { DefaultTheme, PageEvent } from "../index.js";
+import { DefaultRouter, DefaultTheme, PageEvent } from "../index.js";
 
 const base = getConverter2Base();
 const app = getConverter2App();
@@ -1409,6 +1409,8 @@ describe("Issue Tests", () => {
         const project = convert();
 
         const theme = new DefaultTheme(app.renderer);
+        theme.router = new DefaultRouter(app);
+        theme.router.buildPages(project);
         const page = new PageEvent(project);
         page.project = project;
         const context = theme.getRenderContext(page);

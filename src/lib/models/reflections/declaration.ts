@@ -40,7 +40,7 @@ export interface DeclarationHierarchy {
  * A reflection that represents a single declaration emitted by the TypeScript compiler.
  *
  * All parts of a project are represented by DeclarationReflection instances. The actual
- * kind of a reflection is stored in its ´kind´ member.
+ * kind of a reflection is stored in its `kind` member.
  * @category Reflections
  */
 export class DeclarationReflection extends ContainerReflection {

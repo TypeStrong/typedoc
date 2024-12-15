@@ -10,7 +10,7 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
     // a type-like object with links to each member. Don't do this if we don't have any children as it will
     // generate a broken looking interface. (See TraverseCallback)
     if (props.kindOf(ReflectionKind.Interface) && props.children) {
-        const builder = new FormattedCodeBuilder(context.urlTo);
+        const builder = new FormattedCodeBuilder(context.router, context.model);
         const tree = builder.interface(props);
         const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
         generator.forceWrap(builder.forceWrap); // Ensure elements are added to new lines.

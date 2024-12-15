@@ -39,8 +39,8 @@ async function getPlugins() {
         });
 }
 
-function getTarballUrl(package) {
-    return exec(`npm view ${package.name} dist.tarball`);
+function getTarballUrl(pack) {
+    return exec(`npm view ${pack.name} dist.tarball`);
 }
 
 function downloadTarball(url, outDir) {

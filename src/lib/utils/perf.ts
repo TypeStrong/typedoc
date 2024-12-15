@@ -34,8 +34,9 @@ export function bench<T extends (..._: any) => any>(
                     end();
                     return res;
                 },
-                () => {
+                (reason) => {
                     end();
+                    throw reason;
                 },
             );
         } else {
@@ -46,11 +47,32 @@ export function bench<T extends (..._: any) => any>(
     } as any;
 }
 
-export function Bench<T extends (..._: any) => any>(
+function BenchField<T extends (..._: any) => any>(
+    _value: undefined,
+    context: ClassFieldDecoratorContext<unknown, T>,
+): (value: T) => T {
+    let runner: T | undefined;
+
+    return function (this: any, value: T) {
+        if (!runner) {
+            const className = context.static
+                ? this.name
+                : Object.getPrototypeOf(this).constructor.name;
+            runner = bench(value, `${className}.${String(context.name)}`);
+        }
+
+        return function (this: any, ...args: any) {
+            return runner!.apply(this, args);
+        } as T;
+    };
+}
+
+function BenchMethod<T extends (..._: any) => any>(
     value: T,
     context: ClassMethodDecoratorContext,
 ): T {
     let runner: T | undefined;
+
     return function (this: any, ...args: any) {
         if (!runner) {
             const className = context.static
@@ -61,6 +83,16 @@ export function Bench<T extends (..._: any) => any>(
         return runner.apply(this, args);
     } as any;
 }
+
+export const Bench: typeof BenchField & typeof BenchMethod = (
+    value: any,
+    context,
+) => {
+    if (context.kind === "field") {
+        return BenchField(value, context);
+    }
+    return BenchMethod(value, context);
+};
 
 export function measure<T>(cb: () => T): T {
     return bench(cb, "measure()")();

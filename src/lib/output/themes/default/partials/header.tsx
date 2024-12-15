@@ -31,7 +31,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
 
     return (
         <div class="tsd-page-title">
-            {renderBreadcrumbs && <ul class="tsd-breadcrumb">{context.breadcrumb(props.model)}</ul>}
+            {renderBreadcrumbs && context.breadcrumbs(props.model)}
             {renderTitle && (
                 <h1 class={classNames({ deprecated: props.model.isDeprecated() })}>
                     {titleKindString}
