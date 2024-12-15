@@ -44,6 +44,10 @@ export class TypeParameterReflection extends Reflection {
         this.varianceModifier = varianceModifier;
     }
 
+    override isTypeParameter(): this is TypeParameterReflection {
+        return true;
+    }
+
     override toObject(
         serializer: Serializer,
     ): JSONOutput.TypeParameterReflection {

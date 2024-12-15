@@ -14,16 +14,16 @@ export const memberGetterSetter = (context: DefaultThemeRenderContext, props: De
             )}
         >
             {!!props.getSignature && (
-                <li class={context.getReflectionClasses(props.getSignature)}>
-                    <div class="tsd-signature" id={props.getSignature.anchor}>
+                <li>
+                    <div class="tsd-signature" id={context.getAnchor(props.getSignature)}>
                         {context.memberSignatureTitle(props.getSignature)}
                     </div>
                     <div class="tsd-description">{context.memberSignatureBody(props.getSignature)}</div>
                 </li>
             )}
             {!!props.setSignature && (
-                <li class={context.getReflectionClasses(props.setSignature)}>
-                    <div class="tsd-signature" id={props.setSignature.anchor}>
+                <li>
+                    <div class="tsd-signature" id={context.getAnchor(props.setSignature)}>
                         {context.memberSignatureTitle(props.setSignature)}
                     </div>
                     <div class="tsd-description">{context.memberSignatureBody(props.setSignature)}</div>

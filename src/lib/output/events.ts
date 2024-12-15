@@ -1,13 +1,10 @@
-import * as Path from "path";
-
 import type { ProjectReflection } from "../models/reflections/project.js";
-import type { RenderTemplate, UrlMapping } from "./models/UrlMapping.js";
 import type {
     DeclarationReflection,
     DocumentReflection,
-    Reflection,
     ReflectionKind,
 } from "../models/index.js";
+import type { PageDefinition, PageKind } from "./router.js";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -28,11 +25,9 @@ export class RendererEvent {
     readonly outputDirectory: string;
 
     /**
-     * A list of all pages that should be generated.
-     *
-     * This list can be altered during the {@link Renderer.EVENT_BEGIN} event.
+     * A list of all pages that will be generated.
      */
-    urls?: UrlMapping<Reflection>[];
+    pages: PageDefinition[];
 
     /**
      * Triggered before the renderer starts rendering a project.
@@ -46,26 +41,14 @@ export class RendererEvent {
      */
     static readonly END = "endRender";
 
-    constructor(outputDirectory: string, project: ProjectReflection) {
+    constructor(
+        outputDirectory: string,
+        project: ProjectReflection,
+        pages: PageDefinition[],
+    ) {
         this.outputDirectory = outputDirectory;
         this.project = project;
-    }
-
-    /**
-     * Create an {@link PageEvent} event based on this event and the given url mapping.
-     *
-     * @internal
-     * @param mapping  The mapping that defines the generated {@link PageEvent} state.
-     * @returns A newly created {@link PageEvent} instance.
-     */
-    public createPageEvent<Model>(
-        mapping: UrlMapping<Model>,
-    ): [RenderTemplate<PageEvent<Model>>, PageEvent<Model>] {
-        const event = new PageEvent<Model>(mapping.model);
-        event.project = this.project;
-        event.url = mapping.url;
-        event.filename = Path.join(this.outputDirectory, mapping.url);
-        return [mapping.template, event];
+        this.pages = pages;
     }
 }
 
@@ -99,6 +82,11 @@ export class PageEvent<out Model = unknown> {
      * The url this page will be located at.
      */
     url!: string;
+
+    /**
+     * The type of page this is.
+     */
+    pageKind!: PageKind;
 
     /**
      * The model that should be rendered on this page.

@@ -18,7 +18,6 @@ import {
     type MarkdownEvent,
 } from "./events.js";
 import type { ProjectReflection } from "../models/reflections/project.js";
-import type { RenderTemplate } from "./models/UrlMapping.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
 import { Option, EventHooks, AbstractComponent } from "../utils/index.js";
@@ -27,7 +26,7 @@ import type {
     BundledLanguage,
     BundledTheme as ShikiTheme,
 } from "@gerrit0/mini-shiki";
-import { type Comment, Reflection } from "../models/index.js";
+import type { Comment, Reflection } from "../models/index.js";
 import type { JsxElement } from "../utils/jsx.elements.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 import { setRenderSettings } from "../utils/jsx.js";
@@ -41,6 +40,7 @@ import {
     NavigationPlugin,
     SitemapPlugin,
 } from "./plugins/index.js";
+import { DefaultRouter, type PageDefinition, type Router } from "./router.js";
 
 /**
  * Describes the hooks available to inject output in the default theme.
@@ -168,6 +168,10 @@ export interface RendererEvents {
  * @group Common
  */
 export class Renderer extends AbstractComponent<Application, RendererEvents> {
+    private routers = new Map<string, new (app: Application) => Router>([
+        ["default", DefaultRouter],
+    ]);
+
     private themes = new Map<string, new (renderer: Renderer) => Theme>([
         ["default", DefaultTheme],
     ]);
@@ -210,6 +214,12 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
      * The theme that is used to render the documentation.
      */
     theme?: Theme;
+
+    /**
+     * The router which is used to determine the pages to render and
+     * how to link between pages.
+     */
+    router?: Router;
 
     /**
      * Hooks which will be called when rendering pages.
@@ -284,6 +294,18 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
     }
 
     /**
+     * Define a new router that can be used to determine the output structure.
+     * @param name
+     * @param router
+     */
+    defineRouter(name: string, router: new (app: Application) => Router) {
+        if (this.routers.has(name)) {
+            throw new Error(`The router "${name}" has already been defined.`);
+        }
+        this.routers.set(name, router);
+    }
+
+    /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.
@@ -298,6 +320,9 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         const momento = this.hooks.saveMomento();
         this.renderStartTime = Date.now();
 
+        // GERRIT: Support user input
+        this.router = new (this.routers.get("default")!)(this.application);
+
         if (
             !this.prepareTheme() ||
             !(await this.prepareOutputDirectory(outputDirectory))
@@ -305,18 +330,18 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             return;
         }
 
-        const output = new RendererEvent(outputDirectory, project);
-        output.urls = this.theme!.getUrls(project);
+        const pages = this.router.buildPages(project);
 
+        const output = new RendererEvent(outputDirectory, project, pages);
         this.trigger(RendererEvent.BEGIN, output);
         await this.runPreRenderJobs(output);
 
         this.application.logger.verbose(
-            `There are ${output.urls.length} pages to write.`,
+            `There are ${pages.length} pages to write.`,
         );
-        output.urls.forEach((mapping) => {
-            this.renderDocument(...output.createPageEvent(mapping));
-        });
+        for (const page of pages) {
+            this.renderDocument(outputDirectory, page);
+        }
 
         await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));
         this.postRenderAsyncJobs = [];
@@ -324,6 +349,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.trigger(RendererEvent.END, output);
 
         this.theme = void 0;
+        this.router = void 0;
         this.hooks.restoreMomento(momento);
     }
 
@@ -355,27 +381,27 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(
-        template: RenderTemplate<PageEvent<Reflection>>,
-        page: PageEvent<Reflection>,
-    ) {
+    private renderDocument(outputDirectory: string, page: PageDefinition) {
         const momento = this.hooks.saveMomento();
-        this.trigger(PageEvent.BEGIN, page);
 
-        if (page.model instanceof Reflection) {
-            page.contents = this.theme!.render(page, template);
-        } else {
-            throw new Error("Should be unreachable");
-        }
+        const event = new PageEvent(page.model);
+        event.url = page.url;
+        event.filename = path.join(outputDirectory, page.url);
+        event.pageKind = page.kind;
+        event.project = page.model.project;
 
-        this.trigger(PageEvent.END, page);
+        this.trigger(PageEvent.BEGIN, event);
+
+        event.contents = this.theme!.render(event);
+
+        this.trigger(PageEvent.END, event);
         this.hooks.restoreMomento(momento);
 
         try {
-            writeFileSync(page.filename, page.contents);
+            writeFileSync(event.filename, event.contents);
         } catch (error) {
             this.application.logger.error(
-                this.application.i18n.could_not_write_0(page.filename),
+                this.application.i18n.could_not_write_0(event.filename),
             );
         }
     }

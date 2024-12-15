@@ -53,13 +53,6 @@ export class ReflectionGroup {
         this.title = title;
     }
 
-    /**
-     * Do all children of this group have a separate document?
-     */
-    allChildrenHaveOwnDocument(): boolean {
-        return this.children.every((child) => child.hasOwnDocument);
-    }
-
     toObject(serializer: Serializer): JSONOutput.ReflectionGroup {
         return {
             title: this.title,

@@ -2,6 +2,12 @@
 title: Changelog
 ---
 
+## Beta
+
+-   TypeDoc will now only create references for symbols re-exported from modules.
+-   API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
+    `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
+
 ## Unreleased
 
 ### Features

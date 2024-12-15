@@ -918,7 +918,13 @@ function convertAlias(
     const reflection = context.project.getReflectionFromSymbol(
         context.resolveAliasedSymbol(symbol),
     );
-    if (!reflection) {
+    if (
+        !reflection ||
+        (reflection &&
+            !reflection.parent?.kindOf(
+                ReflectionKind.Project | ReflectionKind.SomeModule,
+            ))
+    ) {
         // We don't have this, convert it.
         convertSymbol(
             context,

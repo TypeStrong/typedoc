@@ -45,25 +45,24 @@ export class SitemapPlugin extends RendererComponent {
         const sitemapXml = Path.join(event.outputDirectory, "sitemap.xml");
         const lastmod = new Date(this.owner.renderStartTime).toISOString();
 
-        const urls: XmlElementData[] =
-            event.urls?.map((url) => {
-                return {
-                    tag: "url",
-                    children: [
-                        {
-                            tag: "loc",
-                            children: new URL(
-                                url.url,
-                                this.hostedBaseUrl,
-                            ).toString(),
-                        },
-                        {
-                            tag: "lastmod",
-                            children: lastmod,
-                        },
-                    ],
-                };
-            }) ?? [];
+        const urls: XmlElementData[] = event.pages.map((page) => {
+            return {
+                tag: "url",
+                children: [
+                    {
+                        tag: "loc",
+                        children: new URL(
+                            page.url,
+                            this.hostedBaseUrl,
+                        ).toString(),
+                    },
+                    {
+                        tag: "lastmod",
+                        children: lastmod,
+                    },
+                ],
+            };
+        });
 
         const sitemap =
             `<?xml version="1.0" encoding="UTF-8"?>\n` +

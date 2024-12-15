@@ -3,6 +3,7 @@ import type { PageEvent } from "../../../events.js";
 import { JSX } from "../../../../utils/index.js";
 import { getHierarchyRoots } from "../../lib.js";
 import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
+import { anchorLink } from "../partials/anchor-icon.js";
 
 function fullHierarchy(
     context: DefaultThemeRenderContext,
@@ -33,7 +34,7 @@ function fullHierarchy(
     // Full name should be safe here, since this list only includes classes/interfaces.
     return (
         <li data-refl={root.id}>
-            <a id={root.getFullName()} class="tsd-anchor"></a>
+            {anchorLink(root.getFullName())}
             <a href={context.urlTo(root)}>
                 {context.icons[root.kind]()}
                 {root.name}

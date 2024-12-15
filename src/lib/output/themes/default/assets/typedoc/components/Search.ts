@@ -50,8 +50,11 @@ export function initSearch() {
     if (!searchEl) return;
 
     const state: SearchState = {
-        base: document.documentElement.dataset.base! + "/",
+        base: document.documentElement.dataset.base!,
     };
+    if (!state.base.endsWith("/")) {
+        state.base += "/";
+    }
 
     const searchScript = document.getElementById(
         "tsd-search-script",

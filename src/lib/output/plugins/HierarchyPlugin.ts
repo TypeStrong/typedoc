@@ -58,12 +58,14 @@ export class HierarchyPlugin extends RendererComponent {
             const id = queue.pop()!;
             const refl = project.getReflectionById(id) as DeclarationReflection;
             if (id in hierarchy.reflections) continue;
-            if (!refl.url) continue;
+
+            const url = this.owner.router!.getFullUrl(refl);
+            if (!url) continue;
 
             const jsonRecord: JsonHierarchyElement = {
                 name: refl.name,
                 kind: refl.kind,
-                url: refl.url,
+                url,
                 class: getKindClass(refl),
             };
 

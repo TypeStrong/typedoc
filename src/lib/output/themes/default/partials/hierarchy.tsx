@@ -23,7 +23,7 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
             <>
                 {" "}
                 (
-                <a href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
+                <a href={context.relativeURL("hierarchy.html") + "#" + context.model.getFullName()}>
                     {context.i18n.theme_hierarchy_view_summary()}
                 </a>
                 )
@@ -33,7 +33,7 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
         );
 
     return (
-        <section class="tsd-panel tsd-hierarchy" data-refl={context.page.model.id}>
+        <section class="tsd-panel tsd-hierarchy" data-refl={context.model.id}>
             <h4>
                 {context.i18n.theme_hierarchy()}
                 {summaryLink}

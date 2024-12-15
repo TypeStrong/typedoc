@@ -1,8 +1,8 @@
 export {
+    IndexEvent,
+    MarkdownEvent,
     PageEvent,
     RendererEvent,
-    MarkdownEvent,
-    IndexEvent,
     type PageHeading,
 } from "./events.js";
 export { UrlMapping } from "./models/UrlMapping.js";
@@ -14,6 +14,13 @@ export {
     DefaultTheme,
     type NavigationElement,
 } from "./themes/default/DefaultTheme.js";
-export { Slugger } from "./themes/default/Slugger.js";
 export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 export type { Icons } from "./themes/default/partials/icon.js";
+export { Slugger } from "./themes/default/Slugger.js";
+
+export {
+    DefaultRouter,
+    PageKind,
+    type PageDefinition,
+    type Router,
+} from "./router.js";

@@ -50,35 +50,19 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
         );
     }
 
-    // Accordion is only needed if any children don't have their own document.
-    if (
-        [...(props.groups ?? []), ...(props.categories ?? [])].some(
-            (category) => !category.allChildrenHaveOwnDocument(),
-        )
-    ) {
-        content = (
-            <details class="tsd-index-content tsd-accordion" open={true}>
-                <summary class="tsd-accordion-summary tsd-index-summary">
-                    <h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex={0}>
-                        {context.icons.chevronSmall()} {context.i18n.theme_index()}
-                    </h5>
-                </summary>
-                <div class="tsd-accordion-details">{content}</div>
-            </details>
-        );
-    } else {
-        content = (
-            <>
-                <h3 class="tsd-index-heading uppercase">{context.i18n.theme_index()}</h3>
-                {content}
-            </>
-        );
-    }
-
     return (
         <>
             <section class="tsd-panel-group tsd-index-group">
-                <section class="tsd-panel tsd-index-panel">{content}</section>
+                <section class="tsd-panel tsd-index-panel">
+                    <details class="tsd-index-content tsd-accordion" open={true}>
+                        <summary class="tsd-accordion-summary tsd-index-summary">
+                            <h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex={0}>
+                                {context.icons.chevronSmall()} {context.i18n.theme_index()}
+                            </h5>
+                        </summary>
+                        <div class="tsd-accordion-details">{content}</div>
+                    </details>
+                </section>
             </section>
         </>
     );

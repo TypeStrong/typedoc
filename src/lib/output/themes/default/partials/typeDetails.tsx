@@ -9,6 +9,7 @@ import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/ty
 import { JSX } from "../../../../utils/index.js";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
+import { anchorLinkIfPresent } from "./anchor-icon.js";
 
 const isUsefulVisitor: Partial<TypeVisitor<boolean>> = {
     array(type) {
@@ -179,20 +180,24 @@ function declarationDetails(
                 {declaration.signatures && (
                     <li class="tsd-parameter-signature">
                         <ul class={classNames({ "tsd-signatures": true }, context.getReflectionClasses(declaration))}>
-                            {declaration.signatures.map((item) => (
-                                <>
-                                    <li class="tsd-signature" id={item.anchor}>
-                                        {context.memberSignatureTitle(item, {
-                                            hideName: true,
-                                        })}
-                                    </li>
-                                    <li class="tsd-description">
-                                        {context.memberSignatureBody(item, {
-                                            hideSources: true,
-                                        })}
-                                    </li>
-                                </>
-                            ))}
+                            {declaration.signatures.map((item) => {
+                                const anchor = context.router.hasUrl(item) ? context.getAnchor(item) : undefined;
+
+                                return (
+                                    <>
+                                        <li class="tsd-signature" id={anchor}>
+                                            {context.memberSignatureTitle(item, {
+                                                hideName: true,
+                                            })}
+                                        </li>
+                                        <li class="tsd-description">
+                                            {context.memberSignatureBody(item, {
+                                                hideSources: true,
+                                            })}
+                                        </li>
+                                    </>
+                                );
+                            })}
                         </ul>
                     </li>
                 )}
@@ -215,7 +220,7 @@ function renderChild(
                 <h5>
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
-                    {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
+                    {anchorLinkIfPresent(context, child)}
                     <span class="tsd-signature-symbol">{!!child.flags.isOptional && "?"}:</span>
                     function
                 </h5>
@@ -245,7 +250,7 @@ function renderChild(
                     {context.reflectionFlags(child)}
                     {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
-                    {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
+                    {anchorLinkIfPresent(context, child)}
                     <span class="tsd-signature-symbol">
                         {!!child.flags.isOptional && "?"}
                         {": "}
@@ -271,7 +276,7 @@ function renderChild(
                         {context.reflectionFlags(child.getSignature)}
                         <span class="tsd-signature-keyword">get </span>
                         <span class={getKindClass(child)}>{child.name}</span>
-                        {child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
+                        {anchorLinkIfPresent(context, child)}
                         <span class="tsd-signature-symbol">(): </span>
                         {context.type(child.getSignature.type)}
                     </h5>
@@ -285,7 +290,7 @@ function renderChild(
                         {context.reflectionFlags(child.setSignature)}
                         <span class="tsd-signature-keyword">set </span>
                         <span class={getKindClass(child)}>{child.name}</span>
-                        {!child.getSignature && child.anchor && <a id={child.anchor} class="tsd-anchor"></a>}
+                        {!child.getSignature && anchorLinkIfPresent(context, child)}
                         <span class="tsd-signature-symbol">(</span>
                         {child.setSignature.parameters?.map((item) => (
                             <>

@@ -243,7 +243,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     private onEnd() {
         for (const { source, target, link } of this.renderedRelativeLinks) {
-            const slugger = this.owner.theme!.getSlugger(target);
+            const slugger = this.owner.router!.getSlugger(target);
             if (!slugger.hasAnchor(link.targetAnchor!)) {
                 this.application.logger.warn(
                     this.application.i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
@@ -273,7 +273,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     private getSlugger() {
-        return this.owner.theme!.getSlugger(this.page!.model);
+        return this.owner.router!.getSlugger(this.page!.model);
     }
 
     /**

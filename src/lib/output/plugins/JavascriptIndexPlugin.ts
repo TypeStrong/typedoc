@@ -1,12 +1,11 @@
 import * as Path from "path";
 import lunr from "lunr";
 
-import {
-    type Comment,
+import type {
+    Comment,
     DeclarationReflection,
     DocumentReflection,
-    ProjectReflection,
-    type Reflection,
+    Reflection,
 } from "../../models/index.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
@@ -75,17 +74,14 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         const rows: SearchDocument[] = [];
 
-        const initialSearchResults = Object.values(
-            event.project.reflections,
-        ).filter((refl) => {
-            return (
-                (refl instanceof DeclarationReflection ||
-                    refl instanceof DocumentReflection) &&
-                refl.url &&
-                refl.name &&
-                !refl.flags.isExternal
-            );
-        }) as Array<DeclarationReflection | DocumentReflection>;
+        const initialSearchResults = this.owner
+            .router!.getLinkableReflections()
+            .filter(
+                (refl) =>
+                    (refl.isDeclaration() || refl.isDocument()) &&
+                    refl.name &&
+                    !refl.flags.isExternal,
+            ) as Array<DeclarationReflection | DocumentReflection>;
 
         const indexEvent = new IndexEvent(initialSearchResults);
 
@@ -102,10 +98,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
         }
 
         for (const reflection of indexEvent.searchResults) {
-            if (!reflection.url) {
-                continue;
-            }
-
             const boost = this.getBoost(reflection);
 
             if (boost <= 0) {
@@ -113,14 +105,14 @@ export class JavascriptIndexPlugin extends RendererComponent {
             }
 
             let parent = reflection.parent;
-            if (parent instanceof ProjectReflection) {
+            if (parent?.isProject()) {
                 parent = undefined;
             }
 
             const row: SearchDocument = {
                 kind: reflection.kind,
                 name: reflection.name,
-                url: reflection.url,
+                url: theme.router.getFullUrl(reflection),
                 classes: theme.getReflectionClasses(reflection),
             };
 

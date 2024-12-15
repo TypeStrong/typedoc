@@ -7,7 +7,7 @@ export function type(
     type: SomeType | undefined,
     options: { topLevelLinks: boolean } = { topLevelLinks: false },
 ) {
-    const builder = new FormattedCodeBuilder(context.urlTo);
+    const builder = new FormattedCodeBuilder(context.router, context.model);
     const tree = builder.type(type, TypeContext.none, options);
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node(tree, Wrap.Detect);

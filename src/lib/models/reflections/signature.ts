@@ -97,6 +97,10 @@ export class SignatureReflection extends Reflection {
         }
     }
 
+    override isSignature(): this is SignatureReflection {
+        return true;
+    }
+
     /**
      * Return a string representation of this reflection.
      */
