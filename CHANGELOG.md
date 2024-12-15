@@ -8,6 +8,10 @@ title: Changelog
 -   API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
     `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
 
+TODO:
+
+-   Add option for choosing router
+
 ## Unreleased
 
 ### Features

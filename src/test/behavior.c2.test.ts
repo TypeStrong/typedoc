@@ -11,15 +11,8 @@ import {
 import { filterMap } from "../lib/utils/index.js";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
-import {
-    getConverter2App,
-    getConverter2Base,
-    getConverter2Program,
-} from "./programs.js";
-import { join } from "path";
-import { existsSync } from "fs";
-import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { getComment, getSigComment, query, querySig } from "./utils.js";
+import { getConverter2App, getConverter2Project } from "./programs.js";
 
 type NameTree = { [name: string]: NameTree | undefined };
 
@@ -65,34 +58,10 @@ function getLinkTexts(refl: Reflection) {
     });
 }
 
-const base = getConverter2Base();
 const app = getConverter2App();
-const program = getConverter2Program();
 
 function convert(...entries: [string, ...string[]]) {
-    const entryPoints = entries.map((entry) => {
-        const entryPoint = [
-            join(base, `behavior/${entry}.ts`),
-            join(base, `behavior/${entry}.d.ts`),
-            join(base, `behavior/${entry}.tsx`),
-            join(base, `behavior/${entry}.js`),
-            join(base, "behavior", entry, "index.ts"),
-            join(base, "behavior", entry, "index.js"),
-        ].find(existsSync);
-
-        ok(entryPoint, `No entry point found for ${entry}`);
-        const sourceFile = program.getSourceFile(entryPoint);
-        ok(sourceFile, `No source file found for ${entryPoint}`);
-
-        return { displayName: entry, program, sourceFile, entryPoint };
-    });
-
-    app.options.setValue(
-        "entryPoints",
-        entryPoints.map((e) => e.entryPoint),
-    );
-    clearCommentCache();
-    return app.converter.convert(entryPoints);
+    return getConverter2Project(entries, "behavior");
 }
 
 describe("Behavior Tests", () => {

@@ -1,4 +1,4 @@
-import { deepStrictEqual as equal } from "assert";
+import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
 import ts from "typescript";
 import {
@@ -11,6 +11,8 @@ import {
 } from "../index.js";
 import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
+import { existsSync } from "fs";
+import { clearCommentCache } from "../lib/converter/comments/index.js";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -131,4 +133,43 @@ export function getConverter2Program() {
     }
 
     return converter2Program;
+}
+
+export function getConverter2Project(entries: string[], folder: string) {
+    const app = getConverter2App();
+    const base = getConverter2Base();
+    const program = getConverter2Program();
+
+    const entryPoints = entries
+        .map((entry) =>
+            [
+                join(base, `${folder}/${entry}.ts`),
+                join(base, `${folder}/${entry}.d.ts`),
+                join(base, `${folder}/${entry}.tsx`),
+                join(base, `${folder}/${entry}.js`),
+                join(base, folder, entry, "index.ts"),
+                join(base, folder, entry, "index.js"),
+                join(base, folder, entry),
+            ].find(existsSync),
+        )
+        .filter((x) => x !== undefined);
+
+    const files = entryPoints.map((e) => program.getSourceFile(e));
+    for (const [index, file] of files.entries()) {
+        ok(file, `No source file found for ${entryPoints[index]}`);
+    }
+
+    ok(entryPoints.length > 0, "Expected at least one entry point");
+
+    app.options.setValue("entryPoints", entryPoints);
+    clearCommentCache();
+    return app.converter.convert(
+        files.map((file, index) => {
+            return {
+                displayName: entries[index].replace(/\.[tj]sx?$/, ""),
+                program,
+                sourceFile: file!,
+            };
+        }),
+    );
 }
