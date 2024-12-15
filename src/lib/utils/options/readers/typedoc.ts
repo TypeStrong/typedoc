@@ -14,10 +14,9 @@ import type { TranslatedString } from "../../../internationalization/internation
 
 /**
  * Obtains option values from typedoc.json
- *
- * Changes need to happen here at some point. I think we should follow ESLint's new config
- * system eventually: https://eslint.org/blog/2022/08/new-config-system-part-1/
  */
+// Changes need to happen here at some point. I think we should follow ESLint's new config
+// system eventually: https://eslint.org/blog/2022/08/new-config-system-part-1/
 export class TypeDocReader implements OptionsReader {
     /**
      * Should run before the tsconfig reader so that it can specify a tsconfig file to read.
