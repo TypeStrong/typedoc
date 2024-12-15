@@ -1,5 +1,6 @@
 import { debounce } from "../utils/debounce.js";
 import { Index } from "lunr";
+import { decompressJson } from "../utils/decompress.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
@@ -35,11 +36,7 @@ interface SearchState {
 async function updateIndex(state: SearchState, searchEl: HTMLElement) {
     if (!window.searchData) return;
 
-    const res = await fetch(window.searchData);
-    const json = new Blob([await res.arrayBuffer()])
-        .stream()
-        .pipeThrough(new DecompressionStream("gzip"));
-    const data: IData = await new Response(json).json();
+    const data: IData = await decompressJson(window.searchData);
 
     state.data = data;
     state.index = Index.load(data.index);

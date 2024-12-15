@@ -90,7 +90,7 @@ Expects all entry points to be `.json` files generated with a previous run of Ty
 Options to set be set within each package when entryPointStrategy is set to
 packages. Unlike most options in TypeDoc, paths within this object are
 interpreted relative to the package directory. This option has no effect if
-[entryPointStrategy](#entrypointstrategy) is not set to `packages.
+[entryPointStrategy](#entrypointstrategy) is not set to `packages`.
 
 ## alwaysCreateEntryPointModule
 

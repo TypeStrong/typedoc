@@ -1935,4 +1935,42 @@ describe("Issue Tests", () => {
         equal(Foo.type?.type, "reference");
         equal(Foo.type.reflection?.getFullName(), Bar.getFullName());
     });
+
+    it("#2792 handles @ts-expect-error on import types by converting to any", () => {
+        const project = convert();
+        const node = query(project, "TypeNodeType.generated");
+        equal(node.type?.toString(), "any");
+
+        const type = query(project, "typeType");
+        equal(type.type?.toString(), "any");
+    });
+
+    it("#2800 handles @include tags on project", () => {
+        const project = convert();
+        const includeTag = project.comment?.summary.find(
+            (t) => t.kind === "inline-tag",
+        );
+        equal(includeTag, undefined);
+
+        ok(
+            Comment.combineDisplayParts(project.comment?.summary).includes(
+                "const bug",
+            ),
+        );
+    });
+
+    it("#2802 preserves @alpha tags on signature types", () => {
+        const project = convert();
+        const alpha1 = query(project, "AlphaOk");
+        equal(Comment.combineDisplayParts(alpha1.comment?.summary), "Docs");
+        ok(alpha1.comment?.hasModifier("@alpha"));
+
+        const alpha2 = query(project, "AlphaNoGo");
+        equal(Comment.combineDisplayParts(alpha2.comment?.summary), "Docs2");
+        ok(alpha2.comment?.hasModifier("@alpha"));
+
+        // Modifiers should not have been cascaded
+        equal(alpha2.type?.type, "reflection");
+        equal(alpha2.type.declaration.comment, undefined);
+    });
 });

@@ -93,6 +93,9 @@ export async function captureScreenshots(
     headless,
     theme,
 ) {
+    await fs.promises.rm(outputDirectory, { force: true, recursive: true });
+    await fs.promises.mkdir(outputDirectory, { recursive: true });
+
     const browser = await puppeteer.launch({
         args:
             platform() === "win32"

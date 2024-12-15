@@ -29,6 +29,10 @@ export function commentShortSummary(context: DefaultThemeRenderContext, props: R
         shortSummary = props.comment?.getShortSummary(context.options.getValue("useFirstParagraphOfCommentAsSummary"));
     }
 
+    if (!shortSummary?.length && props.isDeclaration() && props.signatures?.length) {
+        return commentShortSummary(context, props.signatures[0]);
+    }
+
     if (!shortSummary?.some((part) => part.text)) return;
 
     return context.displayParts(shortSummary);

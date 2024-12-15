@@ -10,6 +10,62 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.5 (2024-12-14)
+
+### Bug Fixes
+
+-   Possibly Breaking: TypeDoc will no longer render anchors within the page for
+    deeply nested properties. This only affects links to properties of
+    properties of types, which did not have a clickable link exposed so are
+    unlikely to have been linked to. Furthermore, these links were not always
+    created by TypeDoc, only being created if all parent properties contained
+    comments, #2808.
+-   TypeDoc will now warn if a property which does not have a URL within the
+    rendered document and the parent property/page will be linked to instead,
+    #2808. These warnings can be disabled with the `validation.rewrittenLink`
+    option.
+-   Fix restoration of groups/categories including documents, #2801.
+-   Fixed missed relative paths within markdown link references in documents.
+-   Improved handling of incomplete inline code blocks within markdown.
+-   Direct `https://` links under the `hostedBaseUrl` option's URL will no
+    longer be treated as external, #2809.
+
+### Thanks!
+
+-   @SacDeNoeuds
+
+## v0.27.4 (2024-12-09)
+
+### Features
+
+-   API: Introduced new `Converter.EVENT_CREATE_PROJECT` event which fires when a project is created by the converter, #2800.
+
+### Bug Fixes
+
+-   Switch from gzip to deflate for compressing assets to make output consistent across different operating systems, #2796.
+-   `@include` and `@includeCode` now work for comments on the entry point for projects with a single entry point, #2800.
+-   Cascaded modifier tags will no longer be copied into type literals, #2802.
+-   `@summary` now works to describe functions within modules, #2803.
+-   Corrected navigation showing module link as current when not on module page, #2805.
+
+## v0.27.3 (2024-12-04)
+
+### Features
+
+-   Added support for PNG favicons, #2790.
+-   Improved support for hosting TypeDoc with strict Content Security Policy rules, #2794.
+
+### Bug Fixes
+
+-   Add special handling for import types with type errors discarded with ts-expect-error, #2792.
+-   Fixed low contrast in default colors for properties/accessors in light mode, #2795.
+-   The `highlightLanguages` option now permits Shiki aliases to be specified rather than just the language ID, #2798.
+
+### Thanks!
+
+-   @mikalai-snap
+-   @mistic100
+
 ## v0.27.2 (2024-11-29)
 
 ### Bug Fixes

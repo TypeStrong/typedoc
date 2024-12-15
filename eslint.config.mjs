@@ -140,6 +140,7 @@ export default tslint.config(
             "eslint.config.mjs",
             "src/test/renderer/specs",
             "site/typedoc-plugin-redirect.js",
+            "site/site-plugin.js",
             "dist",
             "docs",
             "docs2",

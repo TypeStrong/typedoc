@@ -102,4 +102,34 @@ export function load(app: Application) {
 }
 ```
 
+## Registering your own custom elements/attributes
+
+Custom JSX elements can be defined by merging with TypeDoc's `IntrinsicElements`
+interface. TypeScript will pick up properties of this interface as valid element
+names.
+
+```ts
+import { Application, JSX } from "typedoc";
+
+declare module "typedoc" {
+    // JSX.JSX is intentional due to TypeScript's strange JSX type discovery rules
+    namespace JSX.JSX {
+        interface IntrinsicElements {
+            "custom-button": IntrinsicAttributes & {
+                target: string;
+            };
+        }
+
+        // Generally shouldn't be necessary, TypeDoc contains an interface
+        // with all attributes documented on MDN. Properties added here will
+        // be permitted on all JSX elements.
+        interface IntrinsicAttributes {
+            customGlobalAttribute?: string;
+        }
+    }
+}
+
+export function load(app: Application) {}
+```
+
 [RendererHooks]: https://typedoc.org/api/interfaces/RendererHooks.html

@@ -391,6 +391,7 @@ export class ProjectReflection extends ContainerReflection {
 
     /** @internal */
     registerSymbolId(reflection: Reflection, id: ReflectionSymbolId) {
+        this.removedSymbolIds.delete(id);
         this.reflectionIdToSymbolIdMap.set(reflection.id, id);
 
         const previous = this.symbolToReflectionIdMap.get(id);

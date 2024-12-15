@@ -75,9 +75,8 @@ output produced by running TypeDoc on itself can be seen at [TypeDoc API](https:
 This option is an output shortcut. If specified, the [outputs](#outputs) option
 will be overwritten by this option and any other specified output shortcuts.
 
-This entire site is generated using TypeDoc's [external
-document](../external-documents.md) support to include markdown documents
-alongside the API documentation.
+This entire site is generated using TypeDoc's [external document](../external-documents.md)
+support to include markdown documents alongside the API documentation.
 
 ## json
 
@@ -262,7 +261,7 @@ Create a CNAME file in the output directory with the specified text.
 $ typedoc --favicon favicon.ico
 ```
 
-Specify a `favicon.ico` or `favicon.svg` file to reference as the site favicon.
+Specify a `.ico`, `.png` or `.svg` file to reference as the site favicon.
 
 ## sourceLinkExternal
 

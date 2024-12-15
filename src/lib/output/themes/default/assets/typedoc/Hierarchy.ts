@@ -1,3 +1,5 @@
+import { decompressJson } from "./utils/decompress";
+
 declare global {
     interface Window {
         // Base64 encoded data url, gzipped, JSON encoded JsonHierarchy
@@ -106,14 +108,8 @@ async function buildHierarchyToggle() {
     );
     if (!container || !window.hierarchyData) return;
 
-    const res = await fetch(window.hierarchyData);
-    const data = await res.arrayBuffer();
-    const json = new Blob([data])
-        .stream()
-        .pipeThrough(new DecompressionStream("gzip"));
-
     const baseReflId = +container.dataset.refl!;
-    const hierarchy: JsonHierarchy = await new Response(json).json();
+    const hierarchy: JsonHierarchy = await decompressJson(window.hierarchyData);
 
     const collapsedHierarchy = container.querySelector("ul")!;
     const expandedHierarchy = document.createElement("ul");

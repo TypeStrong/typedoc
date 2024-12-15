@@ -125,7 +125,10 @@ export function settings(context: DefaultThemeRenderContext) {
 export const navigation = function navigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     return (
         <nav class="tsd-navigation">
-            <a href={context.urlTo(props.project)} class={classNames({ current: props.project === props.model })}>
+            <a
+                href={context.urlTo(props.project)}
+                class={classNames({ current: props.url === props.model.url && props.model.isProject() })}
+            >
                 {getDisplayName(props.project)}
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container">

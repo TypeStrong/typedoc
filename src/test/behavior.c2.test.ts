@@ -907,6 +907,18 @@ describe("Behavior Tests", () => {
         equal(getLinkTexts(query(project, "scoped")), ["p"]);
     });
 
+    it("Handles links to deeply nested members", () => {
+        const project = convert("linkResolution");
+        // We detect a link to this deep property, but will warn about it actually linking
+        // to GH2808DeeplyNestedLink.prop when rendering.
+        equal(getLinks(query(project, "GH2808DeeplyNestedLink")), [
+            [
+                ReflectionKind.Property,
+                "GH2808DeeplyNestedLink.prop.__type.nested.__type.here",
+            ],
+        ]);
+    });
+
     it("Handles merged declarations", () => {
         const project = convert("mergedDeclarations");
         const a = query(project, "SingleCommentMultiDeclaration");

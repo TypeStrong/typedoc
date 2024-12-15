@@ -1,4 +1,4 @@
-import { ok, throws, strictEqual, doesNotThrow } from "assert";
+import { ok, throws, deepStrictEqual as equal, doesNotThrow } from "assert";
 import { Options } from "../../../lib/utils/index.js";
 import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
@@ -11,13 +11,20 @@ describe("Default Options", () => {
                 opts.setValue("lightHighlightTheme", "randomTheme" as never),
             );
             opts.setValue("lightHighlightTheme", "github-light");
-            strictEqual(opts.getValue("lightHighlightTheme"), "github-light");
+            equal(opts.getValue("lightHighlightTheme"), "github-light");
 
             throws(() =>
                 opts.setValue("darkHighlightTheme", "randomTheme" as never),
             );
             opts.setValue("darkHighlightTheme", "github-light");
-            strictEqual(opts.getValue("darkHighlightTheme"), "github-light");
+            equal(opts.getValue("darkHighlightTheme"), "github-light");
+        });
+    });
+
+    describe("highlightLanguages", () => {
+        it("Supports aliased languages", () => {
+            opts.setValue("highlightLanguages", ["bash"]);
+            equal(opts.getValue("highlightLanguages"), ["bash"]);
         });
     });
 

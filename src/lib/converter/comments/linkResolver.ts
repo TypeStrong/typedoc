@@ -5,6 +5,7 @@ import {
     DeclarationReflection,
     type InlineTagDisplayPart,
     Reflection,
+    ReflectionKind,
     ReflectionSymbolId,
 } from "../../models/index.js";
 import {
@@ -131,12 +132,20 @@ function resolveLinkTag(
 
     // Might already know where it should go if useTsLinkResolution is turned on
     if (part.target instanceof ReflectionSymbolId) {
-        const tsTarget = reflection.project.getReflectionFromSymbolId(
+        const tsTargets = reflection.project.getReflectionsFromSymbolId(
             part.target,
         );
 
-        if (tsTarget) {
-            target = tsTarget;
+        if (tsTargets.length) {
+            // Find the target most likely to have a real url in the generated documentation
+            target =
+                tsTargets.find((r) => r.kindOf(ReflectionKind.SomeExport)) ||
+                tsTargets.find(
+                    (r) =>
+                        r.kindOf(ReflectionKind.SomeMember) &&
+                        r.parent?.kindOf(ReflectionKind.SomeExport),
+                ) ||
+                tsTargets[0];
             pos = end;
             defaultDisplayText =
                 part.tsLinkText ||

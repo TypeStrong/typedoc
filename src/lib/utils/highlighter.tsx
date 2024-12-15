@@ -13,10 +13,6 @@ for (const lang of shiki.bundledLanguagesInfo) {
 
 const plaintextLanguages = ["txt", "text"];
 
-const supportedLanguagesWithoutAliases = unique([
-    ...plaintextLanguages,
-    ...shiki.bundledLanguagesInfo.map((lang) => lang.id),
-]);
 const supportedLanguages: string[] = unique([
     ...plaintextLanguages,
     ...aliases.keys(),
@@ -147,10 +143,6 @@ export function isSupportedLanguage(lang: string) {
 
 export function getSupportedLanguages(): string[] {
     return supportedLanguages;
-}
-
-export function getSupportedLanguagesWithoutAliases(): string[] {
-    return supportedLanguagesWithoutAliases;
 }
 
 export function getSupportedThemes(): string[] {

@@ -15,7 +15,7 @@ import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys } from "../../enum.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
 import {
-    getSupportedLanguagesWithoutAliases,
+    getSupportedLanguages,
     getSupportedThemes,
 } from "../../highlighter.js";
 import { setDifference } from "../../set.js";
@@ -356,10 +356,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         defaultValue: OptionDefaults.highlightLanguages,
         validate(value, i18n) {
-            const invalid = setDifference(
-                value,
-                getSupportedLanguagesWithoutAliases(),
-            );
+            const invalid = setDifference(value, getSupportedLanguages());
             if (invalid.size) {
                 throw new Error(
                     i18n.highlightLanguages_contains_invalid_languages_0(
@@ -473,8 +470,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "favicon",
         help: (i18n) => i18n.help_favicon(),
         validate(value, i18n) {
-            if (![".ico", ".svg"].includes(extname(value))) {
-                throw new Error(i18n.favicon_must_be_ico_or_svg());
+            const allowedExtension = [".ico", ".png", ".svg"];
+            if (!allowedExtension.includes(extname(value))) {
+                throw new Error(
+                    i18n.favicon_must_have_one_of_the_following_extensions_0(
+                        allowedExtension.join(", "),
+                    ),
+                );
             }
         },
         type: ParameterType.Path,
@@ -975,6 +977,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaults: {
             notExported: true,
             invalidLink: true,
+            rewrittenLink: true,
             notDocumented: false,
             unusedMergeModuleWith: true,
         },

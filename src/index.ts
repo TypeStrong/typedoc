@@ -1,5 +1,10 @@
 /**
  * @module TypeDoc API
+ *
+ * In addition to the members documented here, TypeDoc exports a `typedoc/debug`
+ * entry point which exports some functions which may be useful during plugin
+ * development or debugging. Exports from that entry point are **not stable**
+ * and may change or be removed at any time.
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 

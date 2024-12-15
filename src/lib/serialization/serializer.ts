@@ -4,7 +4,7 @@ import type { ProjectReflection } from "../models/index.js";
 import { SerializeEvent } from "./events.js";
 import type { ModelToObject } from "./schema.js";
 import type { SerializerComponent } from "./components.js";
-import { insertPrioritySorted } from "../utils/array.js";
+import { insertPrioritySorted, removeIfPresent } from "../utils/array.js";
 
 export interface SerializerEvents {
     begin: [SerializeEvent];
@@ -44,6 +44,10 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
 
     addSerializer<T extends object>(serializer: SerializerComponent<T>): void {
         insertPrioritySorted(this.serializers, serializer);
+    }
+
+    removeSerializer(serializer: SerializerComponent<any>): void {
+        removeIfPresent(this.serializers, serializer);
     }
 
     toObject<T extends { toObject(serializer: Serializer): ModelToObject<T> }>(

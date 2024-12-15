@@ -3,11 +3,8 @@ import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { gzip } from "zlib";
-import { promisify } from "util";
 import type { Renderer } from "../index.js";
-
-const gzipP = promisify(gzip);
+import { compressJson } from "../../utils/compress.js";
 
 export class NavigationPlugin extends RendererComponent {
     constructor(owner: Renderer) {
@@ -34,13 +31,10 @@ export class NavigationPlugin extends RendererComponent {
         const nav = (this.owner.theme as DefaultTheme).getNavigation(
             event.project,
         );
-        const gz = await gzipP(Buffer.from(JSON.stringify(nav)));
 
         await writeFile(
             navigationJs,
-            `window.navigationData = "data:application/octet-stream;base64,${gz.toString(
-                "base64",
-            )}"`,
+            `window.navigationData = "${await compressJson(nav)}"`,
         );
     }
 }

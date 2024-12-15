@@ -4,9 +4,10 @@ title: Declaration References
 
 # Declaration References
 
-Note: If [--useTsLinkResolution](options/comments.md#usetslinkresolution) is turned on (the default) this page likely
-**does not apply** for your links. Declaration references are used only if that option is off or TypeScript
-fails to resolve a link.
+> [!note]
+> If [--useTsLinkResolution](options/comments.md#usetslinkresolution) is turned on (the default) this page likely
+> **does not apply** for your links. Declaration references are used only if that option is off or TypeScript
+> fails to resolve a link.
 
 Some tags like [`{@link}`](tags/link.md) and [`{@inheritDoc}`](tags/inheritDoc.md) can refer to other
 members of the documentation. These tags use declaration references to name another declaration.

@@ -273,6 +273,10 @@ export type ValidationOptions = {
      */
     invalidLink: boolean;
     /**
+     * If set, TypeDoc will produce warnings about \{\@link\} tags which do not link directly to their target.
+     */
+    rewrittenLink: boolean;
+    /**
      * If set, TypeDoc will produce warnings about declarations that do not have doc comments
      */
     notDocumented: boolean;

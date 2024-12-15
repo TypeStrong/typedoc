@@ -421,7 +421,13 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
     kind: [ts.SyntaxKind.ImportType],
     convert(context, node) {
         const name = node.qualifier?.getText() ?? "__module";
-        const symbol = context.expectSymbolAtLocation(node.qualifier || node);
+        const symbol = context.getSymbolAtLocation(node.qualifier || node);
+        // #2792, we should always have a symbol here unless there is a compiler
+        // error ignored with ts-expect-error or ts-ignore.
+        if (!symbol) {
+            return new IntrinsicType("any");
+        }
+
         return ReferenceType.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,

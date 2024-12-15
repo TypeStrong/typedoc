@@ -1,13 +1,14 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.27.2",
+  "version": "0.27.5",
   "homepage": "https://typedoc.org",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
     "./tsdoc.json": "./tsdoc.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./debug": "./dist/lib/debug/index.js"
   },
   "types": "./dist/index.d.ts",
   "bin": {

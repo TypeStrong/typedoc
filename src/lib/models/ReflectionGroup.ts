@@ -89,7 +89,7 @@ export class ReflectionGroup {
                     const child = project.getReflectionById(
                         de.oldIdToNewId[childId] ?? -1,
                     );
-                    if (child?.isDeclaration()) {
+                    if (child?.isDeclaration() || child?.isDocument()) {
                         this.children.push(child);
                     }
                 }

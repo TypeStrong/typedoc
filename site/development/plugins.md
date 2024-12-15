@@ -13,7 +13,8 @@ to. Plugins should assume that they may be loaded multiple times for different
 applications, and that a single load of an application class may be used to
 convert multiple projects.
 
-Plugins may be either ESM or CommonJS.
+Plugins may be either ESM or CommonJS, but TypeDoc ships with ESM, so they should
+generally published as ESM to avoid `require(esm)` experimental warnings.
 
 ```js
 // @ts-check

@@ -13,6 +13,8 @@ function favicon(context: DefaultThemeRenderContext) {
     switch (extname(fav)) {
         case ".ico":
             return <link rel="icon" href={context.relativeURL("assets/favicon.ico", true)} />;
+        case ".png":
+            return <link rel="icon" href={context.relativeURL("assets/favicon.png", true)} type="image/png" />;
         case ".svg":
             return <link rel="icon" href={context.relativeURL("assets/favicon.svg", true)} type="image/svg+xml" />;
         default:

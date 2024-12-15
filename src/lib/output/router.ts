@@ -1,5 +1,6 @@
 import type { Application } from "../application.js";
 import {
+    type DeclarationReflection,
     ReflectionKind,
     TraverseProperty,
     type ProjectReflection,
@@ -268,12 +269,31 @@ export class DefaultRouter implements Router {
             return;
         }
 
+        // We support linking to reflections for types directly contained within an export
+        // but not any deeper. This is because TypeDoc may or may not render the type details
+        // for a property depending on whether or not it is deemed useful, and defining a link
+        // which might not be used may result in a link being generated which isn't valid. #2808.
+        // This should be kept in sync with the renderingChildIsUseful function.
+        if (
+            reflection.kindOf(ReflectionKind.TypeLiteral) &&
+            (!reflection.parent?.kindOf(ReflectionKind.SomeExport) ||
+                (reflection.parent as DeclarationReflection).type?.type !==
+                    "reflection")
+        ) {
+            return;
+        }
+
         let refl: Reflection | undefined = reflection;
         const parts = [refl.name];
         while (refl.parent && refl.parent !== pageReflection) {
             refl = refl.parent;
-            // Avoid duplicate names for signatures
-            if (parts[0] !== refl.name) {
+            // Avoid duplicate names for signatures and useless __type in anchors
+            if (
+                !refl.kindOf(
+                    ReflectionKind.TypeLiteral |
+                        ReflectionKind.FunctionOrMethod,
+                )
+            ) {
                 parts.unshift(refl.name);
             }
         }

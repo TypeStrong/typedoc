@@ -334,6 +334,19 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
 }
 
 function renderingChildIsUseful(refl: DeclarationReflection) {
+    // Object types directly under a variable/type alias will always be considered useful.
+    // This probably isn't ideal, but it is an easy thing to check when assigning URLs
+    // in the default theme, so we'll make the assumption that those properties ought to always
+    // be rendered.
+    // This should be kept in sync with the DefaultTheme.applyAnchorUrl function.
+    if (
+        refl.kindOf(ReflectionKind.TypeLiteral) &&
+        refl.parent?.kindOf(ReflectionKind.SomeExport) &&
+        (refl.parent as DeclarationReflection).type?.type === "reflection"
+    ) {
+        return true;
+    }
+
     if (renderingThisChildIsUseful(refl)) {
         return true;
     }

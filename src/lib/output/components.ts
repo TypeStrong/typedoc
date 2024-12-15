@@ -41,7 +41,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      */
     protected urlPrefix = /^(http|ftp)s?:\/\//;
 
-    private get hostedBaseUrl() {
+    protected get hostedBaseUrl() {
         const url = this.application.options.getValue("hostedBaseUrl");
         return !url || url.endsWith("/") ? url : url + "/";
     }

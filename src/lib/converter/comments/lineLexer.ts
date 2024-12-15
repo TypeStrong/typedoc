@@ -87,12 +87,23 @@ function* lexLineComments2(
                 // We don't quite handle #2 correctly yet. PR welcome!
                 braceStartsType = false;
                 let tickCount = 1;
-                let lookahead = pos;
+
+                let lookahead = pos - 1;
+                let atNewline = true;
+                while (lookahead > 0 && file[lookahead] !== "\n") {
+                    if (/\S/.test(file[lookahead])) {
+                        atNewline = false;
+                        break;
+                    }
+                    --lookahead;
+                }
+                lookahead = pos;
 
                 while (lookahead + 1 < end && file[lookahead + 1] === "`") {
                     tickCount++;
                     lookahead++;
                 }
+                const isCodeBlock = atNewline && tickCount >= 3;
                 let lookaheadStart = pos;
                 const codeText: string[] = [];
 
@@ -103,12 +114,17 @@ function* lexLineComments2(
                         codeText.push(
                             file.substring(lookaheadStart, lookahead),
                         );
-                        yield {
-                            kind: TokenSyntaxKind.Code,
-                            text: codeText.join(""),
-                            pos,
-                        };
-                        pos = lookahead;
+                        const codeTextStr = codeText.join("");
+                        if (isCodeBlock || !/\n\s*\n/.test(codeTextStr)) {
+                            yield {
+                                kind: TokenSyntaxKind.Code,
+                                text: codeTextStr,
+                                pos,
+                            };
+                            pos = lookahead;
+                        } else {
+                            yield makeToken(TokenSyntaxKind.Text, tickCount);
+                        }
                         break;
                     } else if (file[lookahead] === "`") {
                         while (lookahead < end && file[lookahead] === "`") {
