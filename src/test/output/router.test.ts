@@ -112,6 +112,7 @@ describe("DefaultRouter", () => {
 
         const Foo = query(project, "Foo");
         const codeGen = query(project, "Foo.codeGeneration");
+        const iterator = query(project, "Foo.iterator");
         const abc = query(project, "abc");
         const Obj = query(project, "Obj");
         const ObjArray = query(project, "ObjArray");
@@ -125,6 +126,7 @@ describe("DefaultRouter", () => {
 
         equal(router.relativeUrl(Obj, ObjArray), "ObjArray.html");
         equal(router.relativeUrl(Foo, codeGen), "#codegeneration");
+        equal(router.relativeUrl(iterator, codeGen), "#codegeneration");
     });
 
     it("Can get a URL to an asset relative to the base", () => {

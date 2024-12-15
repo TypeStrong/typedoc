@@ -187,6 +187,9 @@ export class DefaultRouter implements Router {
 
     relativeUrl(from: Reflection, to: Reflection): string {
         let slashes = 0;
+        while (!this.hasOwnDocument(from)) {
+            from = from.parent!;
+        }
         const fromUrl = this.getFullUrl(from);
         const toUrl = this.getFullUrl(to);
         let equal = true;
