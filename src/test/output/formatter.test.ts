@@ -29,7 +29,7 @@ import {
     FileRegistry,
     ParameterReflection,
     ProjectReflection,
-    Reflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
