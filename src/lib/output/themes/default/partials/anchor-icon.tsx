@@ -1,5 +1,5 @@
 import type { Reflection } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function anchorIcon(context: DefaultThemeRenderContext, anchor: string | undefined) {

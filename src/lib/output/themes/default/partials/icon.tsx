@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { ReflectionKind } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { TranslatedString, TranslationProxy } from "../../../../internationalization/index.js";
 

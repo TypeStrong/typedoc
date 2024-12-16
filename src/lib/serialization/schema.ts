@@ -30,7 +30,7 @@
  */
 
 import type * as M from "../models/index.js";
-import type { IfInternal } from "../utils/index.js";
+import type { IfInternal } from "#utils";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.

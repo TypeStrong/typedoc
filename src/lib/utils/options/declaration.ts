@@ -4,7 +4,7 @@ import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
 import type { ReflectionKind } from "../../models/reflections/kind.js";
-import type { NeverIfInternal } from "../index.js";
+import type { NeverIfInternal } from "#utils";
 import type {
     TranslatedString,
     TranslationProxy,

@@ -1,5 +1,5 @@
 import type { DeclarationReflection } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap, type FormatterNode } from "../../../formatter.js";
 import { hasTypeParameters } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";

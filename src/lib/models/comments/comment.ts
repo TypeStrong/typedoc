@@ -1,4 +1,4 @@
-import { assertNever, removeIf } from "../../utils/index.js";
+import { assertNever, removeIf, NonEnumerable } from "#utils";
 import type { Reflection } from "../reflections/index.js";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId.js";
 
@@ -7,7 +7,6 @@ import type {
     Deserializer,
     JSONOutput,
 } from "../../serialization/index.js";
-import { NonEnumerable } from "../../utils/general.js";
 
 /**
  * Represents a parsed piece of a comment.

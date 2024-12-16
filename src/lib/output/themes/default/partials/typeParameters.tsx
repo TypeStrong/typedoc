@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { TypeParameterReflection } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { anchorLinkIfPresent } from "./anchor-icon.js";
 
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {

@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     type SignatureReflection,
 } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (

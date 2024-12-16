@@ -7,7 +7,7 @@ import type {
     TranslatedString,
     TranslationProxy,
 } from "../internationalization/internationalization.js";
-import type { IfInternal } from "./index.js";
+import type { IfInternal } from "#utils";
 
 const isDebugging = () => !!url();
 

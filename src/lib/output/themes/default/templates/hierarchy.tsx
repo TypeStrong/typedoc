@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { PageEvent } from "../../../events.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { getHierarchyRoots } from "../../lib.js";
 import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
 import { anchorLink } from "../partials/anchor-icon.js";

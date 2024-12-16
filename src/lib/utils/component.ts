@@ -1,5 +1,5 @@
 import type { Application } from "../application.js";
-import { EventDispatcher } from "./events.js";
+import { EventDispatcher } from "#utils";
 
 /**
  * Exposes a reference to the root Application component.

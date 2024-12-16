@@ -28,7 +28,7 @@ import {
     type SomeType,
 } from "../models/index.js";
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
-import { zip } from "../utils/array.js";
+import { zip } from "#utils";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";

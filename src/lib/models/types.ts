@@ -14,7 +14,7 @@ import type { DeclarationReference } from "../converter/comments/declarationRefe
 import { findPackageForPath } from "../utils/fs.js";
 import { ReflectionKind } from "./reflections/kind.js";
 import { Comment, type CommentDisplayPart } from "./comments/index.js";
-import { joinArray } from "../utils/array.js";
+import { joinArray } from "#utils";
 import type { SignatureReflection } from "./reflections/signature.js";
 
 /**

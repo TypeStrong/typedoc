@@ -1,9 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import {
-    HtmlAttributeParser,
-    createNormalizedUrl,
-    ParserState,
-} from "../../lib/utils/html.js";
+import { HtmlAttributeParser, createNormalizedUrl, ParserState } from "#utils";
 
 describe("HtmlAttributeParser", () => {
     enum State {

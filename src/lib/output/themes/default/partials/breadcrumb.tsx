@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { Reflection } from "../../../../models/index.js";
 
 export function breadcrumbs(context: DefaultThemeRenderContext, props: Reflection): JSX.Element {

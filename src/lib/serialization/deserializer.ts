@@ -34,7 +34,7 @@ import {
     UnionType,
     UnknownType,
 } from "../models/index.js";
-import { insertPrioritySorted } from "../utils/array.js";
+import { insertPrioritySorted } from "#utils";
 import type { Logger } from "../utils/loggers.js";
 import type { JSONOutput } from "./index.js";
 import type { FileRegistry } from "../models/FileRegistry.js";

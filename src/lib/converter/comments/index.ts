@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models/index.js";
-import { assertNever, type Logger } from "../../utils/index.js";
+import { type Logger } from "../../utils/index.js";
 import type {
     CommentStyle,
     JsDocCompatibility,
@@ -16,6 +16,7 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
+import { assertNever } from "#utils";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;

@@ -2,10 +2,8 @@ import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { optional, validate } from "./validation.js";
+import { filterMap, escapeRegExp, Validation } from "#utils";
 import { createMinimatch, normalizePath } from "./paths.js";
-import { filterMap } from "./array.js";
-import { escapeRegExp } from "./general.js";
 import { ok } from "assert";
 
 export function isFile(file: string) {
@@ -371,7 +369,12 @@ export function discoverPackageJson(
         dir,
         (content) => {
             const pkg: unknown = JSON.parse(content);
-            if (validate({ name: String, version: optional(String) }, pkg)) {
+            if (
+                Validation.validate(
+                    { name: String, version: Validation.optional(String) },
+                    pkg,
+                )
+            ) {
                 return pkg;
             }
         },

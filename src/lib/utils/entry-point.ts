@@ -18,7 +18,7 @@ import {
     inferPackageEntryPointPaths,
     isDir,
 } from "./fs.js";
-import { assertNever } from "./general.js";
+import { assertNever } from "#utils";
 
 /**
  * Defines how entry points are interpreted.

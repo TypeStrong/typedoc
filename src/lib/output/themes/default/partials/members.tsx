@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { type ContainerReflection } from "../../../../models/index.js";
 import { getMemberSections } from "../../lib.js";
 

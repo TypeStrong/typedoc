@@ -10,15 +10,13 @@ import * as OptionDefaults from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
 import { ReflectionKind } from "../../../models/reflections/kind.js";
-import * as Validation from "../../validation.js";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
-import { getEnumKeys } from "../../enum.js";
+import { getEnumKeys, setDifference, Validation } from "#utils";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
 import {
     getSupportedLanguages,
     getSupportedThemes,
 } from "../../highlighter.js";
-import { setDifference } from "../../set.js";
 import type { TranslationProxy } from "../../../internationalization/index.js";
 import type { Options } from "../options.js";
 import { extname } from "path";

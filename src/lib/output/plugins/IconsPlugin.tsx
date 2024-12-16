@@ -3,7 +3,7 @@ import { RendererEvent } from "../events.js";
 import { writeFile } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { join } from "path";
-import { JSX, renderElement } from "../../utils/index.js";
+import { JSX } from "#utils";
 import type { Renderer } from "../index.js";
 
 const ICONS_JS = `
@@ -57,8 +57,8 @@ export class IconsPlugin extends RendererComponent {
             );
         }
 
-        const svg = renderElement(<svg xmlns="http://www.w3.org/2000/svg">{children}</svg>);
-        const js = ICONS_JS.replace("SVG_HTML", renderElement(<>{children}</>).replaceAll("`", "\\`"));
+        const svg = JSX.renderElement(<svg xmlns="http://www.w3.org/2000/svg">{children}</svg>);
+        const js = ICONS_JS.replace("SVG_HTML", JSX.renderElement(<>{children}</>).replaceAll("`", "\\`"));
 
         const svgPath = join(event.outputDirectory, "assets/icons.svg");
         const jsPath = join(event.outputDirectory, "assets/icons.js");

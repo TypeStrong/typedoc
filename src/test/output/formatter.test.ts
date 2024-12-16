@@ -22,7 +22,7 @@ import {
     UnknownType,
     type SomeType,
 } from "../../lib/models/types.js";
-import { renderElementToText } from "../../lib/utils/jsx.js";
+import { JSX, dedent } from "#utils";
 import {
     DeclarationReflection,
     FileRegistry,
@@ -39,12 +39,13 @@ import {
     FormattedCodeGenerator,
     Wrap,
 } from "../../lib/output/formatter.js";
-import { dedent } from "../../lib/utils/general.js";
 import {
     type Router,
     Slugger,
     type PageDefinition,
 } from "../../lib/output/index.js";
+
+const renderElementToText = JSX.renderElementToText;
 
 export function renderType(type: SomeType, maxWidth = 80, startWidth = 0) {
     class DummyRouter implements Router {

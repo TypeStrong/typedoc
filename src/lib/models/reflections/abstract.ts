@@ -1,7 +1,7 @@
 import { Comment } from "../comments/comment.js";
 import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./project.js";
-import type { NeverIfInternal } from "../../utils/index.js";
+import { type NeverIfInternal, NonEnumerable } from "#utils";
 import { ReflectionKind } from "./kind.js";
 import type {
     Serializer,
@@ -11,7 +11,6 @@ import type {
 import type { ReflectionVariant } from "./variant.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { DocumentReflection } from "./document.js";
-import { NonEnumerable } from "../../utils/general.js";
 import type {
     Internationalization,
     TranslatedString,

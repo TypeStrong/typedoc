@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import type { Application } from "../application.js";
-import { DefaultMap, unique } from "../utils/index.js";
+import { DefaultMap, unique } from "#utils";
 import { readdirSync } from "fs";
 import { join } from "path";
 import { ReflectionKind } from "../models/reflections/kind.js";

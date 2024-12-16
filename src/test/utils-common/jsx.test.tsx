@@ -1,5 +1,7 @@
 import { deepStrictEqual as equal } from "assert";
-import { JSX, renderElement, Raw } from "../../lib/utils/index.js";
+import { JSX } from "#utils";
+
+const renderElement = JSX.renderElement;
 
 describe("JSX", () => {
     it("Works with basic case", () => {
@@ -67,7 +69,7 @@ describe("JSX", () => {
     });
 
     it("Supports <Raw /> for injecting HTML", () => {
-        equal(renderElement(<Raw html="<strong>foo</strong>" />), "<strong>foo</strong>");
+        equal(renderElement(<JSX.Raw html="<strong>foo</strong>" />), "<strong>foo</strong>");
     });
 
     it("Supports SVG elements", () => {

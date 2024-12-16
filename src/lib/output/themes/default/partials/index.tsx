@@ -1,6 +1,6 @@
 import { classNames, renderName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { ContainerReflection, ReflectionCategory, ReflectionGroup } from "../../../../models/index.js";
 
 function renderCategory(
@@ -13,7 +13,7 @@ function renderCategory(
             <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
             {item.description && (
                 <div class="tsd-comment tsd-typography">
-                    <Raw html={markdown(item.description)} />
+                    <JSX.Raw html={markdown(item.description)} />
                 </div>
             )}
             <div class="tsd-index-list">

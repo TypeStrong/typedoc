@@ -6,7 +6,7 @@
  * @module
  */
 
-import type { Chars } from "../../utils/index.js";
+import type { Chars } from "#utils";
 
 export const MeaningKeywords = [
     "class", // SymbolFlags.Class

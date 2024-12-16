@@ -1,4 +1,4 @@
-import type { EnumKeys } from "../../utils/index.js";
+import type { EnumKeys } from "#utils";
 
 /**
  * Defines the available reflection kinds.

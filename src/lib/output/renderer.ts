@@ -20,16 +20,15 @@ import {
 import type { ProjectReflection } from "../models/reflections/project.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
-import { Option, EventHooks, AbstractComponent } from "../utils/index.js";
+import { Option, AbstractComponent } from "../utils/index.js";
 import { loadHighlighter } from "../utils/highlighter.js";
 import type {
     BundledLanguage,
     BundledTheme as ShikiTheme,
 } from "@gerrit0/mini-shiki";
 import type { Comment, Reflection } from "../models/index.js";
-import type { JsxElement } from "../utils/jsx.elements.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
-import { setRenderSettings } from "../utils/jsx.js";
+import { EventHooks, JSX } from "#utils";
 
 import {
     AssetsPlugin,
@@ -243,7 +242,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
      *
      * See {@link RendererHooks} for a description of each available hook, and when it will be called.
      */
-    hooks = new EventHooks<RendererHooks, JsxElement>();
+    hooks = new EventHooks<RendererHooks, JSX.Element>();
 
     /** @internal */
     @Option("theme")
@@ -333,7 +332,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         project: ProjectReflection,
         outputDirectory: string,
     ): Promise<void> {
-        setRenderSettings({ pretty: this.pretty });
+        JSX.setRenderSettings({ pretty: this.pretty });
 
         const momento = this.hooks.saveMomento();
         this.renderStartTime = Date.now();

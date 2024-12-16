@@ -9,8 +9,7 @@ import {
     type SomeType,
     type TypeVisitor,
 } from "../models/types.js";
-import { aggregate } from "../utils/array.js";
-import { assertNever, JSX } from "../utils/index.js";
+import { aggregate, assertNever, JSX } from "#utils";
 import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 import {
     ReflectionKind,

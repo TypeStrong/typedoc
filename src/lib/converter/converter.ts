@@ -22,7 +22,6 @@ import {
     Option,
     MinimalSourceFile,
     readFile,
-    unique,
     getDocumentEntryPoints,
 } from "../utils/index.js";
 import { convertType } from "./types.js";
@@ -30,7 +29,7 @@ import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
 import { createMinimatch, matchesAny, nicePath } from "../utils/paths.js";
 import type { Minimatch } from "minimatch";
-import { hasAllFlags, hasAnyFlag } from "../utils/enum.js";
+import { hasAllFlags, hasAnyFlag, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type {

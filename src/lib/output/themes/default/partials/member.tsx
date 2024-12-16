@@ -1,6 +1,6 @@
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { type DeclarationReflection, type DocumentReflection } from "../../../../models/index.js";
 import { anchorIcon, anchorLink } from "./anchor-icon.js";
 
@@ -28,7 +28,7 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
                     </h3>
                 )}
                 <div class="tsd-comment tsd-typography">
-                    <Raw html={context.markdown(props.content)} />
+                    <JSX.Raw html={context.markdown(props.content)} />
                 </div>
             </section>
         );

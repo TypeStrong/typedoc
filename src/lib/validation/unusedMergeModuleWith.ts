@@ -1,5 +1,6 @@
 import { ReflectionKind, type ProjectReflection } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
+
 export function validateMergeModuleWith(
     project: ProjectReflection,
     logger: Logger,

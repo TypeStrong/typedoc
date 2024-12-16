@@ -10,12 +10,7 @@ import {
     ReflectionKind,
     type UnionType,
 } from "../models/index.js";
-import {
-    getEnumFlags,
-    hasAllFlags,
-    hasAnyFlag,
-    removeFlag,
-} from "../utils/enum.js";
+import { getEnumFlags, hasAllFlags, hasAnyFlag, removeFlag } from "#utils";
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
