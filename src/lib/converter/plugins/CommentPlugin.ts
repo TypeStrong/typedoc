@@ -13,15 +13,15 @@ import {
     type TypeParameterReflection,
     type TypeVisitor,
 } from "../../models/index.js";
+import { Option } from "../../utils/index.js";
 import {
-    Option,
+    setIntersection,
     filterMap,
     partition,
     removeIf,
     removeIfPresent,
     unique,
-} from "../../utils/index.js";
-import { setIntersection } from "../../utils/set.js";
+} from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";

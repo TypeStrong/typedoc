@@ -4,7 +4,7 @@ import {
     insertOrderSorted,
     insertPrioritySorted,
     removeIfPresent,
-} from "../../lib/utils/array.js";
+} from "#utils";
 
 describe("Array utils", () => {
     describe("insertPrioritySorted", () => {

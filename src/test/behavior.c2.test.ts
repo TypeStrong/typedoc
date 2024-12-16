@@ -8,7 +8,7 @@ import {
     SignatureReflection,
     type ContainerReflection,
 } from "../lib/models/index.js";
-import { filterMap } from "../lib/utils/index.js";
+import { filterMap } from "#utils";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";

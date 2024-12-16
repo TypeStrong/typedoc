@@ -15,10 +15,9 @@ import { type RenderTemplate } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
-import { filterMap, JSX } from "../../../utils/index.js";
+import { filterMap, createNormalizedUrl, JSX } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { icons } from "./partials/icon.js";
-import { createNormalizedUrl } from "../../../utils/html.js";
 import { PageKind, type Router } from "../../router.js";
 
 export interface NavigationElement {

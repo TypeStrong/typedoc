@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-import { performance } from "perf_hooks";
-
 const benchmarks: { name: string; calls: number; time: number }[] = [];
 
 export function bench<T extends (..._: any) => any>(

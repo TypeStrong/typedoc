@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { EventHooks } from "../../lib/utils/hooks.js";
+import { EventHooks } from "#utils";
 
 describe("EventHooks", () => {
     it("Works in simple cases", () => {

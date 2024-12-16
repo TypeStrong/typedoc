@@ -7,13 +7,18 @@ import type { SignatureReflection } from "./signature.js";
 import type { ParameterReflection } from "./parameter.js";
 import { IntrinsicType, makeRecursiveVisitor, type Type } from "../types.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
-import { assertNever, removeIf, removeIfPresent } from "../../utils/index.js";
 import { ReflectionKind } from "./kind.js";
 import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { Serializer } from "../../serialization/serializer.js";
 import type { Deserializer, JSONOutput } from "../../serialization/index.js";
-import { DefaultMap, StableKeyMap } from "../../utils/map.js";
+import {
+    DefaultMap,
+    StableKeyMap,
+    assertNever,
+    removeIf,
+    removeIfPresent,
+} from "#utils";
 import type { DocumentReflection } from "./document.js";
 import type { FileRegistry } from "../FileRegistry.js";
 

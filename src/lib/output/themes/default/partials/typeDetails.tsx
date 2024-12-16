@@ -6,7 +6,7 @@ import {
     type CommentDisplayPart,
 } from "../../../../models/index.js";
 import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorLinkIfPresent } from "./anchor-icon.js";

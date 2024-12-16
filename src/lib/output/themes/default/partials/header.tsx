@@ -1,5 +1,5 @@
 import { classNames, getDisplayName, hasTypeParameters, join } from "../../lib.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { PageEvent } from "../../../events.js";
 import type { Reflection } from "../../../../models/index.js";

@@ -3,7 +3,7 @@ import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
 import translatable from "../lib/internationalization/locales/en.cjs";
-import { setDifference } from "../lib/utils/set.js";
+import { setDifference } from "#utils";
 import {
     blockTags,
     inlineTags,

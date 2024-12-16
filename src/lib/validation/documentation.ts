@@ -6,7 +6,7 @@ import {
     ReflectionType,
 } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
-import { removeFlag } from "../utils/enum.js";
+import { removeFlag } from "#utils";
 import { nicePath } from "../utils/paths.js";
 
 export function validateDocumentation(

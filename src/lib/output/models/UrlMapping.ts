@@ -1,4 +1,4 @@
-import type { JSX } from "../../utils/index.js";
+import type { JSX } from "#utils";
 import type { PageEvent } from "../events.js";
 
 export class UrlMapping<Model = any> {

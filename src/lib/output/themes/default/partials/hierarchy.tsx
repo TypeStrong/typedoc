@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DeclarationHierarchy, Type } from "../../../../models/index.js";
 
 const isLinkedReferenceType = (type: Type) =>

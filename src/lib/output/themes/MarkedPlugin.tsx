@@ -4,10 +4,10 @@ import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
 import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
-import { Option, renderElement, assertNever, type ValidationOptions } from "../../utils/index.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { escapeHtml } from "../../utils/html.js";
+import { escapeHtml, assertNever, JSX } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
@@ -321,7 +321,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
+            return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
@@ -352,7 +352,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         this.parser.renderer.rules["alert_open"] = (tokens, idx) => {
             const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
-            const iconHtml = renderElement(icon());
+            const iconHtml = JSX.renderElement(icon());
 
             return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${tokens[idx].attrGet("alert")}</span></div>`;
         };

@@ -9,12 +9,8 @@ import {
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import type { Reflection } from "../../models/reflections/abstract.js";
-import {
-    Option,
-    DefaultMap,
-    type ValidationOptions,
-} from "../../utils/index.js";
-import { zip } from "../../utils/array.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
+import { zip, DefaultMap } from "#utils";
 import { parseDeclarationReference } from "../comments/declarationReference.js";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";

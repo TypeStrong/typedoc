@@ -23,7 +23,7 @@ import {
 
 import { Options, Option } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { unique } from "./utils/array.js";
+import { unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,

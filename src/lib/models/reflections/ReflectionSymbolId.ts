@@ -9,7 +9,7 @@ import {
 } from "../../utils/fs.js";
 import { normalizePath } from "../../utils/paths.js";
 import { getQualifiedName } from "../../utils/tsutils.js";
-import { optional, validate } from "../../utils/validation.js";
+import { Validation } from "#utils";
 import type { DeclarationReference } from "../../converter/index.js";
 import { splitUnquotedString } from "./utils.js";
 
@@ -133,10 +133,10 @@ function resolveDeclarationMaps(file: string): string {
     }
 
     if (
-        validate(
+        Validation.validate(
             {
                 file: String,
-                sourceRoot: optional(String),
+                sourceRoot: Validation.optional(String),
                 sources: [Array, String],
             },
             sourceMap,

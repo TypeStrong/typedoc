@@ -10,7 +10,7 @@ import type {
     DeclarationReflection,
     Reflection,
 } from "../../../models/index.js";
-import { type NeverIfInternal, type Options } from "../../../utils/index.js";
+import { type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
 import { defaultLayout } from "./layouts/default.js";
 import { index } from "./partials/index.js";
@@ -61,6 +61,7 @@ import {
     moduleReflection,
 } from "./partials/moduleReflection.js";
 import type { Router } from "../../router.js";
+import type { NeverIfInternal } from "#utils";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);

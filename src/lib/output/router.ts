@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     type ProjectReflection,
 } from "../models/index.js";
-import { createNormalizedUrl } from "../utils/html.js";
+import { createNormalizedUrl } from "#utils";
 import { Option, type TypeDocOptionMap } from "../utils/index.js";
 import { Slugger } from "./themes/default/Slugger.js";
 import { getHierarchyRoots } from "./themes/lib.js";

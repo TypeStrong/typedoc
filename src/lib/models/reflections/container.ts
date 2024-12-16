@@ -13,7 +13,7 @@ import type {
 } from "../../serialization/index.js";
 import type { DocumentReflection } from "./document.js";
 import type { DeclarationReflection } from "./declaration.js";
-import { removeIfPresent } from "../../utils/index.js";
+import { removeIfPresent } from "#utils";
 
 /**
  * @category Reflections

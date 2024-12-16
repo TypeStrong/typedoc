@@ -7,7 +7,7 @@ import {
     CommentTag,
     type InlineTagDisplayPart,
 } from "../../models/index.js";
-import { assertNever, type Logger, removeIf } from "../../utils/index.js";
+import { type Logger } from "../../utils/index.js";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
@@ -19,6 +19,7 @@ import type {
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
+import { assertNever, removeIf } from "#utils";
 
 interface LookaheadGenerator<T> {
     done(): boolean;

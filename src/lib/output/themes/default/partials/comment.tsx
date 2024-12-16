@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
 import { anchorIcon, anchorLink } from "./anchor-icon.js";
 import { join } from "../../lib.js";
@@ -14,7 +14,7 @@ export function renderDisplayParts(
 
     return (
         <div class="tsd-comment tsd-typography">
-            <Raw html={markdown(parts)} />
+            <JSX.Raw html={markdown(parts)} />
         </div>
     );
 }
@@ -89,7 +89,7 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                                     {name}
                                     {anchorIcon(context, anchor)}
                                 </h4>
-                                <Raw html={context.markdown(item.content)} />
+                                <JSX.Raw html={context.markdown(item.content)} />
                             </div>
                         </>
                     );

@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DeclarationReflection } from "../../../../models/index.js";
 import { anchorIcon, anchorLink } from "./anchor-icon.js";
 import { classNames } from "../../lib.js";

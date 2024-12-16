@@ -8,7 +8,7 @@ import {
     type Reflection,
     ReflectionKind,
 } from "../../models/index.js";
-import { assertNever, filterMap } from "../../utils/index.js";
+import { assertNever, filterMap } from "#utils";
 import type {
     ComponentPath,
     DeclarationReference,

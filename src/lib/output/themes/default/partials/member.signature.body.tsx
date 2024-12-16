@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { SignatureReflection } from "../../../../models/index.js";
 import { hasTypeParameters } from "../../lib.js";
 
@@ -49,7 +49,7 @@ export function memberSignatureBody(
                     <h4 class="tsd-returns-title">
                         {context.i18n.theme_returns()} {context.type(props.type)}
                     </h4>
-                    {returnsTag && <Raw html={context.markdown(returnsTag.content)} />}
+                    {returnsTag && <JSX.Raw html={context.markdown(returnsTag.content)} />}
                     {context.typeDetailsIfUseful(props.type)}
                 </>
             )}

@@ -8,7 +8,6 @@
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
-export { EventDispatcher } from "./lib/utils/events.js";
 export { resetReflectionID } from "./lib/models/reflections/abstract.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
@@ -81,7 +80,6 @@ export {
     ArgumentsReader,
     Option,
     CommentStyle,
-    JSX,
     LogLevel,
     Logger,
     Options,
@@ -92,7 +90,6 @@ export {
     TSConfigReader,
     TypeDocReader,
     EntryPointStrategy,
-    EventHooks,
     MinimalSourceFile,
     normalizePath,
 } from "./lib/utils/index.js";
@@ -119,10 +116,11 @@ export type {
     ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
     ManuallyValidatedOption,
-    EnumKeys,
     JsDocCompatibility,
     OutputSpecification,
 } from "./lib/utils/index.js";
+
+export { JSX, EventDispatcher, EventHooks, type EnumKeys } from "#utils";
 
 export {
     JSONOutput,

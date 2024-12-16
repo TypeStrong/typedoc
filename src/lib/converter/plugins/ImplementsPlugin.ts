@@ -14,7 +14,7 @@ import {
     ReflectionType,
     type Type,
 } from "../../models/types.js";
-import { filterMap, zip } from "../../utils/array.js";
+import { filterMap, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getHumanName } from "../../utils/index.js";

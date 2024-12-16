@@ -1,7 +1,6 @@
 import * as shiki from "@gerrit0/mini-shiki";
 import type { ShikiInternal } from "@shikijs/types";
-import * as JSX from "./jsx.js";
-import { unique } from "./array.js";
+import { JSX, unique } from "#utils";
 import assert from "assert";
 
 const aliases = new Map<string, string>();

@@ -11,7 +11,7 @@ import {
     SignatureReflection,
     type TypeParameterReflection,
 } from "../../models/index.js";
-import { DefaultMap, filterMap, JSX } from "../../utils/index.js";
+import { DefaultMap, filterMap, JSX } from "#utils";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {

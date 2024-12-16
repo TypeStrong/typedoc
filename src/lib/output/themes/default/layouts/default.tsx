@@ -1,6 +1,6 @@
 import type { RenderTemplate } from "../../../index.js";
 import type { Reflection } from "../../../../models/index.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { PageEvent } from "../../../events.js";
 import { getDisplayName, getHierarchyRoots } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -35,7 +35,7 @@ function buildSiteMetadata(context: DefaultThemeRenderContext) {
 
         return (
             <script type="application/ld+json">
-                <Raw
+                <JSX.Raw
                     html={JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "WebSite",
@@ -90,14 +90,14 @@ export const defaultLayout = (
         <body>
             {context.hook("body.begin", context)}
             <script>
-                <Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";' />
+                <JSX.Raw html='document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";' />
                 {/* Hide the entire page for up to 0.5 seconds so that if navigating between pages on a fast */}
                 {/* device the navigation pane doesn't appear to flash if it loads just after the page displays. */}
                 {/* This could still happen if we're unlucky, but from experimenting with Firefox's throttling */}
                 {/* settings, this appears to be a reasonable tradeoff between displaying page content without the */}
                 {/* navigation on exceptionally slow connections and not having the navigation obviously repaint. */}
-                <Raw html='document.body.style.display="none";' />
-                <Raw html='setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)' />
+                <JSX.Raw html='document.body.style.display="none";' />
+                <JSX.Raw html='setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)' />
             </script>
             {context.toolbar(props)}
 

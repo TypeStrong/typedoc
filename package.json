@@ -8,6 +8,7 @@
     ".": "./dist/index.js",
     "./tsdoc.json": "./tsdoc.json",
     "./package.json": "./package.json",
+    "./models": "./dist/lib/models/index.js",
     "./debug": "./dist/lib/debug/index.js"
   },
   "types": "./dist/index.d.ts",
@@ -103,5 +104,8 @@
       "src/test",
       "tmp"
     ]
+  },
+  "imports": {
+    "#utils": "./dist/lib/utils-common/index.js"
   }
 }

@@ -3,8 +3,7 @@ import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { writeFile } from "../../utils/index.js";
-import { escapeHtml } from "../../utils/html.js";
-import { Fragment } from "../../utils/jsx.js";
+import { escapeHtml, JSX } from "#utils";
 import type { Renderer } from "../index.js";
 
 export class SitemapPlugin extends RendererComponent {
@@ -34,7 +33,7 @@ export class SitemapPlugin extends RendererComponent {
                     children: [],
                 };
             }
-            return { tag: Fragment, props: null, children: [] };
+            return { tag: JSX.Fragment, props: null, children: [] };
         });
 
         this.owner.preRenderAsyncJobs.push((event) => this.buildSitemap(event));

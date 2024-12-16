@@ -14,7 +14,7 @@ import type {
     RelativeLinkDisplayPart,
 } from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { HtmlAttributeParser, ParserState } from "../../utils/html.js";
+import { HtmlAttributeParser, ParserState } from "#utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";

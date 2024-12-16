@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { ReflectionKind } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 const kindIcon = (letterPath: JSX.Element, color: string, circular = false) => (

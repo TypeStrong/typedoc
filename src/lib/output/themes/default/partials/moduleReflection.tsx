@@ -6,7 +6,7 @@ import {
     type DeclarationReflection,
     type ProjectReflection,
 } from "../../../../models/index.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorIcon, anchorLink } from "./anchor-icon.js";
@@ -25,7 +25,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
 
             {mod.isDeclaration() && mod.kind === ReflectionKind.Module && mod.readme?.length && (
                 <section class="tsd-panel tsd-typography">
-                    <Raw html={context.markdown(mod.readme)} />
+                    <JSX.Raw html={context.markdown(mod.readme)} />
                 </section>
             )}
 
@@ -41,7 +41,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                         </summary>
                         {description && (
                             <div class="tsd-comment tsd-typography">
-                                <Raw html={context.markdown(description)} />
+                                <JSX.Raw html={context.markdown(description)} />
                             </div>
                         )}
                         <dl class="tsd-member-summaries">

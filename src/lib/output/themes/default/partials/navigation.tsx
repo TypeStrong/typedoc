@@ -1,5 +1,5 @@
 import { type Reflection, ReflectionFlag } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
