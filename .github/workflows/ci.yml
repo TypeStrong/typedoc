@@ -57,7 +57,7 @@ jobs:
               with:
                   node-version: 18
             - name: Upgrade npm
-              run: npm i -g npm@latest
+              run: npm i -g npm@10
             - name: Install
               run: npm ci
             - name: Build
