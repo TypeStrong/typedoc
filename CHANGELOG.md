@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+-   `@include` and `@includeCode` now work in the readme file, #2814.
+
 ## v0.27.5 (2024-12-14)
 
 ### Bug Fixes

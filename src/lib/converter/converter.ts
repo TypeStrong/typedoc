@@ -248,6 +248,9 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      */
     static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;
 
+    /** @internal @hidden */
+    includePlugin: IncludePlugin;
+
     constructor(owner: Application) {
         super(owner);
 
@@ -304,7 +307,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         new PackagePlugin(this);
         new SourcePlugin(this);
         new TypePlugin(this);
-        new IncludePlugin(this);
+        this.includePlugin = new IncludePlugin(this);
         new MergeModuleWithPlugin(this);
     }
 

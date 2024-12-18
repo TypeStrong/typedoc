@@ -46,7 +46,7 @@ export class IncludePlugin extends ConverterComponent {
         }
     }
 
-    private checkIncludeTagsParts(
+    checkIncludeTagsParts(
         refl: Reflection,
         relative: string,
         parts: CommentDisplayPart[],

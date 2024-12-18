@@ -135,6 +135,14 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             project.readme = content;
+
+            // This isn't ideal, but seems better than figuring out the readme
+            // path over in the include plugin...
+            this.owner.includePlugin.checkIncludeTagsParts(
+                project,
+                Path.dirname(this.readmeFile),
+                content,
+            );
         }
 
         if (this.packageJson) {
