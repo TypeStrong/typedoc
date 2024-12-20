@@ -196,3 +196,25 @@ export function joinArray<T>(
     }
     return "";
 }
+
+export function maxElementByScore<T>(
+    arr: readonly T[],
+    score: (a: T) => number,
+): T | undefined {
+    if (arr.length === 0) {
+        return undefined;
+    }
+
+    let largest = arr[0];
+    let largestScore = score(arr[0]);
+
+    for (let i = 1; i < arr.length; ++i) {
+        const itemScore = score(arr[i]);
+        if (itemScore > largestScore) {
+            largest = arr[i];
+            largestScore = itemScore;
+        }
+    }
+
+    return largest;
+}

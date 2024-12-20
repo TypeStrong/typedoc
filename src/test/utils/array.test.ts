@@ -3,6 +3,7 @@ import {
     binaryFindPartition,
     insertOrderSorted,
     insertPrioritySorted,
+    maxElementByScore,
     removeIfPresent,
 } from "../../lib/utils/array.js";
 
@@ -136,6 +137,26 @@ describe("Array utils", () => {
             const arr = [1, 2, 1];
             removeIfPresent(arr, 1);
             equal(arr, [2, 1]);
+        });
+    });
+
+    describe("maxElementByScore", () => {
+        it("Gets the max element", () => {
+            const arr = [1, 2, 3];
+            const item = maxElementByScore(arr, (x) => x);
+            equal(item, 3);
+        });
+
+        it("Prioritizes elements earlier in the array", () => {
+            const arr = [1, 2, 3];
+            const item = maxElementByScore(arr, () => 1);
+            equal(item, 1);
+        });
+
+        it("Returns undefined for an empty array", () => {
+            const arr: unknown[] = [];
+            const item = maxElementByScore(arr, () => 1);
+            equal(item, undefined);
         });
     });
 });

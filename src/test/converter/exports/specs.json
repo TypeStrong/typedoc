@@ -308,7 +308,7 @@
               "url": "typedoc://mod.ts#L13"
             }
           ],
-          "target": 31
+          "target": 30
         },
         {
           "id": 40,
@@ -412,7 +412,7 @@
               "url": "typedoc://mod.ts#L40"
             }
           ],
-          "target": 34
+          "target": 29
         }
       ],
       "groups": [

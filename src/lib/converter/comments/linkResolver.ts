@@ -13,6 +13,7 @@ import {
     parseDeclarationReference,
 } from "./declarationReference.js";
 import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
+import { maxElementByScore } from "../../utils/array.js";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 
@@ -138,14 +139,32 @@ function resolveLinkTag(
 
         if (tsTargets.length) {
             // Find the target most likely to have a real url in the generated documentation
-            target =
-                tsTargets.find((r) => r.kindOf(ReflectionKind.SomeExport)) ||
-                tsTargets.find(
-                    (r) =>
-                        r.kindOf(ReflectionKind.SomeMember) &&
-                        r.parent?.kindOf(ReflectionKind.SomeExport),
-                ) ||
-                tsTargets[0];
+            // 1. A direct export (class, interface, variable)
+            // 2. A property of a direct export (class/interface property)
+            // 3. A property of a type of an export (property on type alias)
+            // 4. Whatever the first symbol found was
+            target = maxElementByScore(tsTargets, (r) => {
+                if (r.kindOf(ReflectionKind.SomeExport)) {
+                    return 4;
+                }
+                if (
+                    r.kindOf(ReflectionKind.SomeMember) &&
+                    r.parent?.kindOf(ReflectionKind.SomeExport)
+                ) {
+                    return 3;
+                }
+                if (
+                    r.kindOf(ReflectionKind.SomeMember) &&
+                    r.parent?.kindOf(ReflectionKind.TypeLiteral) &&
+                    r.parent.parent?.kindOf(
+                        ReflectionKind.TypeAlias | ReflectionKind.Variable,
+                    )
+                ) {
+                    return 2;
+                }
+
+                return 1;
+            })!;
             pos = end;
             defaultDisplayText =
                 part.tsLinkText ||
