@@ -93,12 +93,7 @@ If you don't already have [Git] installed, install it first. You will need it to
     ```bash
     npm run build
     ```
-1. Set up a baseline for visual theme testing:
-    ```bash
-    npm run test:visual
-    npm run test:visual:accept
-    ```
-1. Open the typedoc folder in your favorite editor. If you don't have one, try [Visual Studio Code][vscode] or [Atom]
+1. Open the typedoc folder in your favorite editor. If you don't have one, try [Visual Studio Code][vscode]
 
 ## Linting, Building, and Testing
 
@@ -119,13 +114,15 @@ To compile the TypeDoc source, run `npm run build`. This will start the TypeScri
 TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made run `npm test`.
 This will run a subset of TypeDoc's tests intended for quick development checks.
 Tests which take more than half a second are located in `src/test/slow`, and will only be run if you run `npm run test:full`.
-These tests will also run the visual regression tests, failing if there are any changes.
-TypeDoc also contains visual regression tests for comparing changes made to the themes. To test this, run `npm run test:visual`. If there are changes that you expect, run `npm run test:visual:accept` to save the new baseline.
 
 If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run rebuild_specs` to update the spec files for the new output.
 
 Additional tests are contained within the `converter2` directory that look for specific issues with previous
 builds and may be more appropriate for adding a test for a bugfix.
+
+#### Visual Regression Testing
+
+There is also a script to visually compare the differences between changes. To set this up, build the code, then run `node scripts/visual_regression.js`. This will create a baseline which future runs will be compared against after making changes, compiling, and running the visual regression script again.
 
 ## Pull Requests
 
@@ -150,4 +147,3 @@ If the TypeDoc repository has changed since you originally forked it, you will n
 [git]: https://git-scm.com
 [node]: https://nodejs.org/en/
 [vscode]: https://code.visualstudio.com/
-[atom]: https://atom.io/
