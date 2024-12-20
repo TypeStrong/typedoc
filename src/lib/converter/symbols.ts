@@ -929,7 +929,7 @@ function createAlias(
     // We already have this. Create a reference.
     const ref = new ReferenceReflection(
         exportSymbol?.name ?? symbol.name,
-        target,
+        target.isReference() ? target.getTargetReflection() : target,
         context.scope,
     );
     context.postReflectionCreation(ref, symbol, exportSymbol);

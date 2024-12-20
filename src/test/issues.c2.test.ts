@@ -1971,4 +1971,16 @@ describe("Issue Tests", () => {
         equal(alpha2.type?.type, "reflection");
         equal(alpha2.type.declaration.comment, undefined);
     });
+
+    it("#2811 avoids references to references", () => {
+        const project = convert();
+        const abc = query(project, "abc");
+        const rename1 = query(project, "rename1");
+        ok(rename1.isReference());
+        ok(rename1.getTargetReflection() === abc);
+
+        const rename2 = query(project, "rename2");
+        ok(rename2.isReference());
+        ok(rename2.getTargetReflection() === abc);
+    });
 });
