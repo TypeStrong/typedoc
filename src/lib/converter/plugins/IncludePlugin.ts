@@ -62,7 +62,8 @@ export class IncludePlugin extends ConverterComponent {
                 continue;
             }
 
-            const file = path.resolve(relative, part.text.trim());
+            const [filename, target] = part.text.trim().split("#");
+            const file = path.resolve(relative, filename);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
                     this.logger.i18n.include_0_in_1_specified_2_circular_include_3(
@@ -88,11 +89,19 @@ export class IncludePlugin extends ConverterComponent {
                     );
                     parts.splice(i, 1, ...content);
                 } else {
+                    const regionStart = `// #region ${target}`;
+                    const regionEnd = `// #endregion ${target}`;
                     parts[i] = {
                         kind: "code",
                         text: makeCodeBlock(
                             path.extname(file).substring(1),
-                            text,
+                            target
+                                ? text.substring(
+                                      text.indexOf(regionStart) +
+                                          regionStart.length,
+                                      text.indexOf(regionEnd),
+                                  )
+                                : text,
                         ),
                     };
                 }
