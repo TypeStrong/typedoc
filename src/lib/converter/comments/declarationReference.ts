@@ -65,7 +65,8 @@ export interface ComponentPath {
      * How to resolve the `path`
      * - `.` - Navigate via `exports` of symbol
      * - `#` - Navigate via `members` of symbol
-     * - `~` - Navigate via `locals` of symbol
+     * - `~` - Navigate via `locals` of symbol (note: TypeDoc does not support
+     *   locals, see the declaration reference docs)
      */
     navigation: "." | "#" | "~";
     path: string;
@@ -432,6 +433,7 @@ export function parseDeclarationReference(
     let moduleSource: string | undefined;
     let symbolReference: SymbolReference | undefined;
     let resolutionStart: "global" | "local" = "local";
+    let topLevelLocalReference = false;
 
     const moduleSourceOrSymbolRef = parseModuleSource(source, pos, end);
     if (moduleSourceOrSymbolRef) {
@@ -443,6 +445,12 @@ export function parseDeclarationReference(
             pos = moduleSourceOrSymbolRef[1] + 1;
             resolutionStart = "global";
             moduleSource = moduleSourceOrSymbolRef[0];
+
+            // We might be referencing a local of a module
+            if (source[pos] === "~") {
+                topLevelLocalReference = true;
+                pos++;
+            }
         }
     } else if (source[pos] === "!") {
         pos++;
@@ -452,6 +460,9 @@ export function parseDeclarationReference(
     const ref = parseSymbolReference(source, pos, end);
     if (ref) {
         symbolReference = ref[0];
+        if (topLevelLocalReference && symbolReference.path?.length) {
+            symbolReference.path[0].navigation = "~";
+        }
         pos = ref[1];
     }
 

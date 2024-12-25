@@ -48,6 +48,11 @@ The deliminator is used to determine how to navigate the project tree.
 | `#` | Indicates that the next component is a "member", including class instance properties, interface members, and enum members. |
 | `~` | Indicates that the next component is an export of a namespace/module. |
 
+> [!warning] The TSDoc specification says that `~` traverses via locals. This is
+> different than TypeDoc's behavior. TypeDoc will treat `~` as a stricter `.`
+> which only supports navigating to a namespace/module export. It should
+> generally be avoided in favor of `.` for improved compatibility with VSCode.
+
 ```ts
 // module.ts
 /**

@@ -15,6 +15,7 @@ title: Changelog
 -   TypeDoc will now avoid making references to references, #2811.
 -   Fixed output specific option specification, #2818.
 -   Improved type reference conversion to avoid including defaulted type arguments, #2820.
+-   Fixed parsing of declaration references which include a module and a local reference, #2810.
 -   Improved link resolution logic to prioritize type alias properties with the
     same symbol over type literal properties within function parameters.
 

@@ -215,5 +215,16 @@ describe("Declaration References", () => {
             equal(parse(""), undefined);
             equal(parse("@test/foo"), undefined);
         });
+
+        it("Handles module reference with top level ~ reference", () => {
+            equal(parse("mod!~foo"), {
+                moduleSource: "mod",
+                resolutionStart: "global",
+                symbolReference: {
+                    path: [{ navigation: "~", path: "foo" }],
+                    meaning: undefined,
+                },
+            });
+        });
     });
 });
