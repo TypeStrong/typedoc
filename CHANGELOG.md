@@ -4,6 +4,11 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+-   Added `ignoredHighlightLanguages` option to specify languages which will be
+    allowed in code blocks but not highlighted, #2819.
+
 ### Bug Fixes
 
 -   `@include` and `@includeCode` now work in the readme file, #2814.

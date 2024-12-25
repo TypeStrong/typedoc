@@ -77,6 +77,8 @@ export const highlightLanguages: readonly BundledLanguage[] = [
     "typescript",
 ];
 
+export const ignoredHighlightLanguages: readonly string[] = [];
+
 export const sort: readonly string[] = [
     "kind",
     "instance-first",

@@ -8,7 +8,8 @@ TypeDoc supports code blocks in Markdown and uses
 
 TypeDoc supports all languages supported by Shiki, but does not load all of
 them by default. The `highlightLanguages` option can be used to customize
-which languages are loaded for highlighting.
+which languages are loaded for highlighting. The `ignoredHighlightLanguages`
+option can be used to specify languages which should not be highlighted.
 
 If no language is specified, the code block is assumed to be TypeScript:
 

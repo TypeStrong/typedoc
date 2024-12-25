@@ -116,13 +116,17 @@ class DoubleHighlighter {
 
 let shikiEngine: shiki.RegexEngine | undefined;
 let highlighter: DoubleHighlighter | undefined;
+let ignoredLanguages: string[] | undefined;
 
 export async function loadHighlighter(
     lightTheme: shiki.BundledTheme,
     darkTheme: shiki.BundledTheme,
     langs: shiki.BundledLanguage[],
+    ignoredLangs: string[] | undefined,
 ) {
     if (highlighter) return;
+
+    ignoredLanguages = ignoredLangs;
 
     if (!shikiEngine) {
         await shiki.loadBuiltinWasm();
@@ -138,7 +142,7 @@ export async function loadHighlighter(
 }
 
 export function isSupportedLanguage(lang: string) {
-    return getSupportedLanguages().includes(lang);
+    return ignoredLanguages?.includes(lang) || getSupportedLanguages().includes(lang);
 }
 
 export function getSupportedLanguages(): string[] {
@@ -150,13 +154,15 @@ export function getSupportedThemes(): string[] {
 }
 
 export function isLoadedLanguage(lang: string): boolean {
-    return plaintextLanguages.includes(lang) || (highlighter?.supports(lang) ?? false);
+    return (
+        plaintextLanguages.includes(lang) || ignoredLanguages?.includes(lang) || highlighter?.supports(lang) || false
+    );
 }
 
 export function highlight(code: string, lang: string): string {
     assert(highlighter, "Tried to highlight with an uninitialized highlighter");
 
-    if (plaintextLanguages.includes(lang)) {
+    if (plaintextLanguages.includes(lang) || ignoredLanguages?.includes(lang)) {
         return JSX.renderElement(<>{code}</>);
     }
 

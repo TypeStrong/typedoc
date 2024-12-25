@@ -145,6 +145,7 @@ export interface TypeDocOptionMap {
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     highlightLanguages: string[];
+    ignoredHighlightLanguages: string[];
     typePrintWidth: number;
     customCss: string;
     customJs: string;

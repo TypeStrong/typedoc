@@ -367,6 +367,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
     options.addDeclaration({
+        name: "ignoredHighlightLanguages",
+        help: (i18n) => i18n.help_ignoredHighlightLanguages(),
+        type: ParameterType.Array,
+        defaultValue: OptionDefaults.ignoredHighlightLanguages,
+    });
+    options.addDeclaration({
         name: "typePrintWidth",
         help: (i18n) => i18n.help_typePrintWidth(),
         type: ParameterType.Number,

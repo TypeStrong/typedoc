@@ -247,6 +247,9 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
     @Option("highlightLanguages")
     private accessor highlightLanguages!: string[];
 
+    @Option("ignoredHighlightLanguages")
+    private accessor ignoredHighlightLanguages!: string[];
+
     @Option("pretty")
     private accessor pretty!: boolean;
 
@@ -342,6 +345,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             this.darkTheme,
             // Checked in option validation
             this.highlightLanguages as BundledLanguage[],
+            this.ignoredHighlightLanguages,
         );
     }
 
