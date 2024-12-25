@@ -162,14 +162,6 @@ describe("Options", () => {
         throws(() => options.isSet("does not exist" as never));
     });
 
-    it("Throws if frozen and a value is set", () => {
-        const options = new Options(new Internationalization(null).proxy);
-        options.freeze();
-
-        throws(() => options.setValue("categorizeByGroup", true));
-        throws(() => options.setCompilerOptions([], {}, []));
-    });
-
     it("Supports resetting values", () => {
         const options = new Options(new Internationalization(null).proxy);
 

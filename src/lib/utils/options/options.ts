@@ -134,20 +134,6 @@ export class Options {
     }
 
     /**
-     * Marks the options as readonly, enables caching when fetching options, which improves performance.
-     */
-    freeze() {
-        Object.freeze(this._values);
-    }
-
-    /**
-     * Checks if the options object has been frozen, preventing future changes to option values.
-     */
-    isFrozen() {
-        return Object.isFrozen(this._values);
-    }
-
-    /**
      * Take a snapshot of option values now, used in tests only.
      * @internal
      */
@@ -318,12 +304,6 @@ export class Options {
         configPath?: NeverIfInternal<string>,
     ): void;
     setValue(name: string, value: unknown, configPath?: string): void {
-        if (this.isFrozen()) {
-            throw new Error(
-                `Tried to modify an option (${name}) value after options have been frozen.`,
-            );
-        }
-
         const declaration = this.getDeclaration(name);
         if (!declaration) {
             const nearNames = this.getSimilarOptions(name);
@@ -419,12 +399,6 @@ export class Options {
         options: ts.CompilerOptions,
         projectReferences: readonly ts.ProjectReference[] | undefined,
     ) {
-        if (this.isFrozen()) {
-            throw new Error(
-                "Tried to modify compiler options after options have been frozen.",
-            );
-        }
-
         // We do this here instead of in the tsconfig reader so that API consumers which
         // supply a program to `Converter.convert` instead of letting TypeDoc create one
         // can just set the compiler options, and not need to know about this mapping.

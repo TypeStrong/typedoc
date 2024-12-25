@@ -361,9 +361,6 @@ export class Application extends AbstractComponent<
      */
     public async convert(): Promise<ProjectReflection | undefined> {
         const start = Date.now();
-        // We freeze here rather than in the Converter class since TypeDoc's tests reuse the Application
-        // with a few different settings.
-        this.options.freeze();
         this.logger.verbose(
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
         );
@@ -431,7 +428,6 @@ export class Application extends AbstractComponent<
     public convertAndWatch(
         success: (project: ProjectReflection) => Promise<void>,
     ): void {
-        this.options.freeze();
         if (
             !this.options.getValue("preserveWatchOutput") &&
             this.logger instanceof ConsoleLogger

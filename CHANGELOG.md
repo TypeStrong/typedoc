@@ -8,6 +8,7 @@ title: Changelog
 
 -   `@include` and `@includeCode` now work in the readme file, #2814.
 -   TypeDoc will now avoid making references to references, #2811.
+-   Fixed output specific option specification, #2818.
 -   Improved type reference conversion to avoid including defaulted type arguments, #2820.
 -   Improved link resolution logic to prioritize type alias properties with the
     same symbol over type literal properties within function parameters.
