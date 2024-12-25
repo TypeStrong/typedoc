@@ -37,3 +37,10 @@ export function getHeritageTypes(
 export function isObjectType(type: ts.Type): type is ts.ObjectType {
     return typeof (type as any).objectFlags === "number";
 }
+
+export function isTypeReference(type: ts.Type): type is ts.TypeReference {
+    return (
+        isObjectType(type) &&
+        (type.objectFlags & ts.ObjectFlags.Reference) !== 0
+    );
+}

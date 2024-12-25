@@ -1983,4 +1983,12 @@ describe("Issue Tests", () => {
         ok(rename2.isReference());
         ok(rename2.getTargetReflection() === abc);
     });
+
+    it("#2820 does not include defaulted type arguments", () => {
+        const project = convert();
+        const f = querySig(project, "f");
+
+        equal(f.type?.toString(), "Uint8Array");
+        equal(f.parameters?.[0].type?.toString(), "Uint8Array");
+    });
 });

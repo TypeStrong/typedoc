@@ -38,7 +38,7 @@ import {
     createSignature,
 } from "./factories/signature.js";
 import { convertSymbol } from "./symbols.js";
-import { isObjectType } from "./utils/nodes.js";
+import { isObjectType, isTypeReference } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
 import type { TranslatedString } from "../internationalization/internationalization.js";
 
@@ -813,6 +813,7 @@ const referenceConverter: TypeConverter<
             context,
             name,
         );
+
         if (type.flags & ts.TypeFlags.Substitution) {
             // NoInfer<T>
             ref.typeArguments = [
@@ -823,11 +824,24 @@ const referenceConverter: TypeConverter<
                 convertType(context, (type as ts.StringMappingType).type),
             ];
         } else {
-            ref.typeArguments = (
-                type.aliasSymbol
-                    ? type.aliasTypeArguments
-                    : (type as ts.TypeReference).typeArguments
-            )?.map((ref) => convertType(context, ref));
+            // Default type arguments are filled with a reference to the default
+            // type. As TS doesn't support specifying earlier defaults, we know
+            // that this will only filter out type arguments which aren't specified
+            // by the user.
+            let ignoredArgs: ts.Type[] | undefined;
+            if (isTypeReference(type)) {
+                ignoredArgs = type.target.typeParameters
+                    ?.map((p) => p.getDefault())
+                    .filter((x) => !!x);
+            }
+
+            const args = type.aliasSymbol
+                ? type.aliasTypeArguments
+                : (type as ts.TypeReference).typeArguments;
+
+            ref.typeArguments = args
+                ?.filter((ref) => !ignoredArgs?.includes(ref))
+                .map((ref) => convertType(context, ref));
         }
         return ref;
     },
