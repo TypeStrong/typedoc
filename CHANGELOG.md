@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.6 (2024-12-26)
+
 ### Features
 
 -   Added `ignoredHighlightLanguages` option to specify languages which will be
