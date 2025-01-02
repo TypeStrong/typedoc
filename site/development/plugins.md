@@ -18,7 +18,7 @@ generally published as ESM to avoid `require(esm)` experimental warnings.
 
 ```js
 // @ts-check
-import td from "typedoc";
+import * as td from "typedoc";
 /** @param {td.Application} app */
 export function load(app) {
     // Add event listeners to app, app.converter, etc.

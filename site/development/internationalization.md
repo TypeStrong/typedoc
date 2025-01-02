@@ -66,7 +66,7 @@ declared in the `TranslatableStrings` interface. To do this, use declaration
 merging to define the expected number of placeholders for each translation string.
 
 ```ts
-import td from "typedoc";
+import * as td from "typedoc";
 
 declare module "typedoc" {
     interface TranslatableStrings {

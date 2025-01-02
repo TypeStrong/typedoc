@@ -46,7 +46,7 @@ for details on where options are read from.
 TypeDoc exposes an API which can be used to run it without any configuration files.
 
 ```js
-import td from "typedoc";
+import * as td from "typedoc";
 
 // Application.bootstrap also exists, which will not load plugins
 // Also accepts an array of option readers if you want to disable
