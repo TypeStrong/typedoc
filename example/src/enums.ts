@@ -1,4 +1,5 @@
 /** Describes the status of a delivery order. */
+// #region simpleEnum
 export enum SimpleEnum {
     /** This order has just been placed and is yet to be processed. */
     Pending,
@@ -9,6 +10,7 @@ export enum SimpleEnum {
     /** The order has been delivered. */
     Complete = "COMPLETE",
 }
+// #endregion simpleEnum
 
 /**
  * [A crazy enum from the TypeScript
