@@ -7,6 +7,7 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
+import regionTagREsByExt from "../utils/regionTagREsByExt.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -62,7 +63,10 @@ export class IncludePlugin extends ConverterComponent {
                 continue;
             }
 
-            const [filename, target] = part.text.trim().split("#");
+            const [filename, target, requestedLines] = parseIncludeCodeTextPart(
+                part.text,
+            );
+
             const file = path.resolve(relative, filename);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
@@ -89,19 +93,29 @@ export class IncludePlugin extends ConverterComponent {
                     );
                     parts.splice(i, 1, ...content);
                 } else {
-                    const regionStart = `// #region ${target}`;
-                    const regionEnd = `// #endregion ${target}`;
+                    const ext = path.extname(file).substring(1);
                     parts[i] = {
                         kind: "code",
                         text: makeCodeBlock(
-                            path.extname(file).substring(1),
+                            ext,
                             target
-                                ? text.substring(
-                                      text.indexOf(regionStart) +
-                                          regionStart.length,
-                                      text.indexOf(regionEnd),
+                                ? this.getRegion(
+                                      refl,
+                                      file,
+                                      ext,
+                                      part.text,
+                                      text,
+                                      target,
                                   )
-                                : text,
+                                : requestedLines
+                                  ? this.getLines(
+                                        refl,
+                                        file,
+                                        part.text,
+                                        text,
+                                        requestedLines,
+                                    )
+                                  : text,
                         ),
                     };
                 }
@@ -117,8 +131,175 @@ export class IncludePlugin extends ConverterComponent {
             }
         }
     }
+
+    getRegion(
+        refl: Reflection,
+        file: string,
+        ext: string,
+        textPart: string,
+        text: string,
+        target: string,
+    ) {
+        const regionTagsList = regionTagREsByExt[ext];
+        let found: string | false = false;
+        for (const [startTag, endTag] of regionTagsList) {
+            const start = text.match(startTag(target));
+            const end = text.match(endTag(target));
+
+            const foundStart = start && start.length > 0;
+            const foundEnd = end && end.length > 0;
+            if (foundStart && !foundEnd) {
+                this.logger.error(
+                    this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_close_not_found(
+                        refl.getFriendlyFullName(),
+                        textPart,
+                        file,
+                        target,
+                    ),
+                );
+                return "";
+            }
+            if (!foundStart && foundEnd) {
+                this.logger.error(
+                    this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_open_not_found(
+                        refl.getFriendlyFullName(),
+                        textPart,
+                        file,
+                        target,
+                    ),
+                );
+                return "";
+            }
+            if (foundStart && foundEnd) {
+                if (start.length > 1) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_open_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (end.length > 1) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_close_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (found) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                found = text.substring(
+                    text.indexOf(start[0]) + start[0].length,
+                    text.indexOf(end[0]),
+                );
+            }
+        }
+        if (!found) {
+            this.logger.error(
+                this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_not_found(
+                    refl.getFriendlyFullName(),
+                    textPart,
+                    file,
+                    target,
+                ),
+            );
+            return "";
+        }
+        return found;
+    }
+
+    getLines(
+        refl: Reflection,
+        file: string,
+        textPart: string,
+        text: string,
+        requestedLines: string,
+    ) {
+        let output = "";
+        const lines = text.split(/\r\n|\r|\n/);
+        requestedLines.split(",").forEach((requestedLineString) => {
+            if (requestedLineString.includes("-")) {
+                const [start, end] = requestedLineString.split("-").map(Number);
+                if (start > end) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_invalid_range(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                        ),
+                    );
+                    return "";
+                }
+                if (start > lines.length || end > lines.length) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                            lines.length.toString(),
+                        ),
+                    );
+                    return "";
+                }
+                output += lines.slice(start - 1, end).join("\n") + "\n";
+            } else {
+                const requestedLine = Number(requestedLineString);
+                if (requestedLine > lines.length) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                            lines.length.toString(),
+                        ),
+                    );
+                    return "";
+                }
+                output += lines[requestedLine - 1] + "\n";
+            }
+        });
+
+        return output;
+    }
 }
 function makeCodeBlock(lang: string, code: string) {
     const escaped = code.replace(/`(?=`)/g, "`\u200B");
     return "\n\n```" + lang + "\n" + escaped.trimEnd() + "\n```";
+}
+
+function parseIncludeCodeTextPart(
+    text: string,
+): [string, string | undefined, string | undefined] {
+    let filename = text.trim();
+    let target;
+    let requestedLines;
+    if (filename.includes("#")) {
+        const parsed = filename.split("#");
+        filename = parsed[0];
+        target = parsed[1];
+    } else if (filename.includes(":")) {
+        const parsed = filename.split(":");
+        filename = parsed[0];
+        requestedLines = parsed[1];
+    }
+    return [filename, target, requestedLines];
 }
