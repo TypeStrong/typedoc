@@ -7,6 +7,7 @@
  * @document documents/external-markdown.md
  * @document documents/markdown.md
  * @document documents/syntax-highlighting.md
+ * @document documents/include-code.md
  */
 export * from "./functions";
 export * from "./variables";

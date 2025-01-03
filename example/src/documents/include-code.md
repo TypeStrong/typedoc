@@ -1,39 +1,28 @@
 ---
-title: "\{\@include\}"
+title: Include Code
+category: Documents
 ---
 
-# \{\@include\}
+# Including Code
+It can be convenient to write long-form guides/tutorials outside of doc comments.
+To support this, TypeDoc supports including documents (like this page!) which exist
+as standalone `.md` files in your repository.
+These files can then import code from other files using the `@includeCode` tag.
 
-**Tag Kind:** [Inline](../tags.md#inline-tags)
+## The `@includeCode` Tag
+The `@includeCode` tag can be placed in an md file to insert a code snippet at that location. As an example, this file is inserting the code block below using:
 
-The `@include` tag can be used to include external markdown content within
-the comment for a member. It is an inline tag which will be replaced with the
-contents of the specified file.
-
-For convenience, an `@includeCode` inline tag is also recognized, which will
-include the referenced file within a code block, using the file extension for
-selecting the syntax highlighting language.
-
-## Example
-
-```js
-/**
- * {@include ./doSomething_docs.md}
- *
- * Quick start:
- * {@includeCode ../examples/doSomethingQuickStart.ts}
- *
- * @example
- * This will only work if the jsdocCompatibility.exampleTag option is false
- * {@includeCode ../test/doSomething.test.ts}
- */
-function doSomething() {}
+```md
+{@includeCode ../reexports.ts}
 ```
+
+**Result:**
+{@includeCode ../reexports.ts}
 
 ### Include parts of files
 
 #### Using regions
-The `@include` and `@includeCode` tags can also include only parts of a file using language-dependent region syntax as defined in the VS Code documentation for [Folding](https://code.visualstudio.com/docs/editor/codebasics#_folding), reproduced here for convenience:
+The `@includeCode` tag can also include only parts of a file using language-dependent region syntax as defined in the VS Code documentation for [Folding](https://code.visualstudio.com/docs/editor/codebasics#_folding), reproduced here for convenience:
 
 Language | Start region | End region
 ---------|--------------|------------
@@ -52,24 +41,27 @@ Python | `#region regionName` or `# region regionName` | `#endregion regionName`
 TypeScript/JavaScript | `//#region regionName` | `//#endregion regionName`
 Visual Basic | `#Region regionName` | `#End Region regionName`
 
-##### Example
+For example:
 
 ```md
-Here is a simple enum:
-{@includeCode ../enums.js#simpleEnum}
+{@includeCode ../enums.ts#simpleEnum}
 ```
+
+**Result:**
+
+{@includeCode ../enums.ts#simpleEnum}
 
 #### Using line numbers
 For cases where you can't modify the source file or where comments are not allowed (in JSON files, for example), you can use line numbers to include a specific region of a file.
 
-##### Example
+For example:
 
 ```md
-In package.json, notice the following information:
 {@includeCode ../../package.json:2,6-7}
 ```
+
+**Result:**
+
+{@includeCode ../../package.json:2,6-7}
+
 > **Warning:** This makes it difficult to maintain the file, as you may need to update the line numbers if you change the code.
-
-## See Also
-
--   The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.

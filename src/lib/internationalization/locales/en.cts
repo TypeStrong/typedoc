@@ -119,6 +119,14 @@ export = {
 
     include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist or is not a file.`,
     include_0_in_1_specified_2_circular_include_3: `{0} tag in comment for {1} specified "{2}" to include, which resulted in a circular include:\n\t{3}`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_not_found: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled "{3}", but the region was not found in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_close_not_found: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled "{3}", but the region closing comment was not found in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_open_not_found: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled "{3}", but the region opening comment was not found in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_close_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region closing comment was found multiple times in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_open_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region opening comment was found multiple times in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region was found multiple times in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_lines_3_invalid_range: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the lines {3}, but an invalid range was specified.`,
+    includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the lines {3}, but the file only has {4} lines.`,
 
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist`,

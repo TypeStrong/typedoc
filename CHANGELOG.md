@@ -4,6 +4,11 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+-   `@includeCode` can now inject parts of files using region names or line
+    numbers, #2816.
+
 ## v0.27.6 (2024-12-26)
 
 ### Features
