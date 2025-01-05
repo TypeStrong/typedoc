@@ -125,6 +125,7 @@ export = {
     includeCode_tag_in_0_specified_1_file_2_region_3_region_close_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region closing comment was found multiple times in the file.`,
     includeCode_tag_in_0_specified_1_file_2_region_3_region_open_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region opening comment was found multiple times in the file.`,
     includeCode_tag_in_0_specified_1_file_2_region_3_region_found_multiple_times: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}, but the region was found multiple times in the file.`,
+    includeCode_tag_in_0_specified_1_file_2_region_3_region_empty: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the region labeled {3}. The region was found but it is empty or contains only whitespace.`,
     includeCode_tag_in_0_specified_1_file_2_lines_3_invalid_range: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the lines {3}, but an invalid range was specified.`,
     includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines: `@includeCode tag in {0} specified "{1}" to include from file "{2}" the lines {3}, but the file only has {4} lines.`,
 
