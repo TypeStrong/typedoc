@@ -7,7 +7,6 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
-import regionTagREsByExt from "../utils/regionTagREsByExt.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -79,8 +78,29 @@ export class IncludePlugin extends ConverterComponent {
                 );
             } else if (isFile(file)) {
                 const text = fs.readFileSync(file, "utf-8");
+                const ext = path.extname(file).substring(1);
                 if (part.tag === "@include") {
-                    const sf = new MinimalSourceFile(text, file);
+                    const sf = new MinimalSourceFile(
+                        target
+                            ? this.getRegion(
+                                  refl,
+                                  file,
+                                  ext,
+                                  part.text,
+                                  text,
+                                  target,
+                              )
+                            : requestedLines
+                              ? this.getLines(
+                                    refl,
+                                    file,
+                                    part.text,
+                                    text,
+                                    requestedLines,
+                                )
+                              : text,
+                        file,
+                    );
                     const { content } = this.owner.parseRawComment(
                         sf,
                         refl.project.files,
@@ -93,7 +113,6 @@ export class IncludePlugin extends ConverterComponent {
                     );
                     parts.splice(i, 1, ...content);
                 } else {
-                    const ext = path.extname(file).substring(1);
                     parts[i] = {
                         kind: "code",
                         text: makeCodeBlock(
@@ -221,6 +240,16 @@ export class IncludePlugin extends ConverterComponent {
             );
             return "";
         }
+        if (found.trim() === "") {
+            this.logger.warn(
+                this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_empty(
+                    refl.getFriendlyFullName(),
+                    textPart,
+                    file,
+                    target,
+                ),
+            );
+        }
         return found;
     }
 
@@ -303,3 +332,82 @@ function parseIncludeCodeTextPart(
     }
     return [filename, target, requestedLines];
 }
+
+type RegionTagRETuple = [
+    (regionName: string) => RegExp,
+    (regionName: string) => RegExp,
+];
+const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
+    bat: [
+        [
+            (regionName) => new RegExp(`:: *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`:: *#endregion  *${regionName} *\n`, "g"),
+        ],
+        [
+            (regionName) =>
+                new RegExp(`REM  *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`REM  *#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    cs: [
+        [
+            (regionName) => new RegExp(`#region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    c: [
+        [
+            (regionName) =>
+                new RegExp(`#pragma  *region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`#pragma  *endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    css: [
+        [
+            (regionName) =>
+                new RegExp(`/\\* *#region *\\*/  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`/\\* *#endregion *\\*/  *${regionName} *\n`, "g"),
+        ],
+    ],
+    md: [
+        [
+            (regionName) =>
+                new RegExp(`<!--  *#region  *${regionName} *--> *\n`, "g"),
+            (regionName) =>
+                new RegExp(`<!--  *#endregion  *${regionName} *--> *\n`, "g"),
+        ],
+    ],
+    ts: [
+        [
+            (regionName) => new RegExp(`// *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`// *#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    vb: [
+        [
+            (regionName) => new RegExp(`#Region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#End Region  *${regionName} *\n`, "g"),
+        ],
+    ],
+};
+regionTagREsByExt["fs"] = regionTagREsByExt["ts"].concat([
+    (regionName) => new RegExp(`(#_region)  *${regionName} *\n`, "g"),
+    (regionName) => new RegExp(`(#_endregion)  *${regionName} *\n`, "g"),
+]);
+regionTagREsByExt["java"] = regionTagREsByExt["ts"].concat([
+    (regionName) => new RegExp(`// *<editor-fold>  *${regionName} *\n`, "g"),
+    (regionName) => new RegExp(`// *</editor-fold>  *${regionName} *\n`, "g"),
+]);
+regionTagREsByExt["cpp"] = regionTagREsByExt["c"];
+regionTagREsByExt["less"] = regionTagREsByExt["css"];
+regionTagREsByExt["scss"] = regionTagREsByExt["css"];
+regionTagREsByExt["coffee"] = regionTagREsByExt["cs"];
+regionTagREsByExt["php"] = regionTagREsByExt["cs"];
+regionTagREsByExt["ps1"] = regionTagREsByExt["cs"];
+regionTagREsByExt["py"] = regionTagREsByExt["cs"];
+regionTagREsByExt["js"] = regionTagREsByExt["ts"];
