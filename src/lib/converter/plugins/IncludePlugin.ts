@@ -62,7 +62,11 @@ export class IncludePlugin extends ConverterComponent {
                 continue;
             }
 
-            const file = path.resolve(relative, part.text.trim());
+            const [filename, target, requestedLines] = parseIncludeCodeTextPart(
+                part.text,
+            );
+
+            const file = path.resolve(relative, filename);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
                     this.logger.i18n.include_0_in_1_specified_2_circular_include_3(
@@ -74,8 +78,29 @@ export class IncludePlugin extends ConverterComponent {
                 );
             } else if (isFile(file)) {
                 const text = fs.readFileSync(file, "utf-8");
+                const ext = path.extname(file).substring(1);
                 if (part.tag === "@include") {
-                    const sf = new MinimalSourceFile(text, file);
+                    const sf = new MinimalSourceFile(
+                        target
+                            ? this.getRegion(
+                                  refl,
+                                  file,
+                                  ext,
+                                  part.text,
+                                  text,
+                                  target,
+                              )
+                            : requestedLines
+                              ? this.getLines(
+                                    refl,
+                                    file,
+                                    part.text,
+                                    text,
+                                    requestedLines,
+                                )
+                              : text,
+                        file,
+                    );
                     const { content } = this.owner.parseRawComment(
                         sf,
                         refl.project.files,
@@ -91,8 +116,25 @@ export class IncludePlugin extends ConverterComponent {
                     parts[i] = {
                         kind: "code",
                         text: makeCodeBlock(
-                            path.extname(file).substring(1),
-                            text,
+                            ext,
+                            target
+                                ? this.getRegion(
+                                      refl,
+                                      file,
+                                      ext,
+                                      part.text,
+                                      text,
+                                      target,
+                                  )
+                                : requestedLines
+                                  ? this.getLines(
+                                        refl,
+                                        file,
+                                        part.text,
+                                        text,
+                                        requestedLines,
+                                    )
+                                  : text,
                         ),
                     };
                 }
@@ -108,8 +150,264 @@ export class IncludePlugin extends ConverterComponent {
             }
         }
     }
+
+    getRegion(
+        refl: Reflection,
+        file: string,
+        ext: string,
+        textPart: string,
+        text: string,
+        target: string,
+    ) {
+        const regionTagsList = regionTagREsByExt[ext];
+        let found: string | false = false;
+        for (const [startTag, endTag] of regionTagsList) {
+            const start = text.match(startTag(target));
+            const end = text.match(endTag(target));
+
+            const foundStart = start && start.length > 0;
+            const foundEnd = end && end.length > 0;
+            if (foundStart && !foundEnd) {
+                this.logger.error(
+                    this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_close_not_found(
+                        refl.getFriendlyFullName(),
+                        textPart,
+                        file,
+                        target,
+                    ),
+                );
+                return "";
+            }
+            if (!foundStart && foundEnd) {
+                this.logger.error(
+                    this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_open_not_found(
+                        refl.getFriendlyFullName(),
+                        textPart,
+                        file,
+                        target,
+                    ),
+                );
+                return "";
+            }
+            if (foundStart && foundEnd) {
+                if (start.length > 1) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_open_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (end.length > 1) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_close_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (found) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_found_multiple_times(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                found = text.substring(
+                    text.indexOf(start[0]) + start[0].length,
+                    text.indexOf(end[0]),
+                );
+            }
+        }
+        if (!found) {
+            this.logger.error(
+                this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_not_found(
+                    refl.getFriendlyFullName(),
+                    textPart,
+                    file,
+                    target,
+                ),
+            );
+            return "";
+        }
+        if (found.trim() === "") {
+            this.logger.warn(
+                this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_region_3_region_empty(
+                    refl.getFriendlyFullName(),
+                    textPart,
+                    file,
+                    target,
+                ),
+            );
+        }
+        return found;
+    }
+
+    getLines(
+        refl: Reflection,
+        file: string,
+        textPart: string,
+        text: string,
+        requestedLines: string,
+    ) {
+        let output = "";
+        const lines = text.split(/\r\n|\r|\n/);
+        requestedLines.split(",").forEach((requestedLineString) => {
+            if (requestedLineString.includes("-")) {
+                const [start, end] = requestedLineString.split("-").map(Number);
+                if (start > end) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_invalid_range(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                        ),
+                    );
+                    return "";
+                }
+                if (start > lines.length || end > lines.length) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                            lines.length.toString(),
+                        ),
+                    );
+                    return "";
+                }
+                output += lines.slice(start - 1, end).join("\n") + "\n";
+            } else {
+                const requestedLine = Number(requestedLineString);
+                if (requestedLine > lines.length) {
+                    this.logger.error(
+                        this.logger.i18n.includeCode_tag_in_0_specified_1_file_2_lines_3_but_only_4_lines(
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            requestedLines,
+                            lines.length.toString(),
+                        ),
+                    );
+                    return "";
+                }
+                output += lines[requestedLine - 1] + "\n";
+            }
+        });
+
+        return output;
+    }
 }
 function makeCodeBlock(lang: string, code: string) {
     const escaped = code.replace(/`(?=`)/g, "`\u200B");
     return "\n\n```" + lang + "\n" + escaped.trimEnd() + "\n```";
 }
+
+function parseIncludeCodeTextPart(
+    text: string,
+): [string, string | undefined, string | undefined] {
+    let filename = text.trim();
+    let target;
+    let requestedLines;
+    if (filename.includes("#")) {
+        const parsed = filename.split("#");
+        filename = parsed[0];
+        target = parsed[1];
+    } else if (filename.includes(":")) {
+        const parsed = filename.split(":");
+        filename = parsed[0];
+        requestedLines = parsed[1];
+    }
+    return [filename, target, requestedLines];
+}
+
+type RegionTagRETuple = [
+    (regionName: string) => RegExp,
+    (regionName: string) => RegExp,
+];
+const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
+    bat: [
+        [
+            (regionName) => new RegExp(`:: *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`:: *#endregion  *${regionName} *\n`, "g"),
+        ],
+        [
+            (regionName) =>
+                new RegExp(`REM  *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`REM  *#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    cs: [
+        [
+            (regionName) => new RegExp(`#region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    c: [
+        [
+            (regionName) =>
+                new RegExp(`#pragma  *region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`#pragma  *endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    css: [
+        [
+            (regionName) =>
+                new RegExp(`/\\* *#region *\\*/  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`/\\* *#endregion *\\*/  *${regionName} *\n`, "g"),
+        ],
+    ],
+    md: [
+        [
+            (regionName) =>
+                new RegExp(`<!--  *#region  *${regionName} *--> *\n`, "g"),
+            (regionName) =>
+                new RegExp(`<!--  *#endregion  *${regionName} *--> *\n`, "g"),
+        ],
+    ],
+    ts: [
+        [
+            (regionName) => new RegExp(`// *#region  *${regionName} *\n`, "g"),
+            (regionName) =>
+                new RegExp(`// *#endregion  *${regionName} *\n`, "g"),
+        ],
+    ],
+    vb: [
+        [
+            (regionName) => new RegExp(`#Region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#End Region  *${regionName} *\n`, "g"),
+        ],
+    ],
+};
+regionTagREsByExt["fs"] = regionTagREsByExt["ts"].concat([
+    (regionName) => new RegExp(`(#_region)  *${regionName} *\n`, "g"),
+    (regionName) => new RegExp(`(#_endregion)  *${regionName} *\n`, "g"),
+]);
+regionTagREsByExt["java"] = regionTagREsByExt["ts"].concat([
+    (regionName) => new RegExp(`// *<editor-fold>  *${regionName} *\n`, "g"),
+    (regionName) => new RegExp(`// *</editor-fold>  *${regionName} *\n`, "g"),
+]);
+regionTagREsByExt["cpp"] = regionTagREsByExt["c"];
+regionTagREsByExt["less"] = regionTagREsByExt["css"];
+regionTagREsByExt["scss"] = regionTagREsByExt["css"];
+regionTagREsByExt["coffee"] = regionTagREsByExt["cs"];
+regionTagREsByExt["php"] = regionTagREsByExt["cs"];
+regionTagREsByExt["ps1"] = regionTagREsByExt["cs"];
+regionTagREsByExt["py"] = regionTagREsByExt["cs"];
+regionTagREsByExt["js"] = regionTagREsByExt["ts"];
