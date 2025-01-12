@@ -19,7 +19,9 @@ jobs:
             - name: Build
               run: npm run build
             - name: Test
-              run: npm run test:full
+              run: |
+                  export NODE_OPTIONS="--no-experimental-strip-types"
+                  npm run test:full
             - name: Lint
               run: npm run lint
             - name: Circular dependency check
