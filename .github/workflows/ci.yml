@@ -20,7 +20,9 @@ jobs:
               run: npm run build
             - name: Test
               run: |
-                  export NODE_OPTIONS="--no-experimental-strip-types"
+                  if node -e "process.exit(Number(+process.versions.node.slice(0, 2) < 23))"; then
+                    export NODE_OPTIONS="--no-experimental-strip-types"
+                  fi
                   npm run test:full
             - name: Lint
               run: npm run lint
