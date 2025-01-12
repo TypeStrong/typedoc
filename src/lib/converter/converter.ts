@@ -109,10 +109,6 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     accessor excludeExternals!: boolean;
 
     /** @internal */
-    @Option("excludeNotDocumented")
-    accessor excludeNotDocumented!: boolean;
-
-    /** @internal */
     @Option("excludePrivate")
     accessor excludePrivate!: boolean;
 

@@ -68,7 +68,13 @@ sub-projects will _not_ be loaded. See
 [Gerrit0/typedoc-packages-example](https://github.com/Gerrit0/typedoc-packages-example)
 for an example monorepo which uses this option.
 
-Configuration specified in the root level project will _not_ be copied to child projects.
+> [!warning] When running in packages mode, options must be specified in the
+> correct location. As TypeDoc effectively runs with a clean options object for
+> each directory, options which take effect during conversion must be set within
+> [packageOptions](#packageoptions) or directly within configuration for each
+> project. Configuration specified in the root level project will _not_ be
+> copied to child projects. See the [package options](package-options.md) page
+> for documentation about where each option should be set.
 
 ### merge
 
