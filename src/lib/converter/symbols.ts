@@ -759,7 +759,7 @@ function convertProperty(
     );
 
     const declaration = symbol.getDeclarations()?.[0];
-    let parameterType: ts.TypeNode | undefined;
+    let parameterTypeNode: ts.TypeNode | undefined;
 
     if (
         declaration &&
@@ -773,7 +773,7 @@ function convertProperty(
             !ts.isPropertyAccessExpression(declaration) &&
             !ts.isPropertyAssignment(declaration)
         ) {
-            parameterType = declaration.type;
+            parameterTypeNode = declaration.type;
         }
         setModifiers(symbol, declaration, reflection);
     } else {
@@ -781,11 +781,18 @@ function convertProperty(
     }
     reflection.defaultValue = declaration && convertDefaultValue(declaration);
 
-    reflection.type = context.converter.convertType(
-        context.withScope(reflection),
-        (context.convertingTypeNode ? parameterType : void 0) ??
+    if (context.convertingTypeNode && parameterTypeNode) {
+        reflection.type = context.converter.convertType(
+            context.withScope(reflection),
+            parameterTypeNode,
+        );
+    } else {
+        reflection.type = context.converter.convertType(
+            context.withScope(reflection),
             context.checker.getTypeOfSymbol(symbol),
-    );
+            parameterTypeNode,
+        );
+    }
 
     if (reflection.flags.isOptional) {
         reflection.type = removeUndefined(reflection.type);
@@ -984,10 +991,18 @@ function convertVariable(
         typeNode = declaration.type;
     }
 
-    reflection.type = context.converter.convertType(
-        context.withScope(reflection),
-        typeNode ?? type,
-    );
+    if (typeNode) {
+        reflection.type = context.converter.convertType(
+            context.withScope(reflection),
+            typeNode,
+        );
+    } else {
+        reflection.type = context.converter.convertType(
+            context.withScope(reflection),
+            type,
+            typeNode,
+        );
+    }
 
     setModifiers(symbol, declaration, reflection);
 

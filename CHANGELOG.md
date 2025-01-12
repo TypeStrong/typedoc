@@ -4,6 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+-   The `@inline` tag now works in more places for generic types.
+
+### Bug Fixes
+
+-   Fixed an issue where TypeDoc would incorrectly ignore type arguments in references, #2823.
+
 ## v0.27.6 (2024-12-26)
 
 ### Features

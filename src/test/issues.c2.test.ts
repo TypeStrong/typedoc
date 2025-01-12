@@ -1991,4 +1991,27 @@ describe("Issue Tests", () => {
         equal(f.type?.toString(), "Uint8Array");
         equal(f.parameters?.[0].type?.toString(), "Uint8Array");
     });
+
+    it("#2823 avoids including defaulted type arguments", () => {
+        const project = convert();
+
+        const sigNames = ["f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7"];
+        const sigs = sigNames.map((name) => querySig(project, name));
+        const returnTypes = sigs.map((s) => s.type?.toString());
+        const paramTypes = sigs.map((s) => s.parameters?.[0].type?.toString());
+
+        const expectedTypes = [
+            "T<number, number, boolean>",
+            "T<string>",
+            "T<number>",
+            "T<number, number>",
+            "T<number, string>",
+            "T<string, string>",
+            "T<number, string, string>",
+            "T<number, number, string>",
+        ];
+
+        equal(returnTypes, expectedTypes);
+        equal(paramTypes, expectedTypes);
+    });
 });

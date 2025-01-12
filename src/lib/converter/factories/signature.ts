@@ -100,11 +100,15 @@ export function createSignature(
     } else if (declaration?.type?.kind === ts.SyntaxKind.ThisType) {
         sigRef.type = new IntrinsicType("this");
     } else {
+        let typeNode = declaration?.type;
+        if (typeNode && ts.isJSDocReturnTag(typeNode)) {
+            typeNode = typeNode.typeExpression?.type;
+        }
+
         sigRef.type = context.converter.convertType(
             sigRefCtx,
-            (declaration?.kind === ts.SyntaxKind.FunctionDeclaration &&
-                declaration.type) ||
-                signature.getReturnType(),
+            signature.getReturnType(),
+            typeNode,
         );
     }
 
@@ -224,11 +228,18 @@ function convertParameters(
         );
 
         let type: ts.Type | ts.TypeNode | undefined;
+        let typeNode: ts.TypeNode | undefined;
         if (declaration) {
             type = context.checker.getTypeOfSymbolAtLocation(
                 param,
                 declaration,
             );
+
+            if (ts.isParameter(declaration)) {
+                typeNode = declaration.type;
+            } else {
+                typeNode = declaration.typeExpression?.type;
+            }
         } else {
             type = param.type;
         }
@@ -239,10 +250,13 @@ function convertParameters(
             declaration.type?.kind === ts.SyntaxKind.ThisType
         ) {
             paramRefl.type = new IntrinsicType("this");
+        } else if (!type) {
+            paramRefl.type = new IntrinsicType("any");
         } else {
             paramRefl.type = context.converter.convertType(
                 context.withScope(paramRefl),
                 type,
+                typeNode,
             );
         }
 
