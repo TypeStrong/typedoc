@@ -16,11 +16,11 @@ typedoc --entryPoints src/index.ts --entryPoints src/alt.ts
 ```jsonc
 // typedoc.json
 {
-    "entryPoints": ["src/index.ts", "src/alt.ts"],
+    "entryPoints": ["src/index.ts", "src/alt.ts", "src/multiple/*.ts"],
 }
 ```
 
-Specifies the entry points to be documented by TypeDoc. TypeDoc will examine
+Specifies the entry points globs to be documented by TypeDoc. TypeDoc will examine
 the exports of these files and create documentation according to the exports.
 Entry points can be handled in one of four ways, see [--entryPointStrategy](#entrypointstrategy)
 for details.
