@@ -964,9 +964,7 @@ export class ReferenceType extends Type {
             symbol.flags & ts.SymbolFlags.TypeParameter
         );
 
-        const symbolPath = symbol.declarations?.[0]
-            ?.getSourceFile()
-            .fileName.replace(/\\/g, "/");
+        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
         if (!symbolPath) return ref;
 
         ref.package = findPackageForPath(symbolPath);

@@ -4,6 +4,7 @@ import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, resolve, normalize, join } from "path";
 import {
+    deriveRootDir,
     getCommonDirectory,
     glob,
     inferPackageEntryPointPaths,
@@ -11,6 +12,27 @@ import {
 import { normalizePath } from "../../lib/utils/paths.js";
 
 describe("fs.ts", () => {
+    describe("deriveRootDir", () => {
+        it("Ignores glob parts of filenames", () => {
+            equal(
+                deriveRootDir(["src/foo/**/*.ts", "src/foo/**/*.tsx"]),
+                "src/foo",
+            );
+
+            equal(deriveRootDir(["src/foo/**/*.ts", "src/**/**/*.tsx"]), "src");
+        });
+
+        it("Returns a fs path when path contains glob characters #2825", () => {
+            equal(
+                deriveRootDir([
+                    "src/foo/\\[abc]/*.ts",
+                    "src/foo/\\[abc]/sub/*.ts",
+                ]),
+                "src/foo/[abc]",
+            );
+        });
+    });
+
     describe("getCommonDirectory", () => {
         it("Returns the empty string if no files are provided", () => {
             equal(getCommonDirectory([]), "");
@@ -30,6 +52,10 @@ describe("fs.ts", () => {
                 getCommonDirectory(["/a/b/c", "/a/b/c/d/e", "/a/b/d"]),
                 "/a/b",
             );
+        });
+
+        it("Does not respect Windows path sep #2825", () => {
+            equal(getCommonDirectory(["/a/b\\]/c", "/a/b\\]/d"]), "/a/b\\]");
         });
     });
 

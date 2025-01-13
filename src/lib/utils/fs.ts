@@ -27,17 +27,13 @@ export function isDir(path: string) {
 export function deriveRootDir(globPaths: string[]): string {
     const normalized = globPaths.map(normalizePath);
     const globs = createMinimatch(normalized);
-    const rootPaths = globs.flatMap((glob, i) =>
+    const rootPaths = globs.flatMap((glob) =>
         filterMap(glob.set, (set) => {
             const stop = set.findIndex((part) => typeof part !== "string");
             if (stop === -1) {
-                return normalized[i];
+                return set.join("/");
             } else {
-                const kept = set.slice(0, stop).join("/");
-                return normalized[i].substring(
-                    0,
-                    normalized[i].indexOf(kept) + kept.length,
-                );
+                return set.slice(0, stop).join("/");
             }
         }),
     );
@@ -52,7 +48,7 @@ export function getCommonDirectory(files: readonly string[]): string {
         return "";
     }
 
-    const roots = files.map((f) => f.split(/\\|\//));
+    const roots = files.map((f) => f.split("/"));
     if (roots.length === 1) {
         return roots[0].slice(0, -1).join("/");
     }
