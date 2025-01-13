@@ -7,6 +7,7 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
+import { escapeRegExp } from "../../utils/general.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -162,8 +163,9 @@ export class IncludePlugin extends ConverterComponent {
         const regionTagsList = regionTagREsByExt[ext];
         let found: string | false = false;
         for (const [startTag, endTag] of regionTagsList) {
-            const start = text.match(startTag(target));
-            const end = text.match(endTag(target));
+            const safeTarget = escapeRegExp(target);
+            const start = text.match(startTag(safeTarget));
+            const end = text.match(endTag(safeTarget));
 
             const foundStart = start && start.length > 0;
             const foundEnd = end && end.length > 0;
