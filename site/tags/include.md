@@ -32,11 +32,11 @@ function doSomething() {}
 
 <!-- #region includePartsOfFiles -->
 
-### Include parts of files
-
-#### Using regions (preferred)
+## Including Parts of Files
 
 The `@include` and `@includeCode` tags can also include only parts of a file by referring to a specific named region.
+
+### Using Regions
 
 For example:
 
@@ -46,7 +46,7 @@ For example:
 
 Regions are specified in the files themselves via comments.
 
-In Typescript for example, the following would be a valid region:
+In TypeScript for example, the following would be a valid region:
 
 {@includeCode ../../example/src/enums.ts#simpleEnumRegion}
 
@@ -54,7 +54,9 @@ In Typescript for example, the following would be a valid region:
 
 {@includeCode ../../example/src/enums.ts#simpleEnum}
 
-Language-dependent region syntax is meant to be compatible with VS Code [Folding](https://code.visualstudio.com/docs/editor/codebasics#_folding). Here is a reproduction of their table, but with `regionName` everywhere because we want to insist on named regions.
+Language-dependent region syntax is meant to be compatible with VS Code
+[Folding](https://code.visualstudio.com/docs/editor/codebasics#_folding).
+The following table describes how to define regions in different languages.
 
 | Language              | Start region                                           | End region                                                 |
 | --------------------- | ------------------------------------------------------ | ---------------------------------------------------------- |
@@ -73,11 +75,12 @@ Language-dependent region syntax is meant to be compatible with VS Code [Folding
 | TypeScript/JavaScript | `//#region regionName`                                 | `//#endregion regionName`                                  |
 | Visual Basic          | `#Region regionName`                                   | `#End Region regionName`                                   |
 
-#### Using line numbers (risky)
+### Using Line Numbers
 
 When you can't add comments to define regions (in JSON files, for example) you can use line numbers instead to include a specific region of a file.
 
-> **Warning:** Referencing line numbers should be avoided since the reference will likely break when every time the file changes.
+> [!warning]
+> Referencing line numbers should be avoided since the reference will likely break when every time the file changes.
 
 ```md
 {@includeCode ../../package.json:2,6-7}
@@ -89,7 +92,8 @@ When you can't add comments to define regions (in JSON files, for example) you c
 
 A colon (`:`) separates the file path from the line numbers: a comma-separated list of numbers or ranges of the form `<start>-<end>` (`6-7` in the example above).
 
-> **Note:** The first line in the file Line 1, not Line 0, just like you would see in most code editors.
+> [!note]
+> The first line in the file Line 1, not Line 0, just like you would see in most code editors.
 
 <!-- #endregion includePartsOfFiles -->
 
