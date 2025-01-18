@@ -1,6 +1,7 @@
 import { ok, throws, deepStrictEqual as equal, doesNotThrow } from "assert";
-import { Options } from "../../../lib/utils/index.js";
+import { Options, TYPEDOC_ROOT } from "../../../lib/utils/index.js";
 import { Internationalization } from "../../../lib/internationalization/internationalization.js";
+import { readFileSync } from "fs";
 
 describe("Default Options", () => {
     const opts = new Options(new Internationalization(null).proxy);
@@ -138,5 +139,67 @@ describe("Default Options", () => {
                 }),
             );
         });
+    });
+
+    it("Package Options Documentation", () => {
+        const allOptions = opts
+            .getDeclarations()
+            .map((opt) => opt.name)
+            .sort((a, b) => a.localeCompare(b));
+
+        const linkedOptions: string[] = [];
+        for (const line of readFileSync(
+            `${TYPEDOC_ROOT}/site/options/package-options.md`,
+            "utf-8",
+        ).split("\n")) {
+            const match = line.match(/\[`(.*)`\]\(/);
+            if (match) {
+                linkedOptions.push(match[1]);
+            }
+        }
+
+        linkedOptions.sort((a, b) => a.localeCompare(b));
+
+        equal(
+            linkedOptions,
+            allOptions,
+            "Option added but not documented in package-options.md",
+        );
+    });
+
+    it("Option documentation", () => {
+        const allOptions = opts
+            .getDeclarations()
+            .map((opt) => opt.name)
+            .sort((a, b) => a.localeCompare(b));
+
+        const documentedOptions: string[] = [];
+        for (const file of [
+            "comments.md",
+            "configuration.md",
+            "input.md",
+            "organization.md",
+            "other.md",
+            "output.md",
+            "validation.md",
+        ]) {
+            for (const line of readFileSync(
+                `${TYPEDOC_ROOT}/site/options/${file}`,
+                "utf-8",
+            ).split("\n")) {
+                const match = line.match(/^## (.*)/);
+                if (match) {
+                    documentedOptions.push(match[1]);
+                }
+            }
+        }
+
+        documentedOptions.sort((a, b) => a.localeCompare(b));
+
+        equal(
+            documentedOptions,
+            allOptions,
+            "Option added but not documented in site/options/",
+        );
     });
 });

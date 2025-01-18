@@ -51,7 +51,14 @@ export interface TypeConverter<
     convert(context: Context, node: TNode): SomeType;
     // We use typeToTypeNode to figure out what method to call in the first place,
     // so we have a non-type-checkable node here, necessary for some converters.
-    convertType(context: Context, type: TType, node: TNode): SomeType;
+    // We *may* also have an original node which is the node the type was originally
+    // retrieved from.
+    convertType(
+        context: Context,
+        type: TType,
+        serializedNode: TNode,
+        originalNode: ts.TypeNode | undefined,
+    ): SomeType;
 }
 
 const converters = new Map<ts.SyntaxKind, TypeConverter>();
@@ -86,6 +93,7 @@ export function loadConverters() {
         tupleConverter,
         typeOperatorConverter,
         unionConverter,
+        jSDocTypeExpressionConverter,
         // Only used if skipLibCheck: true
         jsDocNullableTypeConverter,
         jsDocNonNullableTypeConverter,
@@ -120,6 +128,7 @@ let typeConversionDepth = 0;
 export function convertType(
     context: Context,
     typeOrNode: ts.Type | ts.TypeNode | undefined,
+    maybeNode?: ts.TypeNode,
 ): SomeType {
     if (!typeOrNode) {
         return new IntrinsicType("any");
@@ -178,7 +187,12 @@ export function convertType(
 
         seenTypes.add(typeOrNode.id);
         ++typeConversionDepth;
-        const result = converter.convertType(context, typeOrNode, node);
+        const result = converter.convertType(
+            context,
+            typeOrNode,
+            node,
+            maybeNode,
+        );
         --typeConversionDepth;
         seenTypes.delete(typeOrNode.id);
         return result;
@@ -515,8 +529,10 @@ const jsDocVariadicTypeConverter: TypeConverter<ts.JSDocVariadicType> = {
     convert(context, node) {
         return new ArrayType(convertType(context, node.type));
     },
-    // Should just be an ArrayType
-    convertType: requestBugReport,
+    convertType(context, type, _node, origNode) {
+        assert(isTypeReference(type));
+        return arrayConverter.convertType(context, type, null!, origNode);
+    },
 };
 
 const keywordNames = {
@@ -757,7 +773,12 @@ const referenceConverter: TypeConverter<
             // This might not actually be safe, it appears that it is in the relatively small
             // amount of testing I've done with it, but I wouldn't be surprised if someone manages
             // to find a crash.
-            return typeLiteralConverter.convertType(context, type, null!);
+            return typeLiteralConverter.convertType(
+                context,
+                type,
+                null!,
+                undefined,
+            );
         }
 
         const name = node.typeName.getText();
@@ -772,7 +793,7 @@ const referenceConverter: TypeConverter<
         );
         return ref;
     },
-    convertType(context, type, node) {
+    convertType(context, type, node, originalNode) {
         // typeName.symbol handles the case where this is a union which happens to refer
         // to an enumeration. TS doesn't put the symbol on the type for some reason, but
         // does add it to the constructed type node.
@@ -798,10 +819,15 @@ const referenceConverter: TypeConverter<
             // This might not actually be safe, it appears that it is in the relatively small
             // amount of testing I've done with it, but I wouldn't be surprised if someone manages
             // to find a crash.
-            return typeLiteralConverter.convertType(context, type, null!);
+            return typeLiteralConverter.convertType(
+                context,
+                type,
+                null!,
+                undefined,
+            );
         }
 
-        let name;
+        let name: string;
         if (ts.isIdentifier(node.typeName)) {
             name = node.typeName.text;
         } else {
@@ -824,23 +850,17 @@ const referenceConverter: TypeConverter<
                 convertType(context, (type as ts.StringMappingType).type),
             ];
         } else {
-            // Default type arguments are filled with a reference to the default
-            // type. As TS doesn't support specifying earlier defaults, we know
-            // that this will only filter out type arguments which aren't specified
-            // by the user.
-            let ignoredArgs: ts.Type[] | undefined;
-            if (isTypeReference(type)) {
-                ignoredArgs = type.target.typeParameters
-                    ?.map((p) => p.getDefault())
-                    .filter((x) => !!x);
-            }
-
             const args = type.aliasSymbol
                 ? type.aliasTypeArguments
                 : (type as ts.TypeReference).typeArguments;
 
+            const maxArgLength =
+                originalNode && ts.isTypeReferenceNode(originalNode)
+                    ? (originalNode.typeArguments?.length ?? 0)
+                    : args?.length;
+
             ref.typeArguments = args
-                ?.filter((ref) => !ignoredArgs?.includes(ref))
+                ?.slice(0, maxArgLength)
                 .map((ref) => convertType(context, ref));
         }
         return ref;
@@ -1142,6 +1162,14 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
 
         return new UnionType(types);
     },
+};
+
+const jSDocTypeExpressionConverter: TypeConverter<ts.JSDocTypeExpression> = {
+    kind: [ts.SyntaxKind.JSDocTypeExpression],
+    convert(context, node) {
+        return convertType(context, node.type);
+    },
+    convertType: requestBugReport,
 };
 
 const jsDocNullableTypeConverter: TypeConverter<ts.JSDocNullableType> = {

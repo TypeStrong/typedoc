@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: ["18", "20", "22.4.1"]
+                node: ["18", "20", "22.4.1", "23"]
         name: Node ${{ matrix.node }}
         steps:
             - name: Checkout repository
@@ -19,7 +19,11 @@ jobs:
             - name: Build
               run: npm run build
             - name: Test
-              run: npm run test:full
+              run: |
+                  if node -e "process.exit(Number(+process.versions.node.slice(0, 2) < 23))"; then
+                    export NODE_OPTIONS="--no-experimental-strip-types"
+                  fi
+                  npm run test:full
             - name: Lint
               run: npm run lint
             - name: Circular dependency check

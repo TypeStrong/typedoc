@@ -4,9 +4,12 @@ type Foo = { inlined: true };
 /** @inline */
 type Complex<T> = { real: T; imag: T };
 
-// TypeNode * 2
 export function foo(param: Foo): Complex<number> {
     return { real: 1.0, imag: 2.0 };
+}
+
+export function genericInline<T>(): Complex<T> {
+    throw new Error();
 }
 
 // TypeNode, nested

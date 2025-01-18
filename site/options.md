@@ -8,6 +8,7 @@ children:
     - options/organization.md
     - options/validation.md
     - options/other.md
+    - options/package-options.md
 ---
 
 Any command line arguments that are passed without a flag will be parsed as entry points.

@@ -1212,9 +1212,10 @@ describe("Behavior Tests", () => {
             foo.parameters?.map((p) => p.type?.toString()),
             ["{ inlined: true }"],
         );
-        // Future: Should we just use types everywhere to get rid of this?
-        // It still wouldn't get rid of it when converting type aliases...
-        equal(foo.type?.toString(), "Complex<number>");
+        equal(foo.type?.toString(), "{ imag: number; real: number }");
+
+        const genericInline = querySig(project, "genericInline");
+        equal(genericInline.type?.toString(), "{ imag: T; real: T }");
 
         const bar = querySig(project, "bar");
         equal(

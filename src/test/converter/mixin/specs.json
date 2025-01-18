@@ -629,17 +629,6 @@
                             "type": {
                               "type": "reference",
                               "target": 23,
-                              "typeArguments": [
-                                {
-                                  "type": "query",
-                                  "queryType": {
-                                    "type": "reference",
-                                    "target": 13,
-                                    "name": "Base",
-                                    "package": "typedoc"
-                                  }
-                                }
-                              ],
                               "name": "Mixin1Class",
                               "package": "typedoc"
                             }
@@ -1734,15 +1723,6 @@
                       "type": {
                         "type": "reference",
                         "target": 23,
-                        "typeArguments": [
-                          {
-                            "type": "reference",
-                            "target": 21,
-                            "name": "T",
-                            "package": "typedoc",
-                            "refersToTypeParameter": true
-                          }
-                        ],
                         "name": "Mixin1Class",
                         "package": "typedoc"
                       }
@@ -1933,15 +1913,6 @@
                       "type": {
                         "type": "reference",
                         "target": 39,
-                        "typeArguments": [
-                          {
-                            "type": "reference",
-                            "target": 37,
-                            "name": "T",
-                            "package": "typedoc",
-                            "refersToTypeParameter": true
-                          }
-                        ],
                         "name": "Mixin2",
                         "package": "typedoc"
                       }
@@ -2125,15 +2096,6 @@
                       "type": {
                         "type": "reference",
                         "target": 59,
-                        "typeArguments": [
-                          {
-                            "type": "reference",
-                            "target": 57,
-                            "name": "T",
-                            "package": "typedoc",
-                            "refersToTypeParameter": true
-                          }
-                        ],
                         "name": "Mixin3",
                         "package": "typedoc"
                       }

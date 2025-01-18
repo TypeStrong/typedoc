@@ -109,10 +109,6 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     accessor excludeExternals!: boolean;
 
     /** @internal */
-    @Option("excludeNotDocumented")
-    accessor excludeNotDocumented!: boolean;
-
-    /** @internal */
     @Option("excludePrivate")
     accessor excludePrivate!: boolean;
 
@@ -376,11 +372,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * @returns The TypeDoc type reflection representing the given node and type.
      * @internal
      */
+    convertType(context: Context, node: ts.TypeNode | undefined): SomeType;
+    convertType(context: Context, type: ts.Type, node?: ts.TypeNode): SomeType;
     convertType(
         context: Context,
-        node: ts.TypeNode | ts.Type | undefined,
+        typeOrNode: ts.TypeNode | ts.Type | undefined,
+        maybeNode?: ts.TypeNode,
     ): SomeType {
-        return convertType(context, node);
+        return convertType(context, typeOrNode, maybeNode);
     }
 
     /**
