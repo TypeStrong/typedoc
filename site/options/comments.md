@@ -186,7 +186,8 @@ Also see [`blockTags`](#blocktags) and [`inlineTags`](#inlinetags).
 
 Specifies modifier tags which should be copied to all children of the parent reflection.
 
-Note: `@deprecated` is a block tag, not a modifier tag, so should not be specified here.
+> [!note]
+> `@deprecated` is a block tag, not a modifier tag, so should not be specified here.
 
 ## excludeTags
 

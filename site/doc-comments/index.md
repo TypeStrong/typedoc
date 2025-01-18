@@ -40,8 +40,9 @@ the syntax highlighting theme with the
 export class MyClass {}
 ````
 
-Note: TypeDoc only supports fenced code blocks. Indentation based code blocks will not prevent tags
-from being parsed within the code block.
+> [!note]
+> TypeDoc only supports fenced code blocks. Indentation based code blocks will not prevent tags
+> from being parsed within the code block.
 
 ## Escaping Comments
 
