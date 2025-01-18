@@ -1,5 +1,19 @@
 @layer typedoc {
     :root {
+        --dim-toolbar-contents-height: 2.5rem;
+        --dim-toolbar-border-bottom-width: 1px;
+        --dim-header-height: calc(
+            var(--dim-toolbar-border-bottom-width) +
+                var(--dim-toolbar-contents-height)
+        );
+
+        /* 0rem For mobile; unit is required for calculation in `calc` */
+        --dim-container-main-margin-y: 0rem;
+
+        --dim-footer-height: 3.5rem;
+    }
+
+    :root {
         /* Light */
         --light-color-background: #f2f4f8;
         --light-color-background-secondary: #eff0f1;
@@ -421,16 +435,19 @@
         border-top: 1px solid var(--color-accent);
         padding-top: 1rem;
         padding-bottom: 1rem;
-        max-height: 3.5rem;
+        max-height: var(--dim-footer-height);
     }
     footer > p {
         margin: 0 1em;
     }
 
     .container-main {
-        margin: 0 auto;
+        margin: var(--dim-container-main-margin-y) auto;
         /* toolbar, footer, margin */
-        min-height: calc(100vh - 41px - 56px - 4rem);
+        min-height: calc(
+            100svh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
+                var(--dim-container-main-margin-y)
+        );
     }
 
     @keyframes fade-in {
@@ -1257,7 +1274,8 @@
         width: 100%;
         color: var(--color-text);
         background: var(--color-background-secondary);
-        border-bottom: 1px var(--color-accent) solid;
+        border-bottom: var(--dim-toolbar-border-bottom-width)
+            var(--color-accent) solid;
         transition: transform 0.3s ease-in-out;
     }
     .tsd-page-toolbar a {
@@ -1273,7 +1291,7 @@
     .tsd-page-toolbar .tsd-toolbar-contents {
         display: flex;
         justify-content: space-between;
-        height: 2.5rem;
+        height: var(--dim-toolbar-contents-height);
         margin: 0 auto;
     }
     .tsd-page-toolbar .table-cell {
@@ -1550,7 +1568,7 @@
             display: grid;
             grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
             grid-template-areas: "sidebar content";
-            margin: 2rem auto;
+            --dim-container-main-margin-y: 2rem;
         }
 
         .col-sidebar {
@@ -1563,10 +1581,15 @@
     }
     @media (min-width: 770px) and (max-width: 1399px) {
         .col-sidebar {
-            max-height: calc(100vh - 2rem - 42px);
+            max-height: calc(
+                100vh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
+                    var(--dim-container-main-margin-y)
+            );
             overflow: auto;
             position: sticky;
-            top: 42px;
+            top: calc(
+                var(--dim-header-height) + var(--dim-container-main-margin-y)
+            );
             padding-top: 1rem;
         }
         .site-menu {
@@ -1602,10 +1625,15 @@
 
         .page-menu,
         .site-menu {
-            max-height: calc(100vh - 2rem - 42px);
+            max-height: calc(
+                100vh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
+                    var(--dim-container-main-margin-y)
+            );
             overflow: auto;
             position: sticky;
-            top: 42px;
+            top: calc(
+                var(--dim-header-height) + var(--dim-container-main-margin-y)
+            );
         }
     }
 }
