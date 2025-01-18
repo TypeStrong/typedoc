@@ -646,6 +646,7 @@
 
     .tsd-breadcrumb {
         margin: 0;
+        margin-top: 1rem;
         padding: 0;
         color: var(--color-text-aside);
     }
@@ -893,7 +894,8 @@
     }
 
     .tsd-navigation.settings {
-        margin: 1rem 0;
+        margin: 0;
+        margin-bottom: 1rem;
     }
     .tsd-navigation > a,
     .tsd-navigation .tsd-accordion-summary {
@@ -1570,6 +1572,10 @@
             --dim-container-main-margin-y: 2rem;
         }
 
+        .tsd-breadcrumb {
+            margin-top: 0;
+        }
+
         .col-sidebar {
             grid-area: sidebar;
         }
@@ -1589,7 +1595,6 @@
             top: calc(
                 var(--dim-header-height) + var(--dim-container-main-margin-y)
             );
-            padding-top: 1rem;
         }
         .site-menu {
             margin-top: 1rem;
@@ -1619,7 +1624,7 @@
         }
 
         .site-menu {
-            margin-top: 1rem;
+            margin-top: 0rem;
         }
 
         .page-menu,
