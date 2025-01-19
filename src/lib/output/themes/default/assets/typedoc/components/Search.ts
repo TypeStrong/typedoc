@@ -241,14 +241,14 @@ function updateResults(
         const row = state.data.rows[Number(res[i].ref)];
         const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
 
-        // Bold the matched part of the query in the search results
-        let name = boldMatches(row.name, searchText);
+        // Highlight the matched part of the query in the search results
+        let name = highlightMatches(row.name, searchText);
         if (globalThis.DEBUG_SEARCH_WEIGHTS) {
             name += ` (score: ${res[i].score.toFixed(2)})`;
         }
         if (row.parent) {
             name = `<span class="parent">
-                ${boldMatches(row.parent, searchText)}.</span>${name}`;
+                ${highlightMatches(row.parent, searchText)}.</span>${name}`;
         }
 
         const item = document.createElement("li");
@@ -305,7 +305,7 @@ function removeVisualFocus(field: HTMLInputElement) {
     field.setAttribute("aria-activedescendant", "");
 }
 
-function boldMatches(text: string, search: string) {
+function highlightMatches(text: string, search: string) {
     if (search === "") {
         return text;
     }
@@ -319,9 +319,9 @@ function boldMatches(text: string, search: string) {
     while (index != -1) {
         parts.push(
             escapeHtml(text.substring(lastIndex, index)),
-            `<b>${escapeHtml(
+            `<mark>${escapeHtml(
                 text.substring(index, index + lowerSearch.length),
-            )}</b>`,
+            )}</mark>`,
         );
 
         lastIndex = index + lowerSearch.length;
