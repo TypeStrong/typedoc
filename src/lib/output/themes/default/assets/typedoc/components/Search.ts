@@ -1,6 +1,7 @@
 import { debounce } from "../utils/debounce.js";
 import { Index } from "lunr";
 import { decompressJson } from "../utils/decompress.js";
+import { hideScrollbar, resetScrollbar } from "../utils/modal.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
@@ -33,90 +34,135 @@ interface SearchState {
     index?: Index;
 }
 
-async function updateIndex(state: SearchState, searchEl: HTMLElement) {
+/** Counter to get unique IDs for options */
+let optionsIdCounter = 0;
+
+let resultCount = 0;
+
+/**
+ * Populates search data into `state`, if available.
+ * Removes deault loading message
+ */
+async function updateIndex(state: SearchState, results: HTMLElement) {
     if (!window.searchData) return;
 
-    const data: IData = await decompressJson(window.searchData);
+    try {
+        const data: IData = await decompressJson(window.searchData);
 
-    state.data = data;
-    state.index = Index.load(data.index);
+        state.data = data;
+        state.index = Index.load(data.index);
 
-    searchEl.classList.remove("loading");
-    searchEl.classList.add("ready");
+        results.querySelector("li.state")?.remove();
+    } catch (e) {
+        console.error(e);
+        const message = window.translations.theme_search_index_not_available;
+        const stateEl = createStateEl(message);
+        results.replaceChildren(stateEl);
+    }
 }
 
 export function initSearch() {
-    const searchEl = document.getElementById("tsd-search");
-    if (!searchEl) return;
+    const searchTrigger = document.getElementById(
+        "tsd-search-trigger",
+    ) as HTMLButtonElement | null;
+
+    const searchEl = document.getElementById(
+        "tsd-search",
+    ) as HTMLDialogElement | null;
+
+    const field = document.getElementById(
+        "tsd-search-input",
+    ) as HTMLInputElement | null;
+
+    const results = document.getElementById("tsd-search-results");
+
+    const searchScript = document.getElementById(
+        "tsd-search-script",
+    ) as HTMLScriptElement | null;
+
+    if (!(searchTrigger && searchEl && field && results && searchScript)) {
+        throw new Error("Search controls missing");
+    }
 
     const state: SearchState = {
         base: document.documentElement.dataset.base! + "/",
     };
 
-    const searchScript = document.getElementById(
-        "tsd-search-script",
-    ) as HTMLScriptElement | null;
-    searchEl.classList.add("loading");
-    if (searchScript) {
-        searchScript.addEventListener("error", () => {
-            searchEl.classList.remove("loading");
-            searchEl.classList.add("failure");
-        });
-        searchScript.addEventListener("load", () => {
-            updateIndex(state, searchEl);
-        });
-        updateIndex(state, searchEl);
-    }
-
-    const field = document.querySelector<HTMLInputElement>("#tsd-search input");
-    const results = document.querySelector<HTMLElement>("#tsd-search .results");
-
-    if (!field || !results) {
-        throw new Error(
-            "The input field or the result list wrapper was not found",
-        );
-    }
-
-    results.addEventListener("mouseup", () => {
-        hideSearch(searchEl);
+    searchScript.addEventListener("error", () => {
+        const message = window.translations.theme_search_index_not_available;
+        const stateEl = createStateEl(message);
+        results.replaceChildren(stateEl);
     });
+    searchScript.addEventListener("load", () => {
+        updateIndex(state, results);
+    });
+    updateIndex(state, results);
 
-    field.addEventListener("focus", () => searchEl.classList.add("has-focus"));
-
-    bindEvents(searchEl, results, field, state);
+    bindEvents(searchTrigger, searchEl, results, field, state);
 }
 
 function bindEvents(
-    searchEl: HTMLElement,
+    trigger: HTMLButtonElement,
+    searchEl: HTMLDialogElement,
     results: HTMLElement,
     field: HTMLInputElement,
     state: SearchState,
 ) {
+    trigger.addEventListener("click", () => openModal(searchEl));
+
+    searchEl.addEventListener("close", resetScrollbar);
+    searchEl.addEventListener("cancel", resetScrollbar);
+
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(searchEl, results, field, state);
+            updateResults(results, field, state);
         }, 200),
     );
 
-    // Narrator is a pain. It completely eats the up/down arrow key events, so we can't
-    // rely on detecting the input blurring to hide the focus. We have to instead check
-    // for a focus event on an item outside of the search field/results.
     field.addEventListener("keydown", (e) => {
-        if (e.key == "Enter") {
-            gotoCurrentResult(results, searchEl);
-        } else if (e.key == "ArrowUp") {
-            setCurrentResult(results, field, -1);
-            e.preventDefault();
-        } else if (e.key === "ArrowDown") {
-            setCurrentResult(results, field, 1);
-            e.preventDefault();
+        if (resultCount === 0 || e.ctrlKey || e.metaKey || e.altKey) {
+            return;
+        }
+
+        // Get the visually focused element, if any
+        const currentId = field.getAttribute("aria-activedescendant");
+        const current = document.getElementById(currentId || "");
+
+        // Remove visual focus on cursor position change
+        if (current) {
+            switch (e.key) {
+                case "Home":
+                case "End":
+                case "ArrowLeft":
+                case "ArrowRight":
+                    removeVisualFocus(field);
+            }
+        }
+
+        if (e.shiftKey) return;
+
+        switch (e.key) {
+            case "Enter":
+                current?.querySelector("a")?.click();
+                break;
+            case "ArrowUp":
+                setCurrentResult(results, field, current, -1);
+                break;
+            case "ArrowDown":
+                setCurrentResult(results, field, current, 1);
+                break;
         }
     });
+
+    const _removeVisualFocus = () => removeVisualFocus(field);
+    field.addEventListener("change", _removeVisualFocus);
+    field.addEventListener("blur", _removeVisualFocus);
 
     /**
      * Start searching by pressing slash.
      */
+    /*
     document.body.addEventListener("keypress", (e) => {
         if (e.altKey || e.ctrlKey || e.metaKey) return;
         if (!field.matches(":focus") && e.key === "/") {
@@ -135,14 +181,16 @@ function bindEvents(
             hideSearch(searchEl);
         }
     });
+    */
 }
 
-function hideSearch(searchEl: HTMLElement) {
-    searchEl.classList.remove("has-focus");
+function openModal(searchEl: HTMLDialogElement) {
+    if (searchEl.open) return;
+    hideScrollbar();
+    searchEl.showModal();
 }
 
 function updateResults(
-    searchEl: HTMLElement,
     results: HTMLElement,
     query: HTMLInputElement,
     state: SearchState,
@@ -151,7 +199,8 @@ function updateResults(
     // because loading or error message can be removed.
     if (!state.index || !state.data) return;
 
-    results.textContent = "";
+    results.innerHTML = "";
+    optionsIdCounter += 1;
 
     const searchText = query.value.trim();
 
@@ -173,6 +222,14 @@ function updateResults(
         res = [];
     }
 
+    resultCount = res.length;
+
+    if (res.length === 0) {
+        const item = createStateEl(window.translations.theme_search_no_results);
+        results.appendChild(item);
+        return;
+    }
+
     for (let i = 0; i < res.length; i++) {
         const item = res[i];
         const row = state.data.rows[Number(item.ref)];
@@ -187,20 +244,10 @@ function updateResults(
         item.score *= boost;
     }
 
-    if (res.length === 0) {
-        let item = document.createElement("li");
-        item.classList.add("no-results");
-
-        let anchor = document.createElement("span");
-        anchor.textContent = "No results found";
-
-        item.appendChild(anchor);
-        results.appendChild(item);
-    }
-
     res.sort((a, b) => b.score - a.score);
 
-    for (let i = 0, c = Math.min(10, res.length); i < c; i++) {
+    const c = Math.min(10, res.length);
+    for (let i = 0; i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
         const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
 
@@ -215,17 +262,17 @@ function updateResults(
         }
 
         const item = document.createElement("li");
+        item.id = `tsd-search:${optionsIdCounter}-${i}`;
+        item.role = "option";
+        item.ariaSelected = "false";
         item.classList.value = row.classes ?? "";
 
         const anchor = document.createElement("a");
+        // Make links unfocusable inside option
+        anchor.tabIndex = -1;
         anchor.href = state.base + row.url;
-        anchor.innerHTML = icon + name;
+        anchor.innerHTML = icon + `<span class="text">${name}</span>`;
         item.append(anchor);
-
-        anchor.addEventListener("focus", () => {
-            results.querySelector(".current")?.classList.remove("current");
-            item.classList.add("current");
-        });
 
         results.appendChild(item);
     }
@@ -237,57 +284,35 @@ function updateResults(
 function setCurrentResult(
     results: HTMLElement,
     field: HTMLInputElement,
-    dir: number,
+    current: Element | null,
+    dir: 1 | -1,
 ) {
-    let current = results.querySelector(".current");
-    if (!current) {
-        current = results.querySelector(
-            dir == 1 ? "li:first-child" : "li:last-child",
-        );
-        if (current) {
-            current.classList.add("current");
-        }
+    let next: Element | null;
+    // If there's no active descendant, select the first or last
+    if (dir === 1) {
+        next = current?.nextElementSibling || results.firstElementChild;
     } else {
-        let rel: Element | undefined = current;
-        // Tricky: We have to check that rel has an offsetParent so that users can't mark a hidden result as
-        // current with the arrow keys.
-        if (dir === 1) {
-            do {
-                rel = rel.nextElementSibling ?? undefined;
-            } while (rel instanceof HTMLElement && rel.offsetParent == null);
-        } else {
-            do {
-                rel = rel.previousElementSibling ?? undefined;
-            } while (rel instanceof HTMLElement && rel.offsetParent == null);
-        }
-
-        if (rel) {
-            current.classList.remove("current");
-            rel.classList.add("current");
-        } else if (dir === -1) {
-            current.classList.remove("current");
-            field.focus();
-        }
+        next = current?.previousElementSibling || results.lastElementChild;
     }
+
+    // bad markup
+    if (!next || next.role !== "option") {
+        console.error("Option missing");
+        return;
+    }
+
+    next.ariaSelected = "true";
+    next.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    field.setAttribute("aria-activedescendant", next.id);
+    current?.setAttribute("aria-selected", "false");
 }
 
-/**
- * Navigate to the highlighted result.
- */
-function gotoCurrentResult(results: HTMLElement, searchEl: HTMLElement) {
-    let current = results.querySelector(".current");
+function removeVisualFocus(field: HTMLInputElement) {
+    const currentId = field.getAttribute("aria-activedescendant");
+    const current = document.getElementById(currentId || "");
 
-    if (!current) {
-        current = results.querySelector("li:first-child");
-    }
-
-    if (current) {
-        const link = current.querySelector("a");
-        if (link) {
-            window.location.href = link.href;
-        }
-        hideSearch(searchEl);
-    }
+    current?.setAttribute("aria-selected", "false");
+    field.setAttribute("aria-activedescendant", "");
 }
 
 function boldMatches(text: string, search: string) {
@@ -331,4 +356,15 @@ function escapeHtml(text: string) {
         /[&<>"'"]/g,
         (match) => SPECIAL_HTML[match as keyof typeof SPECIAL_HTML],
     );
+}
+
+/**
+ * Returns a `li` element, with `state` class,
+ * @param message Message to set as **innerHTML**
+ */
+function createStateEl(message: string) {
+    const stateEl = document.createElement("li");
+    stateEl.className = "state";
+    stateEl.innerHTML = message;
+    return stateEl;
 }

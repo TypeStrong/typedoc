@@ -20,6 +20,23 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
             <button id="tsd-search-trigger" class="tsd-widget" aria-label={context.i18n.theme_search()}>
                 {context.icons.search()}
             </button>
+            <dialog id="tsd-search" aria-label={context.i18n.theme_search()}>
+                <input
+                    role="combobox"
+                    id="tsd-search-input"
+                    aria-controls="tsd-search-results"
+                    aria-autocomplete="list"
+                    aria-expanded="true"
+                    spellcheck={false}
+                    autocapitalize="off"
+                    autocomplete="off"
+                    placeholder={context.i18n.theme_search_placeholder()}
+                />
+
+                <ul role="listbox" id="tsd-search-results">
+                    <li class="state">{context.i18n.theme_preparing_search_index()}</li>
+                </ul>
+            </dialog>
 
             <a
                 href="#"

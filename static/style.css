@@ -11,6 +11,8 @@
         --dim-container-main-margin-y: 0rem;
 
         --dim-footer-height: 3.5rem;
+
+        --modal-animation-duration: 0.2s;
     }
 
     :root {
@@ -601,6 +603,16 @@
         border: 0.25rem solid var(--color-icon-background);
     }
 
+    dialog {
+        border: none;
+        outline: none;
+        padding: 0;
+        background-color: var(--color-background);
+    }
+    ::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
     .tsd-typography {
         line-height: 1.333em;
     }
@@ -1110,101 +1122,86 @@
         margin-bottom: 1rem;
     }
 
-    #tsd-search {
-        transition: background-color 0.2s;
+    #tsd-search[open],
+    #tsd-search[open]::backdrop {
+        animation: fade-in var(--modal-animation-duration) ease-out forwards;
     }
-    #tsd-search .title {
-        position: relative;
-        z-index: 2;
+
+    /* Avoid setting `display` on closed dialog */
+    #tsd-search[open] {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        width: 32rem;
+        max-width: 90vw;
+        min-height: 8rem;
+        max-height: 50vh;
+        /* Anchor dialog to top */
+        margin-top: 25vh;
+        border-radius: 6px;
     }
-    #tsd-search .field {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 2.5rem;
-        height: 100%;
-    }
-    #tsd-search .field input {
+    #tsd-search-input {
         box-sizing: border-box;
-        position: relative;
-        top: -50px;
-        z-index: 1;
         width: 100%;
-        padding: 0 10px;
-        opacity: 0;
+        padding: 0 0.625rem; /* 10px */
         outline: 0;
-        border: 0;
-        background: transparent;
+        border: 2px solid var(--color-accent);
+        background-color: transparent;
         color: var(--color-text);
+        border-radius: 4px;
+        height: 2.5rem;
+        flex: 0 0 auto;
+        font-size: 0.875rem;
+        transition:
+            border-color 0.2s,
+            background-color 0.2s;
     }
-    #tsd-search .field label {
-        position: absolute;
-        overflow: hidden;
-        right: -40px;
+    #tsd-search-input:focus-visible {
+        background: var(--color-accent);
+        border-color: transparent;
     }
-    #tsd-search .field input,
-    #tsd-search .title,
-    #tsd-toolbar-links a {
-        transition: opacity 0.2s;
-    }
-    #tsd-search .results {
-        position: absolute;
-        visibility: hidden;
-        top: 40px;
-        width: 100%;
+    #tsd-search-results {
         margin: 0;
+        margin-top: 0.5rem;
         padding: 0;
         list-style: none;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
     }
-    #tsd-search .results li {
+    #tsd-search-results > li[role="option"] {
         background-color: var(--color-background);
-        line-height: initial;
-        padding: 4px;
+        line-height: 1.5;
+        box-sizing: border-box;
+        border-radius: 4px;
     }
-    #tsd-search .results li:nth-child(even) {
+    #tsd-search-results > li[role="option"]:nth-child(even) {
         background-color: var(--color-background-secondary);
     }
-    #tsd-search .results li.state {
-        display: none;
-    }
-    #tsd-search .results li.current:not(.no-results),
-    #tsd-search .results li:hover:not(.no-results) {
+    #tsd-search-results > li[role="option"]:is(:hover, [aria-selected="true"]) {
         background-color: var(--color-accent);
     }
-    #tsd-search .results a {
+    /* It's important that this takes full size of parent `li`, to capture a click on `li` */
+    #tsd-search-results > li[role="option"] > a {
         display: flex;
         align-items: center;
-        padding: 0.25rem;
+        padding: 0.5rem 0.25rem;
         box-sizing: border-box;
+        width: 100%;
     }
-    #tsd-search .results a:before {
-        top: 10px;
+    #tsd-search-results > li[role="option"] > a > .text {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
-    #tsd-search .results span.parent {
+    #tsd-search-results > li[role="option"] > a .parent {
         color: var(--color-text-aside);
-        font-weight: normal;
     }
-    #tsd-search.has-focus {
-        background-color: var(--color-accent);
-    }
-    #tsd-search.has-focus .field input {
-        top: 0;
-        opacity: 1;
-    }
-    #tsd-search.has-focus .title,
-    #tsd-search.has-focus #tsd-toolbar-links a {
-        z-index: 0;
-        opacity: 0;
-    }
-    #tsd-search.has-focus .results {
-        visibility: visible;
-    }
-    #tsd-search.loading .results li.state.loading {
-        display: block;
-    }
-    #tsd-search.failure .results li.state.failure {
-        display: block;
+    #tsd-search-results > li.state {
+        flex: 1;
+        display: grid;
+        place-content: center;
     }
 
     .tsd-signature {
