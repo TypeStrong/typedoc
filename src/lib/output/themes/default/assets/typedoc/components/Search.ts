@@ -147,10 +147,10 @@ function bindEvents(
                 current?.querySelector("a")?.click();
                 break;
             case "ArrowUp":
-                setCurrentResult(results, field, current, -1);
+                setNextResult(results, field, current, -1);
                 break;
             case "ArrowDown":
-                setCurrentResult(results, field, current, 1);
+                setNextResult(results, field, current, 1);
                 break;
         }
     });
@@ -271,7 +271,7 @@ function updateResults(
 /**
  * Move the highlight within the result set.
  */
-function setCurrentResult(
+function setNextResult(
     results: HTMLElement,
     field: HTMLInputElement,
     current: Element | null,
