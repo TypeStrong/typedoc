@@ -1197,6 +1197,11 @@
     #tsd-search-results > li[role="option"] > a .parent {
         color: var(--color-text-aside);
     }
+    #tsd-search-results > li[role="option"] > a mark {
+        color: inherit;
+        background-color: inherit;
+        font-weight: bold;
+    }
     #tsd-search-results > li.state {
         flex: 1;
         display: grid;
