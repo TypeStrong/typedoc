@@ -41,6 +41,10 @@ export class AssetsPlugin extends RendererComponent {
             hierarchy_expand: i18n.theme_hierarchy_expand(),
             hierarchy_collapse: i18n.theme_hierarchy_collapse(),
             folder: i18n.theme_folder(),
+            theme_search_index_not_available:
+                this.application.i18n.theme_search_index_not_available(),
+            theme_search_no_results:
+                this.application.i18n.theme_search_no_results(),
         };
 
         for (const key of getEnumKeys(ReflectionKind)) {

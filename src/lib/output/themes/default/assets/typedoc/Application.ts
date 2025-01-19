@@ -12,6 +12,8 @@ declare global {
             // Kind strings for icons
             folder: string;
             [k: `kind_${number}`]: string;
+            theme_search_index_not_available: string;
+            theme_search_no_results: string;
         };
     }
 }
@@ -50,6 +52,8 @@ window.translations ||= {
     kind_2097152: "Type Alias",
     kind_4194304: "Reference",
     kind_8388608: "Document",
+    theme_search_index_not_available: "The search index is not available",
+    theme_search_no_results: "No results found",
 };
 
 /**
