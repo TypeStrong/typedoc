@@ -253,10 +253,6 @@
         color-scheme: var(--color-scheme);
     }
 
-    body {
-        margin: 0;
-    }
-
     :root[data-theme="light"] {
         --color-background: var(--light-color-background);
         --color-background-secondary: var(--light-color-background-secondary);
@@ -469,29 +465,6 @@
             opacity: 0;
         }
     }
-    @keyframes fade-in-delayed {
-        0% {
-            opacity: 0;
-        }
-        33% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-    @keyframes fade-out-delayed {
-        0% {
-            opacity: 1;
-            visibility: visible;
-        }
-        66% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
     @keyframes pop-in-from-right {
         from {
             transform: translate(100%, 0);
@@ -515,6 +488,7 @@
             Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         font-size: 16px;
         color: var(--color-text);
+        margin: 0;
     }
 
     a {
