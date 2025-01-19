@@ -1124,10 +1124,11 @@
         width: 32rem;
         max-width: 90vw;
         min-height: 8rem;
-        max-height: 50vh;
+        max-height: calc(100vh - env(keyboard-inset-height, 0px) - 25vh);
         /* Anchor dialog to top */
-        margin-top: 25vh;
+        margin-top: 10vh;
         border-radius: 6px;
+        will-change: max-height;
     }
     #tsd-search-input {
         box-sizing: border-box;
