@@ -1149,6 +1149,10 @@
         background: var(--color-accent);
         border-color: transparent;
     }
+    #tsd-search-input:focus-visible::placeholder {
+        color: var(--color-text);
+        opacity: 0.8;
+    }
     #tsd-search-results {
         margin: 0;
         margin-top: 0.5rem;
