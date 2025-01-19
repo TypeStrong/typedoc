@@ -609,8 +609,21 @@
         padding: 0;
         background-color: var(--color-background);
     }
-    ::backdrop {
+    dialog::backdrop {
+        display: none;
+    }
+    #tsd-overlay {
         background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        animation: fade-in var(--modal-animation-duration) forwards;
+    }
+    #tsd-overlay.closing {
+        animation-name: fade-out;
     }
 
     .tsd-typography {
@@ -1122,9 +1135,11 @@
         margin-bottom: 1rem;
     }
 
-    #tsd-search[open],
-    #tsd-search[open]::backdrop {
+    #tsd-search[open] {
         animation: fade-in var(--modal-animation-duration) ease-out forwards;
+    }
+    #tsd-search[open].closing {
+        animation-name: fade-out;
     }
 
     /* Avoid setting `display` on closed dialog */
