@@ -155,33 +155,23 @@ function bindEvents(
         }
     });
 
-    const _removeVisualFocus = () => removeVisualFocus(field);
-    field.addEventListener("change", _removeVisualFocus);
-    field.addEventListener("blur", _removeVisualFocus);
+    field.addEventListener("change", () => removeVisualFocus(field));
+    field.addEventListener("blur", () => removeVisualFocus(field));
 
     /**
-     * Start searching by pressing slash.
+     * Start searching by pressing slash, or Ctrl+K
      */
-    /*
-    document.body.addEventListener("keypress", (e) => {
-        if (e.altKey || e.ctrlKey || e.metaKey) return;
-        if (!field.matches(":focus") && e.key === "/") {
-            e.preventDefault();
-            field.focus();
-        }
-    });
+    document.body.addEventListener("keydown", (e) => {
+        if (e.altKey || e.metaKey || e.shiftKey) return;
 
-    document.body.addEventListener("keyup", (e) => {
-        if (
-            searchEl.classList.contains("has-focus") &&
-            (e.key === "Escape" ||
-                (!results.matches(":focus-within") && !field.matches(":focus")))
-        ) {
-            field.blur();
-            hideSearch(searchEl);
+        const ctrlK = e.ctrlKey && e.key === "k";
+        const slash = !e.ctrlKey && !isKeyboardActive() && e.key === "/";
+
+        if (ctrlK || slash) {
+            e.preventDefault();
+            openModal(searchEl);
         }
     });
-    */
 }
 
 function openModal(searchEl: HTMLDialogElement) {
@@ -367,4 +357,40 @@ function createStateEl(message: string) {
     stateEl.className = "state";
     stateEl.innerHTML = message;
     return stateEl;
+}
+
+/**
+ * <input /> that don't take printable character input from keyboard,
+ * to avoid catching "/" when active.
+ *
+ * based on [MDN: input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types)
+ */
+const inputWithoutKeyboard = [
+    "button",
+    "checkbox",
+    "file",
+    "hidden",
+    "image",
+    "radio",
+    "range",
+    "reset",
+    "submit",
+];
+
+/** Checks whether keyboard is active, i.e. an input is focused */
+function isKeyboardActive() {
+    const activeElement = document.activeElement as HTMLElement | null;
+    if (!activeElement) return false;
+
+    if (
+        activeElement.isContentEditable ||
+        activeElement.tagName === "TEXTAREA" ||
+        activeElement.tagName === "SEARCH"
+    )
+        return true;
+
+    return (
+        activeElement.tagName === "INPUT" &&
+        !inputWithoutKeyboard.includes((activeElement as HTMLInputElement).type)
+    );
 }
