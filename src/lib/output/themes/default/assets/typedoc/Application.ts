@@ -8,6 +8,10 @@ declare global {
             normally_hidden: string;
             hierarchy_expand: string;
             hierarchy_collapse: string;
+            theme_search_index_not_available: string;
+            theme_search_no_results: string;
+            theme_search_placeholder: string;
+            theme_search_no_recent_searches: string;
         };
     }
 }
@@ -20,6 +24,10 @@ window.translations ||= {
         "This member is normally hidden due to your filter settings.",
     hierarchy_expand: "Expand",
     hierarchy_collapse: "Collapse",
+    theme_search_index_not_available: "The search index is not available",
+    theme_search_no_results: "No results found",
+    theme_search_placeholder: "Search the docs",
+    theme_search_no_recent_searches: "No recent searches",
 };
 
 /**

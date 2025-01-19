@@ -496,7 +496,6 @@ export = {
     theme_generated_using_typedoc: "Generated using TypeDoc", // If this includes "TypeDoc", theme will insert a link at that location.
     // Search
     theme_preparing_search_index: "Preparing search index...",
-    theme_search_index_not_available: "The search index is not available",
     // Left nav bar
     theme_loading: "Loading...",
     // Right nav bar
@@ -522,4 +521,8 @@ export = {
         "This member is normally hidden due to your filter settings.",
     theme_hierarchy_expand: "Expand",
     theme_hierarchy_collapse: "Collapse",
+    theme_search_index_not_available: "The search index is not available",
+    theme_search_no_results: "No results found",
+    theme_search_placeholder: "Search the docs",
+    theme_search_no_recent_searches: "No recent searches",
 } as const;
