@@ -1122,7 +1122,6 @@
         padding: 1rem;
         width: 32rem;
         max-width: 90vw;
-        min-height: 8rem;
         max-height: calc(100vh - env(keyboard-inset-height, 0px) - 25vh);
         /* Anchor dialog to top */
         margin-top: 10vh;
@@ -1200,6 +1199,7 @@
         flex: 1;
         display: grid;
         place-content: center;
+        min-height: 6rem;
     }
 
     .tsd-signature {
