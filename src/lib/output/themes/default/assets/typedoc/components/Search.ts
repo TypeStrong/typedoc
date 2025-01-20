@@ -278,6 +278,9 @@ function setNextResult(
         next = current?.previousElementSibling || results.lastElementChild;
     }
 
+    // When only one child is present.
+    if (next === current) return;
+
     // bad markup
     if (!next || next.role !== "option") {
         console.error("Option missing");
