@@ -74,7 +74,10 @@ at the root level. The following tables indicate where an option should be set.
 | [`customCss`](output.md#customcss)                                                     | Root     |                                                            |
 | [`customJs`](output.md#customjs)                                                       | Root     |                                                            |
 | [`customFooterHtml`](output.md#customfooterhtml)                                       | Root     |                                                            |
-| [`customFooterHtmlDisableWrapper`](output.md#customfooterhtmldisablewrapper)           | Root     |                                                            |
+| [`customFooterHtmlDisableWrapper`](output.md#customfooterhtmldisablewrapper)           | 
+Root     |                                                            |
+| [`customPersistentHeaderHtml`](output.md#custompersistentheaderhtml)                                       | Root     |                                                            |
+| [`customPersistentHeaderHtmlDisableWrapper`](output.md#custompersistentheaderhtmldisablewrapper)                                       | Root     |                                                            |
 | [`markdownItOptions`](output.md#markdownitoptions)                                     | Root     |                                                            |
 | [`markdownItLoader`](output.md#markdownitloader)                                       | Root     |                                                            |
 | [`basePath`](output.md#basepath)                                                       | Both     | Used to determine file names of entry points and documents |
