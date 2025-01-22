@@ -57,55 +57,55 @@ at the root level. The following tables indicate where an option should be set.
 
 ## Output Options
 
-| Option                                                                                 | Location | Notes                                                      |
-| -------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------- |
-| [`outputs`](output.md#outputs)                                                         | Root     | Outputs are not written when processing each package       |
-| [`out`](output.md#out)                                                                 | Root     |                                                            |
-| [`html`](output.md#html)                                                               | Root     |                                                            |
-| [`json`](output.md#json)                                                               | Root     |                                                            |
-| [`pretty`](output.md#pretty)                                                           | Root     |                                                            |
-| [`emit`](output.md#emit)                                                               | Both     |                                                            |
-| [`theme`](output.md#theme)                                                             | Root     |                                                            |
-| [`lightHighlightTheme`](output.md#lighthighlighttheme)                                 | Root     |                                                            |
-| [`darkHighlightTheme`](output.md#darkhighlighttheme)                                   | Root     |                                                            |
-| [`highlightLanguages`](output.md#highlightlanguages)                                   | Root     |                                                            |
-| [`ignoredHighlightLanguages`](output.md#ignoredhighlightlanguages)                     | Root     |                                                            |
-| [`typePrintWidth`](output.md#typeprintwidth)                                           | Root     |                                                            |
-| [`customCss`](output.md#customcss)                                                     | Root     |                                                            |
-| [`customJs`](output.md#customjs)                                                       | Root     |                                                            |
-| [`customFooterHtml`](output.md#customfooterhtml)                                       | Root     |                                                            |
-| [`customFooterHtmlDisableWrapper`](output.md#customfooterhtmldisablewrapper)           | 
-Root     |                                                            |
-| [`customPersistentHeaderHtml`](output.md#custompersistentheaderhtml)                                       | Root     |                                                            |
-| [`customPersistentHeaderHtmlDisableWrapper`](output.md#custompersistentheaderhtmldisablewrapper)                                       | Root     |                                                            |
-| [`markdownItOptions`](output.md#markdownitoptions)                                     | Root     |                                                            |
-| [`markdownItLoader`](output.md#markdownitloader)                                       | Root     |                                                            |
-| [`basePath`](output.md#basepath)                                                       | Both     | Used to determine file names of entry points and documents |
-| [`cname`](output.md#cname)                                                             | Root     |                                                            |
-| [`favicon`](output.md#favicon)                                                         | Root     |                                                            |
-| [`sourceLinkExternal`](output.md#sourcelinkexternal)                                   | Root     |                                                            |
-| [`markdownLinkExternal`](output.md#markdownlinkexternal)                               | Root     |                                                            |
-| [`lang`](output.md#lang)                                                               | Both     | Will move to Root in TypeDoc 0.28                          |
-| [`locales`](output.md#locales)                                                         | Both     | Will move to Root in TypeDoc 0.28                          |
-| [`githubPages`](output.md#githubpages)                                                 | Root     |                                                            |
-| [`cacheBust`](output.md#cachebust)                                                     | Root     |                                                            |
-| [`hideGenerator`](output.md#hidegenerator)                                             | Root     |                                                            |
-| [`searchInComments`](output.md#searchincomments)                                       | Root     |                                                            |
-| [`searchInDocuments`](output.md#searchindocuments)                                     | Root     |                                                            |
-| [`cleanOutputDir`](output.md#cleanoutputdir)                                           | Root     |                                                            |
-| [`titleLink`](output.md#titlelink)                                                     | Root     |                                                            |
-| [`navigationLinks`](output.md#navigationlinks)                                         | Root     |                                                            |
-| [`sidebarLinks`](output.md#sidebarlinks)                                               | Root     |                                                            |
-| [`navigation`](output.md#navigation)                                                   | Root     |                                                            |
-| [`headings`](output.md#headings)                                                       | Root     |                                                            |
-| [`sluggerConfiguration`](output.md#sluggerconfiguration)                               | Root     |                                                            |
-| [`navigationLeaves`](output.md#navigationleaves)                                       | Root     |                                                            |
-| [`visibilityFilters`](output.md#visibilityfilters)                                     | Root     |                                                            |
-| [`searchCategoryBoosts`](output.md#searchcategoryboosts)                               | Root     |                                                            |
-| [`searchGroupBoosts`](output.md#searchgroupboosts)                                     | Root     |                                                            |
-| [`hostedBaseUrl`](output.md#hostedbaseurl)                                             | Root     |                                                            |
-| [`useHostedBaseUrlForAbsoluteLinks`](output.md#usehostedbaseurlforabsolutelinks)       | Root     |                                                            |
-| [`useFirstParagraphOfCommentAsSummary`](output.md#usefirstparagraphofcommentassummary) | Root     |                                                            |
+| Option                                                                                           | Location | Notes                                                      |
+| ------------------------------------------------------------------------------------------------ | -------- | ---------------------------------------------------------- |
+| [`outputs`](output.md#outputs)                                                                   | Root     | Outputs are not written when processing each package       |
+| [`out`](output.md#out)                                                                           | Root     |                                                            |
+| [`html`](output.md#html)                                                                         | Root     |                                                            |
+| [`json`](output.md#json)                                                                         | Root     |                                                            |
+| [`pretty`](output.md#pretty)                                                                     | Root     |                                                            |
+| [`emit`](output.md#emit)                                                                         | Both     |                                                            |
+| [`theme`](output.md#theme)                                                                       | Root     |                                                            |
+| [`lightHighlightTheme`](output.md#lighthighlighttheme)                                           | Root     |                                                            |
+| [`darkHighlightTheme`](output.md#darkhighlighttheme)                                             | Root     |                                                            |
+| [`highlightLanguages`](output.md#highlightlanguages)                                             | Root     |                                                            |
+| [`ignoredHighlightLanguages`](output.md#ignoredhighlightlanguages)                               | Root     |                                                            |
+| [`typePrintWidth`](output.md#typeprintwidth)                                                     | Root     |                                                            |
+| [`customCss`](output.md#customcss)                                                               | Root     |                                                            |
+| [`customJs`](output.md#customjs)                                                                 | Root     |                                                            |
+| [`customFooterHtml`](output.md#customfooterhtml)                                                 | Root     |                                                            |
+| [`customFooterHtmlDisableWrapper`](output.md#customfooterhtmldisablewrapper)                     |
+| Root                                                                                             |          |
+| [`customPersistentHeaderHtml`](output.md#custompersistentheaderhtml)                             | Root     |                                                            |
+| [`customPersistentHeaderHtmlDisableWrapper`](output.md#custompersistentheaderhtmldisablewrapper) | Root     |                                                            |
+| [`markdownItOptions`](output.md#markdownitoptions)                                               | Root     |                                                            |
+| [`markdownItLoader`](output.md#markdownitloader)                                                 | Root     |                                                            |
+| [`basePath`](output.md#basepath)                                                                 | Both     | Used to determine file names of entry points and documents |
+| [`cname`](output.md#cname)                                                                       | Root     |                                                            |
+| [`favicon`](output.md#favicon)                                                                   | Root     |                                                            |
+| [`sourceLinkExternal`](output.md#sourcelinkexternal)                                             | Root     |                                                            |
+| [`markdownLinkExternal`](output.md#markdownlinkexternal)                                         | Root     |                                                            |
+| [`lang`](output.md#lang)                                                                         | Both     | Will move to Root in TypeDoc 0.28                          |
+| [`locales`](output.md#locales)                                                                   | Both     | Will move to Root in TypeDoc 0.28                          |
+| [`githubPages`](output.md#githubpages)                                                           | Root     |                                                            |
+| [`cacheBust`](output.md#cachebust)                                                               | Root     |                                                            |
+| [`hideGenerator`](output.md#hidegenerator)                                                       | Root     |                                                            |
+| [`searchInComments`](output.md#searchincomments)                                                 | Root     |                                                            |
+| [`searchInDocuments`](output.md#searchindocuments)                                               | Root     |                                                            |
+| [`cleanOutputDir`](output.md#cleanoutputdir)                                                     | Root     |                                                            |
+| [`titleLink`](output.md#titlelink)                                                               | Root     |                                                            |
+| [`navigationLinks`](output.md#navigationlinks)                                                   | Root     |                                                            |
+| [`sidebarLinks`](output.md#sidebarlinks)                                                         | Root     |                                                            |
+| [`navigation`](output.md#navigation)                                                             | Root     |                                                            |
+| [`headings`](output.md#headings)                                                                 | Root     |                                                            |
+| [`sluggerConfiguration`](output.md#sluggerconfiguration)                                         | Root     |                                                            |
+| [`navigationLeaves`](output.md#navigationleaves)                                                 | Root     |                                                            |
+| [`visibilityFilters`](output.md#visibilityfilters)                                               | Root     |                                                            |
+| [`searchCategoryBoosts`](output.md#searchcategoryboosts)                                         | Root     |                                                            |
+| [`searchGroupBoosts`](output.md#searchgroupboosts)                                               | Root     |                                                            |
+| [`hostedBaseUrl`](output.md#hostedbaseurl)                                                       | Root     |                                                            |
+| [`useHostedBaseUrlForAbsoluteLinks`](output.md#usehostedbaseurlforabsolutelinks)                 | Root     |                                                            |
+| [`useFirstParagraphOfCommentAsSummary`](output.md#usefirstparagraphofcommentassummary)           | Root     |                                                            |
 
 ## Comment Options
 
