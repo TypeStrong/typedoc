@@ -138,6 +138,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc 링크 뒤에 사용자 정의 푸터를 지정합니다",
     help_customFooterHtmlDisableWrapper:
         "customFooterHtml의 래퍼 요소를 비활성화합니다",
+    help_customPersistentHeaderHtml: "",
+    help_customPersistentHeaderHtmlDisableWrapper: "",
     // help_hideTypesInSignatureTitle
     help_cacheBust: "정적 자산의 링크에 생성 시간을 포함합니다",
     help_searchInComments:

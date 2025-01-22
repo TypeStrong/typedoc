@@ -66,7 +66,8 @@ export interface RendererHooks {
      * Applied immediately before the closing `</body>` tag.
      */
     "body.end": [DefaultThemeRenderContext];
-
+    "persistentHeader.begin": [DefaultThemeRenderContext];
+    "persistentHeader.end": [DefaultThemeRenderContext];
     /**
      * Applied immediately before the main template.
      */

@@ -288,6 +288,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc リンクの後のカスタム フッター",
     help_customFooterHtmlDisableWrapper:
         "設定されている場合、customFooterHtml のラッパー要素が無効になります。",
+    help_customPersistentHeaderHtml: "",
+    help_customPersistentHeaderHtmlDisableWrapper: "",
     // help_hideTypesInSignatureTitle
     help_cacheBust: "静的アセットへのリンクに生成時間を含める",
     help_searchInComments:

@@ -214,7 +214,21 @@ Specifies additional custom HTML which should be injected into the page footer.
 $ typedoc --customFooterHtml "<p>Copyright <strong>Project</strong> 2024</p>" --customFooterHtmlDisableWrapper
 ```
 
-By default, TypeDoc will wrap the custom footer HTML in a `<p>` element to allow plain text added
+## customPersistentHeaderHtml
+
+```bash
+$ typedoc --customPersistentHeaderHtml "Copyright <strong>Project</strong> 2024"
+```
+
+Specifies additional custom HTML which should be injected into the page header.
+
+## customPersistentHeaderHtmlDisableWrapper
+
+```bash
+$ typedoc --customPersistentHeaderHtml "<p>Copyright <strong>Project</strong> 2024</p>" --customPersistentHeaderHtmlDisableWrapper
+```
+
+By default, TypeDoc will wrap the custom header HTML in a `<p>` element to allow plain text added
 with it to show up properly aligned. This option disables the wrapping.
 
 ## markdownItOptions

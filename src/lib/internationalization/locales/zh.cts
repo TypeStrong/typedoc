@@ -294,6 +294,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_customFooterHtml: "TypeDoc 链接后的自定义页脚",
     help_customFooterHtmlDisableWrapper:
         "如果设置，则禁用 customFooterHtml 的包装元素",
+    help_customPersistentHeaderHtml: "",
+    help_customPersistentHeaderHtmlDisableWrapper: "",
     help_cacheBust: "在静态资产链接中包含生成时间",
     help_searchInComments:
         "如果设置，搜索索引还将包括注释。这将大大增加搜索索引的大小",

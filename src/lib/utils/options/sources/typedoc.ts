@@ -534,6 +534,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
+        name: "customPersistentHeaderHtml",
+        help: (i18n) => i18n.help_customPersistentHeaderHtml(),
+        type: ParameterType.String,
+    });
+    options.addDeclaration({
+        name: "customPersistentHeaderHtmlDisableWrapper",
+        help: (i18n) => i18n.help_customPersistentHeaderHtmlDisableWrapper(),
+        type: ParameterType.Boolean,
+    });
+    options.addDeclaration({
         name: "cacheBust",
         help: (i18n) => i18n.help_cacheBust(),
         type: ParameterType.Boolean,

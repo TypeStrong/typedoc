@@ -23,6 +23,7 @@ import {
 } from "./partials/comment.js";
 import { footer } from "./partials/footer.js";
 import { header } from "./partials/header.js";
+import { persistentHeader } from "./partials/persistentHeader.js";
 import { hierarchy } from "./partials/hierarchy.js";
 import { buildRefIcons, type icons } from "./partials/icon.js";
 import { member } from "./partials/member.js";
@@ -167,6 +168,7 @@ export class DefaultThemeRenderContext {
     reflectionFlags = bind(reflectionFlags, this);
     footer = bind(footer, this);
     header = bind(header, this);
+    persistentHeader = bind(persistentHeader, this);
     hierarchy = bind(hierarchy, this);
     index = bind(index, this);
     member = bind(member, this);

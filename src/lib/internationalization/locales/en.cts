@@ -286,6 +286,8 @@ export = {
     help_customFooterHtml: "Custom footer after the TypeDoc link",
     help_customFooterHtmlDisableWrapper:
         "If set, disables the wrapper element for customFooterHtml",
+    help_customPersistentHeaderHtml: "",
+    help_customPersistentHeaderHtmlDisableWrapper: "",
     help_cacheBust: "Include the generation time in links to static assets",
     help_searchInComments:
         "If set, the search index will also include comments. This will greatly increase the size of the search index",

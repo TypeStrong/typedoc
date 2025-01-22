@@ -73,6 +73,7 @@ export interface IntrinsicElements {
     output: JsxOutputElementProps;
     p: JsxHtmlGlobalProps;
     param: JsxParamElementProps;
+    persistentHeader: JsxHtmlGlobalProps;
     picture: JsxHtmlGlobalProps;
     portal: JsxPortalElementProps;
     pre: JsxHtmlGlobalProps;

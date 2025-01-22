@@ -99,6 +99,7 @@ export const defaultLayout = (
                 <Raw html='document.body.style.display="none";' />
                 <Raw html='setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)' />
             </script>
+            {context.persistentHeader()}
             {context.toolbar(props)}
 
             <div class="container container-main">

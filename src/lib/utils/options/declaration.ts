@@ -181,6 +181,8 @@ export interface TypeDocOptionMap {
     hideGenerator: boolean;
     customFooterHtml: string;
     customFooterHtmlDisableWrapper: boolean;
+    customPersistentHeaderHtml: string;
+    customPersistentHeaderHtmlDisableWrapper: boolean;
     searchInComments: boolean;
     searchInDocuments: boolean;
     cleanOutputDir: boolean;
