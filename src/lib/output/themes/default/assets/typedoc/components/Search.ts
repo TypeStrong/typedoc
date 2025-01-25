@@ -2,7 +2,6 @@ import { debounce } from "../utils/debounce.js";
 import { Index } from "lunr";
 import { decompressJson } from "../utils/decompress.js";
 import { openModal, setUpModal } from "../utils/modal.js";
-import { storage } from "../utils/storage.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
@@ -40,17 +39,6 @@ let optionsIdCounter = 0;
 
 let resultCount = 0;
 
-/** Omit `matchData` for compatibility with recent searches */
-type PartialSearch = Omit<Index.Result, "matchData">;
-
-/**
- * Recent search result (which were clicked).
- * Recent searches have their score value set to `0`.
- *
- * Max length: 3
- */
-let recentSearches: PartialSearch[] = [];
-
 /**
  * Populates search data into `state`, if available.
  * Removes deault loading message
@@ -65,8 +53,6 @@ async function updateIndex(state: SearchState, results: HTMLElement) {
         state.index = Index.load(data.index);
 
         results.querySelector("li.state")?.remove();
-        recentSearches = parseRecentSearches();
-        updateResults(results, "", state);
     } catch (e) {
         console.error(e);
         const message = window.translations.theme_search_index_not_available;
@@ -129,7 +115,7 @@ function bindEvents(
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(results, field.value.trim(), state);
+            updateResults(results, field, state);
         }, 200),
     );
 
@@ -185,33 +171,11 @@ function bindEvents(
             openModal(searchEl);
         }
     });
-
-    // Track the option being selected
-    results.addEventListener("click", (e) => {
-        const target = (e.target as HTMLElement).closest(
-            'li[role="option"]',
-        ) as HTMLLinkElement | null;
-        if (!target) return;
-
-        const ref = target.dataset.ref || "";
-        const previousIndex = recentSearches.findIndex((el) => el.ref === ref);
-        if (previousIndex === -1) {
-            recentSearches.unshift({ ref, score: 0 });
-        } else if (previousIndex !== 0) {
-            const prev = recentSearches.splice(previousIndex, 1)[0];
-            recentSearches.unshift(prev);
-        }
-
-        if (recentSearches.length > 3) {
-            recentSearches.pop();
-        }
-        setRecentSearches(recentSearches);
-    });
 }
 
 function updateResults(
     results: HTMLElement,
-    searchText: string,
+    query: HTMLInputElement,
     state: SearchState,
 ) {
     // Don't clear results if loading state is not ready,
@@ -221,8 +185,10 @@ function updateResults(
     results.innerHTML = "";
     optionsIdCounter += 1;
 
+    const searchText = query.value.trim();
+
     // Perform a wildcard search
-    let res: PartialSearch[];
+    let res: Index.Result[];
     if (searchText) {
         // Create a wildcard out of space-separated words in the query,
         // ignoring any extra spaces
@@ -234,36 +200,38 @@ function updateResults(
             .join(" ");
         res = state.index.search(searchWithWildcards);
     } else {
-        // Set res as the recent searches
+        // Set empty `res` to prevent getting random results with wildcard search
         // when the `searchText` is empty.
-        res = recentSearches;
+        res = [];
     }
 
     resultCount = res.length;
 
-    if (searchText) {
-        for (let i = 0; i < res.length; i++) {
-            const item = res[i];
-            const row = state.data.rows[Number(item.ref)];
-            let boost = 1;
+    if (res.length === 0) {
+        const item = createStateEl(window.translations.theme_search_no_results);
+        results.appendChild(item);
+        return;
+    }
 
-            // boost by exact match on name
-            if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
-                boost *=
-                    1 + 1 / (1 + Math.abs(row.name.length - searchText.length));
-            }
+    for (let i = 0; i < res.length; i++) {
+        const item = res[i];
+        const row = state.data.rows[Number(item.ref)];
+        let boost = 1;
 
-            item.score *= boost;
+        // boost by exact match on name
+        if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
+            boost *=
+                1 + 1 / (1 + Math.abs(row.name.length - searchText.length));
         }
 
-        res.sort((a, b) => b.score - a.score);
+        item.score *= boost;
     }
+
+    res.sort((a, b) => b.score - a.score);
 
     const c = Math.min(10, res.length);
     for (let i = 0; i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
-        // Ref could be invalid when dealing with localStorage values
-        if (!row) continue;
         const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
@@ -280,7 +248,6 @@ function updateResults(
         item.id = `tsd-search:${optionsIdCounter}-${i}`;
         item.role = "option";
         item.ariaSelected = "false";
-        item.dataset.ref = res[i].ref;
         item.classList.value = row.classes ?? "";
 
         const anchor = document.createElement("a");
@@ -291,15 +258,6 @@ function updateResults(
         item.append(anchor);
 
         results.appendChild(item);
-    }
-
-    if (results.childElementCount === 0) {
-        const message = searchText
-            ? window.translations.theme_search_no_results
-            : window.translations.theme_search_no_recent_searches;
-        const item = createStateEl(message);
-        results.appendChild(item);
-        return;
     }
 }
 
@@ -430,45 +388,5 @@ function isKeyboardActive() {
     return (
         activeElement.tagName === "INPUT" &&
         !inputWithoutKeyboard.includes((activeElement as HTMLInputElement).type)
-    );
-}
-
-/**
- * Gets recent searches from localStorage, parses, and returns
- *
- * This implementation in "unforgiving",
- * i.e. the parsed value must match the criteria: string array of length <= 3
- *
- * Returns empty array in case of failure
- * @returns
- */
-function parseRecentSearches() {
-    try {
-        const recent = storage.getItem("tsd-search-recent")!;
-        const parsed = JSON.parse(recent);
-        if (Array.isArray(parsed) && parsed.length <= 3) {
-            return parsed.map((ref) => {
-                if (isNaN(Number(ref))) throw new Error("Invalid ref");
-
-                return {
-                    ref,
-                    score: 0,
-                } satisfies PartialSearch;
-            });
-        }
-        return [];
-    } catch {
-        return [];
-    }
-}
-
-/**
- * Save recentSearches to localStorage.
- * Performs no checks on the argument.
- */
-function setRecentSearches(recent: PartialSearch[]) {
-    storage.setItem(
-        "tsd-search-recent",
-        JSON.stringify(recent.map(({ ref }) => ref)),
     );
 }

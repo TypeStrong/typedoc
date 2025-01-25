@@ -41,8 +41,6 @@ export class AssetsPlugin extends RendererComponent {
                 this.application.i18n.theme_search_index_not_available(),
             theme_search_no_results:
                 this.application.i18n.theme_search_no_results(),
-            theme_search_no_recent_searches:
-                this.application.i18n.theme_search_no_recent_searches(),
         };
     }
 
