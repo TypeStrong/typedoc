@@ -14,6 +14,10 @@ title: Changelog
 
 -   Fixed an issue where TypeDoc would incorrectly ignore type arguments in references, #2823.
 
+### Thanks!
+
+-   @shawninder
+
 ## v0.27.6 (2024-12-26)
 
 ### Features
