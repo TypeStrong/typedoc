@@ -46,19 +46,12 @@ let resultCount = 0;
 async function updateIndex(state: SearchState, results: HTMLElement) {
     if (!window.searchData) return;
 
-    try {
-        const data: IData = await decompressJson(window.searchData);
+    const data: IData = await decompressJson(window.searchData);
 
-        state.data = data;
-        state.index = Index.load(data.index);
+    state.data = data;
+    state.index = Index.load(data.index);
 
-        results.querySelector("li.state")?.remove();
-    } catch (e) {
-        console.error(e);
-        const message = window.translations.theme_search_index_not_available;
-        const stateEl = createStateEl(message);
-        results.replaceChildren(stateEl);
-    }
+    results.querySelector("li.state")?.remove();
 }
 
 export function initSearch() {
@@ -126,7 +119,7 @@ function bindEvents(
 
         // Get the visually focused element, if any
         const currentId = field.getAttribute("aria-activedescendant");
-        const current = document.getElementById(currentId || "");
+        const current = currentId ? document.getElementById(currentId) : null;
 
         // Remove visual focus on cursor position change
         if (current) {
@@ -295,7 +288,7 @@ function setNextResult(
 
 function removeVisualFocus(field: HTMLInputElement) {
     const currentId = field.getAttribute("aria-activedescendant");
-    const current = document.getElementById(currentId || "");
+    const current = currentId ? document.getElementById(currentId) : null;
 
     current?.setAttribute("aria-selected", "false");
     field.setAttribute("aria-activedescendant", "");
