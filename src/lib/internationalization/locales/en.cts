@@ -539,5 +539,4 @@ export = {
     theme_search_index_not_available: "The search index is not available",
     theme_search_no_results: "No results found",
     theme_search_placeholder: "Search the docs",
-    theme_search_no_recent_searches: "No recent searches",
 } as const;
