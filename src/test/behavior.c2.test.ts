@@ -1306,4 +1306,114 @@ describe("Behavior Tests", () => {
             'warn: The signature fn3 has an @param with name "options.c", which was not used',
         );
     });
+
+    it("@includeCode handles regions", () => {
+        const project = convert("includeTag/includeTag");
+        const code = getComment(project, "region");
+        equal(code, "\n\n```ts\nexport const a = 123;\n```");
+    });
+
+    it("@includeCode handles line numbers", () => {
+        const project = convert("includeTag/includeTag");
+        const code = getComment(project, "line");
+        equal(code, "\n\n```ts\nexport const a = 123;\n```");
+    });
+
+    it("@include handles line numbers", () => {
+        const project = convert("includeTag/includeTag");
+        const code = getComment(project, "lineText");
+        equal(code, "Line 3");
+    });
+
+    it("@include handles full files", () => {
+        const project = convert("includeTag/includeTag");
+        const code = getComment(project, "fullFile");
+        equal(code, "Unknown extension doesn't support regions");
+    });
+
+    it("@include works within documents", () => {
+        const project = convert("includeTag/includeTag");
+        const doc = project.getChildByName(["includeInDoc"]);
+        ok(doc?.isDocument());
+        equal(
+            Comment.combineDisplayParts(doc.content),
+            "\n\n```md\n{@includeCode includeInDoc.md}\n```",
+        );
+    });
+
+    it("@includeCode warns about missing regions", () => {
+        convert("includeTag/missingRegion");
+
+        logger.expectMessage(
+            "error: @includeCode *noRegion* the region was not found in the file.",
+        );
+
+        logger.expectMessage(
+            "error: @includeCode *missingStart* the region opening comment was not found in the file.",
+        );
+
+        logger.expectMessage(
+            "error: @includeCode *missingEnd* the region closing comment was not found in the file.",
+        );
+    });
+
+    it("@includeCode warns about duplicate regions", () => {
+        convert("includeTag/duplicateRegion");
+
+        logger.expectMessage(
+            "error: @includeCode *dupStart* the region opening comment was found multiple times in the file.",
+        );
+
+        logger.expectMessage(
+            "error: @includeCode *dupEnd* the region closing comment was found multiple times in the file.",
+        );
+
+        logger.expectMessage(
+            "error: @includeCode *#dup* the region was found multiple times in the file.",
+        );
+    });
+
+    it("@includeCode warns about invalid line ranges", () => {
+        convert("includeTag/invalidLineRanges");
+
+        logger.expectMessage(
+            'error: @includeCode *:100-200" * the file only has*',
+        );
+
+        logger.expectMessage(
+            'error: @includeCode *:200-100" * an invalid range was specified.',
+        );
+
+        logger.expectMessage('error: @includeCode *:300" * the file only has*');
+    });
+
+    it("@includeCode warns about empty region", () => {
+        convert("includeTag/emptyRegion");
+
+        logger.expectMessage("warn: @includeCode *found but it is empty*");
+    });
+
+    it("@includeCode warns about unsupported region", () => {
+        convert("includeTag/unsupportedExtension");
+
+        logger.expectMessage(
+            "error: @includeCode * regions are not supported for this file extension.",
+        );
+    });
+
+    it("@includeCode warns about invalid file references", () => {
+        convert("includeTag/invalidInclude");
+
+        logger.expectMessage(
+            "error: @includeCode *doesNotExist.txt* does not exist or is not a file.",
+        );
+    });
+
+    it("@include warns about circular references", () => {
+        convert("includeTag/circularInclude");
+
+        logger.expectMessage(
+            "error: @include *#circular* resulted in a circular include:*",
+        );
+    });
 });
