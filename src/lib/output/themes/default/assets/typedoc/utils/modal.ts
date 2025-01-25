@@ -4,7 +4,7 @@
  * Browsers allow scrolling of page with native dialog, which is a UX issue.
  *
  * `@starting-style` and `overlay` aren't well supported in FF, and only available in latest versions of chromium,
- * hence, a custom overlay workaround is requierd.
+ * hence, a custom overlay workaround is required.
  *
  * Workaround:
  *
