@@ -211,8 +211,10 @@ function updateResults(
 
     if (res.length === 0 && searchText) {
         const message =
-            window.translations.theme_search_no_results_found_for +
-            ` "<strong>${searchText}</strong>"`;
+            window.translations.theme_search_no_results_found_for_0.replace(
+                "{0}",
+                ` "<strong>${escapeHtml(searchText)}</strong>" `,
+            );
         updateStatusEl(status, message);
         return;
     }
