@@ -43,8 +43,8 @@ export class AssetsPlugin extends RendererComponent {
             folder: i18n.theme_folder(),
             theme_search_index_not_available:
                 this.application.i18n.theme_search_index_not_available(),
-            theme_search_no_results:
-                this.application.i18n.theme_search_no_results(),
+            theme_search_no_results_found_for:
+                this.application.i18n.theme_search_no_results_found_for(),
         };
 
         for (const key of getEnumKeys(ReflectionKind)) {

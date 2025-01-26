@@ -31,11 +31,13 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                     autocapitalize="off"
                     autocomplete="off"
                     placeholder={context.i18n.theme_search_placeholder()}
+                    maxLength={100}
                 />
 
-                <ul role="listbox" id="tsd-search-results">
-                    <li class="state">{context.i18n.theme_preparing_search_index()}</li>
-                </ul>
+                <ul role="listbox" id="tsd-search-results"></ul>
+                <div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+                    <div>{context.i18n.theme_preparing_search_index()}</div>
+                </div>
             </dialog>
 
             <a

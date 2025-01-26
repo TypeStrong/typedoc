@@ -37,13 +37,11 @@ interface SearchState {
 /** Counter to get unique IDs for options */
 let optionsIdCounter = 0;
 
-let resultCount = 0;
-
 /**
  * Populates search data into `state`, if available.
  * Removes deault loading message
  */
-async function updateIndex(state: SearchState, results: HTMLElement) {
+async function updateIndex(state: SearchState, status: HTMLElement) {
     if (!window.searchData) return;
 
     const data: IData = await decompressJson(window.searchData);
@@ -51,11 +49,11 @@ async function updateIndex(state: SearchState, results: HTMLElement) {
     state.data = data;
     state.index = Index.load(data.index);
 
-    results.querySelector("li.state")?.remove();
+    status.innerHTML = "";
 }
 
 export function initSearch() {
-    const searchTrigger = document.getElementById(
+    const trigger = document.getElementById(
         "tsd-search-trigger",
     ) as HTMLButtonElement | null;
 
@@ -73,7 +71,9 @@ export function initSearch() {
         "tsd-search-script",
     ) as HTMLScriptElement | null;
 
-    if (!(searchTrigger && searchEl && field && results && searchScript)) {
+    const status = document.getElementById("tsd-search-status");
+
+    if (!(trigger && searchEl && field && results && searchScript && status)) {
         throw new Error("Search controls missing");
     }
 
@@ -83,24 +83,28 @@ export function initSearch() {
 
     searchScript.addEventListener("error", () => {
         const message = window.translations.theme_search_index_not_available;
-        const stateEl = createStateEl(message);
-        results.replaceChildren(stateEl);
+        updateStatusEl(status, message);
     });
     searchScript.addEventListener("load", () => {
-        updateIndex(state, results);
+        updateIndex(state, status);
     });
-    updateIndex(state, results);
+    updateIndex(state, status);
 
-    bindEvents(searchTrigger, searchEl, results, field, state);
+    bindEvents({ trigger, searchEl, results, field, status }, state);
 }
 
 function bindEvents(
-    trigger: HTMLButtonElement,
-    searchEl: HTMLDialogElement,
-    results: HTMLElement,
-    field: HTMLInputElement,
+    elements: {
+        trigger: HTMLButtonElement;
+        searchEl: HTMLDialogElement;
+        results: HTMLElement;
+        field: HTMLInputElement;
+        status: HTMLElement;
+    },
     state: SearchState,
 ) {
+    const { field, results, searchEl, status, trigger } = elements;
+
     setUpModal(searchEl, "fade-out", { closeOnClick: true });
 
     trigger.addEventListener("click", () => openModal(searchEl));
@@ -108,12 +112,17 @@ function bindEvents(
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(results, field, state);
+            updateResults(results, field, status, state);
         }, 200),
     );
 
     field.addEventListener("keydown", (e) => {
-        if (resultCount === 0 || e.ctrlKey || e.metaKey || e.altKey) {
+        if (
+            results.childElementCount === 0 ||
+            e.ctrlKey ||
+            e.metaKey ||
+            e.altKey
+        ) {
             return;
         }
 
@@ -169,6 +178,7 @@ function bindEvents(
 function updateResults(
     results: HTMLElement,
     query: HTMLInputElement,
+    status: HTMLElement,
     state: SearchState,
 ) {
     // Don't clear results if loading state is not ready,
@@ -176,6 +186,7 @@ function updateResults(
     if (!state.index || !state.data) return;
 
     results.innerHTML = "";
+    status.innerHTML = "";
     optionsIdCounter += 1;
 
     const searchText = query.value.trim();
@@ -198,11 +209,11 @@ function updateResults(
         res = [];
     }
 
-    resultCount = res.length;
-
-    if (res.length === 0) {
-        const item = createStateEl(window.translations.theme_search_no_results);
-        results.appendChild(item);
+    if (res.length === 0 && searchText) {
+        const message =
+            window.translations.theme_search_no_results_found_for +
+            ` "<strong>${searchText}</strong>"`;
+        updateStatusEl(status, message);
         return;
     }
 
@@ -338,14 +349,11 @@ function escapeHtml(text: string) {
 }
 
 /**
- * Returns a `li` element, with `state` class,
- * @param message Message to set as **innerHTML**
+ * Updates the status element, with aria-live attriute, which should be announced to the user.
+ * @param message Message to set as **innerHTML** in a wrapper element, if not empty.
  */
-function createStateEl(message: string) {
-    const stateEl = document.createElement("li");
-    stateEl.className = "state";
-    stateEl.innerHTML = message;
-    return stateEl;
+function updateStatusEl(status: HTMLElement, message: string) {
+    status.innerHTML = message ? `<div>${message}</div>` : "";
 }
 
 /**

@@ -1155,7 +1155,6 @@
     }
     #tsd-search-results {
         margin: 0;
-        margin-top: 0.5rem;
         padding: 0;
         list-style: none;
         flex: 1 1 auto;
@@ -1163,43 +1162,50 @@
         flex-direction: column;
         overflow-y: auto;
     }
-    #tsd-search-results > li[role="option"] {
+    #tsd-search-results:not(:empty) {
+        margin-top: 0.5rem;
+    }
+    #tsd-search-results > li {
         background-color: var(--color-background);
         line-height: 1.5;
         box-sizing: border-box;
         border-radius: 4px;
     }
-    #tsd-search-results > li[role="option"]:nth-child(even) {
+    #tsd-search-results > li:nth-child(even) {
         background-color: var(--color-background-secondary);
     }
-    #tsd-search-results > li[role="option"]:is(:hover, [aria-selected="true"]) {
+    #tsd-search-results > li:is(:hover, [aria-selected="true"]) {
         background-color: var(--color-accent);
     }
     /* It's important that this takes full size of parent `li`, to capture a click on `li` */
-    #tsd-search-results > li[role="option"] > a {
+    #tsd-search-results > li > a {
         display: flex;
         align-items: center;
         padding: 0.5rem 0.25rem;
         box-sizing: border-box;
         width: 100%;
     }
-    #tsd-search-results > li[role="option"] > a > .text {
+    #tsd-search-results > li > a > .text {
         flex: 1 1 auto;
         min-width: 0;
         overflow-wrap: anywhere;
     }
-    #tsd-search-results > li[role="option"] > a .parent {
+    #tsd-search-results > li > a .parent {
         color: var(--color-text-aside);
     }
-    #tsd-search-results > li[role="option"] > a mark {
+    #tsd-search-results > li > a mark {
         color: inherit;
         background-color: inherit;
         font-weight: bold;
     }
-    #tsd-search-results > li.state {
+    #tsd-search-status {
         flex: 1;
         display: grid;
         place-content: center;
+        text-align: center;
+        overflow-wrap: anywhere;
+    }
+    #tsd-search-status:not(:empty) {
         min-height: 6rem;
     }
 
