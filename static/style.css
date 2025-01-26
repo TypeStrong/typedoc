@@ -548,12 +548,6 @@
         border-left: 4px solid gray;
     }
 
-    button {
-        border: none;
-        appearance: none;
-        background-color: transparent;
-    }
-
     img {
         max-width: 100%;
     }
@@ -1323,9 +1317,11 @@
         width: 2.5rem;
         transition:
             opacity 0.1s,
-            background-color 0.2s;
+            background-color 0.1s;
         text-align: center;
         cursor: pointer;
+        border: none;
+        background-color: transparent;
     }
     .tsd-widget:hover {
         opacity: 0.9;
