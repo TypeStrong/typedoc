@@ -537,6 +537,6 @@ export = {
     theme_hierarchy_expand: "Expand",
     theme_hierarchy_collapse: "Collapse",
     theme_search_index_not_available: "The search index is not available",
-    theme_search_no_results_found_for: "No results found for", // for <search query>
+    theme_search_no_results_found_for_0: "No results found for {0}",
     theme_search_placeholder: "Search the docs",
 } as const;

@@ -13,7 +13,7 @@ declare global {
             folder: string;
             [k: `kind_${number}`]: string;
             theme_search_index_not_available: string;
-            theme_search_no_results_found_for: string;
+            theme_search_no_results_found_for_0: string;
         };
     }
 }
@@ -53,7 +53,7 @@ window.translations ||= {
     kind_4194304: "Reference",
     kind_8388608: "Document",
     theme_search_index_not_available: "The search index is not available",
-    theme_search_no_results_found_for: "No results found for",
+    theme_search_no_results_found_for_0: "No results found for {0}",
 };
 
 /**
