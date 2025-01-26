@@ -506,6 +506,7 @@ export class Application extends AbstractComponent<
 
         let successFinished = true;
         let currentProgram: ts.Program | undefined;
+        let watches: ts.FileWatcher[] = []
 
         const runSuccess = () => {
             if (!currentProgram) {
@@ -528,6 +529,24 @@ export class Application extends AbstractComponent<
                     return;
                 }
                 const project = this.converter.convert(entryPoints);
+                watches.forEach(w => w.close())
+                watches = []
+                const lastProgram = currentProgram;
+                const addWatch = (path: string) => void watches.push(host.watchFile(path, () => {
+                    if (!currentProgram) {
+                        currentProgram = lastProgram
+                        if (successFinished) runSuccess()
+                    }
+                }))
+                for(const d of project.documents || []) {
+                    const path = project.files.getReflectionPath(d)
+                    if (path) addWatch(path)
+                }
+                const css = this.options.getValue("customCss")
+                if (css) addWatch(css)
+                const js = this.options.getValue("customJs")
+                if (js) addWatch(js)
+                if (project.readmeFile) addWatch(project.readmeFile)
                 currentProgram = undefined;
                 successFinished = false;
                 void success(project).then(() => {
