@@ -71,7 +71,7 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * The path to the readme.md file, if found
      */
-    readmeFile?: string
+    readmeFile?: string;
 
     /**
      * Object which describes where to find content for relative links.
