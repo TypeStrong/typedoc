@@ -100,7 +100,7 @@ export class TypeDocReader implements OptionsReader {
                     const esmPath = pathToFileURL(file).toString();
                     // Cache-bust for reload on watch
                     fileContent = await (
-                        await import(esmPath + "?" + Date.now())
+                        await import(`${esmPath}?${Date.now()}`)
                     ).default;
                 }
             } catch (error) {
