@@ -19,12 +19,15 @@
         /* Light */
         --light-color-background: #f2f4f8;
         --light-color-background-secondary: #eff0f1;
-        --light-color-warning-text: #222;
+        /* Not to be confused with [:active](https://developer.mozilla.org/en-US/docs/Web/CSS/:active) */
+        --light-color-background-active: #d6d8da;
         --light-color-background-warning: #e6e600;
+        --light-color-warning-text: #222;
         --light-color-accent: #c5c7c9;
-        --light-color-active-menu-item: var(--light-color-accent);
+        --light-color-active-menu-item: var(--light-color-background-active);
         --light-color-text: #222;
-        --light-color-text-aside: #6e6e6e;
+        --light-color-contrast-text: #000;
+        --light-color-text-aside: #5e5e5e;
 
         --light-color-icon-background: var(--light-color-background);
         --light-color-icon-text: var(--light-color-text);
@@ -72,15 +75,20 @@
 
         --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
         --light-color-scheme: light;
+    }
 
+    :root {
         /* Dark */
         --dark-color-background: #2b2e33;
         --dark-color-background-secondary: #1e2024;
+        /* Not to be confused with [:active](https://developer.mozilla.org/en-US/docs/Web/CSS/:active) */
+        --dark-color-background-active: #5d5d6a;
         --dark-color-background-warning: #bebe00;
         --dark-color-warning-text: #222;
         --dark-color-accent: #9096a2;
-        --dark-color-active-menu-item: #5d5d6a;
+        --dark-color-active-menu-item: var(--dark-color-background-active);
         --dark-color-text: #f5f5f5;
+        --dark-color-contrast-text: #ffffff;
         --dark-color-text-aside: #dddddd;
 
         --dark-color-icon-background: var(--dark-color-background-secondary);
@@ -135,11 +143,13 @@
             --color-background-secondary: var(
                 --light-color-background-secondary
             );
+            --color-background-active: var(--light-color-background-active);
             --color-background-warning: var(--light-color-background-warning);
             --color-warning-text: var(--light-color-warning-text);
             --color-accent: var(--light-color-accent);
             --color-active-menu-item: var(--light-color-active-menu-item);
             --color-text: var(--light-color-text);
+            --color-contrast-text: var(--light-color-contrast-text);
             --color-text-aside: var(--light-color-text-aside);
 
             --color-icon-background: var(--light-color-icon-background);
@@ -195,11 +205,13 @@
             --color-background-secondary: var(
                 --dark-color-background-secondary
             );
+            --color-background-active: var(--dark-color-background-active);
             --color-background-warning: var(--dark-color-background-warning);
             --color-warning-text: var(--dark-color-warning-text);
             --color-accent: var(--dark-color-accent);
             --color-active-menu-item: var(--dark-color-active-menu-item);
             --color-text: var(--dark-color-text);
+            --color-contrast-text: var(--dark-color-contrast-text);
             --color-text-aside: var(--dark-color-text-aside);
 
             --color-icon-background: var(--dark-color-icon-background);
@@ -256,12 +268,14 @@
     :root[data-theme="light"] {
         --color-background: var(--light-color-background);
         --color-background-secondary: var(--light-color-background-secondary);
+        --color-background-active: var(--light-color-background-active);
         --color-background-warning: var(--light-color-background-warning);
         --color-warning-text: var(--light-color-warning-text);
         --color-icon-background: var(--light-color-icon-background);
         --color-accent: var(--light-color-accent);
         --color-active-menu-item: var(--light-color-active-menu-item);
         --color-text: var(--light-color-text);
+        --color-contrast-text: var(--light-color-contrast-text);
         --color-text-aside: var(--light-color-text-aside);
         --color-icon-text: var(--light-color-icon-text);
 
@@ -311,12 +325,14 @@
     :root[data-theme="dark"] {
         --color-background: var(--dark-color-background);
         --color-background-secondary: var(--dark-color-background-secondary);
+        --color-background-active: var(--dark-color-background-active);
         --color-background-warning: var(--dark-color-background-warning);
         --color-warning-text: var(--dark-color-warning-text);
         --color-icon-background: var(--dark-color-icon-background);
         --color-accent: var(--dark-color-accent);
         --color-active-menu-item: var(--dark-color-active-menu-item);
         --color-text: var(--dark-color-text);
+        --color-contrast-text: var(--dark-color-contrast-text);
         --color-text-aside: var(--dark-color-text-aside);
         --color-icon-text: var(--dark-color-icon-text);
 
@@ -939,6 +955,7 @@
     .tsd-navigation a.current,
     .tsd-page-navigation a.current {
         background: var(--color-active-menu-item);
+        color: var(--color-contrast-text);
     }
     .tsd-navigation a:hover,
     .tsd-page-navigation a:hover {
@@ -1139,11 +1156,12 @@
             background-color 0.2s;
     }
     #tsd-search-input:focus-visible {
-        background: var(--color-accent);
+        background-color: var(--color-background-active);
         border-color: transparent;
+        color: var(--color-contrast-text);
     }
-    #tsd-search-input:focus-visible::placeholder {
-        color: var(--color-text);
+    #tsd-search-input::placeholder {
+        color: inherit;
         opacity: 0.8;
     }
     #tsd-search-results {
@@ -1168,7 +1186,8 @@
         background-color: var(--color-background-secondary);
     }
     #tsd-search-results > li:is(:hover, [aria-selected="true"]) {
-        background-color: var(--color-accent);
+        background-color: var(--color-background-active);
+        color: var(--color-contrast-text);
     }
     /* It's important that this takes full size of parent `li`, to capture a click on `li` */
     #tsd-search-results > li > a {
