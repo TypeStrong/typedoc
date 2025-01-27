@@ -135,6 +135,7 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             project.readme = content;
+            this.application.watchFile(this.readmeFile);
 
             // This isn't ideal, but seems better than figuring out the readme
             // path over in the include plugin...

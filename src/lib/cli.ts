@@ -76,7 +76,7 @@ async function run(app: td.Application) {
         app.convertAndWatch(async (project) => {
             app.validate(project);
             await app.generateOutputs(project);
-        });
+        }, main);
         return ExitCodes.Watching;
     }
 

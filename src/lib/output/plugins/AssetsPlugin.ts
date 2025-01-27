@@ -51,6 +51,7 @@ export class AssetsPlugin extends RendererComponent {
         }
 
         if (this.customCss) {
+            this.application.watchFile(this.customCss);
             if (existsSync(this.customCss)) {
                 copySync(this.customCss, join(dest, "custom.css"));
             } else {
@@ -63,6 +64,7 @@ export class AssetsPlugin extends RendererComponent {
         }
 
         if (this.customJs) {
+            this.application.watchFile(this.customJs);
             if (existsSync(this.customJs)) {
                 copySync(this.customJs, join(dest, "custom.js"));
             } else {

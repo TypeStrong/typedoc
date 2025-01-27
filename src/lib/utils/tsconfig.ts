@@ -3,10 +3,16 @@ import { isFile, isDir, readFile } from "./fs.js";
 import type { Logger } from "./loggers.js";
 import { createRequire } from "module";
 
-export function findTsConfigFile(path: string): string | undefined {
+export function findTsConfigFile(
+    path: string,
+    usedFile?: (path: string) => void,
+): string | undefined {
     let fileToRead: string | undefined = path;
     if (isDir(fileToRead)) {
-        fileToRead = ts.findConfigFile(path, isFile);
+        fileToRead = ts.findConfigFile(
+            path,
+            (file) => (usedFile?.(file), isFile(file)),
+        );
     }
 
     if (!fileToRead || !isFile(fileToRead)) {
