@@ -92,11 +92,17 @@ export class TypeDocReader implements OptionsReader {
             try {
                 if (process.platform === "win32") {
                     // Node on Windows doesn't support the `?` trick for
-                    // cache-busting, so we need to use require()
+                    // cache-busting, so try using require()
                     delete require.cache[require.resolve(file)];
-                    const mod = require(file);
-                    fileContent = mod.default ?? mod;
-                } else {
+                    try {
+                        const mod = require(file);
+                        fileContent = mod.default ?? mod;
+                    } catch (error: any) {
+                        // Only recent node can require an ESM
+                        if (error?.code !== "ERR_REQUIRE_ESM") throw error;
+                    }
+                }
+                if (!fileContent) {
                     const esmPath = pathToFileURL(file).toString();
                     // Cache-bust for reload on watch
                     fileContent = await (
