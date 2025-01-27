@@ -52,6 +52,7 @@ export class AssetsPlugin extends RendererComponent {
 
         if (this.customCss) {
             if (existsSync(this.customCss)) {
+                this.application.watchFile(this.customCss);
                 copySync(this.customCss, join(dest, "custom.css"));
             } else {
                 this.application.logger.error(
@@ -64,6 +65,7 @@ export class AssetsPlugin extends RendererComponent {
 
         if (this.customJs) {
             if (existsSync(this.customJs)) {
+                this.application.watchFile(this.customJs);
                 copySync(this.customJs, join(dest, "custom.js"));
             } else {
                 this.application.logger.error(

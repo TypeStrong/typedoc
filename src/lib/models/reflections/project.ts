@@ -69,11 +69,6 @@ export class ProjectReflection extends ContainerReflection {
     readme?: CommentDisplayPart[];
 
     /**
-     * The path to the readme.md file, if found
-     */
-    readmeFile?: string;
-
-    /**
      * Object which describes where to find content for relative links.
      */
     readonly files: FileRegistry;

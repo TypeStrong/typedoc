@@ -13,9 +13,20 @@ $ typedoc --watch
 Use TypeScript's incremental compiler to watch source files for changes and
 build the docs on change. May be combined with `--emit`.
 
-Note: This mode will only detect changes to files watched by the TypeScript
-compiler. Changes to other files (`README.md`, imported files with `@include` or
-`@includeCode`) will not cause a rebuild.
+This mode detects changes to project documents, readme, custom JS/CSS,
+configuration files, files imported by `@include`/`@includeCode`, and any
+files explicitly registered by plugins as needing to be watched, as well
+as all your TypeScript source files.
+
+Note, however, that if you are defining your typedoc configuration using an ESM
+module (`.mjs`, or `.js` in a `"type": "module"` project) on Windows, typedoc
+will not be able to reload it when it changes, due to the way node's import
+caching works on Windows.  (And if your configuration files import or require
+other modules, those modules won't be reloaded either, regardless of platform!)
+
+In such cases, you'll need to either switch to a .cjs file, manually restart
+the build, or use an external watcher like `onchange` to restart typedoc when
+relevant files change.
 
 ## preserveWatchOutput
 

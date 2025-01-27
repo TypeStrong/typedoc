@@ -73,6 +73,7 @@ export class IncludePlugin extends ConverterComponent {
                     ),
                 );
             } else if (isFile(file)) {
+                this.application.watchFile(file);
                 const text = fs.readFileSync(file, "utf-8");
                 if (part.tag === "@include") {
                     const sf = new MinimalSourceFile(text, file);
