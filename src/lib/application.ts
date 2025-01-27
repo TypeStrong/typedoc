@@ -445,7 +445,7 @@ export class Application extends AbstractComponent<
     /**
      * Register that the current build depends on a file, so that in watch mode
      * the build will be repeated.  Has no effect if a watch build is not
-     * running.
+     * running, or if the file has already been registered.
      *
      * @param path The file to watch.  It does not need to exist, and you should
      * in fact register files you look for, but which do not exist, so that if
@@ -550,9 +550,9 @@ export class Application extends AbstractComponent<
 
         this._watchFile = (path: string, shouldRestart = false) => {
             this.logger.verbose(
-                `Watching ${path}, shouldRestart=${shouldRestart}`,
+                `Watching ${nicePath(path)}, shouldRestart=${shouldRestart}`,
             );
-            this.watchers.get(path)?.close();
+            if (!this.watchers.has(path)) return;
             this.watchers.set(
                 path,
                 host.watchFile(
