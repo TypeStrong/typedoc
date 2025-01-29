@@ -552,7 +552,7 @@ export class Application extends AbstractComponent<
             this.logger.verbose(
                 `Watching ${nicePath(path)}, shouldRestart=${shouldRestart}`,
             );
-            if (!this.watchers.has(path)) return;
+            if (this.watchers.has(path)) return;
             this.watchers.set(
                 path,
                 host.watchFile(
