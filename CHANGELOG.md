@@ -6,9 +6,9 @@ title: Changelog
 
 ### Features
 
+-   `@includeCode` and `@inline` can now inject parts of files using region
+    names or line numbers, #2816.
 -   The `@inline` tag now works in more places for generic types.
--   `@includeCode` can now inject parts of files using region names or line
-    numbers, #2816.
 
 ### Bug Fixes
 
