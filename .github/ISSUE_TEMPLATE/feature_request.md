@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Suggest improvements or new features
-labels: enhancement
+type: Feature
 ---
 
 ## Search Terms
