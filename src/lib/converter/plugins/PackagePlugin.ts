@@ -98,6 +98,7 @@ export class PackagePlugin extends ConverterComponent {
 
         if (this.readme) {
             // Readme path provided, read only that file.
+            this.application.watchFile(this.readme);
             try {
                 this.readmeContents = readFile(this.readme);
                 this.readmeFile = this.readme;
@@ -119,6 +120,7 @@ export class PackagePlugin extends ConverterComponent {
             if (result) {
                 this.readmeFile = result.file;
                 this.readmeContents = result.content;
+                this.application.watchFile(this.readmeFile);
             }
         }
     }
@@ -135,7 +137,6 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             project.readme = content;
-            this.application.watchFile(this.readmeFile);
 
             // This isn't ideal, but seems better than figuring out the readme
             // path over in the include plugin...

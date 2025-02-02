@@ -63,6 +63,7 @@ export class IncludePlugin extends ConverterComponent {
             }
 
             const file = path.resolve(relative, part.text.trim());
+            this.application.watchFile(file);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
                     this.logger.i18n.include_0_in_1_specified_2_circular_include_3(
@@ -73,7 +74,6 @@ export class IncludePlugin extends ConverterComponent {
                     ),
                 );
             } else if (isFile(file)) {
-                this.application.watchFile(file);
                 const text = fs.readFileSync(file, "utf-8");
                 if (part.tag === "@include") {
                     const sf = new MinimalSourceFile(text, file);
