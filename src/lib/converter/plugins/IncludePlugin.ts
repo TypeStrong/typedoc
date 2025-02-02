@@ -67,6 +67,7 @@ export class IncludePlugin extends ConverterComponent {
                 parseIncludeCodeTextPart(part.text);
 
             const file = path.resolve(relative, filename);
+            this.application.watchFile(file);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
                     this.logger.i18n.include_0_in_1_specified_2_circular_include_3(

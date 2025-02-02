@@ -16,8 +16,13 @@ export class PackageJsonReader implements OptionsReader {
 
     name = "package-json";
 
-    read(container: Options, logger: Logger, cwd: string): void {
-        const result = discoverPackageJson(cwd);
+    read(
+        container: Options,
+        logger: Logger,
+        cwd: string,
+        usedFile: (path: string) => void,
+    ): void {
+        const result = discoverPackageJson(cwd, usedFile);
 
         if (!result) {
             return;

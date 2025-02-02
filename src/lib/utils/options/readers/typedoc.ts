@@ -30,9 +30,14 @@ export class TypeDocReader implements OptionsReader {
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
      */
-    async read(container: Options, logger: Logger, cwd: string): Promise<void> {
+    async read(
+        container: Options,
+        logger: Logger,
+        cwd: string,
+        usedFile: (path: string) => void,
+    ): Promise<void> {
         const path = container.getValue("options") || cwd;
-        const file = this.findTypedocFile(path);
+        const file = this.findTypedocFile(path, usedFile);
 
         if (!file) {
             if (container.isSet("options")) {
@@ -153,7 +158,10 @@ export class TypeDocReader implements OptionsReader {
      *   typedoc file will be attempted to be found at the root of this path
      * @returns the typedoc.(js|json) file path or undefined
      */
-    private findTypedocFile(path: string): string | undefined {
+    private findTypedocFile(
+        path: string,
+        usedFile?: (path: string) => void,
+    ): string | undefined {
         path = resolve(path);
 
         return [
@@ -174,7 +182,7 @@ export class TypeDocReader implements OptionsReader {
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
             join(path, ".config/typedoc.mjs"),
-        ].find(isFile);
+        ].find((file) => (usedFile?.(file), isFile(file)));
     }
 }
 

@@ -688,6 +688,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             frontmatter,
         );
 
+        this.application.watchFile(file.fileName);
         parent.addChild(docRefl);
         parent.project.registerReflection(docRefl, undefined, file.fileName);
         this.trigger(ConverterEvents.CREATE_DOCUMENT, undefined, docRefl);

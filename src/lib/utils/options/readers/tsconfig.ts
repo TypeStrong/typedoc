@@ -75,10 +75,15 @@ export class TSConfigReader implements OptionsReader {
 
     private seenTsdocPaths = new Set<string>();
 
-    read(container: Options, logger: Logger, cwd: string): void {
+    read(
+        container: Options,
+        logger: Logger,
+        cwd: string,
+        usedFile?: (path: string) => void,
+    ): void {
         const file = container.getValue("tsconfig") || cwd;
 
-        let fileToRead = findTsConfigFile(file);
+        let fileToRead = findTsConfigFile(file, usedFile);
 
         if (!fileToRead) {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
