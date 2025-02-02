@@ -13,6 +13,7 @@ title: Changelog
 ### Bug Fixes
 
 -   Fixed an issue where TypeDoc would incorrectly ignore type arguments in references, #2823.
+-   Fixed an issue with `@class` incorrectly handling mapped types, #2842.
 
 ### Thanks!
 

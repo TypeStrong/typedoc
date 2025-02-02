@@ -720,8 +720,13 @@ function convertProperty(
     }
 
     // Special case: We pretend properties are methods if they look like methods.
-    // This happens with mixins / weird inheritance.
+    // This happens with mixins / weird inheritance. Don't do this if the type
+    // doesn't have call signatures to avoid converting non-functions. This can
+    // happen if @class is used and functions are converted to their return type
+    // with a mapped type (e.g. with Vue's `computed` properties)
+    const type = context.checker.getTypeOfSymbol(symbol);
     if (
+        type.getCallSignatures().length &&
         declarations.length &&
         declarations.every(
             (decl) =>
