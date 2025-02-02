@@ -44,6 +44,13 @@ For example:
 {@includeCode ../../example/src/enums.ts#simpleEnum}
 ```
 
+Multiple regions may be specified, separated by commas. If multiple regions are
+specified, TypeDoc will combine them into a single code block.
+
+```md
+{@includeCode file.ts#region1,region2}
+```
+
 Regions are specified in the files themselves via comments.
 
 In TypeScript for example, the following would be a valid region:

@@ -19,7 +19,7 @@ import {
 import { join } from "path";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
-import { getComment, query, querySig } from "./utils.js";
+import { getComment, getSigComment, query, querySig } from "./utils.js";
 
 type NameTree = { [name: string]: NameTree | undefined };
 
@@ -1317,6 +1317,24 @@ describe("Behavior Tests", () => {
         const project = convert("includeTag/includeTag");
         const code = getComment(project, "line");
         equal(code, "\n\n```ts\nexport const a = 123;\n```");
+    });
+
+    it("@includeCode strips indentation of included block", () => {
+        const project = convert("includeTag/includeTagDedent");
+        const comment = getSigComment(project, "buildString");
+        equal(
+            comment,
+            '\n\n```ts\nequal(buildString(3), "123");\nequal(buildString(7), "1234567");\n```',
+        );
+    });
+
+    it("@includeCode supports including multiple regions", () => {
+        const project = convert("includeTag/includeTagMultipleRegions");
+        const comment = getSigComment(project, "buildString");
+        equal(
+            comment,
+            '\n\n```ts\nequal(buildString(3), "123");\nequal(buildString(7), "1234567");\n```',
+        );
     });
 
     it("@include handles line numbers", () => {

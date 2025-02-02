@@ -7,7 +7,7 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
-import { escapeRegExp } from "../../utils/general.js";
+import { dedent, escapeRegExp } from "../../utils/general.js";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -63,9 +63,8 @@ export class IncludePlugin extends ConverterComponent {
                 continue;
             }
 
-            const [filename, target, requestedLines] = parseIncludeCodeTextPart(
-                part.text,
-            );
+            const { filename, regionTarget, requestedLines } =
+                parseIncludeCodeTextPart(part.text);
 
             const file = path.resolve(relative, filename);
             if (included.includes(file) && part.tag === "@include") {
@@ -80,30 +79,31 @@ export class IncludePlugin extends ConverterComponent {
             } else if (isFile(file)) {
                 const text = fs.readFileSync(file, "utf-8");
                 const ext = path.extname(file).substring(1);
+
+                const includedText = regionTarget
+                    ? this.getRegions(
+                          refl,
+                          file,
+                          ext,
+                          part.text,
+                          text,
+                          regionTarget,
+                          part.tag,
+                          part.tag === "@includeCode",
+                      )
+                    : requestedLines
+                      ? this.getLines(
+                            refl,
+                            file,
+                            part.text,
+                            text,
+                            requestedLines,
+                            part.tag,
+                        )
+                      : text;
+
                 if (part.tag === "@include") {
-                    const sf = new MinimalSourceFile(
-                        target
-                            ? this.getRegion(
-                                  refl,
-                                  file,
-                                  ext,
-                                  part.text,
-                                  text,
-                                  target,
-                                  part.tag,
-                              )
-                            : requestedLines
-                              ? this.getLines(
-                                    refl,
-                                    file,
-                                    part.text,
-                                    text,
-                                    requestedLines,
-                                    part.tag,
-                                )
-                              : text,
-                        file,
-                    );
+                    const sf = new MinimalSourceFile(includedText, file);
                     const { content } = this.owner.parseRawComment(
                         sf,
                         refl.project.files,
@@ -118,29 +118,7 @@ export class IncludePlugin extends ConverterComponent {
                 } else {
                     parts[i] = {
                         kind: "code",
-                        text: makeCodeBlock(
-                            ext,
-                            target
-                                ? this.getRegion(
-                                      refl,
-                                      file,
-                                      ext,
-                                      part.text,
-                                      text,
-                                      target,
-                                      part.tag,
-                                  )
-                                : requestedLines
-                                  ? this.getLines(
-                                        refl,
-                                        file,
-                                        part.text,
-                                        text,
-                                        requestedLines,
-                                        part.tag,
-                                    )
-                                  : text,
-                        ),
+                        text: makeCodeBlock(ext, includedText),
                     };
                 }
             } else {
@@ -156,14 +134,15 @@ export class IncludePlugin extends ConverterComponent {
         }
     }
 
-    getRegion(
+    getRegions(
         refl: Reflection,
         file: string,
         ext: string,
         textPart: string,
         text: string,
-        target: string,
+        regionTargets: string,
         tag: string,
+        ignoreIndent: boolean,
     ) {
         const regionTagsList = regionTagREsByExt[ext];
         if (!regionTagsList) {
@@ -177,17 +156,88 @@ export class IncludePlugin extends ConverterComponent {
             return "";
         }
 
-        let found: string | false = false;
-        for (const [startTag, endTag] of regionTagsList) {
-            const safeTarget = escapeRegExp(target);
-            const start = text.match(startTag(safeTarget));
-            const end = text.match(endTag(safeTarget));
+        const targets = regionTargets.split(",").map((s) => s.trim());
+        let content = "";
 
-            const foundStart = start && start.length > 0;
-            const foundEnd = end && end.length > 0;
-            if (foundStart && !foundEnd) {
+        for (const target of targets) {
+            let found: string | false = false;
+            for (const [startTag, endTag] of regionTagsList) {
+                const safeTarget = escapeRegExp(target);
+                const start = text.match(startTag(safeTarget));
+                const end = text.match(endTag(safeTarget));
+
+                const foundStart = start && start.length > 0;
+                const foundEnd = end && end.length > 0;
+                if (foundStart && !foundEnd) {
+                    this.logger.error(
+                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found(
+                            tag,
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (!foundStart && foundEnd) {
+                    this.logger.error(
+                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found(
+                            tag,
+                            refl.getFriendlyFullName(),
+                            textPart,
+                            file,
+                            target,
+                        ),
+                    );
+                    return "";
+                }
+                if (foundStart && foundEnd) {
+                    if (start.length > 1) {
+                        this.logger.error(
+                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times(
+                                tag,
+                                refl.getFriendlyFullName(),
+                                textPart,
+                                file,
+                                target,
+                            ),
+                        );
+                        return "";
+                    }
+                    if (end.length > 1) {
+                        this.logger.error(
+                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times(
+                                tag,
+                                refl.getFriendlyFullName(),
+                                textPart,
+                                file,
+                                target,
+                            ),
+                        );
+                        return "";
+                    }
+                    if (found) {
+                        this.logger.error(
+                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times(
+                                tag,
+                                refl.getFriendlyFullName(),
+                                textPart,
+                                file,
+                                target,
+                            ),
+                        );
+                        return "";
+                    }
+                    found = text.substring(
+                        text.indexOf(start[0]) + start[0].length,
+                        text.indexOf(end[0]),
+                    );
+                }
+            }
+            if (found === false) {
                 this.logger.error(
-                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found(
+                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_not_found(
                         tag,
                         refl.getFriendlyFullName(),
                         textPart,
@@ -197,9 +247,9 @@ export class IncludePlugin extends ConverterComponent {
                 );
                 return "";
             }
-            if (!foundStart && foundEnd) {
-                this.logger.error(
-                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found(
+            if (found.trim() === "") {
+                this.logger.warn(
+                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_empty(
                         tag,
                         refl.getFriendlyFullName(),
                         textPart,
@@ -207,75 +257,12 @@ export class IncludePlugin extends ConverterComponent {
                         target,
                     ),
                 );
-                return "";
             }
-            if (foundStart && foundEnd) {
-                if (start.length > 1) {
-                    this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times(
-                            tag,
-                            refl.getFriendlyFullName(),
-                            textPart,
-                            file,
-                            target,
-                        ),
-                    );
-                    return "";
-                }
-                if (end.length > 1) {
-                    this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times(
-                            tag,
-                            refl.getFriendlyFullName(),
-                            textPart,
-                            file,
-                            target,
-                        ),
-                    );
-                    return "";
-                }
-                if (found) {
-                    this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times(
-                            tag,
-                            refl.getFriendlyFullName(),
-                            textPart,
-                            file,
-                            target,
-                        ),
-                    );
-                    return "";
-                }
-                found = text.substring(
-                    text.indexOf(start[0]) + start[0].length,
-                    text.indexOf(end[0]),
-                );
-            }
+
+            content += ignoreIndent ? dedent(found) + "\n" : found;
         }
-        if (found === false) {
-            this.logger.error(
-                this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_not_found(
-                    tag,
-                    refl.getFriendlyFullName(),
-                    textPart,
-                    file,
-                    target,
-                ),
-            );
-            return "";
-        }
-        if (found.trim() === "") {
-            this.logger.warn(
-                this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_empty(
-                    tag,
-                    refl.getFriendlyFullName(),
-                    textPart,
-                    file,
-                    target,
-                ),
-            );
-        }
-        return found;
+
+        return content;
     }
 
     getLines(
@@ -345,22 +332,24 @@ function makeCodeBlock(lang: string, code: string) {
     return "\n\n```" + lang + "\n" + escaped.trimEnd() + "\n```";
 }
 
-function parseIncludeCodeTextPart(
-    text: string,
-): [string, string | undefined, string | undefined] {
+function parseIncludeCodeTextPart(text: string): {
+    filename: string;
+    regionTarget: string | undefined;
+    requestedLines: string | undefined;
+} {
     let filename = text.trim();
-    let target;
-    let requestedLines;
+    let regionTarget: string | undefined;
+    let requestedLines: string | undefined;
     if (filename.includes("#")) {
         const parsed = filename.split("#");
         filename = parsed[0];
-        target = parsed[1];
+        regionTarget = parsed[1];
     } else if (filename.includes(":")) {
         const parsed = filename.split(":");
         filename = parsed[0];
         requestedLines = parsed[1];
     }
-    return [filename, target, requestedLines];
+    return { filename, regionTarget, requestedLines };
 }
 
 type RegionTagRETuple = [
