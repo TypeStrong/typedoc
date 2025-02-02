@@ -14,6 +14,8 @@ title: Changelog
 
 -   Fixed an issue where TypeDoc would incorrectly ignore type arguments in references, #2823.
 -   Fixed an issue with `@class` incorrectly handling mapped types, #2842.
+-   TypeDoc will now consider symbols to be external only if all of their declarations are external
+    so that declaration merged members with global symbols can be documented, #2844.
 
 ### Thanks!
 
