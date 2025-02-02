@@ -15,8 +15,6 @@ export = {
         "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode",
     strategy_not_supported_in_watch_mode:
         "entryPointStrategy must be set to either resolve or expand for watch mode",
-    file_0_changed_but_cant_restart:
-        "File {0} changed but no restart callback was given; please restart manually",
     file_0_changed_restarting:
         "Configuration file {0} changed: full restart required...",
     file_0_changed_rebuilding: "File {0} changed: rebuilding output...",

@@ -12,8 +12,6 @@ import { createRequire } from "module";
 import { pathToFileURL } from "url";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
-const require = createRequire(import.meta.url);
-
 /**
  * Obtains option values from typedoc.json
  */
@@ -90,25 +88,10 @@ export class TypeDocReader implements OptionsReader {
             }
         } else {
             try {
-                if (process.platform === "win32") {
-                    // Node on Windows doesn't support the `?` trick for
-                    // cache-busting, so try using require()
-                    delete require.cache[require.resolve(file)];
-                    try {
-                        const mod = require(file);
-                        fileContent = mod.default ?? mod;
-                    } catch (error: any) {
-                        // Only recent node can require an ESM
-                        if (error?.code !== "ERR_REQUIRE_ESM") throw error;
-                    }
-                }
-                if (!fileContent) {
-                    const esmPath = pathToFileURL(file).toString();
-                    // Cache-bust for reload on watch
-                    fileContent = await (
-                        await import(`${esmPath}?${Date.now()}`)
-                    ).default;
-                }
+                // On Windows, we need to ensure this path is a file path.
+                // Or we'll get ERR_UNSUPPORTED_ESM_URL_SCHEME
+                const esmPath = pathToFileURL(file).toString();
+                fileContent = await (await import(esmPath)).default;
             } catch (error) {
                 logger.error(
                     logger.i18n.failed_read_options_file_0(nicePath(file)),

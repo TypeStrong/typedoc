@@ -462,11 +462,16 @@ export class Application extends AbstractComponent<
         this._watchFile?.(path, shouldRestart);
     }
 
-    public convertAndWatch(
+    /**
+     * Run a convert / watch process.
+     *
+     * @param success Callback to run after each convert, receiving the project
+     * @returns True if the watch process should be restarted due to a
+     * configuration change, false for an options error
+     */
+    public async convertAndWatch(
         success: (project: ProjectReflection) => Promise<void>,
-        /** Callback to restart watching when options or other critical files change */
-        restartWatch?: () => unknown,
-    ): void {
+    ): Promise<boolean> {
         if (
             !this.options.getValue("preserveWatchOutput") &&
             this.logger instanceof ConsoleLogger
@@ -498,7 +503,7 @@ export class Application extends AbstractComponent<
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
             this.logger.error(this.i18n.solution_not_supported_in_watch_mode());
-            return;
+            return false;
         }
 
         // Support for packages mode is currently unimplemented
@@ -507,7 +512,7 @@ export class Application extends AbstractComponent<
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
             this.logger.error(this.i18n.strategy_not_supported_in_watch_mode());
-            return;
+            return false;
         }
 
         const tsconfigFile =
@@ -575,16 +580,13 @@ export class Application extends AbstractComponent<
             );
         };
 
+        /** resolver for the returned promise  */
+        let exitWatch: (restart: boolean) => unknown;
         const restartMain = (file: string) => {
             if (restarting) return;
-            if (!restartWatch)
-                this.logger.warn(
-                    this.i18n.file_0_changed_but_cant_restart(nicePath(file)),
-                );
-            else
-                this.logger.info(
-                    this.i18n.file_0_changed_restarting(nicePath(file)),
-                );
+            this.logger.info(
+                this.i18n.file_0_changed_restarting(nicePath(file)),
+            );
             restarting = true;
             currentProgram = undefined;
             this.clearWatches();
@@ -594,7 +596,7 @@ export class Application extends AbstractComponent<
         const runSuccess = () => {
             if (restarting && successFinished) {
                 successFinished = false;
-                if (restartWatch) restartWatch();
+                exitWatch(true);
                 return;
             }
 
@@ -673,6 +675,11 @@ export class Application extends AbstractComponent<
         };
 
         const tsWatcher = ts.createWatchProgram(host);
+
+        // Don't return to caller until the watch needs to restart
+        return await new Promise((res) => {
+            exitWatch = res;
+        });
     }
 
     validate(project: ProjectReflection) {
