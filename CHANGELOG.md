@@ -8,6 +8,8 @@ title: Changelog
 
 -   `@includeCode` and `@inline` can now inject parts of files using region
     names or line numbers, #2816.
+-   Improved TypeDoc's `--watch` option to support watching files not caught by
+    TypeScript's watch mode, #2675.
 -   The `@inline` tag now works in more places for generic types.
 
 ### Bug Fixes
@@ -19,7 +21,9 @@ title: Changelog
 
 ### Thanks!
 
+-   @pjeby
 -   @shawninder
+-   @tats-u
 
 ## v0.27.6 (2024-12-26)
 

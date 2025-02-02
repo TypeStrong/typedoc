@@ -72,13 +72,13 @@ async function run(app: td.Application) {
         return ExitCodes.OptionError;
     }
 
-    if (app.options.getValue("watch")) {
-        return (await app.convertAndWatch(async (project) => {
+    if (app.options.getValue("watch") || process.env["TYPEDOC_FORCE_WATCH"]) {
+        const continueWatching = await app.convertAndWatch(async (project) => {
             app.validate(project);
             await app.generateOutputs(project);
-        }))
-            ? ExitCodes.Watching
-            : ExitCodes.OptionError;
+        });
+
+        return continueWatching ? ExitCodes.Watching : ExitCodes.OptionError;
     }
 
     const project = await app.convert();

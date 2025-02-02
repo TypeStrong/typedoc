@@ -18,6 +18,8 @@ configuration files, files imported by `@include`/`@includeCode`, and any
 files explicitly registered by plugins as needing to be watched, as well
 as all your TypeScript source files.
 
+Watch mode is not supported with `entryPointStrategy` set to `packages` or `merge`.
+
 ## preserveWatchOutput
 
 ```bash
