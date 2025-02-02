@@ -621,7 +621,19 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         this.externalPatternCache ??= createMinimatch(this.externalPattern);
         const cache = this.externalPatternCache;
 
-        return (symbol.getDeclarations() ?? []).some((node) =>
+        const declarations = symbol.getDeclarations();
+
+        // `undefined` has no declarations, if someone does `export default undefined`
+        // the symbol ends up as having no declarations (the export symbol does, but
+        // not the source symbol)
+        if (!declarations?.length) {
+            return false;
+        }
+
+        // If there are any non-external declarations, treat it as non-external
+        // This is possible with declaration merging against external namespaces
+        // (e.g. merging with HTMLElementTagNameMap)
+        return declarations.every((node) =>
             matchesAny(cache, node.getSourceFile().fileName),
         );
     }
