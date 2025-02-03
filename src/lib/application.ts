@@ -231,7 +231,9 @@ export class Application extends AbstractComponent<
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
         app.setOptions(options, /* reportErrors */ false);
-        await app.options.read(new Logger());
+        await app.options.read(new Logger(), undefined, (path) =>
+            app.watchConfigFile(path),
+        );
         app.logger.level = app.options.getValue("logLevel");
 
         await loadPlugins(app, app.options.getValue("plugin"));
@@ -265,7 +267,9 @@ export class Application extends AbstractComponent<
     private async _bootstrap(options: Partial<TypeDocOptions>) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        await this.options.read(this.logger);
+        await this.options.read(this.logger, undefined, (path) =>
+            this.watchConfigFile(path),
+        );
         this.setOptions(options);
         this.logger.level = this.options.getValue("logLevel");
         for (const [lang, locales] of Object.entries(
@@ -425,9 +429,49 @@ export class Application extends AbstractComponent<
         return project;
     }
 
-    public convertAndWatch(
+    private watchers = new Map<string, ts.FileWatcher>();
+    private _watchFile?: (path: string, shouldRestart?: boolean) => void;
+    private criticalFiles = new Set<string>();
+
+    private clearWatches() {
+        this.watchers.forEach((w) => w.close());
+        this.watchers.clear();
+    }
+
+    private watchConfigFile(path: string) {
+        this.criticalFiles.add(path);
+    }
+
+    /**
+     * Register that the current build depends on a file, so that in watch mode
+     * the build will be repeated.  Has no effect if a watch build is not
+     * running, or if the file has already been registered.
+     *
+     * @param path The file to watch.  It does not need to exist, and you should
+     * in fact register files you look for, but which do not exist, so that if
+     * they are created the build will re-run.  (e.g. if you look through a list
+     * of 5 possibilities and find the third, you should register the first 3.)
+     *
+     * @param shouldRestart Should the build be completely restarted?  (This is
+     * normally only used for configuration files -- i.e. files whose contents
+     * determine how conversion, rendering, or compiling will be done, as
+     * opposed to files that are only read *during* the conversion or
+     * rendering.)
+     */
+    public watchFile(path: string, shouldRestart = false) {
+        this._watchFile?.(path, shouldRestart);
+    }
+
+    /**
+     * Run a convert / watch process.
+     *
+     * @param success Callback to run after each convert, receiving the project
+     * @returns True if the watch process should be restarted due to a
+     * configuration change, false for an options error
+     */
+    public async convertAndWatch(
         success: (project: ProjectReflection) => Promise<void>,
-    ): void {
+    ): Promise<boolean> {
         if (
             !this.options.getValue("preserveWatchOutput") &&
             this.logger instanceof ConsoleLogger
@@ -459,7 +503,7 @@ export class Application extends AbstractComponent<
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
             this.logger.error(this.i18n.solution_not_supported_in_watch_mode());
-            return;
+            return false;
         }
 
         // Support for packages mode is currently unimplemented
@@ -468,7 +512,7 @@ export class Application extends AbstractComponent<
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
             this.logger.error(this.i18n.strategy_not_supported_in_watch_mode());
-            return;
+            return false;
         }
 
         const tsconfigFile =
@@ -506,16 +550,69 @@ export class Application extends AbstractComponent<
 
         let successFinished = true;
         let currentProgram: ts.Program | undefined;
+        let lastProgram = currentProgram;
+        let restarting = false;
+
+        this._watchFile = (path: string, shouldRestart = false) => {
+            this.logger.verbose(
+                `Watching ${nicePath(path)}, shouldRestart=${shouldRestart}`,
+            );
+            if (this.watchers.has(path)) return;
+            this.watchers.set(
+                path,
+                host.watchFile(
+                    path,
+                    (file) => {
+                        if (shouldRestart) {
+                            restartMain(file);
+                        } else if (!currentProgram) {
+                            currentProgram = lastProgram;
+                            this.logger.info(
+                                this.i18n.file_0_changed_rebuilding(
+                                    nicePath(file),
+                                ),
+                            );
+                        }
+                        if (successFinished) runSuccess();
+                    },
+                    2000,
+                ),
+            );
+        };
+
+        /** resolver for the returned promise  */
+        let exitWatch: (restart: boolean) => unknown;
+        const restartMain = (file: string) => {
+            if (restarting) return;
+            this.logger.info(
+                this.i18n.file_0_changed_restarting(nicePath(file)),
+            );
+            restarting = true;
+            currentProgram = undefined;
+            this.clearWatches();
+            tsWatcher.close();
+        };
 
         const runSuccess = () => {
+            if (restarting && successFinished) {
+                successFinished = false;
+                exitWatch(true);
+                return;
+            }
+
             if (!currentProgram) {
                 return;
             }
 
             if (successFinished) {
-                if (this.options.getValue("emit") === "both") {
+                if (
+                    this.options.getValue("emit") === "both" &&
+                    currentProgram !== lastProgram
+                ) {
                     currentProgram.emit();
                 }
+                // Save for possible re-run due to non-.ts file change
+                lastProgram = currentProgram;
 
                 this.logger.resetErrors();
                 this.logger.resetWarnings();
@@ -527,6 +624,10 @@ export class Application extends AbstractComponent<
                 if (!entryPoints) {
                     return;
                 }
+                this.clearWatches();
+                this.criticalFiles.forEach((path) =>
+                    this.watchFile(path, true),
+                );
                 const project = this.converter.convert(entryPoints);
                 currentProgram = undefined;
                 successFinished = false;
@@ -563,14 +664,22 @@ export class Application extends AbstractComponent<
 
         const origAfterProgramCreate = host.afterProgramCreate;
         host.afterProgramCreate = (program) => {
-            if (ts.getPreEmitDiagnostics(program.getProgram()).length === 0) {
+            if (
+                !restarting &&
+                ts.getPreEmitDiagnostics(program.getProgram()).length === 0
+            ) {
                 currentProgram = program.getProgram();
                 runSuccess();
             }
             origAfterProgramCreate?.(program);
         };
 
-        ts.createWatchProgram(host);
+        const tsWatcher = ts.createWatchProgram(host);
+
+        // Don't return to caller until the watch needs to restart
+        return await new Promise((res) => {
+            exitWatch = res;
+        });
     }
 
     validate(project: ProjectReflection) {
