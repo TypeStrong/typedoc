@@ -290,16 +290,21 @@ export class Application extends AbstractComponent<
         if (!this.internationalization.hasTranslations(this.lang)) {
             // Not internationalized as by definition we don't know what to include here.
             this.logger.warn(
-                `Options specified "${this.lang}" as the language to use, but TypeDoc does not support it.` as TranslatedString,
+                `Options specified "${this.lang}" as the language to use, but TypeDoc cannot provide translations for it.` as TranslatedString,
             );
             this.logger.info(
-                ("The supported languages are:\n\t" +
+                ("The languages that translations are available for are:\n\t" +
                     this.internationalization
                         .getSupportedLanguages()
                         .join("\n\t")) as TranslatedString,
             );
             this.logger.info(
                 "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
+            );
+        } else if (this.lang === "jp") {
+            this.logger.warn(
+                // Only Japanese see this. Meaning: "jp" is going to be removed in the future. Please designate "ja" instead.
+                "「jp」は将来削除されます。代わりに「ja」を指定してください。" as TranslatedString,
             );
         }
 
