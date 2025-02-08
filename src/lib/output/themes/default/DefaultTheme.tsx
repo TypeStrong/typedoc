@@ -99,7 +99,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
 
-    getReflectionClasses(reflection: DeclarationReflection | DocumentReflection) {
+    getReflectionClasses(reflection: Reflection) {
         const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         return getReflectionClasses(reflection, filters);
     }
@@ -502,10 +502,7 @@ export class DefaultTheme extends Theme {
     }
 }
 
-function getReflectionClasses(
-    reflection: DeclarationReflection | DocumentReflection,
-    filters: Record<string, boolean>,
-) {
+function getReflectionClasses(reflection: Reflection, filters: Record<string, boolean>) {
     const classes: string[] = [];
 
     // Filter classes should match up with the settings function in
@@ -537,6 +534,18 @@ function getReflectionClasses(
                 reflection.comment?.getTag(key as `@${string}`)
             ) {
                 classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+            } else if (reflection.isDeclaration()) {
+                const ownSignatures = reflection.getNonIndexSignatures();
+                // Check methods and accessors, find common tags, elevate
+                if (
+                    ownSignatures.length &&
+                    ownSignatures.every(
+                        (refl) =>
+                            refl.comment?.hasModifier(key as `@${string}`) || refl.comment?.getTag(key as `@${string}`),
+                    )
+                ) {
+                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
             }
         }
     }
