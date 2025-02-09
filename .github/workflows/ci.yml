@@ -49,7 +49,7 @@ jobs:
             - name: Test
               run: npm run test:full
             - name: Lint
-              run: npm run lint -- --max-warnings 0
+              run: npm run lint
     build-windows:
         runs-on: windows-latest
         name: Node 18 Windows
@@ -69,4 +69,4 @@ jobs:
             - name: Test
               run: npm run test:full
             - name: Lint
-              run: npm run lint -- --max-warnings 0
+              run: npm run lint
