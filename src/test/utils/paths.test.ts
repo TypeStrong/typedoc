@@ -69,10 +69,17 @@ describe("paths.ts", () => {
         });
 
         it("Handles file paths", () => {
-            equal(
-                createGlobString("/test/typedoc" as NormalizedPath, "src/index.ts"),
-                "/test/typedoc/src/index.ts",
-            );
+            if (process.platform == "win32") {
+                equal(
+                    createGlobString("C:/test/typedoc" as NormalizedPath, "src/index.ts"),
+                    "C:/test/typedoc/src/index.ts",
+                );
+            } else {
+                equal(
+                    createGlobString("/test/typedoc" as NormalizedPath, "src/index.ts"),
+                    "/test/typedoc/src/index.ts",
+                );
+            }
         });
     });
 

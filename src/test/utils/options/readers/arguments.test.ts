@@ -68,7 +68,7 @@ describe("Options - ArgumentsReader", () => {
     });
 
     test("Works with string options", ["--out", "outDir"], () => {
-        equal(options.getValue("out"), join(process.cwd(), "outDir"));
+        equal(options.getValue("out"), normalizePath(join(process.cwd(), "outDir")));
     });
 
     test("Works with number options", ["-numOption", "123"], () => {

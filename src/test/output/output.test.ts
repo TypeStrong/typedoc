@@ -5,6 +5,7 @@ import { Outputs } from "../../lib/output/output.js";
 import { TestLogger } from "../TestLogger.js";
 import { FileRegistry, ProjectReflection } from "../../lib/models/index.js";
 import type { TranslatedString } from "../../lib/internationalization/index.js";
+import { normalizePath } from "#node-utils";
 
 const app = getConverter2App();
 
@@ -46,13 +47,13 @@ describe("Output", () => {
 
     it("Uses the --out output by default", () => {
         const specs = outputs.getOutputSpecs();
-        equal(specs, [{ name: "html", path: resolve("./docs") }]);
+        equal(specs, [{ name: "html", path: normalizePath(resolve("./docs")) }]);
     });
 
     it("Does not use default value of --out if there is a specified output shortcut", () => {
         app.options.setValue("html", "./html_docs");
         const specs = outputs.getOutputSpecs();
-        equal(specs, [{ name: "html", path: resolve("./html_docs") }]);
+        equal(specs, [{ name: "html", path: normalizePath(resolve("./html_docs")) }]);
     });
 
     it("Uses --out if specified", () => {
@@ -60,8 +61,8 @@ describe("Output", () => {
         app.options.setValue("out", "./out_docs");
         const specs = outputs.getOutputSpecs();
         equal(specs, [
-            { name: "html", path: resolve("./out_docs") },
-            { name: "html", path: resolve("./html_docs") },
+            { name: "html", path: normalizePath(resolve("./out_docs")) },
+            { name: "html", path: normalizePath(resolve("./html_docs")) },
         ]);
     });
 
@@ -70,7 +71,7 @@ describe("Output", () => {
             { name: "html", path: "./html_docs" },
         ]);
         const specs = outputs.getOutputSpecs();
-        equal(specs, [{ name: "html", path: resolve("./html_docs") }]);
+        equal(specs, [{ name: "html", path: normalizePath(resolve("./html_docs")) }]);
     });
 
     it("Prioritizes shortcuts if both outputs and shortcuts are specified", () => {
@@ -79,7 +80,7 @@ describe("Output", () => {
         ]);
         app.options.setValue("html", "./html_docs2");
         const specs = outputs.getOutputSpecs();
-        equal(specs, [{ name: "html", path: resolve("./html_docs2") }]);
+        equal(specs, [{ name: "html", path: normalizePath(resolve("./html_docs2")) }]);
     });
 
     it("Prioritizes --out if both outputs and --out are specified", () => {
@@ -88,14 +89,14 @@ describe("Output", () => {
         ]);
         app.options.setValue("out", "./html_docs2");
         const specs = outputs.getOutputSpecs();
-        equal(specs, [{ name: "html", path: resolve("./html_docs2") }]);
+        equal(specs, [{ name: "html", path: normalizePath(resolve("./html_docs2")) }]);
     });
 
     it("Supports specifying a different default output name", () => {
         outputs.setDefaultOutputName("json");
         const specs = outputs.getOutputSpecs();
         try {
-            equal(specs, [{ name: "json", path: resolve("./docs") }]);
+            equal(specs, [{ name: "json", path: normalizePath(resolve("./docs")) }]);
         } finally {
             outputs.setDefaultOutputName("html");
         }

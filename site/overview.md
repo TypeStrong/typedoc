@@ -52,6 +52,7 @@ import * as td from "typedoc";
 // Also accepts an array of option readers if you want to disable
 // TypeDoc's tsconfig.json/package.json/typedoc.json option readers
 const app = await td.Application.bootstrapWithPlugins({
+    // Note: This accepts globs, do not pass paths with backslash path separators!
     entryPoints: ["src/index.ts"],
 });
 
@@ -59,6 +60,10 @@ const app = await td.Application.bootstrapWithPlugins({
 const project = await app.convert();
 
 if (project) {
+    // Generate configured outputs
+    await generateOutputs(project);
+
+    // Alternatively...
     const outputDir = "docs";
     // Generate HTML rendered docs
     await app.generateDocs(project, outputDir);

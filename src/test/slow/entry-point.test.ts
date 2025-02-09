@@ -27,9 +27,11 @@ describe("Entry Points", () => {
     it("Supports expanding existing paths", async () => {
         const app = await Application.bootstrap({
             tsconfig,
-            entryPoints: [fixture.cwd],
+            entryPoints: [normalizePath(fixture.cwd)],
             entryPointStrategy: EntryPointStrategy.Expand,
         });
+
+        equal(app.options.getValue("entryPoints"), [normalizePath(fixture.cwd)]);
 
         const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);

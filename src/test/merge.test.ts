@@ -1,6 +1,6 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, type DeclarationReflection, EntryPointStrategy, ReferenceType } from "../index.js";
+import { Application, type DeclarationReflection, EntryPointStrategy, normalizePath, ReferenceType } from "../index.js";
 import { getConverterBase } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 
@@ -11,8 +11,8 @@ describe("Merging projects", () => {
         const app = await Application.bootstrap({
             entryPointStrategy: EntryPointStrategy.Merge,
             entryPoints: [
-                join(base, "alias/specs.json"),
-                join(base, "class/*specs.json"),
+                normalizePath(join(base, "alias/specs.json")),
+                normalizePath(join(base, "class/*specs.json")),
             ],
             projectDocuments: [],
             name: "typedoc",

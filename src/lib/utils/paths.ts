@@ -65,7 +65,7 @@ export function createGlobString(relativeTo: NormalizedPath, glob: string): Glob
     if (isAbsolute(glob) || isGlobalGlob(glob)) return glob as GlobString;
 
     const split = splitGlobToPathAndSpecial(glob);
-    const leadingPath = normalizePath(resolve(relativeTo, split.path)).replace(/^\w:\//, "");
+    const leadingPath = normalizePath(resolve(relativeTo, split.path));
 
     if (!split.glob) {
         return split.modifiers + escapeGlob(leadingPath) as GlobString;
