@@ -19,6 +19,7 @@ title: Changelog
 -   TypeDoc will now consider symbols to be external only if all of their declarations are external
     so that declaration merged members with global symbols can be documented, #2844.
 -   Fixed an issue where TypeDoc would constantly rebuild, #2844.
+-   Fixed an issue where the dropdown arrow in the index group would not respect the state of the dropdown, #2845.
 
 ### Thanks!
 
