@@ -19,7 +19,7 @@ import { MinimalSourceFile } from "../lib/utils/minimalSourceFile.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-import { dedent } from "../lib/utils/general.js";
+import { dedent } from "#utils";
 
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {

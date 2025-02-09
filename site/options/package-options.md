@@ -66,6 +66,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`pretty`](output.md#pretty)                                                           | Root     |                                                            |
 | [`emit`](output.md#emit)                                                               | Both     |                                                            |
 | [`theme`](output.md#theme)                                                             | Root     |                                                            |
+| [`router`](output.md#router)                                                           | Root     |                                                            |
 | [`lightHighlightTheme`](output.md#lighthighlighttheme)                                 | Root     |                                                            |
 | [`darkHighlightTheme`](output.md#darkhighlighttheme)                                   | Root     |                                                            |
 | [`highlightLanguages`](output.md#highlightlanguages)                                   | Root     |                                                            |

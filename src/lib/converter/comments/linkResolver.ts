@@ -13,7 +13,7 @@ import {
     parseDeclarationReference,
 } from "./declarationReference.js";
 import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
-import { maxElementByScore } from "../../utils/array.js";
+import { maxElementByScore } from "#utils";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 

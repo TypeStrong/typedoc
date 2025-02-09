@@ -7,7 +7,7 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
-import { dedent, escapeRegExp } from "../../utils/general.js";
+import { dedent, escapeRegExp } from "#utils";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.

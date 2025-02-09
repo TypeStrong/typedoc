@@ -3,12 +3,13 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { getEnumKeys, Option, type EnumKeys } from "../../utils/index.js";
+import { getEnumKeys, type EnumKeys } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import type { Renderer } from "../index.js";
 import { ReflectionKind } from "../../models/index.js";
+import { Option } from "../../utils/index.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
