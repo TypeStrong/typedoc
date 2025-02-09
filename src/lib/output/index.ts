@@ -16,3 +16,4 @@ export {
 } from "./themes/default/DefaultTheme.js";
 export { Slugger } from "./themes/default/Slugger.js";
 export { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
+export type { Icons } from "./themes/default/partials/icon.js";

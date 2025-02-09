@@ -3,11 +3,12 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { Option } from "../../utils/index.js";
+import { getEnumKeys, Option, type EnumKeys } from "../../utils/index.js";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import type { Renderer } from "../index.js";
+import { ReflectionKind } from "../../models/index.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -30,14 +31,24 @@ export class AssetsPlugin extends RendererComponent {
     }
 
     getTranslatedStrings() {
-        return {
-            copy: this.application.i18n.theme_copy(),
-            copied: this.application.i18n.theme_copied(),
-            normally_hidden: this.application.i18n.theme_normally_hidden(),
-            hierarchy_expand: this.application.i18n.theme_hierarchy_expand(),
-            hierarchy_collapse:
-                this.application.i18n.theme_hierarchy_collapse(),
+        const inter = this.application.internationalization;
+        const i18n = this.application.i18n;
+
+        const translations: Record<string, string> = {
+            copy: i18n.theme_copy(),
+            copied: i18n.theme_copied(),
+            normally_hidden: i18n.theme_normally_hidden(),
+            hierarchy_expand: i18n.theme_hierarchy_expand(),
+            hierarchy_collapse: i18n.theme_hierarchy_collapse(),
+            folder: i18n.theme_folder(),
         };
+
+        for (const key of getEnumKeys(ReflectionKind)) {
+            const kind = ReflectionKind[key as EnumKeys<typeof ReflectionKind>];
+            translations[`kind_${kind}`] = inter.kindSingularString(kind);
+        }
+
+        return translations;
     }
 
     private onRenderBegin(event: RendererEvent) {

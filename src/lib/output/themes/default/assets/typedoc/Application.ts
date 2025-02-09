@@ -8,6 +8,10 @@ declare global {
             normally_hidden: string;
             hierarchy_expand: string;
             hierarchy_collapse: string;
+
+            // Kind strings for icons
+            folder: string;
+            [k: `kind_${number}`]: string;
         };
     }
 }
@@ -20,6 +24,32 @@ window.translations ||= {
         "This member is normally hidden due to your filter settings.",
     hierarchy_expand: "Expand",
     hierarchy_collapse: "Collapse",
+
+    folder: "Folder",
+    kind_1: "Project",
+    kind_2: "Module",
+    kind_4: "Namespace",
+    kind_8: "Enumeration",
+    kind_16: "Enumeration Member",
+    kind_32: "Variable",
+    kind_64: "Function",
+    kind_128: "Class",
+    kind_256: "Interface",
+    kind_512: "Constructor",
+    kind_1024: "Property",
+    kind_2048: "Method",
+    kind_4096: "Call Signature",
+    kind_8192: "Index Signature",
+    kind_16384: "Constructor Signature",
+    kind_32768: "Parameter",
+    kind_65536: "Type Literal",
+    kind_131072: "Type Parameter",
+    kind_262144: "Accessor",
+    kind_524288: "Get Signature",
+    kind_1048576: "Set Signature",
+    kind_2097152: "Type Alias",
+    kind_4194304: "Reference",
+    kind_8388608: "Document",
 };
 
 /**

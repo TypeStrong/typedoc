@@ -11,6 +11,7 @@ title: Changelog
 ### Bug Fixes
 
 -   Fixed an issue where TypeDoc would incorrectly ignore type arguments in references, #2823.
+-   Improved narrator support for labeling icons, #2832.
 
 ## v0.27.6 (2024-12-26)
 

@@ -19,7 +19,7 @@ import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { filterMap, JSX, Option, type TypeDocOptionMap } from "../../../utils/index.js";
 import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
-import { icons } from "./partials/icon.js";
+import { getIcons, type Icons } from "./partials/icon.js";
 import { Slugger } from "./Slugger.js";
 import { createNormalizedUrl } from "../../../utils/html.js";
 
@@ -77,7 +77,7 @@ export class DefaultTheme extends Theme {
      * the icons used within the page, however TypeDoc currently assumes that all icons are svg
      * elements, so custom themes must also use svg elements.
      */
-    icons = { ...icons };
+    icons: Icons;
 
     getRenderContext(pageEvent: PageEvent<Reflection>) {
         return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
@@ -159,6 +159,7 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer) {
         super(renderer);
+        this.icons = getIcons(renderer.application.i18n);
         this.markedPlugin = renderer.markedPlugin;
     }
 

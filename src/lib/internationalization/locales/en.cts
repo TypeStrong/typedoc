@@ -512,10 +512,12 @@ export = {
     theme_search: "Search",
     theme_menu: "Menu",
     theme_permalink: "Permalink",
+    theme_folder: "Folder",
 
     // Used by the frontend JS
     // For the English translations only, these should also be added to
     // src/lib/output/themes/default/assets/typedoc/Application.ts
+    // Also uses theme_folder and singular kinds
     theme_copy: "Copy",
     theme_copied: "Copied!",
     theme_normally_hidden:
