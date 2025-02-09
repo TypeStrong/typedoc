@@ -1,7 +1,8 @@
 import type ts from "typescript";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
-import { normalizePath, type OutputSpecification } from "../index.js";
+import type { OutputSpecification } from "../index.js";
+import { normalizePath } from "../paths.js"
 import type { Application } from "../../../index.js";
 import type { Logger } from "../loggers.js";
 import {
