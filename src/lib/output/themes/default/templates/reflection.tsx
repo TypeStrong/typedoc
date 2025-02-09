@@ -64,7 +64,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                         <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
                     )}
                     {!!props.model.indexSignatures?.length && (
-                        <section class={classNames({ "tsd-panel": true }, context.getReflectionClasses(props.model))}>
+                        <section class="tsd-panel">
                             <h4 class="tsd-before-signature">{context.i18n.theme_indexable()}</h4>
                             <ul class="tsd-signatures">
                                 {props.model.indexSignatures.map((index) => renderIndexSignature(context, index))}
@@ -82,7 +82,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
 function renderIndexSignature(context: DefaultThemeRenderContext, index: SignatureReflection) {
     return (
-        <li class="tsd-index-signature">
+        <li class={classNames({ "tsd-index-signature": true }, context.getReflectionClasses(index))}>
             <div class="tsd-signature">
                 {index.flags.isReadonly && <span class="tsd-signature-keyword">readonly </span>}
                 <span class="tsd-signature-symbol">[</span>
