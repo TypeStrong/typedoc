@@ -18,6 +18,7 @@ title: Changelog
 -   Fixed an issue with `@class` incorrectly handling mapped types, #2842.
 -   TypeDoc will now consider symbols to be external only if all of their declarations are external
     so that declaration merged members with global symbols can be documented, #2844.
+-   Fixed an issue where TypeDoc would constantly rebuild, #2844.
 
 ### Thanks!
 

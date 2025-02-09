@@ -530,7 +530,7 @@ export class Application extends AbstractComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            {},
+            this.options.fixCompilerOptions({}),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (diagnostic) => this.logger.diagnostic(diagnostic),
@@ -641,30 +641,6 @@ export class Application extends AbstractComponent<
                     runSuccess();
                 });
             }
-        };
-
-        const origCreateProgram = host.createProgram;
-        host.createProgram = (
-            rootNames,
-            options,
-            host,
-            oldProgram,
-            configDiagnostics,
-            references,
-        ) => {
-            // If we always do this, we'll get a crash the second time a program is created.
-            if (rootNames !== undefined) {
-                options = this.options.fixCompilerOptions(options || {});
-            }
-
-            return origCreateProgram(
-                rootNames,
-                options,
-                host,
-                oldProgram,
-                configDiagnostics,
-                references,
-            );
         };
 
         const origAfterProgramCreate = host.afterProgramCreate;
