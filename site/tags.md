@@ -106,29 +106,29 @@ examples for how to use the export ([`@example`](./tags/example.md)).
  */
 ````
 
--   [`@author`](./tags/author.md)
--   [`@category`, `@categoryDescription`, `@showCategories`, `@hideCategories`](./tags/category.md)
--   [`@defaultValue`, `@default`](./tags/defaultValue.md)
--   [`@deprecated`](./tags/deprecated.md)
--   [`@document`](./tags/document.md)
--   [`@example`](./tags/example.md)
--   [`@group`, `@groupDescription`, `@showGroups`, `@hideGroups`](./tags/group.md)
--   [`@import`](./tags/import.md)
--   [`@license`](./tags/license.md)
--   [`@mergeModuleWith`](./tags/mergeModuleWith.md)
--   [`@module`](./tags/module.md)
--   [`@param`](./tags/param.md)
--   [`@privateRemarks`](./tags/privateRemarks.md)
--   [`@property`, `@prop`](./tags/property.md)
--   [`@remarks`](./tags/remarks.md)
--   [`@returns`, `@return`](./tags/returns.md)
--   [`@see`](./tags/see.md)
--   [`@since`](./tags/since.md)
--   [`@summary`](./tags/summary.md)
--   [`@template`](./tags/template.md)
--   [`@throws`](./tags/throws.md)
--   [`@typeParam`](./tags/typeParam.md)
--   [`@type`, `@yields`, `@jsx`, `@typedef`, `@extends`, `@augments`, `@satisfies`, `@callback`](./tags/typescript.md)
+- [`@author`](./tags/author.md)
+- [`@category`, `@categoryDescription`, `@showCategories`, `@hideCategories`](./tags/category.md)
+- [`@defaultValue`, `@default`](./tags/defaultValue.md)
+- [`@deprecated`](./tags/deprecated.md)
+- [`@document`](./tags/document.md)
+- [`@example`](./tags/example.md)
+- [`@group`, `@groupDescription`, `@showGroups`, `@hideGroups`](./tags/group.md)
+- [`@import`](./tags/import.md)
+- [`@license`](./tags/license.md)
+- [`@mergeModuleWith`](./tags/mergeModuleWith.md)
+- [`@module`](./tags/module.md)
+- [`@param`](./tags/param.md)
+- [`@privateRemarks`](./tags/privateRemarks.md)
+- [`@property`, `@prop`](./tags/property.md)
+- [`@remarks`](./tags/remarks.md)
+- [`@returns`, `@return`](./tags/returns.md)
+- [`@see`](./tags/see.md)
+- [`@since`](./tags/since.md)
+- [`@summary`](./tags/summary.md)
+- [`@template`](./tags/template.md)
+- [`@throws`](./tags/throws.md)
+- [`@typeParam`](./tags/typeParam.md)
+- [`@type`, `@yields`, `@jsx`, `@typedef`, `@extends`, `@augments`, `@satisfies`, `@callback`](./tags/typescript.md)
 
 ## Modifier Tags
 
@@ -140,51 +140,50 @@ as internal for use with
 [`--visibilityFilters`](./options/output.md#visibilityfilters) or
 [`--excludeInternal`](./options/input.md#excludeinternal).
 
--   [`@abstract`](./tags/abstract.md)
--   [`@alpha`](./tags/alpha.md)
--   [`@beta`](./tags/beta.md)
--   [`@class`](./tags/class.md)
--   [`@enum`](./tags/enum.md)
--   [`@event`](./tags/event.md)
--   [`@eventProperty`](./tags/eventProperty.md)
--   [`@expand`](./tags/expand.md)
--   [`@experimental`](./tags/experimental.md)
--   [`@hidden`](./tags/hidden.md)
--   [`@hideconstructor`](./tags/hideconstructor.md)
--   [`@ignore`](./tags/ignore.md)
--   [`@inline`](./tags/inline.md)
--   [`@interface`](./tags/interface.md)
--   [`@internal`](./tags/internal.md)
--   [`@namespace`](./tags/namespace.md)
--   [`@overload`](./tags/overload.md)
--   [`@override`](./tags/override.md)
--   [`@packageDocumentation`](./tags/packageDocumentation.md)
--   [`@private`](./tags/private.md)
--   [`@protected`](./tags/protected.md)
--   [`@public`](./tags/public.md)
--   [`@readonly`](./tags/readonly.md)
--   [`@sealed`](./tags/sealed.md)
--   [`@useDeclaredType`](./tags/useDeclaredType.md)
--   [`@virtual`](./tags/virtual.md)
+- [`@abstract`](./tags/abstract.md)
+- [`@alpha`](./tags/alpha.md)
+- [`@beta`](./tags/beta.md)
+- [`@class`](./tags/class.md)
+- [`@enum`](./tags/enum.md)
+- [`@event`](./tags/event.md)
+- [`@eventProperty`](./tags/eventProperty.md)
+- [`@expand`](./tags/expand.md)
+- [`@experimental`](./tags/experimental.md)
+- [`@hidden`](./tags/hidden.md)
+- [`@hideconstructor`](./tags/hideconstructor.md)
+- [`@ignore`](./tags/ignore.md)
+- [`@inline`](./tags/inline.md)
+- [`@interface`](./tags/interface.md)
+- [`@internal`](./tags/internal.md)
+- [`@namespace`](./tags/namespace.md)
+- [`@overload`](./tags/overload.md)
+- [`@override`](./tags/override.md)
+- [`@packageDocumentation`](./tags/packageDocumentation.md)
+- [`@private`](./tags/private.md)
+- [`@protected`](./tags/protected.md)
+- [`@public`](./tags/public.md)
+- [`@readonly`](./tags/readonly.md)
+- [`@sealed`](./tags/sealed.md)
+- [`@useDeclaredType`](./tags/useDeclaredType.md)
+- [`@virtual`](./tags/virtual.md)
 
 ## Inline Tags
 
 Inline tags are used to mark text within a paragraph for processing by TypeDoc. The most important ones are the
 [`@link`](./tags/link.md) and [`@inheritDoc`](./tags/inheritDoc.md) tags.
 
--   [`@include`, `@includeCode`](./tags/include.md)
--   [`@inheritDoc`](./tags/inheritDoc.md)
--   [`@label`](./tags/label.md)
--   [`@link`, `@linkcode`, `@linkplain`](./tags/link.md)
+- [`@include`, `@includeCode`](./tags/include.md)
+- [`@inheritDoc`](./tags/inheritDoc.md)
+- [`@label`](./tags/label.md)
+- [`@link`, `@linkcode`, `@linkplain`](./tags/link.md)
 
 ## TypeScript in JavaScript
 
 If your project uses TypeScript to type check JavaScript, TypeDoc will pick up
 type aliases and interfaces defined with `@typedef` and `@callback`. See the
-[TypeScript
-handbook](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#typedef-callback-and-param)
+[TypeScript handbook](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#typedef-callback-and-param)
 for details.
 
 ## See Also
 
--   The [Doc Comments overview](./doc-comments/index.md)
+- The [Doc Comments overview](./doc-comments/index.md)

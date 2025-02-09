@@ -3,7 +3,8 @@ import md from "markdown-it";
 import cp from "child_process";
 import { writeFile } from "fs/promises";
 
-const curl = `curl -s -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/typestrong/typedoc/issues/ISSUE`;
+const curl =
+    `curl -s -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/typestrong/typedoc/issues/ISSUE`;
 
 /**
  * @param {string} cmd
@@ -48,12 +49,11 @@ async function main() {
     const parser = md();
     const tokens = parser.parse(data.body || "", {});
 
-    const code =
-        tokens.find(
-            (tok) =>
-                tok.tag === "code" &&
-                ["ts", "tsx", "js", "jsx"].includes(tok.info || ""),
-        ) || tokens.find((tok) => tok.tag === "code");
+    const code = tokens.find(
+        (tok) =>
+            tok.tag === "code" &&
+            ["ts", "tsx", "js", "jsx"].includes(tok.info || ""),
+    ) || tokens.find((tok) => tok.tag === "code");
 
     if (!code) {
         console.log("No codeblock found");

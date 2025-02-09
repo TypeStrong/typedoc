@@ -29,14 +29,7 @@ import { memberSignatureTitle } from "./partials/member.signature.title.js";
 import { memberSignatures } from "./partials/member.signatures.js";
 import { memberSources } from "./partials/member.sources.js";
 import { members } from "./partials/members.js";
-import {
-    sidebar,
-    pageSidebar,
-    navigation,
-    pageNavigation,
-    settings,
-    sidebarLinks,
-} from "./partials/navigation.js";
+import { navigation, pageNavigation, pageSidebar, settings, sidebar, sidebarLinks } from "./partials/navigation.js";
 import { reflectionPreview } from "./partials/reflectionPreview.js";
 import { toolbar } from "./partials/toolbar.js";
 import { type } from "./partials/type.js";
@@ -46,15 +39,8 @@ import { indexTemplate } from "./templates/index.js";
 import { documentTemplate } from "./templates/document.js";
 import { hierarchyTemplate } from "./templates/hierarchy.js";
 import { reflectionTemplate } from "./templates/reflection.js";
-import {
-    typeDeclaration,
-    typeDetails,
-    typeDetailsIfUseful,
-} from "./partials/typeDetails.js";
-import {
-    moduleMemberSummary,
-    moduleReflection,
-} from "./partials/moduleReflection.js";
+import { typeDeclaration, typeDetails, typeDetailsIfUseful } from "./partials/typeDetails.js";
+import { moduleMemberSummary, moduleReflection } from "./partials/moduleReflection.js";
 import type { Router } from "../../router.js";
 import type { NeverIfInternal } from "#utils";
 
@@ -143,8 +129,7 @@ export class DefaultThemeRenderContext {
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 
-    getReflectionClasses = (refl: Reflection) =>
-        this.theme.getReflectionClasses(refl);
+    getReflectionClasses = (refl: Reflection) => this.theme.getReflectionClasses(refl);
 
     documentTemplate = bind(documentTemplate, this);
     reflectionTemplate = bind(reflectionTemplate, this);

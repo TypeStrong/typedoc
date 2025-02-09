@@ -1,14 +1,11 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models/index.js";
 import { type Logger } from "../../utils/index.js";
-import type {
-    CommentStyle,
-    JsDocCompatibility,
-} from "../../utils/options/declaration.js";
+import type { CommentStyle, JsDocCompatibility } from "../../utils/options/declaration.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
-    type DiscoveredComment,
     discoverComment,
+    type DiscoveredComment,
     discoverFileComments,
     discoverNodeComment,
     discoverSignatureComment,
@@ -60,8 +57,7 @@ function getCommentWithCache(
     const cache = commentCache.get(file) || new Map<number, Comment>();
     if (cache.has(ranges[0].pos)) {
         const clone = cache.get(ranges[0].pos)!.clone();
-        clone.inheritedFromParentDeclaration =
-            discovered.inheritedFromParentDeclaration;
+        clone.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
         return clone;
     }
 
@@ -96,8 +92,7 @@ function getCommentWithCache(
     }
 
     comment.discoveryId = ++commentDiscoveryId;
-    comment.inheritedFromParentDeclaration =
-        discovered.inheritedFromParentDeclaration;
+    comment.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
     cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 
@@ -237,10 +232,12 @@ export function getFileComment(
     checker: ts.TypeChecker | undefined,
     files: FileRegistry,
 ): Comment | undefined {
-    for (const commentSource of discoverFileComments(
-        file,
-        config.commentStyle,
-    )) {
+    for (
+        const commentSource of discoverFileComments(
+            file,
+            config.commentStyle,
+        )
+    ) {
         const comment = getCommentWithCache(
             commentSource,
             config,

@@ -14,15 +14,15 @@ import {
     ReferenceType,
     ReflectionType,
     RestType,
+    type SomeType,
     TemplateLiteralType,
     TupleType,
     TypeContext,
     TypeOperatorType,
     UnionType,
     UnknownType,
-    type SomeType,
 } from "../../lib/models/types.js";
-import { JSX, dedent } from "#utils";
+import { dedent, JSX } from "#utils";
 import {
     DeclarationReflection,
     FileRegistry,
@@ -34,16 +34,8 @@ import {
     SignatureReflection,
     TypeParameterReflection,
 } from "../../lib/models/index.js";
-import {
-    FormattedCodeBuilder,
-    FormattedCodeGenerator,
-    Wrap,
-} from "../../lib/output/formatter.js";
-import {
-    type Router,
-    Slugger,
-    type PageDefinition,
-} from "../../lib/output/index.js";
+import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../lib/output/formatter.js";
+import { type PageDefinition, type Router, Slugger } from "../../lib/output/index.js";
 
 const renderElementToText = JSX.renderElementToText;
 

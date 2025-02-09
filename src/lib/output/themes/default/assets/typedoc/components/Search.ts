@@ -213,11 +213,10 @@ function updateResults(
     }
 
     if (res.length === 0 && searchText) {
-        const message =
-            window.translations.search_no_results_found_for_0.replace(
-                "{0}",
-                ` "<strong>${escapeHtml(searchText)}</strong>" `,
-            );
+        const message = window.translations.search_no_results_found_for_0.replace(
+            "{0}",
+            ` "<strong>${escapeHtml(searchText)}</strong>" `,
+        );
         updateStatusEl(status, message);
         return;
     }
@@ -240,7 +239,8 @@ function updateResults(
     const c = Math.min(10, res.length);
     for (let i = 0; i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
-        const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
+        const icon =
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
         let name = highlightMatches(row.name, searchText);
@@ -323,9 +323,11 @@ function highlightMatches(text: string, search: string) {
     while (index != -1) {
         parts.push(
             escapeHtml(text.substring(lastIndex, index)),
-            `<mark>${escapeHtml(
-                text.substring(index, index + lowerSearch.length),
-            )}</mark>`,
+            `<mark>${
+                escapeHtml(
+                    text.substring(index, index + lowerSearch.length),
+                )
+            }</mark>`,
         );
 
         lastIndex = index + lowerSearch.length;
@@ -387,8 +389,9 @@ function isKeyboardActive() {
         activeElement.isContentEditable ||
         activeElement.tagName === "TEXTAREA" ||
         activeElement.tagName === "SEARCH"
-    )
+    ) {
         return true;
+    }
 
     return (
         activeElement.tagName === "INPUT" &&

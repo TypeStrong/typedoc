@@ -45,38 +45,38 @@ https://github.com/Gerrit0/typedoc-packages-example
 For a complete list of the command line arguments run `typedoc --help` or visit
 [our website](https://typedoc.org/options/).
 
--   `--out <path/to/documentation/>`<br>
-    Specifies the location the documentation should be written to. Defaults to `./docs`
--   `--json <path/to/output.json>`<br>
-    Specifies the location and file name a json file describing the project is
-    written to. When specified no documentation will be generated unless `--out` is also
-    specified.
--   `--options`<br>
-    Specify a json option file that should be loaded. If not specified TypeDoc
-    will look for 'typedoc.json' in the current directory.
--   `--tsconfig <path/to/tsconfig.json>`<br>
-    Specify a typescript config file that should be loaded. If not
-    specified TypeDoc will look for 'tsconfig.json' in the current directory.
--   `--exclude <pattern>`<br>
-    Exclude files by the given pattern when a path is provided as source.
-    Supports standard minimatch patterns.
+- `--out <path/to/documentation/>`<br>
+  Specifies the location the documentation should be written to. Defaults to `./docs`
+- `--json <path/to/output.json>`<br>
+  Specifies the location and file name a json file describing the project is
+  written to. When specified no documentation will be generated unless `--out` is also
+  specified.
+- `--options`<br>
+  Specify a json option file that should be loaded. If not specified TypeDoc
+  will look for 'typedoc.json' in the current directory.
+- `--tsconfig <path/to/tsconfig.json>`<br>
+  Specify a typescript config file that should be loaded. If not
+  specified TypeDoc will look for 'tsconfig.json' in the current directory.
+- `--exclude <pattern>`<br>
+  Exclude files by the given pattern when a path is provided as source.
+  Supports standard minimatch patterns.
 
 #### Theming
 
--   `--theme <default|plugin defined theme>`<br>
-    Specify the theme that should be used.
--   `--name <Documentation title>`<br>
-    Set the name of the project that will be used in the header of the template.
--   `--readme <path/to/readme|none>`<br>
-    Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
-    and start the documentation on the globals page.
+- `--theme <default|plugin defined theme>`<br>
+  Specify the theme that should be used.
+- `--name <Documentation title>`<br>
+  Set the name of the project that will be used in the header of the template.
+- `--readme <path/to/readme|none>`<br>
+  Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
+  and start the documentation on the globals page.
 
 #### Miscellaneous
 
--   `--version`<br>
-    Display the version number of TypeDoc.
--   `--help`<br>
-    Display all TypeDoc options.
+- `--version`<br>
+  Display the version number of TypeDoc.
+- `--help`<br>
+  Display all TypeDoc options.
 
 ## Contributing
 

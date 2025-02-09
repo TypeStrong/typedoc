@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { Comment, CommentTag, type CommentDisplayPart } from "../../index.js";
+import { Comment, type CommentDisplayPart, CommentTag } from "../../index.js";
 
 describe("Comment.combineDisplayParts", () => {
     it("Handles text and code", () => {

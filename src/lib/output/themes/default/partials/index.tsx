@@ -46,7 +46,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
         content = props.groups.flatMap((item) =>
             item.categories
                 ? item.categories.map((item2) => renderCategory(context, item2, item.title))
-                : renderCategory(context, item),
+                : renderCategory(context, item)
         );
     }
 

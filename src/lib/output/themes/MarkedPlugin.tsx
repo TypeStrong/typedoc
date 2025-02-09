@@ -3,17 +3,17 @@ import MarkdownIt from "markdown-it";
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
-import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
+import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { escapeHtml, assertNever, JSX } from "#utils";
+import { assertNever, escapeHtml, JSX } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
+    type CommentDisplayPart,
     type Reflection,
     ReflectionKind,
-    type CommentDisplayPart,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
 import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
@@ -167,12 +167,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
                                         if (this.validation.rewrittenLink) {
                                             this.application.logger.warn(
-                                                this.application.i18n.reflection_0_links_to_1_with_text_2_but_resolved_to_3(
-                                                    page.model.getFriendlyFullName(),
-                                                    part.target.getFriendlyFullName(),
-                                                    part.text,
-                                                    target.getFriendlyFullName(),
-                                                ),
+                                                this.application.i18n
+                                                    .reflection_0_links_to_1_with_text_2_but_resolved_to_3(
+                                                        page.model.getFriendlyFullName(),
+                                                        part.target.getFriendlyFullName(),
+                                                        part.text,
+                                                        target.getFriendlyFullName(),
+                                                    ),
                                             );
                                         }
                                     }
@@ -294,7 +295,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     return `<pre><code>${code}</code><button>${this.application.i18n.theme_copy()}</button></pre>\n`;
                 }
 
-                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
+                return `<pre><code class="${
+                    escapeHtml(lang)
+                }">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
             },
         });
 
@@ -354,7 +357,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
             const iconHtml = JSX.renderElement(icon());
 
-            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${tokens[idx].attrGet("alert")}</span></div>`;
+            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${
+                tokens[idx].attrGet("alert")
+            }</span></div>`;
         };
     }
 

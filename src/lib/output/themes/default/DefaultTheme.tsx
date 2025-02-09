@@ -1,22 +1,22 @@
 import { Theme } from "../../theme.js";
 import type { Renderer } from "../../renderer.js";
 import {
-    ReflectionKind,
-    type ProjectReflection,
     type ContainerReflection,
     type DeclarationReflection,
+    type DocumentReflection,
+    type ProjectReflection,
+    ReferenceReflection,
     type Reflection,
     ReflectionCategory,
     ReflectionGroup,
-    type DocumentReflection,
-    ReferenceReflection,
+    ReflectionKind,
 } from "../../../models/index.js";
 import { type RenderTemplate } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { getIcons, type Icons } from "./partials/icon.js";
-import { filterMap, createNormalizedUrl, JSX } from "#utils";
+import { createNormalizedUrl, filterMap, JSX } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { PageKind, type Router } from "../../router.js";
 

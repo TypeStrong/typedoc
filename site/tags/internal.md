@@ -22,8 +22,8 @@ export class Visibility {
 
 ## See Also
 
--   The [`@alpha`](alpha.md) tag
--   The [`@beta`](beta.md) tag
--   The [`@experimental`](experimental.md) tag
--   The [`--excludeInternal`](../options/input.md#excludeinternal) option
--   The [`--stripInternal`](https://www.typescriptlang.org/tsconfig#stripInternal) TypeScript compiler option
+- The [`@alpha`](alpha.md) tag
+- The [`@beta`](beta.md) tag
+- The [`@experimental`](experimental.md) tag
+- The [`--excludeInternal`](../options/input.md#excludeinternal) option
+- The [`--stripInternal`](https://www.typescriptlang.org/tsconfig#stripInternal) TypeScript compiler option

@@ -29,5 +29,5 @@ the `--excludeTags` list if it is set.
 
 ## See also
 
--   The [`@remarks`](remarks.md) tag
--   The [`--excludeTags`](../options/comments.md#excludetags) option
+- The [`@remarks`](remarks.md) tag
+- The [`--excludeTags`](../options/comments.md#excludetags) option

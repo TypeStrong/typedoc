@@ -1,9 +1,9 @@
 import {
-    type Reflection,
-    ReflectionKind,
     type Comment,
     type CommentDisplayPart,
     type ProjectReflection,
+    type Reflection,
+    ReflectionKind,
     ReflectionSymbolId,
 } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
@@ -127,9 +127,11 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         reflection.type?.type === "union" &&
         reflection.type.elementSummaries
     ) {
-        for (const broken of reflection.type.elementSummaries.flatMap(
-            getBrokenPartLinks,
-        )) {
+        for (
+            const broken of reflection.type.elementSummaries.flatMap(
+                getBrokenPartLinks,
+            )
+        ) {
             if (broken.startsWith("@") && !broken.includes("!")) {
                 logger.warn(
                     logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(

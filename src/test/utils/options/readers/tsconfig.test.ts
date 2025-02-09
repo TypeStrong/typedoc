@@ -4,7 +4,7 @@ import { deepStrictEqual as equal } from "assert";
 import { TSConfigReader } from "../../../../lib/utils/options/readers/index.js";
 import { Logger, Options } from "../../../../lib/utils/index.js";
 import { TestLogger } from "../../../TestLogger.js";
-import { tempdirProject, type Project } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
 import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 import { fileURLToPath } from "url";

@@ -18,12 +18,7 @@ import {
 } from "../models/index.js";
 import { Context } from "./context.js";
 import { AbstractComponent } from "../utils/component.js";
-import {
-    Option,
-    MinimalSourceFile,
-    readFile,
-    getDocumentEntryPoints,
-} from "../utils/index.js";
+import { getDocumentEntryPoints, MinimalSourceFile, Option, readFile } from "../utils/index.js";
 import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
@@ -32,22 +27,16 @@ import type { Minimatch } from "minimatch";
 import { hasAllFlags, hasAnyFlag, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
-import type {
-    CommentStyle,
-    ValidationOptions,
-} from "../utils/options/declaration.js";
+import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
 import { parseCommentString } from "./comments/parser.js";
 import { lexCommentString } from "./comments/rawLexer.js";
 import {
-    resolvePartLinks,
-    resolveLinks,
-    type ExternalSymbolResolver,
     type ExternalResolveResult,
+    type ExternalSymbolResolver,
+    resolveLinks,
+    resolvePartLinks,
 } from "./comments/linkResolver.js";
-import {
-    meaningToString,
-    type DeclarationReference,
-} from "./comments/declarationReference.js";
+import { type DeclarationReference, meaningToString } from "./comments/declarationReference.js";
 import { basename, dirname, resolve } from "path";
 import type { FileRegistry } from "../models/FileRegistry.js";
 
@@ -183,8 +172,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * The listener will be given {@link Context} and a {@link Models.DeclarationReflection}.
      * @event
      */
-    static readonly EVENT_CREATE_DECLARATION =
-        ConverterEvents.CREATE_DECLARATION;
+    static readonly EVENT_CREATE_DECLARATION = ConverterEvents.CREATE_DECLARATION;
 
     /**
      * Triggered when the converter has created a document reflection.
@@ -215,8 +203,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * The listener will be given {@link Context} and a {@link Models.TypeParameterReflection}
      * @event
      */
-    static readonly EVENT_CREATE_TYPE_PARAMETER =
-        ConverterEvents.CREATE_TYPE_PARAMETER;
+    static readonly EVENT_CREATE_TYPE_PARAMETER = ConverterEvents.CREATE_TYPE_PARAMETER;
 
     /**
      * Resolve events
@@ -270,8 +257,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 return;
             }
 
-            const modLinks =
-                this.externalSymbolLinkMappings[ref.moduleSource ?? "global"];
+            const modLinks = this.externalSymbolLinkMappings[ref.moduleSource ?? "global"];
             if (typeof modLinks !== "object") {
                 return;
             }
@@ -436,16 +422,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             resolveLinks(
                 comment,
                 owner,
-                (ref, part, refl, id) =>
-                    this.resolveExternalLink(ref, part, refl, id),
+                (ref, part, refl, id) => this.resolveExternalLink(ref, part, refl, id),
                 { preserveLinkText: this.preserveLinkText },
             );
         } else {
             return resolvePartLinks(
                 owner,
                 comment,
-                (ref, part, refl, id) =>
-                    this.resolveExternalLink(ref, part, refl, id),
+                (ref, part, refl, id) => this.resolveExternalLink(ref, part, refl, id),
                 { preserveLinkText: this.preserveLinkText },
             );
         }
@@ -547,9 +531,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         }
 
         const allExports = getExports(context, node, symbol);
-        for (const exp of allExports.filter((exp) =>
-            isDirectExport(context.resolveAliasedSymbol(exp), node),
-        )) {
+        for (const exp of allExports.filter((exp) => isDirectExport(context.resolveAliasedSymbol(exp), node))) {
             this.convertSymbol(moduleContext, exp);
         }
 
@@ -557,14 +539,15 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     }
 
     private convertReExports(moduleContext: Context, node: ts.SourceFile) {
-        for (const exp of getExports(
-            moduleContext,
-            node,
-            moduleContext.project.getSymbolFromReflection(moduleContext.scope),
-        ).filter(
-            (exp) =>
-                !isDirectExport(moduleContext.resolveAliasedSymbol(exp), node),
-        )) {
+        for (
+            const exp of getExports(
+                moduleContext,
+                node,
+                moduleContext.project.getSymbolFromReflection(moduleContext.scope),
+            ).filter(
+                (exp) => !isDirectExport(moduleContext.resolveAliasedSymbol(exp), node),
+            )
+        ) {
             this.convertSymbol(moduleContext, exp);
         }
     }
@@ -610,9 +593,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         );
         const cache = this.excludeCache;
 
-        return (symbol.getDeclarations() ?? []).some((node) =>
-            matchesAny(cache, node.getSourceFile().fileName),
-        );
+        return (symbol.getDeclarations() ?? []).some((node) => matchesAny(cache, node.getSourceFile().fileName));
     }
 
     /** @internal */
@@ -632,9 +613,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         // If there are any non-external declarations, treat it as non-external
         // This is possible with declaration merging against external namespaces
         // (e.g. merging with HTMLElementTagNameMap)
-        return declarations.every((node) =>
-            matchesAny(cache, node.getSourceFile().fileName),
-        );
+        return declarations.every((node) => matchesAny(cache, node.getSourceFile().fileName));
     }
 
     processDocumentTags(reflection: Reflection, parent: ContainerReflection) {
@@ -703,9 +682,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                         ]);
                     } else {
                         this.application.logger.error(
-                            this.application.i18n.frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
-                                nicePath(file.fileName),
-                            ),
+                            this.application.i18n
+                                .frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
+                                    nicePath(file.fileName),
+                                ),
                         );
                         return;
                     }
@@ -716,9 +696,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                         childrenToAdd.push([name, path]);
                     } else {
                         this.application.logger.error(
-                            this.application.i18n.frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
-                                nicePath(file.fileName),
-                            ),
+                            this.application.i18n
+                                .frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
+                                    nicePath(file.fileName),
+                                ),
                         );
                         return;
                     }
@@ -753,12 +734,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             modifierTags: new Set(
                 this.application.options.getValue("modifierTags"),
             ),
-            jsDocCompatibility:
-                this.application.options.getValue("jsDocCompatibility"),
-            suppressCommentWarningsInDeclarationFiles:
-                this.application.options.getValue(
-                    "suppressCommentWarningsInDeclarationFiles",
-                ),
+            jsDocCompatibility: this.application.options.getValue("jsDocCompatibility"),
+            suppressCommentWarningsInDeclarationFiles: this.application.options.getValue(
+                "suppressCommentWarningsInDeclarationFiles",
+            ),
             useTsLinkResolution: this.application.options.getValue(
                 "useTsLinkResolution",
             ),
@@ -789,9 +768,7 @@ function getSymbolForModuleLike(
     const sourceFile = node.getSourceFile();
     const globalSymbols = context.checker
         .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-        .filter((s) =>
-            s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile),
-        );
+        .filter((s) => s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile));
 
     // Detect declaration files with declare module "foo" as their only export
     // and lift that up one level as the source file symbol
@@ -854,7 +831,7 @@ function getExports(
                         .filter((exp) =>
                             exp.declarations?.some(
                                 (d) => d.getSourceFile() === node,
-                            ),
+                            )
                         )
                         .map((s) => context.checker.getMergedSymbol(s));
                 }
@@ -868,7 +845,7 @@ function getExports(
             .filter((s) =>
                 s
                     .getDeclarations()
-                    ?.some((d) => d.getSourceFile() === sourceFile),
+                    ?.some((d) => d.getSourceFile() === sourceFile)
             );
     }
 

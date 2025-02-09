@@ -2,12 +2,7 @@ import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
-import {
-    createMinimatch,
-    matchesAny,
-    nicePath,
-    normalizePath,
-} from "./paths.js";
+import { createMinimatch, matchesAny, nicePath, normalizePath } from "./paths.js";
 import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
 import {
@@ -46,8 +41,7 @@ export const EntryPointStrategy = {
     Merge: "merge",
 } as const;
 
-export type EntryPointStrategy =
-    (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
+export type EntryPointStrategy = (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
     displayName: string;
@@ -83,8 +77,7 @@ export function inferEntryPoints(logger: Logger, options: Options) {
     const jsToTsSource = new Map<string, string>();
     for (const program of programs) {
         const opts = program.getCompilerOptions();
-        const rootDir =
-            opts.rootDir || getCommonDirectory(program.getRootFileNames());
+        const rootDir = opts.rootDir || getCommonDirectory(program.getRootFileNames());
         const outDir = opts.outDir || rootDir;
 
         for (const tsFile of program.getRootFileNames()) {
@@ -347,10 +340,9 @@ export function getExpandedEntryPointsForPaths(
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
     const compilerOptions = options.getCompilerOptions();
-    const supportedFileRegex =
-        compilerOptions.allowJs || compilerOptions.checkJs
-            ? /\.([cm][tj]s|[tj]sx?)$/
-            : /\.([cm]ts|tsx?)$/;
+    const supportedFileRegex = compilerOptions.allowJs || compilerOptions.checkJs
+        ? /\.([cm][tj]s|[tj]sx?)$/
+        : /\.([cm]ts|tsx?)$/;
 
     return getEntryPointsForPaths(
         logger,
@@ -386,9 +378,11 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
             );
         } else if (filtered.length !== 1) {
             logger.verbose(
-                `Expanded ${nicePath(entry)} to:\n\t${filtered
-                    .map(nicePath)
-                    .join("\n\t")}`,
+                `Expanded ${nicePath(entry)} to:\n\t${
+                    filtered
+                        .map(nicePath)
+                        .join("\n\t")
+                }`,
             );
         }
 
@@ -403,20 +397,19 @@ function getEntryPrograms(
     logger: Logger,
     options: Options,
 ) {
-    const noTsConfigFound =
-        options.getFileNames().length === 0 &&
+    const noTsConfigFound = options.getFileNames().length === 0 &&
         options.getProjectReferences().length === 0;
 
     const rootProgram = noTsConfigFound
         ? ts.createProgram({
-              rootNames: inputFiles,
-              options: options.getCompilerOptions(),
-          })
+            rootNames: inputFiles,
+            options: options.getCompilerOptions(),
+        })
         : ts.createProgram({
-              rootNames: options.getFileNames(),
-              options: options.getCompilerOptions(),
-              projectReferences: options.getProjectReferences(),
-          });
+            rootNames: options.getFileNames(),
+            options: options.getCompilerOptions(),
+            projectReferences: options.getProjectReferences(),
+        });
 
     const programs = [rootProgram];
     // This might be a solution style tsconfig, in which case we need to add a program for each

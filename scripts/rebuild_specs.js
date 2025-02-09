@@ -41,9 +41,11 @@ async function getApp() {
          */
         toObject(ref, obj) {
             if (obj.url) {
-                obj.url = `typedoc://${obj.url.substring(
-                    obj.url.indexOf(ref.fileName),
-                )}`;
+                obj.url = `typedoc://${
+                    obj.url.substring(
+                        obj.url.indexOf(ref.fileName),
+                    )
+                }`;
             }
             return obj;
         },
@@ -125,7 +127,7 @@ function rebuildConverterTests(app, dirs) {
                     process.cwd(),
                 );
 
-                const data = JSON.stringify(serialized, null, "  ") + "\n";
+                const data = JSON.stringify(serialized, null, 4) + "\n";
                 after(app);
                 fs.writeFileSync(out, data);
             }

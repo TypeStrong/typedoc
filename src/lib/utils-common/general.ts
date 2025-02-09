@@ -39,9 +39,8 @@ export type NeverIfInternal<T> = IfInternal<never, T>;
 /**
  * Resolves a string type into a union of characters, `"ab"` turns into `"a" | "b"`.
  */
-export type Chars<T extends string> = T extends `${infer C}${infer R}`
-    ? C | Chars<R>
-    : never;
+export type Chars<T extends string> = T extends `${infer C}${infer R}` ? C | Chars<R> :
+    never;
 
 /**
  * Utility to help type checking ensure that there is no uncovered case.
@@ -67,8 +66,7 @@ export function dedent(text: string) {
     }
 
     const minIndent = lines.reduce(
-        (indent, line) =>
-            line.length ? Math.min(indent, line.search(/\S/)) : indent,
+        (indent, line) => line.length ? Math.min(indent, line.search(/\S/)) : indent,
         Infinity,
     );
 

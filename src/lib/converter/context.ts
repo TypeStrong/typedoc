@@ -2,26 +2,20 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
-    type Reflection,
-    type ProjectReflection,
     ContainerReflection,
     DeclarationReflection,
     type DocumentReflection,
-    ReflectionKind,
+    type ProjectReflection,
+    type Reflection,
     ReflectionFlag,
+    ReflectionKind,
 } from "../models/index.js";
 
 import type { Converter } from "./converter.js";
 import { isNamedNode } from "./utils/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
-import {
-    getComment,
-    getFileComment,
-    getJsDocComment,
-    getNodeComment,
-    getSignatureComment,
-} from "./comments/index.js";
+import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
 import { getHumanName } from "../utils/tsutils.js";
 import type { TranslationProxy } from "../internationalization/internationalization.js";
 
@@ -151,9 +145,9 @@ export class Context {
                 node.pos,
             );
             throw new Error(
-                `Expected a symbol for node with kind ${
-                    ts.SyntaxKind[node.kind]
-                } at ${node.getSourceFile().fileName}:${line + 1}`,
+                `Expected a symbol for node with kind ${ts.SyntaxKind[node.kind]} at ${node.getSourceFile().fileName}:${
+                    line + 1
+                }`,
             );
         }
         return symbol;
@@ -222,8 +216,8 @@ export class Context {
         }
 
         const path = reflection.kindOf(
-            ReflectionKind.Namespace | ReflectionKind.Module,
-        )
+                ReflectionKind.Namespace | ReflectionKind.Module,
+            )
             ? symbol?.declarations?.find(ts.isSourceFile)?.fileName
             : undefined;
         this.project.registerReflection(reflection, symbol, path);

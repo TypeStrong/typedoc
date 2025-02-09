@@ -1,12 +1,12 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import {
-    LiteralType,
-    ReflectionKind,
     Comment,
     CommentTag,
-    Reflection,
-    SignatureReflection,
     type ContainerReflection,
+    LiteralType,
+    Reflection,
+    ReflectionKind,
+    SignatureReflection,
 } from "../lib/models/index.js";
 import { filterMap } from "#utils";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
@@ -453,8 +453,7 @@ describe("Behavior Tests", () => {
                 Promise: "/promise2",
             },
             "@types/markdown-it": {
-                "MarkdownIt.Token":
-                    "https://markdown-it.github.io/markdown-it/#Token",
+                "MarkdownIt.Token": "https://markdown-it.github.io/markdown-it/#Token",
                 "*": "https://markdown-it.github.io/markdown-it/",
             },
         });
@@ -495,9 +494,7 @@ describe("Behavior Tests", () => {
         );
 
         equal(
-            project.groups.map((g) =>
-                Comment.combineDisplayParts(g.description),
-            ),
+            project.groups.map((g) => Comment.combineDisplayParts(g.description)),
             ["Variables desc", "A description", "", "With spaces desc"],
         );
 
@@ -529,9 +526,7 @@ describe("Behavior Tests", () => {
             ["Cat", "Other"],
         );
         equal(
-            cls.categories.map((g) =>
-                Comment.combineDisplayParts(g.description),
-            ),
+            cls.categories.map((g) => Comment.combineDisplayParts(g.description)),
             ["Cat desc", ""],
         );
         equal(
@@ -725,13 +720,15 @@ describe("Behavior Tests", () => {
         app.options.setValue("sort", ["source-order"]);
         app.options.setValue("useTsLinkResolution", false);
         const project = convert("linkResolution");
-        for (const [refl, target] of [
-            ["Scoping.abc", "Scoping.abc"],
-            ["Scoping.Foo", "Scoping.Foo.abc"],
-            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
-            ["Scoping.Bar", "Scoping.abc"],
-            ["Scoping.Bar.abc", "Scoping.abc"],
-        ] as const) {
+        for (
+            const [refl, target] of [
+                ["Scoping.abc", "Scoping.abc"],
+                ["Scoping.Foo", "Scoping.Foo.abc"],
+                ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+                ["Scoping.Bar", "Scoping.abc"],
+                ["Scoping.Bar.abc", "Scoping.abc"],
+            ] as const
+        ) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
                 [query(project, target).getFullName()],
@@ -795,13 +792,15 @@ describe("Behavior Tests", () => {
     it("Handles TypeScript based link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
         const project = convert("linkResolutionTs");
-        for (const [refl, target] of [
-            ["Scoping.abc", "Scoping.abc"],
-            ["Scoping.Foo", "Scoping.Foo.abc"],
-            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
-            ["Scoping.Bar", "Scoping.abc"],
-            ["Scoping.Bar.abc", "Scoping.abc"],
-        ] as const) {
+        for (
+            const [refl, target] of [
+                ["Scoping.abc", "Scoping.abc"],
+                ["Scoping.Foo", "Scoping.Foo.abc"],
+                ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+                ["Scoping.Bar", "Scoping.abc"],
+                ["Scoping.Bar.abc", "Scoping.abc"],
+            ] as const
+        ) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
                 [query(project, target).getFullName()],
@@ -931,9 +930,7 @@ describe("Behavior Tests", () => {
     it("Handles overloads", () => {
         const project = convert("overloads");
         const foo = query(project, "foo");
-        const fooComments = foo.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary),
-        );
+        const fooComments = foo.signatures?.map((sig) => Comment.combineDisplayParts(sig.comment?.summary));
         equal(fooComments, ["No arg comment\n", "No arg comment\n"]);
         equal(foo.comment, undefined);
 
@@ -943,9 +940,7 @@ describe("Behavior Tests", () => {
         );
 
         const bar = query(project, "bar");
-        const barComments = bar.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary),
-        );
+        const barComments = bar.signatures?.map((sig) => Comment.combineDisplayParts(sig.comment?.summary));
         equal(barComments, ["", "Custom comment"]);
         equal(
             Comment.combineDisplayParts(bar.comment?.summary),
@@ -1022,7 +1017,7 @@ describe("Behavior Tests", () => {
         );
 
         const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
-            Comment.combineDisplayParts(r.comment?.summary),
+            Comment.combineDisplayParts(r.comment?.summary)
         );
 
         equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
@@ -1086,8 +1081,7 @@ describe("Behavior Tests", () => {
     it("Handles renaming of destructured parameters via @param tag name inference", () => {
         const project = convert("destructuredParamRenames");
 
-        const params = (name: string) =>
-            querySig(project, name).parameters?.map((p) => p.name);
+        const params = (name: string) => querySig(project, name).parameters?.map((p) => p.name);
 
         equal(params("functionWithADestructuredParameter"), [
             "destructuredParam",
@@ -1157,8 +1151,7 @@ describe("Behavior Tests", () => {
         const project = convert("cascadedModifiers");
 
         const mods = (s: string) => query(project, s).comment?.modifierTags;
-        const sigMods = (s: string) =>
-            querySig(project, s).comment?.modifierTags;
+        const sigMods = (s: string) => querySig(project, s).comment?.modifierTags;
 
         equal(mods("BetaStuff"), new Set(["@beta"]));
         equal(mods("BetaStuff.AlsoBeta"), new Set(["@beta"]));

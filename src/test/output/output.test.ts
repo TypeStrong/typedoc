@@ -171,9 +171,7 @@ describe("Output", () => {
     });
 
     it("Logs an error if an output throws", async () => {
-        outputs.addOutput("test", () =>
-            Promise.reject(new Error("Test Error")),
-        );
+        outputs.addOutput("test", () => Promise.reject(new Error("Test Error")));
         await outputs.writeOutput({ name: "test", path: "test" }, dummyProject);
 
         logger.expectMessage("error: Test Error");

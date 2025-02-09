@@ -2,22 +2,16 @@
 // Implements roughly the same algorithm as Prettier
 
 import { ok } from "assert";
-import {
-    LiteralType,
-    ReferenceType,
-    TypeContext,
-    type SomeType,
-    type TypeVisitor,
-} from "../models/types.js";
+import { LiteralType, ReferenceType, type SomeType, TypeContext, type TypeVisitor } from "../models/types.js";
 import { aggregate, assertNever, JSX } from "#utils";
 import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 import {
-    ReflectionKind,
-    type Reflection,
     type DeclarationReflection,
+    type ParameterReflection,
+    type Reflection,
+    ReflectionKind,
     type SignatureReflection,
     type TypeParameterReflection,
-    type ParameterReflection,
 } from "../models/index.js";
 import type { Router } from "./index.js";
 
@@ -33,11 +27,11 @@ export type FormatterNode =
     | { type: "group"; id: number; content: FormatterNode[] }
     | { type: "nodes"; content: FormatterNode[] }
     | {
-          type: "if_wrap";
-          id: number;
-          true: FormatterNode;
-          false: FormatterNode;
-      };
+        type: "if_wrap";
+        id: number;
+        true: FormatterNode;
+        false: FormatterNode;
+    };
 
 const emptyNode = textNode("");
 
@@ -160,9 +154,7 @@ export class FormattedCodeGenerator {
                 break;
             }
             case "group": {
-                const width = aggregate(node.content, (n) =>
-                    nodeWidth(n, this.wrapped),
-                );
+                const width = aggregate(node.content, (n) => nodeWidth(n, this.wrapped));
                 let wrap: Wrap;
                 if (this.size + width > this.max || this.wrapped.has(node.id)) {
                     this.wrapped.add(node.id);
@@ -302,9 +294,7 @@ const typeBuilder: TypeVisitor<
                 } else {
                     indexType = {
                         type: "element",
-                        content: (
-                            <span class="tsd-signature-type">{displayed}</span>
-                        ),
+                        content: <span class="tsd-signature-type">{displayed}</span>,
                         length: displayed.length,
                     };
                 }
@@ -527,10 +517,8 @@ const typeBuilder: TypeVisitor<
                             return simpleElement(
                                 <a
                                     href={builder.urlTo(item)}
-                                    class={
-                                        "tsd-signature-type " +
-                                        getKindClass(item)
-                                    }
+                                    class={"tsd-signature-type " +
+                                        getKindClass(item)}
                                 >
                                     {item.name}
                                 </a>,
@@ -539,9 +527,7 @@ const typeBuilder: TypeVisitor<
 
                         return simpleElement(
                             <span
-                                class={
-                                    "tsd-signature-type " + getKindClass(item)
-                                }
+                                class={"tsd-signature-type " + getKindClass(item)}
                             >
                                 {item.name}
                             </span>,
@@ -768,13 +754,13 @@ export class FormattedCodeBuilder {
                     nodes(
                         ...(index.flags.isReadonly
                             ? [
-                                  simpleElement(
-                                      <span class="tsd-signature-keyword">
-                                          readonly
-                                      </span>,
-                                  ),
-                                  space(),
-                              ]
+                                simpleElement(
+                                    <span class="tsd-signature-keyword">
+                                        readonly
+                                    </span>,
+                                ),
+                                space(),
+                            ]
                             : []),
                         simpleElement(
                             <span class="tsd-signature-symbol">[</span>,

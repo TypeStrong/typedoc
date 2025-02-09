@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { filterMap, escapeRegExp, Validation } from "#utils";
+import { escapeRegExp, filterMap, Validation } from "#utils";
 import { createMinimatch, normalizePath } from "./paths.js";
 import { ok } from "assert";
 
@@ -37,7 +37,7 @@ export function deriveRootDir(globPaths: string[]): string {
                     normalized[i].indexOf(kept) + kept.length,
                 );
             }
-        }),
+        })
     );
     return getCommonDirectory(rootPaths);
 }
@@ -154,9 +154,7 @@ export function copySync(src: string, dest: string): void {
 
     if (stat.isDirectory()) {
         const contained = fs.readdirSync(src);
-        contained.forEach((file) =>
-            copySync(join(src, file), join(dest, file)),
-        );
+        contained.forEach((file) => copySync(join(src, file), join(dest, file)));
     } else if (stat.isFile()) {
         fs.mkdirSync(dirname(dest), { recursive: true });
         fs.copyFileSync(src, dest);
@@ -207,8 +205,7 @@ export function discoverFiles(
         const childPath = [...dir!, path].join("/");
         let realpath: string;
         try {
-            realpath =
-                realpathCache.get(childPath) ?? fs.realpathSync(childPath);
+            realpath = realpathCache.get(childPath) ?? fs.realpathSync(childPath);
             realpathCache.set(childPath, realpath);
         } catch {
             return;
@@ -244,9 +241,11 @@ export function discoverFiles(
             result.push(dir.join("/"));
         }
 
-        for (const child of fs.readdirSync(dir.join("/"), {
-            withFileTypes: true,
-        })) {
+        for (
+            const child of fs.readdirSync(dir.join("/"), {
+                withFileTypes: true,
+            })
+        ) {
             if (child.isFile()) {
                 handleFile(child.name);
             } else if (child.isDirectory()) {
@@ -289,9 +288,7 @@ export function glob(
                 return false;
             }
 
-            return mini.set.some((row) =>
-                mini.matchOne(childPath, row, /* partial */ true),
-            );
+            return mini.set.some((row) => mini.matchOne(childPath, row, /* partial */ true));
         },
         matchDirectories: options.includeDirectories,
         followSymlinks: options.followSymlinks,
@@ -315,8 +312,7 @@ export function discoverInParentDir<T extends {}>(
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 
-    const reachedTopDirectory = (dirName: string) =>
-        dirName === resolve(join(dirName, ".."));
+    const reachedTopDirectory = (dirName: string) => dirName === resolve(join(dirName, ".."));
 
     while (!reachedTopDirectory(dir)) {
         for (const file of fs.readdirSync(dir)) {
@@ -343,8 +339,7 @@ export function discoverInParentDirExactMatch<T extends {}>(
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 
-    const reachedTopDirectory = (dirName: string) =>
-        dirName === resolve(join(dirName, ".."));
+    const reachedTopDirectory = (dirName: string) => dirName === resolve(join(dirName, ".."));
 
     while (!reachedTopDirectory(dir)) {
         usedFile?.(join(dir, name));

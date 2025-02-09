@@ -11,21 +11,13 @@ import * as path from "path";
 
 import type { Application } from "../application.js";
 import type { Theme } from "./theme.js";
-import {
-    RendererEvent,
-    PageEvent,
-    IndexEvent,
-    type MarkdownEvent,
-} from "./events.js";
+import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
 import type { ProjectReflection } from "../models/reflections/project.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
-import { Option, AbstractComponent } from "../utils/index.js";
+import { AbstractComponent, Option } from "../utils/index.js";
 import { loadHighlighter } from "../utils/highlighter.js";
-import type {
-    BundledLanguage,
-    BundledTheme as ShikiTheme,
-} from "@gerrit0/mini-shiki";
+import type { BundledLanguage, BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 import type { Comment, Reflection } from "../models/index.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 import { EventHooks, JSX } from "#utils";
@@ -44,10 +36,10 @@ import {
     GroupRouter,
     KindDirRouter,
     KindRouter,
-    StructureDirRouter,
-    StructureRouter,
     type PageDefinition,
     type Router,
+    StructureDirRouter,
+    StructureRouter,
 } from "./router.js";
 
 /**
@@ -496,8 +488,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
 
         if (this.githubPages) {
             try {
-                const text =
-                    "TypeDoc added this file to prevent GitHub Pages from " +
+                const text = "TypeDoc added this file to prevent GitHub Pages from " +
                     "using Jekyll. You can turn off this behavior by setting " +
                     "the `githubPages` option to false.";
 

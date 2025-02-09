@@ -81,10 +81,8 @@ const sorts: Record<
             const aRefl = a as DeclarationReflection;
             const bRefl = b as DeclarationReflection;
 
-            const aValue =
-                aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
-            const bValue =
-                bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
+            const aValue = aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
+            const bValue = bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
 
             return aValue! < bValue!;
         }
@@ -98,10 +96,8 @@ const sorts: Record<
             const aRefl = a as DeclarationReflection;
             const bRefl = b as DeclarationReflection;
 
-            const aValue =
-                aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
-            const bValue =
-                bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
+            const aValue = aRefl.type?.type === "literal" ? aRefl.type.value : -Infinity;
+            const bValue = bRefl.type?.type === "literal" ? bRefl.type.value : -Infinity;
 
             return bValue! < aValue!;
         }

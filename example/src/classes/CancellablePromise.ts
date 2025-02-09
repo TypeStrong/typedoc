@@ -114,11 +114,11 @@ export class CancellablePromise<T> {
 
         if (onFulfilled) {
             fulfill = (value: T): TResult1 | PromiseLike<TResult1> => {
-                const nextValue: TResult1 | PromiseLike<TResult1> =
-                    onFulfilled(value);
+                const nextValue: TResult1 | PromiseLike<TResult1> = onFulfilled(value);
 
-                if (isPromiseWithCancel(nextValue))
+                if (isPromiseWithCancel(nextValue)) {
                     callbackPromiseWithCancel = nextValue;
+                }
 
                 return nextValue;
             };
@@ -126,11 +126,11 @@ export class CancellablePromise<T> {
 
         if (onRejected) {
             reject = (reason: any): TResult2 | PromiseLike<TResult2> => {
-                const nextValue: TResult2 | PromiseLike<TResult2> =
-                    onRejected(reason);
+                const nextValue: TResult2 | PromiseLike<TResult2> = onRejected(reason);
 
-                if (isPromiseWithCancel(nextValue))
+                if (isPromiseWithCancel(nextValue)) {
                     callbackPromiseWithCancel = nextValue;
+                }
 
                 return nextValue;
             };
@@ -326,11 +326,13 @@ export class CancellablePromise<T> {
      */
     static allSettled<T extends readonly unknown[] | readonly [unknown]>(
         values: T,
-    ): CancellablePromise<{
-        -readonly [P in keyof T]: PromiseSettledResult<
-            T[P] extends PromiseLike<infer U> ? U : T[P]
-        >;
-    }>;
+    ): CancellablePromise<
+        {
+            -readonly [P in keyof T]: PromiseSettledResult<
+                T[P] extends PromiseLike<infer U> ? U : T[P]
+            >;
+        }
+    >;
 
     /**
      * Creates a `CancellablePromise` that is resolved with an array of results

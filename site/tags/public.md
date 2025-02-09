@@ -37,9 +37,9 @@ API authors are encouraged to treat all exported members as public if not explic
 
 ## See Also
 
--   The [`@alpha`](alpha.md) tag
--   The [`@beta`](beta.md) tag
--   The [`@experimental`](experimental.md) tag
--   The [`@internal`](internal.md) tag
--   The [`@private`](private.md) tag
--   The [`@protected`](protected.md) tag
+- The [`@alpha`](alpha.md) tag
+- The [`@beta`](beta.md) tag
+- The [`@experimental`](experimental.md) tag
+- The [`@internal`](internal.md) tag
+- The [`@private`](private.md) tag
+- The [`@protected`](protected.md) tag

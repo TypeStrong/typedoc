@@ -12,13 +12,15 @@ export function* lexBlockComment(
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexBlockComment2(
-        file,
-        pos,
-        end,
-        getLinkTags(jsDoc),
-        checker,
-    )) {
+    for (
+        const token of lexBlockComment2(
+            file,
+            pos,
+            end,
+            getLinkTags(jsDoc),
+            checker,
+        )
+    ) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
                 textToken.text += token.text;

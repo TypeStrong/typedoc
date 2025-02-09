@@ -2,12 +2,8 @@ import * as Path from "path";
 
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
-import {
-    deriveRootDir,
-    discoverInParentDir,
-    discoverPackageJson,
-} from "../../utils/fs.js";
+import { EntryPointStrategy, Option, readFile } from "../../utils/index.js";
+import { deriveRootDir, discoverInParentDir, discoverPackageJson } from "../../utils/fs.js";
 import { nicePath } from "../../utils/paths.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { ProjectReflection } from "../../models/index.js";
@@ -76,13 +72,11 @@ export class PackagePlugin extends ConverterComponent {
         this.readmeContents = undefined;
         this.packageJson = undefined;
 
-        const entryFiles =
-            this.entryPointStrategy === EntryPointStrategy.Packages
-                ? this.entryPoints.map((d) => join(d, "package.json"))
-                : this.entryPoints;
+        const entryFiles = this.entryPointStrategy === EntryPointStrategy.Packages
+            ? this.entryPoints.map((d) => join(d, "package.json"))
+            : this.entryPoints;
 
-        const dirName =
-            this.application.options.packageDir ??
+        const dirName = this.application.options.packageDir ??
             Path.resolve(deriveRootDir(entryFiles));
 
         this.application.logger.verbose(

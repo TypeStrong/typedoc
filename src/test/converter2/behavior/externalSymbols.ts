@@ -1,4 +1,4 @@
-import { Token, ParseLinkTitleResult } from "markdown-it";
+import { ParseLinkTitleResult, Token } from "markdown-it";
 
 /**
  * Testing custom external link resolution

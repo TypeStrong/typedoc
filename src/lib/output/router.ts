@@ -2,10 +2,10 @@ import type { Application } from "../application.js";
 import { CategoryPlugin } from "../converter/plugins/CategoryPlugin.js";
 import { GroupPlugin } from "../converter/plugins/GroupPlugin.js";
 import {
-    type Reflection,
     type DeclarationReflection,
-    ReflectionKind,
     type ProjectReflection,
+    type Reflection,
+    ReflectionKind,
 } from "../models/index.js";
 import { createNormalizedUrl } from "#utils";
 import { Option, type TypeDocOptionMap } from "../utils/index.js";
@@ -250,8 +250,7 @@ export abstract class BaseRouter implements Router {
      * that reflection will not have their own document.
      */
     protected getPageKind(reflection: Reflection): PageKind | undefined {
-        const pageReflectionKinds =
-            ReflectionKind.Class |
+        const pageReflectionKinds = ReflectionKind.Class |
             ReflectionKind.Interface |
             ReflectionKind.Enum |
             ReflectionKind.Module |

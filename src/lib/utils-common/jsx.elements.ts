@@ -1029,10 +1029,7 @@ export interface JsxSvgPresentationProps {
  *
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg
  */
-export interface JsxSvgElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgPresentationProps {
+export interface JsxSvgElementProps extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgPresentationProps {
     height?: string | number;
     preserveAspectRatio?: `${
         | "none"
@@ -1055,10 +1052,8 @@ export interface JsxSvgElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g
  */
 export interface JsxGElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {}
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{}
 
 /**
  * Properties permitted on the `<path>` element.
@@ -1066,10 +1061,8 @@ export interface JsxGElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path
  */
 export interface JsxPathElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     d: string;
     pathLength?: number;
 }
@@ -1080,10 +1073,8 @@ export interface JsxPathElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect
  */
 export interface JsxRectElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     height?: string | number;
     pathLength?: number;
     rx?: string | number;
@@ -1099,10 +1090,8 @@ export interface JsxRectElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle
  */
 export interface JsxCircleElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     cx?: string | number;
     cy?: string | number;
     r?: string | number;
@@ -1115,10 +1104,8 @@ export interface JsxCircleElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/ellipse
  */
 export interface JsxEllipseElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     cx?: string | number;
     cy?: string | number;
     rx?: string | number;
@@ -1132,10 +1119,8 @@ export interface JsxEllipseElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon
  */
 export interface JsxPolygonElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     points?: string;
     pathLength?: number;
 }
@@ -1145,10 +1130,8 @@ export interface JsxPolygonElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
  */
 export interface JsxPolylineElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     points?: string;
     pathLength?: number;
 }
@@ -1158,10 +1141,8 @@ export interface JsxPolylineElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/line
  */
 export interface JsxLineElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     x1?: string | number;
     y1?: string | number;
     x2?: string | number;
@@ -1175,10 +1156,8 @@ export interface JsxLineElementProps
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use
  */
 export interface JsxUseElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgConditionalProcessingProps,
-        JsxSvgPresentationProps {
+    extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgConditionalProcessingProps, JsxSvgPresentationProps
+{
     href: string;
     x?: string | number;
     y?: string | number;
@@ -1191,10 +1170,7 @@ export interface JsxUseElementProps
  *
  * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
  */
-export interface JsxTextElementProps
-    extends JsxSvgCoreProps,
-        JsxSvgStyleProps,
-        JsxSvgPresentationProps {
+export interface JsxTextElementProps extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgPresentationProps {
     x?: string | number;
     y?: string | number;
 }

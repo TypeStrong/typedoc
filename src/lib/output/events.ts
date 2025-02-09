@@ -1,9 +1,5 @@
 import type { ProjectReflection } from "../models/reflections/project.js";
-import type {
-    DeclarationReflection,
-    DocumentReflection,
-    ReflectionKind,
-} from "../models/index.js";
+import type { DeclarationReflection, DocumentReflection, ReflectionKind } from "../models/index.js";
 import type { PageDefinition, PageKind } from "./router.js";
 
 /**

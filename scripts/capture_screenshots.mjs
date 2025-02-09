@@ -1,7 +1,7 @@
 // @ts-check
 import * as fs from "fs";
 import { platform } from "os";
-import { resolve, dirname, relative, join } from "path";
+import { dirname, join, relative, resolve } from "path";
 import { parseArgs } from "util";
 import puppeteer from "puppeteer";
 
@@ -97,10 +97,9 @@ export async function captureScreenshots(
     await fs.promises.mkdir(outputDirectory, { recursive: true });
 
     const browser = await puppeteer.launch({
-        args:
-            platform() === "win32"
-                ? []
-                : ["--no-sandbox", "--disable-setuid-sandbox"],
+        args: platform() === "win32"
+            ? []
+            : ["--no-sandbox", "--disable-setuid-sandbox"],
         headless,
     });
 

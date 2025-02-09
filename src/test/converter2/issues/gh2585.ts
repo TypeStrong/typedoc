@@ -1,4 +1,4 @@
-// prettier-ignore
+// dprint-ignore
 
 export type Foo =
     /**

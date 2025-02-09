@@ -1,12 +1,8 @@
-import { assertNever, removeIf, NonEnumerable } from "#utils";
+import { assertNever, NonEnumerable, removeIf } from "#utils";
 import type { Reflection } from "../reflections/index.js";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId.js";
 
-import type {
-    Serializer,
-    Deserializer,
-    JSONOutput,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 
 /**
  * Represents a parsed piece of a comment.
@@ -21,7 +17,7 @@ export type CommentDisplayPart =
     /**
      * Represents a code block separated out form the plain text entry so
      * that TypeDoc knows to skip it when parsing relative links and inline tags.
-     **/
+     */
     | { kind: "code"; text: string }
     | InlineTagDisplayPart
     | RelativeLinkDisplayPart;
@@ -195,7 +191,7 @@ export class Comment {
         return parts.map((p) => ({ ...p }));
     }
 
-    //Since display parts are plain objects, this lives here
+    // Since display parts are plain objects, this lives here
     static serializeDisplayParts(
         serializer: Serializer,
         parts: CommentDisplayPart[],
@@ -239,7 +235,7 @@ export class Comment {
         });
     }
 
-    //Since display parts are plain objects, this lives here
+    // Since display parts are plain objects, this lives here
     static deserializeDisplayParts(
         de: Deserializer,
         parts: JSONOutput.CommentDisplayPart[],
@@ -503,7 +499,7 @@ export class Comment {
     similarTo(other: Comment): boolean {
         if (
             Comment.combineDisplayParts(this.summary) !==
-            Comment.combineDisplayParts(other.summary)
+                Comment.combineDisplayParts(other.summary)
         ) {
             return false;
         }
@@ -535,8 +531,7 @@ export class Comment {
         );
         comment.discoveryId = this.discoveryId;
         comment.sourcePath = this.sourcePath;
-        comment.inheritedFromParentDeclaration =
-            this.inheritedFromParentDeclaration;
+        comment.inheritedFromParentDeclaration = this.inheritedFromParentDeclaration;
         return comment;
     }
 
@@ -609,22 +604,20 @@ export class Comment {
         return {
             summary: Comment.serializeDisplayParts(serializer, this.summary),
             blockTags: serializer.toObjectsOptional(this.blockTags),
-            modifierTags:
-                this.modifierTags.size > 0
-                    ? Array.from(this.modifierTags)
-                    : undefined,
+            modifierTags: this.modifierTags.size > 0
+                ? Array.from(this.modifierTags)
+                : undefined,
             label: this.label,
         };
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.Comment) {
         this.summary = Comment.deserializeDisplayParts(de, obj.summary);
-        this.blockTags =
-            obj.blockTags?.map((tagObj) => {
-                const tag = new CommentTag(tagObj.tag, []);
-                de.fromObject(tag, tagObj);
-                return tag;
-            }) || [];
+        this.blockTags = obj.blockTags?.map((tagObj) => {
+            const tag = new CommentTag(tagObj.tag, []);
+            de.fromObject(tag, tagObj);
+            return tag;
+        }) || [];
         this.modifierTags = new Set(obj.modifierTags);
         this.label = obj.label;
     }

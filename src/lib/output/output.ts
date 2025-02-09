@@ -1,11 +1,7 @@
 import type { Application } from "../application.js";
 import type { TranslatedString } from "../internationalization/index.js";
 import type { ProjectReflection } from "../models/index.js";
-import {
-    ParameterType,
-    type OutputSpecification,
-    type StringDeclarationOption,
-} from "../utils/options/declaration.js";
+import { type OutputSpecification, ParameterType, type StringDeclarationOption } from "../utils/options/declaration.js";
 import { nicePath } from "../utils/paths.js";
 
 export class Outputs {
@@ -40,8 +36,7 @@ export class Outputs {
         const outputShortcuts = options
             .getDeclarations()
             .filter(
-                (decl) =>
-                    decl.type === ParameterType.Path && decl.outputShortcut,
+                (decl) => decl.type === ParameterType.Path && decl.outputShortcut,
             );
 
         // --out is a special case. It isn't marked as a shortcut as what it is
@@ -110,8 +105,7 @@ export class Outputs {
         try {
             await writer(output.path, project);
         } catch (error) {
-            const message =
-                error instanceof Error ? error.message : String(error);
+            const message = error instanceof Error ? error.message : String(error);
             this.application.logger.error(message as TranslatedString);
         }
 

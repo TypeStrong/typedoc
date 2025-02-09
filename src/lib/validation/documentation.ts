@@ -81,10 +81,9 @@ export function validateDocumentation(
         }
 
         if (ref instanceof DeclarationReflection) {
-            const signatures =
-                ref.type instanceof ReflectionType
-                    ? ref.type.declaration.getNonIndexSignatures()
-                    : ref.getNonIndexSignatures();
+            const signatures = ref.type instanceof ReflectionType
+                ? ref.type.declaration.getNonIndexSignatures()
+                : ref.getNonIndexSignatures();
 
             if (signatures.length) {
                 // We've been asked to validate this reflection, so we should validate that
@@ -101,8 +100,7 @@ export function validateDocumentation(
         const symbolId = project.getSymbolIdFromReflection(ref);
 
         // #2644, signatures may be documented by their parent reflection.
-        const hasComment =
-            ref.hasComment() ||
+        const hasComment = ref.hasComment() ||
             (ref.kindOf(ReflectionKind.SomeSignature) &&
                 ref.parent?.hasComment());
 

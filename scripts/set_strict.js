@@ -21,7 +21,7 @@ fs.readFile(file, { encoding: "utf-8" })
                 /type InternalOnly =.*/,
                 `type InternalOnly = ${isStrict};`,
             ),
-        ),
+        )
     )
     .catch((reason) => {
         console.error(reason);

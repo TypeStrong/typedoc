@@ -2,12 +2,8 @@ import * as fs from "fs";
 import { createServer } from "net";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
-import { basename, dirname, resolve, normalize, join } from "path";
-import {
-    getCommonDirectory,
-    glob,
-    inferPackageEntryPointPaths,
-} from "../../lib/utils/fs.js";
+import { basename, dirname, join, normalize, resolve } from "path";
+import { getCommonDirectory, glob, inferPackageEntryPointPaths } from "../../lib/utils/fs.js";
 import { normalizePath } from "../../lib/utils/paths.js";
 
 describe("fs.ts", () => {
@@ -128,9 +124,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) =>
-                        basename(f),
-                    ),
+                    glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) => basename(f)),
                     ["test.ts"],
                 );
             });
@@ -141,9 +135,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) =>
-                        basename(f),
-                    ),
+                    glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) => basename(f)),
                     [],
                 );
             });
@@ -178,8 +170,7 @@ describe("fs.ts", () => {
     describe("inferPackageEntryPointPaths", () => {
         using fixture = tempdirProject();
         afterEach(() => fixture.rm());
-        const packagePath = (path: string) =>
-            normalizePath(join(fixture.cwd, path));
+        const packagePath = (path: string) => normalizePath(join(fixture.cwd, path));
 
         const inferExports = () =>
             inferPackageEntryPointPaths(fixture.cwd + "/package.json").map(

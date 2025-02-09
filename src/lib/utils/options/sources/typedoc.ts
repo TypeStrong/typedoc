@@ -1,11 +1,5 @@
 import { LogLevel } from "../../loggers.js";
-import {
-    ParameterType,
-    ParameterHint,
-    EmitStrategy,
-    CommentStyle,
-    type TypeDocOptionMap,
-} from "../declaration.js";
+import { CommentStyle, EmitStrategy, ParameterHint, ParameterType, type TypeDocOptionMap } from "../declaration.js";
 import * as OptionDefaults from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
@@ -13,10 +7,7 @@ import { ReflectionKind } from "../../../models/reflections/kind.js";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys, setDifference, Validation } from "#utils";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import {
-    getSupportedLanguages,
-    getSupportedThemes,
-} from "../../highlighter.js";
+import { getSupportedLanguages, getSupportedThemes } from "../../highlighter.js";
 import type { TranslationProxy } from "../../../internationalization/index.js";
 import type { Options } from "../options.js";
 import { extname } from "path";
@@ -162,12 +153,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate(value, i18n) {
             const invalid = new Set(value);
             const valid = new Set(getEnumKeys(ReflectionKind));
-            for (const notPermitted of [
-                ReflectionKind.Project,
-                ReflectionKind.TypeLiteral,
-                ReflectionKind.TypeParameter,
-                ReflectionKind.Parameter,
-            ]) {
+            for (
+                const notPermitted of [
+                    ReflectionKind.Project,
+                    ReflectionKind.TypeLiteral,
+                    ReflectionKind.TypeParameter,
+                    ReflectionKind.Parameter,
+                ]
+            ) {
                 valid.delete(ReflectionKind[notPermitted]);
             }
             for (const v of valid) {

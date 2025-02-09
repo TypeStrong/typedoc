@@ -1,5 +1,5 @@
 import { ok } from "assert";
-import type { OptionsReader, Options } from "../index.js";
+import type { Options, OptionsReader } from "../index.js";
 import type { Logger } from "../../loggers.js";
 import { ParameterType } from "../declaration.js";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";

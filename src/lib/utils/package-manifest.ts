@@ -2,7 +2,7 @@
 
 import { dirname, resolve } from "path";
 
-import { readFile, glob } from "./fs.js";
+import { glob, readFile } from "./fs.js";
 import type { Logger } from "./loggers.js";
 import type { Minimatch } from "minimatch";
 import { matchesAny, nicePath } from "./paths.js";
@@ -96,11 +96,15 @@ export function expandPackages(
             );
         } else if (expandedPackageJsonPaths.length !== 1) {
             logger.verbose(
-                `Expanded ${nicePath(
-                    workspace,
-                )} to:\n\t${expandedPackageJsonPaths
-                    .map(nicePath)
-                    .join("\n\t")}`,
+                `Expanded ${
+                    nicePath(
+                        workspace,
+                    )
+                } to:\n\t${
+                    expandedPackageJsonPaths
+                        .map(nicePath)
+                        .join("\n\t")
+                }`,
             );
         }
 

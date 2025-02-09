@@ -1,4 +1,4 @@
-import { ReactElement, PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 
 /**
  * The props type for {@link CardA}.
@@ -153,12 +153,12 @@ export interface EasyFormDialogProps {
      */
     onSubmit(formData: Record<string, string | boolean>):
         | Promise<
-              | {
-                    shouldClose?: boolean;
-                    responseData: unknown;
-                }
-              | undefined
-          >
+            | {
+                shouldClose?: boolean;
+                responseData: unknown;
+            }
+            | undefined
+        >
         | Promise<void>;
 
     /**

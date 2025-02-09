@@ -101,14 +101,12 @@ async function main() {
         return;
     }
 
-    const dir =
-        args.values.dir ??
+    const dir = args.values.dir ??
         fileURLToPath(new URL("../tmp/visual_regression", import.meta.url));
     const docs = args.values.docs ?? new URL("../docs", import.meta.url);
     const jobs = parseInt(args.values.jobs || "6");
 
-    const userSpecifiedJob =
-        args.values.accept ||
+    const userSpecifiedJob = args.values.accept ||
         args.values.run ||
         args.values.screenshot ||
         args.values.compare;

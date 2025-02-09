@@ -2,34 +2,24 @@ import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
 import {
+    Comment,
+    type CommentDisplayPart,
+    CommentTag,
+    type JSONOutput,
     ProjectReflection,
-    Serializer,
-    resetReflectionID,
+    ReferenceReflection,
+    ReferenceType,
     Reflection,
     ReflectionCategory,
     ReflectionGroup,
-    type JSONOutput,
-    CommentTag,
-    ReferenceType,
-    Comment,
-    type CommentDisplayPart,
+    resetReflectionID,
+    Serializer,
     SourceReference,
-    ReferenceReflection,
 } from "../index.js";
-import type {
-    SomeReflection,
-    ModelToObject,
-} from "../lib/serialization/schema.js";
+import type { ModelToObject, SomeReflection } from "../lib/serialization/schema.js";
 import { getExpandedEntryPointsForPaths } from "../lib/utils/index.js";
-import {
-    getConverterApp,
-    getConverterBase,
-    getConverterProgram,
-} from "./programs.js";
-import {
-    FileRegistry,
-    ValidatingFileRegistry,
-} from "../lib/models/FileRegistry.js";
+import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";
+import { FileRegistry, ValidatingFileRegistry } from "../lib/models/FileRegistry.js";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -121,9 +111,11 @@ comparisonSerializer.addSerializer({
         _serializer,
     ) {
         if (obj.url) {
-            obj.url = `typedoc://${obj.url.substring(
-                obj.url.indexOf(ref.fileName),
-            )}`;
+            obj.url = `typedoc://${
+                obj.url.substring(
+                    obj.url.indexOf(ref.fileName),
+                )
+            }`;
         }
         return obj;
     },

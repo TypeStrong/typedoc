@@ -43,10 +43,9 @@ export function commentSummary(context: DefaultThemeRenderContext, props: Reflec
         return context.displayParts(props.comment.summary);
     }
 
-    const target =
-        (props.isDeclaration() || props.isParameter()) && props.type?.type === "reference"
-            ? props.type.reflection
-            : undefined;
+    const target = (props.isDeclaration() || props.isParameter()) && props.type?.type === "reference"
+        ? props.type.reflection
+        : undefined;
 
     if (target?.comment?.hasModifier("@expand") && target?.comment?.summary.some((part) => part.text)) {
         return context.displayParts(target.comment.summary);
@@ -64,8 +63,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
     const tags = props.kindOf(ReflectionKind.SomeSignature)
         ? props.comment.blockTags.filter(
-              (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
-          )
+            (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
+        )
         : props.comment.blockTags.filter((tag) => !tag.skipRendering && !skippedTags.includes(tag.tag));
 
     skipSave.forEach((skip, i) => (props.comment!.blockTags[i].skipRendering = skip));

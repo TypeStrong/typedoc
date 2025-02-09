@@ -49,8 +49,7 @@ export class LinkResolverPlugin extends ConverterComponent {
                     makeRecursiveVisitor({
                         union: (type) => {
                             type.elementSummaries = type.elementSummaries?.map(
-                                (parts) =>
-                                    this.owner.resolveLinks(parts, reflection),
+                                (parts) => this.owner.resolveLinks(parts, reflection),
                             );
                         },
                     }),
@@ -121,10 +120,12 @@ export class LinkResolverPlugin extends ConverterComponent {
             project.readme = this.owner.resolveLinks(project.readme, project);
         }
 
-        for (const { type, owner } of discoverAllReferenceTypes(
-            project,
-            false,
-        )) {
+        for (
+            const { type, owner } of discoverAllReferenceTypes(
+                project,
+                false,
+            )
+        ) {
             if (!type.reflection) {
                 const resolveResult = this.owner.resolveExternalLink(
                     type.toDeclarationReference(),

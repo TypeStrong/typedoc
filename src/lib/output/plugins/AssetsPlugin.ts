@@ -3,7 +3,7 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { getEnumKeys, type EnumKeys } from "#utils";
+import { type EnumKeys, getEnumKeys } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
@@ -43,12 +43,10 @@ export class AssetsPlugin extends RendererComponent {
             hierarchy_collapse: i18n.theme_hierarchy_collapse(),
             folder: i18n.theme_folder(),
 
-            search_index_not_available:
-                this.application.i18n.theme_search_index_not_available(),
-            search_no_results_found_for_0:
-                this.application.i18n.theme_search_no_results_found_for_0(
-                    "{0}",
-                ),
+            search_index_not_available: this.application.i18n.theme_search_index_not_available(),
+            search_no_results_found_for_0: this.application.i18n.theme_search_no_results_found_for_0(
+                "{0}",
+            ),
         };
 
         for (const key of getEnumKeys(ReflectionKind)) {

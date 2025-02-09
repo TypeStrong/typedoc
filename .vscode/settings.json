@@ -8,34 +8,30 @@
 
     // Automatically run the formatter when certain files are saved.
     "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "dprint.dprint",
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "dprint.dprint",
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
     "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "dprint.dprint",
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
     "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "dprint.dprint",
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
     "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "dprint.dprint",
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
-
-    "prettier.enable": true,
-    "prettier.configPath": ".config/.prettierrc.json",
-    "prettier.ignorePath": ".config/.prettierignore",
 
     "mochaExplorer.nodeArgv": ["--import=tsx"],
 

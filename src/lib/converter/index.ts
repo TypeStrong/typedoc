@@ -1,18 +1,12 @@
-export { Converter, type ConverterEvents } from "./converter.js";
-export type { CommentParserConfig } from "./comments/index.js";
-export {
-    convertDefaultValue,
-    convertExpression,
-} from "./convert-expression.js";
-export { Context } from "./context.js";
 export type {
-    DeclarationReference,
-    SymbolReference,
     ComponentPath,
+    DeclarationReference,
     Meaning,
     MeaningKeyword,
+    SymbolReference,
 } from "./comments/declarationReference.js";
-export type {
-    ExternalSymbolResolver,
-    ExternalResolveResult,
-} from "./comments/linkResolver.js";
+export type { CommentParserConfig } from "./comments/index.js";
+export type { ExternalResolveResult, ExternalSymbolResolver } from "./comments/linkResolver.js";
+export { Context } from "./context.js";
+export { convertDefaultValue, convertExpression } from "./convert-expression.js";
+export { Converter, type ConverterEvents } from "./converter.js";

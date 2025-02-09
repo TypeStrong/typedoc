@@ -3,9 +3,9 @@ import { deepStrictEqual as equal } from "assert";
 import { Options } from "../../../../lib/utils/index.js";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers/index.js";
 import {
-    ParameterType,
-    type NumberDeclarationOption,
     type MapDeclarationOption,
+    type NumberDeclarationOption,
+    ParameterType,
 } from "../../../../lib/utils/options/index.js";
 import { join, resolve } from "path";
 import { TestLogger } from "../../../TestLogger.js";
@@ -131,9 +131,11 @@ describe("Options - ArgumentsReader", () => {
         options.addReader(reader);
         await options.read(logger);
         logger.expectMessage(
-            `error: Unknown option: --badOption, you may have meant:\n\t${similarOptions.join(
-                "\n\t",
-            )}`,
+            `error: Unknown option: --badOption, you may have meant:\n\t${
+                similarOptions.join(
+                    "\n\t",
+                )
+            }`,
         );
     });
 

@@ -19,7 +19,7 @@ export function getHeritageTypes(
             .filter((hc) => hc.token === kind)
             .flatMap(
                 (hc) => hc.types as readonly ts.ExpressionWithTypeArguments[],
-            ),
+            )
     );
 
     const seenTexts = new Set<string>();

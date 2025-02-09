@@ -12,12 +12,8 @@ export class Toggle extends Component {
         this.className = this.el.dataset["toggle"] || "";
         this.el.addEventListener(pointerUp, (e) => this.onPointerUp(e));
         this.el.addEventListener("click", (e) => e.preventDefault());
-        document.addEventListener(pointerDown, (e) =>
-            this.onDocumentPointerDown(e),
-        );
-        document.addEventListener(pointerUp, (e) =>
-            this.onDocumentPointerUp(e),
-        );
+        document.addEventListener(pointerDown, (e) => this.onDocumentPointerDown(e));
+        document.addEventListener(pointerUp, (e) => this.onDocumentPointerUp(e));
     }
 
     setActive(value: boolean) {
@@ -30,8 +26,7 @@ export class Toggle extends Component {
         );
         this.el.classList.toggle("active", value);
 
-        const transition =
-            (this.active ? "to-has-" : "from-has-") + this.className;
+        const transition = (this.active ? "to-has-" : "from-has-") + this.className;
         document.documentElement.classList.add(transition);
         setTimeout(
             () => document.documentElement.classList.remove(transition),

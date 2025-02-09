@@ -54,4 +54,4 @@ export function Hello2(props: HelloProps) {
 
 ## See Also
 
--   The [`@inline`](inline.md) tag
+- The [`@inline`](inline.md) tag

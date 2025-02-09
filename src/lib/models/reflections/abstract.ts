@@ -3,18 +3,11 @@ import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./project.js";
 import { type NeverIfInternal, NonEnumerable } from "#utils";
 import { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    Deserializer,
-    JSONOutput,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { ReflectionVariant } from "./variant.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { DocumentReflection } from "./document.js";
-import type {
-    Internationalization,
-    TranslatedString,
-} from "../../internationalization/index.js";
+import type { Internationalization, TranslatedString } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { ReferenceReflection } from "./reference.js";
 import type { SignatureReflection } from "./signature.js";
@@ -440,9 +433,7 @@ export abstract class Reflection {
             declaration(decl) {
                 if (
                     decl.signatures?.length &&
-                    decl.signatures.every((sig) =>
-                        sig.comment?.getTag("@deprecated"),
-                    )
+                    decl.signatures.every((sig) => sig.comment?.getTag("@deprecated"))
                 ) {
                     signaturesDeprecated = true;
                 }
@@ -506,10 +497,9 @@ export abstract class Reflection {
             variant: this.variant,
             kind: this.kind,
             flags: this.flags.toObject(),
-            comment:
-                this.comment && !this.comment.isEmpty()
-                    ? serializer.toObject(this.comment)
-                    : undefined,
+            comment: this.comment && !this.comment.isEmpty()
+                ? serializer.toObject(this.comment)
+                : undefined,
         };
     }
 

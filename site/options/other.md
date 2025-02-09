@@ -62,11 +62,11 @@ $ typedoc --logLevel Verbose
 
 Specifies the log level to be printed to the console. Defaults to `Info`. The available levels are:
 
--   Verbose - Print all log messages, may include debugging information intended for TypeDoc developers
--   Info - Print informational log messages along with warning and error messages
--   Warn - Print warning and error messages
--   Error - Print only error messages
--   None - Print no messages.
+- Verbose - Print all log messages, may include debugging information intended for TypeDoc developers
+- Info - Print informational log messages along with warning and error messages
+- Warn - Print warning and error messages
+- Error - Print only error messages
+- None - Print no messages.
 
 ## skipErrorChecking
 

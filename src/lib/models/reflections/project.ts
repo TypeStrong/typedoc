@@ -12,13 +12,7 @@ import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { Serializer } from "../../serialization/serializer.js";
 import type { Deserializer, JSONOutput } from "../../serialization/index.js";
-import {
-    DefaultMap,
-    StableKeyMap,
-    assertNever,
-    removeIf,
-    removeIfPresent,
-} from "#utils";
+import { assertNever, DefaultMap, removeIf, removeIfPresent, StableKeyMap } from "#utils";
 import type { DocumentReflection } from "./document.js";
 import type { FileRegistry } from "../FileRegistry.js";
 
@@ -98,9 +92,7 @@ export class ProjectReflection extends ContainerReflection {
      * @returns     An array containing all reflections with the desired kind.
      */
     getReflectionsByKind(kind: ReflectionKind): Reflection[] {
-        return Object.values(this.reflections).filter((reflection) =>
-            reflection.kindOf(kind),
-        );
+        return Object.values(this.reflections).filter((reflection) => reflection.kindOf(kind));
     }
 
     /**
@@ -136,8 +128,7 @@ export class ProjectReflection extends ContainerReflection {
                 reflection.kindOf(ReflectionKind.SomeMember)
             ) {
                 const saved = this.symbolToReflectionIdMap.get(id);
-                const parentSymbolReflection =
-                    symbol.parent &&
+                const parentSymbolReflection = symbol.parent &&
                     this.getReflectionFromSymbol(symbol.parent);
 
                 if (
@@ -149,7 +140,7 @@ export class ProjectReflection extends ContainerReflection {
                         saved,
                         (item) =>
                             this.getReflectionById(item)?.parent !==
-                            parentSymbolReflection,
+                                parentSymbolReflection,
                     );
                 }
             }
@@ -269,8 +260,7 @@ export class ProjectReflection extends ContainerReflection {
     ) {
         // First, tell the children about their new parent
         delete this.referenceGraph;
-        const oldChildrenIds =
-            this.reflectionChildren.getNoInsert(source.id) || [];
+        const oldChildrenIds = this.reflectionChildren.getNoInsert(source.id) || [];
 
         const newChildren = this.reflectionChildren.get(target.id);
 
@@ -317,9 +307,11 @@ export class ProjectReflection extends ContainerReflection {
         graph.delete(reflection.id);
 
         // Remove children of this reflection
-        for (const childId of this.reflectionChildren.getNoInsert(
-            reflection.id,
-        ) || []) {
+        for (
+            const childId of this.reflectionChildren.getNoInsert(
+                reflection.id,
+            ) || []
+        ) {
             const child = this.getReflectionById(childId);
             // Only remove if the child's parent is still actually this reflection.
             // This might not be the case if a plugin has moved this reflection to another parent.

@@ -1,4 +1,4 @@
-import { resolve, join, dirname } from "path";
+import { dirname, join, resolve } from "path";
 
 import ts from "typescript";
 
@@ -6,19 +6,11 @@ import type { Options, OptionsReader } from "../options.js";
 import type { Logger } from "../../loggers.js";
 import { isFile } from "../../fs.js";
 import { ok } from "assert";
-import { Validation, unique } from "#utils";
+import { unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
-import {
-    tsdocBlockTags,
-    tsdocInlineTags,
-    tsdocModifierTags,
-} from "../tsdoc-defaults.js";
-import {
-    findTsConfigFile,
-    getTypeDocOptionsFromTsConfig,
-    readTsConfig,
-} from "../../tsconfig.js";
+import { tsdocBlockTags, tsdocInlineTags, tsdocModifierTags } from "../tsdoc-defaults.js";
+import { findTsConfigFile, getTypeDocOptionsFromTsConfig, readTsConfig } from "../../tsconfig.js";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
@@ -173,9 +165,11 @@ export class TSConfigReader implements OptionsReader {
             modifierTags.push(...tsdocModifierTags);
         }
 
-        for (const { tagName, syntaxKind } of config.tagDefinitions?.filter(
-            supported,
-        ) || []) {
+        for (
+            const { tagName, syntaxKind } of config.tagDefinitions?.filter(
+                supported,
+            ) || []
+        ) {
             const arr = {
                 block: blockTags,
                 inline: inlineTags,

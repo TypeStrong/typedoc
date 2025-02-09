@@ -3,7 +3,7 @@ import type { ProjectReflection } from "../models/index.js";
 import { SerializeEvent } from "./events.js";
 import type { ModelToObject } from "./schema.js";
 import type { SerializerComponent } from "./components.js";
-import { insertPrioritySorted, removeIfPresent, EventDispatcher } from "#utils";
+import { EventDispatcher, insertPrioritySorted, removeIfPresent } from "#utils";
 
 export interface SerializerEvents {
     begin: [SerializeEvent];

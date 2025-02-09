@@ -14,10 +14,7 @@ import {
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
-import {
-    convertParameterNodes,
-    convertTemplateParameterNodes,
-} from "./factories/signature.js";
+import { convertParameterNodes, convertTemplateParameterNodes } from "./factories/signature.js";
 
 export function convertJsDocAlias(
     context: Context,

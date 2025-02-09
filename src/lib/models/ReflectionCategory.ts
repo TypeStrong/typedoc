@@ -1,14 +1,6 @@
 import { Comment } from "./comments/index.js";
-import type {
-    CommentDisplayPart,
-    DeclarationReflection,
-    DocumentReflection,
-} from "./index.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../serialization/index.js";
+import type { CommentDisplayPart, DeclarationReflection, DocumentReflection } from "./index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
 
 /**
  * A category of reflections.
@@ -48,10 +40,9 @@ export class ReflectionCategory {
             description: this.description
                 ? Comment.serializeDisplayParts(serializer, this.description)
                 : undefined,
-            children:
-                this.children.length > 0
-                    ? this.children.map((child) => child.id)
-                    : undefined,
+            children: this.children.length > 0
+                ? this.children.map((child) => child.id)
+                : undefined,
         };
     }
 

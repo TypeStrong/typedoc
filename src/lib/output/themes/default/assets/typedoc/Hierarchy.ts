@@ -50,9 +50,11 @@ function initFullHierarchy() {
     const hierarchyRefs = new Map<string, HTMLElement>();
     const duplicates = new Set<string>();
 
-    for (const el of document.querySelectorAll<HTMLElement>(
-        ".tsd-full-hierarchy [data-refl]",
-    )) {
+    for (
+        const el of document.querySelectorAll<HTMLElement>(
+            ".tsd-full-hierarchy [data-refl]",
+        )
+    ) {
         const children = el.querySelector("ul");
 
         if (hierarchyRefs.has(el.dataset.refl!)) {
@@ -79,9 +81,11 @@ function initFullHierarchy() {
                 el.dataset.dropdown = "false";
             });
 
-        for (const owner of document.querySelectorAll(
-            `[data-refl="${reflId}"]`,
-        )) {
+        for (
+            const owner of document.querySelectorAll(
+                `[data-refl="${reflId}"]`,
+            )
+        ) {
             const icon = makeIcon();
             const ul = owner.querySelector("ul");
             owner.insertBefore(icon, ul);
@@ -123,7 +127,7 @@ async function buildHierarchyToggle() {
     // no point.
     if (
         collapsedHierarchy.querySelectorAll("li").length ==
-        expandedHierarchy.querySelectorAll("li").length
+            expandedHierarchy.querySelectorAll("li").length
     ) {
         return;
     }
@@ -138,23 +142,21 @@ async function buildHierarchyToggle() {
     expandCollapseButton.addEventListener("click", () => {
         if (
             expandCollapseButton.textContent ===
-            window.translations.hierarchy_expand
+                window.translations.hierarchy_expand
         ) {
             collapsedHierarchy.insertAdjacentElement(
                 "afterend",
                 expandedHierarchy,
             );
             collapsedHierarchy.remove();
-            expandCollapseButton.textContent =
-                window.translations.hierarchy_collapse;
+            expandCollapseButton.textContent = window.translations.hierarchy_collapse;
         } else {
             expandedHierarchy.insertAdjacentElement(
                 "afterend",
                 collapsedHierarchy,
             );
             expandedHierarchy.remove();
-            expandCollapseButton.textContent =
-                window.translations.hierarchy_expand;
+            expandCollapseButton.textContent = window.translations.hierarchy_expand;
         }
     });
 }
@@ -165,9 +167,7 @@ function buildExpandedHierarchy(
     id: number,
 ) {
     // Figure out which roots contain the target ID
-    const roots = hierarchy.roots.filter((root) =>
-        rootContainsElement(hierarchy, root, id),
-    );
+    const roots = hierarchy.roots.filter((root) => rootContainsElement(hierarchy, root, id));
 
     for (const root of roots) {
         container.appendChild(followHierarchy(hierarchy, root, id)!);

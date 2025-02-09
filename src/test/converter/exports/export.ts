@@ -2,7 +2,7 @@ import ModDefault, { a as b } from "./mod.js";
 import * as Mod from "./mod.js";
 export * from "./mod.js";
 
-export { b as c, add, Mod, ModDefault };
+export { add, b as c, Mod, ModDefault };
 
 function add(x: number, y: number) {
     return x + y;

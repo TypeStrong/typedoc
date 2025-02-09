@@ -63,8 +63,7 @@ export class SitemapPlugin extends RendererComponent {
             };
         });
 
-        const sitemap =
-            `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n` +
             stringifyXml({
                 tag: "urlset",
                 attr: { xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9" },

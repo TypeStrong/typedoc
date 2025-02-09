@@ -14,11 +14,7 @@ import { getEnumFlags, hasAllFlags, hasAnyFlag, removeFlag } from "#utils";
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
-import {
-    createConstructSignatureWithType,
-    createSignature,
-    createTypeParamReflection,
-} from "./factories/signature.js";
+import { createConstructSignatureWithType, createSignature, createTypeParamReflection } from "./factories/signature.js";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc.js";
 import { getHeritageTypes } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
@@ -89,17 +85,13 @@ const conversionOrder = [
 for (const key of Object.keys(symbolConverters)) {
     if (!Number.isInteger(Math.log2(+key))) {
         throw new Error(
-            `Symbol converter for key ${
-                ts.SymbolFlags[+key]
-            } does not specify a valid flag value.`,
+            `Symbol converter for key ${ts.SymbolFlags[+key]} does not specify a valid flag value.`,
         );
     }
 
     if (!conversionOrder.includes(+key)) {
         throw new Error(
-            `Symbol converter for key ${
-                ts.SymbolFlags[+key]
-            } is not specified in conversionOrder`,
+            `Symbol converter for key ${ts.SymbolFlags[+key]} is not specified in conversionOrder`,
         );
     }
 }
@@ -264,7 +256,7 @@ function convertNamespace(
         symbol
             .getDeclarations()
             ?.some((d) => ts.isModuleDeclaration(d) || ts.isSourceFile(d)) !==
-        true
+            true
     ) {
         exportFlags = ts.SymbolFlags.ClassMember;
 
@@ -287,8 +279,7 @@ function convertNamespace(
 
         // #2778 - always treat declare module "foo" as a module, not a namespace
         const declareModule = symbol.declarations?.find(
-            (mod): mod is ts.ModuleDeclaration =>
-                ts.isModuleDeclaration(mod) && ts.isStringLiteral(mod.name),
+            (mod): mod is ts.ModuleDeclaration => ts.isModuleDeclaration(mod) && ts.isStringLiteral(mod.name),
         );
         if (declareModule) {
             kind = ReflectionKind.Module;
@@ -376,7 +367,7 @@ function convertTypeAlias(
         // Do this after finalization so that the CommentPlugin can get @typeParam tags
         // from the parent comment. Ugly, but works for now. Should be cleaned up eventually.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
-            createTypeParamReflection(param, context.withScope(reflection)),
+            createTypeParamReflection(param, context.withScope(reflection))
         );
     } else if (
         ts.isJSDocTypedefTag(declaration) ||
@@ -460,9 +451,7 @@ function convertTypeAliasAsInterface(
     // And maybe call signatures
     context.checker
         .getSignaturesOfType(type, ts.SignatureKind.Call)
-        .forEach((sig) =>
-            createSignature(rc, ReflectionKind.CallSignature, sig, symbol),
-        );
+        .forEach((sig) => createSignature(rc, ReflectionKind.CallSignature, sig, symbol));
 
     // And maybe constructor signatures
     convertConstructSignatures(rc, symbol);
@@ -490,8 +479,7 @@ function convertFunctionOrMethod(
         }
     }
 
-    const declarations =
-        symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
+    const declarations = symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
 
     // Don't do anything if we inherited this method and it is private.
     if (
@@ -506,12 +494,11 @@ function convertFunctionOrMethod(
         return;
     }
 
-    const locationDeclaration =
-        symbol.parent
-            ?.getDeclarations()
-            ?.find(
-                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
-            ) ??
+    const locationDeclaration = symbol.parent
+        ?.getDeclarations()
+        ?.find(
+            (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
+        ) ??
         symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
@@ -576,13 +563,12 @@ function convertClassOrInterface(
     assert(instanceType.isClassOrInterface());
 
     // We might do some inheritance - do this first so that it's set when converting properties
-    const declarations =
-        symbol
-            .getDeclarations()
-            ?.filter(
-                (d): d is ts.InterfaceDeclaration | ts.ClassDeclaration =>
-                    ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d),
-            ) ?? [];
+    const declarations = symbol
+        .getDeclarations()
+        ?.filter(
+            (d): d is ts.InterfaceDeclaration | ts.ClassDeclaration =>
+                ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d),
+        ) ?? [];
 
     const extendedTypes = getHeritageTypes(
         declarations,
@@ -615,8 +601,9 @@ function convertClassOrInterface(
             if (
                 prop.flags &
                 (ts.SymbolFlags.ModuleMember | ts.SymbolFlags.Prototype)
-            )
+            ) {
                 continue;
+            }
             convertSymbol(reflectionContext, prop);
         }
         reflectionContext.shouldBeStatic = false;
@@ -674,7 +661,7 @@ function convertClassOrInterface(
                 ReflectionKind.CallSignature,
                 sig,
                 symbol,
-            ),
+            )
         );
 
     // We also might have constructor signatures
@@ -724,8 +711,7 @@ function convertProperty(
         type.getCallSignatures().length &&
         declarations.length &&
         declarations.every(
-            (decl) =>
-                ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl),
+            (decl) => ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl),
         )
     ) {
         return convertFunctionOrMethod(context, symbol, exportSymbol);
@@ -818,12 +804,11 @@ function convertArrowAsMethod(
 
     const rc = context.withScope(reflection);
 
-    const locationDeclaration =
-        symbol.parent
-            ?.getDeclarations()
-            ?.find(
-                (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
-            ) ??
+    const locationDeclaration = symbol.parent
+        ?.getDeclarations()
+        ?.find(
+            (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
+        ) ??
         symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
         symbol.getDeclarations()?.[0]?.getSourceFile();
     assert(locationDeclaration, "Missing declaration context");
@@ -856,8 +841,7 @@ function convertConstructor(context: Context, symbol: ts.Symbol): undefined {
 
     const reflectionContext = context.withScope(reflection);
 
-    const declarations =
-        symbol.getDeclarations()?.filter(ts.isConstructorDeclaration) ?? [];
+    const declarations = symbol.getDeclarations()?.filter(ts.isConstructorDeclaration) ?? [];
     const signatures = declarations.map((decl) => {
         const sig = context.checker.getSignatureFromDeclaration(decl);
         assert(sig);
@@ -900,7 +884,7 @@ function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
                 ReflectionKind.ConstructorSignature,
                 sig,
                 symbol,
-            ),
+            )
         );
     }
 }
@@ -1275,8 +1259,7 @@ function convertAccessor(
 
     const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
     if (getDeclaration) {
-        const signature =
-            context.checker.getSignatureFromDeclaration(getDeclaration);
+        const signature = context.checker.getSignatureFromDeclaration(getDeclaration);
         if (signature) {
             createSignature(
                 rc,
@@ -1290,8 +1273,7 @@ function convertAccessor(
 
     const setDeclaration = symbol.getDeclarations()?.find(ts.isSetAccessor);
     if (setDeclaration) {
-        const signature =
-            context.checker.getSignatureFromDeclaration(setDeclaration);
+        const signature = context.checker.getSignatureFromDeclaration(setDeclaration);
         if (signature) {
             createSignature(
                 rc,
@@ -1314,14 +1296,12 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     const constructorDecls = parents.flatMap((parent) =>
         ts.isClassDeclaration(parent)
             ? parent.members.filter(ts.isConstructorDeclaration)
-            : [],
+            : []
     );
     parents.push(...constructorDecls);
 
     return (
-        parents.some((d) =>
-            symbol.getDeclarations()?.some((d2) => d2.parent === d),
-        ) === false
+        parents.some((d) => symbol.getDeclarations()?.some((d2) => d2.parent === d)) === false
     );
 }
 

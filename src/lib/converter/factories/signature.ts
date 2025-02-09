@@ -80,10 +80,9 @@ export function createSignature(
         signature.typeParameters,
     );
 
-    const parameterSymbols: ReadonlyArray<ts.Symbol & { type?: ts.Type }> =
-        signature.thisParameter
-            ? [signature.thisParameter, ...signature.parameters]
-            : signature.parameters;
+    const parameterSymbols: ReadonlyArray<ts.Symbol & { type?: ts.Type }> = signature.thisParameter
+        ? [signature.thisParameter, ...signature.parameters]
+        : signature.parameters;
 
     sigRef.parameters = convertParameters(
         sigRefCtx,
@@ -200,8 +199,7 @@ function convertParameters(
     // #2698 if `satisfies` is used to imply a this parameter, we might have
     // more parameters than parameter nodes and need to shift the parameterNode
     // access index. Very ugly, but it does the job.
-    const parameterNodeOffset =
-        parameterNodes?.length !== parameters.length ? -1 : 0;
+    const parameterNodeOffset = parameterNodes?.length !== parameters.length ? -1 : 0;
 
     return parameters.map((param, i) => {
         const declaration = param.valueDeclaration;
@@ -264,9 +262,9 @@ function convertParameters(
         if (declaration) {
             isOptional = ts.isParameter(declaration)
                 ? !!declaration.questionToken ||
-                  ts
-                      .getJSDocParameterTags(declaration)
-                      .some((tag) => tag.isBracketed)
+                    ts
+                        .getJSDocParameterTags(declaration)
+                        .some((tag) => tag.isBracketed)
                 : declaration.isBracketed;
         }
 
@@ -286,7 +284,7 @@ function convertParameters(
             isRest = ts.isParameter(declaration)
                 ? !!declaration.dotDotDotToken
                 : !!declaration.typeExpression &&
-                  ts.isJSDocVariadicType(declaration.typeExpression.type);
+                    ts.isJSDocVariadicType(declaration.typeExpression.type);
         }
 
         paramRefl.setFlag(ReflectionFlag.Rest, isRest);
@@ -343,7 +341,7 @@ export function convertParameterNodes(
             ts.isParameter(param)
                 ? !!param.dotDotDotToken
                 : !!param.typeExpression &&
-                      ts.isJSDocVariadicType(param.typeExpression.type),
+                    ts.isJSDocVariadicType(param.typeExpression.type),
         );
         checkForDestructuredParameterDefaults(paramRefl, param);
         return paramRefl;
@@ -424,9 +422,7 @@ export function convertTypeParameterNodes(
     context: Context,
     parameters: readonly ts.TypeParameterDeclaration[] | undefined,
 ) {
-    return parameters?.map((param) =>
-        createTypeParamReflection(param, context),
-    );
+    return parameters?.map((param) => createTypeParamReflection(param, context));
 }
 
 export function createTypeParamReflection(
@@ -476,13 +472,12 @@ export function convertTemplateParameterNodes(
                 getVariance(param.modifiers),
             );
             const paramScope = context.withScope(paramRefl);
-            paramRefl.type =
-                index || !node.constraint
-                    ? void 0
-                    : context.converter.convertType(
-                          paramScope,
-                          node.constraint.type,
-                      );
+            paramRefl.type = index || !node.constraint
+                ? void 0
+                : context.converter.convertType(
+                    paramScope,
+                    node.constraint.type,
+                );
             paramRefl.default = param.default
                 ? context.converter.convertType(paramScope, param.default)
                 : void 0;

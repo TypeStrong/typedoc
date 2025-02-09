@@ -1,10 +1,10 @@
 import {
+    type DeclarationReflection,
     type DocumentReflection,
+    type ProjectReflection,
     ReferenceReflection,
     type Reflection,
     ReflectionKind,
-    type DeclarationReflection,
-    type ProjectReflection,
 } from "../../../../models/index.js";
 import { JSX } from "#utils";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
@@ -107,11 +107,15 @@ export function moduleMemberSummary(
 // Note: This version of uniqueName does NOT include colors... they looked weird to me
 // when looking at a module page.
 function uniqueName(context: DefaultThemeRenderContext, reflection: Reflection) {
-    const name = join(".", getUniquePath(reflection), (item) => (
-        <a href={context.urlTo(item)} class={classNames({ deprecated: item.isDeprecated() })}>
-            {item.name}
-        </a>
-    ));
+    const name = join(
+        ".",
+        getUniquePath(reflection),
+        (item) => (
+            <a href={context.urlTo(item)} class={classNames({ deprecated: item.isDeprecated() })}>
+                {item.name}
+            </a>
+        ),
+    );
 
     return <>{name}</>;
 }

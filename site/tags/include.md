@@ -106,4 +106,4 @@ A colon (`:`) separates the file path from the line numbers: a comma-separated l
 
 ## See Also
 
--   The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.
+- The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.

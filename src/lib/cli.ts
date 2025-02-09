@@ -94,8 +94,7 @@ async function run(app: td.Application) {
 
     const preValidationWarnCount = app.logger.warningCount;
     app.validate(project);
-    const hadValidationWarnings =
-        app.logger.warningCount !== preValidationWarnCount;
+    const hadValidationWarnings = app.logger.warningCount !== preValidationWarnCount;
     if (app.logger.hasErrors()) {
         return ExitCodes.ValidationError;
     }

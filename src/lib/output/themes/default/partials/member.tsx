@@ -47,11 +47,11 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
             {props.signatures
                 ? context.memberSignatures(props)
                 : props.hasGetterOrSetter()
-                  ? context.memberGetterSetter(props)
-                  : context.memberDeclaration(props)}
+                ? context.memberGetterSetter(props)
+                : context.memberDeclaration(props)}
 
             {props.groups?.map((item) =>
-                item.children.map((item) => !context.router.hasOwnDocument(item) && context.member(item)),
+                item.children.map((item) => !context.router.hasOwnDocument(item) && context.member(item))
             )}
         </section>
     );

@@ -23,12 +23,11 @@ export function exportedFunction(): void {}
  * var value:BaseClass = new BaseClass('test');
  * functionWithArguments('arg', 0, value);
  * ```
- *
  */
 export let variableFunction = function (
     paramZ: string,
     paramG: any,
-    paramA: classes.NameInterface
+    paramA: classes.NameInterface,
 ): number {
     return 0;
 };
@@ -46,12 +45,11 @@ export let variableFunction = function (
  * var value:BaseClass = new BaseClass('test');
  * functionWithArguments('arg', 0, value);
  * ```
- *
  */
 export function functionWithArguments(
     paramZ: string,
     paramG: any,
-    paramA: classes.NameInterface
+    paramA: classes.NameInterface,
 ): number {
     return 0;
 }
@@ -64,7 +62,7 @@ export function functionWithArguments(
  */
 export function functionWithOptionalValue(
     requiredParam: string,
-    optionalParam?: string
+    optionalParam?: string,
 ) {}
 
 /**
@@ -78,7 +76,7 @@ export function functionWithDefaults(
     valueB: number = 100,
     valueC: number = Number.NaN,
     valueD: boolean = true,
-    valueE: boolean = false
+    valueE: boolean = false,
 ): string {
     return valueA;
 }

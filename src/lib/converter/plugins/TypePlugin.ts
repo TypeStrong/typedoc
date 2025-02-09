@@ -1,11 +1,11 @@
 import {
-    ReflectionKind,
-    DeclarationReflection,
     type DeclarationHierarchy,
+    DeclarationReflection,
     type ProjectReflection,
     type Reflection,
+    ReflectionKind,
 } from "../../models/reflections/index.js";
-import { type SomeType, type Type, ReferenceType } from "../../models/types.js";
+import { ReferenceType, type SomeType, type Type } from "../../models/types.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ApplicationEvents } from "../../application-events.js";

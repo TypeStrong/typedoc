@@ -60,8 +60,7 @@ describe("Internationalization", () => {
                 translatable.valueDeclaration.expression.expression,
             ),
         );
-        const translatableObj =
-            translatable.valueDeclaration.expression.expression;
+        const translatableObj = translatable.valueDeclaration.expression.expression;
 
         translatableObj.forEachChild((child) => {
             ok(ts.isPropertyAssignment(child));
@@ -69,12 +68,11 @@ describe("Internationalization", () => {
                 sf.fileName,
                 child.getStart(),
             );
-            const refCount =
-                refs?.filter(
-                    (ref) =>
-                        !/locales\/.*\.cts$/.test(ref.fileName) &&
-                        !ref.fileName.endsWith("translatable.ts"),
-                ).length ?? 0;
+            const refCount = refs?.filter(
+                (ref) =>
+                    !/locales\/.*\.cts$/.test(ref.fileName) &&
+                    !ref.fileName.endsWith("translatable.ts"),
+            ).length ?? 0;
             ok(
                 refCount,
                 `Translatable key ${child.name.getText()} is not referenced.`,

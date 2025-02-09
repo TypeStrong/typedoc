@@ -1,10 +1,6 @@
 import { DeclarationReflection } from "./declaration.js";
 import { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { Reflection } from "./abstract.js";
 
 /**
@@ -97,9 +93,8 @@ export class ReferenceReflection extends DeclarationReflection {
     ): void {
         super.fromObject(de, obj);
         de.defer((project) => {
-            this._target =
-                project.getReflectionById(de.oldIdToNewId[obj.target] ?? -1)
-                    ?.id ?? -1;
+            this._target = project.getReflectionById(de.oldIdToNewId[obj.target] ?? -1)
+                ?.id ?? -1;
         });
     }
 }

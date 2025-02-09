@@ -1,21 +1,13 @@
 import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentParserConfig } from "./index.js";
-import {
-    Comment,
-    type CommentDisplayPart,
-    CommentTag,
-    type InlineTagDisplayPart,
-} from "../../models/index.js";
+import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
 import { type Logger } from "../../utils/index.js";
 import type { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";
-import type {
-    TranslatedString,
-    TranslationProxy,
-} from "../../internationalization/internationalization.js";
+import type { TranslatedString, TranslationProxy } from "../../internationalization/internationalization.js";
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
@@ -101,10 +93,7 @@ export function parseComment(
     postProcessComment(
         comment,
         logger.i18n,
-        () =>
-            `${nicePath(file.fileName)}:${
-                file.getLineAndCharacterOfPosition(tok2.pos).line + 1
-            }`,
+        () => `${nicePath(file.fileName)}:${file.getLineAndCharacterOfPosition(tok2.pos).line + 1}`,
         (message) => logger.warn(message),
     );
 
@@ -291,8 +280,7 @@ function postProcessComment(
 
         if (
             tag.content.some(
-                (part) =>
-                    part.kind === "inline-tag" && part.tag === "@inheritDoc",
+                (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc",
             )
         ) {
             warning(
@@ -671,7 +659,7 @@ function blockContent(
     }
 
     // Collapse adjacent text parts
-    for (let i = 0; i < content.length - 1 /* inside loop */; ) {
+    for (let i = 0; i < content.length - 1 /* inside loop */;) {
         if (content[i].kind === "text" && content[i + 1].kind === "text") {
             content[i].text += content[i + 1].text;
             content.splice(i + 1, 1);
@@ -681,7 +669,7 @@ function blockContent(
     }
 
     // Now get rid of extra whitespace, and any empty parts
-    for (let i = 0; i < content.length /* inside loop */; ) {
+    for (let i = 0; i < content.length /* inside loop */;) {
         if (i === 0 || content[i].kind === "inline-tag") {
             content[i].text = content[i].text.trimStart();
         }

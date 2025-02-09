@@ -32,20 +32,20 @@ documentation. Most validation occurs before rendering, but `rewrittenLink` is
 done during HTML rendering as links have not been generated before rendering
 begins.
 
--   **notExported** - Produce warnings if a type is referenced by the
-    documentation but the type isn't exported and therefore included in the
-    documentation.
--   **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
--   **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
-    but whose target does not have a unique URL in the documentation. TypeDoc
-    will rewrite these links to point to the first parent with a URL.
--   **notDocumented** - Produce warnings for reflections which do not have a
-    documentation comment. This is also controlled by the
-    [requiredToBeDocumented](#requiredtobedocumented) option.
--   **unusedMergeModuleWith** - Produce warnings for
-    [`@mergeModuleWith`](../tags/mergeModuleWith.md) tags which are not
-    resolved. This option should generally be disabled if generating JSON which
-    will be combined with another document later.
+- **notExported** - Produce warnings if a type is referenced by the
+  documentation but the type isn't exported and therefore included in the
+  documentation.
+- **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
+- **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
+  but whose target does not have a unique URL in the documentation. TypeDoc
+  will rewrite these links to point to the first parent with a URL.
+- **notDocumented** - Produce warnings for reflections which do not have a
+  documentation comment. This is also controlled by the
+  [requiredToBeDocumented](#requiredtobedocumented) option.
+- **unusedMergeModuleWith** - Produce warnings for
+  [`@mergeModuleWith`](../tags/mergeModuleWith.md) tags which are not
+  resolved. This option should generally be disabled if generating JSON which
+  will be combined with another document later.
 
 ## treatWarningsAsErrors
 
@@ -88,16 +88,16 @@ typedoc.json:
 ```json
 {
     "requiredToBeDocumented": [
-        //"Project",
-        //"Module",
-        //"Namespace",
+        // "Project",
+        // "Module",
+        // "Namespace",
         "Enum",
         "EnumMember",
         "Variable",
         "Function",
         "Class",
         "Interface",
-        //"Constructor",
+        // "Constructor",
         "Property",
         "Method",
         // Implicitly set if function/method is set (this means you can't require docs on methods, but not functions)
@@ -108,11 +108,11 @@ typedoc.json:
         //    "IndexSignature",
         // Equivalent to Constructor due to the same implementation detail as CallSignature
         //    "ConstructorSignature",
-        //"Parameter",
+        // "Parameter",
         // Used for object literal types. You probably should set TypeAlias instead, which refers to types created with `type X =`.
         // This only really exists because of an implementation detail.
         //    "TypeLiteral",
-        //"TypeParameter",
+        // "TypeParameter",
         "Accessor", // shorthand for GetSignature + SetSignature
         //   "GetSignature",
         //    "SetSignature",

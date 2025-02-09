@@ -172,8 +172,7 @@ describe("Declaration References", () => {
     });
 
     describe("Full reference parsing", () => {
-        const parse = (s: string) =>
-            parseDeclarationReference(s, 0, s.length)?.[0];
+        const parse = (s: string) => parseDeclarationReference(s, 0, s.length)?.[0];
 
         it("Parses module if there is one", () => {
             equal(parse("abc!"), {

@@ -180,7 +180,7 @@ export abstract class BaseClass implements NameInterface {
         originalValues: BaseClass,
         newRecord: any,
         fieldNames: string[],
-        mandatoryFields: string[]
+        mandatoryFields: string[],
     ): string {
         let returnval = "";
         let updates: string[] = [];
@@ -208,7 +208,7 @@ class InternalClass<TTT extends keyof BaseClass> {
  * from BaseClass.
  */
 export class SubClassA extends BaseClass implements PrintNameInterface {
-    public declare name: string;
+    declare public name: string;
 
     /**
      * This is a simple interface function.
@@ -269,7 +269,7 @@ export class SubClassA extends BaseClass implements PrintNameInterface {
  * The constructor of the original class should be overwritten.
  */
 export class SubClassB extends BaseClass {
-    public declare name: string;
+    declare public name: string;
 
     constructor(name: string) {
         super(name);
@@ -302,7 +302,7 @@ export class GenericClass<T extends BaseClass> {
         protected p2: T,
         public p3: number,
         private p4: number,
-        readonly p5: string
+        readonly p5: string,
     ) {}
 
     /**

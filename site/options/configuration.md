@@ -19,15 +19,15 @@ Specify a configuration file to be loaded, which should contain entries that cor
 to command-line options/flags. If not specified, TypeDoc will look for a configuration
 file matching one of the valid config names in the current directory:
 
--   typedoc.json
--   typedoc.jsonc
--   typedoc.config.js
--   typedoc.config.cjs
--   typedoc.config.mjs
--   typedoc.js (avoid this name, Windows CMD will try to run it instead of calling TypeDoc when running from that directory)
--   typedoc.cjs
--   typedoc.mjs
--   The same filenames under the `.config` directory, `.config/typedoc.json`, ...
+- typedoc.json
+- typedoc.jsonc
+- typedoc.config.js
+- typedoc.config.cjs
+- typedoc.config.mjs
+- typedoc.js (avoid this name, Windows CMD will try to run it instead of calling TypeDoc when running from that directory)
+- typedoc.cjs
+- typedoc.mjs
+- The same filenames under the `.config` directory, `.config/typedoc.json`, ...
 
 Option files may also contain an extends key, which specifies an additional file
 to be loaded before importing options from the current file.
@@ -87,8 +87,8 @@ This option may only be set within a config file.
 {
     "compilerOptions": {
         "skipLibCheck": true,
-        "strictNullChecks": false,
-    },
+        "strictNullChecks": false
+    }
 }
 ```
 

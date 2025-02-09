@@ -9,10 +9,7 @@ import {
 } from "../../lib/output/index.js";
 import { getConverter2App, getConverter2Project } from "../programs.js";
 import { query } from "../utils.js";
-import {
-    DeclarationReflection,
-    ReflectionKind,
-} from "../../lib/models/index.js";
+import { DeclarationReflection, ReflectionKind } from "../../lib/models/index.js";
 
 const app = getConverter2App();
 

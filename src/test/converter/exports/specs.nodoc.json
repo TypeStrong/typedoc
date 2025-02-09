@@ -1,345 +1,345 @@
 {
-  "id": 0,
-  "name": "exports",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 14,
-      "name": "export",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
+    "id": 0,
+    "name": "exports",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 45,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 30
-        },
-        {
-          "id": 43,
-          "name": "Mod2",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 14,
-              "character": 12,
-              "url": "typedoc://export.ts#L14"
-            }
-          ],
-          "target": 29
-        }
-      ],
-      "groups": [
-        {
-          "title": "References",
-          "children": [
-            45,
-            43
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://export.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 29,
-      "name": "mod",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 30,
-          "name": "a",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "A simple named export that will be exported from export.ts"
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 8,
-              "character": 13,
-              "url": "typedoc://mod.ts#L8"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 1
-          },
-          "defaultValue": "1"
-        },
-        {
-          "id": 36,
-          "name": "default",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 23,
-              "character": 0,
-              "url": "typedoc://mod.ts#L23"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 37,
-              "name": "default",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Will not be re-exported from export.ts using export * from..."
-                  }
-                ]
-              },
-              "sources": [
+            "id": 14,
+            "name": "export",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
                 {
-                  "fileName": "mod.ts",
-                  "line": 23,
-                  "character": 0,
-                  "url": "typedoc://mod.ts#L23"
+                    "id": 45,
+                    "name": "b",
+                    "variant": "reference",
+                    "kind": 4194304,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "An export of a local under a different name."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mod.ts",
+                            "line": 13,
+                            "character": 14,
+                            "url": "typedoc://mod.ts#L13"
+                        }
+                    ],
+                    "target": 30
+                },
+                {
+                    "id": 43,
+                    "name": "Mod2",
+                    "variant": "reference",
+                    "kind": 4194304,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is a comment for Mod that overwrites the one specified in \"mod\""
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "export.ts",
+                            "line": 14,
+                            "character": 12,
+                            "url": "typedoc://export.ts#L14"
+                        }
+                    ],
+                    "target": 29
                 }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "void"
-              }
-            }
-          ]
-        },
-        {
-          "id": 31,
-          "name": "b",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export of a local under a different name."
-              }
+            ],
+            "groups": [
+                {
+                    "title": "References",
+                    "children": [
+                        45,
+                        43
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "export.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://export.ts#L1"
+                }
             ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 13,
-              "character": 14,
-              "url": "typedoc://mod.ts#L13"
-            }
-          ],
-          "target": 30
         },
         {
-          "id": 32,
-          "name": "c",
-          "variant": "reference",
-          "kind": 4194304,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "An export with a module specifier that comes from this file."
-              }
+            "id": 29,
+            "name": "mod",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 30,
+                    "name": "a",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "A simple named export that will be exported from export.ts"
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mod.ts",
+                            "line": 8,
+                            "character": 13,
+                            "url": "typedoc://mod.ts#L8"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 1
+                    },
+                    "defaultValue": "1"
+                },
+                {
+                    "id": 36,
+                    "name": "default",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mod.ts",
+                            "line": 23,
+                            "character": 0,
+                            "url": "typedoc://mod.ts#L23"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 37,
+                            "name": "default",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Will not be re-exported from export.ts using export * from..."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mod.ts",
+                                    "line": 23,
+                                    "character": 0,
+                                    "url": "typedoc://mod.ts#L23"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 31,
+                    "name": "b",
+                    "variant": "reference",
+                    "kind": 4194304,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "An export of a local under a different name."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mod.ts",
+                            "line": 13,
+                            "character": 14,
+                            "url": "typedoc://mod.ts#L13"
+                        }
+                    ],
+                    "target": 30
+                },
+                {
+                    "id": 32,
+                    "name": "c",
+                    "variant": "reference",
+                    "kind": 4194304,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "An export with a module specifier that comes from this file."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mod.ts",
+                            "line": 18,
+                            "character": 14,
+                            "url": "typedoc://mod.ts#L18"
+                        }
+                    ],
+                    "target": 30
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Variables",
+                    "children": [
+                        30
+                    ]
+                },
+                {
+                    "title": "Functions",
+                    "children": [
+                        36
+                    ]
+                },
+                {
+                    "title": "References",
+                    "children": [
+                        31,
+                        32
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mod.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://mod.ts#L1"
+                }
             ]
-          },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 18,
-              "character": 14,
-              "url": "typedoc://mod.ts#L18"
-            }
-          ],
-          "target": 30
-        }
-      ],
-      "groups": [
-        {
-          "title": "Variables",
-          "children": [
-            30
-          ]
         },
         {
-          "title": "Functions",
-          "children": [
-            36
-          ]
-        },
-        {
-          "title": "References",
-          "children": [
-            31,
-            32
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mod.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://mod.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 38,
-      "name": "no-doc-members",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This module has documentation, but no exported members do."
-          }
-        ],
-        "blockTags": [
-          {
-            "tag": "@see",
-            "content": [
-              {
-                "kind": "text",
-                "text": "https://github.com/TypeStrong/typedoc/issues/1948"
-              }
+            "id": 38,
+            "name": "no-doc-members",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This module has documentation, but no exported members do."
+                    }
+                ],
+                "blockTags": [
+                    {
+                        "tag": "@see",
+                        "content": [
+                            {
+                                "kind": "text",
+                                "text": "https://github.com/TypeStrong/typedoc/issues/1948"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "no-doc-members.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://no-doc-members.ts#L1"
+                }
             ]
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "no-doc-members.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://no-doc-members.ts#L1"
         }
-      ]
+    ],
+    "groups": [
+        {
+            "title": "Modules",
+            "children": [
+                14,
+                29,
+                38
+            ]
+        }
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "14": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": ""
+        },
+        "29": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": ""
+        },
+        "30": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "a"
+        },
+        "31": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "b"
+        },
+        "32": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "c"
+        },
+        "36": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "37": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "38": {
+            "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+            "qualifiedName": ""
+        },
+        "43": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "Mod2"
+        },
+        "45": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "b"
+        }
+    },
+    "files": {
+        "entries": {
+            "1": "src/test/converter/exports/export-assignment.ts",
+            "2": "src/test/converter/exports/export-default.ts",
+            "3": "src/test/converter/exports/export-with-local.ts",
+            "4": "src/test/converter/exports/export.ts",
+            "5": "src/test/converter/exports/mod.ts",
+            "6": "src/test/converter/exports/no-doc-members.ts"
+        },
+        "reflections": {
+            "4": 14,
+            "5": 29,
+            "6": 38
+        }
     }
-  ],
-  "groups": [
-    {
-      "title": "Modules",
-      "children": [
-        14,
-        29,
-        38
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "14": {
-      "sourceFileName": "src/test/converter/exports/export.ts",
-      "qualifiedName": ""
-    },
-    "29": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": ""
-    },
-    "30": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "a"
-    },
-    "31": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "b"
-    },
-    "32": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "c"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "default"
-    },
-    "37": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "default"
-    },
-    "38": {
-      "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
-      "qualifiedName": ""
-    },
-    "43": {
-      "sourceFileName": "src/test/converter/exports/export.ts",
-      "qualifiedName": "Mod2"
-    },
-    "45": {
-      "sourceFileName": "src/test/converter/exports/mod.ts",
-      "qualifiedName": "b"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/exports/export-assignment.ts",
-      "2": "src/test/converter/exports/export-default.ts",
-      "3": "src/test/converter/exports/export-with-local.ts",
-      "4": "src/test/converter/exports/export.ts",
-      "5": "src/test/converter/exports/mod.ts",
-      "6": "src/test/converter/exports/no-doc-members.ts"
-    },
-    "reflections": {
-      "4": 14,
-      "5": 29,
-      "6": 38
-    }
-  }
 }

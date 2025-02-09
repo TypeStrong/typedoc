@@ -1,4 +1,4 @@
-import { join, dirname, resolve } from "path";
+import { dirname, join, resolve } from "path";
 import * as FS from "fs";
 import ts from "typescript";
 
@@ -72,9 +72,7 @@ export class TypeDocReader implements OptionsReader {
 
         let fileContent: any;
         if (file.endsWith(".json") || file.endsWith(".jsonc")) {
-            const readResult = ts.readConfigFile(normalizePath(file), (path) =>
-                FS.readFileSync(path, "utf-8"),
-            );
+            const readResult = ts.readConfigFile(normalizePath(file), (path) => FS.readFileSync(path, "utf-8"));
 
             if (readResult.error) {
                 logger.error(

@@ -35,5 +35,5 @@ export interface Resolved {
 
 ## See Also
 
--   The [`@namespace`](namespace.md) tag
--   The [`@interface`](interface.md) tag
+- The [`@namespace`](namespace.md) tag
+- The [`@interface`](interface.md) tag

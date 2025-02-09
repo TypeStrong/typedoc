@@ -3,25 +3,18 @@ import {
     CommentTag,
     DeclarationReflection,
     ParameterReflection,
+    type ReferenceType,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
-    type ReferenceType,
-    type Reflection,
     type SourceReference,
     type TypeParameterReflection,
     type TypeVisitor,
 } from "../../models/index.js";
 import { Option } from "../../utils/index.js";
-import {
-    setIntersection,
-    filterMap,
-    partition,
-    removeIf,
-    removeIfPresent,
-    unique,
-} from "#utils";
+import { filterMap, partition, removeIf, removeIfPresent, setIntersection, unique } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -117,7 +110,6 @@ const MUTUALLY_EXCLUSIVE_MODIFIERS = [
  *
  * Resolve end:
  * - Resolve `@link` tags to point to target reflections
- *
  */
 export class CommentPlugin extends ConverterComponent {
     @Option("excludeTags")
@@ -356,8 +348,7 @@ export class CommentPlugin extends ConverterComponent {
                 filterMap(hidden, (reflection) =>
                     reflection.parent?.kindOf(ReflectionKind.SignatureContainer)
                         ? reflection.parent
-                        : void 0,
-                ) as DeclarationReflection[],
+                        : void 0) as DeclarationReflection[],
             ),
             (method) => method.getNonIndexSignatures().length === 0,
         );
@@ -495,8 +486,7 @@ export class CommentPlugin extends ConverterComponent {
         });
 
         for (const parameter of signature.typeParameters || []) {
-            const tag =
-                comment.getIdentifiedTag(parameter.name, "@typeParam") ||
+            const tag = comment.getIdentifiedTag(parameter.name, "@typeParam") ||
                 comment.getIdentifiedTag(parameter.name, "@template") ||
                 comment.getIdentifiedTag(`<${parameter.name}>`, "@param");
             if (tag) {
@@ -535,9 +525,7 @@ export class CommentPlugin extends ConverterComponent {
 
         for (const mod of this.cascadedModifierTags) {
             if (parentComment.hasModifier(mod)) {
-                const exclusiveSet = MUTUALLY_EXCLUSIVE_MODIFIERS.find((tags) =>
-                    tags.has(mod),
-                );
+                const exclusiveSet = MUTUALLY_EXCLUSIVE_MODIFIERS.find((tags) => tags.has(mod));
 
                 if (
                     !exclusiveSet ||
@@ -586,8 +574,8 @@ export class CommentPlugin extends ConverterComponent {
             const cls = reflection.parent?.kindOf(ReflectionKind.Class)
                 ? reflection.parent
                 : reflection.parent?.parent?.kindOf(ReflectionKind.Class)
-                  ? reflection.parent.parent
-                  : undefined;
+                ? reflection.parent.parent
+                : undefined;
             if (cls?.comment?.hasModifier("@hideconstructor")) {
                 return true;
             }
@@ -642,8 +630,7 @@ export class CommentPlugin extends ConverterComponent {
             return false;
         }
 
-        const isHidden =
-            comment.hasModifier("@hidden") ||
+        const isHidden = comment.hasModifier("@hidden") ||
             comment.hasModifier("@ignore") ||
             (comment.hasModifier("@internal") && this.excludeInternal);
 
@@ -684,9 +671,7 @@ export class CommentPlugin extends ConverterComponent {
             (tag) => tag.tag === "@param",
         );
 
-        removeIf(paramTags, (tag) =>
-            params.some((param) => param.name === tag.name),
-        );
+        removeIf(paramTags, (tag) => params.some((param) => param.name === tag.name));
 
         moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
@@ -742,14 +727,11 @@ function moveNestedParamTags(
     for (const param of parameters) {
         const visitor: Partial<TypeVisitor> = {
             reflection(target) {
-                const tags = paramTags.filter((t) =>
-                    t.name?.startsWith(`${param.name}.`),
-                );
+                const tags = paramTags.filter((t) => t.name?.startsWith(`${param.name}.`));
                 for (const tag of tags) {
                     const path = tag.name!.split(".");
                     path.shift();
-                    const child =
-                        target.declaration.getChildOrTypePropertyByName(path);
+                    const child = target.declaration.getChildOrTypePropertyByName(path);
 
                     if (child && !child.comment) {
                         child.comment = new Comment(

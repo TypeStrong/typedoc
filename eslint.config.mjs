@@ -110,19 +110,15 @@ const config = {
                 message: "Benchmark calls must be removed before committing.",
             },
             {
-                selector:
-                    "MemberExpression[object.name=type][property.name=symbol]",
-                message:
-                    "Use type.getSymbol() instead, Type.symbol is not properly typed.",
+                selector: "MemberExpression[object.name=type][property.name=symbol]",
+                message: "Use type.getSymbol() instead, Type.symbol is not properly typed.",
             },
             {
-                selector:
-                    "ImportDeclaration[source.value=typescript] ImportNamespaceSpecifier",
+                selector: "ImportDeclaration[source.value=typescript] ImportNamespaceSpecifier",
                 message: "TS before 5.7 does not have non-default exports.",
             },
             {
-                selector:
-                    "ImportDeclaration[source.value=typescript] ImportDeclaration",
+                selector: "ImportDeclaration[source.value=typescript] ImportDeclaration",
                 message: "TS before 5.7 does not have non-default exports.",
             },
         ],

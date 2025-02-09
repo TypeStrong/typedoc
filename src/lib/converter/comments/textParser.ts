@@ -5,14 +5,8 @@
  * them into references.
  * @module
  */
-import type {
-    TranslationProxy,
-    TranslatedString,
-} from "../../internationalization/index.js";
-import type {
-    CommentDisplayPart,
-    RelativeLinkDisplayPart,
-} from "../../models/index.js";
+import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
+import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
 import { HtmlAttributeParser, ParserState } from "#utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
@@ -157,7 +151,6 @@ export function textContent(
  *
  * Reference: https://github.com/markdown-it/markdown-it/blob/14.1.0/lib/rules_inline/link.mjs
  * Reference: https://github.com/markdown-it/markdown-it/blob/14.1.0/lib/rules_inline/image.mjs
- *
  */
 function checkMarkdownLink(
     data: TextParserData,

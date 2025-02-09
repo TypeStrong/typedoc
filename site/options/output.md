@@ -134,12 +134,12 @@ Specify the router that should be used to determine what files to create for the
 HTML output and how to link between pages. Additional routers may be added by
 plugins/themes. TypeDoc ships with the following builtin routers:
 
--   **kind** (default) - Creates folders according to their the documented member's kind.
--   **kind-dir** - Like **kind**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
--   **structure** - Creates folders according to the module structure.
--   **structure-dir** - Like **structure**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
--   **group** - Creates folders according to the reflection's [`@group`](../tags/group.md).
--   **category** - Creates folders according to the reflection's [`@category`](../tags/category.md).
+- **kind** (default) - Creates folders according to their the documented member's kind.
+- **kind-dir** - Like **kind**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
+- **structure** - Creates folders according to the module structure.
+- **structure-dir** - Like **structure**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
+- **group** - Creates folders according to the reflection's [`@group`](../tags/group.md).
+- **category** - Creates folders according to the reflection's [`@category`](../tags/category.md).
 
 This is easiest to understand with an example. Given the following API:
 
@@ -519,10 +519,10 @@ overwritten on a per-reflection basis by using the following
 tags within the comment for the reflection containing the
 categories/groups.
 
--   `@showGroups`
--   `@hideGroups`
--   `@showCategories`
--   `@hideCategories`
+- `@showGroups`
+- `@hideGroups`
+- `@showCategories`
+- `@hideCategories`
 
 ## headings
 

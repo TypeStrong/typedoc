@@ -18,8 +18,8 @@ function hasAnyLinkedReferenceType(h: DeclarationHierarchy | undefined): boolean
 export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: DeclarationHierarchy | undefined) {
     if (!typeHierarchy) return;
 
-    const summaryLink =
-        context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(typeHierarchy) ? (
+    const summaryLink = context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(typeHierarchy)
+        ? (
             <>
                 {" "}
                 (
@@ -28,9 +28,8 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
                 </a>
                 )
             </>
-        ) : (
-            <></>
-        );
+        )
+        : <></>;
 
     return (
         <section class="tsd-panel tsd-hierarchy" data-refl={context.model.id}>

@@ -15,20 +15,10 @@
  */
 
 import { escapeHtml } from "./html.js";
-import type {
-    IntrinsicElements,
-    JsxElement,
-    JsxChildren,
-    JsxComponent,
-    JsxHtmlGlobalProps,
-} from "./jsx.elements.js";
+import type { IntrinsicElements, JsxChildren, JsxComponent, JsxElement, JsxHtmlGlobalProps } from "./jsx.elements.js";
 import { JsxFragment } from "./jsx.elements.js";
 
-export type {
-    JsxElement as Element,
-    JsxChildren as Children,
-    JsxComponent,
-} from "./jsx.elements.js";
+export type { JsxChildren as Children, JsxComponent, JsxElement as Element } from "./jsx.elements.js";
 export { JsxFragment as Fragment } from "./jsx.elements.js";
 
 /**
@@ -51,11 +41,7 @@ export function Raw(_props: { html: string }) {
  * @hidden
  */
 export declare namespace JSX {
-    export {
-        IntrinsicElements,
-        JsxElement as Element,
-        JsxHtmlGlobalProps as IntrinsicAttributes,
-    };
+    export { IntrinsicElements, JsxElement as Element, JsxHtmlGlobalProps as IntrinsicAttributes };
 }
 
 const voidElements = new Set([

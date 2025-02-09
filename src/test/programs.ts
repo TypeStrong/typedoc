@@ -26,18 +26,20 @@ export function getConverterBase() {
 export function getConverterApp() {
     if (!converterApp) {
         converterApp = createAppForTesting();
-        for (const [name, value] of Object.entries({
-            name: "typedoc",
-            excludeExternals: true,
-            disableSources: false,
-            excludePrivate: false,
-            tsconfig: join(getConverterBase(), "tsconfig.json"),
-            externalPattern: ["**/node_modules/**"],
-            plugin: [],
-            entryPointStrategy: EntryPointStrategy.Expand,
-            gitRevision: "fake",
-            readme: "none",
-        })) {
+        for (
+            const [name, value] of Object.entries({
+                name: "typedoc",
+                excludeExternals: true,
+                disableSources: false,
+                excludePrivate: false,
+                tsconfig: join(getConverterBase(), "tsconfig.json"),
+                externalPattern: ["**/node_modules/**"],
+                plugin: [],
+                entryPointStrategy: EntryPointStrategy.Expand,
+                gitRevision: "fake",
+                readme: "none",
+            })
+        ) {
             converterApp.options.setValue(name as never, value as never);
         }
         new TSConfigReader().read(
@@ -57,9 +59,11 @@ export function getConverterApp() {
                 _serializer,
             ) {
                 if (obj.url) {
-                    obj.url = `typedoc://${obj.url.substring(
-                        obj.url.indexOf(ref.fileName),
-                    )}`;
+                    obj.url = `typedoc://${
+                        obj.url.substring(
+                            obj.url.indexOf(ref.fileName),
+                        )
+                    }`;
                 }
                 return obj;
             },
@@ -103,11 +107,13 @@ export function getConverter2Base() {
 export function getConverter2App() {
     if (!converter2App) {
         converter2App = createAppForTesting();
-        for (const [name, value] of Object.entries({
-            excludeExternals: true,
-            tsconfig: join(getConverter2Base(), "tsconfig.json"),
-            validation: true,
-        })) {
+        for (
+            const [name, value] of Object.entries({
+                excludeExternals: true,
+                tsconfig: join(getConverter2Base(), "tsconfig.json"),
+                validation: true,
+            })
+        ) {
             converter2App.options.setValue(name as never, value as never);
         }
         new TSConfigReader().read(
@@ -150,7 +156,7 @@ export function getConverter2Project(entries: string[], folder: string) {
                 join(base, folder, entry, "index.ts"),
                 join(base, folder, entry, "index.js"),
                 join(base, folder, entry),
-            ].find(existsSync),
+            ].find(existsSync)
         )
         .filter((x) => x !== undefined);
 

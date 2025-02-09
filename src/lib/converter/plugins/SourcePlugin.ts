@@ -1,16 +1,9 @@
 import ts from "typescript";
 
-import {
-    DeclarationReflection,
-    SignatureReflection,
-} from "../../models/reflections/index.js";
+import { DeclarationReflection, SignatureReflection } from "../../models/reflections/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import {
-    Option,
-    normalizePath,
-    getCommonDirectory,
-} from "../../utils/index.js";
+import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js";
 import { isNamedNode } from "../utils/nodes.js";
 import { relative } from "path";
 import { SourceReference } from "../../models/index.js";
@@ -163,8 +156,7 @@ export class SourcePlugin extends ConverterComponent {
             );
         }
 
-        const basePath =
-            this.basePath || getCommonDirectory([...this.fileNames]);
+        const basePath = this.basePath || getCommonDirectory([...this.fileNames]);
         this.repositories ||= new RepositoryManager(
             basePath,
             this.gitRevision,

@@ -78,9 +78,8 @@ export function getGenericArray(): Array<string> {
 export type PopFront<T extends any[]> = ((...args: T) => any) extends (
     a: any,
     ...r: infer R
-) => any
-    ? R
-    : never;
+) => any ? R :
+    never;
 
 /**
  * See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite
@@ -88,7 +87,7 @@ export type PopFront<T extends any[]> = ((...args: T) => any) extends (
  */
 export type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
     T extends any[],
-    R = {}
+    R = {},
 > = {
     0: R;
     1: HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<

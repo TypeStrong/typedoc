@@ -1,9 +1,9 @@
 import {
+    type CommentDisplayPart,
+    type DeclarationReflection,
     type Reflection,
     ReflectionKind,
-    type DeclarationReflection,
     type SignatureReflection,
-    type CommentDisplayPart,
 } from "../../../../models/index.js";
 import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
 import { JSX } from "#utils";
@@ -274,10 +274,10 @@ function renderChild(
                 <li class="tsd-parameter">
                     <h5>
                         {context.reflectionFlags(child.getSignature)}
-                        <span class="tsd-signature-keyword">get </span>
+                        <span class="tsd-signature-keyword">get</span>
                         <span class={getKindClass(child)}>{child.name}</span>
                         {anchorLinkIfPresent(context, child)}
-                        <span class="tsd-signature-symbol">(): </span>
+                        <span class="tsd-signature-symbol">():</span>
                         {context.type(child.getSignature.type)}
                     </h5>
 
@@ -288,18 +288,18 @@ function renderChild(
                 <li class="tsd-parameter">
                     <h5>
                         {context.reflectionFlags(child.setSignature)}
-                        <span class="tsd-signature-keyword">set </span>
+                        <span class="tsd-signature-keyword">set</span>
                         <span class={getKindClass(child)}>{child.name}</span>
                         {!child.getSignature && anchorLinkIfPresent(context, child)}
                         <span class="tsd-signature-symbol">(</span>
                         {child.setSignature.parameters?.map((item) => (
                             <>
                                 {item.name}
-                                <span class="tsd-signature-symbol">: </span>
+                                <span class="tsd-signature-symbol">:</span>
                                 {context.type(item.type)}
                             </>
                         ))}
-                        <span class="tsd-signature-symbol">): </span>
+                        <span class="tsd-signature-symbol">):</span>
                         {context.type(child.setSignature.type)}
                     </h5>
 
@@ -314,7 +314,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
     return (
         <li class="tsd-parameter-index-signature">
             <h5>
-                {index.flags.isReadonly && <span class="tsd-signature-keyword">readonly </span>}
+                {index.flags.isReadonly && <span class="tsd-signature-keyword">readonly</span>}
                 <span class="tsd-signature-symbol">[</span>
                 {index.parameters!.map((item) => (
                     <>

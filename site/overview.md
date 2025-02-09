@@ -17,17 +17,17 @@ on the scale of breaking changes introduced in a new TypeScript version, a given
 support more versions of TypeScript. TypeDoc may work with older (or newer) TypeScript versions, but
 the supported version range will generally not include versions not supported by DefinitelyTyped.
 
-| TypeDoc Version | TypeScript Version | Status              |
-| --------------- | ------------------ | ------------------- |
-| 0.27            | 5.0 through 5.7    | ✅ Maintained       |
+| TypeDoc Version | TypeScript Version | Status             |
+| --------------- | ------------------ | ------------------ |
+| 0.27            | 5.0 through 5.7    | ✅ Maintained      |
 | 0.26            | 4.6 through 5.6    | ⚠️ Security Updates |
-| 0.25            | 4.6 through 5.4    | ❌ Unmaintained     |
-| 0.24            | 4.6 through 5.1    | ❌ Unmaintained     |
-| 0.23            | 4.6 through 5.0    | ❌ Unmaintained     |
-| 0.22            | 4.0 through 4.7    | ❌ Unmaintained     |
-| 0.21            | 4.0 through 4.4    | ❌ Unmaintained     |
-| 0.20            | 3.9 through 4.2    | ❌ Unmaintained     |
-| 0.19            | 3.9 through 4.0    | ❌ Unmaintained     |
+| 0.25            | 4.6 through 5.4    | ❌ Unmaintained    |
+| 0.24            | 4.6 through 5.1    | ❌ Unmaintained    |
+| 0.23            | 4.6 through 5.0    | ❌ Unmaintained    |
+| 0.22            | 4.0 through 4.7    | ❌ Unmaintained    |
+| 0.21            | 4.0 through 4.4    | ❌ Unmaintained    |
+| 0.20            | 3.9 through 4.2    | ❌ Unmaintained    |
+| 0.19            | 3.9 through 4.0    | ❌ Unmaintained    |
 
 ## Command Line Interface
 

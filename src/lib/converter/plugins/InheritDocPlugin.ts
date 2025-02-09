@@ -10,7 +10,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import type { Reflection } from "../../models/reflections/abstract.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
-import { zip, DefaultMap } from "#utils";
+import { DefaultMap, zip } from "#utils";
 import { parseDeclarationReference } from "../comments/declarationReference.js";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";
@@ -42,9 +42,7 @@ export class InheritDocPlugin extends ConverterComponent {
      */
     constructor(owner: Converter) {
         super(owner);
-        this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) =>
-            this.processInheritDoc(context.project),
-        );
+        this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) => this.processInheritDoc(context.project));
         this.application.on(
             ApplicationEvents.REVIVE,
             this.processInheritDoc.bind(this),
@@ -70,8 +68,7 @@ export class InheritDocPlugin extends ConverterComponent {
                     ),
                 );
             }
-            let sourceRefl =
-                declRef && resolveDeclarationReference(reflection, declRef[0]);
+            let sourceRefl = declRef && resolveDeclarationReference(reflection, declRef[0]);
 
             if (reflection instanceof SignatureReflection) {
                 // Assumes that if there are overloads, they are declared in the same order as the parent.
@@ -83,8 +80,7 @@ export class InheritDocPlugin extends ConverterComponent {
                     const index = reflection.parent
                         .getAllSignatures()
                         .indexOf(reflection);
-                    sourceRefl =
-                        sourceRefl.getAllSignatures()[index] || sourceRefl;
+                    sourceRefl = sourceRefl.getAllSignatures()[index] || sourceRefl;
                 }
             }
 

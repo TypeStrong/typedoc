@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 // Helper script to download recently updated plugins
 // Used to review code changes for breaking changes.
 
@@ -19,8 +19,9 @@ function exec(command) {
     return new Promise((resolve, reject) => {
         cp.exec(command, (err, stdout, stderr) => {
             if (err) reject(err);
-            if (stderr.length)
+            if (stderr.length) {
                 reject(new Error(`Command: ${command}\n${stderr}`));
+            }
             resolve(stdout.trim());
         });
     });
@@ -69,10 +70,12 @@ async function inflate(file) {
     await exec(`gzip -d "${file}"`);
     await fs.promises.mkdir(file.replace(".tgz", ""));
     await exec(
-        `tar -C "${file.replace(".tgz", "")}" -xf "${file.replace(
-            ".tgz",
-            ".tar",
-        )}"`,
+        `tar -C "${file.replace(".tgz", "")}" -xf "${
+            file.replace(
+                ".tgz",
+                ".tar",
+            )
+        }"`,
     );
 }
 

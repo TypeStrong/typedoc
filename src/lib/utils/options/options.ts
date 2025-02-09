@@ -16,12 +16,7 @@ import {
 import { addTypeDocOptions } from "./sources/index.js";
 import { getOptionsHelp } from "./help.js";
 import type { TranslationProxy } from "../../internationalization/internationalization.js";
-import {
-    type NeverIfInternal,
-    getSimilarValues,
-    insertOrderSorted,
-    unique,
-} from "#utils";
+import { getSimilarValues, insertOrderSorted, type NeverIfInternal, unique } from "#utils";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -134,9 +129,11 @@ export class Options {
         options._declarations = new Map(this._declarations);
         options.reset();
 
-        for (const [key, val] of Object.entries(
-            this.getValue("packageOptions"),
-        )) {
+        for (
+            const [key, val] of Object.entries(
+                this.getValue("packageOptions"),
+            )
+        ) {
             options.setValue(key as any, val, packageDir);
         }
 
@@ -456,8 +453,7 @@ export function Option<K extends keyof TypeDocOptionMap>(name: K) {
     ) => {
         return {
             get(this: { application: Application } | { options: Options }) {
-                const options =
-                    "options" in this ? this.options : this.application.options;
+                const options = "options" in this ? this.options : this.application.options;
                 return options.getValue(name);
             },
             set(_value: never) {

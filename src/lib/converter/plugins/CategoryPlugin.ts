@@ -3,13 +3,13 @@ import { ApplicationEvents } from "../../application-events.js";
 import {
     Comment,
     ContainerReflection,
-    ReflectionCategory,
-    ReflectionKind,
     type DeclarationReflection,
     type DocumentReflection,
     type ProjectReflection,
+    ReflectionCategory,
+    ReflectionKind,
 } from "../../models/index.js";
-import { Option, getSortFunction } from "../../utils/index.js";
+import { getSortFunction, Option } from "../../utils/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -56,9 +56,11 @@ export class CategoryPlugin extends ConverterComponent {
         this.setup();
 
         this.categorize(project);
-        for (const refl of project.getReflectionsByKind(
-            ReflectionKind.SomeModule,
-        )) {
+        for (
+            const refl of project.getReflectionsByKind(
+                ReflectionKind.SomeModule,
+            )
+        ) {
             assert(refl.isDeclaration());
             this.categorize(refl);
         }
@@ -188,10 +190,11 @@ export class CategoryPlugin extends ConverterComponent {
                         cat.description = body;
                     } else {
                         this.application.logger.warn(
-                            this.application.i18n.comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
-                                parent.getFriendlyFullName(),
-                                header,
-                            ),
+                            this.application.i18n
+                                .comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
+                                    parent.getFriendlyFullName(),
+                                    header,
+                                ),
                         );
                     }
                 }

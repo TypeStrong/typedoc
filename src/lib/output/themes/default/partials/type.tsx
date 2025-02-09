@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../../formatter.js";
-import { TypeContext, type SomeType } from "../../../../models/types.js";
+import { type SomeType, TypeContext } from "../../../../models/types.js";
 
 export function type(
     context: DefaultThemeRenderContext,

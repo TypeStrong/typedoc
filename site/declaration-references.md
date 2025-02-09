@@ -41,7 +41,7 @@ or more component names delimitated by a `.`, `#`, or `~`.
 
 The deliminator is used to determine how to navigate the project tree.
 
-<!-- prettier-ignore -->
+<!-- dprint-ignore -->
 | Deliminator | Behavior |
 | --- | --- |
 | `.` | The most general purpose deliminator. It will first try to resolve exports and static class properties, but will also resolve members if no export is found for improved compatibility with TypeScript's resolution. |
@@ -138,33 +138,33 @@ to refer to a specific overload or type of declaration.
 
 The meaning takes one of the following forms:
 
--   `:keyword` where `keyword` is described by the list below.
--   `:keyword(decimal digits)` where `decimal digits` indicates the index of an overloaded meaning
--   `:(decimal digits)` shorthand for an overloaded meaning
--   `:decimal digits` shorthand for an overloaded meaning
--   `:label` where `label` refers to a declaration by its
-    [`{@label}`](./tags/label.md) tag. `label` may contain `A-Z`, `0-9`, and `_`
-    and may not start with a number. Note: This meaning parse is specific to
-    TypeDoc, and is not currently specified by the TSDoc standard.
+- `:keyword` where `keyword` is described by the list below.
+- `:keyword(decimal digits)` where `decimal digits` indicates the index of an overloaded meaning
+- `:(decimal digits)` shorthand for an overloaded meaning
+- `:decimal digits` shorthand for an overloaded meaning
+- `:label` where `label` refers to a declaration by its
+  [`{@label}`](./tags/label.md) tag. `label` may contain `A-Z`, `0-9`, and `_`
+  and may not start with a number. Note: This meaning parse is specific to
+  TypeDoc, and is not currently specified by the TSDoc standard.
 
 The keywords recognized by TypeDoc are:
 
--   `class` - Refers to reflections which represent a class.
--   `interface` - Refers to reflections which represent an interface.
--   `type` - Refers to reflections which represent some type.
--   `enum` - Refers to reflections which represent an enum.
--   `namespace` - Refers to reflections which represent a namespace.
--   `function` - Refers to reflections which represent a function's or method's signatures.
--   `var` - Refers to reflections which represent a variable.
--   `constructor` - Refers to the constructor of a class or type.
--   `member` - Refers to reflections which represent an enum member, property, method, or accessor.
--   `event` - Permitted to conform with the TSDoc spec, but will result in a broken reference.
--   `call` - Refers to reflections which represent a function's or method's signatures.
--   `new` - Refers to the constructor of a class or type.
--   `index` - Refers to a reflection's index signatures.
--   `complex` - Refers to reflections which represent some type.
--   `getter` - (TypeDoc specific, 0.23.3+) Refers to the get signature of an accessor.
--   `setter` - (TypeDoc specific, 0.23.3+) Refers to the set signature of an accessor.
+- `class` - Refers to reflections which represent a class.
+- `interface` - Refers to reflections which represent an interface.
+- `type` - Refers to reflections which represent some type.
+- `enum` - Refers to reflections which represent an enum.
+- `namespace` - Refers to reflections which represent a namespace.
+- `function` - Refers to reflections which represent a function's or method's signatures.
+- `var` - Refers to reflections which represent a variable.
+- `constructor` - Refers to the constructor of a class or type.
+- `member` - Refers to reflections which represent an enum member, property, method, or accessor.
+- `event` - Permitted to conform with the TSDoc spec, but will result in a broken reference.
+- `call` - Refers to reflections which represent a function's or method's signatures.
+- `new` - Refers to the constructor of a class or type.
+- `index` - Refers to a reflection's index signatures.
+- `complex` - Refers to reflections which represent some type.
+- `getter` - (TypeDoc specific, 0.23.3+) Refers to the get signature of an accessor.
+- `setter` - (TypeDoc specific, 0.23.3+) Refers to the set signature of an accessor.
 
 ```ts
 /**

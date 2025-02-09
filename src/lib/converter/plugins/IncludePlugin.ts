@@ -63,8 +63,7 @@ export class IncludePlugin extends ConverterComponent {
                 continue;
             }
 
-            const { filename, regionTarget, requestedLines } =
-                parseIncludeCodeTextPart(part.text);
+            const { filename, regionTarget, requestedLines } = parseIncludeCodeTextPart(part.text);
 
             const file = path.resolve(relative, filename);
             this.application.watchFile(file);
@@ -83,25 +82,25 @@ export class IncludePlugin extends ConverterComponent {
 
                 const includedText = regionTarget
                     ? this.getRegions(
-                          refl,
-                          file,
-                          ext,
-                          part.text,
-                          text,
-                          regionTarget,
-                          part.tag,
-                          part.tag === "@includeCode",
-                      )
+                        refl,
+                        file,
+                        ext,
+                        part.text,
+                        text,
+                        regionTarget,
+                        part.tag,
+                        part.tag === "@includeCode",
+                    )
                     : requestedLines
-                      ? this.getLines(
-                            refl,
-                            file,
-                            part.text,
-                            text,
-                            requestedLines,
-                            part.tag,
-                        )
-                      : text;
+                    ? this.getLines(
+                        refl,
+                        file,
+                        part.text,
+                        text,
+                        requestedLines,
+                        part.tag,
+                    )
+                    : text;
 
                 if (part.tag === "@include") {
                     const sf = new MinimalSourceFile(includedText, file);
@@ -196,25 +195,27 @@ export class IncludePlugin extends ConverterComponent {
                 if (foundStart && foundEnd) {
                     if (start.length > 1) {
                         this.logger.error(
-                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times(
-                                tag,
-                                refl.getFriendlyFullName(),
-                                textPart,
-                                file,
-                                target,
-                            ),
+                            this.logger.i18n
+                                .include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times(
+                                    tag,
+                                    refl.getFriendlyFullName(),
+                                    textPart,
+                                    file,
+                                    target,
+                                ),
                         );
                         return "";
                     }
                     if (end.length > 1) {
                         this.logger.error(
-                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times(
-                                tag,
-                                refl.getFriendlyFullName(),
-                                textPart,
-                                file,
-                                target,
-                            ),
+                            this.logger.i18n
+                                .include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times(
+                                    tag,
+                                    refl.getFriendlyFullName(),
+                                    textPart,
+                                    file,
+                                    target,
+                                ),
                         );
                         return "";
                     }
@@ -361,14 +362,11 @@ const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
     bat: [
         [
             (regionName) => new RegExp(`:: *#region  *${regionName} *\n`, "g"),
-            (regionName) =>
-                new RegExp(`:: *#endregion  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`:: *#endregion  *${regionName} *\n`, "g"),
         ],
         [
-            (regionName) =>
-                new RegExp(`REM  *#region  *${regionName} *\n`, "g"),
-            (regionName) =>
-                new RegExp(`REM  *#endregion  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`REM  *#region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`REM  *#endregion  *${regionName} *\n`, "g"),
         ],
     ],
     cs: [
@@ -379,33 +377,26 @@ const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
     ],
     c: [
         [
-            (regionName) =>
-                new RegExp(`#pragma  *region  *${regionName} *\n`, "g"),
-            (regionName) =>
-                new RegExp(`#pragma  *endregion  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#pragma  *region  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`#pragma  *endregion  *${regionName} *\n`, "g"),
         ],
     ],
     css: [
         [
-            (regionName) =>
-                new RegExp(`/\\* *#region *\\*/  *${regionName} *\n`, "g"),
-            (regionName) =>
-                new RegExp(`/\\* *#endregion *\\*/  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`/\\* *#region *\\*/  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`/\\* *#endregion *\\*/  *${regionName} *\n`, "g"),
         ],
     ],
     md: [
         [
-            (regionName) =>
-                new RegExp(`<!--  *#region  *${regionName} *--> *\n`, "g"),
-            (regionName) =>
-                new RegExp(`<!--  *#endregion  *${regionName} *--> *\n`, "g"),
+            (regionName) => new RegExp(`<!--  *#region  *${regionName} *--> *\n`, "g"),
+            (regionName) => new RegExp(`<!--  *#endregion  *${regionName} *--> *\n`, "g"),
         ],
     ],
     ts: [
         [
             (regionName) => new RegExp(`// *#region  *${regionName} *\n`, "g"),
-            (regionName) =>
-                new RegExp(`// *#endregion  *${regionName} *\n`, "g"),
+            (regionName) => new RegExp(`// *#endregion  *${regionName} *\n`, "g"),
         ],
     ],
     vb: [
@@ -425,10 +416,8 @@ regionTagREsByExt["fs"] = [
 regionTagREsByExt["java"] = [
     ...regionTagREsByExt["ts"],
     [
-        (regionName) =>
-            new RegExp(`// *<editor-fold>  *${regionName} *\n`, "g"),
-        (regionName) =>
-            new RegExp(`// *</editor-fold>  *${regionName} *\n`, "g"),
+        (regionName) => new RegExp(`// *<editor-fold>  *${regionName} *\n`, "g"),
+        (regionName) => new RegExp(`// *</editor-fold>  *${regionName} *\n`, "g"),
     ],
 ];
 regionTagREsByExt["cpp"] = regionTagREsByExt["c"];

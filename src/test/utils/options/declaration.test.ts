@@ -7,8 +7,8 @@ import {
     getDefaultValue,
     type MapDeclarationOption,
     type MixedDeclarationOption,
-    type ObjectDeclarationOption,
     type NumberDeclarationOption,
+    type ObjectDeclarationOption,
     ParameterType,
     type StringDeclarationOption,
 } from "../../../lib/utils/options/declaration.js";

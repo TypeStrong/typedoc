@@ -22,8 +22,7 @@ declare global {
 window.translations ||= {
     copy: "Copy",
     copied: "Copied!",
-    normally_hidden:
-        "This member is normally hidden due to your filter settings.",
+    normally_hidden: "This member is normally hidden due to your filter settings.",
     hierarchy_expand: "Expand",
     hierarchy_collapse: "Collapse",
     search_index_not_available: "The search index is not available",
@@ -91,9 +90,7 @@ export class Application {
         this.createComponents(document.body);
         this.ensureFocusedElementVisible();
         this.listenForCodeCopies();
-        window.addEventListener("hashchange", () =>
-            this.ensureFocusedElementVisible(),
-        );
+        window.addEventListener("hashchange", () => this.ensureFocusedElementVisible());
 
         // We're on a *really* slow network connection and the inline JS
         // has already made the page display.
@@ -154,8 +151,7 @@ export class Application {
         }
 
         if (pageLink && !checkVisible(pageLink)) {
-            const top =
-                pageLink.getBoundingClientRect().top -
+            const top = pageLink.getBoundingClientRect().top -
                 document.documentElement.clientHeight / 4;
             // If we are showing three columns, this will scroll the site menu down to
             // show the page we just loaded in the navigation.
@@ -166,8 +162,7 @@ export class Application {
     }
 
     public updateIndexVisibility() {
-        const indexAccordion =
-            document.querySelector<HTMLDetailsElement>(".tsd-index-content");
+        const indexAccordion = document.querySelector<HTMLDetailsElement>(".tsd-index-content");
         const oldOpen = indexAccordion?.open;
         if (indexAccordion) {
             indexAccordion.open = true;

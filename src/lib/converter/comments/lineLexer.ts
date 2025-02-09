@@ -7,11 +7,13 @@ export function* lexLineComments(
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexLineComments2(
-        file,
-        ranges[0].pos,
-        ranges[ranges.length - 1].end,
-    )) {
+    for (
+        const token of lexLineComments2(
+            file,
+            ranges[0].pos,
+            ranges[ranges.length - 1].end,
+        )
+    ) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
                 textToken.text += token.text;

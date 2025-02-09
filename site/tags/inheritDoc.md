@@ -14,11 +14,11 @@ reflection. The tag has the form `{@inheritDoc ref}` where `ref` is a
 The `@inheritDoc` tag, following the TSDoc specification, will only copy the following parts
 of a comment:
 
--   The summary
--   The `@remarks` block
--   Any `@param` blocks
--   Any `@typeParam` Blocks
--   The `@returns` block
+- The summary
+- The `@remarks` block
+- Any `@param` blocks
+- Any `@typeParam` Blocks
+- The `@returns` block
 
 ## Example
 
@@ -41,4 +41,4 @@ comments from the "parent" reflection if possible.
 
 ## See Also
 
--   JSDoc's [`@inheritdoc`](https://jsdoc.app/tags-inheritdoc.html)
+- JSDoc's [`@inheritdoc`](https://jsdoc.app/tags-inheritdoc.html)

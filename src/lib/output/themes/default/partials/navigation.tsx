@@ -32,9 +32,7 @@ export function sidebarLinks(context: DefaultThemeRenderContext) {
     if (!links.length && !navLinks.length) return null;
     return (
         <nav id="tsd-sidebar-links" class="tsd-navigation">
-            {links.map(([label, url]) => (
-                <a href={url}>{label}</a>
-            ))}
+            {links.map(([label, url]) => <a href={url}>{label}</a>)}
             {navLinks.map(([label, url]) => (
                 <a href={url} class="tsd-nav-link">
                     {label}
@@ -161,9 +159,7 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
 
         const built = (
             <ul>
-                {level.map((l) => (
-                    <li>{l}</li>
-                ))}
+                {level.map((l) => <li>{l}</li>)}
             </ul>
         );
         levels[levels.length - 1].push(built);
@@ -173,8 +169,8 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
         const inferredLevel = heading.level
             ? heading.level + 2 // regular heading
             : heading.kind
-              ? 2 // reflection
-              : 1; // group/category
+            ? 2 // reflection
+            : 1; // group/category
         while (inferredLevel < levels.length) {
             finalizeLevel(false);
         }

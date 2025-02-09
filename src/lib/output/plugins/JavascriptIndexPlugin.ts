@@ -1,12 +1,7 @@
 import * as Path from "path";
 import lunr from "lunr";
 
-import type {
-    Comment,
-    DeclarationReflection,
-    DocumentReflection,
-    Reflection,
-} from "../../models/index.js";
+import type { Comment, DeclarationReflection, DocumentReflection, Reflection } from "../../models/index.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
 import { Option, writeFile } from "../../utils/index.js";
@@ -64,9 +59,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             return;
         }
 
-        this.owner.preRenderAsyncJobs.push((event) =>
-            this.buildSearchIndex(event),
-        );
+        this.owner.preRenderAsyncJobs.push((event) => this.buildSearchIndex(event));
     }
 
     private async buildSearchIndex(event: RendererEvent) {
@@ -91,9 +84,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
         builder.pipeline.add(lunr.trimmer);
 
         builder.ref("id");
-        for (const [key, boost] of Object.entries(
-            indexEvent.searchFieldWeights,
-        )) {
+        for (
+            const [key, boost] of Object.entries(
+                indexEvent.searchFieldWeights,
+            )
+        ) {
             builder.field(key, { boost });
         }
 
@@ -176,11 +171,13 @@ export class JavascriptIndexPlugin extends RendererComponent {
     private getBoost(refl: DeclarationReflection | DocumentReflection): number {
         let boost = refl.relevanceBoost ?? 1;
 
-        for (const group of GroupPlugin.getGroups(
-            refl,
-            this.groupReferencesByType,
-            this.application.internationalization,
-        )) {
+        for (
+            const group of GroupPlugin.getGroups(
+                refl,
+                this.groupReferencesByType,
+                this.application.internationalization,
+            )
+        ) {
             boost *= this.searchGroupBoosts[group] ?? 1;
             this.unusedGroupBoosts.delete(group);
         }
