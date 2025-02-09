@@ -5,7 +5,7 @@ title: Changelog
 ## Beta
 
 - Added a `--router` option which can be used to modify TypeDoc's output folder
-  structure. This can be extended with plugins.
+  structure. This can be extended with plugins, #2111.
 - TypeDoc will now only create references for symbols re-exported from modules.
 - API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
   `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
