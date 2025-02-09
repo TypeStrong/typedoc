@@ -302,9 +302,9 @@ export class Internationalization {
      */
     getSupportedLanguages(): string[] {
         return unique([
-            ...readdirSync(join(fileURLToPath(import.meta.url), "../locales"))
-                .map((x) => x.substring(0, x.indexOf(".")))
-                .filter((x) => x !== "jp"),
+            ...readdirSync(
+                join(fileURLToPath(import.meta.url), "../locales"),
+            ).map((x) => x.substring(0, x.indexOf("."))),
             ...this.allTranslations.keys(),
         ]).sort();
     }

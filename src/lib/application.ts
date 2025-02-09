@@ -301,11 +301,6 @@ export class Application extends AbstractComponent<
             this.logger.info(
                 "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
             );
-        } else if (this.lang === "jp") {
-            this.logger.warn(
-                // Only Japanese see this. Meaning: "jp" is going to be removed in the future. Please designate "ja" instead.
-                "「jp」は将来削除されます。代わりに「ja」を指定してください。" as TranslatedString,
-            );
         }
 
         if (
