@@ -503,37 +503,37 @@ export class DefaultTheme extends Theme {
 }
 
 function getReflectionClasses(reflection: Reflection, filters: Record<string, boolean>) {
-    const classes: string[] = [];
+    const classes = new Set<string>();
 
     // Filter classes should match up with the settings function in
     // partials/navigation.tsx.
     for (const key of Object.keys(filters)) {
         if (key === "inherited") {
             if (reflection.flags.isInherited) {
-                classes.push("tsd-is-inherited");
+                classes.add("tsd-is-inherited");
             }
         } else if (key === "protected") {
             if (reflection.flags.isProtected) {
-                classes.push("tsd-is-protected");
+                classes.add("tsd-is-protected");
             }
         } else if (key === "private") {
             if (reflection.flags.isPrivate) {
-                classes.push("tsd-is-private");
+                classes.add("tsd-is-private");
             }
         } else if (key === "external") {
             if (reflection.flags.isExternal) {
-                classes.push("tsd-is-external");
+                classes.add("tsd-is-external");
             }
         } else if (key.startsWith("@")) {
             if (key === "@deprecated") {
                 if (reflection.isDeprecated()) {
-                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                    classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
                 }
             } else if (
                 reflection.comment?.hasModifier(key as `@${string}`) ||
                 reflection.comment?.getTag(key as `@${string}`)
             ) {
-                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
             } else if (reflection.isDeclaration()) {
                 const ownSignatures = reflection.getNonIndexSignatures();
                 // Check methods and accessors, find common tags, elevate
@@ -544,13 +544,13 @@ function getReflectionClasses(reflection: Reflection, filters: Record<string, bo
                             refl.comment?.hasModifier(key as `@${string}`) || refl.comment?.getTag(key as `@${string}`),
                     )
                 ) {
-                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                    classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
                 }
             }
         }
     }
 
-    return classes.join(" ");
+    return Array.from(classes).join(" ");
 }
 
 function shouldShowCategories(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {
