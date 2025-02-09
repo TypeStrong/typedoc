@@ -8,7 +8,9 @@ title: Changelog
 
 -   `@includeCode` and `@inline` can now inject parts of files using region
     names or line numbers, #2816.
+-   Introduced `ja` translation options, deprecated `jp` in favor of `ja`, #2843.
 -   The `@inline` tag now works in more places for generic types.
+-   Visibility filters now consider individual signatures, #2846.
 
 ### Bug Fixes
 
@@ -21,6 +23,8 @@ title: Changelog
 ### Thanks!
 
 -   @shawninder
+-   @tats-u
+-   @XeroAlpha
 
 ## v0.27.6 (2024-12-26)
 
