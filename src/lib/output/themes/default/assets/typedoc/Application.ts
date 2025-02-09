@@ -8,6 +8,8 @@ declare global {
             normally_hidden: string;
             hierarchy_expand: string;
             hierarchy_collapse: string;
+            search_index_not_available: string;
+            search_no_results_found_for_0: string;
 
             // Kind strings for icons
             folder: string;
@@ -24,6 +26,8 @@ window.translations ||= {
         "This member is normally hidden due to your filter settings.",
     hierarchy_expand: "Expand",
     hierarchy_collapse: "Collapse",
+    search_index_not_available: "The search index is not available",
+    search_no_results_found_for_0: "No results found for {0}",
 
     folder: "Folder",
     kind_1: "Project",

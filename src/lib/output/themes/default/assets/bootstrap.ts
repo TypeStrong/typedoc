@@ -26,3 +26,8 @@ Object.defineProperty(window, "app", { value: app });
 initSearch();
 initNav();
 initHierarchy();
+
+if ("virtualKeyboard" in navigator) {
+    // @ts-ignore
+    navigator.virtualKeyboard.overlaysContent = true;
+}
