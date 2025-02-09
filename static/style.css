@@ -991,14 +991,15 @@
         vertical-align: text-top;
     }
     /*
-    We need to be careful to target the arrow indicating whether the accordion
-    is open, but not any other SVGs included in the details element.
-*/
+     * We need to be careful to target the arrow indicating whether the accordion
+     * is open, but not any other SVGs included in the details element.
+     */
     .tsd-accordion:not([open]) > .tsd-accordion-summary > svg:first-child,
     .tsd-accordion:not([open]) > .tsd-accordion-summary > h1 > svg:first-child,
     .tsd-accordion:not([open]) > .tsd-accordion-summary > h2 > svg:first-child,
     .tsd-accordion:not([open]) > .tsd-accordion-summary > h3 > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h4 > svg:first-child {
+    .tsd-accordion:not([open]) > .tsd-accordion-summary > h4 > svg:first-child,
+    .tsd-accordion:not([open]) > .tsd-accordion-summary > h5 > svg:first-child {
         transform: rotate(-90deg);
     }
     .tsd-index-content > :not(:first-child) {

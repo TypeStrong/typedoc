@@ -3,12 +3,7 @@ import type {
     Internationalization,
     TranslationProxy,
 } from "../../../internationalization/internationalization.js";
-import type {
-    DocumentReflection,
-    CommentDisplayPart,
-    DeclarationReflection,
-    Reflection,
-} from "../../../models/index.js";
+import type { CommentDisplayPart, Reflection } from "../../../models/index.js";
 import { type NeverIfInternal, type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
 import { defaultLayout } from "./layouts/default.js";
@@ -123,7 +118,7 @@ export class DefaultThemeRenderContext {
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 
-    getReflectionClasses = (refl: DeclarationReflection | DocumentReflection) =>
+    getReflectionClasses = (refl: Reflection) =>
         this.theme.getReflectionClasses(refl);
 
     documentTemplate = bind(documentTemplate, this);

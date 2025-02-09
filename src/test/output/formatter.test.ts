@@ -23,7 +23,6 @@ import {
     type SomeType,
 } from "../../lib/models/types.js";
 import { renderElementToText } from "../../lib/utils/jsx.js";
-import { dedent } from "../utils.js";
 import {
     DeclarationReflection,
     FileRegistry,
@@ -39,6 +38,7 @@ import {
     FormattedCodeGenerator,
     Wrap,
 } from "../../lib/output/formatter.js";
+import { dedent } from "../../lib/utils/general.js";
 
 export function renderType(type: SomeType, maxWidth = 80, startWidth = 0) {
     const builder = new FormattedCodeBuilder(() => "");

@@ -32,8 +32,8 @@ async function main() {
         if (exitCode !== ExitCodes.Watching) {
             app.logger.verbose(`Full run took ${Date.now() - start}ms`);
             logRunSummary(app.logger);
-            process.exit(exitCode);
         }
+        process.exit(exitCode);
     } catch (error) {
         console.error("TypeDoc exiting with unexpected error:");
         console.error(error);
@@ -72,12 +72,13 @@ async function run(app: td.Application) {
         return ExitCodes.OptionError;
     }
 
-    if (app.options.getValue("watch")) {
-        app.convertAndWatch(async (project) => {
+    if (app.options.getValue("watch") || process.env["TYPEDOC_FORCE_WATCH"]) {
+        const continueWatching = await app.convertAndWatch(async (project) => {
             app.validate(project);
             await app.generateOutputs(project);
         });
-        return ExitCodes.Watching;
+
+        return continueWatching ? ExitCodes.Watching : ExitCodes.OptionError;
     }
 
     const project = await app.convert();

@@ -9,6 +9,8 @@ title: Changelog
 -   `@includeCode` and `@inline` can now inject parts of files using region
     names or line numbers, #2816.
 -   Introduced `ja` translation options, deprecated `jp` in favor of `ja`, #2843.
+-   Improved TypeDoc's `--watch` option to support watching files not caught by
+    TypeScript's watch mode, #2675.
 -   The `@inline` tag now works in more places for generic types.
 -   Visibility filters now consider individual signatures, #2846.
 
@@ -19,9 +21,12 @@ title: Changelog
 -   Fixed an issue with `@class` incorrectly handling mapped types, #2842.
 -   TypeDoc will now consider symbols to be external only if all of their declarations are external
     so that declaration merged members with global symbols can be documented, #2844.
+-   Fixed an issue where TypeDoc would constantly rebuild, #2844.
+-   Fixed an issue where the dropdown arrow in the index group would not respect the state of the dropdown, #2845.
 
 ### Thanks!
 
+-   @pjeby
 -   @shawninder
 -   @tats-u
 -   @XeroAlpha
