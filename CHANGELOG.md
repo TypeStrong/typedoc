@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.7 (2025-02-09)
+
 ### Features
 
 -   `@includeCode` and `@inline` can now inject parts of files using region
