@@ -4,6 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+-   The `--favicon` option may now be given a link starting with `https?://` instead of a path, #2851.
+
+### Bug Fixes
+
+-   Fixed an issue where unrecognized languages would incorrectly be listed in the list of languages with translations, #2852.
+
 ## v0.27.7 (2025-02-09)
 
 ### Features
