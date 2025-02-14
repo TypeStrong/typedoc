@@ -306,6 +306,6 @@ export class Internationalization {
                 .map((x) => x.substring(0, x.indexOf(".")))
                 .filter((x) => x !== "jp"),
             ...this.allTranslations.keys(),
-        ]).sort();
+        ]).filter(lang => this.hasTranslations(lang)).sort();
     }
 }
