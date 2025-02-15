@@ -10,14 +10,19 @@ import type { Logger } from "../utils/index.js";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 
-function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
+function getBrokenPartLinks(
+    parts: readonly CommentDisplayPart[],
+    excludeExternals = false,
+) {
     const links: string[] = [];
 
     for (const part of parts) {
         if (
             part.kind === "inline-tag" &&
             linkTags.includes(part.tag) &&
-            (!part.target || part.target instanceof ReflectionSymbolId)
+            (!part.target ||
+                (part.target instanceof ReflectionSymbolId &&
+                    !excludeExternals))
         ) {
             links.push(part.text.trim());
         }
@@ -26,12 +31,15 @@ function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
     return links;
 }
 
-function getBrokenLinks(comment: Comment | undefined) {
+function getBrokenLinks(
+    comment: Comment | undefined,
+    excludeExternals: boolean,
+) {
     if (!comment) return [];
 
-    const links = [...getBrokenPartLinks(comment.summary)];
+    const links = [...getBrokenPartLinks(comment.summary, excludeExternals)];
     for (const tag of comment.blockTags) {
-        links.push(...getBrokenPartLinks(tag.content));
+        links.push(...getBrokenPartLinks(tag.content, excludeExternals));
     }
 
     return links;
@@ -40,17 +48,22 @@ function getBrokenLinks(comment: Comment | undefined) {
 export function validateLinks(
     project: ProjectReflection,
     logger: Logger,
+    excludeExternals: boolean,
 ): void {
     for (const id in project.reflections) {
-        checkReflection(project.reflections[id], logger);
+        checkReflection(project.reflections[id], logger, excludeExternals);
     }
 
     if (!(project.id in project.reflections)) {
-        checkReflection(project, logger);
+        checkReflection(project, logger, excludeExternals);
     }
 }
 
-function checkReflection(reflection: Reflection, logger: Logger) {
+function checkReflection(
+    reflection: Reflection,
+    logger: Logger,
+    excludeExternals: boolean,
+) {
     if (reflection.isProject() || reflection.isDeclaration()) {
         for (const broken of getBrokenPartLinks(reflection.readme || [])) {
             // #2360, "@" is a future reserved character in TSDoc component paths
@@ -99,7 +112,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         }
     }
 
-    for (const broken of getBrokenLinks(reflection.comment)) {
+    for (const broken of getBrokenLinks(reflection.comment, excludeExternals)) {
         // #2360, "@" is a future reserved character in TSDoc component paths
         // If a link starts with it, and doesn't include a module source indicator "!"
         // then the user probably is trying to link to a package containing "@" with an absolute link.
@@ -128,7 +141,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         reflection.type.elementSummaries
     ) {
         for (const broken of reflection.type.elementSummaries.flatMap(
-            getBrokenPartLinks,
+            (parts: CommentDisplayPart[]) => getBrokenPartLinks(parts),
         )) {
             if (broken.startsWith("@") && !broken.includes("!")) {
                 logger.warn(
