@@ -4,8 +4,9 @@ import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
 import type { ReflectionKind } from "../../models/reflections/kind.js";
-import type { NeverIfInternal } from "#utils";
+import { type GlobString, type NeverIfInternal, type NormalizedPath, type NormalizedPathOrModule } from "#utils";
 import type { TranslatedString, TranslationProxy } from "../../internationalization/internationalization.js";
+import { createGlobString, normalizePath } from "../paths.js";
 
 /** @enum */
 export const EmitStrategy = {
@@ -45,7 +46,13 @@ export type TypeDocOptions = {
         TypeDocOptionMap[K] extends ManuallyValidatedOption<
             infer ManuallyValidated
         > ? ManuallyValidated :
-        TypeDocOptionMap[K] extends string | string[] | number | boolean ? TypeDocOptionMap[K] :
+        TypeDocOptionMap[K] extends NormalizedPath[] | NormalizedPathOrModule[] | GlobString[] ? string[] :
+        TypeDocOptionMap[K] extends NormalizedPath ? string :
+        TypeDocOptionMap[K] extends
+            | string
+            | string[]
+            | number
+            | boolean ? TypeDocOptionMap[K] :
         TypeDocOptionMap[K] extends Record<string, boolean> ? Partial<TypeDocOptionMap[K]> | boolean :
         | keyof TypeDocOptionMap[K]
         | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
@@ -65,6 +72,7 @@ export type TypeDocOptionValues = {
         TypeDocOptionMap[K] extends
             | string
             | string[]
+            | GlobString[]
             | number
             | boolean
             | Record<string, boolean> ? TypeDocOptionMap[K] :
@@ -88,21 +96,21 @@ export type TypeDocOptionValues = {
  */
 export interface TypeDocOptionMap {
     // Configuration
-    options: string;
-    tsconfig: string;
+    options: NormalizedPath;
+    tsconfig: NormalizedPath;
     compilerOptions: unknown;
-    plugin: string[];
+    plugin: NormalizedPathOrModule[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
     packageOptions: ManuallyValidatedOption<TypeDocOptions>;
 
     // Input
-    entryPoints: string[];
+    entryPoints: GlobString[];
     entryPointStrategy: typeof EntryPointStrategy;
     alwaysCreateEntryPointModule: boolean;
-    projectDocuments: string[];
-    exclude: string[];
-    externalPattern: string[];
+    projectDocuments: GlobString[];
+    exclude: GlobString[];
+    externalPattern: GlobString[];
     excludeExternals: boolean;
     excludeNotDocumented: boolean;
     excludeNotDocumentedKinds: ReflectionKind.KindString[];
@@ -125,9 +133,9 @@ export interface TypeDocOptionMap {
 
     // Output
     outputs: ManuallyValidatedOption<Array<OutputSpecification>>;
-    out: string; // default output directory
-    html: string; // shortcut for defining html output
-    json: string; // shortcut for defining json output
+    out: NormalizedPath; // default output directory
+    html: NormalizedPath; // shortcut for defining html output
+    json: NormalizedPath; // shortcut for defining json output
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;
@@ -137,8 +145,8 @@ export interface TypeDocOptionMap {
     highlightLanguages: string[];
     ignoredHighlightLanguages: string[];
     typePrintWidth: number;
-    customCss: string;
-    customJs: string;
+    customCss: NormalizedPath;
+    customJs: NormalizedPath;
     markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**
      * Will be called when TypeDoc is setting up the markdown parser to use to render markdown.
@@ -161,9 +169,9 @@ export interface TypeDocOptionMap {
      * strictly typed here.
      */
     markdownItLoader: ManuallyValidatedOption<(parser: any) => void>;
-    basePath: string;
+    basePath: NormalizedPath;
     cname: string;
-    favicon: string;
+    favicon: NormalizedPath;
     githubPages: boolean;
     hostedBaseUrl: string;
     useHostedBaseUrlForAbsoluteLinks: boolean;
@@ -305,9 +313,10 @@ export type JsDocCompatibility = {
  */
 export type KeyToDeclaration<K extends keyof TypeDocOptionMap> = TypeDocOptionMap[K] extends boolean ?
     BooleanDeclarationOption :
-    TypeDocOptionMap[K] extends string ? StringDeclarationOption :
+    TypeDocOptionMap[K] extends string | NormalizedPath ? StringDeclarationOption :
     TypeDocOptionMap[K] extends number ? NumberDeclarationOption :
-    TypeDocOptionMap[K] extends string[] ? ArrayDeclarationOption :
+    TypeDocOptionMap[K] extends GlobString[] ? GlobArrayDeclarationOption :
+    TypeDocOptionMap[K] extends string[] | NormalizedPath[] | NormalizedPathOrModule[] ? ArrayDeclarationOption :
     unknown extends TypeDocOptionMap[K] ? MixedDeclarationOption | ObjectDeclarationOption :
     TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown> ?
             | (MixedDeclarationOption & {
@@ -354,7 +363,7 @@ export enum ParameterType {
      */
     ModuleArray,
     /**
-     * Resolved according to the config directory unless it starts with `**`, after skipping any leading `!` and `#` characters.
+     * Relative to the config directory.
      */
     GlobArray,
     /**
@@ -467,8 +476,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     type:
         | ParameterType.Array
         | ParameterType.PathArray
-        | ParameterType.ModuleArray
-        | ParameterType.GlobArray;
+        | ParameterType.ModuleArray;
 
     /**
      * If not specified defaults to an empty array.
@@ -480,6 +488,22 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: string[], i18n: TranslationProxy) => void;
+}
+
+export interface GlobArrayDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.GlobArray;
+
+    /**
+     * If not specified defaults to an empty array.
+     * If specified, globs are relative to cwd when TypeDoc is run.
+     */
+    defaultValue?: readonly string[];
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
+     */
+    validate?: (value: GlobString[], i18n: TranslationProxy) => void;
 }
 
 export interface MixedDeclarationOption extends DeclarationOptionBase {
@@ -545,19 +569,20 @@ export type DeclarationOption =
     | ObjectDeclarationOption
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption
+    | GlobArrayDeclarationOption
     | FlagsDeclarationOption<Record<string, boolean>>;
 
 export interface ParameterTypeToOptionTypeMap {
     [ParameterType.String]: string;
-    [ParameterType.Path]: string;
+    [ParameterType.Path]: NormalizedPath;
     [ParameterType.Number]: number;
     [ParameterType.Boolean]: boolean;
     [ParameterType.Mixed]: unknown;
     [ParameterType.Object]: unknown;
     [ParameterType.Array]: string[];
-    [ParameterType.PathArray]: string[];
-    [ParameterType.ModuleArray]: string[];
-    [ParameterType.GlobArray]: string[];
+    [ParameterType.PathArray]: NormalizedPath[];
+    [ParameterType.ModuleArray]: NormalizedPathOrModule[];
+    [ParameterType.GlobArray]: GlobString[];
     [ParameterType.Flags]: Record<string, boolean>;
 
     // Special.. avoid this if possible.
@@ -573,7 +598,7 @@ const converters: {
         value: unknown,
         option: DeclarationOption & { type: K },
         i18n: TranslationProxy,
-        configPath: string,
+        configPath: NormalizedPath,
         oldValue: unknown,
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
@@ -588,7 +613,7 @@ const converters: {
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             value == null ? "" : resolve(configPath, String(value));
         option.validate?.(stringValue, i18n);
-        return stringValue;
+        return normalizePath(stringValue);
     },
     [ParameterType.Number](value, option, i18n) {
         const numValue = parseInt(String(value), 10) || 0;
@@ -609,7 +634,7 @@ const converters: {
         return !!value;
     },
     [ParameterType.Array](value, option, i18n) {
-        let strArrValue = new Array<string>();
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
@@ -619,37 +644,32 @@ const converters: {
         return strArrValue;
     },
     [ParameterType.PathArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        strArrValue = strArrValue.map((path) => resolve(configPath, path));
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+        const normalized = strArrValue.map((path) => normalizePath(resolve(configPath, path)));
+        option.validate?.(normalized, i18n);
+        return normalized;
     },
     [ParameterType.ModuleArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        strArrValue = resolveModulePaths(strArrValue, configPath);
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+        const resolved = resolveModulePaths(strArrValue, configPath);
+        option.validate?.(resolved, i18n);
+        return resolved;
     },
     [ParameterType.GlobArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
-        if (Array.isArray(value)) {
-            strArrValue = value.map(String);
-        } else if (typeof value === "string") {
-            strArrValue = [value];
-        }
-        strArrValue = resolveGlobPaths(strArrValue, configPath);
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+        const toGlobString = (v: unknown) => createGlobString(configPath, String(v));
+        const globs = Array.isArray(value) ? value.map(toGlobString) : [toGlobString(value)];
+        option.validate?.(globs, i18n);
+        return globs;
     },
     [ParameterType.Map](value, option, i18n) {
         const key = String(value);
@@ -767,9 +787,11 @@ const defaultGetters: {
         if (defaultStr == "") {
             return "";
         }
-        return isAbsolute(defaultStr)
-            ? defaultStr
-            : join(process.cwd(), defaultStr);
+        return normalizePath(
+            isAbsolute(defaultStr)
+                ? defaultStr
+                : join(process.cwd(), defaultStr),
+        );
     },
     [ParameterType.Number](option) {
         return option.defaultValue ?? 0;
@@ -791,16 +813,17 @@ const defaultGetters: {
     },
     [ParameterType.PathArray](option) {
         return (
-            option.defaultValue?.map((value) => resolve(process.cwd(), value)) ?? []
+            option.defaultValue?.map((value) => normalizePath(resolve(process.cwd(), value))) ?? []
         );
     },
     [ParameterType.ModuleArray](option) {
-        return (
-            option.defaultValue?.map((value) => value.startsWith(".") ? resolve(process.cwd(), value) : value) ?? []
-        );
+        if (option.defaultValue) {
+            return resolveModulePaths(option.defaultValue, process.cwd());
+        }
+        return [];
     },
     [ParameterType.GlobArray](option) {
-        return resolveGlobPaths(option.defaultValue ?? [], process.cwd());
+        return (option.defaultValue ?? []).map(g => createGlobString(normalizePath(process.cwd()), g));
     },
     [ParameterType.Flags](option) {
         return { ...option.defaults };
@@ -815,23 +838,12 @@ export function getDefaultValue(option: DeclarationOption) {
     return getters[option.type ?? ParameterType.String](option);
 }
 
-function resolveGlobPaths(globs: readonly string[], configPath: string) {
-    return globs.map((path) => {
-        const start = path.match(/^[!#]+/)?.[0] ?? "";
-        const remaining = path.substring(start.length);
-        if (!remaining.startsWith("**")) {
-            return start + resolve(configPath, remaining);
-        }
-        return start + remaining;
-    });
-}
-
-function resolveModulePaths(modules: readonly string[], configPath: string) {
+function resolveModulePaths(modules: readonly string[], configPath: string): NormalizedPathOrModule[] {
     return modules.map((path) => {
         if (path.startsWith(".")) {
-            return resolve(configPath, path);
+            return normalizePath(resolve(configPath, path));
         }
-        return path;
+        return normalizePath(path);
     });
 }
 

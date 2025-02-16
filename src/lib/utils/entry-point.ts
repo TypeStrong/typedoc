@@ -2,18 +2,11 @@ import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
-import { createMinimatch, matchesAny, nicePath, normalizePath } from "./paths.js";
+import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
 import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
-import {
-    deriveRootDir,
-    discoverPackageJson,
-    getCommonDirectory,
-    glob,
-    inferPackageEntryPointPaths,
-    isDir,
-} from "./fs.js";
-import { assertNever } from "#utils";
+import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
+import { assertNever, type GlobString } from "#utils";
 
 /**
  * Defines how entry points are interpreted.
@@ -199,7 +192,7 @@ export function getDocumentEntryPoints(
         options,
         supportedFileRegex,
     );
-    const baseDir = options.getValue("basePath") || deriveRootDir(expanded);
+    const baseDir = options.getValue("basePath") || getCommonDirectory(expanded);
     return expanded.map((path) => {
         return {
             displayName: relative(baseDir, path).replace(/\.[^.]+$/, ""),
@@ -261,9 +254,9 @@ export function getWatchEntryPoints(
 export function getPackageDirectories(
     logger: Logger,
     options: Options,
-    packageGlobPaths: string[],
+    packageGlobPaths: GlobString[],
 ) {
-    const exclude = createMinimatch(options.getValue("exclude"));
+    const exclude = new MinimatchSet(options.getValue("exclude"));
     const rootDir = deriveRootDir(packageGlobPaths);
 
     // packages arguments are workspace tree roots, or glob patterns
@@ -288,12 +281,12 @@ function getEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
-    const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
+    const baseDir = options.getValue("basePath") || getCommonDirectory(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
     let expandSuggestion = true;
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
-        const toCheck = [fileOrDir];
+        const toCheck: string[] = [fileOrDir];
         if (!/\.([cm][tj]s|[tj]sx?)$/.test(fileOrDir)) {
             toCheck.push(
                 `${fileOrDir}/index.ts`,
@@ -352,24 +345,27 @@ export function getExpandedEntryPointsForPaths(
     );
 }
 
-function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
-    const excludePatterns = createMinimatch(exclude);
+function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger) {
+    const excludePatterns = new MinimatchSet(exclude);
 
-    const base = deriveRootDir(inputFiles);
-    const result = inputFiles.flatMap((entry) => {
+    const base = deriveRootDir(globs);
+    const result = globs.flatMap((entry) => {
         const result = glob(entry, base, {
             includeDirectories: true,
             followSymlinks: true,
         });
 
         const filtered = result.filter(
-            (file) => file === entry || !matchesAny(excludePatterns, file),
+            (file) => file === entry || !excludePatterns.matchesAny(file),
         );
 
         if (result.length === 0) {
             logger.warn(
                 logger.i18n.glob_0_did_not_match_any_files(nicePath(entry)),
             );
+            if (entry.includes("\\") && !entry.includes("/")) {
+                logger.info(logger.i18n.glob_should_use_posix_slash());
+            }
         } else if (filtered.length === 0) {
             logger.warn(
                 logger.i18n.entry_point_0_did_not_match_any_files_after_exclude(
@@ -455,7 +451,7 @@ function expandInputFiles(
 ): string[] {
     const files: string[] = [];
 
-    const exclude = createMinimatch(options.getValue("exclude"));
+    const exclude = new MinimatchSet(options.getValue("exclude"));
 
     function add(file: string, entryPoint: boolean) {
         let stats: FS.Stats;
@@ -475,7 +471,7 @@ function expandInputFiles(
                 add(join(file, next), false);
             });
         } else if (supportedFile.test(file)) {
-            if (!entryPoint && matchesAny(exclude, file)) {
+            if (!entryPoint && exclude.matchesAny(file)) {
                 return;
             }
             files.push(normalizePath(file));

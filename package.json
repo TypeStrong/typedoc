@@ -105,6 +105,13 @@
         ]
     },
     "imports": {
-        "#utils": "./dist/lib/utils-common/index.js"
+        "#utils": {
+            "typedoc-ts": "./src/lib/utils-common/index.ts",
+            "default": "./dist/lib/utils-common/index.js"
+        },
+        "#node-utils": {
+            "typedoc-ts": "./src/lib/utils/index.ts",
+            "default": "./dist/lib/utils/index.js"
+        }
     }
 }

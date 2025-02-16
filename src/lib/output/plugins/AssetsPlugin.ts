@@ -3,7 +3,7 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { type EnumKeys, getEnumKeys } from "#utils";
+import { type EnumKeys, getEnumKeys, type NormalizedPath } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
@@ -17,13 +17,13 @@ import { Option } from "../../utils/index.js";
  */
 export class AssetsPlugin extends RendererComponent {
     @Option("favicon")
-    private accessor favicon!: string;
+    private accessor favicon!: NormalizedPath;
 
     @Option("customCss")
-    private accessor customCss!: string;
+    private accessor customCss!: NormalizedPath;
 
     @Option("customJs")
-    private accessor customJs!: string;
+    private accessor customJs!: NormalizedPath;
 
     constructor(owner: Renderer) {
         super(owner);

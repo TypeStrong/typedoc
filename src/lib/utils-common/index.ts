@@ -10,5 +10,7 @@ export * from "./html.js";
 export * from "./index.js";
 export * as JSX from "./jsx.js";
 export * from "./map.js";
+export * from "./path.js";
 export * from "./set.js";
+export * from "./string.js";
 export * as Validation from "./validation.js";

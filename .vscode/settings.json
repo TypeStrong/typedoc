@@ -33,7 +33,7 @@
         "editor.tabSize": 4
     },
 
-    "mochaExplorer.nodeArgv": ["--import=tsx"],
+    "mochaExplorer.nodeArgv": ["--import=tsx", "--conditions=typedoc-ts"],
 
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",

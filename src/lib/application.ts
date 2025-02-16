@@ -19,7 +19,7 @@ import {
 
 import { Option, Options } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { unique } from "#utils";
+import { type GlobString, unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -35,8 +35,7 @@ import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
-import { findTsConfigFile } from "./utils/tsconfig.js";
-import { deriveRootDir, glob, readFile } from "./utils/fs.js";
+import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
 import { Internationalization, type TranslatedString } from "./internationalization/internationalization.js";
 import { FileRegistry, ValidatingFileRegistry } from "./models/FileRegistry.js";
@@ -162,7 +161,7 @@ export class Application extends AbstractComponent<
 
     /** @internal */
     @Option("entryPoints")
-    accessor entryPoints!: string[];
+    accessor entryPoints!: GlobString[];
 
     /**
      * The version number of TypeDoc.

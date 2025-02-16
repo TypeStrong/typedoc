@@ -2,8 +2,8 @@ import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { escapeRegExp, filterMap, Validation } from "#utils";
-import { createMinimatch, normalizePath } from "./paths.js";
+import { escapeRegExp, type GlobString, type NormalizedPath, Validation } from "#utils";
+import { normalizePath } from "./paths.js";
 import { ok } from "assert";
 
 export function isFile(file: string) {
@@ -20,51 +20,6 @@ export function isDir(path: string) {
     } catch {
         return false;
     }
-}
-
-export function deriveRootDir(globPaths: string[]): string {
-    const normalized = globPaths.map(normalizePath);
-    const globs = createMinimatch(normalized);
-    const rootPaths = globs.flatMap((glob, i) =>
-        filterMap(glob.set, (set) => {
-            const stop = set.findIndex((part) => typeof part !== "string");
-            if (stop === -1) {
-                return normalized[i];
-            } else {
-                const kept = set.slice(0, stop).join("/");
-                return normalized[i].substring(
-                    0,
-                    normalized[i].indexOf(kept) + kept.length,
-                );
-            }
-        })
-    );
-    return getCommonDirectory(rootPaths);
-}
-
-/**
- * Get the longest directory path common to all files.
- */
-export function getCommonDirectory(files: readonly string[]): string {
-    if (!files.length) {
-        return "";
-    }
-
-    const roots = files.map((f) => f.split(/\\|\//));
-    if (roots.length === 1) {
-        return roots[0].slice(0, -1).join("/");
-    }
-
-    let i = 0;
-
-    while (
-        i < roots[0].length &&
-        new Set(roots.map((part) => part[i])).size === 1
-    ) {
-        i++;
-    }
-
-    return roots[0].slice(0, i).join("/");
 }
 
 /**
@@ -177,10 +132,10 @@ export interface DiscoverFilesController {
 const realpathCache: Map<string, string> = new Map();
 
 export function discoverFiles(
-    rootDir: string,
+    rootDir: NormalizedPath,
     controller: DiscoverFilesController,
-) {
-    const result: string[] = [];
+): NormalizedPath[] {
+    const result: NormalizedPath[] = [];
     const dirs: string[][] = [normalizePath(rootDir).split("/")];
     // cache of real paths to avoid infinite recursion
     const symlinkTargetsSeen: Set<string> = new Set();
@@ -190,7 +145,7 @@ export function discoverFiles(
     const handleFile = (path: string) => {
         const childPath = [...dir!, path].join("/");
         if (controller.matches(childPath)) {
-            result.push(childPath);
+            result.push(childPath as NormalizedPath);
         }
     };
 
@@ -238,7 +193,7 @@ export function discoverFiles(
 
     while (dir) {
         if (matchDirectories && controller.matches(dir.join("/"))) {
-            result.push(dir.join("/"));
+            result.push(dir.join("/") as NormalizedPath);
         }
 
         for (
@@ -265,11 +220,11 @@ export function discoverFiles(
  * Simpler version of `glob.sync` that only covers our use cases, always ignoring node_modules.
  */
 export function glob(
-    pattern: string,
-    root: string,
+    pattern: GlobString,
+    root: NormalizedPath,
     options: { includeDirectories?: boolean; followSymlinks?: boolean } = {},
-): string[] {
-    const mini = new Minimatch(normalizePath(pattern));
+): NormalizedPath[] {
+    const mini = new Minimatch(pattern);
     const shouldIncludeNodeModules = pattern.includes("node_modules");
 
     const controller: DiscoverFilesController = {
@@ -409,7 +364,7 @@ export function findPackageForPath(sourcePath: string): string | undefined {
 export function inferPackageEntryPointPaths(
     packagePath: string,
 ): [importPath: string, resolvedPath: string][] {
-    const packageDir = dirname(packagePath);
+    const packageDir = normalizePath(dirname(packagePath));
     const packageJson = JSON.parse(readFile(packagePath));
     const exports: unknown = packageJson.exports;
     if (typeof exports === "string") {
@@ -438,7 +393,7 @@ export function inferPackageEntryPointPaths(
 }
 
 function resolveExport(
-    packageDir: string,
+    packageDir: NormalizedPath,
     name: string,
     exportDeclaration: string | string[] | Record<string, string>,
     validatePath: boolean,
@@ -490,7 +445,7 @@ function isWildcardName(name: string) {
 }
 
 function resolveStarredExport(
-    packageDir: string,
+    packageDir: NormalizedPath,
     name: string,
     exportDeclaration: string,
     validatePath: boolean,

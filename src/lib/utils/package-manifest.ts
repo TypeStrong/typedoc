@@ -1,11 +1,11 @@
 // Utilities to support the inspection of node package "manifests"
 
-import { dirname, resolve } from "path";
+import { dirname } from "path";
 
 import { glob, readFile } from "./fs.js";
 import type { Logger } from "./loggers.js";
-import type { Minimatch } from "minimatch";
-import { matchesAny, nicePath } from "./paths.js";
+import { createGlobString, type MinimatchSet, nicePath, normalizePath } from "./paths.js";
+import { type GlobString, type NormalizedPath } from "#utils";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty
@@ -73,9 +73,9 @@ function getPackagePaths(
  */
 export function expandPackages(
     logger: Logger,
-    packageJsonDir: string,
-    workspaces: string[],
-    exclude: Minimatch[],
+    packageJsonDir: NormalizedPath,
+    workspaces: GlobString[],
+    exclude: MinimatchSet,
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
@@ -84,8 +84,8 @@ export function expandPackages(
     // as it actually is simpler from an implementation perspective anyway.
     return workspaces.flatMap((workspace) => {
         const expandedPackageJsonPaths = glob(
-            resolve(packageJsonDir, workspace, "package.json"),
-            resolve(packageJsonDir),
+            createGlobString(packageJsonDir, `${workspace}/package.json`),
+            packageJsonDir,
         );
 
         if (expandedPackageJsonPaths.length === 0) {
@@ -96,11 +96,7 @@ export function expandPackages(
             );
         } else if (expandedPackageJsonPaths.length !== 1) {
             logger.verbose(
-                `Expanded ${
-                    nicePath(
-                        workspace,
-                    )
-                } to:\n\t${
+                `Expanded ${nicePath(workspace)} to:\n\t${
                     expandedPackageJsonPaths
                         .map(nicePath)
                         .join("\n\t")
@@ -109,7 +105,7 @@ export function expandPackages(
         }
 
         return expandedPackageJsonPaths.flatMap((packageJsonPath) => {
-            if (matchesAny(exclude, dirname(packageJsonPath))) {
+            if (exclude.matchesAny(dirname(packageJsonPath))) {
                 return [];
             }
 
@@ -125,8 +121,8 @@ export function expandPackages(
             // This is a workspace root package, recurse
             return expandPackages(
                 logger,
-                dirname(packageJsonPath),
-                packagePaths,
+                normalizePath(dirname(packageJsonPath)),
+                packagePaths.map(p => createGlobString(normalizePath(dirname(packageJsonPath)), p)),
                 exclude,
             );
         });

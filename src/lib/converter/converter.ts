@@ -22,9 +22,8 @@ import { getDocumentEntryPoints, MinimalSourceFile, Option, readFile } from "../
 import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
-import { createMinimatch, matchesAny, nicePath } from "../utils/paths.js";
-import type { Minimatch } from "minimatch";
-import { hasAllFlags, hasAnyFlag, unique } from "#utils";
+import { MinimatchSet, nicePath } from "../utils/paths.js";
+import { type GlobString, hasAllFlags, hasAnyFlag, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
@@ -88,9 +87,9 @@ export interface ConverterEvents {
 export class Converter extends AbstractComponent<Application, ConverterEvents> {
     /** @internal */
     @Option("externalPattern")
-    accessor externalPattern!: string[];
-    private externalPatternCache?: Minimatch[];
-    private excludeCache?: Minimatch[];
+    accessor externalPattern!: GlobString[];
+    private externalPatternCache?: MinimatchSet;
+    private excludeCache?: MinimatchSet;
 
     /** @internal */
     @Option("excludeExternals")
@@ -588,17 +587,17 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     }
 
     private isExcluded(symbol: ts.Symbol) {
-        this.excludeCache ??= createMinimatch(
+        this.excludeCache ??= new MinimatchSet(
             this.application.options.getValue("exclude"),
         );
         const cache = this.excludeCache;
 
-        return (symbol.getDeclarations() ?? []).some((node) => matchesAny(cache, node.getSourceFile().fileName));
+        return (symbol.getDeclarations() ?? []).some((node) => cache.matchesAny(node.getSourceFile().fileName));
     }
 
     /** @internal */
     isExternal(symbol: ts.Symbol) {
-        this.externalPatternCache ??= createMinimatch(this.externalPattern);
+        this.externalPatternCache ??= new MinimatchSet(this.externalPattern);
         const cache = this.externalPatternCache;
 
         const declarations = symbol.getDeclarations();
@@ -613,7 +612,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         // If there are any non-external declarations, treat it as non-external
         // This is possible with declaration merging against external namespaces
         // (e.g. merging with HTMLElementTagNameMap)
-        return declarations.every((node) => matchesAny(cache, node.getSourceFile().fileName));
+        return declarations.every((node) => cache.matchesAny(node.getSourceFile().fileName));
     }
 
     processDocumentTags(reflection: Reflection, parent: ContainerReflection) {

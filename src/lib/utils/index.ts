@@ -1,15 +1,5 @@
 export { AbstractComponent } from "./component.js";
-export {
-    copy,
-    copySync,
-    discoverInParentDir,
-    discoverPackageJson,
-    getCommonDirectory,
-    isFile,
-    readFile,
-    writeFile,
-    writeFileSync,
-} from "./fs.js";
+export * from "./fs.js";
 export { getLoadedPaths, hasBeenLoadedMultipleTimes, TYPEDOC_ROOT } from "./general.js";
 export { ConsoleLogger, Logger, LogLevel } from "./loggers.js";
 export {
@@ -47,13 +37,14 @@ export type {
     TypeDocOptionValues,
     ValidationOptions,
 } from "./options/index.js";
-export { normalizePath } from "./paths.js";
+export * from "./paths.js";
 export { loadPlugins } from "./plugins.js";
 export { getSortFunction } from "./sort.js";
 export type { SortStrategy } from "./sort.js";
 
 export * from "./entry-point.js";
 
+export * from "./tsconfig.js";
 export * from "./tsutils.js";
 
 export { MinimalSourceFile } from "./minimalSourceFile.js";

@@ -140,6 +140,7 @@ export = localeUtils.buildIncompleteTranslation({
     failed_to_resolve_0_to_ts_path: "无法将 package.json 中的入口点 {0} 解析至 TypeScript 源文件",
     use_expand_or_glob_for_files_in_dir: "如果要包含此目录中的文件，请设置 --entryPointStrategy 以展开或指定 glob",
     glob_0_did_not_match_any_files: "glob {0} 与任何文件均不匹配",
+    // glob_should_use_posix_slash
     entry_point_0_did_not_match_any_files_after_exclude: "应用排除模式后，glob {0} 没有匹配任何文件",
     entry_point_0_did_not_exist: "提供的入口点 {0} 不存在",
     entry_point_0_did_not_match_any_packages: "入口点 glob {0} 与任何包含 package.json 的目录不匹配",

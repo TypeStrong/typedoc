@@ -13,6 +13,7 @@ import {
     type StringDeclarationOption,
 } from "../../../lib/utils/options/declaration.js";
 import { Internationalization } from "../../../lib/internationalization/internationalization.js";
+import { normalizePath } from "#node-utils";
 
 const emptyHelp = () => "";
 
@@ -529,7 +530,7 @@ describe("Options - default values", () => {
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.GlobArray, ["#!a"])),
-            ["#!" + resolve("a")],
+            ["#!" + normalizePath(resolve("a"))],
         );
     });
 });

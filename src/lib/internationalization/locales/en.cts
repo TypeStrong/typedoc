@@ -196,6 +196,7 @@ export = {
     use_expand_or_glob_for_files_in_dir:
         `If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob`,
     glob_0_did_not_match_any_files: `The glob {0} did not match any files`,
+    glob_should_use_posix_slash: `Try replacing Windows path separators (\\) with posix path separators (/)`,
     entry_point_0_did_not_match_any_files_after_exclude:
         `The glob {0} did not match any files after applying exclude patterns`,
     entry_point_0_did_not_exist: `Provided entry point {0} does not exist`,

@@ -3,7 +3,7 @@
     "extension": ["ts"],
     "ignore": ["src/test/slow/**", "src/test/packages/**"],
     "package": "./package.json",
-    "node-option": ["import=tsx"],
+    "node-option": ["import=tsx", "conditions=typedoc-ts"],
     "slow": 500,
     "spec": ["src/**/*.test.ts", "src/**/*.test.tsx"],
     "timeout": 0,

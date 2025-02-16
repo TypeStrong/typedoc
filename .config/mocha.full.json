@@ -3,5 +3,5 @@
     "timeout": 0,
     "spec": ["src/test/**/*.test.ts", "src/test/**/*.test.tsx"],
     "exclude": ["src/test/packages/**"],
-    "node-option": ["import=tsx"]
+    "node-option": ["import=tsx", "conditions=typedoc-ts"]
 }

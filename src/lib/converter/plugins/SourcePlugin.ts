@@ -10,6 +10,7 @@ import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import type { NormalizedPath } from "#utils";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -31,7 +32,7 @@ export class SourcePlugin extends ConverterComponent {
     accessor sourceLinkTemplate!: string;
 
     @Option("basePath")
-    accessor basePath!: string;
+    accessor basePath!: NormalizedPath;
 
     /**
      * All file names to find the base path from.

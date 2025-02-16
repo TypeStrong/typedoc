@@ -4,9 +4,11 @@ title: Changelog
 
 ## Beta
 
+- TypeDoc now expects all input globs paths to be specified with `/` path separators, #2825.
 - Added a `--router` option which can be used to modify TypeDoc's output folder
   structure. This can be extended with plugins, #2111.
 - TypeDoc will now only create references for symbols re-exported from modules.
+- API: `Path` and `PathArray` parameter types now always contain normalized paths.
 - API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
   `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
 - Removed `jp` translations from `lang`, to migrate switch to `ja`.
