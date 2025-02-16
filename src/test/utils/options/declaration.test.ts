@@ -206,7 +206,7 @@ describe("Options - conversions", () => {
 
         equal(
             convert("/,a", optionWithType(ParameterType.PathArray), i18n, ""),
-            [resolve("/,a")],
+            [normalizePath(resolve("/,a"))],
         );
         equal(
             convert(
@@ -215,7 +215,7 @@ describe("Options - conversions", () => {
                 i18n,
                 "",
             ),
-            [resolve("/foo")],
+            [normalizePath(resolve("/foo"))],
         );
         equal(
             convert(true, optionWithType(ParameterType.PathArray), i18n, ""),
@@ -249,7 +249,7 @@ describe("Options - conversions", () => {
                 i18n,
                 "",
             ),
-            [join(process.cwd(), "foo")],
+            [normalizePath(join(process.cwd(), "foo"))],
         );
     });
 
@@ -437,7 +437,7 @@ describe("Options - default values", () => {
         equal(getDefaultValue(getDeclaration(ParameterType.Path, void 0)), "");
         equal(
             getDefaultValue(getDeclaration(ParameterType.Path, "foo")),
-            resolve("foo"),
+            normalizePath(resolve("foo")),
         );
     });
 
@@ -493,11 +493,11 @@ describe("Options - default values", () => {
             [],
         );
         equal(getDefaultValue(getDeclaration(ParameterType.PathArray, ["a"])), [
-            resolve("a"),
+            normalizePath(resolve("a")),
         ]);
         equal(
             getDefaultValue(getDeclaration(ParameterType.PathArray, ["/a"])),
-            [resolve("/a")],
+            [normalizePath(resolve("/a"))],
         );
     });
 
@@ -512,7 +512,7 @@ describe("Options - default values", () => {
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["./a"])),
-            [resolve("./a")],
+            [normalizePath(resolve("./a"))],
         );
     });
 
@@ -522,7 +522,7 @@ describe("Options - default values", () => {
             [],
         );
         equal(getDefaultValue(getDeclaration(ParameterType.GlobArray, ["a"])), [
-            resolve("a"),
+            normalizePath(resolve("a")),
         ]);
         equal(
             getDefaultValue(getDeclaration(ParameterType.GlobArray, ["**a"])),

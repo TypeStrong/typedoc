@@ -70,8 +70,8 @@ describe("paths.ts", () => {
 
         it("Handles file paths", () => {
             equal(
-                createGlobString("/d/test/typedoc" as NormalizedPath, "src/index.ts"),
-                "/d/test/typedoc/src/index.ts",
+                createGlobString("/test/typedoc" as NormalizedPath, "src/index.ts"),
+                "/test/typedoc/src/index.ts",
             );
         });
     });

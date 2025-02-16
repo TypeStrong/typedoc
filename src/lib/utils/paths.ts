@@ -35,16 +35,16 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
 
     const mini = new Minimatch(noModifierGlob, { dot: true });
 
-    const nonSpecialEnds = mini.set.map(set => {
+    const basePaths = mini.set.map(set => {
         const stop = set.findIndex((part) => typeof part !== "string");
         if (stop === -1) {
-            return set.length;
+            return set.join("/");
         } else {
-            return stop;
+            return set.slice(0, stop).join("/");
         }
     });
 
-    const base = getCommonPath(nonSpecialEnds.map((end, i) => mini.set[i].slice(0, end).join("/")));
+    const base = getCommonPath(basePaths);
 
     if (base) {
         const skipIndex = countMatches(base, "/") + 1;

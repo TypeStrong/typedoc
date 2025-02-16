@@ -83,24 +83,21 @@ const conversionOrder = [
 
 // Sanity check, if this fails a dev messed up.
 for (const key of Object.keys(symbolConverters)) {
-    if (!Number.isInteger(Math.log2(+key))) {
-        throw new Error(
-            `Symbol converter for key ${ts.SymbolFlags[+key]} does not specify a valid flag value.`,
-        );
-    }
+    assert(
+        Number.isInteger(Math.log2(+key)),
+        `Symbol converter for key ${ts.SymbolFlags[+key]} does not specify a valid flag value.`,
+    );
 
-    if (!conversionOrder.includes(+key)) {
-        throw new Error(
-            `Symbol converter for key ${ts.SymbolFlags[+key]} is not specified in conversionOrder`,
-        );
-    }
-}
-
-if (conversionOrder.reduce((a, b) => a | b, 0) !== allConverterFlags) {
-    throw new Error(
-        "conversionOrder contains a symbol flag that converters do not.",
+    assert(
+        conversionOrder.includes(+key),
+        `Symbol converter for key ${ts.SymbolFlags[+key]} is not specified in conversionOrder`,
     );
 }
+
+assert(
+    conversionOrder.reduce((a, b) => a | b, 0) === allConverterFlags,
+    "conversionOrder contains a symbol flag that converters do not.",
+);
 
 export function convertSymbol(
     context: Context,
@@ -176,11 +173,10 @@ export function convertSymbol(
         );
     }
 
-    // Note: This method does not allow skipping earlier converters.
-    // For now, this is fine... might not be flexible enough in the future.
+    const selectedConverters = conversionOrder.filter(flag => flag & flags);
+
     let skip = 0;
-    for (const flag of conversionOrder) {
-        if (!(flag & flags)) continue;
+    for (const flag of selectedConverters) {
         if (skip & flag) continue;
 
         skip |= symbolConverters[flag]?.(context, symbol, exportSymbol) || 0;
