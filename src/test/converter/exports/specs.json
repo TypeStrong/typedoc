@@ -6,21 +6,21 @@
     "flags": {},
     "children": [
         {
-            "id": 14,
+            "id": 9,
             "name": "export",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 20,
+                    "id": 11,
                     "name": "GH1453",
                     "variant": "declaration",
                     "kind": 4,
                     "flags": {},
                     "children": [
                         {
-                            "id": 25,
+                            "id": 16,
                             "name": "Foo",
                             "variant": "declaration",
                             "kind": 2097152,
@@ -35,13 +35,13 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 35,
+                                "target": 20,
                                 "name": "GH1453Helper",
                                 "package": "typedoc"
                             }
                         },
                         {
-                            "id": 23,
+                            "id": 14,
                             "name": "Member",
                             "variant": "declaration",
                             "kind": 32,
@@ -63,7 +63,7 @@
                             "defaultValue": "Mod.a"
                         },
                         {
-                            "id": 21,
+                            "id": 12,
                             "name": "Module",
                             "variant": "declaration",
                             "kind": 32,
@@ -80,14 +80,14 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 29,
+                                "target": 17,
                                 "name": "__module",
                                 "package": "typedoc"
                             },
                             "defaultValue": "Mod"
                         },
                         {
-                            "id": 24,
+                            "id": 15,
                             "name": "TypedMember",
                             "variant": "declaration",
                             "kind": 32,
@@ -104,14 +104,14 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 30,
+                                "target": 18,
                                 "name": "a",
                                 "package": "typedoc"
                             },
                             "defaultValue": "Mod.a"
                         },
                         {
-                            "id": 22,
+                            "id": 13,
                             "name": "TypedModule",
                             "variant": "declaration",
                             "kind": 32,
@@ -128,7 +128,7 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 29,
+                                "target": 17,
                                 "name": "__module",
                                 "package": "typedoc"
                             },
@@ -139,16 +139,16 @@
                         {
                             "title": "Type Aliases",
                             "children": [
-                                25
+                                16
                             ]
                         },
                         {
                             "title": "Variables",
                             "children": [
-                                23,
-                                21,
-                                24,
-                                22
+                                14,
+                                12,
+                                15,
+                                13
                             ]
                         }
                     ],
@@ -162,7 +162,7 @@
                     ]
                 },
                 {
-                    "id": 15,
+                    "id": 27,
                     "name": "add",
                     "variant": "declaration",
                     "kind": 64,
@@ -177,7 +177,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 16,
+                            "id": 28,
                             "name": "add",
                             "variant": "signature",
                             "kind": 4096,
@@ -192,7 +192,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 17,
+                                    "id": 29,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -203,7 +203,7 @@
                                     }
                                 },
                                 {
-                                    "id": 18,
+                                    "id": 30,
                                     "name": "y",
                                     "variant": "param",
                                     "kind": 32768,
@@ -222,7 +222,7 @@
                     ]
                 },
                 {
-                    "id": 26,
+                    "id": 31,
                     "name": "default",
                     "variant": "declaration",
                     "kind": 64,
@@ -237,7 +237,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 27,
+                            "id": 32,
                             "name": "default",
                             "variant": "signature",
                             "kind": 4096,
@@ -252,7 +252,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 28,
+                                    "id": 33,
                                     "name": "a",
                                     "variant": "param",
                                     "kind": 32768,
@@ -271,7 +271,7 @@
                     ]
                 },
                 {
-                    "id": 44,
+                    "id": 34,
                     "name": "a",
                     "variant": "reference",
                     "kind": 4194304,
@@ -284,10 +284,10 @@
                             "url": "typedoc://mod.ts#L8"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 45,
+                    "id": 46,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -308,10 +308,10 @@
                             "url": "typedoc://mod.ts#L13"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 40,
+                    "id": 42,
                     "name": "c",
                     "variant": "reference",
                     "kind": 4194304,
@@ -324,10 +324,10 @@
                             "url": "typedoc://export.ts#L5"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 48,
+                    "id": 36,
                     "name": "GH1453Helper",
                     "variant": "reference",
                     "kind": 4194304,
@@ -340,10 +340,10 @@
                             "url": "typedoc://mod.ts#L42"
                         }
                     ],
-                    "target": 35
+                    "target": 20
                 },
                 {
-                    "id": 41,
+                    "id": 43,
                     "name": "Mod",
                     "variant": "reference",
                     "kind": 4194304,
@@ -356,10 +356,10 @@
                             "url": "typedoc://export.ts#L5"
                         }
                     ],
-                    "target": 29
+                    "target": 17
                 },
                 {
-                    "id": 43,
+                    "id": 45,
                     "name": "Mod2",
                     "variant": "reference",
                     "kind": 4194304,
@@ -380,10 +380,10 @@
                             "url": "typedoc://export.ts#L14"
                         }
                     ],
-                    "target": 29
+                    "target": 17
                 },
                 {
-                    "id": 42,
+                    "id": 44,
                     "name": "ModDefault",
                     "variant": "reference",
                     "kind": 4194304,
@@ -396,7 +396,7 @@
                             "url": "typedoc://export.ts#L5"
                         }
                     ],
-                    "target": 36
+                    "target": 40
                 },
                 {
                     "id": 47,
@@ -412,33 +412,33 @@
                             "url": "typedoc://mod.ts#L40"
                         }
                     ],
-                    "target": 29
+                    "target": 17
                 }
             ],
             "groups": [
                 {
                     "title": "Namespaces",
                     "children": [
-                        20
+                        11
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        15,
-                        26
+                        27,
+                        31
                     ]
                 },
                 {
                     "title": "References",
                     "children": [
-                        44,
-                        45,
-                        40,
-                        48,
-                        41,
-                        43,
+                        34,
+                        46,
                         42,
+                        36,
+                        43,
+                        45,
+                        44,
                         47
                     ]
                 }
@@ -460,7 +460,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 2,
+                    "id": 23,
                     "name": "export=",
                     "variant": "declaration",
                     "kind": 64,
@@ -475,7 +475,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 3,
+                            "id": 24,
                             "name": "export=",
                             "variant": "signature",
                             "kind": 4096,
@@ -490,7 +490,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 4,
+                                    "id": 25,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -501,7 +501,7 @@
                                     }
                                 },
                                 {
-                                    "id": 5,
+                                    "id": 26,
                                     "name": "y",
                                     "variant": "param",
                                     "kind": 32768,
@@ -524,7 +524,7 @@
                 {
                     "title": "Functions",
                     "children": [
-                        2
+                        23
                     ]
                 }
             ],
@@ -538,14 +538,14 @@
             ]
         },
         {
-            "id": 6,
+            "id": 2,
             "name": "export-default",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 7,
+                    "id": 48,
                     "name": "default",
                     "variant": "declaration",
                     "kind": 32,
@@ -571,7 +571,7 @@
                 {
                     "title": "Variables",
                     "children": [
-                        7
+                        48
                     ]
                 }
             ],
@@ -585,14 +585,14 @@
             ]
         },
         {
-            "id": 8,
+            "id": 3,
             "name": "export-with-local",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 13,
+                    "id": 8,
                     "name": "x",
                     "variant": "declaration",
                     "kind": 32,
@@ -614,7 +614,7 @@
                     "defaultValue": "5"
                 },
                 {
-                    "id": 9,
+                    "id": 4,
                     "name": "add",
                     "variant": "declaration",
                     "kind": 64,
@@ -629,7 +629,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 10,
+                            "id": 5,
                             "name": "add",
                             "variant": "signature",
                             "kind": 4096,
@@ -644,7 +644,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 11,
+                                    "id": 6,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -655,7 +655,7 @@
                                     }
                                 },
                                 {
-                                    "id": 12,
+                                    "id": 7,
                                     "name": "y",
                                     "variant": "param",
                                     "kind": 32768,
@@ -678,13 +678,13 @@
                 {
                     "title": "Variables",
                     "children": [
-                        13
+                        8
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        9
+                        4
                     ]
                 }
             ],
@@ -698,14 +698,14 @@
             ]
         },
         {
-            "id": 29,
+            "id": 17,
             "name": "mod",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 35,
+                    "id": 20,
                     "name": "GH1453Helper",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -724,7 +724,7 @@
                     }
                 },
                 {
-                    "id": 30,
+                    "id": 18,
                     "name": "a",
                     "variant": "declaration",
                     "kind": 32,
@@ -754,7 +754,7 @@
                     "defaultValue": "1"
                 },
                 {
-                    "id": 36,
+                    "id": 40,
                     "name": "default",
                     "variant": "declaration",
                     "kind": 64,
@@ -769,7 +769,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 37,
+                            "id": 41,
                             "name": "default",
                             "variant": "signature",
                             "kind": 4096,
@@ -798,7 +798,7 @@
                     ]
                 },
                 {
-                    "id": 31,
+                    "id": 37,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -819,10 +819,10 @@
                             "url": "typedoc://mod.ts#L13"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 32,
+                    "id": 38,
                     "name": "c",
                     "variant": "reference",
                     "kind": 4194304,
@@ -843,10 +843,10 @@
                             "url": "typedoc://mod.ts#L18"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 34,
+                    "id": 39,
                     "name": "ThisModule",
                     "variant": "reference",
                     "kind": 4194304,
@@ -859,34 +859,34 @@
                             "url": "typedoc://mod.ts#L40"
                         }
                     ],
-                    "target": 29
+                    "target": 17
                 }
             ],
             "groups": [
                 {
                     "title": "Type Aliases",
                     "children": [
-                        35
+                        20
                     ]
                 },
                 {
                     "title": "Variables",
                     "children": [
-                        30
+                        18
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        36
+                        40
                     ]
                 },
                 {
                     "title": "References",
                     "children": [
-                        31,
-                        32,
-                        34
+                        37,
+                        38,
+                        39
                     ]
                 }
             ],
@@ -900,7 +900,7 @@
             ]
         },
         {
-            "id": 38,
+            "id": 21,
             "name": "no-doc-members",
             "variant": "declaration",
             "kind": 2,
@@ -926,7 +926,7 @@
             },
             "children": [
                 {
-                    "id": 39,
+                    "id": 22,
                     "name": "abc",
                     "variant": "declaration",
                     "kind": 32,
@@ -952,7 +952,7 @@
                 {
                     "title": "Variables",
                     "children": [
-                        39
+                        22
                     ]
                 }
             ],
@@ -970,12 +970,12 @@
         {
             "title": "Modules",
             "children": [
-                14,
+                9,
                 1,
-                6,
-                8,
-                29,
-                38
+                2,
+                3,
+                17,
+                21
             ]
         }
     ],
@@ -986,170 +986,170 @@
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
-            "qualifiedName": "add"
-        },
-        "3": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
-            "qualifiedName": "add"
-        },
-        "4": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
-            "qualifiedName": "x"
-        },
-        "5": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
-            "qualifiedName": "y"
-        },
-        "6": {
             "sourceFileName": "src/test/converter/exports/export-default.ts",
             "qualifiedName": ""
         },
-        "7": {
-            "sourceFileName": "src/test/converter/exports/export-default.ts",
+        "3": {
+            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "qualifiedName": ""
+        },
+        "4": {
+            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "qualifiedName": "add"
+        },
+        "5": {
+            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "qualifiedName": "add"
+        },
+        "6": {
+            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "x"
+        },
+        "7": {
+            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "qualifiedName": "y"
         },
         "8": {
             "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": ""
+            "qualifiedName": "x"
         },
         "9": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "add"
-        },
-        "10": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "add"
-        },
-        "11": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "x"
-        },
-        "12": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "y"
-        },
-        "13": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "x"
-        },
-        "14": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": ""
         },
-        "15": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "add"
-        },
-        "16": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "add"
-        },
-        "17": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "x"
-        },
-        "18": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "y"
-        },
-        "20": {
+        "11": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453"
         },
-        "21": {
+        "12": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Module"
         },
-        "22": {
+        "13": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.TypedModule"
         },
-        "23": {
+        "14": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Member"
         },
-        "24": {
+        "15": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.TypedMember"
         },
-        "25": {
+        "16": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Foo"
         },
-        "26": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "default"
-        },
-        "27": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "default"
-        },
-        "28": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "a"
-        },
-        "29": {
+        "17": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": ""
         },
-        "30": {
+        "18": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
-        "31": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "b"
-        },
-        "32": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "c"
-        },
-        "34": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "ThisModule"
-        },
-        "35": {
+        "20": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "GH1453Helper"
         },
-        "36": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "default"
-        },
-        "37": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "default"
-        },
-        "38": {
+        "21": {
             "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": ""
         },
-        "39": {
+        "22": {
             "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": "abc"
         },
-        "40": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "c"
+        "23": {
+            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "qualifiedName": "add"
         },
-        "41": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "Mod"
+        "24": {
+            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "qualifiedName": "add"
         },
-        "42": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "ModDefault"
+        "25": {
+            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "qualifiedName": "x"
         },
-        "43": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
-            "qualifiedName": "Mod2"
+        "26": {
+            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "qualifiedName": "y"
         },
-        "44": {
+        "27": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "add"
+        },
+        "28": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "add"
+        },
+        "29": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "x"
+        },
+        "30": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "y"
+        },
+        "31": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "default"
+        },
+        "32": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "default"
+        },
+        "33": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "a"
+        },
+        "34": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
+        "36": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "GH1453Helper"
+        },
+        "37": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "b"
+        },
+        "38": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "c"
+        },
+        "39": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "ThisModule"
+        },
+        "40": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "41": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "42": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "c"
+        },
+        "43": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "Mod"
+        },
+        "44": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "ModDefault"
+        },
         "45": {
+            "sourceFileName": "src/test/converter/exports/export.ts",
+            "qualifiedName": "Mod2"
+        },
+        "46": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         },
@@ -1158,8 +1158,8 @@
             "qualifiedName": "ThisModule"
         },
         "48": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "GH1453Helper"
+            "sourceFileName": "src/test/converter/exports/export-default.ts",
+            "qualifiedName": "x"
         }
     },
     "files": {
@@ -1173,11 +1173,11 @@
         },
         "reflections": {
             "1": 1,
-            "2": 6,
-            "3": 8,
-            "4": 14,
-            "5": 29,
-            "6": 38
+            "2": 2,
+            "3": 3,
+            "4": 9,
+            "5": 17,
+            "6": 21
         }
     }
 }

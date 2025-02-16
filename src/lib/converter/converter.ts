@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { ok } from "assert";
 
 import type { Application } from "../application.js";
 import {
@@ -23,7 +24,7 @@ import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
 import { MinimatchSet, nicePath } from "../utils/paths.js";
-import { type GlobString, hasAllFlags, hasAnyFlag, unique } from "#utils";
+import { type GlobString, hasAllFlags, hasAnyFlag, partition, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
@@ -132,6 +133,12 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
 
     private _config?: CommentParserConfig;
     private _externalSymbolResolvers: Array<ExternalSymbolResolver> = [];
+    // We try to document symbols which are exported from multiple locations
+    // in modules/namespaces which declare them, rather than those which re-export them.
+    // To do this, when converting a symbol, that might be re-exported, we first defer it
+    // to the second conversion pass.
+    private _deferPermitted = false;
+    private _defer: Array<() => void> = [];
 
     get config(): CommentParserConfig {
         return this._config || this._buildCommentParserConfig();
@@ -435,6 +442,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     }
 
     /**
+     * Defer a conversion step until later. This may only be called during conversion.
+     */
+    deferConversion(cb: () => void): void {
+        ok(this._deferPermitted, "Attempted to defer conversion when not permitted");
+        this._defer.push(cb);
+    }
+
+    /**
      * Compile the files within the given context and convert the compiler symbols to reflections.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -444,14 +459,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         entryPoints: readonly DocumentationEntryPoint[],
         context: Context,
     ) {
-        const entries = entryPoints.map((e) => {
-            return {
-                entryPoint: e,
-                context: undefined as Context | undefined,
-            };
-        });
+        ok(!this._deferPermitted);
+        this._deferPermitted = true;
 
-        let createModuleReflections = entries.length > 1;
+        let createModuleReflections = entryPoints.length > 1;
         if (!createModuleReflections) {
             const opts = this.application.options;
             createModuleReflections = opts.isSet("alwaysCreateEntryPointModule")
@@ -467,22 +478,18 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             );
         }
 
-        entries.forEach((e) => {
-            context.setActiveProgram(e.entryPoint.program);
-            e.context = this.convertExports(
-                context,
-                e.entryPoint,
-                createModuleReflections,
-            );
-        });
-        for (const { entryPoint, context } of entries) {
-            // active program is already set on context
-            // if we don't have a context, then this entry point is being ignored
-            if (context) {
-                this.convertReExports(context, entryPoint.sourceFile);
-            }
+        for (const entry of entryPoints) {
+            // Clone context in case deferred conversion uses different programs
+            const entryContext = context.withScope(context.scope);
+            entryContext.setActiveProgram(entry.program);
+            this.convertExports(entryContext, entry, createModuleReflections);
         }
-        context.setActiveProgram(undefined);
+
+        while (this._defer.length) {
+            const first = this._defer.shift()!;
+            first();
+        }
+        this._deferPermitted = false;
     }
 
     private convertExports(
@@ -530,24 +537,20 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         }
 
         const allExports = getExports(context, node, symbol);
-        for (const exp of allExports.filter((exp) => isDirectExport(context.resolveAliasedSymbol(exp), node))) {
+        const [directExport, indirectExports] = partition(
+            allExports,
+            exp => isDirectExport(context.resolveAliasedSymbol(exp), node),
+        );
+        for (const exp of directExport) {
             this.convertSymbol(moduleContext, exp);
         }
 
-        return moduleContext;
-    }
-
-    private convertReExports(moduleContext: Context, node: ts.SourceFile) {
-        for (
-            const exp of getExports(
-                moduleContext,
-                node,
-                moduleContext.project.getSymbolFromReflection(moduleContext.scope),
-            ).filter(
-                (exp) => !isDirectExport(moduleContext.resolveAliasedSymbol(exp), node),
-            )
-        ) {
-            this.convertSymbol(moduleContext, exp);
+        if (indirectExports.length) {
+            this.deferConversion(() => {
+                for (const exp of indirectExports) {
+                    this.convertSymbol(moduleContext, exp);
+                }
+            });
         }
     }
 

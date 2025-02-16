@@ -1143,7 +1143,7 @@
                     "defaultValue": "..."
                 },
                 {
-                    "id": 74,
+                    "id": 85,
                     "name": "objectLiteral",
                     "variant": "declaration",
                     "kind": 32,
@@ -1169,14 +1169,14 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 75,
+                            "id": 86,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "children": [
                                 {
-                                    "id": 93,
+                                    "id": 104,
                                     "name": "[toStringTag]",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1196,7 +1196,7 @@
                                     "defaultValue": "\"computed\""
                                 },
                                 {
-                                    "id": 94,
+                                    "id": 105,
                                     "name": "literal",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1216,7 +1216,7 @@
                                     "defaultValue": "true"
                                 },
                                 {
-                                    "id": 95,
+                                    "id": 106,
                                     "name": "literal2",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1236,7 +1236,7 @@
                                     "defaultValue": "true"
                                 },
                                 {
-                                    "id": 91,
+                                    "id": 102,
                                     "name": "valueA",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1256,7 +1256,7 @@
                                     "defaultValue": "100"
                                 },
                                 {
-                                    "id": 92,
+                                    "id": 103,
                                     "name": "valueB",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1276,7 +1276,7 @@
                                     "defaultValue": "true"
                                 },
                                 {
-                                    "id": 80,
+                                    "id": 91,
                                     "name": "valueX",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1292,14 +1292,14 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 81,
+                                            "id": 92,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
                                             "children": [
                                                 {
-                                                    "id": 90,
+                                                    "id": 101,
                                                     "name": "valueA",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -1322,7 +1322,7 @@
                                                     "defaultValue": "..."
                                                 },
                                                 {
-                                                    "id": 83,
+                                                    "id": 94,
                                                     "name": "valueY",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -1338,7 +1338,7 @@
                                                     "type": {
                                                         "type": "reflection",
                                                         "declaration": {
-                                                            "id": 84,
+                                                            "id": 95,
                                                             "name": "__type",
                                                             "variant": "declaration",
                                                             "kind": 65536,
@@ -1353,7 +1353,7 @@
                                                             ],
                                                             "signatures": [
                                                                 {
-                                                                    "id": 85,
+                                                                    "id": 96,
                                                                     "name": "__type",
                                                                     "variant": "signature",
                                                                     "kind": 4096,
@@ -1368,7 +1368,7 @@
                                                                     ],
                                                                     "parameters": [
                                                                         {
-                                                                            "id": 86,
+                                                                            "id": 97,
                                                                             "name": "z",
                                                                             "variant": "param",
                                                                             "kind": 32768,
@@ -1382,14 +1382,14 @@
                                                                     "type": {
                                                                         "type": "reflection",
                                                                         "declaration": {
-                                                                            "id": 87,
+                                                                            "id": 98,
                                                                             "name": "__type",
                                                                             "variant": "declaration",
                                                                             "kind": 65536,
                                                                             "flags": {},
                                                                             "children": [
                                                                                 {
-                                                                                    "id": 88,
+                                                                                    "id": 99,
                                                                                     "name": "a",
                                                                                     "variant": "declaration",
                                                                                     "kind": 1024,
@@ -1409,7 +1409,7 @@
                                                                                     "defaultValue": "\"test\""
                                                                                 },
                                                                                 {
-                                                                                    "id": 89,
+                                                                                    "id": 100,
                                                                                     "name": "b",
                                                                                     "variant": "declaration",
                                                                                     "kind": 1024,
@@ -1433,8 +1433,8 @@
                                                                                 {
                                                                                     "title": "Properties",
                                                                                     "children": [
-                                                                                        88,
-                                                                                        89
+                                                                                        99,
+                                                                                        100
                                                                                     ]
                                                                                 }
                                                                             ],
@@ -1455,7 +1455,7 @@
                                                     "defaultValue": "..."
                                                 },
                                                 {
-                                                    "id": 82,
+                                                    "id": 93,
                                                     "name": "valueZ",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -1479,9 +1479,9 @@
                                                 {
                                                     "title": "Properties",
                                                     "children": [
-                                                        90,
-                                                        83,
-                                                        82
+                                                        101,
+                                                        94,
+                                                        93
                                                     ]
                                                 }
                                             ],
@@ -1498,7 +1498,7 @@
                                     "defaultValue": "..."
                                 },
                                 {
-                                    "id": 77,
+                                    "id": 88,
                                     "name": "valueY",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1514,7 +1514,7 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 78,
+                                            "id": 89,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
@@ -1529,7 +1529,7 @@
                                             ],
                                             "signatures": [
                                                 {
-                                                    "id": 79,
+                                                    "id": 90,
                                                     "name": "__type",
                                                     "variant": "signature",
                                                     "kind": 4096,
@@ -1553,7 +1553,7 @@
                                     "defaultValue": "..."
                                 },
                                 {
-                                    "id": 76,
+                                    "id": 87,
                                     "name": "valueZ",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1577,14 +1577,14 @@
                                 {
                                     "title": "Properties",
                                     "children": [
-                                        93,
-                                        94,
-                                        95,
+                                        104,
+                                        105,
+                                        106,
+                                        102,
+                                        103,
                                         91,
-                                        92,
-                                        80,
-                                        77,
-                                        76
+                                        88,
+                                        87
                                     ]
                                 }
                             ],
@@ -1992,7 +1992,7 @@
                     "title": "Variables",
                     "children": [
                         54,
-                        74,
+                        85,
                         35
                     ]
                 }
@@ -2007,14 +2007,14 @@
             ]
         },
         {
-            "id": 96,
+            "id": 74,
             "name": "variable",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 97,
+                    "id": 75,
                     "name": "myConst",
                     "variant": "declaration",
                     "kind": 32,
@@ -2036,7 +2036,7 @@
                     "defaultValue": "15"
                 },
                 {
-                    "id": 98,
+                    "id": 76,
                     "name": "myLet",
                     "variant": "declaration",
                     "kind": 32,
@@ -2056,7 +2056,7 @@
                     "defaultValue": "15"
                 },
                 {
-                    "id": 99,
+                    "id": 77,
                     "name": "myVar",
                     "variant": "declaration",
                     "kind": 32,
@@ -2076,7 +2076,7 @@
                     "defaultValue": "15"
                 },
                 {
-                    "id": 103,
+                    "id": 81,
                     "name": "satisfies",
                     "variant": "declaration",
                     "kind": 32,
@@ -2094,14 +2094,14 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 104,
+                            "id": 82,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "children": [
                                 {
-                                    "id": 105,
+                                    "id": 83,
                                     "name": "a",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -2121,7 +2121,7 @@
                                     "defaultValue": "1"
                                 },
                                 {
-                                    "id": 106,
+                                    "id": 84,
                                     "name": "b",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -2145,8 +2145,8 @@
                                 {
                                     "title": "Properties",
                                     "children": [
-                                        105,
-                                        106
+                                        83,
+                                        84
                                     ]
                                 }
                             ],
@@ -2163,7 +2163,7 @@
                     "defaultValue": "..."
                 },
                 {
-                    "id": 100,
+                    "id": 78,
                     "name": "x",
                     "variant": "declaration",
                     "kind": 32,
@@ -2182,7 +2182,7 @@
                     }
                 },
                 {
-                    "id": 101,
+                    "id": 79,
                     "name": "y",
                     "variant": "declaration",
                     "kind": 32,
@@ -2212,7 +2212,7 @@
                     }
                 },
                 {
-                    "id": 102,
+                    "id": 80,
                     "name": "z",
                     "variant": "declaration",
                     "kind": 32,
@@ -2246,13 +2246,13 @@
                 {
                     "title": "Variables",
                     "children": [
-                        97,
-                        98,
-                        99,
-                        103,
-                        100,
-                        101,
-                        102
+                        75,
+                        76,
+                        77,
+                        81,
+                        78,
+                        79,
+                        80
                     ]
                 }
             ],
@@ -2273,7 +2273,7 @@
                 1,
                 15,
                 34,
-                96
+                74
             ]
         }
     ],
@@ -2544,136 +2544,136 @@
             "qualifiedName": "__type"
         },
         "74": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "objectLiteral"
-        },
-        "75": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object"
-        },
-        "76": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueZ"
-        },
-        "77": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueY"
-        },
-        "78": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__function"
-        },
-        "79": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__function"
-        },
-        "80": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueX"
-        },
-        "81": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object"
-        },
-        "82": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueZ"
-        },
-        "83": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueY"
-        },
-        "84": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__function"
-        },
-        "85": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__function"
-        },
-        "86": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "z"
-        },
-        "87": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object"
-        },
-        "88": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.a"
-        },
-        "89": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.b"
-        },
-        "90": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueA"
-        },
-        "91": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueA"
-        },
-        "92": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.valueB"
-        },
-        "93": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.[toStringTag]"
-        },
-        "94": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.literal"
-        },
-        "95": {
-            "sourceFileName": "src/test/converter/variables/literal.ts",
-            "qualifiedName": "__object.literal2"
-        },
-        "96": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": ""
         },
-        "97": {
+        "75": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "myConst"
         },
-        "98": {
+        "76": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "myLet"
         },
-        "99": {
+        "77": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "myVar"
         },
-        "100": {
+        "78": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "x"
         },
-        "101": {
+        "79": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "y"
         },
-        "102": {
+        "80": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "z"
         },
-        "103": {
+        "81": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "satisfies"
         },
-        "104": {
+        "82": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "__object"
         },
-        "105": {
+        "83": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "__object.a"
         },
-        "106": {
+        "84": {
             "sourceFileName": "src/test/converter/variables/variable.ts",
             "qualifiedName": "__object.b"
+        },
+        "85": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "objectLiteral"
+        },
+        "86": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object"
+        },
+        "87": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueZ"
+        },
+        "88": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueY"
+        },
+        "89": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__function"
+        },
+        "90": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__function"
+        },
+        "91": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueX"
+        },
+        "92": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object"
+        },
+        "93": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueZ"
+        },
+        "94": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueY"
+        },
+        "95": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__function"
+        },
+        "96": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__function"
+        },
+        "97": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "z"
+        },
+        "98": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object"
+        },
+        "99": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.a"
+        },
+        "100": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.b"
+        },
+        "101": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueA"
+        },
+        "102": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueA"
+        },
+        "103": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.valueB"
+        },
+        "104": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.[toStringTag]"
+        },
+        "105": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.literal"
+        },
+        "106": {
+            "sourceFileName": "src/test/converter/variables/literal.ts",
+            "qualifiedName": "__object.literal2"
         }
     },
     "files": {
@@ -2687,7 +2687,7 @@
             "1": 1,
             "2": 15,
             "3": 34,
-            "4": 96
+            "4": 74
         }
     }
 }

@@ -1979,4 +1979,14 @@ describe("Issue Tests", () => {
             ["customMethod"],
         );
     });
+
+    it("#2856 supports deferring export conversion", () => {
+        const project = convert();
+
+        ok(!query(project, "A.definedInA").isReference());
+        ok(query(project, "A.definedInB").isReference());
+
+        ok(query(project, "B.definedInA").isReference());
+        ok(!query(project, "B.definedInB").isReference());
+    });
 });

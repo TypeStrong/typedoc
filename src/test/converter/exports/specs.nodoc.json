@@ -6,14 +6,14 @@
     "flags": {},
     "children": [
         {
-            "id": 14,
+            "id": 9,
             "name": "export",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 45,
+                    "id": 46,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -34,10 +34,10 @@
                             "url": "typedoc://mod.ts#L13"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 43,
+                    "id": 45,
                     "name": "Mod2",
                     "variant": "reference",
                     "kind": 4194304,
@@ -58,15 +58,15 @@
                             "url": "typedoc://export.ts#L14"
                         }
                     ],
-                    "target": 29
+                    "target": 17
                 }
             ],
             "groups": [
                 {
                     "title": "References",
                     "children": [
-                        45,
-                        43
+                        46,
+                        45
                     ]
                 }
             ],
@@ -80,14 +80,14 @@
             ]
         },
         {
-            "id": 29,
+            "id": 17,
             "name": "mod",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 30,
+                    "id": 18,
                     "name": "a",
                     "variant": "declaration",
                     "kind": 32,
@@ -117,7 +117,7 @@
                     "defaultValue": "1"
                 },
                 {
-                    "id": 36,
+                    "id": 40,
                     "name": "default",
                     "variant": "declaration",
                     "kind": 64,
@@ -132,7 +132,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 37,
+                            "id": 41,
                             "name": "default",
                             "variant": "signature",
                             "kind": 4096,
@@ -161,7 +161,7 @@
                     ]
                 },
                 {
-                    "id": 31,
+                    "id": 37,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -182,10 +182,10 @@
                             "url": "typedoc://mod.ts#L13"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 },
                 {
-                    "id": 32,
+                    "id": 38,
                     "name": "c",
                     "variant": "reference",
                     "kind": 4194304,
@@ -206,27 +206,27 @@
                             "url": "typedoc://mod.ts#L18"
                         }
                     ],
-                    "target": 30
+                    "target": 18
                 }
             ],
             "groups": [
                 {
                     "title": "Variables",
                     "children": [
-                        30
+                        18
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        36
+                        40
                     ]
                 },
                 {
                     "title": "References",
                     "children": [
-                        31,
-                        32
+                        37,
+                        38
                     ]
                 }
             ],
@@ -240,7 +240,7 @@
             ]
         },
         {
-            "id": 38,
+            "id": 21,
             "name": "no-doc-members",
             "variant": "declaration",
             "kind": 2,
@@ -278,51 +278,51 @@
         {
             "title": "Modules",
             "children": [
-                14,
-                29,
-                38
+                9,
+                17,
+                21
             ]
         }
     ],
     "packageName": "typedoc",
     "symbolIdMap": {
-        "14": {
+        "9": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": ""
         },
-        "29": {
+        "17": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": ""
         },
-        "30": {
+        "18": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
-        "31": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "b"
-        },
-        "32": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "c"
-        },
-        "36": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "default"
-        },
-        "37": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "default"
-        },
-        "38": {
+        "21": {
             "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": ""
         },
-        "43": {
+        "37": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "b"
+        },
+        "38": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "c"
+        },
+        "40": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "41": {
+            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "default"
+        },
+        "45": {
             "sourceFileName": "src/test/converter/exports/export.ts",
             "qualifiedName": "Mod2"
         },
-        "45": {
+        "46": {
             "sourceFileName": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         }
@@ -337,9 +337,9 @@
             "6": "src/test/converter/exports/no-doc-members.ts"
         },
         "reflections": {
-            "4": 14,
-            "5": 29,
-            "6": 38
+            "4": 9,
+            "5": 17,
+            "6": 21
         }
     }
 }

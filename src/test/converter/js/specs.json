@@ -13,7 +13,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 5,
+                    "id": 2,
                     "name": "Foo",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -32,7 +32,7 @@
                     }
                 },
                 {
-                    "id": 2,
+                    "id": 43,
                     "name": "export=",
                     "variant": "declaration",
                     "kind": 64,
@@ -47,7 +47,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 3,
+                            "id": 44,
                             "name": "export=",
                             "variant": "signature",
                             "kind": 4096,
@@ -62,7 +62,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 4,
+                                    "id": 45,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -93,13 +93,13 @@
                 {
                     "title": "Type Aliases",
                     "children": [
-                        5
+                        2
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        2
+                        43
                     ]
                 }
             ],
@@ -113,14 +113,14 @@
             ]
         },
         {
-            "id": 6,
+            "id": 3,
             "name": "index",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 10,
+                    "id": 7,
                     "name": "ColumnType",
                     "variant": "declaration",
                     "kind": 8,
@@ -135,7 +135,7 @@
                     },
                     "children": [
                         {
-                            "id": 12,
+                            "id": 9,
                             "name": "NUMBER",
                             "variant": "declaration",
                             "kind": 16,
@@ -154,7 +154,7 @@
                             }
                         },
                         {
-                            "id": 11,
+                            "id": 8,
                             "name": "STRING",
                             "variant": "declaration",
                             "kind": 16,
@@ -177,8 +177,8 @@
                         {
                             "title": "Enumeration Members",
                             "children": [
-                                12,
-                                11
+                                9,
+                                8
                             ]
                         }
                     ],
@@ -198,7 +198,7 @@
                     ]
                 },
                 {
-                    "id": 15,
+                    "id": 12,
                     "name": "AlsoInterfaceIsh",
                     "variant": "declaration",
                     "kind": 256,
@@ -213,7 +213,7 @@
                     },
                     "children": [
                         {
-                            "id": 17,
+                            "id": 14,
                             "name": "bar",
                             "variant": "declaration",
                             "kind": 1024,
@@ -240,7 +240,7 @@
                             }
                         },
                         {
-                            "id": 16,
+                            "id": 13,
                             "name": "foo",
                             "variant": "declaration",
                             "kind": 1024,
@@ -271,8 +271,8 @@
                         {
                             "title": "Properties",
                             "children": [
-                                17,
-                                16
+                                14,
+                                13
                             ]
                         }
                     ],
@@ -286,14 +286,14 @@
                     ]
                 },
                 {
-                    "id": 13,
+                    "id": 10,
                     "name": "InterfaceIsh",
                     "variant": "declaration",
                     "kind": 256,
                     "flags": {},
                     "children": [
                         {
-                            "id": 14,
+                            "id": 11,
                             "name": "foo",
                             "variant": "declaration",
                             "kind": 1024,
@@ -324,7 +324,7 @@
                         {
                             "title": "Properties",
                             "children": [
-                                14
+                                11
                             ]
                         }
                     ],
@@ -338,7 +338,7 @@
                     ]
                 },
                 {
-                    "id": 42,
+                    "id": 39,
                     "name": "Foo",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -354,7 +354,7 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 43,
+                            "id": 40,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
@@ -369,14 +369,14 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 44,
+                                    "id": 41,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 45,
+                                            "id": 42,
                                             "name": "args",
                                             "variant": "param",
                                             "kind": 32768,
@@ -410,7 +410,7 @@
                     }
                 },
                 {
-                    "id": 28,
+                    "id": 25,
                     "name": "HasReturnTag",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -426,7 +426,7 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 29,
+                            "id": 26,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
@@ -441,7 +441,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 30,
+                                    "id": 27,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -456,7 +456,7 @@
                     }
                 },
                 {
-                    "id": 40,
+                    "id": 37,
                     "name": "Identity",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -479,7 +479,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 41,
+                            "id": 38,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -496,14 +496,14 @@
                     ],
                     "type": {
                         "type": "reference",
-                        "target": 41,
+                        "target": 38,
                         "name": "T",
                         "package": "typedoc",
                         "refersToTypeParameter": true
                     }
                 },
                 {
-                    "id": 31,
+                    "id": 28,
                     "name": "IdentityFn",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -518,7 +518,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 35,
+                            "id": 32,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -528,7 +528,7 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 32,
+                            "id": 29,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
@@ -543,21 +543,21 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 33,
+                                    "id": 30,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 34,
+                                            "id": 31,
                                             "name": "data",
                                             "variant": "param",
                                             "kind": 32768,
                                             "flags": {},
                                             "type": {
                                                 "type": "reference",
-                                                "target": 35,
+                                                "target": 32,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "refersToTypeParameter": true
@@ -566,7 +566,7 @@
                                     ],
                                     "type": {
                                         "type": "reference",
-                                        "target": 35,
+                                        "target": 32,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -577,7 +577,7 @@
                     }
                 },
                 {
-                    "id": 20,
+                    "id": 17,
                     "name": "IntersectionType",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -604,14 +604,14 @@
                             {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 21,
+                                    "id": 18,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "children": [
                                         {
-                                            "id": 22,
+                                            "id": 19,
                                             "name": "x",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -634,7 +634,7 @@
                                         {
                                             "title": "Properties",
                                             "children": [
-                                                22
+                                                19
                                             ]
                                         }
                                     ],
@@ -651,14 +651,14 @@
                             {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 23,
+                                    "id": 20,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "children": [
                                         {
-                                            "id": 24,
+                                            "id": 21,
                                             "name": "y",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -681,7 +681,7 @@
                                         {
                                             "title": "Properties",
                                             "children": [
-                                                24
+                                                21
                                             ]
                                         }
                                     ],
@@ -699,7 +699,7 @@
                     }
                 },
                 {
-                    "id": 25,
+                    "id": 22,
                     "name": "NoReturnTag",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -723,7 +723,7 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 26,
+                            "id": 23,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
@@ -738,7 +738,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 27,
+                                    "id": 24,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -753,7 +753,7 @@
                     }
                 },
                 {
-                    "id": 18,
+                    "id": 15,
                     "name": "ObjectAlias",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -785,7 +785,7 @@
                     }
                 },
                 {
-                    "id": 36,
+                    "id": 33,
                     "name": "OptionalArg",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -801,7 +801,7 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 37,
+                            "id": 34,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
@@ -816,14 +816,14 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 38,
+                                    "id": 35,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 39,
+                                            "id": 36,
                                             "name": "data",
                                             "variant": "param",
                                             "kind": 32768,
@@ -854,7 +854,7 @@
                     }
                 },
                 {
-                    "id": 19,
+                    "id": 16,
                     "name": "UnionType",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -890,7 +890,7 @@
                     }
                 },
                 {
-                    "id": 7,
+                    "id": 4,
                     "name": "usedFoo",
                     "variant": "declaration",
                     "kind": 64,
@@ -905,7 +905,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 8,
+                            "id": 5,
                             "name": "usedFoo",
                             "variant": "signature",
                             "kind": 4096,
@@ -934,7 +934,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 9,
+                                    "id": 6,
                                     "name": "args",
                                     "variant": "param",
                                     "kind": 32768,
@@ -970,34 +970,34 @@
                 {
                     "title": "Enumerations",
                     "children": [
-                        10
+                        7
                     ]
                 },
                 {
                     "title": "Interfaces",
                     "children": [
-                        15,
-                        13
+                        12,
+                        10
                     ]
                 },
                 {
                     "title": "Type Aliases",
                     "children": [
-                        42,
-                        28,
-                        40,
-                        31,
-                        20,
+                        39,
                         25,
-                        18,
-                        36,
-                        19
+                        37,
+                        28,
+                        17,
+                        22,
+                        15,
+                        33,
+                        16
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        7
+                        4
                     ]
                 }
             ],
@@ -1016,7 +1016,7 @@
             "title": "Modules",
             "children": [
                 1,
-                6
+                3
             ]
         }
     ],
@@ -1028,87 +1028,87 @@
         },
         "2": {
             "sourceFileName": "src/test/converter/js/export-eq-type.js",
-            "qualifiedName": "foo"
-        },
-        "3": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
-            "qualifiedName": "foo"
-        },
-        "4": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
-            "qualifiedName": "x"
-        },
-        "5": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": "Foo"
         },
-        "6": {
+        "3": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": ""
         },
-        "7": {
+        "4": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "usedFoo"
         },
-        "8": {
+        "5": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "usedFoo"
         },
-        "9": {
+        "6": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "args"
         },
-        "10": {
+        "7": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "ColumnType"
         },
-        "11": {
+        "8": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__object.STRING"
         },
-        "12": {
+        "9": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__object.NUMBER"
         },
-        "13": {
+        "10": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "InterfaceIsh"
         },
-        "14": {
+        "11": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__type.foo"
         },
-        "15": {
+        "12": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "AlsoInterfaceIsh"
         },
-        "16": {
+        "13": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__type.foo"
         },
-        "17": {
+        "14": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__type.bar"
         },
-        "18": {
+        "15": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "ObjectAlias"
         },
-        "19": {
+        "16": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "UnionType"
         },
-        "20": {
+        "17": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "IntersectionType"
         },
-        "21": {
+        "18": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
-        "22": {
+        "19": {
             "sourceFileName": "src/test/converter/js/index.js",
             "qualifiedName": "__type.x"
+        },
+        "20": {
+            "sourceFileName": "src/test/converter/js/index.js",
+            "qualifiedName": "__type"
+        },
+        "21": {
+            "sourceFileName": "src/test/converter/js/index.js",
+            "qualifiedName": "__type.y"
+        },
+        "22": {
+            "sourceFileName": "src/test/converter/js/index.js",
+            "qualifiedName": "NoReturnTag"
         },
         "23": {
             "sourceFileName": "src/test/converter/js/index.js",
@@ -1116,11 +1116,11 @@
         },
         "24": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.y"
+            "qualifiedName": "__type"
         },
         "25": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "NoReturnTag"
+            "qualifiedName": "HasReturnTag"
         },
         "26": {
             "sourceFileName": "src/test/converter/js/index.js",
@@ -1132,7 +1132,7 @@
         },
         "28": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "HasReturnTag"
+            "qualifiedName": "IdentityFn"
         },
         "29": {
             "sourceFileName": "src/test/converter/js/index.js",
@@ -1144,63 +1144,63 @@
         },
         "31": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "IdentityFn"
+            "qualifiedName": "data"
         },
         "32": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "T"
         },
         "33": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "OptionalArg"
         },
         "34": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "data"
+            "qualifiedName": "__type"
         },
         "35": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "T"
+            "qualifiedName": "__type"
         },
         "36": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "OptionalArg"
+            "qualifiedName": "data"
         },
         "37": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "Identity"
         },
         "38": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "T"
         },
         "39": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "data"
+            "qualifiedName": "Foo"
         },
         "40": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "Identity"
+            "qualifiedName": "__type"
         },
         "41": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "T"
+            "qualifiedName": "__type"
         },
         "42": {
             "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "Foo"
+            "qualifiedName": "args"
         },
         "43": {
-            "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "qualifiedName": "foo"
         },
         "44": {
-            "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "qualifiedName": "foo"
         },
         "45": {
-            "sourceFileName": "src/test/converter/js/index.js",
-            "qualifiedName": "args"
+            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "qualifiedName": "x"
         }
     },
     "files": {
@@ -1210,7 +1210,7 @@
         },
         "reflections": {
             "1": 1,
-            "2": 6
+            "2": 3
         }
     }
 }

@@ -99,11 +99,7 @@ assert(
     "conversionOrder contains a symbol flag that converters do not.",
 );
 
-export function convertSymbol(
-    context: Context,
-    symbol: ts.Symbol,
-    exportSymbol?: ts.Symbol,
-): void {
+function _convertSymbolNow(context: Context, symbol: ts.Symbol, exportSymbol: ts.Symbol | undefined) {
     if (context.shouldIgnore(symbol)) {
         return;
     }
@@ -181,6 +177,23 @@ export function convertSymbol(
 
         skip |= symbolConverters[flag]?.(context, symbol, exportSymbol) || 0;
     }
+}
+
+export function convertSymbol(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol?: ts.Symbol,
+): void {
+    // #1795, defer conversion of symbols named `default` so that if a function
+    // is default exported and also exported with a name, the name takes precedence
+    if ((exportSymbol?.name ?? symbol.name) === "default") {
+        context.converter.deferConversion(() => {
+            _convertSymbolNow(context, symbol, exportSymbol);
+        });
+        return;
+    }
+
+    _convertSymbolNow(context, symbol, exportSymbol);
 }
 
 function convertSymbols(context: Context, symbols: readonly ts.Symbol[]) {
@@ -890,25 +903,30 @@ function convertAlias(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ): undefined {
-    const reflection = context.project.getReflectionFromSymbol(
-        context.resolveAliasedSymbol(symbol),
-    );
-    if (
-        !reflection ||
-        (reflection &&
-            !reflection.parent?.kindOf(
-                ReflectionKind.Project | ReflectionKind.SomeModule,
-            ))
-    ) {
-        // We don't have this, convert it.
-        convertSymbol(
-            context,
+    // Defer conversion of aliases so that if the original module/namespace
+    // containing them is included in the docs, we will point to that namespace
+    // rather than pointing that namespace to the first namespace encountered, #2856.
+    context.converter.deferConversion(() => {
+        const reflection = context.project.getReflectionFromSymbol(
             context.resolveAliasedSymbol(symbol),
-            exportSymbol ?? symbol,
         );
-    } else {
-        createAlias(reflection, context, symbol, exportSymbol);
-    }
+        if (
+            !reflection ||
+            (reflection &&
+                !reflection.parent?.kindOf(
+                    ReflectionKind.Project | ReflectionKind.SomeModule,
+                ))
+        ) {
+            // We don't have this, convert it.
+            convertSymbol(
+                context,
+                context.resolveAliasedSymbol(symbol),
+                exportSymbol ?? symbol,
+            );
+        } else {
+            createAlias(reflection, context, symbol, exportSymbol);
+        }
+    });
 }
 
 function createAlias(
