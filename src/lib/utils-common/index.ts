@@ -2,6 +2,7 @@
 // within the models export which is suitable for bundling.
 
 export * from "./array.js";
+export * from "./declarationReference.js";
 export * from "./enum.js";
 export * from "./events.js";
 export * from "./general.js";

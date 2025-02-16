@@ -9,7 +9,7 @@ import {
     ReflectionKind,
 } from "../../models/index.js";
 import { assertNever, filterMap } from "#utils";
-import type { ComponentPath, DeclarationReference, Meaning, MeaningKeyword } from "./declarationReference.js";
+import type { ComponentPath, DeclarationReference, Meaning, MeaningKeyword } from "#utils";
 
 function resolveReferenceReflection(ref: Reflection): Reflection {
     if (ref instanceof ReferenceReflection) {

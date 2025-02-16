@@ -4,7 +4,7 @@ import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index.js";
 import { findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath, readFile } from "#node-utils";
 import { Validation } from "#utils";
-import type { DeclarationReference } from "../../converter/index.js";
+import type { DeclarationReference } from "#utils";
 import { splitUnquotedString } from "./utils.js";
 
 /**

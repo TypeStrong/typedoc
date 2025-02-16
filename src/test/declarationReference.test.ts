@@ -7,7 +7,7 @@ import {
     parseModuleSource,
     parseString,
     parseSymbolReference,
-} from "../lib/converter/comments/declarationReference.js";
+} from "#utils";
 
 describe("Declaration References", () => {
     describe("String parsing", () => {

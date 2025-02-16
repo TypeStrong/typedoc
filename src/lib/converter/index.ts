@@ -1,10 +1,3 @@
-export type {
-    ComponentPath,
-    DeclarationReference,
-    Meaning,
-    MeaningKeyword,
-    SymbolReference,
-} from "./comments/declarationReference.js";
 export type { CommentParserConfig } from "./comments/index.js";
 export type { ExternalResolveResult, ExternalSymbolResolver } from "./comments/linkResolver.js";
 export { Context } from "./context.js";

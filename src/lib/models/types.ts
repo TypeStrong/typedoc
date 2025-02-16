@@ -1,13 +1,9 @@
-import ts from "typescript";
-import type { Context } from "../converter/index.js";
 import type { Reflection } from "./reflections/abstract.js";
 import type { DeclarationReflection } from "./reflections/declaration.js";
 import type { ProjectReflection } from "./reflections/project.js";
 import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
-import { getQualifiedName } from "../utils/tsutils.js";
 import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId.js";
-import type { DeclarationReference } from "../converter/comments/declarationReference.js";
-import { findPackageForPath } from "../utils/fs.js";
+import type { DeclarationReference } from "#utils";
 import { ReflectionKind } from "./reflections/kind.js";
 import { Comment, type CommentDisplayPart } from "./comments/index.js";
 import { joinArray } from "#utils";
@@ -940,34 +936,21 @@ export class ReferenceType extends Type {
         this.qualifiedName = qualifiedName;
     }
 
+    static createUnresolvedReference(
+        name: string,
+        target: ReflectionSymbolId,
+        project: ProjectReflection,
+        qualifiedName: string,
+    ) {
+        return new ReferenceType(name, target, project, qualifiedName);
+    }
+
     static createResolvedReference(
         name: string,
         target: Reflection | number,
         project: ProjectReflection | null,
     ) {
         return new ReferenceType(name, target, project, name);
-    }
-
-    static createSymbolReference(
-        symbol: ts.Symbol,
-        context: Context,
-        name?: string,
-    ) {
-        const ref = new ReferenceType(
-            name ?? symbol.name,
-            new ReflectionSymbolId(symbol),
-            context.project,
-            getQualifiedName(symbol, name ?? symbol.name),
-        );
-        ref.refersToTypeParameter = !!(
-            symbol.flags & ts.SymbolFlags.TypeParameter
-        );
-
-        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
-        if (!symbolPath) return ref;
-
-        ref.package = findPackageForPath(symbolPath);
-        return ref;
     }
 
     /**

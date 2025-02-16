@@ -30,16 +30,11 @@ export * as Models from "./lib/models/index.js";
  */
 export {
     type CommentParserConfig,
-    type ComponentPath,
     Context,
     Converter,
     type ConverterEvents,
-    type DeclarationReference,
     type ExternalResolveResult,
     type ExternalSymbolResolver,
-    type Meaning,
-    type MeaningKeyword,
-    type SymbolReference,
 } from "./lib/converter/index.js";
 export * from "./lib/models/index.js";
 export * as Configuration from "./lib/utils/options/index.js";
@@ -121,7 +116,17 @@ export type {
     ValidationOptions,
 } from "./lib/utils/index.js";
 
-export { type EnumKeys, EventDispatcher, EventHooks, JSX } from "#utils";
+export {
+    type ComponentPath,
+    type DeclarationReference,
+    type EnumKeys,
+    EventDispatcher,
+    EventHooks,
+    JSX,
+    type MeaningKeyword,
+    MeaningKeywords,
+    type SymbolReference,
+} from "#utils";
 
 export {
     type Deserializable,

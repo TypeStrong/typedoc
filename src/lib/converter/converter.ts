@@ -36,7 +36,7 @@ import {
     resolveLinks,
     resolvePartLinks,
 } from "./comments/linkResolver.js";
-import { type DeclarationReference, meaningToString } from "./comments/declarationReference.js";
+import { type DeclarationReference, meaningToString } from "#utils";
 import { basename, dirname, resolve } from "path";
 import type { FileRegistry } from "../models/FileRegistry.js";
 

@@ -8,9 +8,8 @@ import {
     ReflectionKind,
     ReflectionSymbolId,
 } from "../../models/index.js";
-import { type DeclarationReference, parseDeclarationReference } from "./declarationReference.js";
 import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
-import { maxElementByScore } from "#utils";
+import { type DeclarationReference, maxElementByScore, parseDeclarationReference } from "#utils";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 

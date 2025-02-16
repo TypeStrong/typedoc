@@ -196,6 +196,25 @@ export default tslint.config(
             ],
         },
     },
+    // {
+    //     files: ["src/lib/models/**/*.ts"],
+    //     rules: {
+    //         "no-restricted-imports": [
+    //             "error",
+    //             {
+    //                 paths: nodeModules,
+    //                 patterns: [
+    //                     "node:*",
+    //                     "../*",
+    //                     "!../FileRegistry.js",
+    //                     "!../types.js",
+    //                     "!../comments/index.js",
+    //                     "!../sources/file.js",
+    //                 ],
+    //             },
+    //         ],
+    //     },
+    // },
     {
         files: ["src/lib/utils-common/**/*.ts"],
         rules: {
@@ -203,7 +222,7 @@ export default tslint.config(
                 "error",
                 {
                     paths: nodeModules,
-                    patterns: ["../*"],
+                    patterns: ["node:*", "../*"],
                 },
             ],
         },
