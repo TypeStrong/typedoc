@@ -19,15 +19,15 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "18"
-            - name: Upgrade npm
+            - name: Upgrade pnpm
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
-              run: npm i -g npm@latest
+              run: npm i -g pnpm@10
             - name: Install
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
-              run: npm ci
+              run: pnpm install
             - name: Test
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
-              run: npm test
+              run: pnpm test
             - name: Setup publish token
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
               run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
@@ -35,4 +35,4 @@ jobs:
                   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Publish
               if: steps.check.outputs.changed == 'true' && contains(steps.check.outputs.version, 'beta')
-              run: npm publish --tag beta
+              run: pnpm publish --tag beta

@@ -21,12 +21,15 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "18"
+            - name: Update pnpm
+              if: steps.check.outputs.changed == 'true'
+              run: npm i -g pnpm@10
             - name: Install
               if: steps.check.outputs.changed == 'true'
-              run: npm ci
+              run: pnpm install
             - name: Test
               if: steps.check.outputs.changed == 'true'
-              run: npm test
+              run: pnpm test
             - name: Setup publish token
               if: steps.check.outputs.changed == 'true'
               run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
@@ -34,7 +37,7 @@ jobs:
                   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Publish
               if: steps.check.outputs.changed == 'true'
-              run: npm publish
+              run: pnpm publish
             - name: Generate Release
               if: steps.check.outputs.changed == 'true'
               run: |

@@ -27,7 +27,8 @@
         "url": "https://github.com/TypeStrong/TypeDoc/issues"
     },
     "engines": {
-        "node": ">= 18"
+        "node": ">= 18",
+        "pnpm": ">= 10"
     },
     "dependencies": {
         "@gerrit0/mini-shiki": "^3.0.0",
@@ -40,6 +41,7 @@
         "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x"
     },
     "devDependencies": {
+        "@eslint/js": "^9.21.0",
         "@types/lunr": "^2.3.7",
         "@types/markdown-it": "^14.1.2",
         "@types/mocha": "^10.0.10",
@@ -77,14 +79,14 @@
         "example": "cd example && node ../bin/typedoc",
         "test:full": "c8 -r lcov -r text-summary mocha --config .config/mocha.full.json",
         "rebuild_specs": "node scripts/rebuild_specs.js",
-        "build": "npm run build:tsc && npm run build:locales && npm run build:themes",
+        "build": "pnpm build:tsc && pnpm build:locales && pnpm build:themes",
         "build:tsc": "tsc --project .",
         "build:themes": "node scripts/build_themes.js",
         "build:locales": "tsx scripts/build_browser_translations.js",
-        "build:prod": "npm run build:prod:tsc && npm run build:locales && npm run build:themes",
+        "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes",
         "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
         "lint": "eslint . --max-warnings 0 && dprint check",
-        "prepack": "node scripts/set_strict.js false && npm run build:prod",
+        "prepack": "node scripts/set_strict.js false && pnpm build:prod",
         "prepare": "node scripts/prepare.mjs",
         "postpublish": "node scripts/set_strict.js true"
     },
@@ -125,5 +127,12 @@
             "typedoc-ts": "./src/lib/utils/index.ts",
             "default": "./dist/lib/utils/index.js"
         }
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "dprint",
+            "esbuild",
+            "puppeteer"
+        ]
     }
 }

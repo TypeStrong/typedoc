@@ -43,7 +43,7 @@ be resolved.
 TypeDoc has tests for individual utilities and some components, but the majority of the project is tested by converting source files into their JSON model and comparing it to a known good version. The basic example under `src/test/renderer/testProject` is rendered to HTML to test theme changes.
 
 If changing the behavior of a converter or resolver, it should be possible to modify one of the existing tests under `src/test/converter`.
-Bug fixes or feature additions which need to change one of the `specs*.json` files should run `npm run rebuild_specs [converter|renderer] [converter filter]` to run the current build of TypeDoc on the source files and generate new specs.
+Bug fixes or feature additions which need to change one of the `specs*.json` files should run `pnpm rebuild_specs [converter|renderer] [converter filter]` to run the current build of TypeDoc on the source files and generate new specs.
 For other components, we use [Mocha](https://mochajs.org/) to write tests.
 
 ### Running the Visual Regression Tests
