@@ -43,9 +43,13 @@ describe("Entry Points", () => {
     it("Supports expanding globs in paths", async () => {
         const app = await Application.bootstrap({
             entryPointStrategy: EntryPointStrategy.Expand,
+            tsconfig,
         });
-        app.options.setValue("tsconfig", tsconfig);
         app.options.setValue("entryPoints", ["*.ts"], fixture.cwd);
+
+        equal(app.options.getValue("entryPoints"), [
+            `${normalizePath(fixture.cwd)}/*.ts`,
+        ]);
 
         const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);

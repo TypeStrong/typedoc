@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/mocharc.json",
     "extension": ["ts"],
-    "ignore": ["src/test/slow/**", "src/test/packages/**"],
+    "ignore": [],
     "package": "./package.json",
     "node-option": ["import=tsx", "conditions=typedoc-ts"],
     "slow": 500,
