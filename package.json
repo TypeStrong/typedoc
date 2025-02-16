@@ -79,7 +79,7 @@
         "build:themes": "node scripts/build_themes.js",
         "build:prod": "npm run build:prod:tsc && npm run build:themes",
         "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
-        "lint": "eslint . --max-warnings 0 && dprint check .",
+        "lint": "eslint . --max-warnings 0 && dprint check",
         "prepack": "node scripts/set_strict.js false && npm run build:prod",
         "prepare": "node scripts/prepare.mjs",
         "postpublish": "node scripts/set_strict.js true"
