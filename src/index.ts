@@ -63,6 +63,7 @@ export type {
     NavigationElement,
     RendererEvents,
     PageHeading,
+    Icons,
 } from "./lib/output/index.js";
 
 export { Outputs } from "./lib/output/output.js";

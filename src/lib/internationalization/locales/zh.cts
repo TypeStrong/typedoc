@@ -109,6 +109,8 @@ export = localeUtils.buildIncompleteTranslation({
         "以下符号被标记为有意不导出，但未在文档中引用，或已被导出：\n{0}",
     reflection_0_has_unused_mergeModuleWith_tag:
         "{0} 中存在无法解析的 @mergeModuleWith 标签",
+    reflection_0_links_to_1_with_text_2_but_resolved_to_3:
+        "“{0}”中的链接“{2}”指向“{1}”，目标虽然存在但并没有直接的链接，因此将改为链接至“{3}”。",
 
     not_all_search_category_boosts_used_0:
         "文档中并未使用 searchCategoryBoosts 中指定的所有类别。未使用的类别包括：\n{0}",
@@ -150,9 +152,9 @@ export = localeUtils.buildIncompleteTranslation({
     custom_css_file_0_does_not_exist: "{0} 处的自定义 CSS 文件不存在",
     custom_js_file_0_does_not_exist: "{0} 处的自定义 JavaScript 文件不存在",
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1:
-        "不支持的高亮语言 {0} 将不会在 {1} 的注释中高亮",
+        "{1} 的注释中使用了不支持的高亮语言 {0} ，因此该语言将不会被高亮",
     unloaded_language_0_not_highlighted_in_comment_for_1:
-        "语言为 {0} 的代码块将不会在 {1} 的注释中高亮，因为它未包含在 highlightLanguages 选项中",
+        "{1} 的注释中语言为 {0} 的代码块将不会被高亮，因为该语言未包含在 highlightLanguages 选项中",
     yaml_frontmatter_not_an_object: "YAML Frontmatter 应当为对象",
 
     could_not_write_0: "无法写入 {0}",
@@ -253,7 +255,9 @@ export = localeUtils.buildIncompleteTranslation({
     help_theme: "指定用于呈现文档的主题名称",
     help_lightHighlightTheme: "指定浅色模式下的代码高亮主题",
     help_darkHighlightTheme: "指定暗黑模式下的代码高亮主题",
-    help_highlightLanguages: "指定渲染时将加载哪些语言来高亮代码",
+    help_highlightLanguages: "指定渲染时将加载的代码高亮语言",
+    help_ignoredHighlightLanguages:
+        "指定哪些语言将被视为支持的代码高亮语言，但不会在运行时被语法高亮",
     help_typePrintWidth: "渲染类型时触发自动换行的代码宽度",
     help_customCss: "要导入主题的自定义 CSS 文件的路径",
     help_customJs: "要导入的自定义 JS 文件的路径",
@@ -371,6 +375,8 @@ export = localeUtils.buildIncompleteTranslation({
         "hostingBaseUrl 必须以 http:// 或 https:// 开头",
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "useHostedBaseUrlForAbsoluteLinks 选项要求设置 hostingBaseUrl",
+    favicon_must_have_one_of_the_following_extensions_0:
+        "favicon 的后缀名必须是下列之一：{0}",
     option_0_must_be_an_object: "“{0}”选项必须是非数组对象",
     option_0_must_be_a_function: "‘{0}’ 选项必须是一个函数",
     option_0_must_be_object_with_urls:

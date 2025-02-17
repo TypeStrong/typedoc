@@ -98,12 +98,17 @@ function addNavText(
             a.classList.add("current");
         }
         if (el.kind) {
-            a.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${el.kind}"></use></svg>`;
+            const label = window.translations[`kind_${el.kind}`].replaceAll(
+                '"',
+                "&quot;",
+            );
+            a.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${el.kind}"></use></svg>`;
         }
         a.appendChild(document.createElement("span")).textContent = el.text;
     } else {
         const span = parent.appendChild(document.createElement("span"));
-        span.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-folder"></use></svg>`;
+        const label = window.translations.folder.replaceAll('"', "&quot;");
+        span.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
         span.appendChild(document.createElement("span")).textContent = el.text;
     }
 }

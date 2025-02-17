@@ -19,7 +19,7 @@ import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { filterMap, JSX, Option, type TypeDocOptionMap } from "../../../utils/index.js";
 import { classNames, getDisplayName, getHierarchyRoots, toStyleClass } from "../lib.js";
-import { icons } from "./partials/icon.js";
+import { getIcons, type Icons } from "./partials/icon.js";
 import { Slugger } from "./Slugger.js";
 import { createNormalizedUrl } from "../../../utils/html.js";
 
@@ -77,7 +77,7 @@ export class DefaultTheme extends Theme {
      * the icons used within the page, however TypeDoc currently assumes that all icons are svg
      * elements, so custom themes must also use svg elements.
      */
-    icons = { ...icons };
+    icons: Icons;
 
     getRenderContext(pageEvent: PageEvent<Reflection>) {
         return new DefaultThemeRenderContext(this, pageEvent, this.application.options);
@@ -99,7 +99,7 @@ export class DefaultTheme extends Theme {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
 
-    getReflectionClasses(reflection: DeclarationReflection | DocumentReflection) {
+    getReflectionClasses(reflection: Reflection) {
         const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         return getReflectionClasses(reflection, filters);
     }
@@ -159,6 +159,7 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer) {
         super(renderer);
+        this.icons = getIcons(renderer.application.i18n);
         this.markedPlugin = renderer.markedPlugin;
     }
 
@@ -502,46 +503,55 @@ export class DefaultTheme extends Theme {
     }
 }
 
-function getReflectionClasses(
-    reflection: DeclarationReflection | DocumentReflection,
-    filters: Record<string, boolean>,
-) {
-    const classes: string[] = [];
+function getReflectionClasses(reflection: Reflection, filters: Record<string, boolean>) {
+    const classes = new Set<string>();
 
     // Filter classes should match up with the settings function in
     // partials/navigation.tsx.
     for (const key of Object.keys(filters)) {
         if (key === "inherited") {
             if (reflection.flags.isInherited) {
-                classes.push("tsd-is-inherited");
+                classes.add("tsd-is-inherited");
             }
         } else if (key === "protected") {
             if (reflection.flags.isProtected) {
-                classes.push("tsd-is-protected");
+                classes.add("tsd-is-protected");
             }
         } else if (key === "private") {
             if (reflection.flags.isPrivate) {
-                classes.push("tsd-is-private");
+                classes.add("tsd-is-private");
             }
         } else if (key === "external") {
             if (reflection.flags.isExternal) {
-                classes.push("tsd-is-external");
+                classes.add("tsd-is-external");
             }
         } else if (key.startsWith("@")) {
             if (key === "@deprecated") {
                 if (reflection.isDeprecated()) {
-                    classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                    classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
                 }
             } else if (
                 reflection.comment?.hasModifier(key as `@${string}`) ||
                 reflection.comment?.getTag(key as `@${string}`)
             ) {
-                classes.push(toStyleClass(`tsd-is-${key.substring(1)}`));
+                classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
+            } else if (reflection.isDeclaration()) {
+                const ownSignatures = reflection.getNonIndexSignatures();
+                // Check methods and accessors, find common tags, elevate
+                if (
+                    ownSignatures.length &&
+                    ownSignatures.every(
+                        (refl) =>
+                            refl.comment?.hasModifier(key as `@${string}`) || refl.comment?.getTag(key as `@${string}`),
+                    )
+                ) {
+                    classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
+                }
             }
         }
     }
 
-    return classes.join(" ");
+    return Array.from(classes).join(" ");
 }
 
 function shouldShowCategories(reflection: Reflection, opts: { includeCategories: boolean; includeGroups: boolean }) {

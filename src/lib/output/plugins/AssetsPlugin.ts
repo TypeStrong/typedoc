@@ -3,11 +3,12 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { Option } from "../../utils/index.js";
+import { getEnumKeys, Option, type EnumKeys } from "../../utils/index.js";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import type { Renderer } from "../index.js";
+import { ReflectionKind } from "../../models/index.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -30,26 +31,39 @@ export class AssetsPlugin extends RendererComponent {
     }
 
     getTranslatedStrings() {
-        return {
-            copy: this.application.i18n.theme_copy(),
-            copied: this.application.i18n.theme_copied(),
-            normally_hidden: this.application.i18n.theme_normally_hidden(),
-            hierarchy_expand: this.application.i18n.theme_hierarchy_expand(),
-            hierarchy_collapse:
-                this.application.i18n.theme_hierarchy_collapse(),
+        const inter = this.application.internationalization;
+        const i18n = this.application.i18n;
+
+        const translations: Record<string, string> = {
+            copy: i18n.theme_copy(),
+            copied: i18n.theme_copied(),
+            normally_hidden: i18n.theme_normally_hidden(),
+            hierarchy_expand: i18n.theme_hierarchy_expand(),
+            hierarchy_collapse: i18n.theme_hierarchy_collapse(),
             theme_search_index_not_available:
                 this.application.i18n.theme_search_index_not_available(),
             theme_search_no_results_found_for_0:
                 this.application.i18n.theme_search_no_results_found_for_0(
                     "{0}",
                 ),
+            folder: i18n.theme_folder(),
         };
+
+        for (const key of getEnumKeys(ReflectionKind)) {
+            const kind = ReflectionKind[key as EnumKeys<typeof ReflectionKind>];
+            translations[`kind_${kind}`] = inter.kindSingularString(kind);
+        }
+
+        return translations;
     }
 
     private onRenderBegin(event: RendererEvent) {
         const dest = join(event.outputDirectory, "assets");
 
-        if ([".ico", ".png", ".svg"].includes(extname(this.favicon))) {
+        if (
+            !/^https?:\/\//i.test(this.favicon) &&
+            [".ico", ".png", ".svg"].includes(extname(this.favicon))
+        ) {
             copySync(
                 this.favicon,
                 join(dest, "favicon" + extname(this.favicon)),
@@ -57,6 +71,7 @@ export class AssetsPlugin extends RendererComponent {
         }
 
         if (this.customCss) {
+            this.application.watchFile(this.customCss);
             if (existsSync(this.customCss)) {
                 copySync(this.customCss, join(dest, "custom.css"));
             } else {
@@ -69,6 +84,7 @@ export class AssetsPlugin extends RendererComponent {
         }
 
         if (this.customJs) {
+            this.application.watchFile(this.customJs);
             if (existsSync(this.customJs)) {
                 copySync(this.customJs, join(dest, "custom.js"));
             } else {

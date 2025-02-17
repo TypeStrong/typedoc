@@ -112,9 +112,9 @@ Instructs TypeDoc to write compiled output files as `tsc` does.
 | `both` | Emit both documentation and JS.                |
 | `none` | Emit nothing, just convert and run validation. |
 
-> **Note:** TypeScript is configured with `declaration: true` (through
-> `tsconfig.json`), the TypeDoc emit `both` option will also generate type
-> declaration files.
+> [!note]
+> If TypeScript is configured with `declaration: true` (through `tsconfig.json`)
+> then the TypeDoc emit `both` option will also generate type declaration files.
 
 ## theme
 
@@ -257,7 +257,8 @@ $ typedoc --basePath ./ --entryPoints src/index.ts
 Specifies the base path to be used when displaying file paths. If not set, TypeDoc will guess by taking the lowest
 common directory to all source files. In the above example, TypeDoc would display links to `index.ts` rather than `src/index.ts`.
 
-Note: This option only affects displayed paths. It _does not_ affect where TypeDoc will create links to.
+> [!note]
+> This option only affects displayed paths. It _does not_ affect where TypeDoc will create links to.
 
 ## cname
 
@@ -357,8 +358,9 @@ $ typedoc --searchInComments
 
 Enables searching comment text in the generated documentation site.
 
-Note: Enabling this option will increase the size of your search index, potentially up
-to an order of magnitude larger in projects with many long comments.
+> [!note]
+> Enabling this option will increase the size of your search index, potentially up
+> to an order of magnitude larger in projects with many long comments.
 
 ## searchInDocuments
 
@@ -368,8 +370,9 @@ $ typedoc --searchInDocuments
 
 Enables searching document text in the generated documentation site.
 
-Note: Enabling this option will increase the size of your search index, potentially up
-to an order of magnitude larger in projects with many documents.
+> [!note]
+> Enabling this option will increase the size of your search index, potentially up
+> to an order of magnitude larger in projects with many documents.
 
 ## cleanOutputDir
 

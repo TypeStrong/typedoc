@@ -341,6 +341,7 @@ export function discoverInParentDirExactMatch<T extends {}>(
     name: string,
     dir: string,
     read: (content: string) => T | undefined,
+    usedFile?: (path: string) => void,
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 
@@ -348,6 +349,7 @@ export function discoverInParentDirExactMatch<T extends {}>(
         dirName === resolve(join(dirName, ".."));
 
     while (!reachedTopDirectory(dir)) {
+        usedFile?.(join(dir, name));
         try {
             const content = read(readFile(join(dir, name)));
             if (content != null) {
@@ -360,13 +362,21 @@ export function discoverInParentDirExactMatch<T extends {}>(
     }
 }
 
-export function discoverPackageJson(dir: string) {
-    return discoverInParentDirExactMatch("package.json", dir, (content) => {
-        const pkg: unknown = JSON.parse(content);
-        if (validate({ name: String, version: optional(String) }, pkg)) {
-            return pkg;
-        }
-    });
+export function discoverPackageJson(
+    dir: string,
+    usedFile?: (path: string) => void,
+) {
+    return discoverInParentDirExactMatch(
+        "package.json",
+        dir,
+        (content) => {
+            const pkg: unknown = JSON.parse(content);
+            if (validate({ name: String, version: optional(String) }, pkg)) {
+                return pkg;
+            }
+        },
+        usedFile,
+    );
 }
 
 // dir -> package name according to package.json in this or some parent dir

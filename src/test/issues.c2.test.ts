@@ -2014,4 +2014,22 @@ describe("Issue Tests", () => {
         equal(returnTypes, expectedTypes);
         equal(paramTypes, expectedTypes);
     });
+
+    it("#2842 handles computed properties with @class", () => {
+        const project = convert();
+        const hello = query(project, "ComputedClass.hello");
+
+        equal(hello.kind, ReflectionKind.Property);
+        equal(hello.type?.toString(), "string");
+    });
+
+    it("#2844 treats partially-external symbols as not external", () => {
+        app.options.setValue("excludeExternals", true);
+        const project = convert();
+        const url = query(project, "globalThis.URL");
+        equal(
+            url.children?.map((c) => c.name),
+            ["customMethod"],
+        );
+    });
 });

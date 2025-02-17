@@ -35,7 +35,7 @@ describe("Internationalization", () => {
         const langs = app.internationalization.getSupportedLanguages();
         ok(langs.includes("en"));
         ok(langs.includes("ko"));
-        ok(langs.includes("jp"));
+        ok(langs.includes("ja"));
     });
 
     it("Supports translating without placeholders", () => {

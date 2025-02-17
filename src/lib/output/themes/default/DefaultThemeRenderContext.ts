@@ -3,12 +3,7 @@ import type {
     Internationalization,
     TranslationProxy,
 } from "../../../internationalization/internationalization.js";
-import type {
-    DocumentReflection,
-    CommentDisplayPart,
-    DeclarationReflection,
-    Reflection,
-} from "../../../models/index.js";
+import type { CommentDisplayPart, Reflection } from "../../../models/index.js";
 import { type NeverIfInternal, type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
 import { defaultLayout } from "./layouts/default.js";
@@ -24,7 +19,7 @@ import {
 import { footer } from "./partials/footer.js";
 import { header } from "./partials/header.js";
 import { hierarchy } from "./partials/hierarchy.js";
-import { buildRefIcons, type icons } from "./partials/icon.js";
+import { buildRefIcons, type Icons } from "./partials/icon.js";
 import { member } from "./partials/member.js";
 import { memberDeclaration } from "./partials/member.declaration.js";
 import { memberGetterSetter } from "./partials/member.getterSetter.js";
@@ -65,7 +60,7 @@ function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
 }
 
 export class DefaultThemeRenderContext {
-    private _refIcons: typeof icons;
+    private _refIcons: Icons;
     options: Options;
     internationalization: Internationalization;
     i18n: TranslationProxy;
@@ -87,7 +82,7 @@ export class DefaultThemeRenderContext {
      * Note: This creates a reference to icons declared by {@link DefaultTheme.icons},
      * to customize icons, that object must be modified instead.
      */
-    get icons(): Readonly<typeof icons> {
+    get icons(): Readonly<Icons> {
         return this._refIcons;
     }
 
@@ -123,7 +118,7 @@ export class DefaultThemeRenderContext {
 
     getNavigation = () => this.theme.getNavigation(this.page.project);
 
-    getReflectionClasses = (refl: DeclarationReflection | DocumentReflection) =>
+    getReflectionClasses = (refl: Reflection) =>
         this.theme.getReflectionClasses(refl);
 
     documentTemplate = bind(documentTemplate, this);

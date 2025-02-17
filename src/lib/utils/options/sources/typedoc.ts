@@ -477,7 +477,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         help: (i18n) => i18n.help_favicon(),
         validate(value, i18n) {
             const allowedExtension = [".ico", ".png", ".svg"];
-            if (!allowedExtension.includes(extname(value))) {
+            if (
+                !/^https?:\/\//i.test(value) &&
+                !allowedExtension.includes(extname(value))
+            ) {
                 throw new Error(
                     i18n.favicon_must_have_one_of_the_following_extensions_0(
                         allowedExtension.join(", "),
@@ -485,7 +488,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
                 );
             }
         },
-        type: ParameterType.Path,
+        type: ParameterType.UrlOrPath,
     });
     options.addDeclaration({
         name: "sourceLinkExternal",
@@ -508,7 +511,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         name: "hostedBaseUrl",
         help: (i18n) => i18n.help_hostedBaseUrl(),
         validate(value, i18n) {
-            if (!/https?:\/\//i.test(value)) {
+            if (!/^https?:\/\//i.test(value)) {
                 throw new Error(i18n.hostedBaseUrl_must_start_with_http());
             }
         },

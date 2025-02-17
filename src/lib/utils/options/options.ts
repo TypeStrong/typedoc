@@ -56,8 +56,14 @@ export interface OptionsReader {
      * @param container the options container that provides declarations
      * @param logger logger to be used to report errors
      * @param cwd the directory which should be treated as the current working directory for option file discovery
+     * @param usedFile a callback to track files that were read or whose existence was checked, for purposes of restarting a build when watching files
      */
-    read(container: Options, logger: Logger, cwd: string): void | Promise<void>;
+    read(
+        container: Options,
+        logger: Logger,
+        cwd: string,
+        usedFile: (file: string) => void,
+    ): void | Promise<void>;
 }
 
 const optionSnapshots = new WeakMap<
@@ -194,9 +200,13 @@ export class Options {
         insertOrderSorted(this._readers, reader);
     }
 
-    async read(logger: Logger, cwd = process.cwd()) {
+    async read(
+        logger: Logger,
+        cwd = process.cwd(),
+        usedFile: (path: string) => void = () => {},
+    ) {
         for (const reader of this._readers) {
-            await reader.read(this, logger, cwd);
+            await reader.read(this, logger, cwd, usedFile);
         }
     }
 

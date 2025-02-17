@@ -15,6 +15,9 @@ export = {
         "The provided tsconfig file looks like a solution style tsconfig, which is not supported in watch mode",
     strategy_not_supported_in_watch_mode:
         "entryPointStrategy must be set to either resolve or expand for watch mode",
+    file_0_changed_restarting:
+        "Configuration file {0} changed: full restart required...",
+    file_0_changed_rebuilding: "File {0} changed: rebuilding output...",
     found_0_errors_and_1_warnings: "Found {0} errors and {1} warnings",
 
     output_0_could_not_be_generated:
@@ -119,6 +122,16 @@ export = {
 
     include_0_in_1_specified_2_resolved_to_3_does_not_exist: `{0} tag in comment for {1} specified "{2}" to include, which was resolved to "{3}" and does not exist or is not a file.`,
     include_0_in_1_specified_2_circular_include_3: `{0} tag in comment for {1} specified "{2}" to include, which resulted in a circular include:\n\t{3}`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_not_found: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled "{4}", but the region was not found in the file.`,
+    include_0_tag_in_1_region_2_region_not_supported: `{0} tag in {1} specified "{2}", but regions are not supported for this file extension.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled "{4}", but the region closing comment was not found in the file.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled "{4}", but the region opening comment was not found in the file.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled {4}, but the region closing comment was found multiple times in the file.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled {4}, but the region opening comment was found multiple times in the file.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled {4}, but the region was found multiple times in the file.`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_empty: `{0} tag in {1} specified "{2}" to include from file "{3}" the region labeled {4}. The region was found but it is empty or contains only whitespace.`,
+    include_0_tag_in_1_specified_2_file_3_lines_4_invalid_range: `{0} tag in {1} specified "{2}" to include from file "{3}" the lines {4}, but an invalid range was specified.`,
+    include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines: `{0} tag in {1} specified "{2}" to include from file "{3}" the lines {4}, but the file only has {5} lines.`,
 
     // output plugins
     custom_css_file_0_does_not_exist: `Custom CSS file at {0} does not exist`,
@@ -391,7 +404,7 @@ export = {
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "The useHostedBaseUrlForAbsoluteLinks option requires that hostedBaseUrl be set",
     favicon_must_have_one_of_the_following_extensions_0:
-        "Favicon must have on of the following extensions: {0}",
+        "Favicon must have one of the following extensions: {0}",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object",
     option_0_must_be_a_function: "The '{0}' option must be a function",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values`,
@@ -511,10 +524,12 @@ export = {
     theme_search: "Search",
     theme_menu: "Menu",
     theme_permalink: "Permalink",
+    theme_folder: "Folder",
 
     // Used by the frontend JS
     // For the English translations only, these should also be added to
     // src/lib/output/themes/default/assets/typedoc/Application.ts
+    // Also uses theme_folder and singular kinds
     theme_copy: "Copy",
     theme_copied: "Copied!",
     theme_normally_hidden:

@@ -358,6 +358,10 @@ export enum ParameterType {
      * Resolved according to the config directory.
      */
     Path,
+    /**
+     * Resolved according to the config directory unless it starts with https?://
+     */
+    UrlOrPath,
     Number,
     Boolean,
     Map,
@@ -418,10 +422,10 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
      * Specifies the resolution strategy. If `Path` is provided, values will be resolved according to their
      * location in a file. If `String` or no value is provided, values will not be resolved.
      */
-    type?: ParameterType.String | ParameterType.Path;
+    type?: ParameterType.String | ParameterType.Path | ParameterType.UrlOrPath;
 
     /**
-     * If not specified defaults to the empty string for both `String` and `Path`.
+     * If not specified defaults to the empty string for all types.
      */
     defaultValue?: string;
 
@@ -569,6 +573,7 @@ export type DeclarationOption =
 export interface ParameterTypeToOptionTypeMap {
     [ParameterType.String]: string;
     [ParameterType.Path]: string;
+    [ParameterType.UrlOrPath]: string;
     [ParameterType.Number]: number;
     [ParameterType.Boolean]: boolean;
     [ParameterType.Mixed]: unknown;
@@ -611,6 +616,19 @@ const converters: {
             value == null ? "" : resolve(configPath, String(value));
         option.validate?.(stringValue, i18n);
         return stringValue;
+    },
+    [ParameterType.UrlOrPath](value, option, i18n, configPath) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
+        const stringValue = value == null ? "" : String(value);
+
+        if (/^https?:\/\//i.test(stringValue)) {
+            option.validate?.(stringValue, i18n);
+            return stringValue;
+        }
+
+        const resolved = resolve(configPath, stringValue);
+        option.validate?.(resolved, i18n);
+        return resolved;
     },
     [ParameterType.Number](value, option, i18n) {
         const numValue = parseInt(String(value), 10) || 0;
@@ -787,6 +805,18 @@ const defaultGetters: {
         const defaultStr = option.defaultValue ?? "";
         if (defaultStr == "") {
             return "";
+        }
+        return isAbsolute(defaultStr)
+            ? defaultStr
+            : join(process.cwd(), defaultStr);
+    },
+    [ParameterType.UrlOrPath](option) {
+        const defaultStr = option.defaultValue ?? "";
+        if (defaultStr == "") {
+            return "";
+        }
+        if (/^https?:\/\//i.test(defaultStr)) {
+            return defaultStr;
         }
         return isAbsolute(defaultStr)
             ? defaultStr

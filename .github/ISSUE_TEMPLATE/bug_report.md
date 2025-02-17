@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: Report a bug in TypeDoc
-labels: bug
+type: Bug
 ---
 
 ## Search terms

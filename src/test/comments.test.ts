@@ -19,32 +19,7 @@ import { MinimalSourceFile } from "../lib/utils/minimalSourceFile.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-import { dedent } from "./utils.js";
-
-describe("Dedent test helper", () => {
-    it("Works on empty string", () => {
-        equal(dedent(""), "");
-    });
-
-    it("Works with indented text", () => {
-        equal(
-            dedent(`
-            Text here
-        `),
-            "Text here",
-        );
-    });
-
-    it("Works with multiple lines", () => {
-        equal(
-            dedent(`
-            Text here
-                More indented
-        `),
-            "Text here\n    More indented",
-        );
-    });
-});
+import { dedent } from "../lib/utils/general.js";
 
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {

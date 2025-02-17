@@ -10,6 +10,10 @@ function favicon(context: DefaultThemeRenderContext) {
     const fav = context.options.getValue("favicon");
     if (!fav) return null;
 
+    if (/^https?:\/\//i.test(fav)) {
+        return <link rel="icon" href={fav} />;
+    }
+
     switch (extname(fav)) {
         case ".ico":
             return <link rel="icon" href={context.relativeURL("assets/favicon.ico", true)} />;

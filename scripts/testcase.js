@@ -46,7 +46,7 @@ async function main() {
     const data = JSON.parse(await exec(curl.replace("ISSUE", issue)));
 
     const parser = md();
-    const tokens = parser.parse(data.body, {});
+    const tokens = parser.parse(data.body || "", {});
 
     const code =
         tokens.find(
