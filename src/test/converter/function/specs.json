@@ -930,68 +930,6 @@
           ]
         },
         {
-          "id": 42,
-          "name": "checkerFunction",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 137,
-              "character": 16,
-              "url": "typedoc://function.ts#L137"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 43,
-              "name": "checkerFunction",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Assertion function with a type."
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 137,
-                  "character": 16,
-                  "url": "typedoc://function.ts#L137"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 44,
-                  "name": "anything",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                }
-              ],
-              "type": {
-                "type": "predicate",
-                "name": "anything",
-                "asserts": false,
-                "targetType": {
-                  "type": "intrinsic",
-                  "name": "string"
-                }
-              }
-            }
-          ]
-        },
-        {
           "id": 2,
           "name": "exportedFunction",
           "variant": "declaration",
@@ -1478,6 +1416,68 @@
               "type": {
                 "type": "intrinsic",
                 "name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "id": 42,
+          "name": "checkerFunction",
+          "variant": "declaration",
+          "kind": 64,
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 137,
+              "character": 16,
+              "url": "typedoc://function.ts#L137"
+            }
+          ],
+          "signatures": [
+            {
+              "id": 43,
+              "name": "checkerFunction",
+              "variant": "signature",
+              "kind": 4096,
+              "flags": {},
+              "comment": {
+                "summary": [
+                  {
+                    "kind": "text",
+                    "text": "Assertion function with a type."
+                  }
+                ]
+              },
+              "sources": [
+                {
+                  "fileName": "function.ts",
+                  "line": 137,
+                  "character": 16,
+                  "url": "typedoc://function.ts#L137"
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 44,
+                  "name": "anything",
+                  "variant": "param",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "anything",
+                "asserts": false,
+                "targetType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
               }
             }
           ]
@@ -2031,12 +2031,12 @@
             39,
             45,
             53,
-            42,
             2,
             13,
             9,
             4,
             20,
+            42,
             49,
             56,
             30,
