@@ -903,10 +903,21 @@ function convertAlias(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ): undefined {
-    // Defer conversion of aliases so that if the original module/namespace
-    // containing them is included in the docs, we will point to that namespace
-    // rather than pointing that namespace to the first namespace encountered, #2856.
-    context.converter.deferConversion(() => {
+    // If this is a namespace marked as a primary export or directly within one
+    // marked as a primary export then we should convert it immediately rather than deferring
+    if (
+        context.scope.comment?.hasModifier("@primaryExport") ||
+        context.getComment(exportSymbol || symbol, ReflectionKind.Namespace)?.hasModifier("@primaryExport")
+    ) {
+        _convertAlias();
+    } else {
+        // Defer conversion of aliases so that if the original module/namespace
+        // containing them is included in the docs, we will point to that namespace
+        // rather than pointing that namespace to the first namespace encountered, #2856.
+        context.converter.deferConversion(_convertAlias);
+    }
+
+    function _convertAlias() {
         const reflection = context.project.getReflectionFromSymbol(
             context.resolveAliasedSymbol(symbol),
         );
@@ -926,7 +937,7 @@ function convertAlias(
         } else {
             createAlias(reflection, context, symbol, exportSymbol);
         }
-    });
+    }
 }
 
 function createAlias(

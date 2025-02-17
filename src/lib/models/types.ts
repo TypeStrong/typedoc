@@ -1044,7 +1044,7 @@ export class ReferenceType extends Type {
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                             JSON.stringify(obj.target),
                         ),
                     );

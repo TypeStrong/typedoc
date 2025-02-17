@@ -472,7 +472,7 @@ export class ProjectReflection extends ContainerReflection {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {
                     de.logger.warn(
-                        de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                             id.toString(),
                         ),
                     );

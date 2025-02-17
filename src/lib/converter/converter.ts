@@ -485,10 +485,14 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             this.convertExports(entryContext, entry, createModuleReflections);
         }
 
+        this.application.logger.verbose(`Have ${this._defer.length} initial deferred tasks`);
+        let count = 0;
         while (this._defer.length) {
+            ++count;
             const first = this._defer.shift()!;
             first();
         }
+        this.application.logger.verbose(`Ran ${count} total deferred tasks`);
         this._deferPermitted = false;
     }
 
@@ -541,6 +545,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             allExports,
             exp => isDirectExport(context.resolveAliasedSymbol(exp), node),
         );
+
         for (const exp of directExport) {
             this.convertSymbol(moduleContext, exp);
         }

@@ -12,6 +12,9 @@ title: Changelog
 - API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
   `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
 - Removed `jp` translations from `lang`, to migrate switch to `ja`.
+- Introduced the `@primaryExport` modifier tag to provide more fine grained
+  control over export conversion order, #2856
+- API: `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
 
 ## Unreleased
 

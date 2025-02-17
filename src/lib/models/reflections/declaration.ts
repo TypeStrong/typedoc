@@ -364,7 +364,7 @@ export class DeclarationReflection extends ContainerReflection {
                         );
                     } else {
                         de.logger.warn(
-                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                            de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                                 id.toString(),
                             ),
                         );

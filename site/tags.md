@@ -36,6 +36,7 @@ children:
     - tags/override.md
     - tags/packageDocumentation.md
     - tags/param.md
+    - tags/primaryExport.md
     - tags/private.md
     - tags/privateRemarks.md
     - tags/property.md
@@ -159,6 +160,7 @@ as internal for use with
 - [`@overload`](./tags/overload.md)
 - [`@override`](./tags/override.md)
 - [`@packageDocumentation`](./tags/packageDocumentation.md)
+- [`@primaryExport`](./tags/primaryExport.md)
 - [`@private`](./tags/private.md)
 - [`@protected`](./tags/protected.md)
 - [`@public`](./tags/public.md)

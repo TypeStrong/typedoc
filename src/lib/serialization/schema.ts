@@ -29,7 +29,7 @@
  * @module
  */
 
-import type * as M from "../models/index.js";
+import type * as M from "#models";
 import type { IfInternal } from "#utils";
 
 /**

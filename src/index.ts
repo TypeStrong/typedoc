@@ -11,6 +11,7 @@ export { Application, type ApplicationEvents } from "./lib/application.js";
 export { resetReflectionID } from "./lib/models/reflections/abstract.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
+ * @primaryExport
  *
  * @categoryDescription Types
  * Describes a TypeScript type.
@@ -37,6 +38,7 @@ export {
     type ExternalSymbolResolver,
 } from "./lib/converter/index.js";
 export * from "./lib/models/index.js";
+/** @primaryExport */
 export * as Configuration from "./lib/utils/options/index.js";
 
 export {
@@ -122,9 +124,12 @@ export {
     type EnumKeys,
     EventDispatcher,
     EventHooks,
+    type GlobString,
     JSX,
+    type Meaning,
     type MeaningKeyword,
-    MeaningKeywords,
+    type NormalizedPath,
+    type NormalizedPathOrModule,
     type SymbolReference,
 } from "#utils";
 

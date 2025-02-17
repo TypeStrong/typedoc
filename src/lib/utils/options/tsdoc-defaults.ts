@@ -87,4 +87,5 @@ export const modifierTags = [
     "@showCategories",
     "@showGroups",
     "@useDeclaredType",
+    "@primaryExport",
 ] as const;

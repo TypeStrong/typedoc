@@ -1,2 +1,2 @@
-export { debugReflectionLifetimes } from "./debugReflectionLifetimes.js";
-export { debugRendererUrls } from "./debugRendererUrls.js";
+export { debugReflectionLifetimes } from "./reflectionLifetimes.js";
+export { debugRendererUrls } from "./rendererUrls.js";

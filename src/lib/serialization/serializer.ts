@@ -1,4 +1,4 @@
-import type { ProjectReflection } from "../models/index.js";
+import type { ProjectReflection } from "#models";
 
 import { SerializeEvent } from "./events.js";
 import type { ModelToObject } from "./schema.js";

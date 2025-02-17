@@ -117,6 +117,10 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@primaryExport",
+            "syntaxKind": "modifier"
+        },
+        {
             "tagName": "@template",
             "syntaxKind": "block",
             "allowMultiple": true

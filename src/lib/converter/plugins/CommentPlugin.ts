@@ -414,6 +414,10 @@ export class CommentPlugin extends ConverterComponent {
             if (reflection.kindOf(ReflectionKind.Class)) {
                 reflection.comment.removeModifier("@hideconstructor");
             }
+
+            // Similar story for this one, if a namespace is merged the tag should
+            // still apply when merging the second declaration of the namespace
+            reflection.comment.removeModifier("@primaryExport");
         }
 
         if (

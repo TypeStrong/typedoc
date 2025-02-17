@@ -317,7 +317,7 @@ export class Comment {
                     );
                     if (!part.target) {
                         de.logger.warn(
-                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                            de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                                 oldId.toString(),
                             ),
                         );

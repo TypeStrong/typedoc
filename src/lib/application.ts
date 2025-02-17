@@ -839,9 +839,9 @@ export class Application extends AbstractComponent<
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
-                addProjectDocuments: true,
             },
         );
+        this.converter.addProjectDocuments(result);
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
     }
@@ -893,9 +893,9 @@ export class Application extends AbstractComponent<
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
-                addProjectDocuments: true,
             },
         );
+        this.converter.addProjectDocuments(result);
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 
         this.trigger(ApplicationEvents.REVIVE, result);

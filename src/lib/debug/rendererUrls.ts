@@ -93,3 +93,7 @@ export function debugRendererUrls(
         }
     });
 }
+
+export function load(app: Application) {
+    debugRendererUrls(app);
+}

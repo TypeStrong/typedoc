@@ -9,7 +9,8 @@
         "./tsdoc.json": "./tsdoc.json",
         "./package.json": "./package.json",
         "./models": "./dist/lib/models/index.js",
-        "./debug": "./dist/lib/debug/index.js"
+        "./debug": "./dist/lib/debug/index.js",
+        "./debug/*": "./dist/lib/debug/*.js"
     },
     "types": "./dist/index.d.ts",
     "bin": {
@@ -108,6 +109,10 @@
         "#utils": {
             "typedoc-ts": "./src/lib/utils-common/index.ts",
             "default": "./dist/lib/utils-common/index.js"
+        },
+        "#models": {
+            "typedoc-ts": "./src/lib/models/index.ts",
+            "default": "./dist/lib/models/index.js"
         },
         "#node-utils": {
             "typedoc-ts": "./src/lib/utils/index.ts",

@@ -10,6 +10,7 @@ export type {
     DeclarationOptionBase,
     DeclarationOptionToOptionType,
     FlagsDeclarationOption,
+    GlobArrayDeclarationOption,
     JsDocCompatibility,
     KeyToDeclaration,
     ManuallyValidatedOption,
