@@ -2,6 +2,7 @@ import { debounce } from "../utils/debounce.js";
 import { Index } from "lunr";
 import { decompressJson } from "../utils/decompress.js";
 import { openModal, setUpModal } from "../utils/modal.js";
+import { Filter } from "./Filter.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
@@ -202,7 +203,22 @@ function updateResults(
                 return x.length ? `*${x}*` : "";
             })
             .join(" ");
-        res = state.index.search(searchWithWildcards);
+
+        const filters = Filter.getAllFilters();
+
+        res = state.index
+            .search(searchWithWildcards)
+            // filter out active *filters* manually, since lunr doesn't support it.
+            .filter(({ ref }) => {
+                const classes = state.data!.rows[Number(ref)].classes;
+                if (!classes) return true;
+
+                const prefixLength = "tsd-is-".length;
+                // Keep only those rows whose every filter is enabled
+                return classes
+                    .split(" ")
+                    .every((cls) => filters[cls.slice(prefixLength)]);
+            });
     } else {
         // Set empty `res` to prevent getting random results with wildcard search
         // when the `searchText` is empty.
