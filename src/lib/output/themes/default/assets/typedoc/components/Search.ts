@@ -238,7 +238,11 @@ function updateResults(
     const c = Math.min(10, res.length);
     for (let i = 0; i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
-        const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
+        const label = window.translations[`kind_${row.kind}`].replaceAll(
+            '"',
+            "&quot;",
+        );
+        const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
         let name = highlightMatches(row.name, searchText);
