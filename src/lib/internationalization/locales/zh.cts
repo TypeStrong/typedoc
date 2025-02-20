@@ -14,6 +14,8 @@ export = localeUtils.buildIncompleteTranslation({
 
     solution_not_supported_in_watch_mode: "提供的 tsconfig 文件看起来像解决方案样式的 tsconfig，在监视模式下不受支持",
     strategy_not_supported_in_watch_mode: "对于监视模式，entryPointStrategy 必须设置为 resolve 或 expand",
+    file_0_changed_restarting: "配置文件 {0} 已更改：需要重新启动……",
+    file_0_changed_rebuilding: "文件 {0} 已更改：正在重新构建输出……",
     found_0_errors_and_1_warnings: "发现 {0} 个错误和 {1} 个警告",
 
     output_0_could_not_be_generated: "由于以上错误无法生成 {0} 输出",
@@ -40,10 +42,13 @@ export = localeUtils.buildIncompleteTranslation({
         "在联合类型上使用 @interface 将丢弃联合所有分支上不存在的属性。TypeDoc 的输出可能无法准确描述您的源代码",
     converting_0_as_class_requires_value_declaration: "将 {0} 转换为类需要表示非类型值的声明",
     converting_0_as_class_without_construct_signatures: "{0} 正在转换为类，但没有任何构造签名",
+
     comment_for_0_should_not_contain_block_or_modifier_tags: "{0} 的注释不应包含任何块级标签或修饰符标签",
+
     symbol_0_has_multiple_declarations_with_comment: "{0} 有多个带注释的声明。将使用任意注释",
     comments_for_0_are_declared_at_1: "{0} 的注释声明于：\n{1}",
 
+    // comments/parser.ts
     multiple_type_parameters_on_template_tag_unsupported:
         "TypeDoc 不支持在带有注释的单个 @template 标签中定义多个类型参数",
     failed_to_find_jsdoc_tag_for_name_0: "解析注释后无法找到 {0} 的 JSDoc 标签，请提交错误报告",
@@ -72,6 +77,7 @@ export = localeUtils.buildIncompleteTranslation({
     open_brace_within_inline_tag: "在内联标签中遇到左括号，这可能是一个错误",
     inline_tag_not_closed: "内联标签未关闭",
 
+    // validation
     failed_to_resolve_link_to_0_in_comment_for_1: "无法解析 {1} 注释中指向 “{0}” 的链接",
     failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2:
         "无法解析 {1} 的注释中指向 “{0}” 的链接。您可能想要 “{2}”",
@@ -88,6 +94,7 @@ export = localeUtils.buildIncompleteTranslation({
     reflection_0_links_to_1_with_text_2_but_resolved_to_3:
         "“{0}”中的链接“{2}”指向“{1}”，目标虽然存在但并没有直接的链接，因此将改为链接至“{3}”。",
 
+    // conversion plugins
     not_all_search_category_boosts_used_0:
         "文档中并未使用 searchCategoryBoosts 中指定的所有类别。未使用的类别包括：\n{0}",
     not_all_search_group_boosts_used_0: "文档中并未使用 searchGroupBoosts 中指定的所有组。未使用的组为：\n{0}",
@@ -117,7 +124,27 @@ export = localeUtils.buildIncompleteTranslation({
     include_0_in_1_specified_2_resolved_to_3_does_not_exist:
         "{1} 的注释中 {0} 标签指定了包含 “{2}”，解析为 “{3}”，该文件并不存在或并非文件。",
     include_0_in_1_specified_2_circular_include_3: "{1} 的注释中 {0} 标签指定了包含 “{2}”，导致了循环包含：\n\t{3}",
+    include_0_tag_in_1_specified_2_file_3_region_4_region_not_found:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件找不到该区域。`,
+    include_0_tag_in_1_region_2_region_not_supported: `{1} 中的 标签 {0} 指定了 “{2}”，但尚不支持对应的文件扩展名。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中找不到该区域的结束注释。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中找不到该区域的起始注释。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中该区域的结束注释出现了多次。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中该区域的起始注释出现了多次。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中该区域出现了多次。`,
+    include_0_tag_in_1_specified_2_file_3_region_4_region_empty:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中标记为 “{4}” 的区域，但在对应的文件中该区域不包含内容或仅包含空白字符。`,
+    include_0_tag_in_1_specified_2_file_3_lines_4_invalid_range:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中的 {4} 行，但指定的行范围无效。`,
+    include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines:
+        `{1} 中的标签 {0} 指定 “{2}” 以包含文件 “{3}” 中的 {4} 行，但该文件只有 {5} 行。`,
 
+    // output plugins
     custom_css_file_0_does_not_exist: "{0} 处的自定义 CSS 文件不存在",
     custom_js_file_0_does_not_exist: "{0} 处的自定义 JavaScript 文件不存在",
     unsupported_highlight_language_0_not_highlighted_in_comment_for_1:
@@ -126,12 +153,15 @@ export = localeUtils.buildIncompleteTranslation({
         "{1} 的注释中语言为 {0} 的代码块将不会被高亮，因为该语言未包含在 highlightLanguages 选项中",
     yaml_frontmatter_not_an_object: "YAML Frontmatter 应当为对象",
 
+    // renderer
     could_not_write_0: "无法写入 {0}",
     could_not_empty_output_directory_0: "无法清空输出目录 {0}",
     could_not_create_output_directory_0: "无法创建输出目录 {0}",
     theme_0_is_not_defined_available_are_1: "主题“{0}”未定义。可用主题为：{1}",
+    router_0_is_not_defined_available_are_1: `路由 “{0}” 未定义。可用的路由为：{1}`,
     reflection_0_links_to_1_but_anchor_does_not_exist_try_2: "{0} 链接至 {1}，但对应锚点不存在。你是否是指：\n\t{2}",
 
+    // entry points
     no_entry_points_provided: "没有提供入口点，这可能是配置错误",
     unable_to_find_any_entry_points: "无法找到任何入口点。请参阅先前的警告",
     watch_does_not_support_packages_mode: "监视模式不支持“包”样式的入口点",
@@ -140,15 +170,17 @@ export = localeUtils.buildIncompleteTranslation({
     failed_to_resolve_0_to_ts_path: "无法将 package.json 中的入口点 {0} 解析至 TypeScript 源文件",
     use_expand_or_glob_for_files_in_dir: "如果要包含此目录中的文件，请设置 --entryPointStrategy 以展开或指定 glob",
     glob_0_did_not_match_any_files: "glob {0} 与任何文件均不匹配",
-    // glob_should_use_posix_slash
+    glob_should_use_posix_slash: `请将 Windows 路径分隔符（\\）替换为 POSIX 路径分隔符（/）`,
     entry_point_0_did_not_match_any_files_after_exclude: "应用排除模式后，glob {0} 没有匹配任何文件",
     entry_point_0_did_not_exist: "提供的入口点 {0} 不存在",
     entry_point_0_did_not_match_any_packages: "入口点 glob {0} 与任何包含 package.json 的目录不匹配",
     file_0_not_an_object: "文件 {0} 不是对象",
 
+    // deserialization
     serialized_project_referenced_0_not_part_of_project: "序列化项目引用了反射 {0}，但它不是项目的一部分",
     saved_relative_path_0_resolved_from_1_is_not_a_file: "序列化项目引用的 {0} 不存在或无法在 {1} 下找到",
 
+    // options
     circular_reference_extends_0: "{0} 的“extends”字段出现循环引用",
     failed_resolve_0_to_file_in_1: "无法将 {0} 解析为 {1} 中的文件",
 
@@ -169,15 +201,18 @@ export = localeUtils.buildIncompleteTranslation({
     options_file_0_does_not_exist: "选项文件 {0} 不存在",
     failed_read_options_file_0: "无法解析 {0}，请确保其存在并导出对象",
 
+    // plugins
     invalid_plugin_0_missing_load_function: "插件 {0} 中的结构无效，未找到加载函数",
     plugin_0_could_not_be_loaded: "无法加载插件 {0}",
 
+    // option declarations help
     help_options: "指定应加载的 json 选项文件。如果未指定，TypeDoc 将在当前目录中查找“typedoc.json”",
     help_tsconfig: "指定应加载的 TypeScript 配置文件。如果未指定，TypeDoc 将在当前目录中查找“tsconfig.json”",
     help_compilerOptions: "有选择地覆盖 TypeDoc 使用的 TypeScript 编译器选项",
     help_lang: "设置生成和 TypeDoc 消息中使用的语言",
     help_locales: "为指定语言环境添加翻译。此选项主要用作在等待官方语言环境支持添加到 TypeDoc 时的权宜之计",
     help_packageOptions: "当 entryPointStrategy 设置为包时，设置将在每个包中设置的选项",
+
     help_entryPoints: "文档的入口点",
     help_entryPointStrategy: "将入口点转换为文档模块所采用的策略",
     help_alwaysCreateEntryPointModule: "设置后，TypeDoc 将始终为入口点创建一个“模块”，即使只提供了一个",
@@ -199,6 +234,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_pretty: "指定输出 JSON 是否应使用制表符进行格式化",
     help_emit: "指定 TypeDoc 应发出的内容，“docs”、“both”或“none”",
     help_theme: "指定用于呈现文档的主题名称",
+    help_router: "指定需要使用路由的名称以决定文档中文件的命名方式",
     help_lightHighlightTheme: "指定浅色模式下的代码高亮主题",
     help_darkHighlightTheme: "指定暗黑模式下的代码高亮主题",
     help_highlightLanguages: "指定渲染时将加载的代码高亮语言",
@@ -281,6 +317,9 @@ export = localeUtils.buildIncompleteTranslation({
     help_requiredToBeDocumented: "必须记录的反射类型列表",
     help_validation: "指定 TypeDoc 应对生成的文档执行哪些验证步骤",
 
+    // ==================================================================
+    // Option validation
+    // ==================================================================
     unknown_option_0_you_may_have_meant_1: "未知选项“{0}” 你可能指的是：\n{1}",
     option_0_must_be_between_1_and_2: "{0} 必须介于 {1} 和 {2} 之间",
     option_0_must_be_equal_to_or_greater_than_1: "{0} 必须等于或大于 {1}",
@@ -313,12 +352,14 @@ export = localeUtils.buildIncompleteTranslation({
         "“outputs” 选项必须为一个数组，其成员均为 { name: string, path: string, options?: TypeDocOptions }。",
     specified_output_0_has_not_been_defined: "指定的输出类型 {0} 未被定义。",
 
+    // https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
     alert_note: "注意",
     alert_tip: "提示",
     alert_important: "重要",
     alert_warning: "警告",
     alert_caution: "小心",
 
+    // ReflectionKind singular translations
     kind_project: "项目",
     kind_module: "模块",
     kind_namespace: "命名空间",
@@ -344,6 +385,7 @@ export = localeUtils.buildIncompleteTranslation({
     kind_reference: "参考",
     kind_document: "文档",
 
+    // ReflectionKind plural translations
     kind_plural_project: "项目",
     kind_plural_module: "模块",
     kind_plural_namespace: "命名空间",
@@ -369,6 +411,7 @@ export = localeUtils.buildIncompleteTranslation({
     kind_plural_reference: "参考",
     kind_plural_document: "文档",
 
+    // ReflectionFlag translations
     flag_private: "私有",
     flag_protected: "受保护",
     flag_public: "公开",
@@ -381,6 +424,10 @@ export = localeUtils.buildIncompleteTranslation({
     flag_readonly: "只读",
     flag_inherited: "继承",
 
+    // ==================================================================
+    // Strings that show up in the default theme
+    // ==================================================================
+    // Page headings/labels
     theme_implements: "实现",
     theme_indexable: "可索引",
     theme_type_declaration: "类型声明",
@@ -394,13 +441,12 @@ export = localeUtils.buildIncompleteTranslation({
     theme_inherited_from: "继承自",
     theme_overrides: "重写了",
     theme_returns: "返回",
-    theme_generated_using_typedoc: "使用 TypeDoc 生成",
-
+    theme_generated_using_typedoc: "使用 TypeDoc 生成", // If this includes "TypeDoc", theme will insert a link at that location.
+    // Search
     theme_preparing_search_index: "正在准备搜索索引...",
-    theme_search_index_not_available: "搜索索引不可用",
-
+    // Left nav bar
     theme_loading: "加载中……",
-
+    // Right nav bar
     theme_settings: "显示设置",
     theme_member_visibility: "成员可见性",
     theme_theme: "配色",
@@ -409,16 +455,26 @@ export = localeUtils.buildIncompleteTranslation({
     theme_dark: "深色",
     theme_on_this_page: "目录",
 
+    // aria-label
     theme_search: "搜索",
     theme_menu: "菜单",
     theme_permalink: "永久链接",
+    theme_folder: "文件夹",
 
+    // Used by the frontend JS
+    // For the English translations only, these should also be added to
+    // src/lib/output/themes/default/assets/typedoc/Application.ts
+    // Also uses theme_folder and singular kinds
     theme_copy: "复制",
     theme_copied: "已复制！",
     theme_normally_hidden: "由于您的过滤器设置，该成员已被隐藏。",
     theme_hierarchy_expand: "展开",
     theme_hierarchy_collapse: "折叠",
+    theme_search_index_not_available: "搜索索引不可用",
+    theme_search_no_results_found_for_0: "找不到包含 {0} 的结果",
+    theme_search_placeholder: "搜索文档",
 
+    // Block tags
     tag_defaultValue: "默认值",
     tag_deprecated: "已被弃用",
     tag_example: "示例",
@@ -429,7 +485,6 @@ export = localeUtils.buildIncompleteTranslation({
     tag_see: "参阅",
     tag_throws: "抛出",
     tag_typeParam: "类型参数",
-
     tag_author: "作者",
     tag_callback: "回调",
     tag_category: "类别",
@@ -456,14 +511,16 @@ export = localeUtils.buildIncompleteTranslation({
     tag_type: "类型",
     tag_typedef: "类型定义",
     tag_summary: "概述",
+
+    // Inline tags
     tag_link: "链接",
     tag_label: "标记",
-
     tag_linkcode: "链接",
     tag_linkplain: "链接",
     tag_include: "包含",
     tag_includeCode: "包含",
 
+    // Modifier tags
     tag_alpha: "alpha",
     tag_beta: "beta",
     tag_eventProperty: "事件属性",
@@ -475,7 +532,6 @@ export = localeUtils.buildIncompleteTranslation({
     tag_readonly: "只读",
     tag_sealed: "无法继承",
     tag_virtual: "虚函数",
-
     tag_abstract: "抽象类",
     tag_class: "类",
     tag_enum: "枚举",
@@ -495,4 +551,5 @@ export = localeUtils.buildIncompleteTranslation({
     tag_showCategories: "在类别中显示",
     tag_showGroups: "在分组中显示",
     tag_useDeclaredType: "使用声明类型",
+    tag_primaryExport: "主要导出",
 });
