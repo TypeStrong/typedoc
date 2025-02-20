@@ -328,6 +328,8 @@ export = {
         "If set and no @summary tag is specified, TypeDoc will use the first paragraph of comments as the short summary in the module/namespace view",
     help_jsDocCompatibility:
         "Sets compatibility options for comment parsing that increase similarity with JSDoc comments",
+    help_suppressCommentWarningsInDeclarationFiles:
+        "Prevents warnings due to unspecified tags from being reported in comments within .d.ts files.",
     help_commentStyle: "Determines how TypeDoc searches for comments",
     help_useTsLinkResolution:
         "Use TypeScript's link resolution when determining where @link tags point. This only applies to JSDoc style comments",
