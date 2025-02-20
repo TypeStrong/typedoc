@@ -4,6 +4,9 @@ import { storage } from "../utils/storage.js";
 const style = document.head.appendChild(document.createElement("style"));
 style.dataset.for = "filters";
 
+/** Filters flags without prefix string */
+const filters: Record<string, boolean> = {};
+
 /**
  * Handles sidebar filtering functionality.
  */
@@ -12,6 +15,13 @@ export class Filter extends Component<HTMLInputElement> {
      * The class name & ID by which to store the filter value.
      */
     private readonly key: string;
+
+    /**
+     * Returns an object containing all filters
+     */
+    static getAllFilters(): Readonly<typeof filters> {
+        return filters;
+    }
 
     /**
      * Current filter value, to keep in sync with checkbox state.
@@ -56,6 +66,8 @@ export class Filter extends Component<HTMLInputElement> {
     private handleValueChange(): void {
         this.el.checked = this.value;
         document.documentElement.classList.toggle(this.key, this.value);
+
+        filters[this.el.name] = this.value;
 
         this.app.filterChanged();
         this.app.updateIndexVisibility();
