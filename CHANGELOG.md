@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.8 (2025-02-21)
+
 ### Features
 
 -   The `visibilityFilter` option now supports individual signatures, #2846.
