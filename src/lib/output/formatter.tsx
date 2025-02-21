@@ -515,15 +515,21 @@ const typeBuilder: TypeVisitor<
                 );
             }
         } else if (type.externalUrl) {
-            name = simpleElement(
-                <a
-                    href={type.externalUrl}
-                    class="tsd-signature-type external"
-                    target="_blank"
-                >
-                    {type.name}
-                </a>,
-            );
+            if (type.externalUrl === "#") {
+                name = simpleElement(
+                    <span class="tsd-signature-type external">{type.name}</span>,
+                );
+            } else {
+                name = simpleElement(
+                    <a
+                        href={type.externalUrl}
+                        class="tsd-signature-type external"
+                        target="_blank"
+                    >
+                        {type.name}
+                    </a>,
+                );
+            }
         } else if (type.refersToTypeParameter) {
             name = simpleElement(
                 <span class="tsd-signature-type tsd-kind-type-parameter">

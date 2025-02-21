@@ -7,6 +7,7 @@ title: Changelog
 ### Features
 
 -   The `--favicon` option may now be given a link starting with `https?://` instead of a path, #2851.
+-   TypeDoc now supports specifying `#` as the link in `externalSymbolLinkMappings` to indicate the type should not be linked to, #2853.
 
 ### Bug Fixes
 
