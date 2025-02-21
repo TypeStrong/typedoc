@@ -246,6 +246,7 @@ export interface TypeDocOptionMap {
     intentionallyNotExported: string[];
     validation: ValidationOptions;
     requiredToBeDocumented: ReflectionKind.KindString[];
+    intentionallyNotDocumented: string[];
 
     // Other
     watch: boolean;

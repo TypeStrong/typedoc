@@ -94,6 +94,8 @@ export = {
     failed_to_resolve_link_to_0_in_document_1_may_have_meant_2: `Failed to resolve link to "{0}" in document {1}. You may have wanted "{2}"`,
     type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs: `{0}, defined in {1}, is referenced by {2} but not included in the documentation`,
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation: `{0} ({1}), defined in {2}, does not have any documentation`,
+    invalid_intentionally_not_documented_names_0:
+        "The following qualified reflection names were marked as intentionally not documented, but were either not referenced in the documentation, or were documented:\n\t{0}",
     invalid_intentionally_not_exported_symbols_0:
         "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t{0}",
     reflection_0_has_unused_mergeModuleWith_tag:
@@ -375,6 +377,8 @@ export = {
         "A list of types which should not produce 'referenced but not documented' warnings",
     help_requiredToBeDocumented:
         "A list of reflection kinds that must be documented",
+    help_intentionallyNotDocumented:
+        "A list of full reflection names which should not produce warnings about not being documented",
     help_validation:
         "Specify which validation steps TypeDoc should perform on your generated documentation",
 

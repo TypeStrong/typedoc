@@ -978,6 +978,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
         defaultValue: OptionDefaults.requiredToBeDocumented,
     });
+    options.addDeclaration({
+        name: "intentionallyNotDocumented",
+        help: (i18n) => i18n.help_intentionallyNotDocumented(),
+        type: ParameterType.Array,
+        defaultValue: [],
+    });
 
     options.addDeclaration({
         name: "validation",

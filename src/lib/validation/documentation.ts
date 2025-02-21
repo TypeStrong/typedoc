@@ -13,6 +13,7 @@ export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
     requiredToBeDocumented: readonly ReflectionKind.KindString[],
+    intentionallyNotDocumented: readonly string[],
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],
@@ -37,6 +38,7 @@ export function validateDocumentation(
 
     const toProcess = project.getReflectionsByKind(kinds);
     const seen = new Set<Reflection>();
+    const intentionalUsage = new Set<number>();
 
     outer: while (toProcess.length) {
         const ref = toProcess.shift()!;
@@ -111,6 +113,14 @@ export function validateDocumentation(
                 continue;
             }
 
+            const intentionalIndex = intentionallyNotDocumented.indexOf(
+                ref.getFriendlyFullName(),
+            );
+            if (intentionalIndex !== -1) {
+                intentionalUsage.add(intentionalIndex);
+                continue;
+            }
+
             logger.warn(
                 logger.i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
                     ref.getFriendlyFullName(),
@@ -119,5 +129,16 @@ export function validateDocumentation(
                 ),
             );
         }
+    }
+
+    const unusedIntentional = intentionallyNotDocumented.filter(
+        (_, i) => !intentionalUsage.has(i),
+    );
+    if (unusedIntentional.length) {
+        logger.warn(
+            logger.i18n.invalid_intentionally_not_documented_names_0(
+                unusedIntentional.join("\n\t"),
+            ),
+        );
     }
 }
