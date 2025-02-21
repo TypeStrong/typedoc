@@ -517,7 +517,9 @@ const typeBuilder: TypeVisitor<
         } else if (type.externalUrl) {
             if (type.externalUrl === "#") {
                 name = simpleElement(
-                    <span class="tsd-signature-type external">{type.name}</span>,
+                    <span class="tsd-signature-type external">
+                        {type.name}
+                    </span>,
                 );
             } else {
                 name = simpleElement(
