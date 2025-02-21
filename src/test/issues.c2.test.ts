@@ -1728,6 +1728,7 @@ describe("Issue Tests", () => {
         const project = convert();
         app.options.setValue("validation", false);
         app.options.setValue("validation", { invalidLink: true });
+        app.options.setValue("excludeExternals", false);
         app.validate(project);
         logger.expectMessage(
             'warn: Failed to resolve link to "Generator" in comment for bug',
@@ -1788,6 +1789,7 @@ describe("Issue Tests", () => {
 
     it("#2700a correctly parses links to global properties", () => {
         const project = convert();
+        app.options.setValue("excludeExternals", false);
         app.options.setValue("validation", {
             invalidLink: true,
             notDocumented: false,
@@ -2030,6 +2032,17 @@ describe("Issue Tests", () => {
         equal(
             url.children?.map((c) => c.name),
             ["customMethod"],
+        );
+    });
+
+    it("#2853 no warnings on @link tags to excluded externals", () => {
+        const project = convert();
+        app.options.setValue("validation", false);
+        app.options.setValue("validation", { invalidLink: true });
+        app.options.setValue("excludeExternals", true);
+        app.validate(project);
+        logger.expectNoMessage(
+            'warn: Failed to resolve link to "Generator" in comment for bug',
         );
     });
 });

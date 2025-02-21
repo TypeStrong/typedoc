@@ -689,7 +689,11 @@ export class Application extends AbstractComponent<
         }
 
         if (checks.invalidLink) {
-            validateLinks(project, this.logger);
+            validateLinks(
+                project,
+                this.logger,
+                this.options.getValue("excludeExternals"),
+            );
         }
 
         if (checks.unusedMergeModuleWith) {
