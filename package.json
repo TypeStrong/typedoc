@@ -45,7 +45,7 @@
         "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe",
         "c8": "^10.1.3",
         "dprint": "^0.49.0",
-        "esbuild": "^0.25.0",
+        "esbuild": "^0.24.2",
         "eslint": "^9.21.0",
         "mocha": "^11.1.0",
         "puppeteer": "^24.2.1",

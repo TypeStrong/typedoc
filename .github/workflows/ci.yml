@@ -62,9 +62,6 @@ jobs:
                   node-version: 18
             - name: Upgrade npm
               run: npm i -g npm@10
-            - name: Fix node_modules folder
-              run: |
-                  node -e "fs.rmSync('node_modules', { recursive: true, force: true })"
             - name: Install
               run: npm ci
             - name: Build
