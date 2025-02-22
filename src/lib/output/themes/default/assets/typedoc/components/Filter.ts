@@ -4,8 +4,18 @@ import { storage } from "../utils/storage.js";
 const style = document.head.appendChild(document.createElement("style"));
 style.dataset.for = "filters";
 
-/** Filters flags without prefix string */
+/** Filter classes, true if they will currently show, false otherwise */
 const filters: Record<string, boolean> = {};
+
+export function classListWillBeFiltered(classList: string): boolean {
+    for (const className of classList.split(/\s+/)) {
+        // There might be other classes in the list besides just what we filter on
+        if (filters.hasOwnProperty(className) && !filters[className]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * Handles sidebar filtering functionality.
@@ -15,13 +25,6 @@ export class Filter extends Component<HTMLInputElement> {
      * The class name & ID by which to store the filter value.
      */
     private readonly key: string;
-
-    /**
-     * Returns an object containing all filters
-     */
-    static getAllFilters(): Readonly<typeof filters> {
-        return filters;
-    }
 
     /**
      * Current filter value, to keep in sync with checkbox state.
@@ -67,7 +70,7 @@ export class Filter extends Component<HTMLInputElement> {
         this.el.checked = this.value;
         document.documentElement.classList.toggle(this.key, this.value);
 
-        filters[this.el.name] = this.value;
+        filters[`tsd-is-${this.el.name}`] = this.value;
 
         this.app.filterChanged();
         this.app.updateIndexVisibility();
