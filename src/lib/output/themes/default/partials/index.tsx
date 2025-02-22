@@ -1,6 +1,6 @@
 import { classNames, renderName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import type { ContainerReflection, ReflectionCategory, ReflectionGroup } from "../../../../models/index.js";
 
 function renderCategory(
@@ -57,7 +57,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                     <details class="tsd-index-content tsd-accordion" open={true}>
                         <summary class="tsd-accordion-summary tsd-index-summary">
                             <h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex={0}>
-                                {context.icons.chevronSmall()} {context.i18n.theme_index()}
+                                {context.icons.chevronSmall()} {i18n.theme_index()}
                             </h5>
                         </summary>
                         <div class="tsd-accordion-details">{content}</div>

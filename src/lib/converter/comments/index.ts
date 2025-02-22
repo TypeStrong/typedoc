@@ -13,7 +13,7 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { assertNever } from "#utils";
+import { assertNever, i18n } from "#utils";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;
@@ -354,7 +354,7 @@ export function getJsDocComment(
         // we'd have to search for any @template with a name starting with the first type parameter's name
         // which feels horribly hacky.
         logger.warn(
-            logger.i18n.multiple_type_parameters_on_template_tag_unsupported(),
+            i18n.multiple_type_parameters_on_template_tag_unsupported(),
             declaration,
         );
         return;
@@ -376,7 +376,7 @@ export function getJsDocComment(
 
     if (!tag) {
         logger.error(
-            logger.i18n.failed_to_find_jsdoc_tag_for_name_0(name),
+            i18n.failed_to_find_jsdoc_tag_for_name_0(name),
             declaration,
         );
     } else {

@@ -1,3 +1,4 @@
+import { i18n } from "#utils";
 import type { Application } from "../application.js";
 import type { TranslatedString } from "../internationalization/index.js";
 import type { ProjectReflection } from "../models/index.js";
@@ -87,7 +88,7 @@ export class Outputs {
         const writer = this.outputs.get(output.name);
         if (!writer) {
             this.application.logger.error(
-                this.application.i18n.specified_output_0_has_not_been_defined(
+                i18n.specified_output_0_has_not_been_defined(
                     output.name,
                 ),
             );
@@ -111,14 +112,14 @@ export class Outputs {
 
         if (this.application.logger.errorCount === preErrors) {
             this.application.logger.info(
-                this.application.i18n.output_0_generated_at_1(
+                i18n.output_0_generated_at_1(
                     output.name,
                     nicePath(output.path),
                 ),
             );
         } else {
             this.application.logger.error(
-                this.application.i18n.output_0_could_not_be_generated(
+                i18n.output_0_could_not_be_generated(
                     output.name,
                 ),
             );

@@ -16,8 +16,7 @@ import {
 } from "./declaration.js";
 import { addTypeDocOptions } from "./sources/index.js";
 import { getOptionsHelp } from "./help.js";
-import type { TranslationProxy } from "../../internationalization/internationalization.js";
-import { getSimilarValues, insertOrderSorted, type NeverIfInternal, unique } from "#utils";
+import { getSimilarValues, i18n, insertOrderSorted, type NeverIfInternal, unique } from "#utils";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -105,15 +104,13 @@ export class Options {
     private _compilerOptions: ts.CompilerOptions = {};
     private _fileNames: readonly string[] = [];
     private _projectReferences: readonly ts.ProjectReference[] = [];
-    private _i18n: TranslationProxy;
 
     /**
      * In packages mode, the directory of the package being converted.
      */
     packageDir?: string;
 
-    constructor(i18n: TranslationProxy) {
-        this._i18n = i18n;
+    constructor() {
         addTypeDocOptions(this);
     }
 
@@ -121,7 +118,7 @@ export class Options {
      * Clones the options, intended for use in packages mode.
      */
     copyForPackage(packageDir: string): Options {
-        const options = new Options(this._i18n);
+        const options = new Options();
         options.packageDir = packageDir;
 
         options._readers = this._readers.filter(
@@ -289,7 +286,7 @@ export class Options {
         if (!declaration) {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                this._i18n.unknown_option_0_you_may_have_meant_1(
+                i18n.unknown_option_0_you_may_have_meant_1(
                     name,
                     nearNames.join("\n\t"),
                 ),
@@ -320,7 +317,7 @@ export class Options {
         if (!declaration) {
             const nearNames = this.getSimilarOptions(name);
             throw new Error(
-                this._i18n.unknown_option_0_you_may_have_meant_1(
+                i18n.unknown_option_0_you_may_have_meant_1(
                     name,
                     nearNames.join("\n\t"),
                 ),
@@ -335,7 +332,6 @@ export class Options {
         const converted = convert(
             value,
             declaration,
-            this._i18n,
             configPath ?? process.cwd(),
             oldValue,
         );
@@ -434,8 +430,8 @@ export class Options {
     /**
      * Get the help message to be displayed to the user if `--help` is passed.
      */
-    getHelp(i18n: TranslationProxy) {
-        return getOptionsHelp(this, i18n);
+    getHelp() {
+        return getOptionsHelp(this);
     }
 }
 

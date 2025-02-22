@@ -14,7 +14,7 @@ import {
     type TypeVisitor,
 } from "../../models/index.js";
 import { Option } from "../../utils/index.js";
-import { filterMap, partition, removeIf, removeIfPresent, setIntersection, unique } from "#utils";
+import { filterMap, i18n, partition, removeIf, removeIfPresent, setIntersection, unique } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -381,7 +381,7 @@ export class CommentPlugin extends ConverterComponent {
                 !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
             ) {
                 context.logger.warn(
-                    context.i18n.label_0_for_1_cannot_be_referenced(
+                    i18n.label_0_for_1_cannot_be_referenced(
                         reflection.comment.label,
                         reflection.getFriendlyFullName(),
                     ),
@@ -396,7 +396,7 @@ export class CommentPlugin extends ConverterComponent {
                 if (intersect.size > 1) {
                     const [a, b] = intersect;
                     context.logger.warn(
-                        context.i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
+                        i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
                             a,
                             b,
                             reflection.getFriendlyFullName(),
@@ -682,7 +682,7 @@ export class CommentPlugin extends ConverterComponent {
         if (!comment.inheritedFromParentDeclaration) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
-                    this.application.i18n.signature_0_has_unused_param_with_name_1(
+                    i18n.signature_0_has_unused_param_with_name_1(
                         signature.getFriendlyFullName(),
                         tag.name ?? "(missing)",
                     ),

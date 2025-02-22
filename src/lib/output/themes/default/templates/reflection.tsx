@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     type SignatureReflection,
 } from "../../../../models/index.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
@@ -42,7 +42,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
                     {!!props.model.implementedTypes && (
                         <section class="tsd-panel">
-                            <h4>{context.i18n.theme_implements()}</h4>
+                            <h4>{i18n.theme_implements()}</h4>
                             <ul class="tsd-hierarchy">
                                 {props.model.implementedTypes.map((item) => <li>{context.type(item)}</li>)}
                             </ul>
@@ -50,7 +50,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     )}
                     {!!props.model.implementedBy && (
                         <section class="tsd-panel">
-                            <h4>{context.i18n.theme_implemented_by()}</h4>
+                            <h4>{i18n.theme_implemented_by()}</h4>
                             <ul class="tsd-hierarchy">
                                 {props.model.implementedBy.map((item) => <li>{context.type(item)}</li>)}
                             </ul>
@@ -61,7 +61,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                     )}
                     {!!props.model.indexSignatures?.length && (
                         <section class="tsd-panel">
-                            <h4 class="tsd-before-signature">{context.i18n.theme_indexable()}</h4>
+                            <h4 class="tsd-before-signature">{i18n.theme_indexable()}</h4>
                             <ul class="tsd-signatures">
                                 {props.model.indexSignatures.map((index) => renderIndexSignature(context, index))}
                             </ul>

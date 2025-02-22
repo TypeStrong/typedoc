@@ -1,5 +1,5 @@
-import { type Reflection, ReflectionFlag } from "../../../../models/index.js";
-import { JSX } from "#utils";
+import { type Reflection, ReflectionFlag, ReflectionFlags } from "../../../../models/index.js";
+import { i18n, JSX, translateTagName } from "#utils";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -65,7 +65,7 @@ export function settings(context: DefaultThemeRenderContext) {
                 buildFilterItem(
                     context,
                     filterName,
-                    context.internationalization.translateTagName(key as `@${string}`),
+                    translateTagName(key as `@${string}`),
                     defaultFilters[key],
                 ),
             );
@@ -79,7 +79,7 @@ export function settings(context: DefaultThemeRenderContext) {
                 buildFilterItem(
                     context,
                     key,
-                    context.internationalization.flagString(flagOptionNameToReflectionFlag[key]),
+                    ReflectionFlags.flagString(flagOptionNameToReflectionFlag[key]),
                     defaultFilters[key],
                 ),
             );
@@ -94,24 +94,24 @@ export function settings(context: DefaultThemeRenderContext) {
                 <summary class="tsd-accordion-summary">
                     <h3>
                         {context.icons.chevronDown()}
-                        {context.i18n.theme_settings()}
+                        {i18n.theme_settings()}
                     </h3>
                 </summary>
                 <div class="tsd-accordion-details">
                     {visibilityOptions.length && (
                         <div class="tsd-filter-visibility">
-                            <span class="settings-label">{context.i18n.theme_member_visibility()}</span>
+                            <span class="settings-label">{i18n.theme_member_visibility()}</span>
                             <ul id="tsd-filter-options">{...visibilityOptions}</ul>
                         </div>
                     )}
                     <div class="tsd-theme-toggle">
                         <label class="settings-label" for="tsd-theme">
-                            {context.i18n.theme_theme()}
+                            {i18n.theme_theme()}
                         </label>
                         <select id="tsd-theme">
-                            <option value="os">{context.i18n.theme_os()}</option>
-                            <option value="light">{context.i18n.theme_light()}</option>
-                            <option value="dark">{context.i18n.theme_dark()}</option>
+                            <option value="os">{i18n.theme_os()}</option>
+                            <option value="light">{i18n.theme_light()}</option>
+                            <option value="dark">{i18n.theme_dark()}</option>
                         </select>
                     </div>
                 </div>
@@ -132,7 +132,7 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
                 {getDisplayName(props.project)}
             </a>
             <ul class="tsd-small-nested-navigation" id="tsd-nav-container">
-                <li>{context.i18n.theme_loading()}</li>
+                <li>{i18n.theme_loading()}</li>
             </ul>
         </nav>
     );
@@ -224,7 +224,7 @@ export function pageNavigation(context: DefaultThemeRenderContext, props: PageEv
             <summary class="tsd-accordion-summary">
                 <h3>
                     {context.icons.chevronDown()}
-                    {context.i18n.theme_on_this_page()}
+                    {i18n.theme_on_this_page()}
                 </h3>
             </summary>
             <div class="tsd-accordion-details">{sections}</div>

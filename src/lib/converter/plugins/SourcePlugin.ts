@@ -10,7 +10,7 @@ import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import type { NormalizedPath } from "#utils";
+import { i18n, type NormalizedPath } from "#utils";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -143,7 +143,7 @@ export class SourcePlugin extends ConverterComponent {
 
         if (this.disableGit && !this.sourceLinkTemplate) {
             this.application.logger.error(
-                context.i18n.disable_git_set_but_not_source_link_template(),
+                i18n.disable_git_set_but_not_source_link_template(),
             );
             return;
         }
@@ -153,7 +153,7 @@ export class SourcePlugin extends ConverterComponent {
             !this.gitRevision
         ) {
             this.application.logger.warn(
-                context.i18n.disable_git_set_and_git_revision_used(),
+                i18n.disable_git_set_and_git_revision_used(),
             );
         }
 

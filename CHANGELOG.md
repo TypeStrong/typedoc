@@ -15,6 +15,13 @@ title: Changelog
 - Introduced the `@primaryExport` modifier tag to provide more fine grained
   control over export conversion order, #2856
 - API: `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
+- API: `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
+
+TODO:
+
+- Generate locale bundles for strings used in models/utils-common/serializer/deserializer
+- Finish supporting models/serde as browser import
+- Clean up Internationalization class, it probably doesn't make sense anymore.
 
 ## Unreleased
 

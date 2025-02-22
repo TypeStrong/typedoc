@@ -106,7 +106,7 @@ const config = {
         "no-restricted-syntax": [
             "warn",
             {
-                selector: "ImportDeclaration[source.value=/.*perf$/]",
+                selector: "ImportDeclaration[source.value=/.*perf(\\.[tj]s)?$/]",
                 message: "Benchmark calls must be removed before committing.",
             },
             {

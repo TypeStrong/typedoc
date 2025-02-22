@@ -10,6 +10,7 @@ import type { Renderer } from "../index.js";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
 import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
 import { compressJson } from "../../utils/compress.js";
+import { i18n } from "#utils";
 
 /**
  * Keep this in sync with the interface in src/lib/output/themes/default/assets/typedoc/components/Search.ts
@@ -150,7 +151,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             this.application.options.isSet("searchGroupBoosts")
         ) {
             this.application.logger.warn(
-                this.application.i18n.not_all_search_group_boosts_used_0(
+                i18n.not_all_search_group_boosts_used_0(
                     Array.from(this.unusedGroupBoosts).join("\n\t"),
                 ),
             );
@@ -161,7 +162,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             this.application.options.isSet("searchCategoryBoosts")
         ) {
             this.application.logger.warn(
-                this.application.i18n.not_all_search_category_boosts_used_0(
+                i18n.not_all_search_category_boosts_used_0(
                     Array.from(this.unusedCatBoosts).join("\n\t"),
                 ),
             );
@@ -175,7 +176,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
             const group of GroupPlugin.getGroups(
                 refl,
                 this.groupReferencesByType,
-                this.application.internationalization,
             )
         ) {
             boost *= this.searchGroupBoosts[group] ?? 1;

@@ -9,6 +9,7 @@ import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import { SourceReference } from "../sources/file.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import { ReflectionKind } from "./kind.js";
+import { i18n } from "#utils";
 
 /**
  * Stores hierarchical type data.
@@ -364,7 +365,7 @@ export class DeclarationReflection extends ContainerReflection {
                         );
                     } else {
                         de.logger.warn(
-                            de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                            i18n.serialized_project_referenced_0_not_part_of_project(
                                 id.toString(),
                             ),
                         );

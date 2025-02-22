@@ -5,15 +5,14 @@ import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
 import { ReflectionKind } from "../../../models/reflections/kind.js";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
-import { getEnumKeys, setDifference, Validation } from "#utils";
+import { getEnumKeys, i18n, setDifference, Validation } from "#utils";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
 import { getSupportedLanguages, getSupportedThemes } from "../../highlighter.js";
-import type { TranslationProxy } from "../../../internationalization/index.js";
 import type { Options } from "../options.js";
 import { extname } from "path";
 
 function makeTagArrayValidator(name: keyof TypeDocOptionMap) {
-    return (value: string[], i18n: TranslationProxy) => {
+    return (value: string[]) => {
         if (!Validation.validate([Array, Validation.isTagString], value)) {
             throw new Error(i18n.option_0_values_must_be_array_of_tags(name));
         }
@@ -29,23 +28,23 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         type: ParameterType.Path,
         name: "options",
-        help: (i18n) => i18n.help_options(),
+        help: () => i18n.help_options(),
         hint: ParameterHint.File,
         defaultValue: "",
     });
     options.addDeclaration({
         type: ParameterType.Path,
         name: "tsconfig",
-        help: (i18n) => i18n.help_tsconfig(),
+        help: () => i18n.help_tsconfig(),
         hint: ParameterHint.File,
         defaultValue: "",
     });
     options.addDeclaration({
         name: "compilerOptions",
-        help: (i18n) => i18n.help_compilerOptions(),
+        help: () => i18n.help_compilerOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
-        validate(value, i18n) {
+        validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("compilerOptions"),
@@ -55,17 +54,17 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "lang",
-        help: (i18n) => i18n.help_lang(),
+        help: () => i18n.help_lang(),
         type: ParameterType.String,
         defaultValue: "en",
     });
     options.addDeclaration({
         name: "locales",
-        help: (i18n) => i18n.help_locales(),
+        help: () => i18n.help_locales(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (typeof value !== "object" || !value) {
                 throw new Error(i18n.locales_must_be_an_object());
             }
@@ -85,11 +84,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "packageOptions",
-        help: (i18n) => i18n.help_packageOptions(),
+        help: () => i18n.help_packageOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("packageOptions"),
@@ -104,53 +103,53 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "entryPoints",
-        help: (i18n) => i18n.help_entryPoints(),
+        help: () => i18n.help_entryPoints(),
         type: ParameterType.GlobArray,
     });
     options.addDeclaration({
         name: "entryPointStrategy",
-        help: (i18n) => i18n.help_entryPointStrategy(),
+        help: () => i18n.help_entryPointStrategy(),
         type: ParameterType.Map,
         map: EntryPointStrategy,
         defaultValue: EntryPointStrategy.Resolve,
     });
     options.addDeclaration({
         name: "alwaysCreateEntryPointModule",
-        help: (i18n) => i18n.help_alwaysCreateEntryPointModule(),
+        help: () => i18n.help_alwaysCreateEntryPointModule(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "projectDocuments",
-        help: (i18n) => i18n.help_projectDocuments(),
+        help: () => i18n.help_projectDocuments(),
         type: ParameterType.GlobArray,
     });
 
     options.addDeclaration({
         name: "exclude",
-        help: (i18n) => i18n.help_exclude(),
+        help: () => i18n.help_exclude(),
         type: ParameterType.GlobArray,
     });
     options.addDeclaration({
         name: "externalPattern",
-        help: (i18n) => i18n.help_externalPattern(),
+        help: () => i18n.help_externalPattern(),
         type: ParameterType.GlobArray,
         defaultValue: ["**/node_modules/**"],
     });
     options.addDeclaration({
         name: "excludeExternals",
-        help: (i18n) => i18n.help_excludeExternals(),
+        help: () => i18n.help_excludeExternals(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeNotDocumented",
-        help: (i18n) => i18n.help_excludeNotDocumented(),
+        help: () => i18n.help_excludeNotDocumented(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeNotDocumentedKinds",
-        help: (i18n) => i18n.help_excludeNotDocumentedKinds(),
+        help: () => i18n.help_excludeNotDocumentedKinds(),
         type: ParameterType.Array,
-        validate(value, i18n) {
+        validate(value) {
             const invalid = new Set(value);
             const valid = new Set(getEnumKeys(ReflectionKind));
             for (
@@ -180,37 +179,37 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "excludeInternal",
-        help: (i18n) => i18n.help_excludeInternal(),
+        help: () => i18n.help_excludeInternal(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeCategories",
-        help: (i18n) => i18n.help_excludeCategories(),
+        help: () => i18n.help_excludeCategories(),
         type: ParameterType.Array,
         defaultValue: [],
     });
     options.addDeclaration({
         name: "excludePrivate",
-        help: (i18n) => i18n.help_excludePrivate(),
+        help: () => i18n.help_excludePrivate(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "excludeProtected",
-        help: (i18n) => i18n.help_excludeProtected(),
+        help: () => i18n.help_excludeProtected(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "excludeReferences",
-        help: (i18n) => i18n.help_excludeReferences(),
+        help: () => i18n.help_excludeReferences(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "externalSymbolLinkMappings",
-        help: (i18n) => i18n.help_externalSymbolLinkMappings(),
+        help: () => i18n.help_externalSymbolLinkMappings(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
                     i18n.external_symbol_link_mappings_must_be_object(),
@@ -241,11 +240,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "outputs",
-        help: (i18n) => i18n.help_out(),
+        help: () => i18n.help_out(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: undefined,
-        validate(value, i18n) {
+        validate(value) {
             if (
                 !Validation.validate(
                     [
@@ -267,7 +266,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "out",
-        help: (i18n) => i18n.help_out(),
+        help: () => i18n.help_out(),
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
         defaultValue: "./docs",
@@ -275,39 +274,39 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "html",
         outputShortcut: "html",
-        help: (i18n) => i18n.help_html(),
+        help: () => i18n.help_html(),
         type: ParameterType.Path,
         hint: ParameterHint.Directory,
     });
     options.addDeclaration({
         name: "json",
         outputShortcut: "json",
-        help: (i18n) => i18n.help_json(),
+        help: () => i18n.help_json(),
         type: ParameterType.Path,
         hint: ParameterHint.File,
     });
     options.addDeclaration({
         name: "pretty",
-        help: (i18n) => i18n.help_pretty(),
+        help: () => i18n.help_pretty(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "emit",
-        help: (i18n) => i18n.help_emit(),
+        help: () => i18n.help_emit(),
         type: ParameterType.Map,
         map: EmitStrategy,
         defaultValue: "docs",
     });
     options.addDeclaration({
         name: "theme",
-        help: (i18n) => i18n.help_theme(),
+        help: () => i18n.help_theme(),
         type: ParameterType.String,
         defaultValue: "default",
     });
     options.addDeclaration({
         name: "router",
-        help: (i18n) => i18n.help_router(),
+        help: () => i18n.help_router(),
         type: ParameterType.String,
         defaultValue: "kind",
     });
@@ -317,10 +316,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "lightHighlightTheme",
-        help: (i18n) => i18n.help_lightHighlightTheme(),
+        help: () => i18n.help_lightHighlightTheme(),
         type: ParameterType.String,
         defaultValue: defaultLightTheme,
-        validate(value, i18n) {
+        validate(value) {
             if (!getSupportedThemes().includes(value)) {
                 throw new Error(
                     i18n.highlight_theme_0_must_be_one_of_1(
@@ -333,10 +332,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "darkHighlightTheme",
-        help: (i18n) => i18n.help_darkHighlightTheme(),
+        help: () => i18n.help_darkHighlightTheme(),
         type: ParameterType.String,
         defaultValue: defaultDarkTheme,
-        validate(value, i18n) {
+        validate(value) {
             if (!getSupportedThemes().includes(value)) {
                 throw new Error(
                     i18n.highlight_theme_0_must_be_one_of_1(
@@ -349,10 +348,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "highlightLanguages",
-        help: (i18n) => i18n.help_highlightLanguages(),
+        help: () => i18n.help_highlightLanguages(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.highlightLanguages,
-        validate(value, i18n) {
+        validate(value) {
             const invalid = setDifference(value, getSupportedLanguages());
             if (invalid.size) {
                 throw new Error(
@@ -365,37 +364,37 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "ignoredHighlightLanguages",
-        help: (i18n) => i18n.help_ignoredHighlightLanguages(),
+        help: () => i18n.help_ignoredHighlightLanguages(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.ignoredHighlightLanguages,
     });
     options.addDeclaration({
         name: "typePrintWidth",
-        help: (i18n) => i18n.help_typePrintWidth(),
+        help: () => i18n.help_typePrintWidth(),
         type: ParameterType.Number,
         defaultValue: 80,
     });
 
     options.addDeclaration({
         name: "customCss",
-        help: (i18n) => i18n.help_customCss(),
+        help: () => i18n.help_customCss(),
         type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "customJs",
-        help: (i18n) => i18n.help_customJs(),
+        help: () => i18n.help_customJs(),
         type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "markdownItOptions",
-        help: (i18n) => i18n.help_markdownItOptions(),
+        help: () => i18n.help_markdownItOptions(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {
             html: true,
             linkify: true,
         },
-        validate(value, i18n) {
+        validate(value) {
             if (!Validation.validate({}, value)) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("markdownItOptions"),
@@ -405,11 +404,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "markdownItLoader",
-        help: (i18n) => i18n.help_markdownItLoader(),
+        help: () => i18n.help_markdownItLoader(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: () => {},
-        validate(value, i18n) {
+        validate(value) {
             if (typeof value !== "function") {
                 throw new Error(
                     i18n.option_0_must_be_a_function("markdownItLoader"),
@@ -419,60 +418,60 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "maxTypeConversionDepth",
-        help: (i18n) => i18n.help_maxTypeConversionDepth(),
+        help: () => i18n.help_maxTypeConversionDepth(),
         defaultValue: 10,
         type: ParameterType.Number,
     });
     options.addDeclaration({
         name: "name",
-        help: (i18n) => i18n.help_name(),
+        help: () => i18n.help_name(),
     });
     options.addDeclaration({
         name: "includeVersion",
-        help: (i18n) => i18n.help_includeVersion(),
+        help: () => i18n.help_includeVersion(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "disableSources",
-        help: (i18n) => i18n.help_disableSources(),
+        help: () => i18n.help_disableSources(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "sourceLinkTemplate",
-        help: (i18n) => i18n.help_sourceLinkTemplate(),
+        help: () => i18n.help_sourceLinkTemplate(),
     });
     options.addDeclaration({
         name: "gitRevision",
-        help: (i18n) => i18n.help_gitRevision(),
+        help: () => i18n.help_gitRevision(),
     });
     options.addDeclaration({
         name: "gitRemote",
-        help: (i18n) => i18n.help_gitRemote(),
+        help: () => i18n.help_gitRemote(),
         defaultValue: "origin",
     });
     options.addDeclaration({
         name: "disableGit",
-        help: (i18n) => i18n.help_disableGit(),
+        help: () => i18n.help_disableGit(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "basePath",
-        help: (i18n) => i18n.help_basePath(),
+        help: () => i18n.help_basePath(),
         type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "readme",
-        help: (i18n) => i18n.help_readme(),
+        help: () => i18n.help_readme(),
         type: ParameterType.Path,
     });
     options.addDeclaration({
         name: "cname",
-        help: (i18n) => i18n.help_cname(),
+        help: () => i18n.help_cname(),
     });
     options.addDeclaration({
         name: "favicon",
-        help: (i18n) => i18n.help_favicon(),
-        validate(value, i18n) {
+        help: () => i18n.help_favicon(),
+        validate(value) {
             const allowedExtension = [".ico", ".png", ".svg"];
             if (
                 !/^https?:\/\//i.test(value) &&
@@ -489,25 +488,25 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "sourceLinkExternal",
-        help: (i18n) => i18n.help_sourceLinkExternal(),
+        help: () => i18n.help_sourceLinkExternal(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "markdownLinkExternal",
-        help: (i18n) => i18n.help_markdownLinkExternal(),
+        help: () => i18n.help_markdownLinkExternal(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "githubPages",
-        help: (i18n) => i18n.help_githubPages(),
+        help: () => i18n.help_githubPages(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "hostedBaseUrl",
-        help: (i18n) => i18n.help_hostedBaseUrl(),
-        validate(value, i18n) {
+        help: () => i18n.help_hostedBaseUrl(),
+        validate(value) {
             if (!/^https?:\/\//i.test(value)) {
                 throw new Error(i18n.hostedBaseUrl_must_start_with_http());
             }
@@ -515,56 +514,56 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "useHostedBaseUrlForAbsoluteLinks",
-        help: (i18n) => i18n.help_useHostedBaseUrlForAbsoluteLinks(),
+        help: () => i18n.help_useHostedBaseUrlForAbsoluteLinks(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "hideGenerator",
-        help: (i18n) => i18n.help_hideGenerator(),
+        help: () => i18n.help_hideGenerator(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "customFooterHtml",
-        help: (i18n) => i18n.help_customFooterHtml(),
+        help: () => i18n.help_customFooterHtml(),
         type: ParameterType.String,
     });
     options.addDeclaration({
         name: "customFooterHtmlDisableWrapper",
-        help: (i18n) => i18n.help_customFooterHtmlDisableWrapper(),
+        help: () => i18n.help_customFooterHtmlDisableWrapper(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "cacheBust",
-        help: (i18n) => i18n.help_cacheBust(),
+        help: () => i18n.help_cacheBust(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "searchInComments",
-        help: (i18n) => i18n.help_searchInComments(),
+        help: () => i18n.help_searchInComments(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "searchInDocuments",
-        help: (i18n) => i18n.help_searchInDocuments(),
+        help: () => i18n.help_searchInDocuments(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "cleanOutputDir",
-        help: (i18n) => i18n.help_cleanOutputDir(),
+        help: () => i18n.help_cleanOutputDir(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "titleLink",
-        help: (i18n) => i18n.help_titleLink(),
+        help: () => i18n.help_titleLink(),
         type: ParameterType.String,
     });
     options.addDeclaration({
         name: "navigationLinks",
-        help: (i18n) => i18n.help_navigationLinks(),
+        help: () => i18n.help_navigationLinks(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!isObject(value)) {
                 throw new Error(
                     i18n.option_0_must_be_object_with_urls("navigationLinks"),
@@ -580,10 +579,10 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "sidebarLinks",
-        help: (i18n) => i18n.help_sidebarLinks(),
+        help: () => i18n.help_sidebarLinks(),
         type: ParameterType.Mixed,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!isObject(value)) {
                 throw new Error(
                     i18n.option_0_must_be_object_with_urls("sidebarLinks"),
@@ -599,12 +598,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "navigationLeaves",
-        help: (i18n) => i18n.help_navigationLeaves(),
+        help: () => i18n.help_navigationLeaves(),
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "navigation",
-        help: (i18n) => i18n.help_navigation(),
+        help: () => i18n.help_navigation(),
         type: ParameterType.Flags,
         defaults: {
             includeCategories: false,
@@ -616,7 +615,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "headings",
-        help: (i18n) => i18n.help_headings(),
+        help: () => i18n.help_headings(),
         type: ParameterType.Flags,
         defaults: {
             readme: true,
@@ -625,7 +624,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "sluggerConfiguration",
-        help: (i18n) => i18n.help_sluggerConfiguration(),
+        help: () => i18n.help_sluggerConfiguration(),
         type: ParameterType.Flags,
         defaults: {
             lowercase: true,
@@ -634,14 +633,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "includeHierarchySummary",
-        help: (i18n) => i18n.help_includeHierarchySummary(),
+        help: () => i18n.help_includeHierarchySummary(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
 
     options.addDeclaration({
         name: "visibilityFilters",
-        help: (i18n) => i18n.help_visibilityFilters(),
+        help: () => i18n.help_visibilityFilters(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {
@@ -650,7 +649,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             inherited: true,
             external: false,
         },
-        validate(value, i18n) {
+        validate(value) {
             const knownKeys = ["protected", "private", "inherited", "external"];
             if (!value || typeof value !== "object") {
                 throw new Error(
@@ -676,11 +675,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "searchCategoryBoosts",
-        help: (i18n) => i18n.help_searchCategoryBoosts(),
+        help: () => i18n.help_searchCategoryBoosts(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!isObject(value)) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("searchCategoryBoosts"),
@@ -698,11 +697,11 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "searchGroupBoosts",
-        help: (i18n) => i18n.help_searchGroupBoosts(),
+        help: () => i18n.help_searchGroupBoosts(),
         type: ParameterType.Mixed,
         configFileOnly: true,
         defaultValue: {},
-        validate(value, i18n) {
+        validate(value) {
             if (!isObject(value)) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("searchGroupBoosts"),
@@ -718,7 +717,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "useFirstParagraphOfCommentAsSummary",
-        help: (i18n) => i18n.help_useFirstParagraphOfCommentAsSummary(),
+        help: () => i18n.help_useFirstParagraphOfCommentAsSummary(),
         type: ParameterType.Boolean,
     });
 
@@ -728,7 +727,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "jsDocCompatibility",
-        help: (i18n) => i18n.help_jsDocCompatibility(),
+        help: () => i18n.help_jsDocCompatibility(),
         type: ParameterType.Flags,
         defaults: {
             defaultTag: true,
@@ -740,14 +739,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "suppressCommentWarningsInDeclarationFiles",
-        help: (i18n) => i18n.help_suppressCommentWarningsInDeclarationFiles(),
+        help: () => i18n.help_suppressCommentWarningsInDeclarationFiles(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
 
     options.addDeclaration({
         name: "commentStyle",
-        help: (i18n) => i18n.help_commentStyle(),
+        help: () => i18n.help_commentStyle(),
         type: ParameterType.Map,
         map: CommentStyle,
         defaultValue: CommentStyle.JSDoc,
@@ -755,55 +754,55 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "useTsLinkResolution",
-        help: (i18n) => i18n.help_useTsLinkResolution(),
+        help: () => i18n.help_useTsLinkResolution(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "preserveLinkText",
-        help: (i18n) => i18n.help_preserveLinkText(),
+        help: () => i18n.help_preserveLinkText(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
 
     options.addDeclaration({
         name: "blockTags",
-        help: (i18n) => i18n.help_blockTags(),
+        help: () => i18n.help_blockTags(),
         type: ParameterType.Array,
         defaultValue: blockTags,
         validate: makeTagArrayValidator("blockTags"),
     });
     options.addDeclaration({
         name: "inlineTags",
-        help: (i18n) => i18n.help_inlineTags(),
+        help: () => i18n.help_inlineTags(),
         type: ParameterType.Array,
         defaultValue: inlineTags,
         validate: makeTagArrayValidator("inlineTags"),
     });
     options.addDeclaration({
         name: "modifierTags",
-        help: (i18n) => i18n.help_modifierTags(),
+        help: () => i18n.help_modifierTags(),
         type: ParameterType.Array,
         defaultValue: modifierTags,
         validate: makeTagArrayValidator("modifierTags"),
     });
     options.addDeclaration({
         name: "excludeTags",
-        help: (i18n) => i18n.help_excludeTags(),
+        help: () => i18n.help_excludeTags(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.excludeTags,
         validate: makeTagArrayValidator("excludeTags"),
     });
     options.addDeclaration({
         name: "notRenderedTags",
-        help: (i18n) => i18n.help_notRenderedTags(),
+        help: () => i18n.help_notRenderedTags(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.notRenderedTags,
         validate: makeTagArrayValidator("notRenderedTags"),
     });
     options.addDeclaration({
         name: "cascadedModifierTags",
-        help: (i18n) => i18n.help_modifierTags(),
+        help: () => i18n.help_modifierTags(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.cascadedModifierTags,
         validate: makeTagArrayValidator("cascadedModifierTags"),
@@ -815,38 +814,38 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "categorizeByGroup",
-        help: (i18n) => i18n.help_categorizeByGroup(),
+        help: () => i18n.help_categorizeByGroup(),
         type: ParameterType.Boolean,
         defaultValue: false,
     });
     options.addDeclaration({
         name: "groupReferencesByType",
-        help: (i18n) => i18n.help_groupReferencesByType(),
+        help: () => i18n.help_groupReferencesByType(),
         type: ParameterType.Boolean,
         defaultValue: false,
     });
     options.addDeclaration({
         name: "defaultCategory",
-        help: (i18n) => i18n.help_defaultCategory(),
+        help: () => i18n.help_defaultCategory(),
         defaultValue: "Other",
     });
     options.addDeclaration({
         name: "categoryOrder",
-        help: (i18n) => i18n.help_categoryOrder(),
+        help: () => i18n.help_categoryOrder(),
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "groupOrder",
-        help: (i18n) => i18n.help_groupOrder(),
+        help: () => i18n.help_groupOrder(),
         type: ParameterType.Array,
         // default order specified in GroupPlugin to correctly handle localization.
     });
     options.addDeclaration({
         name: "sort",
-        help: (i18n) => i18n.help_sort(),
+        help: () => i18n.help_sort(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.sort,
-        validate(value, i18n) {
+        validate(value) {
             const invalid = new Set(value);
             for (const v of SORT_STRATEGIES) {
                 invalid.delete(v);
@@ -865,16 +864,16 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "sortEntryPoints",
-        help: (i18n) => i18n.help_sortEntryPoints(),
+        help: () => i18n.help_sortEntryPoints(),
         type: ParameterType.Boolean,
         defaultValue: true,
     });
     options.addDeclaration({
         name: "kindSortOrder",
-        help: (i18n) => i18n.help_kindSortOrder(),
+        help: () => i18n.help_kindSortOrder(),
         type: ParameterType.Array,
         defaultValue: [],
-        validate(value, i18n) {
+        validate(value) {
             const invalid = setDifference(value, getEnumKeys(ReflectionKind));
 
             if (invalid.size !== 0) {
@@ -895,44 +894,44 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "watch",
-        help: (i18n) => i18n.help_watch(),
+        help: () => i18n.help_watch(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "preserveWatchOutput",
-        help: (i18n) => i18n.help_preserveWatchOutput(),
+        help: () => i18n.help_preserveWatchOutput(),
         type: ParameterType.Boolean,
     });
 
     options.addDeclaration({
         name: "skipErrorChecking",
-        help: (i18n) => i18n.help_skipErrorChecking(),
+        help: () => i18n.help_skipErrorChecking(),
         type: ParameterType.Boolean,
         defaultValue: false,
     });
     options.addDeclaration({
         name: "help",
-        help: (i18n) => i18n.help_help(),
+        help: () => i18n.help_help(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "version",
-        help: (i18n) => i18n.help_version(),
+        help: () => i18n.help_version(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "showConfig",
-        help: (i18n) => i18n.help_showConfig(),
+        help: () => i18n.help_showConfig(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "plugin",
-        help: (i18n) => i18n.help_plugin(),
+        help: () => i18n.help_plugin(),
         type: ParameterType.ModuleArray,
     });
     options.addDeclaration({
         name: "logLevel",
-        help: (i18n) => i18n.help_logLevel(),
+        help: () => i18n.help_logLevel(),
         type: ParameterType.Map,
         map: LogLevel,
         defaultValue: LogLevel.Info,
@@ -940,24 +939,24 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
 
     options.addDeclaration({
         name: "treatWarningsAsErrors",
-        help: (i18n) => i18n.help_treatWarningsAsErrors(),
+        help: () => i18n.help_treatWarningsAsErrors(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "treatValidationWarningsAsErrors",
-        help: (i18n) => i18n.help_treatValidationWarningsAsErrors(),
+        help: () => i18n.help_treatValidationWarningsAsErrors(),
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "intentionallyNotExported",
-        help: (i18n) => i18n.help_intentionallyNotExported(),
+        help: () => i18n.help_intentionallyNotExported(),
         type: ParameterType.Array,
     });
     options.addDeclaration({
         name: "requiredToBeDocumented",
-        help: (i18n) => i18n.help_requiredToBeDocumented(),
+        help: () => i18n.help_requiredToBeDocumented(),
         type: ParameterType.Array,
-        validate(values, i18n) {
+        validate(values) {
             // this is good enough because the values of the ReflectionKind enum are all numbers
             const validValues = getEnumKeys(ReflectionKind);
 
@@ -977,14 +976,14 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "intentionallyNotDocumented",
-        help: (i18n) => i18n.help_intentionallyNotDocumented(),
+        help: () => i18n.help_intentionallyNotDocumented(),
         type: ParameterType.Array,
         defaultValue: [],
     });
 
     options.addDeclaration({
         name: "validation",
-        help: (i18n) => i18n.help_validation(),
+        help: () => i18n.help_validation(),
         type: ParameterType.Flags,
         defaults: {
             notExported: true,

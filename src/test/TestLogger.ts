@@ -2,7 +2,6 @@ import { Logger, LogLevel } from "../lib/utils/index.js";
 import { fail, ok } from "assert";
 import ts from "typescript";
 import { resolve } from "path";
-import { Internationalization, type TranslationProxy } from "../lib/internationalization/internationalization.js";
 
 const levelMap: Record<LogLevel, string> = {
     [LogLevel.None]: "none: ",
@@ -14,7 +13,6 @@ const levelMap: Record<LogLevel, string> = {
 
 export class TestLogger extends Logger {
     messages: string[] = [];
-    override i18n: TranslationProxy = new Internationalization(null).proxy;
 
     reset() {
         this.resetErrors();

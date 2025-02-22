@@ -4,7 +4,7 @@ import { type Logger } from "../../utils/index.js";
 import { CommentStyle } from "../../utils/options/declaration.js";
 import { nicePath } from "../../utils/paths.js";
 import { ok } from "assert";
-import { assertNever, filter, firstDefined } from "#utils";
+import { assertNever, filter, firstDefined, i18n } from "#utils";
 
 const variablePropertyKinds = [
     ts.SyntaxKind.PropertyDeclaration,
@@ -273,7 +273,7 @@ export function discoverComment(
                     discovered.some((dc) => !dc.file.isDeclarationFile))
             ) {
                 logger.warn(
-                    logger.i18n.symbol_0_has_multiple_declarations_with_comment(
+                    i18n.symbol_0_has_multiple_declarations_with_comment(
                         symbol.name,
                     ),
                 );
@@ -286,7 +286,7 @@ export function discoverComment(
                     },
                 );
                 logger.info(
-                    logger.i18n.comments_for_0_are_declared_at_1(
+                    i18n.comments_for_0_are_declared_at_1(
                         symbol.name,
                         locations.join("\n\t"),
                     ),

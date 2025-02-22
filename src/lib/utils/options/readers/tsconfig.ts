@@ -6,7 +6,7 @@ import type { Options, OptionsReader } from "../options.js";
 import type { Logger } from "../../loggers.js";
 import { isFile } from "../../fs.js";
 import { ok } from "assert";
-import { unique, Validation } from "#utils";
+import { i18n, unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
 import { tsdocBlockTags, tsdocInlineTags, tsdocModifierTags } from "../tsdoc-defaults.js";
@@ -74,7 +74,7 @@ export class TSConfigReader implements OptionsReader {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
             if (container.isSet("tsconfig")) {
                 logger.error(
-                    logger.i18n.tsconfig_file_0_does_not_exist(nicePath(file)),
+                    i18n.tsconfig_file_0_does_not_exist(nicePath(file)),
                 );
             }
             return;
@@ -96,11 +96,11 @@ export class TSConfigReader implements OptionsReader {
 
         const typedocOptions = getTypeDocOptionsFromTsConfig(fileToRead);
         if (typedocOptions.options) {
-            logger.error(logger.i18n.tsconfig_file_specifies_options_file());
+            logger.error(i18n.tsconfig_file_specifies_options_file());
             delete typedocOptions.options;
         }
         if (typedocOptions.tsconfig) {
-            logger.error(logger.i18n.tsconfig_file_specifies_tsconfig_file());
+            logger.error(i18n.tsconfig_file_specifies_tsconfig_file());
             delete typedocOptions.tsconfig;
         }
 
@@ -140,7 +140,7 @@ export class TSConfigReader implements OptionsReader {
         ).filter((opt) => container.isSet(opt));
         if (overwritten.length) {
             logger.warn(
-                logger.i18n.tags_0_defined_in_typedoc_json_overwritten_by_tsdoc_json(
+                i18n.tags_0_defined_in_typedoc_json_overwritten_by_tsdoc_json(
                     overwritten.join(", "),
                 ),
             );
@@ -186,7 +186,7 @@ export class TSConfigReader implements OptionsReader {
     private readTsDoc(logger: Logger, path: string): TsDocSchema | undefined {
         if (this.seenTsdocPaths.has(path)) {
             logger.error(
-                logger.i18n.circular_reference_extends_0(nicePath(path)),
+                i18n.circular_reference_extends_0(nicePath(path)),
             );
             return;
         }
@@ -198,12 +198,12 @@ export class TSConfigReader implements OptionsReader {
         );
 
         if (error) {
-            logger.error(logger.i18n.failed_read_tsdoc_json_0(nicePath(path)));
+            logger.error(i18n.failed_read_tsdoc_json_0(nicePath(path)));
             return;
         }
 
         if (!Validation.validate(tsDocSchema, config)) {
-            logger.error(logger.i18n.invalid_tsdoc_json_0(nicePath(path)));
+            logger.error(i18n.invalid_tsdoc_json_0(nicePath(path)));
             return;
         }
 
@@ -217,7 +217,7 @@ export class TSConfigReader implements OptionsReader {
                     resolvedPath = resolver.resolve(extendedPath);
                 } catch {
                     logger.error(
-                        logger.i18n.failed_resolve_0_to_file_in_1(
+                        i18n.failed_resolve_0_to_file_in_1(
                             extendedPath,
                             nicePath(path),
                         ),

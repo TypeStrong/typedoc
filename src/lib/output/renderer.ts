@@ -20,7 +20,7 @@ import { loadHighlighter } from "../utils/highlighter.js";
 import type { BundledLanguage, BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 import type { Comment, Reflection } from "../models/index.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
-import { EventHooks, JSX } from "#utils";
+import { EventHooks, i18n, JSX } from "#utils";
 
 import {
     AssetsPlugin,
@@ -408,7 +408,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             writeFileSync(event.filename, event.contents);
         } catch (error) {
             this.application.logger.error(
-                this.application.i18n.could_not_write_0(event.filename),
+                i18n.could_not_write_0(event.filename),
             );
         }
     }
@@ -418,7 +418,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             const ctor = this.routers.get(this.routerName);
             if (!ctor) {
                 this.application.logger.error(
-                    this.application.i18n.router_0_is_not_defined_available_are_1(
+                    i18n.router_0_is_not_defined_available_are_1(
                         this.routerName,
                         [...this.routers.keys()].join(", "),
                     ),
@@ -437,7 +437,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             const ctor = this.themes.get(this.themeName);
             if (!ctor) {
                 this.application.logger.error(
-                    this.application.i18n.theme_0_is_not_defined_available_are_1(
+                    i18n.theme_0_is_not_defined_available_are_1(
                         this.themeName,
                         [...this.themes.keys()].join(", "),
                     ),
@@ -467,7 +467,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
                 });
             } catch (error) {
                 this.application.logger.warn(
-                    this.application.i18n.could_not_empty_output_directory_0(
+                    i18n.could_not_empty_output_directory_0(
                         directory,
                     ),
                 );
@@ -479,7 +479,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             fs.mkdirSync(directory, { recursive: true });
         } catch (error) {
             this.application.logger.error(
-                this.application.i18n.could_not_create_output_directory_0(
+                i18n.could_not_create_output_directory_0(
                     directory,
                 ),
             );
@@ -495,7 +495,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
                 fs.writeFileSync(path.join(directory, ".nojekyll"), text);
             } catch (error) {
                 this.application.logger.warn(
-                    this.application.i18n.could_not_write_0(
+                    i18n.could_not_write_0(
                         path.join(directory, ".nojekyll"),
                     ),
                 );

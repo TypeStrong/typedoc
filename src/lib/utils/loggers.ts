@@ -3,7 +3,7 @@ import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths.js";
 import type { MinimalSourceFile } from "./minimalSourceFile.js";
-import type { TranslatedString, TranslationProxy } from "../internationalization/internationalization.js";
+import type { TranslatedString } from "../internationalization/internationalization.js";
 import type { IfInternal } from "#utils";
 
 const isDebugging = () => !!url();
@@ -41,18 +41,6 @@ const messagePrefixes = {
     [LogLevel.Verbose]: color("[debug]", "gray"),
 };
 
-const dummyTranslationProxy: TranslationProxy = new Proxy(
-    {} as TranslationProxy,
-    {
-        get: (_target, key) => {
-            return (...args: string[]) =>
-                String(key).replace(/\{(\d+)\}/g, (_, index) => {
-                    return args[+index] ?? "(no placeholder)";
-                });
-        },
-    },
-);
-
 type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
 
 /**
@@ -62,13 +50,6 @@ type FormatArgs = [ts.Node?] | [number, MinimalSourceFile];
  * all the required utility functions.
  */
 export class Logger {
-    /**
-     * Translation utility for internationalization.
-     * @privateRemarks
-     * This is fully initialized by the application during bootstrapping.
-     */
-    i18n: TranslationProxy = dummyTranslationProxy;
-
     /**
      * How many error messages have been logged?
      */

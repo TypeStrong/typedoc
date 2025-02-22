@@ -3,7 +3,7 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { type EnumKeys, getEnumKeys, type NormalizedPath } from "#utils";
+import { type EnumKeys, getEnumKeys, i18n, type NormalizedPath } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
@@ -32,9 +32,6 @@ export class AssetsPlugin extends RendererComponent {
     }
 
     getTranslatedStrings() {
-        const inter = this.application.internationalization;
-        const i18n = this.application.i18n;
-
         const translations: Record<string, string> = {
             copy: i18n.theme_copy(),
             copied: i18n.theme_copied(),
@@ -43,15 +40,15 @@ export class AssetsPlugin extends RendererComponent {
             hierarchy_collapse: i18n.theme_hierarchy_collapse(),
             folder: i18n.theme_folder(),
 
-            search_index_not_available: this.application.i18n.theme_search_index_not_available(),
-            search_no_results_found_for_0: this.application.i18n.theme_search_no_results_found_for_0(
+            search_index_not_available: i18n.theme_search_index_not_available(),
+            search_no_results_found_for_0: i18n.theme_search_no_results_found_for_0(
                 "{0}",
             ),
         };
 
         for (const key of getEnumKeys(ReflectionKind)) {
             const kind = ReflectionKind[key as EnumKeys<typeof ReflectionKind>];
-            translations[`kind_${kind}`] = inter.kindSingularString(kind);
+            translations[`kind_${kind}`] = ReflectionKind.singularString(kind);
         }
 
         return translations;
@@ -76,7 +73,7 @@ export class AssetsPlugin extends RendererComponent {
                 copySync(this.customCss, join(dest, "custom.css"));
             } else {
                 this.application.logger.error(
-                    this.application.i18n.custom_css_file_0_does_not_exist(
+                    i18n.custom_css_file_0_does_not_exist(
                         this.customCss,
                     ),
                 );
@@ -89,7 +86,7 @@ export class AssetsPlugin extends RendererComponent {
                 copySync(this.customJs, join(dest, "custom.js"));
             } else {
                 this.application.logger.error(
-                    this.application.i18n.custom_js_file_0_does_not_exist(
+                    i18n.custom_js_file_0_does_not_exist(
                         this.customJs,
                     ),
                 );

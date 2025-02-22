@@ -1,10 +1,9 @@
 import { deepStrictEqual as equal, doesNotThrow, ok, throws } from "assert";
 import { Options, TYPEDOC_ROOT } from "../../../lib/utils/index.js";
-import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 import { readFileSync } from "fs";
 
 describe("Default Options", () => {
-    const opts = new Options(new Internationalization(null).proxy);
+    const opts = new Options();
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {

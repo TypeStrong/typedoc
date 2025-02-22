@@ -11,7 +11,6 @@ import {
 import { resetReflectionID } from "../../lib/models/reflections/abstract.js";
 import { Options } from "../../lib/utils/index.js";
 import { getSortFunction, type SortStrategy } from "../../lib/utils/sort.js";
-import { Internationalization } from "../../lib/internationalization/internationalization.js";
 import { FileRegistry } from "../../lib/models/FileRegistry.js";
 
 describe("Sort", () => {
@@ -19,7 +18,7 @@ describe("Sort", () => {
         arr: Array<DeclarationReflection | DocumentReflection>,
         strategies: SortStrategy[],
     ) {
-        const opts = new Options(new Internationalization(null).proxy);
+        const opts = new Options();
         opts.setValue("sort", strategies);
         getSortFunction(opts)(arr);
     }

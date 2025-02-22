@@ -11,6 +11,7 @@ import { isFile } from "../../fs.js";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";
+import { i18n } from "#utils";
 
 /**
  * Obtains option values from typedoc.json
@@ -40,7 +41,7 @@ export class TypeDocReader implements OptionsReader {
         if (!file) {
             if (container.isSet("options")) {
                 logger.error(
-                    logger.i18n.options_file_0_does_not_exist(nicePath(path)),
+                    i18n.options_file_0_does_not_exist(nicePath(path)),
                 );
             }
             return;
@@ -64,7 +65,7 @@ export class TypeDocReader implements OptionsReader {
     ) {
         if (seen.has(file)) {
             logger.error(
-                logger.i18n.circular_reference_extends_0(nicePath(file)),
+                i18n.circular_reference_extends_0(nicePath(file)),
             );
             return;
         }
@@ -76,7 +77,7 @@ export class TypeDocReader implements OptionsReader {
 
             if (readResult.error) {
                 logger.error(
-                    logger.i18n.failed_read_options_file_0(nicePath(file)),
+                    i18n.failed_read_options_file_0(nicePath(file)),
                 );
                 return;
             } else {
@@ -90,7 +91,7 @@ export class TypeDocReader implements OptionsReader {
                 fileContent = await (await import(esmPath)).default;
             } catch (error) {
                 logger.error(
-                    logger.i18n.failed_read_options_file_0(nicePath(file)),
+                    i18n.failed_read_options_file_0(nicePath(file)),
                 );
                 logger.error(
                     String(
@@ -103,7 +104,7 @@ export class TypeDocReader implements OptionsReader {
 
         if (typeof fileContent !== "object" || !fileContent) {
             logger.error(
-                logger.i18n.failed_read_options_file_0(nicePath(file)),
+                i18n.failed_read_options_file_0(nicePath(file)),
             );
             return;
         }
@@ -121,7 +122,7 @@ export class TypeDocReader implements OptionsReader {
                     resolvedParent = resolver.resolve(extendedFile);
                 } catch {
                     logger.error(
-                        logger.i18n.failed_resolve_0_to_file_in_1(
+                        i18n.failed_resolve_0_to_file_in_1(
                             extendedFile,
                             nicePath(file),
                         ),

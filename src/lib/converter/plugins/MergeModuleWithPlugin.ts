@@ -5,6 +5,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { i18n } from "#utils";
 
 /**
  * Handles `@mergeModuleWith` tags in comments
@@ -59,7 +60,7 @@ export class MergeModuleWithPlugin extends ConverterComponent {
         while (tempRefl !== project) {
             if (tempRefl === target) {
                 this.application.logger.warn(
-                    this.application.i18n.reflection_0_tried_to_merge_into_child_1(
+                    i18n.reflection_0_tried_to_merge_into_child_1(
                         refl.getFriendlyFullName(),
                         target.getFriendlyFullName(),
                     ),

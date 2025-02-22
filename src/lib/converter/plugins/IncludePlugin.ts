@@ -7,7 +7,7 @@ import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
-import { dedent, escapeRegExp } from "#utils";
+import { dedent, escapeRegExp, i18n } from "#utils";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -69,7 +69,7 @@ export class IncludePlugin extends ConverterComponent {
             this.application.watchFile(file);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
-                    this.logger.i18n.include_0_in_1_specified_2_circular_include_3(
+                    i18n.include_0_in_1_specified_2_circular_include_3(
                         part.tag,
                         refl.getFriendlyFullName(),
                         part.text,
@@ -123,7 +123,7 @@ export class IncludePlugin extends ConverterComponent {
                 }
             } else {
                 this.logger.error(
-                    this.logger.i18n.include_0_in_1_specified_2_resolved_to_3_does_not_exist(
+                    i18n.include_0_in_1_specified_2_resolved_to_3_does_not_exist(
                         part.tag,
                         refl.getFriendlyFullName(),
                         part.text,
@@ -147,7 +147,7 @@ export class IncludePlugin extends ConverterComponent {
         const regionTagsList = regionTagREsByExt[ext];
         if (!regionTagsList) {
             this.logger.error(
-                this.logger.i18n.include_0_tag_in_1_region_2_region_not_supported(
+                i18n.include_0_tag_in_1_region_2_region_not_supported(
                     tag,
                     refl.getFriendlyFullName(),
                     textPart,
@@ -170,7 +170,7 @@ export class IncludePlugin extends ConverterComponent {
                 const foundEnd = end && end.length > 0;
                 if (foundStart && !foundEnd) {
                     this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found(
+                        i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_close_not_found(
                             tag,
                             refl.getFriendlyFullName(),
                             textPart,
@@ -182,7 +182,7 @@ export class IncludePlugin extends ConverterComponent {
                 }
                 if (!foundStart && foundEnd) {
                     this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found(
+                        i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_open_not_found(
                             tag,
                             refl.getFriendlyFullName(),
                             textPart,
@@ -195,7 +195,7 @@ export class IncludePlugin extends ConverterComponent {
                 if (foundStart && foundEnd) {
                     if (start.length > 1) {
                         this.logger.error(
-                            this.logger.i18n
+                            i18n
                                 .include_0_tag_in_1_specified_2_file_3_region_4_region_open_found_multiple_times(
                                     tag,
                                     refl.getFriendlyFullName(),
@@ -208,7 +208,7 @@ export class IncludePlugin extends ConverterComponent {
                     }
                     if (end.length > 1) {
                         this.logger.error(
-                            this.logger.i18n
+                            i18n
                                 .include_0_tag_in_1_specified_2_file_3_region_4_region_close_found_multiple_times(
                                     tag,
                                     refl.getFriendlyFullName(),
@@ -221,7 +221,7 @@ export class IncludePlugin extends ConverterComponent {
                     }
                     if (found) {
                         this.logger.error(
-                            this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times(
+                            i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_found_multiple_times(
                                 tag,
                                 refl.getFriendlyFullName(),
                                 textPart,
@@ -239,7 +239,7 @@ export class IncludePlugin extends ConverterComponent {
             }
             if (found === false) {
                 this.logger.error(
-                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_not_found(
+                    i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_not_found(
                         tag,
                         refl.getFriendlyFullName(),
                         textPart,
@@ -251,7 +251,7 @@ export class IncludePlugin extends ConverterComponent {
             }
             if (found.trim() === "") {
                 this.logger.warn(
-                    this.logger.i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_empty(
+                    i18n.include_0_tag_in_1_specified_2_file_3_region_4_region_empty(
                         tag,
                         refl.getFriendlyFullName(),
                         textPart,
@@ -282,7 +282,7 @@ export class IncludePlugin extends ConverterComponent {
                 const [start, end] = requestedLineString.split("-").map(Number);
                 if (start > end) {
                     this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_lines_4_invalid_range(
+                        i18n.include_0_tag_in_1_specified_2_file_3_lines_4_invalid_range(
                             tag,
                             refl.getFriendlyFullName(),
                             textPart,
@@ -294,7 +294,7 @@ export class IncludePlugin extends ConverterComponent {
                 }
                 if (start > lines.length || end > lines.length) {
                     this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines(
+                        i18n.include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines(
                             tag,
                             refl.getFriendlyFullName(),
                             textPart,
@@ -310,7 +310,7 @@ export class IncludePlugin extends ConverterComponent {
                 const requestedLine = Number(requestedLineString);
                 if (requestedLine > lines.length) {
                     this.logger.error(
-                        this.logger.i18n.include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines(
+                        i18n.include_0_tag_in_1_specified_2_file_3_lines_4_but_only_5_lines(
                             tag,
                             refl.getFriendlyFullName(),
                             textPart,

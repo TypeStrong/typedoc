@@ -1,4 +1,4 @@
-import type { EnumKeys } from "#utils";
+import { type EnumKeys, i18n } from "#utils";
 
 /**
  * Defines the available reflection kinds.
@@ -127,38 +127,109 @@ export namespace ReflectionKind {
         FunctionOrMethod |
         ReflectionKind.TypeLiteral;
 
-    const SINGULARS = {
-        [ReflectionKind.Enum]: "Enumeration",
-        [ReflectionKind.EnumMember]: "Enumeration Member",
-    };
-
-    const PLURALS = {
-        [ReflectionKind.Class]: "Classes",
-        [ReflectionKind.Property]: "Properties",
-        [ReflectionKind.Enum]: "Enumerations",
-        [ReflectionKind.EnumMember]: "Enumeration Members",
-        [ReflectionKind.TypeAlias]: "Type Aliases",
-    };
-
-    /**
-     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindSingularString(kind)`
-     */
-    export function singularString(kind: ReflectionKind): string {
-        if (kind in SINGULARS) {
-            return SINGULARS[kind as keyof typeof SINGULARS];
-        } else {
-            return getKindString(kind);
+    export function singularString(kind: ReflectionKind) {
+        switch (kind) {
+            case ReflectionKind.Project:
+                return i18n.kind_project();
+            case ReflectionKind.Module:
+                return i18n.kind_module();
+            case ReflectionKind.Namespace:
+                return i18n.kind_namespace();
+            case ReflectionKind.Enum:
+                return i18n.kind_enum();
+            case ReflectionKind.EnumMember:
+                return i18n.kind_enum_member();
+            case ReflectionKind.Variable:
+                return i18n.kind_variable();
+            case ReflectionKind.Function:
+                return i18n.kind_function();
+            case ReflectionKind.Class:
+                return i18n.kind_class();
+            case ReflectionKind.Interface:
+                return i18n.kind_interface();
+            case ReflectionKind.Constructor:
+                return i18n.kind_constructor();
+            case ReflectionKind.Property:
+                return i18n.kind_property();
+            case ReflectionKind.Method:
+                return i18n.kind_method();
+            case ReflectionKind.CallSignature:
+                return i18n.kind_call_signature();
+            case ReflectionKind.IndexSignature:
+                return i18n.kind_index_signature();
+            case ReflectionKind.ConstructorSignature:
+                return i18n.kind_constructor_signature();
+            case ReflectionKind.Parameter:
+                return i18n.kind_parameter();
+            case ReflectionKind.TypeLiteral:
+                return i18n.kind_type_literal();
+            case ReflectionKind.TypeParameter:
+                return i18n.kind_type_parameter();
+            case ReflectionKind.Accessor:
+                return i18n.kind_accessor();
+            case ReflectionKind.GetSignature:
+                return i18n.kind_get_signature();
+            case ReflectionKind.SetSignature:
+                return i18n.kind_set_signature();
+            case ReflectionKind.TypeAlias:
+                return i18n.kind_type_alias();
+            case ReflectionKind.Reference:
+                return i18n.kind_reference();
+            case ReflectionKind.Document:
+                return i18n.kind_document();
         }
     }
 
-    /**
-     * Get a non-localized kind string. For the localized string, use `app.internationalization.kindPluralString(kind)`
-     */
     export function pluralString(kind: ReflectionKind): string {
-        if (kind in PLURALS) {
-            return PLURALS[kind as keyof typeof PLURALS];
-        } else {
-            return getKindString(kind) + "s";
+        switch (kind) {
+            case ReflectionKind.Project:
+                return i18n.kind_plural_project();
+            case ReflectionKind.Module:
+                return i18n.kind_plural_module();
+            case ReflectionKind.Namespace:
+                return i18n.kind_plural_namespace();
+            case ReflectionKind.Enum:
+                return i18n.kind_plural_enum();
+            case ReflectionKind.EnumMember:
+                return i18n.kind_plural_enum_member();
+            case ReflectionKind.Variable:
+                return i18n.kind_plural_variable();
+            case ReflectionKind.Function:
+                return i18n.kind_plural_function();
+            case ReflectionKind.Class:
+                return i18n.kind_plural_class();
+            case ReflectionKind.Interface:
+                return i18n.kind_plural_interface();
+            case ReflectionKind.Constructor:
+                return i18n.kind_plural_constructor();
+            case ReflectionKind.Property:
+                return i18n.kind_plural_property();
+            case ReflectionKind.Method:
+                return i18n.kind_plural_method();
+            case ReflectionKind.CallSignature:
+                return i18n.kind_plural_call_signature();
+            case ReflectionKind.IndexSignature:
+                return i18n.kind_plural_index_signature();
+            case ReflectionKind.ConstructorSignature:
+                return i18n.kind_plural_constructor_signature();
+            case ReflectionKind.Parameter:
+                return i18n.kind_plural_parameter();
+            case ReflectionKind.TypeLiteral:
+                return i18n.kind_plural_type_literal();
+            case ReflectionKind.TypeParameter:
+                return i18n.kind_plural_type_parameter();
+            case ReflectionKind.Accessor:
+                return i18n.kind_plural_accessor();
+            case ReflectionKind.GetSignature:
+                return i18n.kind_plural_get_signature();
+            case ReflectionKind.SetSignature:
+                return i18n.kind_plural_set_signature();
+            case ReflectionKind.TypeAlias:
+                return i18n.kind_plural_type_alias();
+            case ReflectionKind.Reference:
+                return i18n.kind_plural_reference();
+            case ReflectionKind.Document:
+                return i18n.kind_plural_document();
         }
     }
 
@@ -169,11 +240,4 @@ export namespace ReflectionKind {
                 .toLowerCase()
         }`;
     }
-}
-
-function getKindString(kind: ReflectionKind): string {
-    return ReflectionKind[kind].replace(
-        /(.)([A-Z])/g,
-        (_m, a: string, b: string) => a + " " + b.toLowerCase(),
-    );
 }

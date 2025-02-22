@@ -6,7 +6,7 @@ import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId.js";
 import type { DeclarationReference } from "#utils";
 import { ReflectionKind } from "./reflections/kind.js";
 import { Comment, type CommentDisplayPart } from "./comments/index.js";
-import { joinArray } from "#utils";
+import { i18n, joinArray } from "#utils";
 import type { SignatureReflection } from "./reflections/signature.js";
 
 /**
@@ -1044,7 +1044,7 @@ export class ReferenceType extends Type {
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                        i18n.serialized_project_referenced_0_not_part_of_project(
                             JSON.stringify(obj.target),
                         ),
                     );

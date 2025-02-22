@@ -4,7 +4,7 @@ import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
 import type { ReflectionKind } from "../../models/reflections/kind.js";
-import { type GlobString, type NeverIfInternal, type NormalizedPath, type NormalizedPathOrModule } from "#utils";
+import { type GlobString, i18n, type NeverIfInternal, type NormalizedPath, type NormalizedPathOrModule } from "#utils";
 import type { TranslatedString, TranslationProxy } from "../../internationalization/internationalization.js";
 import { createGlobString, normalizePath } from "../paths.js";
 
@@ -391,10 +391,9 @@ export interface DeclarationOptionBase {
      * The help text to be displayed to the user when --help is passed.
      *
      * This may be a string, which will be presented directly, or a function,
-     * which will be called with an {@link TranslationProxy} so that option help
-     * can be translated into the user specified locale.
+     * which will be called so that option help can be translated into the user specified locale.
      */
-    help: NeverIfInternal<string> | ((i18n: TranslationProxy) => string);
+    help: NeverIfInternal<string> | (() => string);
 
     /**
      * The parameter type, used to convert user configuration values into the expected type.
@@ -440,7 +439,7 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: string, i18n: TranslationProxy) => void;
+    validate?: (value: string) => void;
 }
 
 export interface NumberDeclarationOption extends DeclarationOptionBase {
@@ -465,7 +464,7 @@ export interface NumberDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: number, i18n: TranslationProxy) => void;
+    validate?: (value: number) => void;
 }
 
 export interface BooleanDeclarationOption extends DeclarationOptionBase {
@@ -492,7 +491,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: string[], i18n: TranslationProxy) => void;
+    validate?: (value: string[]) => void;
 }
 
 export interface GlobArrayDeclarationOption extends DeclarationOptionBase {
@@ -508,7 +507,7 @@ export interface GlobArrayDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: GlobString[], i18n: TranslationProxy) => void;
+    validate?: (value: GlobString[]) => void;
 }
 
 export interface MixedDeclarationOption extends DeclarationOptionBase {
@@ -523,7 +522,7 @@ export interface MixedDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: unknown, i18n: TranslationProxy) => void;
+    validate?: (value: unknown) => void;
 }
 
 export interface ObjectDeclarationOption extends DeclarationOptionBase {
@@ -538,7 +537,7 @@ export interface ObjectDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: unknown, i18n: TranslationProxy) => void;
+    validate?: (value: unknown) => void;
 }
 export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     type: ParameterType.Map;
@@ -603,66 +602,64 @@ const converters: {
     [K in ParameterType]: (
         value: unknown,
         option: DeclarationOption & { type: K },
-        i18n: TranslationProxy,
         configPath: NormalizedPath,
         oldValue: unknown,
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
-    [ParameterType.String](value, option, i18n) {
+    [ParameterType.String](value, option) {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
         const stringValue = value == null ? "" : String(value);
-        option.validate?.(stringValue, i18n);
+        option.validate?.(stringValue);
         return stringValue;
     },
-    [ParameterType.Path](value, option, i18n, configPath) {
+    [ParameterType.Path](value, option, configPath) {
         const stringValue =
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             value == null ? "" : resolve(configPath, String(value));
-        option.validate?.(stringValue, i18n);
+        option.validate?.(stringValue);
         return normalizePath(stringValue);
     },
-    [ParameterType.UrlOrPath](value, option, i18n, configPath) {
+    [ParameterType.UrlOrPath](value, option, configPath) {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
         const stringValue = value == null ? "" : String(value);
 
         if (/^https?:\/\//i.test(stringValue)) {
-            option.validate?.(stringValue, i18n);
+            option.validate?.(stringValue);
             return stringValue;
         }
 
         const resolved = normalizePath(resolve(configPath, stringValue));
-        option.validate?.(resolved, i18n);
+        option.validate?.(resolved);
         return resolved;
     },
-    [ParameterType.Number](value, option, i18n) {
+    [ParameterType.Number](value, option) {
         const numValue = parseInt(String(value), 10) || 0;
         if (!valueIsWithinBounds(numValue, option.minValue, option.maxValue)) {
             throw new Error(
                 getBoundsError(
                     option.name,
-                    i18n,
                     option.minValue,
                     option.maxValue,
                 ),
             );
         }
-        option.validate?.(numValue, i18n);
+        option.validate?.(numValue);
         return numValue;
     },
     [ParameterType.Boolean](value) {
         return !!value;
     },
-    [ParameterType.Array](value, option, i18n) {
+    [ParameterType.Array](value, option) {
         let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        option.validate?.(strArrValue, i18n);
+        option.validate?.(strArrValue);
         return strArrValue;
     },
-    [ParameterType.PathArray](value, option, i18n, configPath) {
+    [ParameterType.PathArray](value, option, configPath) {
         let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
@@ -670,10 +667,10 @@ const converters: {
             strArrValue = [value];
         }
         const normalized = strArrValue.map((path) => normalizePath(resolve(configPath, path)));
-        option.validate?.(normalized, i18n);
+        option.validate?.(normalized);
         return normalized;
     },
-    [ParameterType.ModuleArray](value, option, i18n, configPath) {
+    [ParameterType.ModuleArray](value, option, configPath) {
         let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
@@ -681,16 +678,16 @@ const converters: {
             strArrValue = [value];
         }
         const resolved = resolveModulePaths(strArrValue, configPath);
-        option.validate?.(resolved, i18n);
+        option.validate?.(resolved);
         return resolved;
     },
-    [ParameterType.GlobArray](value, option, i18n, configPath) {
+    [ParameterType.GlobArray](value, option, configPath) {
         const toGlobString = (v: unknown) => createGlobString(configPath, String(v));
         const globs = Array.isArray(value) ? value.map(toGlobString) : [toGlobString(value)];
-        option.validate?.(globs, i18n);
+        option.validate?.(globs);
         return globs;
     },
-    [ParameterType.Map](value, option, i18n) {
+    [ParameterType.Map](value, option) {
         const key = String(value);
         if (option.map instanceof Map) {
             if (option.map.has(key)) {
@@ -706,20 +703,20 @@ const converters: {
         } else if (Object.values(option.map).includes(value)) {
             return value;
         }
-        throw new Error(getMapError(option.map, i18n, option.name));
+        throw new Error(getMapError(option.map, option.name));
     },
-    [ParameterType.Mixed](value, option, i18n) {
-        option.validate?.(value, i18n);
+    [ParameterType.Mixed](value, option) {
+        option.validate?.(value);
         return value;
     },
-    [ParameterType.Object](value, option, i18n, _configPath, oldValue) {
-        option.validate?.(value, i18n);
+    [ParameterType.Object](value, option, _configPath, oldValue) {
+        option.validate?.(value);
         if (typeof oldValue !== "undefined") {
             value = { ...(oldValue as object), ...(value as object) };
         }
         return value;
     },
-    [ParameterType.Flags](value, option, i18n) {
+    [ParameterType.Flags](value, option) {
         if (typeof value === "boolean") {
             value = Object.fromEntries(
                 Object.keys(option.defaults).map((key) => [key, value]),
@@ -770,7 +767,6 @@ const converters: {
 export function convert(
     value: unknown,
     option: DeclarationOption,
-    i18n: TranslationProxy,
     configPath: string,
     oldValue?: unknown,
 ): unknown {
@@ -779,7 +775,6 @@ export function convert(
         (
             v: unknown,
             o: DeclarationOption,
-            i18n: TranslationProxy,
             c: string,
             ov: unknown,
         ) => unknown
@@ -787,7 +782,6 @@ export function convert(
     return _converters[option.type ?? ParameterType.String](
         value,
         option,
-        i18n,
         configPath,
         oldValue,
     );
@@ -890,7 +884,6 @@ function isTsNumericEnum(map: Record<string, any>) {
  */
 function getMapError(
     map: MapDeclarationOption<unknown>["map"],
-    i18n: TranslationProxy,
     name: string,
 ): TranslatedString {
     let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
@@ -914,7 +907,6 @@ function getMapError(
  */
 function getBoundsError(
     name: string,
-    i18n: TranslationProxy,
     minValue?: number,
     maxValue?: number,
 ): TranslatedString {

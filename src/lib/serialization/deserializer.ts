@@ -282,11 +282,12 @@ export class Deserializer {
         options: {
             projectRoot: string;
             registry: FileRegistry;
+            alwaysCreateEntryPointModule: boolean;
         },
     ): ProjectReflection {
         if (
             projects.length === 1 &&
-            !this.application.options.getValue("alwaysCreateEntryPointModule")
+            !options.alwaysCreateEntryPointModule
         ) {
             return this.reviveProject(name, projects[0], options);
         }

@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "#utils";
+import { JSX, translateTagName } from "#utils";
 import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
 import { anchorIcon, anchorLink } from "./anchor-icon.js";
 import { join } from "../../lib.js";
@@ -75,8 +75,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
             <div class="tsd-comment tsd-typography">
                 {tags.map((item) => {
                     const name = item.name
-                        ? `${context.internationalization.translateTagName(item.tag)}: ${item.name}`
-                        : context.internationalization.translateTagName(item.tag);
+                        ? `${translateTagName(item.tag)}: ${item.name}`
+                        : translateTagName(item.tag);
 
                     const anchor = context.slugger.slug(name);
 
@@ -101,11 +101,11 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
 export function reflectionFlags(context: DefaultThemeRenderContext, props: Reflection) {
     const flagsNotRendered = context.options.getValue("notRenderedTags");
-    const allFlags = props.flags.getFlagStrings(context.internationalization);
+    const allFlags = props.flags.getFlagStrings();
     if (props.comment) {
         for (const tag of props.comment.modifierTags) {
             if (!flagsNotRendered.includes(tag)) {
-                allFlags.push(context.internationalization.translateTagName(tag));
+                allFlags.push(translateTagName(tag));
             }
         }
     }

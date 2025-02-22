@@ -17,7 +17,6 @@ import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
 import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
 import { getHumanName } from "../utils/tsutils.js";
-import type { TranslationProxy } from "../internationalization/internationalization.js";
 
 /**
  * The context describes the current state the converter is in.
@@ -33,13 +32,6 @@ export class Context {
      */
     get checker(): ts.TypeChecker {
         return this.program.getTypeChecker();
-    }
-
-    /**
-     * Translation interface for log messages.
-     */
-    get i18n(): TranslationProxy {
-        return this.converter.application.i18n;
     }
 
     /**

@@ -5,7 +5,7 @@ import { dirname } from "path";
 import { glob, readFile } from "./fs.js";
 import type { Logger } from "./loggers.js";
 import { createGlobString, type MinimatchSet, nicePath, normalizePath } from "./paths.js";
-import { type GlobString, type NormalizedPath } from "#utils";
+import { type GlobString, i18n, type NormalizedPath } from "#utils";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty
@@ -30,7 +30,7 @@ export function loadPackageManifest(
     const packageJson: unknown = JSON.parse(readFile(packageJsonPath));
     if (typeof packageJson !== "object" || !packageJson) {
         logger.error(
-            logger.i18n.file_0_not_an_object(nicePath(packageJsonPath)),
+            i18n.file_0_not_an_object(nicePath(packageJsonPath)),
         );
         return undefined;
     }
@@ -90,7 +90,7 @@ export function expandPackages(
 
         if (expandedPackageJsonPaths.length === 0) {
             logger.warn(
-                logger.i18n.entry_point_0_did_not_match_any_packages(
+                i18n.entry_point_0_did_not_match_any_packages(
                     nicePath(workspace),
                 ),
             );

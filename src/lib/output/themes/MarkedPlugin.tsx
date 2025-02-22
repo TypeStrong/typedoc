@@ -7,7 +7,7 @@ import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { assertNever, escapeHtml, JSX } from "#utils";
+import { assertNever, escapeHtml, i18n, JSX } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
@@ -16,7 +16,7 @@ import {
     ReflectionKind,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
-import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
+import type { TranslatedString } from "../../internationalization/index.js";
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -71,7 +71,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
             this.application.logger.warn(
-                this.application.i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
                     lang,
                     this.page?.model.getFriendlyFullName() ?? "(unknown)",
                 ),
@@ -80,7 +80,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         }
         if (!isLoadedLanguage(lang)) {
             this.application.logger.warn(
-                this.application.i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
+                i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
                     lang,
                     this.page?.model.getFriendlyFullName() ?? "(unknown)",
                 ),
@@ -167,7 +167,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
                                         if (this.validation.rewrittenLink) {
                                             this.application.logger.warn(
-                                                this.application.i18n
+                                                i18n
                                                     .reflection_0_links_to_1_with_text_2_but_resolved_to_3(
                                                         page.model.getFriendlyFullName(),
                                                         part.target.getFriendlyFullName(),
@@ -251,7 +251,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             const slugger = this.owner.router!.getSlugger(target);
             if (!slugger.hasAnchor(link.targetAnchor!)) {
                 this.application.logger.warn(
-                    this.application.i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
+                    i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
                         source.getFriendlyFullName(),
                         link.text,
                         slugger
@@ -294,16 +294,16 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 code = code.replace(/\n$/, "") + "\n";
 
                 if (!lang) {
-                    return `<pre><code>${code}</code><button>${this.application.i18n.theme_copy()}</button></pre>\n`;
+                    return `<pre><code>${code}</code><button>${i18n.theme_copy()}</button></pre>\n`;
                 }
 
                 return `<pre><code class="${
                     escapeHtml(lang)
-                }">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
+                }">${code}</code><button type="button">${i18n.theme_copy()}</button></pre>\n`;
             },
         });
 
-        githubAlertMarkdownPlugin(this.parser, this.application.i18n);
+        githubAlertMarkdownPlugin(this.parser);
 
         const loader = this.application.options.getValue("markdownItLoader");
         loader(this.parser);
@@ -385,15 +385,15 @@ function getTokenTextContent(token: md.Token): string {
 const kindNames = ["note", "tip", "important", "warning", "caution"];
 const iconNames = ["alertNote", "alertTip", "alertImportant", "alertWarning", "alertCaution"] as const;
 type AlertIconName = (typeof iconNames)[number];
-const kindTranslations: Array<(i18n: TranslationProxy) => TranslatedString> = [
-    (i18n) => i18n.alert_note(),
-    (i18n) => i18n.alert_tip(),
-    (i18n) => i18n.alert_important(),
-    (i18n) => i18n.alert_warning(),
-    (i18n) => i18n.alert_caution(),
+const kindTranslations: Array<() => TranslatedString> = [
+    () => i18n.alert_note(),
+    () => i18n.alert_tip(),
+    () => i18n.alert_important(),
+    () => i18n.alert_warning(),
+    () => i18n.alert_caution(),
 ];
 
-function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
+function githubAlertMarkdownPlugin(md: MarkdownIt) {
     md.core.ruler.after("block", "typedoc-github-alert-plugin", (state) => {
         const bqStarts: number[] = [];
 
@@ -403,7 +403,7 @@ function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
                 bqStarts.push(i);
             } else if (token.type === "blockquote_close") {
                 if (bqStarts.length === 1) {
-                    checkForAlert(state.tokens, bqStarts[0], i, i18n);
+                    checkForAlert(state.tokens, bqStarts[0], i);
                 }
                 bqStarts.pop();
             }
@@ -411,7 +411,7 @@ function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
     });
 }
 
-function checkForAlert(tokens: md.Token[], start: number, end: number, i18n: TranslationProxy) {
+function checkForAlert(tokens: md.Token[], start: number, end: number) {
     let alertKind = -1;
 
     // Search for the first "inline" token. That will be the blockquote text.
@@ -435,7 +435,7 @@ function checkForAlert(tokens: md.Token[], start: number, end: number, i18n: Tra
     tokens[start].type = "alert_open";
     tokens[start].tag = "div";
     tokens[start].attrPush(["class", `tsd-alert tsd-alert-${kindNames[alertKind]}`]);
-    tokens[start].attrPush(["alert", kindTranslations[alertKind](i18n)]);
+    tokens[start].attrPush(["alert", kindTranslations[alertKind]()]);
     tokens[start].attrPush(["icon", iconNames[alertKind]]);
 
     tokens[end].type = "alert_close";

@@ -3,7 +3,7 @@ import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
 import translatable from "../lib/internationalization/locales/en.cjs";
-import { setDifference } from "#utils";
+import { i18n, setDifference } from "#utils";
 import { blockTags, inlineTags, modifierTags } from "../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -36,17 +36,17 @@ describe("Internationalization", () => {
 
     it("Supports translating without placeholders", () => {
         equal(
-            app.i18n.no_entry_points_to_merge(),
+            i18n.no_entry_points_to_merge(),
             "No entry points provided to merge",
         );
         app.options.setValue("lang", "zh");
-        equal(app.i18n.no_entry_points_to_merge(), "没有提供合并的入口点");
+        equal(i18n.no_entry_points_to_merge(), "没有提供合并的入口点");
     });
 
     it("Supports translating with placeholders", () => {
-        equal(app.i18n.loaded_plugin_0("X"), "Loaded plugin X");
+        equal(i18n.loaded_plugin_0("X"), "Loaded plugin X");
         app.options.setValue("lang", "zh");
-        equal(app.i18n.loaded_plugin_0("X"), "已加载插件 X");
+        equal(i18n.loaded_plugin_0("X"), "已加载插件 X");
     });
 });
 

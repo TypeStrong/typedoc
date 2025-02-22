@@ -14,6 +14,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { i18n } from "#utils";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -190,7 +191,7 @@ export class CategoryPlugin extends ConverterComponent {
                         cat.description = body;
                     } else {
                         this.application.logger.warn(
-                            this.application.i18n
+                            i18n
                                 .comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group(
                                     parent.getFriendlyFullName(),
                                     header,

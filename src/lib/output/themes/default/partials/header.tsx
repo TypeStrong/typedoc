@@ -2,7 +2,7 @@ import { classNames, getDisplayName, hasTypeParameters, join } from "../../lib.j
 import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { PageEvent } from "../../../events.js";
-import type { Reflection } from "../../../../models/index.js";
+import { type Reflection, ReflectionKind } from "../../../../models/index.js";
 
 export const header = (context: DefaultThemeRenderContext, props: PageEvent<Reflection>) => {
     const opts = context.options.getValue("headings");
@@ -26,7 +26,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
         renderTitle = opts.document;
     } else {
         renderTitle = true;
-        titleKindString = context.internationalization.kindSingularString(props.model.kind) + " ";
+        titleKindString = ReflectionKind.singularString(props.model.kind) + " ";
     }
 
     return (

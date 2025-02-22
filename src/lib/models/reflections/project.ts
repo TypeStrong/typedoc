@@ -12,7 +12,7 @@ import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { Serializer } from "../../serialization/serializer.js";
 import type { Deserializer, JSONOutput } from "../../serialization/index.js";
-import { assertNever, DefaultMap, removeIf, removeIfPresent, StableKeyMap } from "#utils";
+import { assertNever, DefaultMap, i18n, removeIf, removeIfPresent, StableKeyMap } from "#utils";
 import type { DocumentReflection } from "./document.js";
 import type { FileRegistry } from "../FileRegistry.js";
 
@@ -472,7 +472,7 @@ export class ProjectReflection extends ContainerReflection {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {
                     de.logger.warn(
-                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                        i18n.serialized_project_referenced_0_not_part_of_project(
                             id.toString(),
                         ),
                     );

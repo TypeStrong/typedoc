@@ -2,7 +2,6 @@ import { LogLevel, Options, ParameterType } from "../../../lib/utils/index.js";
 import { type MapDeclarationOption, type NumberDeclarationOption, Option } from "../../../lib/utils/index.js";
 import { deepStrictEqual as equal, throws } from "assert";
 import type { DeclarationOption, EmitStrategy } from "../../../lib/utils/options/index.js";
-import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 describe("Options", () => {
     let options: Options & {
@@ -11,7 +10,7 @@ describe("Options", () => {
     };
 
     beforeEach(() => {
-        options = new Options(new Internationalization(null).proxy);
+        options = new Options();
         options.addDeclaration({
             name: "mapped",
             type: ParameterType.Map,
@@ -115,7 +114,7 @@ describe("Options", () => {
     });
 
     it("Resets a flag to the default if set to null", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         options.setValue("validation", { notExported: true });
         options.setValue("validation", { notExported: null! });
@@ -127,7 +126,7 @@ describe("Options", () => {
     });
 
     it("Handles mapped enums properly", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         equal(options.getValue("logLevel"), LogLevel.Info);
         options.setValue("logLevel", LogLevel.Error);
@@ -141,7 +140,7 @@ describe("Options", () => {
     });
 
     it("Supports checking if an option is set", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
         equal(options.isSet("excludePrivate"), false);
         options.setValue("excludePrivate", false);
         equal(options.isSet("excludePrivate"), true);
@@ -152,7 +151,7 @@ describe("Options", () => {
     });
 
     it("Supports resetting values", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         options.setValue("entryPoints", ["x"]);
         const oldExcludeTags = options.getValue("excludeTags");
@@ -164,7 +163,7 @@ describe("Options", () => {
     });
 
     it("Supports resetting a single value", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         options.setValue("name", "test");
         const originalExclude = options.getValue("excludeTags");
@@ -176,7 +175,7 @@ describe("Options", () => {
     });
 
     it("Throws if resetting a single value which does not exist", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         throws(() => options.reset("thisOptionDoesNotExist" as never));
     });
@@ -191,14 +190,14 @@ describe("Option", () => {
     }
 
     it("Supports fetching options", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         const container = new Container(options);
         equal(container.emit, "docs");
     });
 
     it("Updates as option values change", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
 
         const container = new Container(options);
         equal(container.emit, "docs");

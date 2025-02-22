@@ -6,7 +6,7 @@ import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePat
 import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
 import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
-import { assertNever, type GlobString } from "#utils";
+import { assertNever, type GlobString, i18n } from "#utils";
 
 /**
  * Defines how entry points are interpreted.
@@ -52,7 +52,7 @@ export function inferEntryPoints(logger: Logger, options: Options) {
         options.packageDir ?? process.cwd(),
     );
     if (!packageJson) {
-        logger.warn(logger.i18n.no_entry_points_provided());
+        logger.warn(i18n.no_entry_points_provided());
         return [];
     }
 
@@ -98,13 +98,13 @@ export function inferEntryPoints(logger: Logger, options: Options) {
             });
         } else if (/\.[cm]?js$/.test(path)) {
             logger.warn(
-                logger.i18n.failed_to_resolve_0_to_ts_path(nicePath(path)),
+                i18n.failed_to_resolve_0_to_ts_path(nicePath(path)),
             );
         }
     }
 
     if (entryPoints.length === 0) {
-        logger.warn(logger.i18n.no_entry_points_provided());
+        logger.warn(i18n.no_entry_points_provided());
         return [];
     }
 
@@ -116,7 +116,7 @@ export function getEntryPoints(
     options: Options,
 ): DocumentationEntryPoint[] | undefined {
     if (!options.isSet("entryPoints")) {
-        logger.warn(logger.i18n.no_entry_points_provided());
+        logger.warn(i18n.no_entry_points_provided());
         return [];
     }
 
@@ -158,7 +158,7 @@ export function getEntryPoints(
     }
 
     if (result.length === 0) {
-        logger.error(logger.i18n.unable_to_find_any_entry_points());
+        logger.error(i18n.unable_to_find_any_entry_points());
         return;
     }
 
@@ -232,11 +232,11 @@ export function getWatchEntryPoints(
             break;
 
         case EntryPointStrategy.Packages:
-            logger.error(logger.i18n.watch_does_not_support_packages_mode());
+            logger.error(i18n.watch_does_not_support_packages_mode());
             break;
 
         case EntryPointStrategy.Merge:
-            logger.error(logger.i18n.watch_does_not_support_merge_mode());
+            logger.error(i18n.watch_does_not_support_merge_mode());
             break;
 
         default:
@@ -244,7 +244,7 @@ export function getWatchEntryPoints(
     }
 
     if (result && result.length === 0) {
-        logger.error(logger.i18n.unable_to_find_any_entry_points());
+        logger.error(i18n.unable_to_find_any_entry_points());
         return;
     }
 
@@ -315,11 +315,11 @@ function getEntryPointsForPaths(
         }
 
         logger.warn(
-            logger.i18n.entry_point_0_not_in_program(nicePath(fileOrDir)),
+            i18n.entry_point_0_not_in_program(nicePath(fileOrDir)),
         );
         if (expandSuggestion && isDir(fileOrDir)) {
             expandSuggestion = false;
-            logger.info(logger.i18n.use_expand_or_glob_for_files_in_dir());
+            logger.info(i18n.use_expand_or_glob_for_files_in_dir());
         }
     }
 
@@ -361,14 +361,14 @@ function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger)
 
         if (result.length === 0) {
             logger.warn(
-                logger.i18n.glob_0_did_not_match_any_files(nicePath(entry)),
+                i18n.glob_0_did_not_match_any_files(nicePath(entry)),
             );
             if (entry.includes("\\") && !entry.includes("/")) {
-                logger.info(logger.i18n.glob_should_use_posix_slash());
+                logger.info(i18n.glob_should_use_posix_slash());
             }
         } else if (filtered.length === 0) {
             logger.warn(
-                logger.i18n.entry_point_0_did_not_match_any_files_after_exclude(
+                i18n.entry_point_0_did_not_match_any_files_after_exclude(
                     nicePath(entry),
                 ),
             );
@@ -481,7 +481,7 @@ function expandInputFiles(
     entryPoints.forEach((file) => {
         const resolved = resolve(file);
         if (!FS.existsSync(resolved)) {
-            logger.warn(logger.i18n.entry_point_0_did_not_exist(file));
+            logger.warn(i18n.entry_point_0_did_not_exist(file));
             return;
         }
 

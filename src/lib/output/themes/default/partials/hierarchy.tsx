@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import type { DeclarationHierarchy, Type } from "../../../../models/index.js";
 
 const isLinkedReferenceType = (type: Type) =>
@@ -24,7 +24,7 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
                 {" "}
                 (
                 <a href={context.relativeURL("hierarchy.html") + "#" + context.model.getFullName()}>
-                    {context.i18n.theme_hierarchy_view_summary()}
+                    {i18n.theme_hierarchy_view_summary()}
                 </a>
                 )
             </>
@@ -34,7 +34,7 @@ export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: Dec
     return (
         <section class="tsd-panel tsd-hierarchy" data-refl={context.model.id}>
             <h4>
-                {context.i18n.theme_hierarchy()}
+                {i18n.theme_hierarchy()}
                 {summaryLink}
             </h4>
 

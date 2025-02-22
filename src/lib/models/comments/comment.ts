@@ -1,4 +1,4 @@
-import { assertNever, NonEnumerable, removeIf } from "#utils";
+import { assertNever, i18n, NonEnumerable, removeIf } from "#utils";
 import type { Reflection } from "../reflections/index.js";
 import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId.js";
 
@@ -317,7 +317,7 @@ export class Comment {
                     );
                     if (!part.target) {
                         de.logger.warn(
-                            de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                            i18n.serialized_project_referenced_0_not_part_of_project(
                                 oldId.toString(),
                             ),
                         );

@@ -1,3 +1,4 @@
+import { i18n } from "#utils";
 import { type ProjectReflection, ReflectionKind } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
 
@@ -12,7 +13,7 @@ export function validateMergeModuleWith(
     ) {
         if (refl.comment?.getTag("@mergeModuleWith")) {
             logger.warn(
-                logger.i18n.reflection_0_has_unused_mergeModuleWith_tag(
+                i18n.reflection_0_has_unused_mergeModuleWith_tag(
                     refl.getFriendlyFullName(),
                 ),
             );
@@ -21,7 +22,7 @@ export function validateMergeModuleWith(
 
     if (project.comment?.getTag("@mergeModuleWith")) {
         logger.warn(
-            logger.i18n.reflection_0_has_unused_mergeModuleWith_tag(
+            i18n.reflection_0_has_unused_mergeModuleWith_tag(
                 "<project>",
             ),
         );

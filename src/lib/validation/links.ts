@@ -1,3 +1,4 @@
+import { i18n } from "#utils";
 import {
     type Comment,
     type CommentDisplayPart,
@@ -58,7 +59,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
             // then the user probably is trying to link to a package containing "@" with an absolute link.
             if (broken.startsWith("@") && !broken.includes("!")) {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2(
+                    i18n.failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2(
                         broken,
                         reflection.getFriendlyFullName(),
                         broken.replace(/[.#~]/, "!"),
@@ -66,7 +67,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                 );
             } else {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_readme_for_1(
+                    i18n.failed_to_resolve_link_to_0_in_readme_for_1(
                         broken,
                         reflection.getFriendlyFullName(),
                     ),
@@ -82,7 +83,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
             // then the user probably is trying to link to a package containing "@" with an absolute link.
             if (broken.startsWith("@") && !broken.includes("!")) {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_document_1_may_have_meant_2(
+                    i18n.failed_to_resolve_link_to_0_in_document_1_may_have_meant_2(
                         broken,
                         reflection.getFriendlyFullName(),
                         broken.replace(/[.#~]/, "!"),
@@ -90,7 +91,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                 );
             } else {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_document_1(
+                    i18n.failed_to_resolve_link_to_0_in_document_1(
                         broken,
                         reflection.getFriendlyFullName(),
                     ),
@@ -105,7 +106,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         // then the user probably is trying to link to a package containing "@" with an absolute link.
         if (broken.startsWith("@") && !broken.includes("!")) {
             logger.warn(
-                logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
+                i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
                     broken,
                     reflection.getFriendlyFullName(),
                     broken.replace(/[.#~]/, "!"),
@@ -113,7 +114,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
             );
         } else {
             logger.warn(
-                logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                i18n.failed_to_resolve_link_to_0_in_comment_for_1(
                     broken,
                     reflection.getFriendlyFullName(),
                 ),
@@ -134,7 +135,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         ) {
             if (broken.startsWith("@") && !broken.includes("!")) {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
+                    i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
                         broken,
                         reflection.getFriendlyFullName(),
                         broken.replace(/[.#~]/, "!"),
@@ -142,7 +143,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                 );
             } else {
                 logger.warn(
-                    logger.i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                    i18n.failed_to_resolve_link_to_0_in_comment_for_1(
                         broken,
                         reflection.getFriendlyFullName(),
                     ),

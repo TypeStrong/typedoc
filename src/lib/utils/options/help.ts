@@ -1,7 +1,6 @@
 import type { Options } from "./options.js";
 import { type DeclarationOption, ParameterHint, ParameterType, type StringDeclarationOption } from "./declaration.js";
 import { getSupportedLanguages, getSupportedThemes } from "../highlighter.js";
-import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
 export interface ParameterHelp {
     names: string[];
@@ -26,7 +25,6 @@ function hasHint(
  */
 function getParameterHelp(
     options: Options,
-    i18n: TranslationProxy,
 ): ParameterHelp {
     const parameters = options.getDeclarations();
     parameters.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
@@ -49,7 +47,7 @@ function getParameterHelp(
         helps.push(
             typeof parameter.help === "string"
                 ? parameter.help
-                : parameter.help(i18n),
+                : parameter.help(),
         );
         margin = Math.max(name.length, margin);
     }
@@ -80,11 +78,10 @@ function toEvenColumns(values: string[], maxLineWidth: number) {
 
 export function getOptionsHelp(
     options: Options,
-    i18n: TranslationProxy,
 ): string {
     const output = ["typedoc path/to/entry.ts", "", "Options:"];
 
-    const columns = getParameterHelp(options, i18n);
+    const columns = getParameterHelp(options);
     for (let i = 0; i < columns.names.length; i++) {
         const usage = columns.names[i];
         const description = columns.helps[i];

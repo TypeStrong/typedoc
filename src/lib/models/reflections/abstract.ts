@@ -1,13 +1,13 @@
 import { Comment } from "../comments/comment.js";
 import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./project.js";
-import { type NeverIfInternal, NonEnumerable } from "#utils";
+import { i18n, type NeverIfInternal, NonEnumerable } from "#utils";
 import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { ReflectionVariant } from "./variant.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { DocumentReflection } from "./document.js";
-import type { Internationalization, TranslatedString } from "../../internationalization/index.js";
+import type { TranslatedString } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { ReferenceReflection } from "./reference.js";
 import type { SignatureReflection } from "./signature.js";
@@ -157,11 +157,40 @@ export class ReflectionFlags {
         }
     }
 
-    getFlagStrings(i18n: Internationalization) {
+    static flagString(flag: ReflectionFlag) {
+        switch (flag) {
+            case ReflectionFlag.None:
+                throw new Error("Should be unreachable");
+            case ReflectionFlag.Private:
+                return i18n.flag_private();
+            case ReflectionFlag.Protected:
+                return i18n.flag_protected();
+            case ReflectionFlag.Public:
+                return i18n.flag_public();
+            case ReflectionFlag.Static:
+                return i18n.flag_static();
+            case ReflectionFlag.External:
+                return i18n.flag_external();
+            case ReflectionFlag.Optional:
+                return i18n.flag_optional();
+            case ReflectionFlag.Rest:
+                return i18n.flag_rest();
+            case ReflectionFlag.Abstract:
+                return i18n.flag_abstract();
+            case ReflectionFlag.Const:
+                return i18n.flag_const();
+            case ReflectionFlag.Readonly:
+                return i18n.flag_readonly();
+            case ReflectionFlag.Inherited:
+                return i18n.flag_inherited();
+        }
+    }
+
+    getFlagStrings() {
         const strings: TranslatedString[] = [];
         for (const flag of relevantFlags) {
             if (this.hasFlag(flag)) {
-                strings.push(i18n.flagString(flag));
+                strings.push(ReflectionFlags.flagString(flag));
             }
         }
         return strings;

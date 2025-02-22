@@ -11,7 +11,7 @@ import type { TranslatedString, TranslationProxy } from "../../internationalizat
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
-import { assertNever, removeIf } from "#utils";
+import { assertNever, i18n, removeIf } from "#utils";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -77,14 +77,14 @@ export function parseComment(
         comment,
         lexer,
         config,
-        logger.i18n,
+        i18n,
         warningImpl,
         files,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, config, logger.i18n, warningImpl, files),
+            blockTag(comment, lexer, config, i18n, warningImpl, files),
         );
     }
 
@@ -92,7 +92,7 @@ export function parseComment(
 
     postProcessComment(
         comment,
-        logger.i18n,
+        i18n,
         () => `${nicePath(file.fileName)}:${file.getLineAndCharacterOfPosition(tok2.pos).line + 1}`,
         (message) => logger.warn(message),
     );
@@ -157,7 +157,7 @@ export function parseCommentString(
                 textContent(
                     file.fileName,
                     next,
-                    logger.i18n,
+                    i18n,
                     (msg, token) => logger.warn(msg, token.pos, file),
                     content,
                     files,
@@ -175,7 +175,7 @@ export function parseCommentString(
                     lexer,
                     content,
                     suppressWarningsConfig,
-                    logger.i18n,
+                    i18n,
                     (message, token) => logger.warn(message, token.pos, file),
                 );
                 consume = false;
@@ -226,7 +226,7 @@ export function parseCommentString(
                     frontmatterData = data;
                 } else {
                     logger.error(
-                        logger.i18n.yaml_frontmatter_not_an_object(),
+                        i18n.yaml_frontmatter_not_an_object(),
                         5,
                         file,
                     );

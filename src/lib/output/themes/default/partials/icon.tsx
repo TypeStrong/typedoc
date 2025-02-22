@@ -3,9 +3,9 @@
 
 import assert from "assert";
 import { ReflectionKind } from "../../../../models/index.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import type { TranslatedString, TranslationProxy } from "../../../../internationalization/index.js";
+import type { TranslatedString } from "../../../../internationalization/index.js";
 
 const kindIcon = (letterPath: JSX.Element, color: string, label: TranslatedString, circular = false) => (
     <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label={label}>
@@ -72,7 +72,7 @@ export interface Icons extends Record<ReflectionKind, () => JSX.Element> {
     alertCaution(): JSX.Element;
 }
 
-export function getIcons(i18n: TranslationProxy): Icons {
+export function getIcons(): Icons {
     return {
         [ReflectionKind.Accessor]: () => textIcon("A", "var(--color-ts-accessor)", i18n.kind_accessor(), true),
         [ReflectionKind.CallSignature]() {

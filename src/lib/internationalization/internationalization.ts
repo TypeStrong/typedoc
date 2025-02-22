@@ -1,12 +1,10 @@
 import { ok } from "assert";
 import type { Application } from "../application.js";
-import { DefaultMap, unique } from "#utils";
+import { DefaultMap, setTranslations, unique } from "#utils";
 import { readdirSync } from "fs";
 import { join } from "path";
-import { ReflectionKind } from "../models/reflections/kind.js";
-import { ReflectionFlag } from "../models/index.js";
-import { type BuiltinTranslatableStringArgs } from "./translatable.js";
 import translatable from "./locales/en.cjs";
+import { type BuiltinTranslatableStringArgs } from "./translatable.js";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -82,196 +80,26 @@ export class Internationalization {
     );
 
     /**
-     * Proxy object which supports dynamically translating
-     * all supported keys. This is generally used rather than the translate
-     * method so that renaming a key on the `translatable` object that contains
-     * all of the default translations will automatically update usage locations.
-     */
-    proxy: TranslationProxy = new Proxy(this, {
-        get(internationalization, key) {
-            return (...args: string[]) =>
-                internationalization.translate(
-                    key as never,
-                    ...(args as never),
-                );
-        },
-    }) as never as TranslationProxy;
-
-    /**
      * If constructed without an application, will use the default language.
      * Intended for use in unit tests only.
      * @internal
      */
-    constructor(private application: Application | null) {}
-
-    /**
-     * Get the translation of the specified key, replacing placeholders
-     * with the arguments specified.
-     */
-    translate<T extends keyof TranslatableStrings>(
-        key: T,
-        ...args: TranslatableStrings[T]
-    ): TranslatedString {
-        return (
-            this.allTranslations.get(this.application?.lang ?? "en").get(key) ??
-                translatable[key as keyof typeof translatable]
-        ).replace(/\{(\d+)\}/g, (_, index) => {
-            return args[+index] ?? "(no placeholder)";
-        }) as TranslatedString;
-    }
-
-    kindSingularString(kind: ReflectionKind): TranslatedString {
-        switch (kind) {
-            case ReflectionKind.Project:
-                return this.proxy.kind_project();
-            case ReflectionKind.Module:
-                return this.proxy.kind_module();
-            case ReflectionKind.Namespace:
-                return this.proxy.kind_namespace();
-            case ReflectionKind.Enum:
-                return this.proxy.kind_enum();
-            case ReflectionKind.EnumMember:
-                return this.proxy.kind_enum_member();
-            case ReflectionKind.Variable:
-                return this.proxy.kind_variable();
-            case ReflectionKind.Function:
-                return this.proxy.kind_function();
-            case ReflectionKind.Class:
-                return this.proxy.kind_class();
-            case ReflectionKind.Interface:
-                return this.proxy.kind_interface();
-            case ReflectionKind.Constructor:
-                return this.proxy.kind_constructor();
-            case ReflectionKind.Property:
-                return this.proxy.kind_property();
-            case ReflectionKind.Method:
-                return this.proxy.kind_method();
-            case ReflectionKind.CallSignature:
-                return this.proxy.kind_call_signature();
-            case ReflectionKind.IndexSignature:
-                return this.proxy.kind_index_signature();
-            case ReflectionKind.ConstructorSignature:
-                return this.proxy.kind_constructor_signature();
-            case ReflectionKind.Parameter:
-                return this.proxy.kind_parameter();
-            case ReflectionKind.TypeLiteral:
-                return this.proxy.kind_type_literal();
-            case ReflectionKind.TypeParameter:
-                return this.proxy.kind_type_parameter();
-            case ReflectionKind.Accessor:
-                return this.proxy.kind_accessor();
-            case ReflectionKind.GetSignature:
-                return this.proxy.kind_get_signature();
-            case ReflectionKind.SetSignature:
-                return this.proxy.kind_set_signature();
-            case ReflectionKind.TypeAlias:
-                return this.proxy.kind_type_alias();
-            case ReflectionKind.Reference:
-                return this.proxy.kind_reference();
-            case ReflectionKind.Document:
-                return this.proxy.kind_document();
-        }
-    }
-
-    kindPluralString(kind: ReflectionKind): TranslatedString {
-        switch (kind) {
-            case ReflectionKind.Project:
-                return this.proxy.kind_plural_project();
-            case ReflectionKind.Module:
-                return this.proxy.kind_plural_module();
-            case ReflectionKind.Namespace:
-                return this.proxy.kind_plural_namespace();
-            case ReflectionKind.Enum:
-                return this.proxy.kind_plural_enum();
-            case ReflectionKind.EnumMember:
-                return this.proxy.kind_plural_enum_member();
-            case ReflectionKind.Variable:
-                return this.proxy.kind_plural_variable();
-            case ReflectionKind.Function:
-                return this.proxy.kind_plural_function();
-            case ReflectionKind.Class:
-                return this.proxy.kind_plural_class();
-            case ReflectionKind.Interface:
-                return this.proxy.kind_plural_interface();
-            case ReflectionKind.Constructor:
-                return this.proxy.kind_plural_constructor();
-            case ReflectionKind.Property:
-                return this.proxy.kind_plural_property();
-            case ReflectionKind.Method:
-                return this.proxy.kind_plural_method();
-            case ReflectionKind.CallSignature:
-                return this.proxy.kind_plural_call_signature();
-            case ReflectionKind.IndexSignature:
-                return this.proxy.kind_plural_index_signature();
-            case ReflectionKind.ConstructorSignature:
-                return this.proxy.kind_plural_constructor_signature();
-            case ReflectionKind.Parameter:
-                return this.proxy.kind_plural_parameter();
-            case ReflectionKind.TypeLiteral:
-                return this.proxy.kind_plural_type_literal();
-            case ReflectionKind.TypeParameter:
-                return this.proxy.kind_plural_type_parameter();
-            case ReflectionKind.Accessor:
-                return this.proxy.kind_plural_accessor();
-            case ReflectionKind.GetSignature:
-                return this.proxy.kind_plural_get_signature();
-            case ReflectionKind.SetSignature:
-                return this.proxy.kind_plural_set_signature();
-            case ReflectionKind.TypeAlias:
-                return this.proxy.kind_plural_type_alias();
-            case ReflectionKind.Reference:
-                return this.proxy.kind_plural_reference();
-            case ReflectionKind.Document:
-                return this.proxy.kind_plural_document();
-        }
-    }
-
-    flagString(flag: ReflectionFlag): TranslatedString {
-        switch (flag) {
-            case ReflectionFlag.None:
-                throw new Error("Should be unreachable");
-            case ReflectionFlag.Private:
-                return this.proxy.flag_private();
-            case ReflectionFlag.Protected:
-                return this.proxy.flag_protected();
-            case ReflectionFlag.Public:
-                return this.proxy.flag_public();
-            case ReflectionFlag.Static:
-                return this.proxy.flag_static();
-            case ReflectionFlag.External:
-                return this.proxy.flag_external();
-            case ReflectionFlag.Optional:
-                return this.proxy.flag_optional();
-            case ReflectionFlag.Rest:
-                return this.proxy.flag_rest();
-            case ReflectionFlag.Abstract:
-                return this.proxy.flag_abstract();
-            case ReflectionFlag.Const:
-                return this.proxy.flag_const();
-            case ReflectionFlag.Readonly:
-                return this.proxy.flag_readonly();
-            case ReflectionFlag.Inherited:
-                return this.proxy.flag_inherited();
-        }
-    }
-
-    translateTagName(tag: `@${string}`): TranslatedString {
-        const tagName = tag.substring(1);
-        const translations = this.allTranslations.get(
-            this.application?.lang ?? "en",
+    constructor(private application: Application | null) {
+        // TODO: Get rid of this extra proxy
+        setTranslations(
+            new Proxy(this, {
+                get(i, p) {
+                    const t = i.allTranslations.get(i.application?.lang ?? "en") ??
+                        translatable;
+                    return t instanceof Map ? t.get(p as string) : t[p];
+                },
+                has(i, p) {
+                    const t = i.allTranslations.get(i.application?.lang ?? "en") ??
+                        translatable;
+                    return t instanceof Map ? t.has(p as string) : Object.prototype.hasOwnProperty.call(t, p);
+                },
+            }) as never,
         );
-        if (translations.has(`tag_${tagName}`)) {
-            return translations.get(`tag_${tagName}`) as TranslatedString;
-        }
-        // In English, the tag names are the translated names, once turned
-        // into title case.
-        return (tagName.substring(0, 1).toUpperCase() +
-            tagName
-                .substring(1)
-                .replace(
-                    /[a-z][A-Z]/g,
-                    (x) => `${x[0]} ${x[1]}`,
-                )) as TranslatedString;
     }
 
     /**

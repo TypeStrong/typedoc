@@ -4,6 +4,7 @@ import type { FileRegistry as JSONFileRegistry } from "../serialization/schema.j
 import { isFile, normalizePath } from "../utils/index.js";
 import type { ProjectReflection, Reflection } from "./reflections/index.js";
 import type { ReflectionId } from "./reflections/abstract.js";
+import { i18n } from "#utils";
 
 export class FileRegistry {
     protected nextId = 1;
@@ -180,7 +181,7 @@ export class ValidatingFileRegistry extends FileRegistry {
             const absolute = normalizePath(resolve(de.projectRoot, val));
             if (!isFile(absolute)) {
                 de.logger.warn(
-                    de.logger.i18n.saved_relative_path_0_resolved_from_1_is_not_a_file(
+                    i18n.saved_relative_path_0_resolved_from_1_is_not_a_file(
                         val,
                         de.projectRoot,
                     ),
@@ -203,7 +204,7 @@ export class ValidatingFileRegistry extends FileRegistry {
                     );
                 } else {
                     de.logger.warn(
-                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
+                        i18n.serialized_project_referenced_0_not_part_of_project(
                             reflId.toString(),
                         ),
                     );

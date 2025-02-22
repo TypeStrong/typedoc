@@ -16,7 +16,7 @@ import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { ApplicationEvents } from "../../application-events.js";
 import assert from "assert";
-import type { Internationalization } from "../../internationalization/index.js";
+import { i18n } from "#utils";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -110,9 +110,7 @@ export class GroupPlugin extends ConverterComponent {
         this.sortFunction = getSortFunction(this.application.options);
         GroupPlugin.WEIGHTS = this.groupOrder;
         if (GroupPlugin.WEIGHTS.length === 0) {
-            GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
-                this.application.internationalization.kindPluralString(kind)
-            );
+            GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) => ReflectionKind.pluralString(kind));
         }
     }
 
@@ -149,14 +147,12 @@ export class GroupPlugin extends ConverterComponent {
         return GroupPlugin.getGroups(
             reflection,
             this.groupReferencesByType,
-            this.application.internationalization,
         );
     }
 
     static getGroups(
         reflection: DeclarationReflection | DocumentReflection,
         groupReferencesByType: boolean,
-        internationalization: Internationalization,
     ) {
         const groups = new Set<string>();
         function extractGroupTags(comment: Comment | undefined) {
@@ -193,13 +189,13 @@ export class GroupPlugin extends ConverterComponent {
                 groupReferencesByType
             ) {
                 groups.add(
-                    internationalization.kindPluralString(
+                    ReflectionKind.pluralString(
                         reflection.getTargetReflectionDeep().kind,
                     ),
                 );
             } else {
                 groups.add(
-                    internationalization.kindPluralString(reflection.kind),
+                    ReflectionKind.pluralString(reflection.kind),
                 );
             }
         }
@@ -244,7 +240,7 @@ export class GroupPlugin extends ConverterComponent {
                         cat.description = body;
                     } else {
                         this.application.logger.warn(
-                            this.application.i18n.comment_for_0_includes_groupDescription_for_1_but_no_child_in_group(
+                            i18n.comment_for_0_includes_groupDescription_for_1_but_no_child_in_group(
                                 parent.getFriendlyFullName(),
                                 header,
                             ),

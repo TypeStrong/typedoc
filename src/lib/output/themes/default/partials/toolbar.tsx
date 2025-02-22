@@ -1,5 +1,5 @@
 import type { Reflection } from "../../../../models/index.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import type { PageEvent } from "../../../events.js";
 import { getDisplayName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -17,10 +17,10 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                 ))}
             </div>
 
-            <button id="tsd-search-trigger" class="tsd-widget" aria-label={context.i18n.theme_search()}>
+            <button id="tsd-search-trigger" class="tsd-widget" aria-label={i18n.theme_search()}>
                 {context.icons.search()}
             </button>
-            <dialog id="tsd-search" aria-label={context.i18n.theme_search()}>
+            <dialog id="tsd-search" aria-label={i18n.theme_search()}>
                 <input
                     role="combobox"
                     id="tsd-search-input"
@@ -30,13 +30,13 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                     spellcheck={false}
                     autocapitalize="off"
                     autocomplete="off"
-                    placeholder={context.i18n.theme_search_placeholder()}
+                    placeholder={i18n.theme_search_placeholder()}
                     maxLength={100}
                 />
 
                 <ul role="listbox" id="tsd-search-results"></ul>
                 <div id="tsd-search-status" aria-live="polite" aria-atomic="true">
-                    <div>{context.i18n.theme_preparing_search_index()}</div>
+                    <div>{i18n.theme_preparing_search_index()}</div>
                 </div>
             </dialog>
 
@@ -45,7 +45,7 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                 class="tsd-widget menu"
                 id="tsd-toolbar-menu-trigger"
                 data-toggle="menu"
-                aria-label={context.i18n.theme_menu()}
+                aria-label={i18n.theme_menu()}
             >
                 {context.icons.menu()}
             </a>

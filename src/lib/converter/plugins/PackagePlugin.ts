@@ -6,7 +6,7 @@ import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import type { GlobString } from "#utils";
+import { type GlobString, i18n } from "#utils";
 import {
     discoverInParentDir,
     discoverPackageJson,
@@ -100,7 +100,7 @@ export class PackagePlugin extends ConverterComponent {
                 this.readmeFile = this.readme;
             } catch {
                 this.application.logger.error(
-                    this.application.i18n.provided_readme_at_0_could_not_be_read(
+                    i18n.provided_readme_at_0_could_not_be_read(
                         nicePath(this.readme),
                     ),
                 );
@@ -156,7 +156,7 @@ export class PackagePlugin extends ConverterComponent {
             }
         } else if (!project.name) {
             this.application.logger.warn(
-                this.application.i18n.defaulting_project_name(),
+                i18n.defaulting_project_name(),
             );
             project.name = "Documentation";
         }

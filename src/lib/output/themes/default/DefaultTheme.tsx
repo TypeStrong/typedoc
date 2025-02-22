@@ -87,7 +87,7 @@ export class DefaultTheme extends Theme {
      */
     constructor(renderer: Renderer) {
         super(renderer);
-        this.icons = getIcons(renderer.application.i18n);
+        this.icons = getIcons();
         this.markedPlugin = renderer.markedPlugin;
         this.router = renderer.router!;
     }

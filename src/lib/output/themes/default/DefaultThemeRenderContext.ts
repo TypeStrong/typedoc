@@ -1,9 +1,5 @@
 import type { PageEvent, Renderer } from "../../index.js";
-import type {
-    Internationalization,
-    TranslatedString,
-    TranslationProxy,
-} from "../../../internationalization/internationalization.js";
+import type { Internationalization, TranslatedString } from "../../../internationalization/internationalization.js";
 import type { CommentDisplayPart, Reflection } from "../../../models/index.js";
 import { type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
@@ -52,7 +48,6 @@ export class DefaultThemeRenderContext {
     private _refIcons: Icons;
     options: Options;
     internationalization: Internationalization;
-    i18n: TranslationProxy;
 
     model: Reflection;
 
@@ -65,7 +60,6 @@ export class DefaultThemeRenderContext {
         this._refIcons = buildRefIcons(theme.icons, this);
         this.options = options;
         this.internationalization = theme.application.internationalization;
-        this.i18n = this.internationalization.proxy;
         this.model = page.model;
     }
 

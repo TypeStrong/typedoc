@@ -19,7 +19,7 @@ import {
 
 import { Option, Options } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { type GlobString, unique } from "#utils";
+import { type GlobString, i18n, unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -138,12 +138,7 @@ export class Application extends AbstractComponent<
      */
     internationalization = new Internationalization(this);
 
-    /**
-     * Proxy based shortcuts for internationalization keys.
-     */
-    i18n = this.internationalization.proxy;
-
-    options = new Options(this.i18n);
+    options = new Options();
 
     files: FileRegistry = new ValidatingFileRegistry();
 
@@ -199,7 +194,6 @@ export class Application extends AbstractComponent<
 
         this.converter = new Converter(this);
         this.renderer = new Renderer(this);
-        this.logger.i18n = this.i18n;
 
         this.outputs.addOutput("json", async (out, project) => {
             const ser = this.serializer.projectToObject(project, process.cwd());
@@ -270,7 +264,7 @@ export class Application extends AbstractComponent<
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
-                this.i18n.loaded_multiple_times_0(
+                i18n.loaded_multiple_times_0(
                     getLoadedPaths().join("\n\t"),
                 ),
             );
@@ -298,7 +292,7 @@ export class Application extends AbstractComponent<
             !this.options.getValue("hostedBaseUrl")
         ) {
             this.logger.warn(
-                this.i18n.useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl(),
+                i18n.useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl(),
             );
             this.options.setValue("useHostedBaseUrlForAbsoluteLinks", false);
         }
@@ -373,7 +367,7 @@ export class Application extends AbstractComponent<
             )
         ) {
             this.logger.warn(
-                this.i18n.unsupported_ts_version_0(
+                i18n.unsupported_ts_version_0(
                     supportedVersionMajorMinor.join(", "),
                 ),
             );
@@ -477,20 +471,20 @@ export class Application extends AbstractComponent<
             )
         ) {
             this.logger.warn(
-                this.i18n.unsupported_ts_version_0(
+                i18n.unsupported_ts_version_0(
                     supportedVersionMajorMinor.join(", "),
                 ),
             );
         }
 
         if (Object.keys(this.options.getCompilerOptions()).length === 0) {
-            this.logger.warn(this.i18n.no_compiler_options_set());
+            this.logger.warn(i18n.no_compiler_options_set());
         }
 
         // Doing this is considerably more complicated, we'd need to manage an array of programs, not convert until all programs
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
-            this.logger.error(this.i18n.solution_not_supported_in_watch_mode());
+            this.logger.error(i18n.solution_not_supported_in_watch_mode());
             return false;
         }
 
@@ -499,7 +493,7 @@ export class Application extends AbstractComponent<
             this.entryPointStrategy !== EntryPointStrategy.Resolve &&
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
-            this.logger.error(this.i18n.strategy_not_supported_in_watch_mode());
+            this.logger.error(i18n.strategy_not_supported_in_watch_mode());
             return false;
         }
 
@@ -555,7 +549,7 @@ export class Application extends AbstractComponent<
                         } else if (!currentProgram) {
                             currentProgram = lastProgram;
                             this.logger.info(
-                                this.i18n.file_0_changed_rebuilding(
+                                i18n.file_0_changed_rebuilding(
                                     nicePath(file),
                                 ),
                             );
@@ -572,7 +566,7 @@ export class Application extends AbstractComponent<
         const restartMain = (file: string) => {
             if (restarting) return;
             this.logger.info(
-                this.i18n.file_0_changed_restarting(nicePath(file)),
+                i18n.file_0_changed_restarting(nicePath(file)),
             );
             restarting = true;
             currentProgram = undefined;
@@ -738,7 +732,7 @@ export class Application extends AbstractComponent<
 
     private async _convertPackages(): Promise<ProjectReflection | undefined> {
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error(this.i18n.no_entry_points_for_packages());
+            this.logger.error(i18n.no_entry_points_for_packages());
             return;
         }
 
@@ -749,7 +743,7 @@ export class Application extends AbstractComponent<
         );
 
         if (packageDirs.length === 0) {
-            this.logger.error(this.i18n.failed_to_find_packages());
+            this.logger.error(i18n.failed_to_find_packages());
             return;
         }
 
@@ -768,7 +762,7 @@ export class Application extends AbstractComponent<
                 ok(error instanceof Error);
                 this.logger.error(error.message as TranslatedString);
                 this.logger.info(
-                    this.i18n.previous_error_occurred_when_reading_options_for_0(
+                    i18n.previous_error_occurred_when_reading_options_for_0(
                         nicePath(dir),
                     ),
                 );
@@ -788,7 +782,7 @@ export class Application extends AbstractComponent<
                     EntryPointStrategy.Packages
             ) {
                 this.logger.error(
-                    this.i18n.nested_packages_unsupported_0(nicePath(dir)),
+                    i18n.nested_packages_unsupported_0(nicePath(dir)),
                 );
                 continue;
             }
@@ -802,7 +796,7 @@ export class Application extends AbstractComponent<
         }
 
         for (const { dir, options } of projectsToConvert) {
-            this.logger.info(this.i18n.converting_project_at_0(nicePath(dir)));
+            this.logger.info(i18n.converting_project_at_0(nicePath(dir)));
             this.options = options;
             this.files = new ValidatingFileRegistry();
             let project = await this.convert();
@@ -829,17 +823,18 @@ export class Application extends AbstractComponent<
         this.files = origFiles;
 
         if (projects.length !== packageDirs.length) {
-            this.logger.error(this.i18n.failed_to_convert_packages());
+            this.logger.error(i18n.failed_to_convert_packages());
             return;
         }
 
-        this.logger.info(this.i18n.merging_converted_projects());
+        this.logger.info(i18n.merging_converted_projects());
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
             projects,
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
+                alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },
         );
         this.converter.addProjectDocuments(result);
@@ -851,7 +846,7 @@ export class Application extends AbstractComponent<
         const start = Date.now();
 
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error(this.i18n.no_entry_points_to_merge());
+            this.logger.error(i18n.no_entry_points_to_merge());
             return;
         }
 
@@ -861,7 +856,7 @@ export class Application extends AbstractComponent<
 
             if (result.length === 0) {
                 this.logger.warn(
-                    this.i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
+                    i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
                 );
             } else if (result.length !== 1) {
                 this.logger.verbose(
@@ -881,7 +876,7 @@ export class Application extends AbstractComponent<
                 return JSON.parse(readFile(path));
             } catch {
                 this.logger.error(
-                    this.i18n.failed_to_parse_json_0(nicePath(path)),
+                    i18n.failed_to_parse_json_0(nicePath(path)),
                 );
                 return null;
             }
@@ -894,6 +889,7 @@ export class Application extends AbstractComponent<
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
+                alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },
         );
         this.converter.addProjectDocuments(result);

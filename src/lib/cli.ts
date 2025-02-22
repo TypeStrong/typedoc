@@ -10,6 +10,7 @@ const ExitCodes = {
     Watching: 7,
 };
 
+import { i18n } from "#utils";
 import * as td from "../index.js";
 
 void main();
@@ -53,7 +54,7 @@ async function run(app: td.Application) {
     }
 
     if (app.options.getValue("help")) {
-        console.log(app.options.getHelp(app.i18n));
+        console.log(app.options.getHelp());
         return ExitCodes.Ok;
     }
 
@@ -130,14 +131,14 @@ function logRunSummary(logger: td.Logger): void {
     const { errorCount, warningCount } = logger;
     if (errorCount) {
         logger.error(
-            logger.i18n.found_0_errors_and_1_warnings(
+            i18n.found_0_errors_and_1_warnings(
                 errorCount.toString(),
                 warningCount.toString(),
             ),
         );
     } else if (warningCount) {
         logger.warn(
-            logger.i18n.found_0_errors_and_1_warnings(
+            i18n.found_0_errors_and_1_warnings(
                 errorCount.toString(),
                 warningCount.toString(),
             ),

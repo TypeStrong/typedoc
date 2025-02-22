@@ -24,7 +24,7 @@ import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
 import { MinimatchSet, nicePath } from "../utils/paths.js";
-import { type GlobString, hasAllFlags, hasAnyFlag, partition, unique } from "#utils";
+import { type GlobString, hasAllFlags, hasAnyFlag, i18n, partition, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
@@ -337,7 +337,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 file = new MinimalSourceFile(readFile(path), path);
             } catch (error: any) {
                 this.application.logger.error(
-                    this.application.logger.i18n.failed_to_read_0_when_processing_project_document(
+                    i18n.failed_to_read_0_when_processing_project_document(
                         path,
                     ),
                 );
@@ -638,7 +638,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                     file = new MinimalSourceFile(readFile(resolved), resolved);
                 } catch {
                     this.application.logger.warn(
-                        this.application.logger.i18n.failed_to_read_0_when_processing_document_tag_in_1(
+                        i18n.failed_to_read_0_when_processing_document_tag_in_1(
                             nicePath(path),
                             nicePath(reflection.comment!.sourcePath!),
                         ),
@@ -689,7 +689,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                         ]);
                     } else {
                         this.application.logger.error(
-                            this.application.i18n
+                            i18n
                                 .frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
                                     nicePath(file.fileName),
                                 ),
@@ -703,7 +703,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                         childrenToAdd.push([name, path]);
                     } else {
                         this.application.logger.error(
-                            this.application.i18n
+                            i18n
                                 .frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values(
                                     nicePath(file.fileName),
                                 ),
@@ -721,7 +721,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 childFile = new MinimalSourceFile(readFile(absPath), absPath);
             } catch (error: any) {
                 this.application.logger.error(
-                    this.application.logger.i18n.failed_to_read_0_when_processing_document_child_in_1(
+                    i18n.failed_to_read_0_when_processing_document_child_in_1(
                         path,
                         nicePath(file.fileName),
                     ),

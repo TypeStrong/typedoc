@@ -504,7 +504,6 @@ export class GroupRouter extends BaseRouter {
             const group = GroupPlugin.getGroups(
                 reflection,
                 this.groupReferencesByType,
-                this.application.internationalization,
             );
 
             return group.values().next().value!;

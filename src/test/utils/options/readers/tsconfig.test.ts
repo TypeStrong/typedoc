@@ -5,11 +5,10 @@ import { Logger, normalizePath, Options, TSConfigReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
-import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 import { fileURLToPath } from "url";
 
 describe("Options - TSConfigReader", () => {
-    const options = new Options(new Internationalization(null).proxy);
+    const options = new Options();
     options.addReader(new TSConfigReader());
     const logger = new TestLogger();
 
@@ -88,7 +87,7 @@ describe("Options - TSConfigReader", () => {
             override isSet() {
                 return false;
             }
-        })(new Internationalization(null).proxy);
+        })();
 
         options.setValue(
             "tsconfig",

@@ -10,7 +10,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import type { Reflection } from "../../models/reflections/abstract.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
-import { DefaultMap, parseDeclarationReference, zip } from "#utils";
+import { DefaultMap, i18n, parseDeclarationReference, zip } from "#utils";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -62,7 +62,7 @@ export class InheritDocPlugin extends ConverterComponent {
             const declRef = parseDeclarationReference(source, 0, source.length);
             if (!declRef || /\S/.test(source.substring(declRef[1]))) {
                 this.application.logger.warn(
-                    this.application.i18n.declaration_reference_in_inheritdoc_for_0_not_fully_parsed(
+                    i18n.declaration_reference_in_inheritdoc_for_0_not_fully_parsed(
                         reflection.getFriendlyFullName(),
                     ),
                 );
@@ -96,7 +96,7 @@ export class InheritDocPlugin extends ConverterComponent {
             if (!sourceRefl) {
                 if (this.validation.invalidLink) {
                     this.application.logger.warn(
-                        this.application.i18n.failed_to_find_0_to_inherit_comment_from_in_1(
+                        i18n.failed_to_find_0_to_inherit_comment_from_in_1(
                             source,
                             reflection.getFriendlyFullName(),
                         ),
@@ -134,7 +134,7 @@ export class InheritDocPlugin extends ConverterComponent {
 
         if (!source.comment) {
             this.application.logger.warn(
-                this.application.i18n.reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment(
+                i18n.reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment(
                     target.getFullName(),
                     source.getFullName(),
                 ),
@@ -199,7 +199,7 @@ export class InheritDocPlugin extends ConverterComponent {
             parts.push(orig.name);
 
             this.application.logger.warn(
-                this.application.i18n.inheritdoc_circular_inheritance_chain_0(
+                i18n.inheritdoc_circular_inheritance_chain_0(
                     parts.reverse().join(" -> "),
                 ),
             );

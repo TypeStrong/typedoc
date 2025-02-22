@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { PageEvent } from "../../../events.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import { getHierarchyRoots } from "../../lib.js";
 import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
 import { anchorLink } from "../partials/anchor-icon.js";
@@ -49,7 +49,7 @@ export function hierarchyTemplate(context: DefaultThemeRenderContext, props: Pag
 
     return (
         <>
-            <h2>{context.i18n.theme_hierarchy_summary()}</h2>
+            <h2>{i18n.theme_hierarchy_summary()}</h2>
             {getHierarchyRoots(props.project).map((root) => (
                 <ul class="tsd-full-hierarchy">{fullHierarchy(context, root, seen)}</ul>
             ))}

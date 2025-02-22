@@ -6,7 +6,7 @@ import {
     ReflectionType,
 } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
-import { removeFlag } from "#utils";
+import { i18n, removeFlag } from "#utils";
 import { nicePath } from "../utils/paths.js";
 
 export function validateDocumentation(
@@ -120,7 +120,7 @@ export function validateDocumentation(
             }
 
             logger.warn(
-                logger.i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
+                i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
                     ref.getFriendlyFullName(),
                     ReflectionKind[ref.kind],
                     nicePath(symbolId.fileName),
@@ -134,7 +134,7 @@ export function validateDocumentation(
     );
     if (unusedIntentional.length) {
         logger.warn(
-            logger.i18n.invalid_intentionally_not_documented_names_0(
+            i18n.invalid_intentionally_not_documented_names_0(
                 unusedIntentional.join("\n\t"),
             ),
         );

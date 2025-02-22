@@ -3,6 +3,7 @@ import type { ProjectReflection, ReferenceType } from "../models/index.js";
 import type { Logger } from "../utils/index.js";
 import { nicePath } from "../utils/paths.js";
 import { discoverAllReferenceTypes } from "../utils/reflections.js";
+import { i18n } from "#utils";
 
 function makeIntentionallyExportedHelper(
     project: ProjectReflection,
@@ -86,7 +87,7 @@ export function validateExports(
             warned.add(uniqueId!);
 
             logger.warn(
-                logger.i18n.type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs(
+                i18n.type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs(
                     type.qualifiedName,
                     nicePath(type.symbolId!.fileName),
                     owner.getFriendlyFullName(),
@@ -98,7 +99,7 @@ export function validateExports(
     const unusedIntentional = intentional.getUnused();
     if (unusedIntentional.length) {
         logger.warn(
-            logger.i18n.invalid_intentionally_not_exported_symbols_0(
+            i18n.invalid_intentionally_not_exported_symbols_0(
                 unusedIntentional.join("\n\t"),
             ),
         );

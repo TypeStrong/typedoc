@@ -6,6 +6,7 @@ import { nicePath } from "../../paths.js";
 import { discoverPackageJson } from "../../fs.js";
 import { dirname } from "path";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";
+import { i18n } from "#utils";
 
 export class PackageJsonReader implements OptionsReader {
     // Should run after the TypeDoc config reader but before the TS config
@@ -31,7 +32,7 @@ export class PackageJsonReader implements OptionsReader {
         const { file, content } = result;
 
         if ("typedoc" in content) {
-            logger.warn(logger.i18n.typedoc_key_in_0_ignored(nicePath(file)));
+            logger.warn(i18n.typedoc_key_in_0_ignored(nicePath(file)));
         }
 
         const optsKey = "typedocOptions";
@@ -42,7 +43,7 @@ export class PackageJsonReader implements OptionsReader {
         const opts = content[optsKey];
         if (opts === null || typeof opts !== "object") {
             logger.error(
-                logger.i18n.typedoc_options_must_be_object_in_0(nicePath(file)),
+                i18n.typedoc_options_must_be_object_in_0(nicePath(file)),
             );
             return;
         }

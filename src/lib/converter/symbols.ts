@@ -10,7 +10,7 @@ import {
     ReflectionKind,
     type UnionType,
 } from "../models/index.js";
-import { getEnumFlags, hasAllFlags, hasAnyFlag, removeFlag } from "#utils";
+import { getEnumFlags, hasAllFlags, hasAnyFlag, i18n, removeFlag } from "#utils";
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
@@ -401,7 +401,7 @@ function attachUnionComments(
         const comment = context.getNodeComment(child, false);
         if (comment?.modifierTags.size || comment?.blockTags.length) {
             context.logger.warn(
-                context.logger.i18n.comment_for_0_should_not_contain_block_or_modifier_tags(
+                i18n.comment_for_0_should_not_contain_block_or_modifier_tags(
                     `${context.scope.getFriendlyFullName()}.${unionIndex}`,
                 ),
                 child,
@@ -440,7 +440,7 @@ function convertTypeAliasAsInterface(
 
     if (type.getFlags() & ts.TypeFlags.Union) {
         context.logger.warn(
-            context.i18n.converting_union_as_interface(),
+            i18n.converting_union_as_interface(),
             declaration,
         );
     }
@@ -1193,7 +1193,7 @@ function convertSymbolAsClass(
 
     if (!symbol.valueDeclaration) {
         context.logger.error(
-            context.i18n.converting_0_as_class_requires_value_declaration(
+            i18n.converting_0_as_class_requires_value_declaration(
                 symbol.name,
             ),
             symbol.declarations?.[0],
@@ -1249,7 +1249,7 @@ function convertSymbolAsClass(
         }
     } else {
         context.logger.warn(
-            context.i18n.converting_0_as_class_without_construct_signatures(
+            i18n.converting_0_as_class_without_construct_signatures(
                 reflection.getFriendlyFullName(),
             ),
             symbol.valueDeclaration,

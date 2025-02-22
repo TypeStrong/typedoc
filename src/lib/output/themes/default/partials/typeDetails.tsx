@@ -6,7 +6,7 @@ import {
     type SignatureReflection,
 } from "../../../../models/index.js";
 import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
-import { JSX } from "#utils";
+import { i18n, JSX } from "#utils";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorLinkIfPresent } from "./anchor-icon.js";
@@ -37,7 +37,7 @@ export function typeDeclaration(context: DefaultThemeRenderContext, type: SomeTy
     if (renderingTypeDetailsIsUseful(type)) {
         return (
             <div class="tsd-type-declaration">
-                <h4>{context.i18n.theme_type_declaration()}</h4>
+                <h4>{i18n.theme_type_declaration()}</h4>
                 {context.typeDetails(type, true)}
             </div>
         );
