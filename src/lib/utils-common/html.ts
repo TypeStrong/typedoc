@@ -45,6 +45,8 @@ export function escapeHtml(html: string) {
  * Ref: #2714
  */
 export function createNormalizedUrl(url: string) {
+    // We are intentionally operating on code points here.
+    // eslint-disable-next-line @typescript-eslint/no-misused-spread
     const codePoints: number[] = [...url].map((c) => c.codePointAt(0)!);
 
     for (let i = 0; i < codePoints.length; ++i) {
