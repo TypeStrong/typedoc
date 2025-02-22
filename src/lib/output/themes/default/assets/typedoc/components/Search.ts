@@ -2,6 +2,7 @@ import { debounce } from "../utils/debounce.js";
 import { Index } from "lunr";
 import { decompressJson } from "../utils/decompress.js";
 import { openModal, setUpModal } from "../utils/modal.js";
+import { classListWillBeFiltered } from "./Filter.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/plugins/JavascriptIndexPlugin.ts
@@ -205,7 +206,14 @@ function updateResults(
                 return x.length ? `*${x}*` : "";
             })
             .join(" ");
-        res = state.index.search(searchWithWildcards);
+
+        res = state.index
+            .search(searchWithWildcards)
+            // filter out active *filters* manually, since lunr doesn't support it.
+            .filter(({ ref }) => {
+                const classes = state.data!.rows[Number(ref)].classes;
+                return !classes || !classListWillBeFiltered(classes);
+            });
     } else {
         // Set empty `res` to prevent getting random results with wildcard search
         // when the `searchText` is empty.
@@ -239,8 +247,12 @@ function updateResults(
     const c = Math.min(10, res.length);
     for (let i = 0; i < c; i++) {
         const row = state.data.rows[Number(res[i].ref)];
+        const label = window.translations[`kind_${row.kind}`].replaceAll(
+            '"',
+            "&quot;",
+        );
         const icon =
-            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon"><use href="#icon-${row.kind}"></use></svg>`;
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
         let name = highlightMatches(row.name, searchText);
