@@ -3,15 +3,14 @@ import { dirname, join, resolve } from "path";
 import ts from "typescript";
 
 import type { Options, OptionsReader } from "../options.js";
-import type { Logger } from "../../loggers.js";
 import { isFile } from "../../fs.js";
 import { ok } from "assert";
-import { i18n, unique, Validation } from "#utils";
+import { i18n, type Logger, type TranslatedString, unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
 import { tsdocBlockTags, tsdocInlineTags, tsdocModifierTags } from "../tsdoc-defaults.js";
 import { findTsConfigFile, getTypeDocOptionsFromTsConfig, readTsConfig } from "../../tsconfig.js";
-import type { TranslatedString } from "../../../internationalization/internationalization.js";
+import { diagnostics } from "../../loggers.js";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (
@@ -89,7 +88,7 @@ export class TSConfigReader implements OptionsReader {
             return;
         }
 
-        logger.diagnostics(parsed.errors);
+        diagnostics(logger, parsed.errors);
         if (parsed.errors.length) {
             return;
         }

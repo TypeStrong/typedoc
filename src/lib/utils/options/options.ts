@@ -4,7 +4,6 @@ import { ParameterType } from "./declaration.js";
 import type { OutputSpecification } from "../index.js";
 import { normalizePath } from "../paths.js";
 import type { Application } from "../../../index.js";
-import type { Logger } from "../loggers.js";
 import {
     convert,
     type DeclarationOption,
@@ -16,7 +15,7 @@ import {
 } from "./declaration.js";
 import { addTypeDocOptions } from "./sources/index.js";
 import { getOptionsHelp } from "./help.js";
-import { getSimilarValues, i18n, insertOrderSorted, type NeverIfInternal, unique } from "#utils";
+import { getSimilarValues, i18n, insertOrderSorted, type Logger, type NeverIfInternal, unique } from "#utils";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the

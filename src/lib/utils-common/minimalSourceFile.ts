@@ -1,10 +1,18 @@
+// Type only import is permitted
+// eslint-disable-next-line no-restricted-imports
 import type { LineAndCharacter, SourceFileLike } from "typescript";
-import { binaryFindPartition } from "#utils";
+import { binaryFindPartition } from "./array.js";
 
 // I don't like this, but it's necessary so that the lineStarts property isn't
 // visible in the `MinimalSourceFile` type. Even when private it causes compilation
 // errors downstream.
 const lineStarts = new WeakMap<MinimalSourceFile, number[]>();
+
+export interface MinimalNode {
+    // This is actually getStart(sourceFile: ts.SourceFile, includeJsDocComments: boolean): number
+    getStart(): number;
+    getSourceFile(): MinimalSourceFile;
+}
 
 export class MinimalSourceFile implements SourceFileLike {
     readonly text: string;

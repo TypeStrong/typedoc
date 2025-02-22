@@ -1,5 +1,6 @@
 import { dirname } from "path";
 import url from "url";
+import { url as debuggerUrl } from "inspector";
 
 // transform /abs/path/to/typedoc/dist/lib/utils/general -> /abs/path/to/typedoc
 export const TYPEDOC_ROOT = dirname(
@@ -30,4 +31,8 @@ export function hasBeenLoadedMultipleTimes() {
 
 export function getLoadedPaths() {
     return g[pathSymbol] || [];
+}
+
+export function isDebugging() {
+    return !!debuggerUrl();
 }

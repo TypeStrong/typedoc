@@ -3,8 +3,7 @@ import { pathToFileURL } from "url";
 
 import type { Application } from "../application.js";
 import { nicePath } from "./paths.js";
-import type { TranslatedString } from "../internationalization/internationalization.js";
-import { i18n } from "#utils";
+import { i18n, type TranslatedString } from "#utils";
 
 export async function loadPlugins(
     app: Application,

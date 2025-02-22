@@ -1,5 +1,5 @@
 import type { PageEvent, Renderer } from "../../index.js";
-import type { Internationalization, TranslatedString } from "../../../internationalization/internationalization.js";
+import type { Internationalization } from "../../../internationalization/internationalization.js";
 import type { CommentDisplayPart, Reflection } from "../../../models/index.js";
 import { type Options } from "../../../utils/index.js";
 import type { DefaultTheme } from "./DefaultTheme.js";
@@ -38,7 +38,7 @@ import { reflectionTemplate } from "./templates/reflection.js";
 import { typeDeclaration, typeDetails, typeDetailsIfUseful } from "./partials/typeDetails.js";
 import { moduleMemberSummary, moduleReflection } from "./partials/moduleReflection.js";
 import type { Router } from "../../router.js";
-import type { NeverIfInternal } from "#utils";
+import type { NeverIfInternal, TranslatedString } from "#utils";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);

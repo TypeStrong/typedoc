@@ -6,13 +6,12 @@ import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { type GlobString, i18n } from "#utils";
+import { type GlobString, i18n, MinimalSourceFile } from "#utils";
 import {
     discoverInParentDir,
     discoverPackageJson,
     type EntryPointStrategy,
     getCommonDirectory,
-    MinimalSourceFile,
     nicePath,
     Option,
     readFile,

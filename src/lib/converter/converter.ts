@@ -19,12 +19,12 @@ import {
 } from "../models/index.js";
 import { Context } from "./context.js";
 import { AbstractComponent } from "../utils/component.js";
-import { getDocumentEntryPoints, MinimalSourceFile, Option, readFile } from "../utils/index.js";
+import { getDocumentEntryPoints, Option, readFile } from "../utils/index.js";
 import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
 import { MinimatchSet, nicePath } from "../utils/paths.js";
-import { type GlobString, hasAllFlags, hasAnyFlag, i18n, partition, unique } from "#utils";
+import { type GlobString, hasAllFlags, hasAnyFlag, i18n, MinimalSourceFile, partition, unique } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";

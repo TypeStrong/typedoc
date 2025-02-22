@@ -1,7 +1,7 @@
 export { AbstractComponent } from "./component.js";
 export * from "./fs.js";
 export { getLoadedPaths, hasBeenLoadedMultipleTimes, TYPEDOC_ROOT } from "./general.js";
-export { ConsoleLogger, Logger, LogLevel } from "./loggers.js";
+export { FancyConsoleLogger } from "./loggers.js";
 export {
     ArgumentsReader,
     CommentStyle,
@@ -46,5 +46,3 @@ export * from "./entry-point.js";
 
 export * from "./tsconfig.js";
 export * from "./tsutils.js";
-
-export { MinimalSourceFile } from "./minimalSourceFile.js";

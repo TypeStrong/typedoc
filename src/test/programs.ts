@@ -13,6 +13,7 @@ import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
+import { diagnostics } from "../lib/utils/loggers.js";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -134,7 +135,7 @@ export function getConverter2Program() {
         );
 
         const errors = ts.getPreEmitDiagnostics(converter2Program);
-        app.logger.diagnostics(errors);
+        diagnostics(app.logger, errors);
         equal(errors.length, 0);
     }
 

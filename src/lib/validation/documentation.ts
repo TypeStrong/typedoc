@@ -5,8 +5,7 @@ import {
     ReflectionKind,
     ReflectionType,
 } from "../models/index.js";
-import type { Logger } from "../utils/index.js";
-import { i18n, removeFlag } from "#utils";
+import { i18n, type Logger, removeFlag } from "#utils";
 import { nicePath } from "../utils/paths.js";
 
 export function validateDocumentation(

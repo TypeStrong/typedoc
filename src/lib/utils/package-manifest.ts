@@ -3,9 +3,8 @@
 import { dirname } from "path";
 
 import { glob, readFile } from "./fs.js";
-import type { Logger } from "./loggers.js";
 import { createGlobString, type MinimatchSet, nicePath, normalizePath } from "./paths.js";
-import { type GlobString, i18n, type NormalizedPath } from "#utils";
+import { type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
 
 /**
  * Helper for the TS type system to understand hasOwnProperty

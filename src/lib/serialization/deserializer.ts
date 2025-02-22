@@ -1,4 +1,3 @@
-import type { Application } from "../application.js";
 import {
     ArrayType,
     ConditionalType,
@@ -34,8 +33,7 @@ import {
     UnionType,
     UnknownType,
 } from "#models";
-import { assert, insertPrioritySorted } from "#utils";
-import type { Logger } from "../utils/loggers.js";
+import { assert, insertPrioritySorted, type Logger } from "#utils";
 import type { JSONOutput } from "./index.js";
 
 export interface DeserializerComponent {
@@ -58,11 +56,6 @@ export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
     private activeReflection: Reflection[] = [];
-    constructor(private application: Application) {}
-
-    get logger(): Logger {
-        return this.application.logger;
-    }
 
     reflectionBuilders: {
         [K in keyof ReflectionVariant]: (
@@ -221,6 +214,8 @@ export class Deserializer {
     oldIdToNewId: Record<number, number | undefined> = {};
     oldFileIdToNewFileId: Record<number, number | undefined> = {};
     project: ProjectReflection | undefined;
+
+    constructor(public logger: Logger) {}
 
     addDeserializer(de: DeserializerComponent): void {
         insertPrioritySorted(this.deserializers, de);

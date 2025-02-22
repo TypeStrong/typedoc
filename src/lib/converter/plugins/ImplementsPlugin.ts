@@ -10,11 +10,10 @@ import {
     SignatureReflection,
 } from "../../models/reflections/index.js";
 import { ReferenceType, ReflectionType, type Type } from "../../models/types.js";
-import { filterMap, zip } from "#utils";
+import { filterMap, type TranslatedString, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getHumanName } from "../../utils/index.js";
-import type { TranslatedString } from "../../internationalization/internationalization.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 

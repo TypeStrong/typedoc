@@ -1,6 +1,5 @@
-import { i18n } from "#utils";
+import { i18n, type Logger } from "#utils";
 import { type ProjectReflection, ReflectionKind } from "../models/index.js";
-import type { Logger } from "../utils/index.js";
 
 export function validateMergeModuleWith(
     project: ProjectReflection,

@@ -1,9 +1,8 @@
 import { ok } from "assert";
 import type { ProjectReflection, ReferenceType } from "../models/index.js";
-import type { Logger } from "../utils/index.js";
 import { nicePath } from "../utils/paths.js";
 import { discoverAllReferenceTypes } from "../utils/reflections.js";
-import { i18n } from "#utils";
+import { i18n, type Logger } from "#utils";
 
 function makeIntentionallyExportedHelper(
     project: ProjectReflection,

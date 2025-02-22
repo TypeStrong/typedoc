@@ -3,10 +3,9 @@ import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
 import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
-import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
 import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
-import { assertNever, type GlobString, i18n } from "#utils";
+import { assertNever, type GlobString, i18n, type Logger } from "#utils";
 
 /**
  * Defines how entry points are interpreted.

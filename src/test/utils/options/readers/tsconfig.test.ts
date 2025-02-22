@@ -1,7 +1,7 @@
 import { basename, join } from "path";
 import { deepStrictEqual as equal } from "assert";
 
-import { Logger, normalizePath, Options, TSConfigReader } from "#node-utils";
+import { normalizePath, Options, TSConfigReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
@@ -81,7 +81,7 @@ describe("Options - TSConfigReader", () => {
     });
 
     it("Does not error if the option file cannot be found but was not set.", async () => {
-        const logger = new Logger();
+        const logger = new TestLogger();
 
         const options = new (class LyingOptions extends Options {
             override isSet() {

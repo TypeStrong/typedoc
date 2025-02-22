@@ -1,7 +1,7 @@
 import { deepStrictEqual as equal } from "assert";
 import { project as fsProject } from "@typestrong/fs-fixture-builder";
 
-import { Logger, normalizePath, Options, TypeDocReader } from "#node-utils";
+import { normalizePath, Options, TypeDocReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { join } from "path";
 
@@ -159,7 +159,7 @@ describe("Options - TypeDocReader", () => {
         })();
 
         options.addReader(new TypeDocReader());
-        const logger = new Logger();
+        const logger = new TestLogger();
         await options.read(logger);
         equal(logger.hasErrors(), false);
     });

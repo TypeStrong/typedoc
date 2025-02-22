@@ -3,15 +3,13 @@ import * as FS from "fs";
 import ts from "typescript";
 
 import type { OptionsReader } from "../options.js";
-import type { Logger } from "../../loggers.js";
 import type { Options } from "../options.js";
 import { ok } from "assert";
 import { nicePath, normalizePath } from "../../paths.js";
 import { isFile } from "../../fs.js";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
-import type { TranslatedString } from "../../../internationalization/internationalization.js";
-import { i18n } from "#utils";
+import { i18n, type Logger, type TranslatedString } from "#utils";
 
 /**
  * Obtains option values from typedoc.json

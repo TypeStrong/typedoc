@@ -1,4 +1,4 @@
-import { i18n } from "#utils";
+import { i18n, type Logger } from "#utils";
 import {
     type Comment,
     type CommentDisplayPart,
@@ -7,7 +7,6 @@ import {
     ReflectionKind,
     ReflectionSymbolId,
 } from "../models/index.js";
-import type { Logger } from "../utils/index.js";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 

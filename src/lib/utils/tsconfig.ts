@@ -1,7 +1,8 @@
 import ts from "typescript";
 import { isDir, isFile, readFile } from "./fs.js";
-import type { Logger } from "./loggers.js";
 import { createRequire } from "module";
+import type { Logger } from "#utils";
+import { diagnostic, diagnostics } from "./loggers.js";
 
 export function findTsConfigFile(
     path: string,
@@ -76,7 +77,7 @@ export function readTsConfig(
         {},
         {
             ...ts.sys,
-            onUnRecoverableConfigFileDiagnostic: logger.diagnostic.bind(logger),
+            onUnRecoverableConfigFileDiagnostic: diagnostic.bind(null, logger),
         },
     );
 
@@ -84,7 +85,7 @@ export function readTsConfig(
         return;
     }
 
-    logger.diagnostics(parsed.errors);
+    diagnostics(logger, parsed.errors);
 
     tsConfigCache[path] = parsed;
     return parsed;

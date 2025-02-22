@@ -1,8 +1,11 @@
 // Type only import to non-bundled file
 // eslint-disable-next-line no-restricted-imports
-import type { TranslatedString, TranslationProxy } from "../internationalization/internationalization.js";
+import type { TranslationProxy } from "../internationalization/internationalization.js";
 
 let translations: Record<PropertyKey, string> = {};
+
+declare const TranslatedString: unique symbol;
+export type TranslatedString = string & { [TranslatedString]: true };
 
 export function setTranslations(t: Record<string, string>) {
     translations = t;

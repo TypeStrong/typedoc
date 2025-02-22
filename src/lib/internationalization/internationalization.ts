@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import type { Application } from "../application.js";
-import { DefaultMap, setTranslations, unique } from "#utils";
+import { DefaultMap, setTranslations, type TranslatedString, unique } from "#utils";
 import { readdirSync } from "fs";
 import { join } from "path";
 import translatable from "./locales/en.cjs";
@@ -44,9 +44,6 @@ import { fileURLToPath } from "node:url";
  * ```
  */
 export interface TranslatableStrings extends BuiltinTranslatableStringArgs {}
-
-declare const TranslatedString: unique symbol;
-export type TranslatedString = string & { [TranslatedString]: true };
 
 /**
  * Dynamic proxy type built from {@link TranslatableStrings}

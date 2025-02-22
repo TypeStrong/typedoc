@@ -1,6 +1,6 @@
 import { spawnSync } from "child_process";
-import { type Logger, normalizePath } from "../../utils/index.js";
-import { i18n, NonEnumerable } from "#utils";
+import { normalizePath } from "../../utils/index.js";
+import { i18n, type Logger, NonEnumerable } from "#utils";
 import { dirname, join } from "path";
 import { existsSync } from "fs";
 

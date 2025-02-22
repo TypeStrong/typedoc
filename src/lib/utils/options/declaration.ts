@@ -1,11 +1,18 @@
 import type { BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
-import type { LogLevel } from "../loggers.js";
 import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
 import type { ReflectionKind } from "../../models/reflections/kind.js";
-import { type GlobString, i18n, type NeverIfInternal, type NormalizedPath, type NormalizedPathOrModule } from "#utils";
-import type { TranslatedString, TranslationProxy } from "../../internationalization/internationalization.js";
+import {
+    type GlobString,
+    i18n,
+    type LogLevel,
+    type NeverIfInternal,
+    type NormalizedPath,
+    type NormalizedPathOrModule,
+    type TranslatedString,
+} from "#utils";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
 import { createGlobString, normalizePath } from "../paths.js";
 
 /** @enum */

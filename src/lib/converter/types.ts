@@ -28,7 +28,7 @@ import {
     UnknownType,
 } from "../models/index.js";
 import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
-import { zip } from "#utils";
+import { type TranslatedString, zip } from "#utils";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
@@ -36,7 +36,6 @@ import { convertParameterNodes, convertTypeParameterNodes, createSignature } fro
 import { convertSymbol } from "./symbols.js";
 import { isObjectType, isTypeReference } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
-import type { TranslatedString } from "../internationalization/internationalization.js";
 import { createSymbolReference } from "./factories/types.js";
 
 export interface TypeConverter<

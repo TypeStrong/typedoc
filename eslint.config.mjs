@@ -215,27 +215,8 @@ export default tslint.config(
     //         ],
     //     },
     // },
-    // Almost there, one import of Application, one of Logger
-    // {
-    //     files: ["src/lib/serialization/**/*.ts"],
-    //     rules: {
-    //         "no-restricted-imports": [
-    //             "error",
-    //             {
-    //                 paths: nodeModules,
-    //                 patterns: [
-    //                     "node:*",
-    //                     "\\#*",
-    //                     "!\\#utils",
-    //                     "!\\#models",
-    //                     "../*",
-    //                 ],
-    //             },
-    //         ],
-    //     },
-    // },
     {
-        files: ["src/lib/utils-common/**/*.ts"],
+        files: ["src/lib/serialization/**/*.ts"],
         rules: {
             "no-restricted-imports": [
                 "error",
@@ -244,8 +225,25 @@ export default tslint.config(
                     patterns: [
                         "node:*",
                         "\\#*",
+                        "!\\#utils",
+                        "!\\#models",
                         "../*",
                     ],
+                },
+            ],
+        },
+    },
+    {
+        files: ["src/lib/utils-common/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
+                    paths: nodeModules,
+                    patterns: [{
+                        regex: "^(?!\./).*",
+                        message: "utils-common may only import within this directory",
+                    }],
                 },
             ],
         },

@@ -7,9 +7,8 @@ import { Renderer } from "./output/renderer.js";
 import type { ProjectReflection } from "./models/index.js";
 import {
     AbstractComponent,
-    ConsoleLogger,
+    FancyConsoleLogger,
     loadPlugins,
-    Logger,
     type OptionsReader,
     PackageJsonReader,
     TSConfigReader,
@@ -19,7 +18,7 @@ import {
 
 import { Option, Options } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { type GlobString, i18n, unique } from "#utils";
+import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -30,20 +29,21 @@ import {
     inferEntryPoints,
 } from "./utils/entry-point.js";
 import { nicePath } from "./utils/paths.js";
-import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general.js";
+import { getLoadedPaths, hasBeenLoadedMultipleTimes, isDebugging } from "./utils/general.js";
 import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
 import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
-import { Internationalization, type TranslatedString } from "./internationalization/internationalization.js";
+import { Internationalization } from "./internationalization/internationalization.js";
 import { FileRegistry, ValidatingFileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
+import { diagnostic, diagnostics } from "./utils/loggers.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -105,6 +105,8 @@ export class Application extends AbstractComponent<
     Application,
     ApplicationEvents
 > {
+    private _logger: Logger = new FancyConsoleLogger();
+
     /**
      * The converter used to create the declaration reflections.
      */
@@ -125,12 +127,18 @@ export class Application extends AbstractComponent<
     /**
      * The deserializer used to restore previously serialized JSON output.
      */
-    deserializer = new Deserializer(this);
+    deserializer = new Deserializer(this._logger);
 
     /**
      * The logger that should be used to output messages.
      */
-    logger: Logger = new ConsoleLogger();
+    get logger(): Logger {
+        return this._logger;
+    }
+    set logger(l: Logger) {
+        this._logger = l;
+        this.deserializer.logger = l;
+    }
 
     /**
      * Internationalization module which supports translating according to
@@ -253,7 +261,13 @@ export class Application extends AbstractComponent<
         this.setOptions(options, /* reportErrors */ false);
         await this.options.read(this.logger, undefined, (path) => this.watchConfigFile(path));
         this.setOptions(options);
-        this.logger.level = this.options.getValue("logLevel");
+
+        if (isDebugging()) {
+            this.logger.level = LogLevel.Verbose;
+        } else {
+            this.logger.level = this.options.getValue("logLevel");
+        }
+
         for (
             const [lang, locales] of Object.entries(
                 this.options.getValue("locales"),
@@ -388,7 +402,7 @@ export class Application extends AbstractComponent<
         if (this.skipErrorChecking === false) {
             const errors = programs.flatMap((program) => ts.getPreEmitDiagnostics(program));
             if (errors.length) {
-                this.logger.diagnostics(errors);
+                diagnostics(this.logger, errors);
                 return;
             }
         }
@@ -456,7 +470,7 @@ export class Application extends AbstractComponent<
     ): Promise<boolean> {
         if (
             !this.options.getValue("preserveWatchOutput") &&
-            this.logger instanceof ConsoleLogger
+            this.logger instanceof FancyConsoleLogger
         ) {
             ts.sys.clearScreen?.();
         }
@@ -509,13 +523,13 @@ export class Application extends AbstractComponent<
             this.options.fixCompilerOptions({}),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
-            (diagnostic) => this.logger.diagnostic(diagnostic),
+            (d) => diagnostic(this.logger, d),
             (status, newLine, _options, errorCount) => {
                 if (
                     !firstStatusReport &&
                     errorCount === void 0 &&
                     !this.options.getValue("preserveWatchOutput") &&
-                    this.logger instanceof ConsoleLogger
+                    this.logger instanceof FancyConsoleLogger
                 ) {
                     ts.sys.clearScreen?.();
                 }
