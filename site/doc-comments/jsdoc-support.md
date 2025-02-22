@@ -14,7 +14,7 @@ implementation is intended. JSDoc compatibility can be controlled with the
 
 ## Notable Differences
 
--   TypeDoc's [`@link`](../tags/link.md) tags do not support JSDoc namepaths
--   TypeDoc does not require type annotations in [`@param`](../tags/param.md) blocks
--   TypeDoc does not parse [`@see`](../tags/see.md) tag contents as links
--   TypeDoc does not support all JSDoc tags
+- TypeDoc's [`@link`](../tags/link.md) tags do not support JSDoc namepaths
+- TypeDoc does not require type annotations in [`@param`](../tags/param.md) blocks
+- TypeDoc does not parse [`@see`](../tags/see.md) tag contents as links
+- TypeDoc does not support all JSDoc tags

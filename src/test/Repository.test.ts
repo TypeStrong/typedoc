@@ -1,8 +1,4 @@
-import {
-    GitRepository,
-    guessSourceUrlTemplate,
-    RepositoryManager,
-} from "../lib/converter/utils/repository.js";
+import { GitRepository, guessSourceUrlTemplate, RepositoryManager } from "../lib/converter/utils/repository.js";
 import { deepStrictEqual as equal, ok } from "assert";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { spawnSync } from "child_process";
@@ -273,13 +269,15 @@ describe("RepositoryManager - git enabled", () => {
 
     it("Caches repositories", () => {
         // Load cache
-        for (const path of [
-            "root.txt",
-            "self/self/self/root.txt",
-            "sub_repo/repo.txt",
-            "ignored/ignored.txt",
-            "subfolder/sub.txt",
-        ]) {
+        for (
+            const path of [
+                "root.txt",
+                "self/self/self/root.txt",
+                "sub_repo/repo.txt",
+                "ignored/ignored.txt",
+                "subfolder/sub.txt",
+            ]
+        ) {
             manager.getRepository(join(fix.cwd, path));
         }
 

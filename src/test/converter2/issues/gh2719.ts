@@ -1,7 +1,6 @@
 export const allTimezoneNames = ["Africa/Abidjan", "Africa/Accra"] as const;
 
-export type ArrayElement<ArrayType extends ReadonlyArray<any>> =
-    ArrayType[number];
+export type ArrayElement<ArrayType extends ReadonlyArray<any>> = ArrayType[number];
 
 export type Timezone = ArrayElement<typeof allTimezoneNames>;
 
@@ -14,6 +13,8 @@ export const Timezone = allTimezoneNames.reduce(
         return acc;
     },
     {} as Record<string, string>,
-) as Readonly<{
-    [SpecificTimezoneName in Timezone]: SpecificTimezoneName;
-}>;
+) as Readonly<
+    {
+        [SpecificTimezoneName in Timezone]: SpecificTimezoneName;
+    }
+>;

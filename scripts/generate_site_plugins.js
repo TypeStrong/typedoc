@@ -1,6 +1,6 @@
 // @ts-check
 import * as cp from "child_process";
-import { promises as fs, mkdirSync } from "fs";
+import { mkdirSync, promises as fs } from "fs";
 import semver from "semver";
 
 const CACHE_ROOT = "tmp/site-cache";
@@ -141,7 +141,7 @@ async function getLocalCache(filename, getter) {
         if (process.env.CI !== "true") {
             await fs.writeFile(
                 CACHE_ROOT + "/" + filename,
-                JSON.stringify(data, null, 2),
+                JSON.stringify(data, null, 4),
                 "utf-8",
             );
         }
@@ -272,9 +272,7 @@ function escapeHtml(html) {
 
 async function main() {
     console.log("Getting themes...");
-    const themes = await getLocalCache("themes.json", () =>
-        getAllPackages("keywords:typedoc-theme"),
-    );
+    const themes = await getLocalCache("themes.json", () => getAllPackages("keywords:typedoc-theme"));
 
     console.log("Getting plugins...");
     const plugins = await getLocalCache("plugins.json", async () => {
@@ -296,13 +294,9 @@ async function main() {
     });
 
     console.log("Getting typedoc versions...");
-    const versions = await getLocalCache("versions.json", () =>
-        getAllVersions(plugins),
-    );
+    const versions = await getLocalCache("versions.json", () => getAllVersions(plugins));
 
-    const withVersions = plugins.map((plug, i) =>
-        Object.assign(plug, { peer: versions[i] }),
-    );
+    const withVersions = plugins.map((plug, i) => Object.assign(plug, { peer: versions[i] }));
 
     const typedocVersions = JSON.parse(
         await exec("npm view typedoc@* versions --json"),
@@ -328,13 +322,9 @@ async function main() {
     );
 
     console.log("Getting theme versions...");
-    const themeVersions = await getLocalCache("theme_versions.json", () =>
-        getAllVersions(themes),
-    );
+    const themeVersions = await getLocalCache("theme_versions.json", () => getAllVersions(themes));
 
-    const themesWithVersions = themes.map((plug, i) =>
-        Object.assign(plug, { peer: themeVersions[i] }),
-    );
+    const themesWithVersions = themes.map((plug, i) => Object.assign(plug, { peer: themeVersions[i] }));
 
     // v0.23 - this needs to be updated.
     await createInclude(

@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { isFile, isDir, readFile } from "./fs.js";
+import { isDir, isFile, readFile } from "./fs.js";
 import type { Logger } from "./loggers.js";
 import { createRequire } from "module";
 

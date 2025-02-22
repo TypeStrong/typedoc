@@ -1,6 +1,5 @@
 import { ok } from "assert";
-import { Validation } from "../../lib/utils/index.js";
-import { additionalProperties } from "../../lib/utils/validation.js";
+import { Validation } from "#utils";
 
 describe("Validation Utils", () => {
     it("Should be able to validate optional values", () => {
@@ -61,7 +60,7 @@ describe("Validation Utils", () => {
     it("Should support not checking for excess properties (default)", () => {
         const schema = {
             x: String,
-            [additionalProperties]: true,
+            [Validation.additionalProperties]: true,
         };
 
         ok(Validation.validate(schema, { x: "" }));
@@ -71,7 +70,7 @@ describe("Validation Utils", () => {
     it("Should support checking for excess properties", () => {
         const schema = {
             x: String,
-            [additionalProperties]: false,
+            [Validation.additionalProperties]: false,
         };
 
         ok(Validation.validate(schema, { x: "" }));

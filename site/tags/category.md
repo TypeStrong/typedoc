@@ -57,9 +57,9 @@ within the comment on the parent reflection.
 
 ## See Also
 
--   The [`@group`](group.md) tag
--   The [`--categorizeByGroup`](../options/organization.md#categorizebygroup) option
--   The [`--defaultCategory`](../options/organization.md#defaultcategory) option
--   The [`--categoryOrder`](../options/organization.md#categoryorder) option
--   The [`--searchCategoryBoosts`](../options/output.md#searchcategoryboosts) option
--   The [`--navigation.includeCategories`](../options/output.md#navigation) option
+- The [`@group`](group.md) tag
+- The [`--categorizeByGroup`](../options/organization.md#categorizebygroup) option
+- The [`--defaultCategory`](../options/organization.md#defaultcategory) option
+- The [`--categoryOrder`](../options/organization.md#categoryorder) option
+- The [`--searchCategoryBoosts`](../options/output.md#searchcategoryboosts) option
+- The [`--navigation.includeCategories`](../options/output.md#navigation) option

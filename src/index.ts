@@ -8,10 +8,10 @@
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
-export { EventDispatcher } from "./lib/utils/events.js";
 export { resetReflectionID } from "./lib/models/reflections/abstract.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
+ * @primaryExport
  *
  * @categoryDescription Types
  * Describes a TypeScript type.
@@ -29,101 +29,119 @@ export * as Models from "./lib/models/index.js";
  * @summary
  * Controls how TypeDoc reads option files and what options are available.
  */
-export * as Configuration from "./lib/utils/options/index.js";
-export * from "./lib/models/index.js";
 export {
-    Converter,
-    Context,
     type CommentParserConfig,
-    type DeclarationReference,
-    type SymbolReference,
-    type ComponentPath,
-    type Meaning,
-    type MeaningKeyword,
+    Context,
+    Converter,
+    type ConverterEvents,
     type ExternalResolveResult,
     type ExternalSymbolResolver,
-    type ConverterEvents,
 } from "./lib/converter/index.js";
+export * from "./lib/models/index.js";
+/** @primaryExport */
+export * as Configuration from "./lib/utils/options/index.js";
 
 export {
-    Renderer,
+    BaseRouter,
+    CategoryRouter,
     DefaultTheme,
     DefaultThemeRenderContext,
-    Slugger,
-    UrlMapping,
-    Theme,
-    PageEvent,
-    RendererEvent,
-    MarkdownEvent,
+    GroupRouter,
     IndexEvent,
+    KindDirRouter,
+    KindRouter,
+    MarkdownEvent,
+    PageEvent,
+    PageKind,
+    Renderer,
+    RendererEvent,
+    Slugger,
+    StructureDirRouter,
+    StructureRouter,
+    Theme,
+    UrlMapping,
 } from "./lib/output/index.js";
 export type {
-    RenderTemplate,
-    RendererHooks,
-    NavigationElement,
-    RendererEvents,
-    PageHeading,
     Icons,
+    NavigationElement,
+    PageDefinition,
+    PageHeading,
+    RendererEvents,
+    RendererHooks,
+    RenderTemplate,
+    Router,
 } from "./lib/output/index.js";
 
 export { Outputs } from "./lib/output/output.js";
 
 export {
     ArgumentsReader,
-    Option,
     CommentStyle,
-    JSX,
-    LogLevel,
+    EntryPointStrategy,
     Logger,
-    Options,
+    LogLevel,
+    MinimalSourceFile,
+    normalizePath,
+    Option,
     OptionDefaults,
+    Options,
     PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
     TypeDocReader,
-    EntryPointStrategy,
-    EventHooks,
-    MinimalSourceFile,
-    normalizePath,
 } from "./lib/utils/index.js";
 
 export type {
-    OptionsReader,
-    TypeDocOptions,
-    TypeDocOptionMap,
-    ValidationOptions,
-    TypeDocOptionValues,
-    KeyToDeclaration,
+    ArrayDeclarationOption,
+    BooleanDeclarationOption,
     DeclarationOption,
     DeclarationOptionBase,
-    StringDeclarationOption,
-    NumberDeclarationOption,
-    BooleanDeclarationOption,
-    ArrayDeclarationOption,
-    MixedDeclarationOption,
-    ObjectDeclarationOption,
-    MapDeclarationOption,
-    FlagsDeclarationOption,
     DeclarationOptionToOptionType,
-    SortStrategy,
-    ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
-    ManuallyValidatedOption,
-    EnumKeys,
+    FlagsDeclarationOption,
     JsDocCompatibility,
+    KeyToDeclaration,
+    ManuallyValidatedOption,
+    MapDeclarationOption,
+    MixedDeclarationOption,
+    NumberDeclarationOption,
+    ObjectDeclarationOption,
+    OptionsReader,
     OutputSpecification,
+    ParameterTypeToOptionTypeMap,
+    SortStrategy,
+    StringDeclarationOption,
+    TypeDocOptionMap,
+    TypeDocOptions,
+    TypeDocOptionValues,
+    ValidationOptions,
 } from "./lib/utils/index.js";
 
 export {
-    JSONOutput,
-    Serializer,
-    type SerializerEvents,
-    Deserializer,
+    type ComponentPath,
+    type DeclarationReference,
+    type EnumKeys,
+    EventDispatcher,
+    EventHooks,
+    type GlobString,
+    JSX,
+    type Meaning,
+    type MeaningKeyword,
+    type NormalizedPath,
+    type NormalizedPathOrModule,
+    type SymbolReference,
+} from "#utils";
+
+export {
     type Deserializable,
+    Deserializer,
     type DeserializerComponent,
-    type SerializerComponent,
+    JSONOutput,
     SerializeEvent,
+    Serializer,
+    type SerializerComponent,
+    type SerializerEvents,
 } from "./lib/serialization/index.js";
 
 export * as Internationalization from "./lib/internationalization/index.js";

@@ -9,9 +9,9 @@ title: "\{\@link\}"
 
 The `@link` tag is used to refer to another documented declaration. It takes one of the following forms:
 
--   `{@link Foo.Bar}` - Links to `Foo.Bar`, with link text `Bar`
--   `{@link Foo.Bar | click here}` - Links to `Foo.Bar`, with link text `click here`
--   (non-TSDoc) `{@link Foo.Bar click here}` - Links to `Foo.Bar`, with link text `click here`
+- `{@link Foo.Bar}` - Links to `Foo.Bar`, with link text `Bar`
+- `{@link Foo.Bar | click here}` - Links to `Foo.Bar`, with link text `click here`
+- (non-TSDoc) `{@link Foo.Bar click here}` - Links to `Foo.Bar`, with link text `click here`
 
 Link resolution is controlled by the `--useTsLinkResolution` option. When set
 (the default), links will be resolved using TypeScript's resolution, which uses the
@@ -38,7 +38,6 @@ export function random(): number;
  * {@link Data.prop | instance member}
  * {@link Data.member | static member}
  * {@link Data#member | instance member} (declaration references only)
- *
  */
 export class Data {
     prop = 0;

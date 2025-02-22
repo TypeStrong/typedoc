@@ -78,6 +78,6 @@ Will be rendered as:
 
 ## See Also
 
--   The [Tags overview](../tags.md)
--   The [Declaration References](../declaration-references.md) guide
--   The [TSDoc](https://tsdoc.org/) website
+- The [Tags overview](../tags.md)
+- The [Declaration References](../declaration-references.md) guide
+- The [TSDoc](https://tsdoc.org/) website

@@ -1,4 +1,4 @@
-import { ok, throws, deepStrictEqual as equal, doesNotThrow } from "assert";
+import { deepStrictEqual as equal, doesNotThrow, ok, throws } from "assert";
 import { Options, TYPEDOC_ROOT } from "../../../lib/utils/index.js";
 import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 import { readFileSync } from "fs";
@@ -8,15 +8,11 @@ describe("Default Options", () => {
 
     describe("Highlighting theme", () => {
         it("Errors if an invalid theme is provided", () => {
-            throws(() =>
-                opts.setValue("lightHighlightTheme", "randomTheme" as never),
-            );
+            throws(() => opts.setValue("lightHighlightTheme", "randomTheme" as never));
             opts.setValue("lightHighlightTheme", "github-light");
             equal(opts.getValue("lightHighlightTheme"), "github-light");
 
-            throws(() =>
-                opts.setValue("darkHighlightTheme", "randomTheme" as never),
-            );
+            throws(() => opts.setValue("darkHighlightTheme", "randomTheme" as never));
             opts.setValue("darkHighlightTheme", "github-light");
             equal(opts.getValue("darkHighlightTheme"), "github-light");
         });
@@ -31,9 +27,7 @@ describe("Default Options", () => {
 
     describe("sort", () => {
         it("Errors if an invalid sort version is provided", () => {
-            throws(() =>
-                opts.setValue("sort", ["random", "alphabetical"] as never),
-            );
+            throws(() => opts.setValue("sort", ["random", "alphabetical"] as never));
         });
 
         it("Reports which sort option(s) was invalid", () => {
@@ -69,15 +63,11 @@ describe("Default Options", () => {
 
     describe("requiredToBeDocumented", () => {
         it("Works with valid values", () => {
-            doesNotThrow(() =>
-                opts.setValue("requiredToBeDocumented", ["Enum"]),
-            );
+            doesNotThrow(() => opts.setValue("requiredToBeDocumented", ["Enum"]));
         });
 
         it("Throws on invalid values", () => {
-            throws(() =>
-                opts.setValue("requiredToBeDocumented", ["Enum2" as never]),
-            );
+            throws(() => opts.setValue("requiredToBeDocumented", ["Enum2" as never]));
         });
     });
 
@@ -90,7 +80,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("searchCategoryBoosts", {
                     cat: true as any as number,
-                }),
+                })
             );
         });
     });
@@ -104,7 +94,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("searchGroupBoosts", {
                     Enum: true as any as number,
-                }),
+                })
             );
         });
 
@@ -122,7 +112,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("navigationLinks", {
                     Home: true as any as string,
-                }),
+                })
             );
         });
     });
@@ -136,7 +126,7 @@ describe("Default Options", () => {
             throws(() =>
                 opts.setValue("sidebarLinks", {
                     Home: true as any as string,
-                }),
+                })
             );
         });
     });
@@ -148,10 +138,12 @@ describe("Default Options", () => {
             .sort((a, b) => a.localeCompare(b));
 
         const linkedOptions: string[] = [];
-        for (const line of readFileSync(
-            `${TYPEDOC_ROOT}/site/options/package-options.md`,
-            "utf-8",
-        ).split("\n")) {
+        for (
+            const line of readFileSync(
+                `${TYPEDOC_ROOT}/site/options/package-options.md`,
+                "utf-8",
+            ).split("\n")
+        ) {
             const match = line.match(/\[`(.*)`\]\(/);
             if (match) {
                 linkedOptions.push(match[1]);
@@ -174,19 +166,23 @@ describe("Default Options", () => {
             .sort((a, b) => a.localeCompare(b));
 
         const documentedOptions: string[] = [];
-        for (const file of [
-            "comments.md",
-            "configuration.md",
-            "input.md",
-            "organization.md",
-            "other.md",
-            "output.md",
-            "validation.md",
-        ]) {
-            for (const line of readFileSync(
-                `${TYPEDOC_ROOT}/site/options/${file}`,
-                "utf-8",
-            ).split("\n")) {
+        for (
+            const file of [
+                "comments.md",
+                "configuration.md",
+                "input.md",
+                "organization.md",
+                "other.md",
+                "output.md",
+                "validation.md",
+            ]
+        ) {
+            for (
+                const line of readFileSync(
+                    `${TYPEDOC_ROOT}/site/options/${file}`,
+                    "utf-8",
+                ).split("\n")
+            ) {
                 const match = line.match(/^## (.*)/);
                 if (match) {
                     documentedOptions.push(match[1]);

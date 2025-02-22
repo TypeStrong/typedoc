@@ -24,8 +24,8 @@ $ examples --out path/to/documentation/ path/to/example/project/
 
 ### Arguments
 
--   `--example <project>`<br>
-    Example explanation.
+- `--example <project>`<br>
+  Example explanation.
 
 ## Example with Cyrillic
 

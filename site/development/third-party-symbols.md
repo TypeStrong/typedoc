@@ -34,13 +34,13 @@ package rather than the `global` package. In order to support both `{@link
         // For these you should probably install typedoc-plugin-mdn-links instead
         "global": {
             // Handle {@link !Promise}
-            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
         },
         "typescript": {
             // Handle type X = Promise<number>
-            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
-        },
-    },
+            "Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+        }
+    }
 }
 ```
 
@@ -52,9 +52,9 @@ A wildcard can be used to provide a fallback link to any unmapped type.
     "externalSymbolLinkMappings": {
         "external-lib": {
             "SomeObject": "https://external-lib.site/docs/SomeObject",
-            "*": "https://external-lib.site/docs",
-        },
-    },
+            "*": "https://external-lib.site/docs"
+        }
+    }
 }
 ```
 
@@ -65,7 +65,10 @@ Plugins can add support for linking to third party sites by calling
 
 If the given symbol is unknown, or does not appear in the documentation site,
 the resolver may return `undefined` and no link will be rendered unless provided
-by another resolver.
+by another resolver. The string `"#"` may also be returned to indicate that
+TypeDoc should mark the symbol as externally resolved, but not produce a link
+to it. This can be useful if you want to keep the link for usage in VSCode,
+but not include it in the documentation.
 
 The following plugin will resolve a few types from React to links on the
 official React documentation site.

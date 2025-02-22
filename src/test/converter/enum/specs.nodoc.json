@@ -1,528 +1,528 @@
 {
-  "id": 0,
-  "name": "enum",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 9,
-      "name": "ModuleEnum",
-      "variant": "declaration",
-      "kind": 4,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a module extending an enumeration."
-          }
-        ]
-      },
-      "children": [
+    "id": 0,
+    "name": "enum",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 12,
-          "name": "enumValue",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is a variable appended to an enumeration."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 48,
-              "character": 15,
-              "url": "typedoc://enum.ts#L48"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          }
-        },
-        {
-          "id": 10,
-          "name": "enumFunction",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 53,
-              "character": 20,
-              "url": "typedoc://enum.ts#L53"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 11,
-              "name": "enumFunction",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
+            "id": 9,
+            "name": "ModuleEnum",
+            "variant": "declaration",
+            "kind": 4,
+            "flags": {},
+            "comment": {
                 "summary": [
-                  {
-                    "kind": "text",
-                    "text": "This is a function appended to an enumeration."
-                  }
+                    {
+                        "kind": "text",
+                        "text": "This is a module extending an enumeration."
+                    }
                 ]
-              },
-              "sources": [
+            },
+            "children": [
                 {
-                  "fileName": "enum.ts",
-                  "line": 53,
-                  "character": 20,
-                  "url": "typedoc://enum.ts#L53"
+                    "id": 12,
+                    "name": "enumValue",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is a variable appended to an enumeration."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 48,
+                            "character": 15,
+                            "url": "typedoc://enum.ts#L48"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "enumFunction",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 53,
+                            "character": 20,
+                            "url": "typedoc://enum.ts#L53"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 11,
+                            "name": "enumFunction",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "This is a function appended to an enumeration."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "enum.ts",
+                                    "line": 53,
+                                    "character": 20,
+                                    "url": "typedoc://enum.ts#L53"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                            }
+                        }
+                    ]
                 }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "void"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Variables",
-          "children": [
-            12
-          ]
+            ],
+            "groups": [
+                {
+                    "title": "Variables",
+                    "children": [
+                        12
+                    ]
+                },
+                {
+                    "title": "Functions",
+                    "children": [
+                        10
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "enum.ts",
+                    "line": 24,
+                    "character": 12,
+                    "url": "typedoc://enum.ts#L24"
+                },
+                {
+                    "fileName": "enum.ts",
+                    "line": 44,
+                    "character": 14,
+                    "url": "typedoc://enum.ts#L44"
+                }
+            ]
         },
         {
-          "title": "Functions",
-          "children": [
-            10
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "enum.ts",
-          "line": 24,
-          "character": 12,
-          "url": "typedoc://enum.ts#L24"
+            "id": 13,
+            "name": "ConstEnum",
+            "variant": "declaration",
+            "kind": 8,
+            "flags": {
+                "isConst": true
+            },
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This is a const enum."
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 14,
+                    "name": "a",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 60,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L60"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 1
+                    }
+                },
+                {
+                    "id": 15,
+                    "name": "b",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 61,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L61"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 2
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Enumeration Members",
+                    "children": [
+                        14,
+                        15
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "enum.ts",
+                    "line": 59,
+                    "character": 18,
+                    "url": "typedoc://enum.ts#L59"
+                }
+            ]
         },
         {
-          "fileName": "enum.ts",
-          "line": 44,
-          "character": 14,
-          "url": "typedoc://enum.ts#L44"
+            "id": 5,
+            "name": "ModuleEnum",
+            "variant": "declaration",
+            "kind": 8,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This is an enumeration extended by a module."
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 6,
+                    "name": "EnumValue1",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the first enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 28,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L28"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 1
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "EnumValue2",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the second enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 33,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L33"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 2
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "EnumValue3",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the third enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 38,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L38"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 4
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Enumeration Members",
+                    "children": [
+                        6,
+                        7,
+                        8
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "enum.ts",
+                    "line": 24,
+                    "character": 12,
+                    "url": "typedoc://enum.ts#L24"
+                },
+                {
+                    "fileName": "enum.ts",
+                    "line": 44,
+                    "character": 14,
+                    "url": "typedoc://enum.ts#L44"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "SimpleEnum",
+            "variant": "declaration",
+            "kind": 8,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This is a simple enumeration."
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 2,
+                    "name": "EnumValue1",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the first enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 8,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L8"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 1
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "EnumValue2",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the second enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 13,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L13"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 2
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "EnumValue3",
+                    "variant": "declaration",
+                    "kind": 16,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "This is the third enum member."
+                            }
+                        ]
+                    },
+                    "sources": [
+                        {
+                            "fileName": "enum.ts",
+                            "line": 18,
+                            "character": 4,
+                            "url": "typedoc://enum.ts#L18"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 4
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Enumeration Members",
+                    "children": [
+                        2,
+                        3,
+                        4
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "enum.ts",
+                    "line": 4,
+                    "character": 12,
+                    "url": "typedoc://enum.ts#L4"
+                }
+            ]
         }
-      ]
+    ],
+    "groups": [
+        {
+            "title": "Namespaces",
+            "children": [
+                9
+            ]
+        },
+        {
+            "title": "Enumerations",
+            "children": [
+                13,
+                5,
+                1
+            ]
+        }
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "0": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": ""
+        },
+        "1": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "SimpleEnum"
+        },
+        "2": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "SimpleEnum.EnumValue1"
+        },
+        "3": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "SimpleEnum.EnumValue2"
+        },
+        "4": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "SimpleEnum.EnumValue3"
+        },
+        "5": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum"
+        },
+        "6": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.EnumValue1"
+        },
+        "7": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.EnumValue2"
+        },
+        "8": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.EnumValue3"
+        },
+        "9": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum"
+        },
+        "10": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.enumFunction"
+        },
+        "11": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.enumFunction"
+        },
+        "12": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ModuleEnum.enumValue"
+        },
+        "13": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ConstEnum"
+        },
+        "14": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ConstEnum.a"
+        },
+        "15": {
+            "sourceFileName": "src/test/converter/enum/enum.ts",
+            "qualifiedName": "ConstEnum.b"
+        }
     },
-    {
-      "id": 13,
-      "name": "ConstEnum",
-      "variant": "declaration",
-      "kind": 8,
-      "flags": {
-        "isConst": true
-      },
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a const enum."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 14,
-          "name": "a",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 60,
-              "character": 4,
-              "url": "typedoc://enum.ts#L60"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 1
-          }
+    "files": {
+        "entries": {
+            "1": "src/test/converter/enum/enum.ts"
         },
-        {
-          "id": 15,
-          "name": "b",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 61,
-              "character": 4,
-              "url": "typedoc://enum.ts#L61"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 2
-          }
+        "reflections": {
+            "1": 0
         }
-      ],
-      "groups": [
-        {
-          "title": "Enumeration Members",
-          "children": [
-            14,
-            15
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "enum.ts",
-          "line": 59,
-          "character": 18,
-          "url": "typedoc://enum.ts#L59"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "name": "ModuleEnum",
-      "variant": "declaration",
-      "kind": 8,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is an enumeration extended by a module."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 6,
-          "name": "EnumValue1",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the first enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 28,
-              "character": 4,
-              "url": "typedoc://enum.ts#L28"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 1
-          }
-        },
-        {
-          "id": 7,
-          "name": "EnumValue2",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the second enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 33,
-              "character": 4,
-              "url": "typedoc://enum.ts#L33"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 2
-          }
-        },
-        {
-          "id": 8,
-          "name": "EnumValue3",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the third enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 38,
-              "character": 4,
-              "url": "typedoc://enum.ts#L38"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 4
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Enumeration Members",
-          "children": [
-            6,
-            7,
-            8
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "enum.ts",
-          "line": 24,
-          "character": 12,
-          "url": "typedoc://enum.ts#L24"
-        },
-        {
-          "fileName": "enum.ts",
-          "line": 44,
-          "character": 14,
-          "url": "typedoc://enum.ts#L44"
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "name": "SimpleEnum",
-      "variant": "declaration",
-      "kind": 8,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a simple enumeration."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 2,
-          "name": "EnumValue1",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the first enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 8,
-              "character": 4,
-              "url": "typedoc://enum.ts#L8"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 1
-          }
-        },
-        {
-          "id": 3,
-          "name": "EnumValue2",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the second enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 13,
-              "character": 4,
-              "url": "typedoc://enum.ts#L13"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 2
-          }
-        },
-        {
-          "id": 4,
-          "name": "EnumValue3",
-          "variant": "declaration",
-          "kind": 16,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "This is the third enum member."
-              }
-            ]
-          },
-          "sources": [
-            {
-              "fileName": "enum.ts",
-              "line": 18,
-              "character": 4,
-              "url": "typedoc://enum.ts#L18"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 4
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Enumeration Members",
-          "children": [
-            2,
-            3,
-            4
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "enum.ts",
-          "line": 4,
-          "character": 12,
-          "url": "typedoc://enum.ts#L4"
-        }
-      ]
     }
-  ],
-  "groups": [
-    {
-      "title": "Namespaces",
-      "children": [
-        9
-      ]
-    },
-    {
-      "title": "Enumerations",
-      "children": [
-        13,
-        5,
-        1
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "0": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": ""
-    },
-    "1": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "SimpleEnum"
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "SimpleEnum.EnumValue1"
-    },
-    "3": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "SimpleEnum.EnumValue2"
-    },
-    "4": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "SimpleEnum.EnumValue3"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum"
-    },
-    "6": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.EnumValue1"
-    },
-    "7": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.EnumValue2"
-    },
-    "8": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.EnumValue3"
-    },
-    "9": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum"
-    },
-    "10": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.enumFunction"
-    },
-    "11": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.enumFunction"
-    },
-    "12": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ModuleEnum.enumValue"
-    },
-    "13": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ConstEnum"
-    },
-    "14": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ConstEnum.a"
-    },
-    "15": {
-      "sourceFileName": "src/test/converter/enum/enum.ts",
-      "qualifiedName": "ConstEnum.b"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/enum/enum.ts"
-    },
-    "reflections": {
-      "1": 0
-    }
-  }
 }

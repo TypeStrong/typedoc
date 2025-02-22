@@ -1,23 +1,17 @@
 import { Comment } from "../comments/comment.js";
 import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./project.js";
-import type { NeverIfInternal } from "../../utils/index.js";
+import { type NeverIfInternal, NonEnumerable } from "#utils";
 import { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    Deserializer,
-    JSONOutput,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { ReflectionVariant } from "./variant.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { DocumentReflection } from "./document.js";
-import { NonEnumerable } from "../../utils/general.js";
-import type {
-    Internationalization,
-    TranslatedString,
-} from "../../internationalization/index.js";
+import type { Internationalization, TranslatedString } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { ReferenceReflection } from "./reference.js";
+import type { SignatureReflection } from "./signature.js";
+import type { TypeParameterReflection } from "./type-parameter.js";
 
 /**
  * Current reflection id.
@@ -294,26 +288,6 @@ export abstract class Reflection {
      */
     comment?: Comment;
 
-    /**
-     * The url of this reflection in the generated documentation.
-     * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
-     */
-    url?: string;
-
-    /**
-     * The name of the anchor of this child.
-     * TODO: Reflections shouldn't know anchors exist. Move this to a serializer.
-     */
-    anchor?: string;
-
-    /**
-     * Is the url pointing to an individual document?
-     *
-     * When FALSE, the url points to an anchor tag on a page of a different reflection.
-     * TODO: Reflections shouldn't know how they are rendered. Move this to the correct serializer.
-     */
-    hasOwnDocument?: boolean;
-
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id = REFLECTION_ID++ as ReflectionId;
         this.parent = parent;
@@ -434,6 +408,12 @@ export abstract class Reflection {
     isDeclaration(): this is DeclarationReflection {
         return false;
     }
+    isSignature(): this is SignatureReflection {
+        return false;
+    }
+    isTypeParameter(): this is TypeParameterReflection {
+        return false;
+    }
     isParameter(): this is ParameterReflection {
         return false;
     }
@@ -453,9 +433,7 @@ export abstract class Reflection {
             declaration(decl) {
                 if (
                     decl.signatures?.length &&
-                    decl.signatures.every((sig) =>
-                        sig.comment?.getTag("@deprecated"),
-                    )
+                    decl.signatures.every((sig) => sig.comment?.getTag("@deprecated"))
                 ) {
                     signaturesDeprecated = true;
                 }
@@ -519,10 +497,9 @@ export abstract class Reflection {
             variant: this.variant,
             kind: this.kind,
             flags: this.flags.toObject(),
-            comment:
-                this.comment && !this.comment.isEmpty()
-                    ? serializer.toObject(this.comment)
-                    : undefined,
+            comment: this.comment && !this.comment.isEmpty()
+                ? serializer.toObject(this.comment)
+                : undefined,
         };
     }
 

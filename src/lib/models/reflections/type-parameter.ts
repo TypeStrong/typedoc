@@ -2,11 +2,7 @@ import type { SomeType } from "../types.js";
 import { Reflection, type TraverseCallback } from "./abstract.js";
 import type { DeclarationReflection } from "./declaration.js";
 import { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { SignatureReflection } from "./signature.js";
 
 /**
@@ -18,8 +14,7 @@ export const VarianceModifier = {
     out: "out",
     inOut: "in out",
 } as const;
-export type VarianceModifier =
-    (typeof VarianceModifier)[keyof typeof VarianceModifier];
+export type VarianceModifier = (typeof VarianceModifier)[keyof typeof VarianceModifier];
 
 /**
  * @category Reflections
@@ -42,6 +37,10 @@ export class TypeParameterReflection extends Reflection {
     ) {
         super(name, ReflectionKind.TypeParameter, parent);
         this.varianceModifier = varianceModifier;
+    }
+
+    override isTypeParameter(): this is TypeParameterReflection {
+        return true;
     }
 
     override toObject(

@@ -1,10 +1,10 @@
 import {
-    ReflectionKind,
     ContainerReflection,
     type DeclarationReflection,
     type DocumentReflection,
-    ReferenceReflection,
     type ProjectReflection,
+    ReferenceReflection,
+    ReflectionKind,
 } from "../../models/reflections/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
@@ -96,9 +96,11 @@ export class GroupPlugin extends ConverterComponent {
     private onRevive(project: ProjectReflection) {
         this.setup();
         this.group(project);
-        for (const refl of project.getReflectionsByKind(
-            ReflectionKind.SomeModule,
-        )) {
+        for (
+            const refl of project.getReflectionsByKind(
+                ReflectionKind.SomeModule,
+            )
+        ) {
             assert(refl.isDeclaration());
             this.group(refl);
         }
@@ -109,7 +111,7 @@ export class GroupPlugin extends ConverterComponent {
         GroupPlugin.WEIGHTS = this.groupOrder;
         if (GroupPlugin.WEIGHTS.length === 0) {
             GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) =>
-                this.application.internationalization.kindPluralString(kind),
+                this.application.internationalization.kindPluralString(kind)
             );
         }
     }
@@ -119,9 +121,7 @@ export class GroupPlugin extends ConverterComponent {
             if (reflection.children) {
                 if (
                     this.sortEntryPoints ||
-                    !reflection.children.some((c) =>
-                        c.kindOf(ReflectionKind.Module),
-                    )
+                    !reflection.children.some((c) => c.kindOf(ReflectionKind.Module))
                 ) {
                     this.sortFunction(reflection.children);
                     this.sortFunction(reflection.documents || []);

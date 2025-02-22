@@ -267,3 +267,22 @@ the special `global` package reserved for global types.
     }
 }
 ```
+
+The string `"#"` may also be specified to indicate to TypeDoc that the type should be marked as resolved
+but no link should be created.
+
+```json
+// typedoc.json
+{
+    "externalSymbolLinkMappings": {
+        // used by {@link !Promise}
+        "global": {
+            "Promise": "#"
+        },
+        // used by type Foo = Promise<string>
+        "typescript": {
+            "Promise": "#"
+        }
+    }
+}
+```

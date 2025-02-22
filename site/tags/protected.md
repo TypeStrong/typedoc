@@ -25,7 +25,7 @@ export class Visibility {
 
 ## See Also
 
--   The [`@public`](public.md) tag
--   The [`@private`](private.md) tag
--   The [`@internal`](internal.md) tag
--   The [`--excludeProtected`](../options/input.md#excludeprotected) option
+- The [`@public`](public.md) tag
+- The [`@private`](private.md) tag
+- The [`@internal`](internal.md) tag
+- The [`--excludeProtected`](../options/input.md#excludeprotected) option

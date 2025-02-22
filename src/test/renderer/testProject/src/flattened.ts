@@ -93,7 +93,7 @@ export class FlattenedClass {
  * @param callback.optionalParam  An optional parameter of the typed function callback.
  */
 export function flattenedCallback(
-    callback: (param: number, optionalParam?: string) => string
+    callback: (param: number, optionalParam?: string) => string,
 ) {}
 
 /**

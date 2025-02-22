@@ -1,5 +1,5 @@
 import { type Reflection, ReflectionFlag } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -32,9 +32,7 @@ export function sidebarLinks(context: DefaultThemeRenderContext) {
     if (!links.length && !navLinks.length) return null;
     return (
         <nav id="tsd-sidebar-links" class="tsd-navigation">
-            {links.map(([label, url]) => (
-                <a href={url}>{label}</a>
-            ))}
+            {links.map(([label, url]) => <a href={url}>{label}</a>)}
             {navLinks.map(([label, url]) => (
                 <a href={url} class="tsd-nav-link">
                     {label}
@@ -127,7 +125,9 @@ export const navigation = function navigation(context: DefaultThemeRenderContext
         <nav class="tsd-navigation">
             <a
                 href={context.urlTo(props.project)}
-                class={classNames({ current: props.url === props.model.url && props.model.isProject() })}
+                class={classNames({
+                    current: props.url === context.router.getFullUrl(props.model) && props.model.isProject(),
+                })}
             >
                 {getDisplayName(props.project)}
             </a>
@@ -159,9 +159,7 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
 
         const built = (
             <ul>
-                {level.map((l) => (
-                    <li>{l}</li>
-                ))}
+                {level.map((l) => <li>{l}</li>)}
             </ul>
         );
         levels[levels.length - 1].push(built);
@@ -171,8 +169,8 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
         const inferredLevel = heading.level
             ? heading.level + 2 // regular heading
             : heading.kind
-              ? 2 // reflection
-              : 1; // group/category
+            ? 2 // reflection
+            : 1; // group/category
         while (inferredLevel < levels.length) {
             finalizeLevel(false);
         }

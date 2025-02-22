@@ -1,9 +1,9 @@
 import type ts from "typescript";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
-import type { NeverIfInternal, OutputSpecification } from "../index.js";
+import type { OutputSpecification } from "../index.js";
+import { normalizePath } from "../paths.js";
 import type { Application } from "../../../index.js";
-import { insertOrderSorted, unique } from "../array.js";
 import type { Logger } from "../loggers.js";
 import {
     convert,
@@ -17,7 +17,7 @@ import {
 import { addTypeDocOptions } from "./sources/index.js";
 import { getOptionsHelp } from "./help.js";
 import type { TranslationProxy } from "../../internationalization/internationalization.js";
-import { getSimilarValues } from "../general.js";
+import { getSimilarValues, insertOrderSorted, type NeverIfInternal, unique } from "#utils";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -130,9 +130,11 @@ export class Options {
         options._declarations = new Map(this._declarations);
         options.reset();
 
-        for (const [key, val] of Object.entries(
-            this.getValue("packageOptions"),
-        )) {
+        for (
+            const [key, val] of Object.entries(
+                this.getValue("packageOptions"),
+            )
+        ) {
             options.setValue(key as any, val, packageDir);
         }
 
@@ -352,7 +354,7 @@ export class Options {
             ).map((c) => {
                 return {
                     ...c,
-                    path: resolve(configPath ?? process.cwd(), c.path),
+                    path: normalizePath(resolve(configPath ?? process.cwd(), c.path)),
                 };
             });
         } else {
@@ -452,8 +454,7 @@ export function Option<K extends keyof TypeDocOptionMap>(name: K) {
     ) => {
         return {
             get(this: { application: Application } | { options: Options }) {
-                const options =
-                    "options" in this ? this.options : this.application.options;
+                const options = "options" in this ? this.options : this.application.options;
                 return options.getValue(name);
             },
             set(_value: never) {

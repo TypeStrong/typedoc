@@ -4,11 +4,7 @@ import { type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ContainerReflection } from "./container.js";
 import type { SignatureReflection } from "./signature.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import { Comment, type CommentDisplayPart } from "../comments/index.js";
 import { SourceReference } from "../sources/file.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
@@ -40,7 +36,7 @@ export interface DeclarationHierarchy {
  * A reflection that represents a single declaration emitted by the TypeScript compiler.
  *
  * All parts of a project are represented by DeclarationReflection instances. The actual
- * kind of a reflection is stored in its ´kind´ member.
+ * kind of a reflection is stored in its `kind` member.
  * @category Reflections
  */
 export class DeclarationReflection extends ContainerReflection {
@@ -272,7 +268,7 @@ export class DeclarationReflection extends ContainerReflection {
         if (this.getSignature) {
             if (
                 callback(this.getSignature, TraverseProperty.GetSignature) ===
-                false
+                    false
             ) {
                 return;
             }
@@ -281,7 +277,7 @@ export class DeclarationReflection extends ContainerReflection {
         if (this.setSignature) {
             if (
                 callback(this.setSignature, TraverseProperty.SetSignature) ===
-                false
+                    false
             ) {
                 return;
             }
@@ -318,8 +314,7 @@ export class DeclarationReflection extends ContainerReflection {
             variant: this.variant,
             packageVersion: this.packageVersion,
             sources: serializer.toObjectsOptional(this.sources),
-            relevanceBoost:
-                this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
+            relevanceBoost: this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
@@ -369,7 +364,7 @@ export class DeclarationReflection extends ContainerReflection {
                         );
                     } else {
                         de.logger.warn(
-                            de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                            de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                                 id.toString(),
                             ),
                         );
@@ -386,13 +381,9 @@ export class DeclarationReflection extends ContainerReflection {
         );
         this.relevanceBoost = obj.relevanceBoost;
 
-        this.typeParameters = de.reviveMany(obj.typeParameters, (tp) =>
-            de.constructReflection(tp),
-        );
+        this.typeParameters = de.reviveMany(obj.typeParameters, (tp) => de.constructReflection(tp));
         this.type = de.revive(obj.type, (t) => de.constructType(t));
-        this.signatures = de.reviveMany(obj.signatures, (r) =>
-            de.constructReflection(r),
-        );
+        this.signatures = de.reviveMany(obj.signatures, (r) => de.constructReflection(r));
 
         // TypeDoc 0.25, remove check with 0.28.
         // eslint-disable-next-line @typescript-eslint/no-deprecated
@@ -402,31 +393,17 @@ export class DeclarationReflection extends ContainerReflection {
                 de.revive(obj.indexSignature, (r) => de.constructReflection(r)),
             ];
         } else {
-            this.indexSignatures = de.reviveMany(obj.indexSignatures, (r) =>
-                de.constructReflection(r),
-            );
+            this.indexSignatures = de.reviveMany(obj.indexSignatures, (r) => de.constructReflection(r));
         }
-        this.getSignature = de.revive(obj.getSignature, (r) =>
-            de.constructReflection(r),
-        );
-        this.setSignature = de.revive(obj.setSignature, (r) =>
-            de.constructReflection(r),
-        );
+        this.getSignature = de.revive(obj.getSignature, (r) => de.constructReflection(r));
+        this.setSignature = de.revive(obj.setSignature, (r) => de.constructReflection(r));
         this.defaultValue = obj.defaultValue;
         this.overwrites = de.reviveType(obj.overwrites);
         this.inheritedFrom = de.reviveType(obj.inheritedFrom);
         this.implementationOf = de.reviveType(obj.implementationOf);
-        this.extendedTypes = de.reviveMany(obj.extendedTypes, (t) =>
-            de.reviveType(t),
-        );
-        this.extendedBy = de.reviveMany(obj.extendedBy, (t) =>
-            de.reviveType(t),
-        );
-        this.implementedTypes = de.reviveMany(obj.implementedTypes, (t) =>
-            de.reviveType(t),
-        );
-        this.implementedBy = de.reviveMany(obj.implementedBy, (t) =>
-            de.reviveType(t),
-        );
+        this.extendedTypes = de.reviveMany(obj.extendedTypes, (t) => de.reviveType(t));
+        this.extendedBy = de.reviveMany(obj.extendedBy, (t) => de.reviveType(t));
+        this.implementedTypes = de.reviveMany(obj.implementedTypes, (t) => de.reviveType(t));
+        this.implementedBy = de.reviveMany(obj.implementedBy, (t) => de.reviveType(t));
     }
 }

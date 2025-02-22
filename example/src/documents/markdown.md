@@ -14,8 +14,7 @@ documents added with the `--projectDocuments` option or added with the `@documen
 
 ## Symbol References
 
-You can link to other classes, members or functions using an inline link tag. See the [TypeDoc
-documentation](https://typedoc.org/tags/link/) for
+You can link to other classes, members or functions using an inline link tag. See the [TypeDoc documentation](https://typedoc.org/tags/link/) for
 details.
 
 ## Code in Doc Comments
@@ -33,9 +32,9 @@ See [the syntax highlighting showcase](./syntax-highlighting.md) for more code b
 
 ## A List
 
--   🥚 ~~Eggs~~
--   🍞 Bread
--   🧀 Swiss cheese
+- 🥚 ~~Eggs~~
+- 🍞 Bread
+- 🧀 Swiss cheese
 
 ## A Table
 
@@ -55,7 +54,7 @@ A Random Shakespeare Quote
 
 ## An Image
 
- <img src="../../media/typescript-logo.svg" width="120" />
+<img src="../../media/typescript-logo.svg" width="120" />
 
 ## Alerts
 
@@ -64,11 +63,11 @@ to highlight important content. TypeDoc also recognizes alerts and will style th
 
 To use an alert, include a blockquote in any markdown content which starts with an alert tag:
 
--   `[!NOTE]`
--   `[!TIP]`
--   `[!IMPORTANT]`
--   `[!WARNING]`
--   `[!CAUTION]`
+- `[!NOTE]`
+- `[!TIP]`
+- `[!IMPORTANT]`
+- `[!WARNING]`
+- `[!CAUTION]`
 
 ```md
 > [!NOTE]

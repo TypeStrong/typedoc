@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import type { Application } from "../application.js";
-import { DefaultMap, unique } from "../utils/index.js";
+import { DefaultMap, unique } from "#utils";
 import { readdirSync } from "fs";
 import { join } from "path";
 import { ReflectionKind } from "../models/reflections/kind.js";
@@ -114,7 +114,7 @@ export class Internationalization {
     ): TranslatedString {
         return (
             this.allTranslations.get(this.application?.lang ?? "en").get(key) ??
-            translatable[key as keyof typeof translatable]
+                translatable[key as keyof typeof translatable]
         ).replace(/\{(\d+)\}/g, (_, index) => {
             return args[+index] ?? "(no placeholder)";
         }) as TranslatedString;
@@ -302,9 +302,9 @@ export class Internationalization {
      */
     getSupportedLanguages(): string[] {
         return unique([
-            ...readdirSync(join(fileURLToPath(import.meta.url), "../locales"))
-                .map((x) => x.substring(0, x.indexOf(".")))
-                .filter((x) => x !== "jp"),
+            ...readdirSync(
+                join(fileURLToPath(import.meta.url), "../locales"),
+            ).map((x) => x.substring(0, x.indexOf("."))),
             ...this.allTranslations.keys(),
         ])
             .filter((lang) => this.hasTranslations(lang))

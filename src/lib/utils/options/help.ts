@@ -1,10 +1,5 @@
 import type { Options } from "./options.js";
-import {
-    ParameterHint,
-    type StringDeclarationOption,
-    ParameterType,
-    type DeclarationOption,
-} from "./declaration.js";
+import { type DeclarationOption, ParameterHint, ParameterType, type StringDeclarationOption } from "./declaration.js";
 import { getSupportedLanguages, getSupportedThemes } from "../highlighter.js";
 import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
@@ -34,9 +29,7 @@ function getParameterHelp(
     i18n: TranslationProxy,
 ): ParameterHelp {
     const parameters = options.getDeclarations();
-    parameters.sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-    );
+    parameters.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 
     const names: string[] = [];
     const helps: string[] = [];
@@ -65,8 +58,7 @@ function getParameterHelp(
 }
 
 function toEvenColumns(values: string[], maxLineWidth: number) {
-    const columnWidth =
-        values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
+    const columnWidth = values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
 
     const numColumns = Math.max(1, Math.floor(maxLineWidth / columnWidth));
     let line = "";

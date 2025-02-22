@@ -16,7 +16,7 @@ typedoc --entryPoints src/index.ts --entryPoints src/alt.ts
 ```jsonc
 // typedoc.json
 {
-    "entryPoints": ["src/index.ts", "src/alt.ts", "src/multiple/*.ts"],
+    "entryPoints": ["src/index.ts", "src/alt.ts", "src/multiple/*.ts"]
 }
 ```
 
@@ -31,8 +31,7 @@ according to the ["exports"](https://nodejs.org/api/packages.html#exports) or
 using your tsconfig options to map the JavaScript files back to the original TypeScript
 source.
 
-If a `"typedoc"` [conditional
-export](https://nodejs.org/api/packages.html#conditional-exports) is used,
+If a `"typedoc"` [conditional export](https://nodejs.org/api/packages.html#conditional-exports) is used,
 TypeDoc will use it instead of the `"import"` export condition.
 
 The set of entry points provided to TypeDoc determines the names displayed in the documentation.

@@ -1,20 +1,12 @@
-import ts from "typescript";
-import type { Context } from "../converter/index.js";
 import type { Reflection } from "./reflections/abstract.js";
 import type { DeclarationReflection } from "./reflections/declaration.js";
 import type { ProjectReflection } from "./reflections/project.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../serialization/index.js";
-import { getQualifiedName } from "../utils/tsutils.js";
+import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
 import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId.js";
-import type { DeclarationReference } from "../converter/comments/declarationReference.js";
-import { findPackageForPath } from "../utils/fs.js";
+import type { DeclarationReference } from "#utils";
 import { ReflectionKind } from "./reflections/kind.js";
 import { Comment, type CommentDisplayPart } from "./comments/index.js";
-import { joinArray } from "../utils/array.js";
+import { joinArray } from "#utils";
 import type { SignatureReflection } from "./reflections/signature.js";
 
 /**
@@ -400,9 +392,11 @@ export class InferredType extends Type {
 
     protected override getTypeString() {
         if (this.constraint) {
-            return `infer ${this.name} extends ${this.constraint.stringify(
-                TypeContext.inferredConstraint,
-            )}`;
+            return `infer ${this.name} extends ${
+                this.constraint.stringify(
+                    TypeContext.inferredConstraint,
+                )
+            }`;
         }
         return `infer ${this.name}`;
     }
@@ -765,9 +759,11 @@ export class QueryType extends Type {
     }
 
     protected override getTypeString() {
-        return `typeof ${this.queryType.stringify(
-            TypeContext.queryTypeTarget,
-        )}`;
+        return `typeof ${
+            this.queryType.stringify(
+                TypeContext.queryTypeTarget,
+            )
+        }`;
     }
 
     /**
@@ -830,8 +826,7 @@ export class ReferenceType extends Type {
             ? ReflectionKind.ValueReferenceTarget
             : ReflectionKind.TypeReferenceTarget;
 
-        const resolved =
-            resolvePotential.find((refl) => refl.kindOf(kind)) ||
+        const resolved = resolvePotential.find((refl) => refl.kindOf(kind)) ||
             resolvePotential.find((refl) => refl.kindOf(~kind))!;
 
         // Do not mark the type as resolved at this point so that if it
@@ -941,36 +936,21 @@ export class ReferenceType extends Type {
         this.qualifiedName = qualifiedName;
     }
 
+    static createUnresolvedReference(
+        name: string,
+        target: ReflectionSymbolId,
+        project: ProjectReflection,
+        qualifiedName: string,
+    ) {
+        return new ReferenceType(name, target, project, qualifiedName);
+    }
+
     static createResolvedReference(
         name: string,
         target: Reflection | number,
         project: ProjectReflection | null,
     ) {
         return new ReferenceType(name, target, project, name);
-    }
-
-    static createSymbolReference(
-        symbol: ts.Symbol,
-        context: Context,
-        name?: string,
-    ) {
-        const ref = new ReferenceType(
-            name ?? symbol.name,
-            new ReflectionSymbolId(symbol),
-            context.project,
-            getQualifiedName(symbol, name ?? symbol.name),
-        );
-        ref.refersToTypeParameter = !!(
-            symbol.flags & ts.SymbolFlags.TypeParameter
-        );
-
-        const symbolPath = symbol.declarations?.[0]
-            ?.getSourceFile()
-            .fileName.replace(/\\/g, "/");
-        if (!symbolPath) return ref;
-
-        ref.package = findPackageForPath(symbolPath);
-        return ref;
     }
 
     /**
@@ -1053,9 +1033,7 @@ export class ReferenceType extends Type {
     }
 
     override fromObject(de: Deserializer, obj: JSONOutput.ReferenceType): void {
-        this.typeArguments = de.reviveMany(obj.typeArguments, (t) =>
-            de.constructType(t),
-        );
+        this.typeArguments = de.reviveMany(obj.typeArguments, (t) => de.constructType(t));
         if (typeof obj.target === "number" && obj.target !== -1) {
             de.defer((project) => {
                 const target = project.getReflectionById(
@@ -1066,7 +1044,7 @@ export class ReferenceType extends Type {
                     this._target = target.id;
                 } else {
                     de.logger.warn(
-                        de.application.i18n.serialized_project_referenced_0_not_part_of_project(
+                        de.logger.i18n.serialized_project_referenced_0_not_part_of_project(
                             JSON.stringify(obj.target),
                         ),
                     );
@@ -1086,9 +1064,11 @@ export class ReferenceType extends Type {
 
         if (obj.highlightedProperties) {
             this.highlightedProperties = new Map();
-            for (const [key, parts] of Object.entries(
-                obj.highlightedProperties,
-            )) {
+            for (
+                const [key, parts] of Object.entries(
+                    obj.highlightedProperties,
+                )
+            ) {
                 this.highlightedProperties.set(
                     key,
                     Comment.deserializeDisplayParts(de, parts),
@@ -1296,9 +1276,7 @@ export class NamedTupleMember extends Type {
      * Return a string representation of this type.
      */
     protected override getTypeString() {
-        return `${this.name}${
-            this.isOptional ? "?" : ""
-        }: ${this.element.stringify(TypeContext.tupleElement)}`;
+        return `${this.name}${this.isOptional ? "?" : ""}: ${this.element.stringify(TypeContext.tupleElement)}`;
     }
 
     override needsParenthesis(): boolean {
@@ -1335,9 +1313,11 @@ export class TypeOperatorType extends Type {
     }
 
     protected override getTypeString() {
-        return `${this.operator} ${this.target.stringify(
-            TypeContext.typeOperatorTarget,
-        )}`;
+        return `${this.operator} ${
+            this.target.stringify(
+                TypeContext.typeOperatorTarget,
+            )
+        }`;
     }
 
     override needsParenthesis(context: TypeContext): boolean {
@@ -1440,9 +1420,7 @@ export class UnionType extends Type {
 
     override fromObject(de: Deserializer, obj: JSONOutput.UnionType): void {
         if (obj.elementSummaries) {
-            this.elementSummaries = obj.elementSummaries.map((parts) =>
-                Comment.deserializeDisplayParts(de, parts),
-            );
+            this.elementSummaries = obj.elementSummaries.map((parts) => Comment.deserializeDisplayParts(de, parts));
         }
     }
 
@@ -1450,9 +1428,7 @@ export class UnionType extends Type {
         return {
             type: this.type,
             types: this.types.map((t) => serializer.toObject(t)),
-            elementSummaries: this.elementSummaries?.map((parts) =>
-                Comment.serializeDisplayParts(serializer, parts),
-            ),
+            elementSummaries: this.elementSummaries?.map((parts) => Comment.serializeDisplayParts(serializer, parts)),
         };
     }
 }

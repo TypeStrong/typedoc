@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { ReflectionKind } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { TranslatedString, TranslationProxy } from "../../../../internationalization/index.js";
 
@@ -164,9 +164,7 @@ export function getIcons(i18n: TranslationProxy): Icons {
         ),
         menu: () => (
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                {["3", "7", "11"].map((y) => (
-                    <rect x="1" y={y} width="14" height="2" fill="var(--color-icon-text)" />
-                ))}
+                {["3", "7", "11"].map((y) => <rect x="1" y={y} width="14" height="2" fill="var(--color-icon-text)" />)}
             </svg>
         ),
         search: () => (

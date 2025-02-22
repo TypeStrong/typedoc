@@ -26,7 +26,7 @@ In this case, it would probably be better to add this content using a render
 hook for `footer.begin` or `footer.end`, but it can be done in this way as well.
 
 ```tsx
-import { Application, DefaultTheme, PageEvent, JSX, Reflection } from "typedoc";
+import { Application, DefaultTheme, JSX, PageEvent, Reflection } from "typedoc";
 
 class MyThemeContext extends DefaultThemeRenderContext {
     // Important: If you use `this`, this function MUST be bound! Template functions

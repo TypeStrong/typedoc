@@ -34,6 +34,6 @@ export interface Resolved {
 
 ## See Also
 
--   The [`@property`](property.md) tag
--   The [`@namespace`](namespace.md) tag
--   The [`@useDeclaredType`](useDeclaredType.md) tag
+- The [`@property`](property.md) tag
+- The [`@namespace`](namespace.md) tag
+- The [`@useDeclaredType`](useDeclaredType.md) tag

@@ -17,17 +17,17 @@ on the scale of breaking changes introduced in a new TypeScript version, a given
 support more versions of TypeScript. TypeDoc may work with older (or newer) TypeScript versions, but
 the supported version range will generally not include versions not supported by DefinitelyTyped.
 
-| TypeDoc Version | TypeScript Version | Status              |
-| --------------- | ------------------ | ------------------- |
-| 0.27            | 5.0 through 5.7    | ✅ Maintained       |
+| TypeDoc Version | TypeScript Version | Status             |
+| --------------- | ------------------ | ------------------ |
+| 0.27            | 5.0 through 5.7    | ✅ Maintained      |
 | 0.26            | 4.6 through 5.6    | ⚠️ Security Updates |
-| 0.25            | 4.6 through 5.4    | ❌ Unmaintained     |
-| 0.24            | 4.6 through 5.1    | ❌ Unmaintained     |
-| 0.23            | 4.6 through 5.0    | ❌ Unmaintained     |
-| 0.22            | 4.0 through 4.7    | ❌ Unmaintained     |
-| 0.21            | 4.0 through 4.4    | ❌ Unmaintained     |
-| 0.20            | 3.9 through 4.2    | ❌ Unmaintained     |
-| 0.19            | 3.9 through 4.0    | ❌ Unmaintained     |
+| 0.25            | 4.6 through 5.4    | ❌ Unmaintained    |
+| 0.24            | 4.6 through 5.1    | ❌ Unmaintained    |
+| 0.23            | 4.6 through 5.0    | ❌ Unmaintained    |
+| 0.22            | 4.0 through 4.7    | ❌ Unmaintained    |
+| 0.21            | 4.0 through 4.4    | ❌ Unmaintained    |
+| 0.20            | 3.9 through 4.2    | ❌ Unmaintained    |
+| 0.19            | 3.9 through 4.0    | ❌ Unmaintained    |
 
 ## Command Line Interface
 
@@ -52,6 +52,7 @@ import * as td from "typedoc";
 // Also accepts an array of option readers if you want to disable
 // TypeDoc's tsconfig.json/package.json/typedoc.json option readers
 const app = await td.Application.bootstrapWithPlugins({
+    // Note: This accepts globs, do not pass paths with backslash path separators!
     entryPoints: ["src/index.ts"],
 });
 
@@ -59,6 +60,10 @@ const app = await td.Application.bootstrapWithPlugins({
 const project = await app.convert();
 
 if (project) {
+    // Generate configured outputs
+    await generateOutputs(project);
+
+    // Alternatively...
     const outputDir = "docs";
     // Generate HTML rendered docs
     await app.generateDocs(project, outputDir);

@@ -1,2487 +1,2487 @@
 {
-  "id": 0,
-  "name": "mixin",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 13,
-      "name": "Base",
-      "variant": "declaration",
-      "kind": 128,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Base class"
-          }
-        ]
-      },
-      "children": [
+    "id": 0,
+    "name": "mixin",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 14,
-          "name": "constructor",
-          "variant": "declaration",
-          "kind": 512,
-          "flags": {},
-          "signatures": [
-            {
-              "id": 15,
-              "name": "Base",
-              "variant": "signature",
-              "kind": 16384,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 13,
-                "name": "Base",
-                "package": "typedoc"
-              }
-            }
-          ]
-        },
-        {
-          "id": 16,
-          "name": "baseProperty",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 20,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L20"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\""
-        },
-        {
-          "id": 17,
-          "name": "baseMethod",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 22,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L22"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 18,
-              "name": "baseMethod",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 4,
-                  "url": "typedoc://mixin.ts#L22"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Constructors",
-          "children": [
-            14
-          ]
-        },
-        {
-          "title": "Properties",
-          "children": [
-            16
-          ]
-        },
-        {
-          "title": "Methods",
-          "children": [
-            17
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 19,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L19"
-        }
-      ]
-    },
-    {
-      "id": 64,
-      "name": "SomeClassWithMixin",
-      "variant": "declaration",
-      "kind": 128,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 69,
-          "name": "constructor",
-          "variant": "declaration",
-          "kind": 512,
-          "flags": {},
-          "signatures": [
-            {
-              "id": 70,
-              "name": "SomeClassWithMixin",
-              "variant": "signature",
-              "kind": 16384,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 64,
-                "name": "SomeClassWithMixin",
-                "package": "typedoc"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin2(Mixin1Func(Base)).constructor"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).constructor"
-          }
-        },
-        {
-          "id": 82,
-          "name": "baseProperty",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 20,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L20"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).baseProperty"
-          }
-        },
-        {
-          "id": 71,
-          "name": "classWithMixinProperty",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 86,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L86"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\""
-        },
-        {
-          "id": 78,
-          "name": "property1",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 35,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L35"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).property1"
-          }
-        },
-        {
-          "id": 74,
-          "name": "property2",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 55,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L55"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).property2"
-          }
-        },
-        {
-          "id": 83,
-          "name": "baseMethod",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 22,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L22"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 84,
-              "name": "baseMethod",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 4,
-                  "url": "typedoc://mixin.ts#L22"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin2(Mixin1Func(Base)).baseMethod"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).baseMethod"
-          }
-        },
-        {
-          "id": 72,
-          "name": "classWithMixinMethod",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 88,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L88"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 73,
-              "name": "classWithMixinMethod",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 88,
-                  "character": 4,
-                  "url": "typedoc://mixin.ts#L88"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        },
-        {
-          "id": 79,
-          "name": "method1",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 37,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L37"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 80,
-              "name": "method1",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 37,
-                  "character": 8,
-                  "url": "typedoc://mixin.ts#L37"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 81,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "target": 27,
-                      "name": "Mixin1Type",
-                      "package": "typedoc"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "array",
-                "elementType": {
-                  "type": "reference",
-                  "target": 27,
-                  "name": "Mixin1Type",
-                  "package": "typedoc"
-                }
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin2(Mixin1Func(Base)).method1"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).method1"
-          }
-        },
-        {
-          "id": 75,
-          "name": "method2",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 57,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L57"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 76,
-              "name": "method2",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 57,
-                  "character": 8,
-                  "url": "typedoc://mixin.ts#L57"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 77,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 43,
-                    "name": "Mixin2Type",
-                    "package": "typedoc"
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 43,
-                "name": "Mixin2Type",
-                "package": "typedoc"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin2(Mixin1Func(Base)).method2"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin2(Mixin1Func(Base)).method2"
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Constructors",
-          "children": [
-            69
-          ]
-        },
-        {
-          "title": "Properties",
-          "children": [
-            82,
-            71,
-            78,
-            74
-          ]
-        },
-        {
-          "title": "Methods",
-          "children": [
-            83,
-            72,
-            79,
-            75
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 85,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L85"
-        }
-      ],
-      "extendedTypes": [
-        {
-          "type": "intersection",
-          "types": [
-            {
-              "type": "reference",
-              "target": 39,
-              "typeArguments": [
-                {
-                  "type": "intersection",
-                  "types": [
+            "id": 13,
+            "name": "Base",
+            "variant": "declaration",
+            "kind": 128,
+            "flags": {},
+            "comment": {
+                "summary": [
                     {
-                      "type": "reflection",
-                      "declaration": {
-                        "id": 65,
-                        "name": "__type",
-                        "variant": "declaration",
-                        "kind": 65536,
-                        "flags": {},
-                        "children": [
-                          {
-                            "id": 66,
-                            "name": "prototype",
-                            "variant": "declaration",
-                            "kind": 1024,
+                        "kind": "text",
+                        "text": "Base class"
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 14,
+                    "name": "constructor",
+                    "variant": "declaration",
+                    "kind": 512,
+                    "flags": {},
+                    "signatures": [
+                        {
+                            "id": 15,
+                            "name": "Base",
+                            "variant": "signature",
+                            "kind": 16384,
                             "flags": {},
                             "type": {
-                              "type": "reference",
-                              "target": 23,
-                              "typeArguments": [
-                                {
-                                  "type": "intrinsic",
-                                  "name": "any"
-                                }
-                              ],
-                              "name": "Mixin1Class",
-                              "package": "typedoc"
+                                "type": "reference",
+                                "target": 13,
+                                "name": "Base",
+                                "package": "typedoc"
                             }
-                          }
-                        ],
-                        "groups": [
-                          {
-                            "title": "Properties",
-                            "children": [
-                              66
-                            ]
-                          }
-                        ],
-                        "sources": [
-                          {
+                        }
+                    ]
+                },
+                {
+                    "id": 16,
+                    "name": "baseProperty",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {},
+                    "sources": [
+                        {
                             "fileName": "mixin.ts",
-                            "line": 34,
-                            "character": 10,
-                            "url": "typedoc://mixin.ts#L34"
-                          }
-                        ],
-                        "signatures": [
-                          {
-                            "id": 67,
+                            "line": 20,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L20"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\""
+                },
+                {
+                    "id": 17,
+                    "name": "baseMethod",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 22,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L22"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 18,
+                            "name": "baseMethod",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 22,
+                                    "character": 4,
+                                    "url": "typedoc://mixin.ts#L22"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Constructors",
+                    "children": [
+                        14
+                    ]
+                },
+                {
+                    "title": "Properties",
+                    "children": [
+                        16
+                    ]
+                },
+                {
+                    "title": "Methods",
+                    "children": [
+                        17
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 19,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L19"
+                }
+            ]
+        },
+        {
+            "id": 64,
+            "name": "SomeClassWithMixin",
+            "variant": "declaration",
+            "kind": 128,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 69,
+                    "name": "constructor",
+                    "variant": "declaration",
+                    "kind": 512,
+                    "flags": {},
+                    "signatures": [
+                        {
+                            "id": 70,
                             "name": "SomeClassWithMixin",
                             "variant": "signature",
                             "kind": 16384,
                             "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 64,
+                                "name": "SomeClassWithMixin",
+                                "package": "typedoc"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin2(Mixin1Func(Base)).constructor"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).constructor"
+                    }
+                },
+                {
+                    "id": 82,
+                    "name": "baseProperty",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 20,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L20"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).baseProperty"
+                    }
+                },
+                {
+                    "id": 71,
+                    "name": "classWithMixinProperty",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 86,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L86"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\""
+                },
+                {
+                    "id": 78,
+                    "name": "property1",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 35,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L35"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).property1"
+                    }
+                },
+                {
+                    "id": 74,
+                    "name": "property2",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 55,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L55"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).property2"
+                    }
+                },
+                {
+                    "id": 83,
+                    "name": "baseMethod",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 22,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L22"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 84,
+                            "name": "baseMethod",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
                             "sources": [
-                              {
-                                "fileName": "mixin.ts",
-                                "line": 34,
-                                "character": 10,
-                                "url": "typedoc://mixin.ts#L34"
-                              }
-                            ],
-                            "parameters": [
-                              {
-                                "id": 68,
-                                "name": "input",
-                                "variant": "param",
-                                "kind": 32768,
-                                "flags": {
-                                  "isRest": true
-                                },
-                                "type": {
-                                  "type": "array",
-                                  "elementType": {
-                                    "type": "intrinsic",
-                                    "name": "any"
-                                  }
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 22,
+                                    "character": 4,
+                                    "url": "typedoc://mixin.ts#L22"
                                 }
-                              }
                             ],
                             "type": {
-                              "type": "reference",
-                              "target": 23,
-                              "name": "Mixin1Class",
-                              "package": "typedoc"
+                                "type": "intrinsic",
+                                "name": "number"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin2(Mixin1Func(Base)).baseMethod"
                             }
-                          }
-                        ]
-                      }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).baseMethod"
+                    }
+                },
+                {
+                    "id": 72,
+                    "name": "classWithMixinMethod",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 88,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L88"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 73,
+                            "name": "classWithMixinMethod",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 88,
+                                    "character": 4,
+                                    "url": "typedoc://mixin.ts#L88"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 79,
+                    "name": "method1",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
                     },
-                    {
-                      "type": "query",
-                      "queryType": {
-                        "type": "reference",
-                        "target": 13,
-                        "name": "Base",
-                        "package": "typedoc"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "type": "intrinsic",
-                  "name": "this"
-                }
-              ],
-              "name": "Mixin2",
-              "package": "typedoc"
-            },
-            {
-              "type": "reference",
-              "target": 23,
-              "typeArguments": [
-                {
-                  "type": "query",
-                  "queryType": {
-                    "type": "reference",
-                    "target": 13,
-                    "name": "Base",
-                    "package": "typedoc"
-                  }
-                },
-                {
-                  "type": "intrinsic",
-                  "name": "this"
-                }
-              ],
-              "name": "Mixin1Class",
-              "package": "typedoc"
-            },
-            {
-              "type": "reference",
-              "target": 13,
-              "typeArguments": [
-                {
-                  "type": "intrinsic",
-                  "name": "this"
-                }
-              ],
-              "name": "Base",
-              "package": "typedoc"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 27,
-      "name": "Mixin1Type",
-      "variant": "declaration",
-      "kind": 256,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 32,
-          "name": "baseProperty",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 20,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L20"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.baseProperty"
-          }
-        },
-        {
-          "id": 28,
-          "name": "property1",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 35,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L35"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.property1"
-          }
-        },
-        {
-          "id": 33,
-          "name": "baseMethod",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 22,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L22"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 34,
-              "name": "baseMethod",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 4,
-                  "url": "typedoc://mixin.ts#L22"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin.baseMethod"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.baseMethod"
-          }
-        },
-        {
-          "id": 29,
-          "name": "method1",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 37,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L37"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 30,
-              "name": "method1",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 37,
-                  "character": 8,
-                  "url": "typedoc://mixin.ts#L37"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 31,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "target": 27,
-                      "name": "Mixin1Type",
-                      "package": "typedoc"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "array",
-                "elementType": {
-                  "type": "reference",
-                  "target": 27,
-                  "name": "Mixin1Type",
-                  "package": "typedoc"
-                }
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin.method1"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.method1"
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Properties",
-          "children": [
-            32,
-            28
-          ]
-        },
-        {
-          "title": "Methods",
-          "children": [
-            33,
-            29
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 45,
-          "character": 17,
-          "url": "typedoc://mixin.ts#L45"
-        }
-      ],
-      "extendedTypes": [
-        {
-          "type": "reference",
-          "target": 11,
-          "typeArguments": [
-            {
-              "type": "query",
-              "queryType": {
-                "type": "reference",
-                "target": 19,
-                "name": "Mixin1Func",
-                "package": "typedoc"
-              }
-            }
-          ],
-          "name": "Mixin",
-          "package": "typedoc"
-        }
-      ]
-    },
-    {
-      "id": 43,
-      "name": "Mixin2Type",
-      "variant": "declaration",
-      "kind": 256,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 52,
-          "name": "baseProperty",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 20,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L20"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.baseProperty"
-          }
-        },
-        {
-          "id": 48,
-          "name": "property1",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 35,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L35"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.property1"
-          }
-        },
-        {
-          "id": 44,
-          "name": "property2",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 55,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L55"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          },
-          "defaultValue": "\"init\"",
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.property2"
-          }
-        },
-        {
-          "id": 53,
-          "name": "baseMethod",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 22,
-              "character": 4,
-              "url": "typedoc://mixin.ts#L22"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 54,
-              "name": "baseMethod",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 4,
-                  "url": "typedoc://mixin.ts#L22"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin.baseMethod"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.baseMethod"
-          }
-        },
-        {
-          "id": 49,
-          "name": "method1",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 37,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L37"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 50,
-              "name": "method1",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 37,
-                  "character": 8,
-                  "url": "typedoc://mixin.ts#L37"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 51,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "reference",
-                      "target": 27,
-                      "name": "Mixin1Type",
-                      "package": "typedoc"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "array",
-                "elementType": {
-                  "type": "reference",
-                  "target": 27,
-                  "name": "Mixin1Type",
-                  "package": "typedoc"
-                }
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin.method1"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.method1"
-          }
-        },
-        {
-          "id": 45,
-          "name": "method2",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {
-            "isInherited": true
-          },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 57,
-              "character": 8,
-              "url": "typedoc://mixin.ts#L57"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 46,
-              "name": "method2",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 57,
-                  "character": 8,
-                  "url": "typedoc://mixin.ts#L57"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 47,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 43,
-                    "name": "Mixin2Type",
-                    "package": "typedoc"
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 43,
-                "name": "Mixin2Type",
-                "package": "typedoc"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "Mixin.method2"
-              }
-            }
-          ],
-          "inheritedFrom": {
-            "type": "reference",
-            "target": -1,
-            "name": "Mixin.method2"
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Properties",
-          "children": [
-            52,
-            48,
-            44
-          ]
-        },
-        {
-          "title": "Methods",
-          "children": [
-            53,
-            49,
-            45
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 65,
-          "character": 17,
-          "url": "typedoc://mixin.ts#L65"
-        }
-      ],
-      "extendedTypes": [
-        {
-          "type": "reference",
-          "target": 11,
-          "typeArguments": [
-            {
-              "type": "query",
-              "queryType": {
-                "type": "reference",
-                "target": 35,
-                "name": "Mixin2",
-                "package": "typedoc"
-              }
-            }
-          ],
-          "name": "Mixin",
-          "package": "typedoc"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "AnyConstructor",
-      "variant": "declaration",
-      "kind": 2097152,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Any constructor function"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 9,
-          "character": 12,
-          "url": "typedoc://mixin.ts#L9"
-        }
-      ],
-      "typeParameters": [
-        {
-          "id": 10,
-          "name": "A",
-          "variant": "typeParam",
-          "kind": 131072,
-          "flags": {},
-          "default": {
-            "type": "intrinsic",
-            "name": "object"
-          }
-        }
-      ],
-      "type": {
-        "type": "reflection",
-        "declaration": {
-          "id": 7,
-          "name": "__type",
-          "variant": "declaration",
-          "kind": 512,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 9,
-              "character": 41,
-              "url": "typedoc://mixin.ts#L9"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 8,
-              "name": "__type",
-              "variant": "signature",
-              "kind": 16384,
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 9,
-                  "name": "input",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {
-                    "isRest": true
-                  },
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "any"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 10,
-                "name": "A",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": 1,
-      "name": "AnyFunction",
-      "variant": "declaration",
-      "kind": 2097152,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Any function"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 4,
-          "character": 12,
-          "url": "typedoc://mixin.ts#L4"
-        }
-      ],
-      "typeParameters": [
-        {
-          "id": 5,
-          "name": "A",
-          "variant": "typeParam",
-          "kind": 131072,
-          "flags": {},
-          "default": {
-            "type": "intrinsic",
-            "name": "any"
-          }
-        }
-      ],
-      "type": {
-        "type": "reflection",
-        "declaration": {
-          "id": 2,
-          "name": "__type",
-          "variant": "declaration",
-          "kind": 65536,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 4,
-              "character": 35,
-              "url": "typedoc://mixin.ts#L4"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 3,
-              "name": "__type",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 4,
-                  "name": "input",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {
-                    "isRest": true
-                  },
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "any"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 5,
-                "name": "A",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": 11,
-      "name": "Mixin",
-      "variant": "declaration",
-      "kind": 2097152,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "Mixin type helper"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 14,
-          "character": 12,
-          "url": "typedoc://mixin.ts#L14"
-        }
-      ],
-      "typeParameters": [
-        {
-          "id": 12,
-          "name": "T",
-          "variant": "typeParam",
-          "kind": 131072,
-          "flags": {},
-          "type": {
-            "type": "reference",
-            "target": 1,
-            "name": "AnyFunction",
-            "package": "typedoc"
-          }
-        }
-      ],
-      "type": {
-        "type": "reference",
-        "target": {
-          "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
-          "qualifiedName": "InstanceType"
-        },
-        "typeArguments": [
-          {
-            "type": "reference",
-            "target": {
-              "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
-              "qualifiedName": "ReturnType"
-            },
-            "typeArguments": [
-              {
-                "type": "reference",
-                "target": 12,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            ],
-            "name": "ReturnType",
-            "package": "typescript"
-          }
-        ],
-        "name": "InstanceType",
-        "package": "typescript"
-      },
-      "extendedBy": [
-        {
-          "type": "reference",
-          "target": 27,
-          "name": "Mixin1Type"
-        },
-        {
-          "type": "reference",
-          "target": 43,
-          "name": "Mixin2Type"
-        }
-      ]
-    },
-    {
-      "id": 63,
-      "name": "Mixin3",
-      "variant": "declaration",
-      "kind": 2097152,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 70,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L70"
-        },
-        {
-          "fileName": "mixin.ts",
-          "line": 80,
-          "character": 12,
-          "url": "typedoc://mixin.ts#L80"
-        }
-      ],
-      "type": {
-        "type": "reference",
-        "target": 11,
-        "typeArguments": [
-          {
-            "type": "query",
-            "queryType": {
-              "type": "reference",
-              "target": 55,
-              "name": "Mixin3",
-              "package": "typedoc"
-            }
-          }
-        ],
-        "name": "Mixin",
-        "package": "typedoc"
-      }
-    },
-    {
-      "id": 19,
-      "name": "Mixin1Func",
-      "variant": "declaration",
-      "kind": 64,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"mixin function\" of the Mixin1"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 30,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L30"
-        }
-      ],
-      "signatures": [
-        {
-          "id": 20,
-          "name": "Mixin1Func",
-          "variant": "signature",
-          "kind": 4096,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 30,
-              "character": 26,
-              "url": "typedoc://mixin.ts#L30"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 21,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 6,
-                "typeArguments": [
-                  {
-                    "type": "reference",
-                    "target": 13,
-                    "name": "Base",
-                    "package": "typedoc"
-                  }
-                ],
-                "name": "AnyConstructor",
-                "package": "typedoc"
-              }
-            }
-          ],
-          "parameters": [
-            {
-              "id": 22,
-              "name": "base",
-              "variant": "param",
-              "kind": 32768,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 21,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          ],
-          "type": {
-            "type": "intersection",
-            "types": [
-              {
-                "type": "reflection",
-                "declaration": {
-                  "id": 23,
-                  "name": "__type",
-                  "variant": "declaration",
-                  "kind": 65536,
-                  "flags": {},
-                  "children": [
-                    {
-                      "id": 24,
-                      "name": "prototype",
-                      "variant": "declaration",
-                      "kind": 1024,
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "target": 23,
-                        "typeArguments": [
-                          {
-                            "type": "intrinsic",
-                            "name": "any"
-                          }
-                        ],
-                        "name": "Mixin1Class",
-                        "package": "typedoc"
-                      }
-                    }
-                  ],
-                  "groups": [
-                    {
-                      "title": "Properties",
-                      "children": [
-                        24
-                      ]
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "mixin.ts",
-                      "line": 34,
-                      "character": 10,
-                      "url": "typedoc://mixin.ts#L34"
-                    }
-                  ],
-                  "signatures": [
-                    {
-                      "id": 25,
-                      "name": "Mixin1Func",
-                      "variant": "signature",
-                      "kind": 16384,
-                      "flags": {},
-                      "sources": [
+                    "sources": [
                         {
-                          "fileName": "mixin.ts",
-                          "line": 34,
-                          "character": 10,
-                          "url": "typedoc://mixin.ts#L34"
+                            "fileName": "mixin.ts",
+                            "line": 37,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L37"
                         }
-                      ],
-                      "parameters": [
+                    ],
+                    "signatures": [
                         {
-                          "id": 26,
-                          "name": "input",
-                          "variant": "param",
-                          "kind": 32768,
-                          "flags": {
-                            "isRest": true
-                          },
-                          "type": {
-                            "type": "array",
-                            "elementType": {
-                              "type": "intrinsic",
-                              "name": "any"
+                            "id": 80,
+                            "name": "method1",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 37,
+                                    "character": 8,
+                                    "url": "typedoc://mixin.ts#L37"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 81,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "reference",
+                                            "target": 27,
+                                            "name": "Mixin1Type",
+                                            "package": "typedoc"
+                                        }
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "reference",
+                                    "target": 27,
+                                    "name": "Mixin1Type",
+                                    "package": "typedoc"
+                                }
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin2(Mixin1Func(Base)).method1"
                             }
-                          }
                         }
-                      ],
-                      "type": {
+                    ],
+                    "inheritedFrom": {
                         "type": "reference",
-                        "target": 23,
-                        "name": "Mixin1Class",
-                        "package": "typedoc"
-                      }
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).method1"
                     }
-                  ]
+                },
+                {
+                    "id": 75,
+                    "name": "method2",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 57,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L57"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 76,
+                            "name": "method2",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 57,
+                                    "character": 8,
+                                    "url": "typedoc://mixin.ts#L57"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 77,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 43,
+                                        "name": "Mixin2Type",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 43,
+                                "name": "Mixin2Type",
+                                "package": "typedoc"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin2(Mixin1Func(Base)).method2"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin2(Mixin1Func(Base)).method2"
+                    }
                 }
-              },
-              {
-                "type": "reference",
-                "target": 21,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": 35,
-      "name": "Mixin2",
-      "variant": "declaration",
-      "kind": 64,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"mixin function\" of the Mixin2"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 50,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L50"
-        }
-      ],
-      "signatures": [
-        {
-          "id": 36,
-          "name": "Mixin2",
-          "variant": "signature",
-          "kind": 4096,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 50,
-              "character": 22,
-              "url": "typedoc://mixin.ts#L50"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 37,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 6,
-                "typeArguments": [
-                  {
+            ],
+            "groups": [
+                {
+                    "title": "Constructors",
+                    "children": [
+                        69
+                    ]
+                },
+                {
+                    "title": "Properties",
+                    "children": [
+                        82,
+                        71,
+                        78,
+                        74
+                    ]
+                },
+                {
+                    "title": "Methods",
+                    "children": [
+                        83,
+                        72,
+                        79,
+                        75
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 85,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L85"
+                }
+            ],
+            "extendedTypes": [
+                {
                     "type": "intersection",
                     "types": [
-                      {
-                        "type": "reference",
-                        "target": 27,
-                        "name": "Mixin1Type",
-                        "package": "typedoc"
-                      },
-                      {
-                        "type": "reference",
-                        "target": 13,
-                        "name": "Base",
-                        "package": "typedoc"
-                      }
+                        {
+                            "type": "reference",
+                            "target": 39,
+                            "typeArguments": [
+                                {
+                                    "type": "intersection",
+                                    "types": [
+                                        {
+                                            "type": "reflection",
+                                            "declaration": {
+                                                "id": 65,
+                                                "name": "__type",
+                                                "variant": "declaration",
+                                                "kind": 65536,
+                                                "flags": {},
+                                                "children": [
+                                                    {
+                                                        "id": 66,
+                                                        "name": "prototype",
+                                                        "variant": "declaration",
+                                                        "kind": 1024,
+                                                        "flags": {},
+                                                        "type": {
+                                                            "type": "reference",
+                                                            "target": 23,
+                                                            "typeArguments": [
+                                                                {
+                                                                    "type": "intrinsic",
+                                                                    "name": "any"
+                                                                }
+                                                            ],
+                                                            "name": "Mixin1Class",
+                                                            "package": "typedoc"
+                                                        }
+                                                    }
+                                                ],
+                                                "groups": [
+                                                    {
+                                                        "title": "Properties",
+                                                        "children": [
+                                                            66
+                                                        ]
+                                                    }
+                                                ],
+                                                "sources": [
+                                                    {
+                                                        "fileName": "mixin.ts",
+                                                        "line": 34,
+                                                        "character": 10,
+                                                        "url": "typedoc://mixin.ts#L34"
+                                                    }
+                                                ],
+                                                "signatures": [
+                                                    {
+                                                        "id": 67,
+                                                        "name": "SomeClassWithMixin",
+                                                        "variant": "signature",
+                                                        "kind": 16384,
+                                                        "flags": {},
+                                                        "sources": [
+                                                            {
+                                                                "fileName": "mixin.ts",
+                                                                "line": 34,
+                                                                "character": 10,
+                                                                "url": "typedoc://mixin.ts#L34"
+                                                            }
+                                                        ],
+                                                        "parameters": [
+                                                            {
+                                                                "id": 68,
+                                                                "name": "input",
+                                                                "variant": "param",
+                                                                "kind": 32768,
+                                                                "flags": {
+                                                                    "isRest": true
+                                                                },
+                                                                "type": {
+                                                                    "type": "array",
+                                                                    "elementType": {
+                                                                        "type": "intrinsic",
+                                                                        "name": "any"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "type": {
+                                                            "type": "reference",
+                                                            "target": 23,
+                                                            "name": "Mixin1Class",
+                                                            "package": "typedoc"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "type": "query",
+                                            "queryType": {
+                                                "type": "reference",
+                                                "target": 13,
+                                                "name": "Base",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "intrinsic",
+                                    "name": "this"
+                                }
+                            ],
+                            "name": "Mixin2",
+                            "package": "typedoc"
+                        },
+                        {
+                            "type": "reference",
+                            "target": 23,
+                            "typeArguments": [
+                                {
+                                    "type": "query",
+                                    "queryType": {
+                                        "type": "reference",
+                                        "target": 13,
+                                        "name": "Base",
+                                        "package": "typedoc"
+                                    }
+                                },
+                                {
+                                    "type": "intrinsic",
+                                    "name": "this"
+                                }
+                            ],
+                            "name": "Mixin1Class",
+                            "package": "typedoc"
+                        },
+                        {
+                            "type": "reference",
+                            "target": 13,
+                            "typeArguments": [
+                                {
+                                    "type": "intrinsic",
+                                    "name": "this"
+                                }
+                            ],
+                            "name": "Base",
+                            "package": "typedoc"
+                        }
                     ]
-                  }
-                ],
-                "name": "AnyConstructor",
-                "package": "typedoc"
-              }
-            }
-          ],
-          "parameters": [
-            {
-              "id": 38,
-              "name": "base",
-              "variant": "param",
-              "kind": 32768,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 37,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          ],
-          "type": {
-            "type": "intersection",
-            "types": [
-              {
-                "type": "reflection",
-                "declaration": {
-                  "id": 39,
-                  "name": "__type",
-                  "variant": "declaration",
-                  "kind": 65536,
-                  "flags": {},
-                  "children": [
-                    {
-                      "id": 40,
-                      "name": "prototype",
-                      "variant": "declaration",
-                      "kind": 1024,
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "target": 39,
-                        "typeArguments": [
-                          {
-                            "type": "intrinsic",
-                            "name": "any"
-                          }
-                        ],
-                        "name": "Mixin2",
-                        "package": "typedoc"
-                      }
-                    }
-                  ],
-                  "groups": [
-                    {
-                      "title": "Properties",
-                      "children": [
-                        40
-                      ]
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "mixin.ts",
-                      "line": 54,
-                      "character": 10,
-                      "url": "typedoc://mixin.ts#L54"
-                    }
-                  ],
-                  "signatures": [
-                    {
-                      "id": 41,
-                      "name": "Mixin2",
-                      "variant": "signature",
-                      "kind": 16384,
-                      "flags": {},
-                      "sources": [
-                        {
-                          "fileName": "mixin.ts",
-                          "line": 54,
-                          "character": 10,
-                          "url": "typedoc://mixin.ts#L54"
-                        }
-                      ],
-                      "parameters": [
-                        {
-                          "id": 42,
-                          "name": "input",
-                          "variant": "param",
-                          "kind": 32768,
-                          "flags": {
-                            "isRest": true
-                          },
-                          "type": {
-                            "type": "array",
-                            "elementType": {
-                              "type": "intrinsic",
-                              "name": "any"
-                            }
-                          }
-                        }
-                      ],
-                      "type": {
-                        "type": "reference",
-                        "target": 39,
-                        "name": "Mixin2",
-                        "package": "typedoc"
-                      }
-                    }
-                  ]
                 }
-              },
-              {
-                "type": "reference",
-                "target": 37,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
             ]
-          }
-        }
-      ]
-    },
-    {
-      "id": 55,
-      "name": "Mixin3",
-      "variant": "declaration",
-      "kind": 64,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "The \"mixin function\" of the Mixin3"
-          }
-        ]
-      },
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 70,
-          "character": 13,
-          "url": "typedoc://mixin.ts#L70"
         },
         {
-          "fileName": "mixin.ts",
-          "line": 80,
-          "character": 12,
-          "url": "typedoc://mixin.ts#L80"
-        }
-      ],
-      "signatures": [
+            "id": 27,
+            "name": "Mixin1Type",
+            "variant": "declaration",
+            "kind": 256,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 32,
+                    "name": "baseProperty",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 20,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L20"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.baseProperty"
+                    }
+                },
+                {
+                    "id": 28,
+                    "name": "property1",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 35,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L35"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.property1"
+                    }
+                },
+                {
+                    "id": 33,
+                    "name": "baseMethod",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 22,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L22"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 34,
+                            "name": "baseMethod",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 22,
+                                    "character": 4,
+                                    "url": "typedoc://mixin.ts#L22"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin.baseMethod"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.baseMethod"
+                    }
+                },
+                {
+                    "id": 29,
+                    "name": "method1",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 37,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L37"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 30,
+                            "name": "method1",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 37,
+                                    "character": 8,
+                                    "url": "typedoc://mixin.ts#L37"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 31,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "reference",
+                                            "target": 27,
+                                            "name": "Mixin1Type",
+                                            "package": "typedoc"
+                                        }
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "reference",
+                                    "target": 27,
+                                    "name": "Mixin1Type",
+                                    "package": "typedoc"
+                                }
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin.method1"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.method1"
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Properties",
+                    "children": [
+                        32,
+                        28
+                    ]
+                },
+                {
+                    "title": "Methods",
+                    "children": [
+                        33,
+                        29
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 45,
+                    "character": 17,
+                    "url": "typedoc://mixin.ts#L45"
+                }
+            ],
+            "extendedTypes": [
+                {
+                    "type": "reference",
+                    "target": 11,
+                    "typeArguments": [
+                        {
+                            "type": "query",
+                            "queryType": {
+                                "type": "reference",
+                                "target": 19,
+                                "name": "Mixin1Func",
+                                "package": "typedoc"
+                            }
+                        }
+                    ],
+                    "name": "Mixin",
+                    "package": "typedoc"
+                }
+            ]
+        },
         {
-          "id": 56,
-          "name": "Mixin3",
-          "variant": "signature",
-          "kind": 4096,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 70,
-              "character": 22,
-              "url": "typedoc://mixin.ts#L70"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 57,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 6,
-                "typeArguments": [
-                  {
-                    "type": "intrinsic",
-                    "name": "object"
-                  }
-                ],
-                "name": "AnyConstructor",
-                "package": "typedoc"
-              }
-            }
-          ],
-          "parameters": [
-            {
-              "id": 58,
-              "name": "base",
-              "variant": "param",
-              "kind": 32768,
-              "flags": {},
-              "type": {
-                "type": "reference",
-                "target": 57,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          ],
-          "type": {
-            "type": "intersection",
-            "types": [
-              {
+            "id": 43,
+            "name": "Mixin2Type",
+            "variant": "declaration",
+            "kind": 256,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 52,
+                    "name": "baseProperty",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 20,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L20"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.baseProperty"
+                    }
+                },
+                {
+                    "id": 48,
+                    "name": "property1",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 35,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L35"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.property1"
+                    }
+                },
+                {
+                    "id": 44,
+                    "name": "property2",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 55,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L55"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    },
+                    "defaultValue": "\"init\"",
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.property2"
+                    }
+                },
+                {
+                    "id": 53,
+                    "name": "baseMethod",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 22,
+                            "character": 4,
+                            "url": "typedoc://mixin.ts#L22"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 54,
+                            "name": "baseMethod",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 22,
+                                    "character": 4,
+                                    "url": "typedoc://mixin.ts#L22"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin.baseMethod"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.baseMethod"
+                    }
+                },
+                {
+                    "id": 49,
+                    "name": "method1",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 37,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L37"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 50,
+                            "name": "method1",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 37,
+                                    "character": 8,
+                                    "url": "typedoc://mixin.ts#L37"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 51,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "reference",
+                                            "target": 27,
+                                            "name": "Mixin1Type",
+                                            "package": "typedoc"
+                                        }
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "reference",
+                                    "target": 27,
+                                    "name": "Mixin1Type",
+                                    "package": "typedoc"
+                                }
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin.method1"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.method1"
+                    }
+                },
+                {
+                    "id": 45,
+                    "name": "method2",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {
+                        "isInherited": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 57,
+                            "character": 8,
+                            "url": "typedoc://mixin.ts#L57"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 46,
+                            "name": "method2",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mixin.ts",
+                                    "line": 57,
+                                    "character": 8,
+                                    "url": "typedoc://mixin.ts#L57"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 47,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 43,
+                                        "name": "Mixin2Type",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 43,
+                                "name": "Mixin2Type",
+                                "package": "typedoc"
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "Mixin.method2"
+                            }
+                        }
+                    ],
+                    "inheritedFrom": {
+                        "type": "reference",
+                        "target": -1,
+                        "name": "Mixin.method2"
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Properties",
+                    "children": [
+                        52,
+                        48,
+                        44
+                    ]
+                },
+                {
+                    "title": "Methods",
+                    "children": [
+                        53,
+                        49,
+                        45
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 65,
+                    "character": 17,
+                    "url": "typedoc://mixin.ts#L65"
+                }
+            ],
+            "extendedTypes": [
+                {
+                    "type": "reference",
+                    "target": 11,
+                    "typeArguments": [
+                        {
+                            "type": "query",
+                            "queryType": {
+                                "type": "reference",
+                                "target": 35,
+                                "name": "Mixin2",
+                                "package": "typedoc"
+                            }
+                        }
+                    ],
+                    "name": "Mixin",
+                    "package": "typedoc"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "AnyConstructor",
+            "variant": "declaration",
+            "kind": 2097152,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "Any constructor function"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 9,
+                    "character": 12,
+                    "url": "typedoc://mixin.ts#L9"
+                }
+            ],
+            "typeParameters": [
+                {
+                    "id": 10,
+                    "name": "A",
+                    "variant": "typeParam",
+                    "kind": 131072,
+                    "flags": {},
+                    "default": {
+                        "type": "intrinsic",
+                        "name": "object"
+                    }
+                }
+            ],
+            "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 59,
-                  "name": "__type",
-                  "variant": "declaration",
-                  "kind": 65536,
-                  "flags": {},
-                  "children": [
-                    {
-                      "id": 60,
-                      "name": "prototype",
-                      "variant": "declaration",
-                      "kind": 1024,
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "target": 59,
-                        "typeArguments": [
-                          {
-                            "type": "intrinsic",
-                            "name": "any"
-                          }
-                        ],
-                        "name": "Mixin3",
-                        "package": "typedoc"
-                      }
-                    }
-                  ],
-                  "groups": [
-                    {
-                      "title": "Properties",
-                      "children": [
-                        60
-                      ]
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "mixin.ts",
-                      "line": 74,
-                      "character": 10,
-                      "url": "typedoc://mixin.ts#L74"
-                    }
-                  ],
-                  "signatures": [
-                    {
-                      "id": 61,
-                      "name": "Mixin3",
-                      "variant": "signature",
-                      "kind": 16384,
-                      "flags": {},
-                      "sources": [
+                    "id": 7,
+                    "name": "__type",
+                    "variant": "declaration",
+                    "kind": 512,
+                    "flags": {},
+                    "sources": [
                         {
-                          "fileName": "mixin.ts",
-                          "line": 74,
-                          "character": 10,
-                          "url": "typedoc://mixin.ts#L74"
+                            "fileName": "mixin.ts",
+                            "line": 9,
+                            "character": 41,
+                            "url": "typedoc://mixin.ts#L9"
                         }
-                      ],
-                      "parameters": [
+                    ],
+                    "signatures": [
                         {
-                          "id": 62,
-                          "name": "input",
-                          "variant": "param",
-                          "kind": 32768,
-                          "flags": {
-                            "isRest": true
-                          },
-                          "type": {
-                            "type": "array",
-                            "elementType": {
-                              "type": "intrinsic",
-                              "name": "any"
+                            "id": 8,
+                            "name": "__type",
+                            "variant": "signature",
+                            "kind": 16384,
+                            "flags": {},
+                            "parameters": [
+                                {
+                                    "id": 9,
+                                    "name": "input",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {
+                                        "isRest": true
+                                    },
+                                    "type": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "intrinsic",
+                                            "name": "any"
+                                        }
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 10,
+                                "name": "A",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
                             }
-                          }
                         }
-                      ],
-                      "type": {
-                        "type": "reference",
-                        "target": 59,
-                        "name": "Mixin3",
-                        "package": "typedoc"
-                      }
-                    }
-                  ]
+                    ]
                 }
-              },
-              {
+            }
+        },
+        {
+            "id": 1,
+            "name": "AnyFunction",
+            "variant": "declaration",
+            "kind": 2097152,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "Any function"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 4,
+                    "character": 12,
+                    "url": "typedoc://mixin.ts#L4"
+                }
+            ],
+            "typeParameters": [
+                {
+                    "id": 5,
+                    "name": "A",
+                    "variant": "typeParam",
+                    "kind": 131072,
+                    "flags": {},
+                    "default": {
+                        "type": "intrinsic",
+                        "name": "any"
+                    }
+                }
+            ],
+            "type": {
+                "type": "reflection",
+                "declaration": {
+                    "id": 2,
+                    "name": "__type",
+                    "variant": "declaration",
+                    "kind": 65536,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 4,
+                            "character": 35,
+                            "url": "typedoc://mixin.ts#L4"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 3,
+                            "name": "__type",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "parameters": [
+                                {
+                                    "id": 4,
+                                    "name": "input",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {
+                                        "isRest": true
+                                    },
+                                    "type": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "intrinsic",
+                                            "name": "any"
+                                        }
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 5,
+                                "name": "A",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": 11,
+            "name": "Mixin",
+            "variant": "declaration",
+            "kind": 2097152,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "Mixin type helper"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 14,
+                    "character": 12,
+                    "url": "typedoc://mixin.ts#L14"
+                }
+            ],
+            "typeParameters": [
+                {
+                    "id": 12,
+                    "name": "T",
+                    "variant": "typeParam",
+                    "kind": 131072,
+                    "flags": {},
+                    "type": {
+                        "type": "reference",
+                        "target": 1,
+                        "name": "AnyFunction",
+                        "package": "typedoc"
+                    }
+                }
+            ],
+            "type": {
                 "type": "reference",
-                "target": 57,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
+                "target": {
+                    "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                    "qualifiedName": "InstanceType"
+                },
+                "typeArguments": [
+                    {
+                        "type": "reference",
+                        "target": {
+                            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                            "qualifiedName": "ReturnType"
+                        },
+                        "typeArguments": [
+                            {
+                                "type": "reference",
+                                "target": 12,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        ],
+                        "name": "ReturnType",
+                        "package": "typescript"
+                    }
+                ],
+                "name": "InstanceType",
+                "package": "typescript"
+            },
+            "extendedBy": [
+                {
+                    "type": "reference",
+                    "target": 27,
+                    "name": "Mixin1Type"
+                },
+                {
+                    "type": "reference",
+                    "target": 43,
+                    "name": "Mixin2Type"
+                }
             ]
-          }
+        },
+        {
+            "id": 63,
+            "name": "Mixin3",
+            "variant": "declaration",
+            "kind": 2097152,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 70,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L70"
+                },
+                {
+                    "fileName": "mixin.ts",
+                    "line": 80,
+                    "character": 12,
+                    "url": "typedoc://mixin.ts#L80"
+                }
+            ],
+            "type": {
+                "type": "reference",
+                "target": 11,
+                "typeArguments": [
+                    {
+                        "type": "query",
+                        "queryType": {
+                            "type": "reference",
+                            "target": 55,
+                            "name": "Mixin3",
+                            "package": "typedoc"
+                        }
+                    }
+                ],
+                "name": "Mixin",
+                "package": "typedoc"
+            }
+        },
+        {
+            "id": 19,
+            "name": "Mixin1Func",
+            "variant": "declaration",
+            "kind": 64,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"mixin function\" of the Mixin1"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 30,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L30"
+                }
+            ],
+            "signatures": [
+                {
+                    "id": 20,
+                    "name": "Mixin1Func",
+                    "variant": "signature",
+                    "kind": 4096,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 30,
+                            "character": 26,
+                            "url": "typedoc://mixin.ts#L30"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 21,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 6,
+                                "typeArguments": [
+                                    {
+                                        "type": "reference",
+                                        "target": 13,
+                                        "name": "Base",
+                                        "package": "typedoc"
+                                    }
+                                ],
+                                "name": "AnyConstructor",
+                                "package": "typedoc"
+                            }
+                        }
+                    ],
+                    "parameters": [
+                        {
+                            "id": 22,
+                            "name": "base",
+                            "variant": "param",
+                            "kind": 32768,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 21,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        }
+                    ],
+                    "type": {
+                        "type": "intersection",
+                        "types": [
+                            {
+                                "type": "reflection",
+                                "declaration": {
+                                    "id": 23,
+                                    "name": "__type",
+                                    "variant": "declaration",
+                                    "kind": 65536,
+                                    "flags": {},
+                                    "children": [
+                                        {
+                                            "id": 24,
+                                            "name": "prototype",
+                                            "variant": "declaration",
+                                            "kind": 1024,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 23,
+                                                "typeArguments": [
+                                                    {
+                                                        "type": "intrinsic",
+                                                        "name": "any"
+                                                    }
+                                                ],
+                                                "name": "Mixin1Class",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ],
+                                    "groups": [
+                                        {
+                                            "title": "Properties",
+                                            "children": [
+                                                24
+                                            ]
+                                        }
+                                    ],
+                                    "sources": [
+                                        {
+                                            "fileName": "mixin.ts",
+                                            "line": 34,
+                                            "character": 10,
+                                            "url": "typedoc://mixin.ts#L34"
+                                        }
+                                    ],
+                                    "signatures": [
+                                        {
+                                            "id": 25,
+                                            "name": "Mixin1Func",
+                                            "variant": "signature",
+                                            "kind": 16384,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "mixin.ts",
+                                                    "line": 34,
+                                                    "character": 10,
+                                                    "url": "typedoc://mixin.ts#L34"
+                                                }
+                                            ],
+                                            "parameters": [
+                                                {
+                                                    "id": 26,
+                                                    "name": "input",
+                                                    "variant": "param",
+                                                    "kind": 32768,
+                                                    "flags": {
+                                                        "isRest": true
+                                                    },
+                                                    "type": {
+                                                        "type": "array",
+                                                        "elementType": {
+                                                            "type": "intrinsic",
+                                                            "name": "any"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 23,
+                                                "name": "Mixin1Class",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "reference",
+                                "target": 21,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "name": "Mixin2",
+            "variant": "declaration",
+            "kind": 64,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"mixin function\" of the Mixin2"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 50,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L50"
+                }
+            ],
+            "signatures": [
+                {
+                    "id": 36,
+                    "name": "Mixin2",
+                    "variant": "signature",
+                    "kind": 4096,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 50,
+                            "character": 22,
+                            "url": "typedoc://mixin.ts#L50"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 37,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 6,
+                                "typeArguments": [
+                                    {
+                                        "type": "intersection",
+                                        "types": [
+                                            {
+                                                "type": "reference",
+                                                "target": 27,
+                                                "name": "Mixin1Type",
+                                                "package": "typedoc"
+                                            },
+                                            {
+                                                "type": "reference",
+                                                "target": 13,
+                                                "name": "Base",
+                                                "package": "typedoc"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "name": "AnyConstructor",
+                                "package": "typedoc"
+                            }
+                        }
+                    ],
+                    "parameters": [
+                        {
+                            "id": 38,
+                            "name": "base",
+                            "variant": "param",
+                            "kind": 32768,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 37,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        }
+                    ],
+                    "type": {
+                        "type": "intersection",
+                        "types": [
+                            {
+                                "type": "reflection",
+                                "declaration": {
+                                    "id": 39,
+                                    "name": "__type",
+                                    "variant": "declaration",
+                                    "kind": 65536,
+                                    "flags": {},
+                                    "children": [
+                                        {
+                                            "id": 40,
+                                            "name": "prototype",
+                                            "variant": "declaration",
+                                            "kind": 1024,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 39,
+                                                "typeArguments": [
+                                                    {
+                                                        "type": "intrinsic",
+                                                        "name": "any"
+                                                    }
+                                                ],
+                                                "name": "Mixin2",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ],
+                                    "groups": [
+                                        {
+                                            "title": "Properties",
+                                            "children": [
+                                                40
+                                            ]
+                                        }
+                                    ],
+                                    "sources": [
+                                        {
+                                            "fileName": "mixin.ts",
+                                            "line": 54,
+                                            "character": 10,
+                                            "url": "typedoc://mixin.ts#L54"
+                                        }
+                                    ],
+                                    "signatures": [
+                                        {
+                                            "id": 41,
+                                            "name": "Mixin2",
+                                            "variant": "signature",
+                                            "kind": 16384,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "mixin.ts",
+                                                    "line": 54,
+                                                    "character": 10,
+                                                    "url": "typedoc://mixin.ts#L54"
+                                                }
+                                            ],
+                                            "parameters": [
+                                                {
+                                                    "id": 42,
+                                                    "name": "input",
+                                                    "variant": "param",
+                                                    "kind": 32768,
+                                                    "flags": {
+                                                        "isRest": true
+                                                    },
+                                                    "type": {
+                                                        "type": "array",
+                                                        "elementType": {
+                                                            "type": "intrinsic",
+                                                            "name": "any"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 39,
+                                                "name": "Mixin2",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "reference",
+                                "target": 37,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": 55,
+            "name": "Mixin3",
+            "variant": "declaration",
+            "kind": 64,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "The \"mixin function\" of the Mixin3"
+                    }
+                ]
+            },
+            "sources": [
+                {
+                    "fileName": "mixin.ts",
+                    "line": 70,
+                    "character": 13,
+                    "url": "typedoc://mixin.ts#L70"
+                },
+                {
+                    "fileName": "mixin.ts",
+                    "line": 80,
+                    "character": 12,
+                    "url": "typedoc://mixin.ts#L80"
+                }
+            ],
+            "signatures": [
+                {
+                    "id": 56,
+                    "name": "Mixin3",
+                    "variant": "signature",
+                    "kind": 4096,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mixin.ts",
+                            "line": 70,
+                            "character": 22,
+                            "url": "typedoc://mixin.ts#L70"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 57,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 6,
+                                "typeArguments": [
+                                    {
+                                        "type": "intrinsic",
+                                        "name": "object"
+                                    }
+                                ],
+                                "name": "AnyConstructor",
+                                "package": "typedoc"
+                            }
+                        }
+                    ],
+                    "parameters": [
+                        {
+                            "id": 58,
+                            "name": "base",
+                            "variant": "param",
+                            "kind": 32768,
+                            "flags": {},
+                            "type": {
+                                "type": "reference",
+                                "target": 57,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        }
+                    ],
+                    "type": {
+                        "type": "intersection",
+                        "types": [
+                            {
+                                "type": "reflection",
+                                "declaration": {
+                                    "id": 59,
+                                    "name": "__type",
+                                    "variant": "declaration",
+                                    "kind": 65536,
+                                    "flags": {},
+                                    "children": [
+                                        {
+                                            "id": 60,
+                                            "name": "prototype",
+                                            "variant": "declaration",
+                                            "kind": 1024,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 59,
+                                                "typeArguments": [
+                                                    {
+                                                        "type": "intrinsic",
+                                                        "name": "any"
+                                                    }
+                                                ],
+                                                "name": "Mixin3",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ],
+                                    "groups": [
+                                        {
+                                            "title": "Properties",
+                                            "children": [
+                                                60
+                                            ]
+                                        }
+                                    ],
+                                    "sources": [
+                                        {
+                                            "fileName": "mixin.ts",
+                                            "line": 74,
+                                            "character": 10,
+                                            "url": "typedoc://mixin.ts#L74"
+                                        }
+                                    ],
+                                    "signatures": [
+                                        {
+                                            "id": 61,
+                                            "name": "Mixin3",
+                                            "variant": "signature",
+                                            "kind": 16384,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "mixin.ts",
+                                                    "line": 74,
+                                                    "character": 10,
+                                                    "url": "typedoc://mixin.ts#L74"
+                                                }
+                                            ],
+                                            "parameters": [
+                                                {
+                                                    "id": 62,
+                                                    "name": "input",
+                                                    "variant": "param",
+                                                    "kind": 32768,
+                                                    "flags": {
+                                                        "isRest": true
+                                                    },
+                                                    "type": {
+                                                        "type": "array",
+                                                        "elementType": {
+                                                            "type": "intrinsic",
+                                                            "name": "any"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "type": {
+                                                "type": "reference",
+                                                "target": 59,
+                                                "name": "Mixin3",
+                                                "package": "typedoc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "reference",
+                                "target": 57,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        ]
+                    }
+                }
+            ]
         }
-      ]
+    ],
+    "groups": [
+        {
+            "title": "Classes",
+            "children": [
+                13,
+                64
+            ]
+        },
+        {
+            "title": "Interfaces",
+            "children": [
+                27,
+                43
+            ]
+        },
+        {
+            "title": "Type Aliases",
+            "children": [
+                6,
+                1,
+                11,
+                63
+            ]
+        },
+        {
+            "title": "Functions",
+            "children": [
+                19,
+                35,
+                55
+            ]
+        }
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "0": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": ""
+        },
+        "1": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "AnyFunction"
+        },
+        "2": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "__type"
+        },
+        "3": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "__type"
+        },
+        "4": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "5": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "A"
+        },
+        "6": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "AnyConstructor"
+        },
+        "7": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "__type"
+        },
+        "8": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "__type"
+        },
+        "9": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "10": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "A"
+        },
+        "11": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin"
+        },
+        "12": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "T"
+        },
+        "13": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base"
+        },
+        "16": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseProperty"
+        },
+        "17": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "18": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "19": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Func"
+        },
+        "20": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Func"
+        },
+        "21": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "T"
+        },
+        "22": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "base"
+        },
+        "23": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class"
+        },
+        "24": {
+            "sourceFileName": "",
+            "qualifiedName": "Mixin1Class.prototype"
+        },
+        "25": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class"
+        },
+        "26": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "27": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Type"
+        },
+        "28": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.property1"
+        },
+        "29": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "30": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "31": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "arg"
+        },
+        "32": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseProperty"
+        },
+        "33": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "34": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "35": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2"
+        },
+        "36": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2"
+        },
+        "37": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "T"
+        },
+        "38": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "base"
+        },
+        "39": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2"
+        },
+        "40": {
+            "sourceFileName": "",
+            "qualifiedName": "Mixin2.prototype"
+        },
+        "41": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2"
+        },
+        "42": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "43": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2Type"
+        },
+        "44": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.property2"
+        },
+        "45": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.method2"
+        },
+        "46": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.method2"
+        },
+        "47": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "arg"
+        },
+        "48": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.property1"
+        },
+        "49": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "50": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "51": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "arg"
+        },
+        "52": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseProperty"
+        },
+        "53": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "54": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "55": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin3"
+        },
+        "56": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin3"
+        },
+        "57": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "T"
+        },
+        "58": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "base"
+        },
+        "59": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin3"
+        },
+        "60": {
+            "sourceFileName": "",
+            "qualifiedName": "Mixin3.prototype"
+        },
+        "61": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin3"
+        },
+        "62": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "63": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin3"
+        },
+        "64": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "SomeClassWithMixin"
+        },
+        "65": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class"
+        },
+        "66": {
+            "sourceFileName": "",
+            "qualifiedName": "Mixin1Class.prototype"
+        },
+        "67": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class"
+        },
+        "68": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "input"
+        },
+        "71": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "SomeClassWithMixin.classWithMixinProperty"
+        },
+        "72": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
+        },
+        "73": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
+        },
+        "74": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.property2"
+        },
+        "75": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.method2"
+        },
+        "76": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin2.method2"
+        },
+        "77": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "arg"
+        },
+        "78": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.property1"
+        },
+        "79": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "80": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Mixin1Class.method1"
+        },
+        "81": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "arg"
+        },
+        "82": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseProperty"
+        },
+        "83": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        },
+        "84": {
+            "sourceFileName": "src/test/converter/mixin/mixin.ts",
+            "qualifiedName": "Base.baseMethod"
+        }
+    },
+    "files": {
+        "entries": {
+            "1": "src/test/converter/mixin/mixin.ts"
+        },
+        "reflections": {
+            "1": 0
+        }
     }
-  ],
-  "groups": [
-    {
-      "title": "Classes",
-      "children": [
-        13,
-        64
-      ]
-    },
-    {
-      "title": "Interfaces",
-      "children": [
-        27,
-        43
-      ]
-    },
-    {
-      "title": "Type Aliases",
-      "children": [
-        6,
-        1,
-        11,
-        63
-      ]
-    },
-    {
-      "title": "Functions",
-      "children": [
-        19,
-        35,
-        55
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "0": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": ""
-    },
-    "1": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "AnyFunction"
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "__type"
-    },
-    "3": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "__type"
-    },
-    "4": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "A"
-    },
-    "6": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "AnyConstructor"
-    },
-    "7": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "__type"
-    },
-    "8": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "__type"
-    },
-    "9": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "10": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "A"
-    },
-    "11": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin"
-    },
-    "12": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "T"
-    },
-    "13": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base"
-    },
-    "16": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseProperty"
-    },
-    "17": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "18": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "19": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Func"
-    },
-    "20": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Func"
-    },
-    "21": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "T"
-    },
-    "22": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "base"
-    },
-    "23": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class"
-    },
-    "24": {
-      "sourceFileName": "",
-      "qualifiedName": "Mixin1Class.prototype"
-    },
-    "25": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class"
-    },
-    "26": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "27": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Type"
-    },
-    "28": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.property1"
-    },
-    "29": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "30": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "31": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "arg"
-    },
-    "32": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseProperty"
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "34": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "35": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2"
-    },
-    "37": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "T"
-    },
-    "38": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "base"
-    },
-    "39": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2"
-    },
-    "40": {
-      "sourceFileName": "",
-      "qualifiedName": "Mixin2.prototype"
-    },
-    "41": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2"
-    },
-    "42": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "43": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2Type"
-    },
-    "44": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.property2"
-    },
-    "45": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.method2"
-    },
-    "46": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.method2"
-    },
-    "47": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "arg"
-    },
-    "48": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.property1"
-    },
-    "49": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "50": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "51": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "arg"
-    },
-    "52": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseProperty"
-    },
-    "53": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "54": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "55": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin3"
-    },
-    "56": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin3"
-    },
-    "57": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "T"
-    },
-    "58": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "base"
-    },
-    "59": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin3"
-    },
-    "60": {
-      "sourceFileName": "",
-      "qualifiedName": "Mixin3.prototype"
-    },
-    "61": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin3"
-    },
-    "62": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "63": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin3"
-    },
-    "64": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "SomeClassWithMixin"
-    },
-    "65": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class"
-    },
-    "66": {
-      "sourceFileName": "",
-      "qualifiedName": "Mixin1Class.prototype"
-    },
-    "67": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class"
-    },
-    "68": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "input"
-    },
-    "71": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "SomeClassWithMixin.classWithMixinProperty"
-    },
-    "72": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
-    },
-    "73": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "SomeClassWithMixin.classWithMixinMethod"
-    },
-    "74": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.property2"
-    },
-    "75": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.method2"
-    },
-    "76": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin2.method2"
-    },
-    "77": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "arg"
-    },
-    "78": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.property1"
-    },
-    "79": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "80": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Mixin1Class.method1"
-    },
-    "81": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "arg"
-    },
-    "82": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseProperty"
-    },
-    "83": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    },
-    "84": {
-      "sourceFileName": "src/test/converter/mixin/mixin.ts",
-      "qualifiedName": "Base.baseMethod"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/mixin/mixin.ts"
-    },
-    "reflections": {
-      "1": 0
-    }
-  }
 }

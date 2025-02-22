@@ -23,4 +23,4 @@ export class Promise<T> {
 
 ## See Also
 
--   The [`projectDocuments`](../options/input.md#projectdocuments) option
+- The [`projectDocuments`](../options/input.md#projectdocuments) option

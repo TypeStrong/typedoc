@@ -2,15 +2,9 @@ import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
 import type { JSONOutput, Serializer } from "../../serialization/index.js";
-import {
-    findPackageForPath,
-    getCommonDirectory,
-    readFile,
-} from "../../utils/fs.js";
-import { normalizePath } from "../../utils/paths.js";
-import { getQualifiedName } from "../../utils/tsutils.js";
-import { optional, validate } from "../../utils/validation.js";
-import type { DeclarationReference } from "../../converter/index.js";
+import { findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath, readFile } from "#node-utils";
+import { Validation } from "#utils";
+import type { DeclarationReference } from "#utils";
 import { splitUnquotedString } from "./utils.js";
 
 /**
@@ -102,11 +96,11 @@ export class ReflectionSymbolId {
     toObject(serializer: Serializer) {
         const sourceFileName = isAbsolute(this.fileName)
             ? normalizePath(
-                  relative(
-                      serializer.projectRoot,
-                      resolveDeclarationMaps(this.fileName),
-                  ),
-              )
+                relative(
+                    serializer.projectRoot,
+                    resolveDeclarationMaps(this.fileName),
+                ),
+            )
             : this.fileName;
 
         return {
@@ -133,10 +127,10 @@ function resolveDeclarationMaps(file: string): string {
     }
 
     if (
-        validate(
+        Validation.validate(
             {
                 file: String,
-                sourceRoot: optional(String),
+                sourceRoot: Validation.optional(String),
                 sources: [Array, String],
             },
             sourceMap,

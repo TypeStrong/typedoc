@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert/strict";
-import { dedent } from "../../lib/utils/general.js";
+import { dedent } from "#utils";
 
 describe("Dedent test helper", () => {
     it("Works on empty string", () => {

@@ -3,12 +3,8 @@ import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
 import translatable from "../lib/internationalization/locales/en.cjs";
-import { setDifference } from "../lib/utils/set.js";
-import {
-    blockTags,
-    inlineTags,
-    modifierTags,
-} from "../lib/utils/options/tsdoc-defaults.js";
+import { setDifference } from "#utils";
+import { blockTags, inlineTags, modifierTags } from "../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 

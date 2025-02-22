@@ -3,8 +3,7 @@ import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { writeFile } from "../../utils/index.js";
-import { escapeHtml } from "../../utils/html.js";
-import { Fragment } from "../../utils/jsx.js";
+import { escapeHtml, JSX } from "#utils";
 import type { Renderer } from "../index.js";
 
 export class SitemapPlugin extends RendererComponent {
@@ -34,7 +33,7 @@ export class SitemapPlugin extends RendererComponent {
                     children: [],
                 };
             }
-            return { tag: Fragment, props: null, children: [] };
+            return { tag: JSX.Fragment, props: null, children: [] };
         });
 
         this.owner.preRenderAsyncJobs.push((event) => this.buildSitemap(event));
@@ -45,28 +44,26 @@ export class SitemapPlugin extends RendererComponent {
         const sitemapXml = Path.join(event.outputDirectory, "sitemap.xml");
         const lastmod = new Date(this.owner.renderStartTime).toISOString();
 
-        const urls: XmlElementData[] =
-            event.urls?.map((url) => {
-                return {
-                    tag: "url",
-                    children: [
-                        {
-                            tag: "loc",
-                            children: new URL(
-                                url.url,
-                                this.hostedBaseUrl,
-                            ).toString(),
-                        },
-                        {
-                            tag: "lastmod",
-                            children: lastmod,
-                        },
-                    ],
-                };
-            }) ?? [];
+        const urls: XmlElementData[] = event.pages.map((page) => {
+            return {
+                tag: "url",
+                children: [
+                    {
+                        tag: "loc",
+                        children: new URL(
+                            page.url,
+                            this.hostedBaseUrl,
+                        ).toString(),
+                    },
+                    {
+                        tag: "lastmod",
+                        children: lastmod,
+                    },
+                ],
+            };
+        });
 
-        const sitemap =
-            `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n` +
             stringifyXml({
                 tag: "urlset",
                 attr: { xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9" },

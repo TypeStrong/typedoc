@@ -1,4 +1,4 @@
-import { getSimilarValues } from "../../../utils/general.js";
+import { getSimilarValues } from "#utils";
 import type { TypeDocOptionMap } from "../../../utils/index.js";
 
 /**

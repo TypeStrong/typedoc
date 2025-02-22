@@ -1,14 +1,7 @@
 import { LogLevel, Options, ParameterType } from "../../../lib/utils/index.js";
-import {
-    Option,
-    type MapDeclarationOption,
-    type NumberDeclarationOption,
-} from "../../../lib/utils/index.js";
+import { type MapDeclarationOption, type NumberDeclarationOption, Option } from "../../../lib/utils/index.js";
 import { deepStrictEqual as equal, throws } from "assert";
-import type {
-    DeclarationOption,
-    EmitStrategy,
-} from "../../../lib/utils/options/index.js";
+import type { DeclarationOption, EmitStrategy } from "../../../lib/utils/options/index.js";
 import { Internationalization } from "../../../lib/internationalization/internationalization.js";
 
 describe("Options", () => {
@@ -94,15 +87,11 @@ describe("Options", () => {
     it("Errors if setting flags to an invalid value", () => {
         throws(() => options.setValue("validation", "bad" as never));
         throws(() => options.setValue("validation", void 0 as never));
-        throws(() =>
-            options.setValue("validation", { notExported: "bad" } as never),
-        );
+        throws(() => options.setValue("validation", { notExported: "bad" } as never));
     });
 
     it("Errors if setting a flag which does not exist", () => {
-        throws(() =>
-            options.setValue("validation", { doesNotExist: true } as never),
-        );
+        throws(() => options.setValue("validation", { doesNotExist: true } as never));
     });
 
     it("Allows setting flag objects to true/false", () => {

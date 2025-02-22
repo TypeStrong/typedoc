@@ -14,34 +14,63 @@ import {
     ReferenceType,
     ReflectionType,
     RestType,
+    type SomeType,
     TemplateLiteralType,
     TupleType,
     TypeContext,
     TypeOperatorType,
     UnionType,
     UnknownType,
-    type SomeType,
 } from "../../lib/models/types.js";
-import { renderElementToText } from "../../lib/utils/jsx.js";
+import { dedent, JSX } from "#utils";
 import {
     DeclarationReflection,
     FileRegistry,
     ParameterReflection,
     ProjectReflection,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
     TypeParameterReflection,
 } from "../../lib/models/index.js";
-import {
-    FormattedCodeBuilder,
-    FormattedCodeGenerator,
-    Wrap,
-} from "../../lib/output/formatter.js";
-import { dedent } from "../../lib/utils/general.js";
+import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../lib/output/formatter.js";
+import { type PageDefinition, type Router, Slugger } from "../../lib/output/index.js";
+
+const renderElementToText = JSX.renderElementToText;
 
 export function renderType(type: SomeType, maxWidth = 80, startWidth = 0) {
-    const builder = new FormattedCodeBuilder(() => "");
+    class DummyRouter implements Router {
+        buildPages(): PageDefinition[] {
+            return [];
+        }
+        hasUrl(): boolean {
+            return true;
+        }
+        getLinkableReflections(): Reflection[] {
+            return [];
+        }
+        getAnchor(): string | undefined {
+            return "";
+        }
+        hasOwnDocument(): boolean {
+            return true;
+        }
+        relativeUrl(): string {
+            return "";
+        }
+        baseRelativeUrl(): string {
+            return "";
+        }
+        getFullUrl(): string {
+            return "";
+        }
+        getSlugger(): Slugger {
+            return new Slugger({ lowercase: false });
+        }
+    }
+
+    const builder = new FormattedCodeBuilder(new DummyRouter(), null!);
     const tree = builder.type(type, TypeContext.none);
     const generator = new FormattedCodeGenerator(maxWidth, startWidth);
     generator.node(tree, Wrap.Detect);

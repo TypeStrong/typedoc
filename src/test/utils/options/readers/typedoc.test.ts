@@ -1,8 +1,7 @@
 import { deepStrictEqual as equal } from "assert";
 import { project as fsProject } from "@typestrong/fs-fixture-builder";
 
-import { TypeDocReader } from "../../../../lib/utils/options/readers/index.js";
-import { Logger, Options } from "../../../../lib/utils/index.js";
+import { Logger, normalizePath, Options, TypeDocReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { join } from "path";
 import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
@@ -20,7 +19,7 @@ describe("Options - TypeDocReader", () => {
 
         project.write();
         options.reset();
-        options.setValue("options", project.cwd);
+        options.setValue("options", normalizePath(project.cwd));
         await options.read(logger);
 
         logger.expectNoOtherMessages();
@@ -41,7 +40,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
         after(() => project.rm());
         options.reset();
-        options.setValue("options", project.cwd);
+        options.setValue("options", normalizePath(project.cwd));
         await options.read(logger);
 
         logger.expectNoOtherMessages();
@@ -56,7 +55,7 @@ describe("Options - TypeDocReader", () => {
 
         project.write();
         options.reset();
-        options.setValue("options", project.cwd);
+        options.setValue("options", normalizePath(project.cwd));
         await options.read(logger);
         project.rm();
 
@@ -72,7 +71,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
         after(() => project.rm());
         options.reset();
-        options.setValue("options", project.cwd);
+        options.setValue("options", normalizePath(project.cwd));
         await options.read(logger);
 
         logger.expectNoOtherMessages();
@@ -81,7 +80,7 @@ describe("Options - TypeDocReader", () => {
 
     it("Errors if the file cannot be found", async () => {
         options.reset();
-        options.setValue("options", "./non-existent-file.json");
+        options.setValue("options", normalizePath("./non-existent-file.json"));
         const logger = new TestLogger();
         await options.read(logger);
         logger.expectMessage(
@@ -106,7 +105,7 @@ describe("Options - TypeDocReader", () => {
             }
 
             options.reset();
-            options.setValue("options", project.cwd);
+            options.setValue("options", normalizePath(project.cwd));
             const logger = new TestLogger();
             project.write();
             after(() => project.rm());
@@ -177,7 +176,7 @@ describe("Options - TypeDocReader", () => {
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
-        options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
+        options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.mjs")));
         options.addReader(new TypeDocReader());
         await options.read(logger);
         equal(logger.hasErrors(), false);
@@ -191,7 +190,7 @@ describe("Options - TypeDocReader", () => {
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
-        options.setValue("options", join(project.cwd, "typedoc.config.mjs"));
+        options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.mjs")));
         options.addReader(new TypeDocReader());
         await options.read(logger);
 
@@ -209,7 +208,7 @@ describe("Options - TypeDocReader", () => {
 
         const logger = new TestLogger();
         const options = new Options(new Internationalization(null).proxy);
-        options.setValue("options", join(project.cwd, "typedoc.config.cjs"));
+        options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.cjs")));
         options.addReader(new TypeDocReader());
         await options.read(logger);
 

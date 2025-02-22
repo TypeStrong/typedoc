@@ -1,4 +1,4 @@
-import type { ProjectReflection } from "../models/index.js";
+import type { ProjectReflection } from "#models";
 import type { ProjectReflection as JSONProjectReflection } from "./schema.js";
 
 /**

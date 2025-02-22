@@ -1,11 +1,4 @@
-import {
-    deepStrictEqual as equal,
-    notDeepStrictEqual as notEqual,
-    ok,
-} from "assert";
-import { existsSync } from "fs";
-import { join } from "path";
-import { clearCommentCache } from "../lib/converter/comments/index.js";
+import { deepStrictEqual as equal, notDeepStrictEqual as notEqual, ok } from "assert";
 import {
     Comment,
     CommentTag,
@@ -22,58 +15,12 @@ import {
     UnionType,
 } from "../lib/models/index.js";
 import type { InlineTagDisplayPart } from "../lib/models/comments/comment.js";
-import {
-    getConverter2App,
-    getConverter2Base,
-    getConverter2Program,
-} from "./programs.js";
+import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
-import {
-    equalKind,
-    getComment,
-    getLinks,
-    getSigComment,
-    query,
-    querySig,
-} from "./utils.js";
-import { DefaultTheme, PageEvent } from "../index.js";
+import { equalKind, getComment, getLinks, getSigComment, query, querySig } from "./utils.js";
+import { DefaultTheme, KindRouter, PageEvent } from "../index.js";
 
-const base = getConverter2Base();
 const app = getConverter2App();
-const program = getConverter2Program();
-
-function doConvert(entries: string[]) {
-    const entryPoints = entries
-        .map((entry) =>
-            [
-                join(base, `issues/${entry}.ts`),
-                join(base, `issues/${entry}.d.ts`),
-                join(base, `issues/${entry}.tsx`),
-                join(base, `issues/${entry}.js`),
-                join(base, "issues", entry, "index.ts"),
-                join(base, "issues", entry, "index.js"),
-                join(base, "issues", entry),
-            ].find(existsSync),
-        )
-        .filter((x) => x !== undefined);
-
-    const files = entryPoints.map((e) => program.getSourceFile(e));
-    for (const [index, file] of files.entries()) {
-        ok(file, `No source file found for ${entryPoints[index]}`);
-    }
-
-    app.options.setValue("entryPoints", entryPoints);
-    clearCommentCache();
-    return app.converter.convert(
-        files.map((file, index) => {
-            return {
-                displayName: entries[index].replace(/\.[tj]sx?$/, ""),
-                program,
-                sourceFile: file!,
-            };
-        }),
-    );
-}
 
 describe("Issue Tests", () => {
     let logger: TestLogger;
@@ -86,7 +33,10 @@ describe("Issue Tests", () => {
         const issueNumber = this.currentTest?.title.match(/#(\d+)/)?.[1];
         ok(issueNumber, "Test name must contain an issue number.");
         convert = (...entries) =>
-            doConvert(entries.length ? entries : [`gh${issueNumber}`]);
+            getConverter2Project(
+                entries.length ? entries : [`gh${issueNumber}`],
+                "issues",
+            );
     });
 
     afterEach(() => {
@@ -114,9 +64,7 @@ describe("Issue Tests", () => {
         const sig = toNumber.signatures?.[0];
         ok(sig, "Missing signatures");
 
-        const paramComments = sig.parameters?.map((param) =>
-            Comment.combineDisplayParts(param.comment?.summary),
-        );
+        const paramComments = sig.parameters?.map((param) => Comment.combineDisplayParts(param.comment?.summary));
         equal(paramComments, [
             "the string to parse as a number",
             "whether to parse as an integer or float",
@@ -711,22 +659,18 @@ describe("Issue Tests", () => {
     it("#1968", () => {
         const project = convert();
         const comments = ["Bar.x", "Bar.y", "Bar.z"].map((n) =>
-            Comment.combineDisplayParts(query(project, n).comment?.summary),
+            Comment.combineDisplayParts(query(project, n).comment?.summary)
         );
         equal(comments, ["getter", "getter", "setter"]);
     });
 
     it("#1973", () => {
         const project = convert();
-        const comments = ["A", "B"].map((n) =>
-            Comment.combineDisplayParts(query(project, n).comment?.summary),
-        );
+        const comments = ["A", "B"].map((n) => Comment.combineDisplayParts(query(project, n).comment?.summary));
 
         equal(comments, ["A override", "B module"]);
 
-        const comments2 = ["A.a", "B.b"].map((n) =>
-            Comment.combineDisplayParts(query(project, n).comment?.summary),
-        );
+        const comments2 = ["A.a", "B.b"].map((n) => Comment.combineDisplayParts(query(project, n).comment?.summary));
 
         equal(comments2, ["Comment for a", "Comment for b"]);
     });
@@ -888,12 +832,14 @@ describe("Issue Tests", () => {
 
     it("#2042", () => {
         const project = convert();
-        for (const [name, docs, sigDocs] of [
-            ["built", "", "inner docs"],
-            ["built2", "outer docs", "inner docs"],
-            ["fn", "", "inner docs"],
-            ["fn2", "outer docs", "inner docs"],
-        ]) {
+        for (
+            const [name, docs, sigDocs] of [
+                ["built", "", "inner docs"],
+                ["built2", "outer docs", "inner docs"],
+                ["fn", "", "inner docs"],
+                ["fn2", "outer docs", "inner docs"],
+            ]
+        ) {
             const refl = query(project, name);
             ok(refl.signatures?.[0]);
             equal(
@@ -913,13 +859,15 @@ describe("Issue Tests", () => {
 
     it("#2044", () => {
         const project = convert();
-        for (const [name, ref] of [
-            ["Foo", false],
-            ["RenamedFoo", true],
-            ["Generic", false],
-            ["RenamedGeneric", true],
-            ["NonGeneric", false],
-        ] as const) {
+        for (
+            const [name, ref] of [
+                ["Foo", false],
+                ["RenamedFoo", true],
+                ["Generic", false],
+                ["RenamedGeneric", true],
+                ["NonGeneric", false],
+            ] as const
+        ) {
             const decl = query(project, name);
             equal(decl instanceof ReferenceReflection, ref, `${name} = ${ref}`);
         }
@@ -1083,8 +1031,7 @@ describe("Issue Tests", () => {
             );
 
             const intTarget = intFn.signatures?.[0] || intFn;
-            const clsSig =
-                clsFn.signatures?.[0] ||
+            const clsSig = clsFn.signatures?.[0] ||
                 clsFn.type?.visit({
                     reflection: (r) => r.declaration.signatures?.[0],
                 });
@@ -1172,9 +1119,7 @@ describe("Issue Tests", () => {
 
         const getLines = (name: string) => {
             const refl = query(project, name);
-            return refl.signatures?.flatMap((sig) =>
-                sig.sources!.map((src) => src.line),
-            );
+            return refl.signatures?.flatMap((sig) => sig.sources!.map((src) => src.line));
         };
 
         equal(getLines("double"), [3]);
@@ -1409,6 +1354,8 @@ describe("Issue Tests", () => {
         const project = convert();
 
         const theme = new DefaultTheme(app.renderer);
+        theme.router = new KindRouter(app);
+        theme.router.buildPages(project);
         const page = new PageEvent(project);
         page.project = project;
         const context = theme.getRenderContext(page);
@@ -1561,7 +1508,7 @@ describe("Issue Tests", () => {
         ]);
 
         const comments = [param, title, options, featureA, featureB].map((d) =>
-            Comment.combineDisplayParts(d?.comment?.summary),
+            Comment.combineDisplayParts(d?.comment?.summary)
         );
 
         equal(comments, [
@@ -2031,5 +1978,15 @@ describe("Issue Tests", () => {
             url.children?.map((c) => c.name),
             ["customMethod"],
         );
+    });
+
+    it("#2856 supports deferring export conversion", () => {
+        const project = convert();
+
+        ok(!query(project, "A.definedInA").isReference());
+        ok(query(project, "A.definedInB").isReference());
+
+        ok(query(project, "B.definedInA").isReference());
+        ok(!query(project, "B.definedInB").isReference());
     });
 });

@@ -1,11 +1,6 @@
 import { ok } from "assert";
 import { ApplicationEvents } from "../../application-events.js";
-import {
-    Comment,
-    type ProjectReflection,
-    type Reflection,
-    ReflectionKind,
-} from "../../models/index.js";
+import { Comment, type ProjectReflection, type Reflection, ReflectionKind } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -52,10 +47,9 @@ export class MergeModuleWithPlugin extends ConverterComponent {
         const project = refl.project;
 
         const targetStr = Comment.combineDisplayParts(tag.content);
-        const target =
-            targetStr === "<project>"
-                ? project
-                : project.getChildByName(targetStr);
+        const target = targetStr === "<project>"
+            ? project
+            : project.getChildByName(targetStr);
 
         if (!target?.isDeclaration() && !target?.isProject()) {
             return;

@@ -144,7 +144,8 @@ export class WalkInCustomer extends Customer {
         if (
             this._ordersPlacedCount > 10 &&
             typeof this.trustedCustomer === "undefined"
-        )
+        ) {
             this.trustedCustomer = true;
+        }
     }
 }

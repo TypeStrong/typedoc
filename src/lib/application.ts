@@ -1,29 +1,25 @@
 import * as Path from "path";
 import ts from "typescript";
 
-import {
-    Deserializer,
-    type JSONOutput,
-    Serializer,
-} from "./serialization/index.js";
+import { Deserializer, type JSONOutput, Serializer } from "./serialization/index.js";
 import { Converter } from "./converter/index.js";
 import { Renderer } from "./output/renderer.js";
 import type { ProjectReflection } from "./models/index.js";
 import {
-    Logger,
+    AbstractComponent,
     ConsoleLogger,
     loadPlugins,
-    writeFile,
+    Logger,
     type OptionsReader,
+    PackageJsonReader,
     TSConfigReader,
     TypeDocReader,
-    PackageJsonReader,
-    AbstractComponent,
+    writeFile,
 } from "./utils/index.js";
 
-import { Options, Option } from "./utils/index.js";
+import { Option, Options } from "./utils/index.js";
 import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { unique } from "./utils/array.js";
+import { type GlobString, unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -39,14 +35,10 @@ import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
-import { findTsConfigFile } from "./utils/tsconfig.js";
-import { deriveRootDir, glob, readFile } from "./utils/fs.js";
+import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
 import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
-import {
-    Internationalization,
-    type TranslatedString,
-} from "./internationalization/internationalization.js";
-import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry.js";
+import { Internationalization, type TranslatedString } from "./internationalization/internationalization.js";
+import { FileRegistry, ValidatingFileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
@@ -169,7 +161,7 @@ export class Application extends AbstractComponent<
 
     /** @internal */
     @Option("entryPoints")
-    accessor entryPoints!: string[];
+    accessor entryPoints!: GlobString[];
 
     /**
      * The version number of TypeDoc.
@@ -231,9 +223,7 @@ export class Application extends AbstractComponent<
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
         app.setOptions(options, /* reportErrors */ false);
-        await app.options.read(new Logger(), undefined, (path) =>
-            app.watchConfigFile(path),
-        );
+        await app.options.read(new Logger(), undefined, (path) => app.watchConfigFile(path));
         app.logger.level = app.options.getValue("logLevel");
 
         await loadPlugins(app, app.options.getValue("plugin"));
@@ -267,14 +257,14 @@ export class Application extends AbstractComponent<
     private async _bootstrap(options: Partial<TypeDocOptions>) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        await this.options.read(this.logger, undefined, (path) =>
-            this.watchConfigFile(path),
-        );
+        await this.options.read(this.logger, undefined, (path) => this.watchConfigFile(path));
         this.setOptions(options);
         this.logger.level = this.options.getValue("logLevel");
-        for (const [lang, locales] of Object.entries(
-            this.options.getValue("locales"),
-        )) {
+        for (
+            const [lang, locales] of Object.entries(
+                this.options.getValue("locales"),
+            )
+        ) {
             this.internationalization.addTranslations(lang, locales);
         }
 
@@ -300,11 +290,6 @@ export class Application extends AbstractComponent<
             );
             this.logger.info(
                 "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
-            );
-        } else if (this.lang === "jp") {
-            this.logger.warn(
-                // Only Japanese see this. Meaning: "jp" is going to be removed in the future. Please designate "ja" instead.
-                "「jp」は将来削除されます。代わりに「ja」を指定してください。" as TranslatedString,
             );
         }
 
@@ -407,9 +392,7 @@ export class Application extends AbstractComponent<
         );
 
         if (this.skipErrorChecking === false) {
-            const errors = programs.flatMap((program) =>
-                ts.getPreEmitDiagnostics(program),
-            );
+            const errors = programs.flatMap((program) => ts.getPreEmitDiagnostics(program));
             if (errors.length) {
                 this.logger.diagnostics(errors);
                 return;
@@ -520,8 +503,7 @@ export class Application extends AbstractComponent<
             return false;
         }
 
-        const tsconfigFile =
-            findTsConfigFile(this.options.getValue("tsconfig")) ??
+        const tsconfigFile = findTsConfigFile(this.options.getValue("tsconfig")) ??
             "tsconfig.json";
 
         // We don't want to do it the first time to preserve initial debug status messages. They'll be lost
@@ -630,9 +612,7 @@ export class Application extends AbstractComponent<
                     return;
                 }
                 this.clearWatches();
-                this.criticalFiles.forEach((path) =>
-                    this.watchFile(path, true),
-                );
+                this.criticalFiles.forEach((path) => this.watchFile(path, true));
                 const project = this.converter.convert(entryPoints);
                 currentProgram = undefined;
                 successFinished = false;
@@ -685,6 +665,7 @@ export class Application extends AbstractComponent<
                 project,
                 this.logger,
                 this.options.getValue("requiredToBeDocumented"),
+                this.options.getValue("intentionallyNotDocumented"),
             );
         }
 
@@ -804,7 +785,7 @@ export class Application extends AbstractComponent<
             });
             if (
                 opts.getValue("entryPointStrategy") ===
-                EntryPointStrategy.Packages
+                    EntryPointStrategy.Packages
             ) {
                 this.logger.error(
                     this.i18n.nested_packages_unsupported_0(nicePath(dir)),
@@ -859,9 +840,9 @@ export class Application extends AbstractComponent<
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
-                addProjectDocuments: true,
             },
         );
+        this.converter.addProjectDocuments(result);
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
     }
@@ -884,9 +865,11 @@ export class Application extends AbstractComponent<
                 );
             } else if (result.length !== 1) {
                 this.logger.verbose(
-                    `Expanded ${nicePath(entry)} to:\n\t${result
-                        .map(nicePath)
-                        .join("\n\t")}`,
+                    `Expanded ${nicePath(entry)} to:\n\t${
+                        result
+                            .map(nicePath)
+                            .join("\n\t")
+                    }`,
                 );
             }
 
@@ -911,9 +894,9 @@ export class Application extends AbstractComponent<
             {
                 projectRoot: process.cwd(),
                 registry: this.files,
-                addProjectDocuments: true,
             },
         );
+        this.converter.addProjectDocuments(result);
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 
         this.trigger(ApplicationEvents.REVIVE, result);

@@ -36,4 +36,4 @@ export function Hello(props: HelloProps) {
 
 ## See Also
 
--   The [`@expand`](expand.md) tag
+- The [`@expand`](expand.md) tag

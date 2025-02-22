@@ -34,6 +34,8 @@ export function getEnumKeys(Enum: object): string[] {
     return Object.keys(E).filter((k) => E[E[k]] === k);
 }
 
-export type EnumKeys<E extends object> = {
-    [K in keyof E]: number extends E[K] ? K : never;
-}[keyof E] & {};
+export type EnumKeys<E extends object> =
+    & {
+        [K in keyof E]: number extends E[K] ? K : never;
+    }[keyof E]
+    & {};

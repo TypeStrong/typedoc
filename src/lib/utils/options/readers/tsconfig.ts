@@ -1,4 +1,4 @@
-import { resolve, join, dirname } from "path";
+import { dirname, join, resolve } from "path";
 
 import ts from "typescript";
 
@@ -6,31 +6,16 @@ import type { Options, OptionsReader } from "../options.js";
 import type { Logger } from "../../loggers.js";
 import { isFile } from "../../fs.js";
 import { ok } from "assert";
-import {
-    additionalProperties,
-    type Infer,
-    isTagString,
-    optional,
-    validate,
-} from "../../validation.js";
+import { unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
-import {
-    tsdocBlockTags,
-    tsdocInlineTags,
-    tsdocModifierTags,
-} from "../tsdoc-defaults.js";
-import { unique } from "../../array.js";
-import {
-    findTsConfigFile,
-    getTypeDocOptionsFromTsConfig,
-    readTsConfig,
-} from "../../tsconfig.js";
+import { tsdocBlockTags, tsdocInlineTags, tsdocModifierTags } from "../tsdoc-defaults.js";
+import { findTsConfigFile, getTypeDocOptionsFromTsConfig, readTsConfig } from "../../tsconfig.js";
 import type { TranslatedString } from "../../../internationalization/internationalization.js";
 
 function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
     return (
-        validate({}, obj) &&
+        Validation.validate({}, obj) &&
         Object.entries(obj).every(([key, val]) => {
             return (
                 /^@[a-zA-Z][a-zA-Z0-9]*$/.test(key) && typeof val === "boolean"
@@ -40,28 +25,28 @@ function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
 }
 
 const tsDocSchema = {
-    $schema: optional(String),
-    extends: optional([Array, String]),
-    noStandardTags: optional(Boolean),
-    tagDefinitions: optional([
+    $schema: Validation.optional(String),
+    extends: Validation.optional([Array, String]),
+    noStandardTags: Validation.optional(Boolean),
+    tagDefinitions: Validation.optional([
         Array,
         {
-            tagName: isTagString,
+            tagName: Validation.isTagString,
             syntaxKind: ["inline", "block", "modifier"] as const,
-            allowMultiple: optional(Boolean),
-            [additionalProperties]: false,
+            allowMultiple: Validation.optional(Boolean),
+            [Validation.additionalProperties]: false,
         },
     ]),
-    supportForTags: optional(isSupportForTags),
+    supportForTags: Validation.optional(isSupportForTags),
 
     // The official parser has code to support for these two, but
     // the schema doesn't allow them... just silently ignore them for now.
-    supportedHtmlElements: optional({}),
-    reportUnsupportedHtmlElements: optional(Boolean),
+    supportedHtmlElements: Validation.optional({}),
+    reportUnsupportedHtmlElements: Validation.optional(Boolean),
 
-    [additionalProperties]: false,
+    [Validation.additionalProperties]: false,
 } as const;
-type TsDocSchema = Infer<typeof tsDocSchema>;
+type TsDocSchema = Validation.Infer<typeof tsDocSchema>;
 
 export class TSConfigReader implements OptionsReader {
     /**
@@ -180,9 +165,11 @@ export class TSConfigReader implements OptionsReader {
             modifierTags.push(...tsdocModifierTags);
         }
 
-        for (const { tagName, syntaxKind } of config.tagDefinitions?.filter(
-            supported,
-        ) || []) {
+        for (
+            const { tagName, syntaxKind } of config.tagDefinitions?.filter(
+                supported,
+            ) || []
+        ) {
             const arr = {
                 block: blockTags,
                 inline: inlineTags,
@@ -215,7 +202,7 @@ export class TSConfigReader implements OptionsReader {
             return;
         }
 
-        if (!validate(tsDocSchema, config)) {
+        if (!Validation.validate(tsDocSchema, config)) {
             logger.error(logger.i18n.invalid_tsdoc_json_0(nicePath(path)));
             return;
         }

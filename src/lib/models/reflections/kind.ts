@@ -1,4 +1,4 @@
-import type { EnumKeys } from "../../utils/index.js";
+import type { EnumKeys } from "#utils";
 
 /**
  * Defines the available reflection kinds.
@@ -42,23 +42,18 @@ export namespace ReflectionKind {
     export const All = ReflectionKind.Reference * 2 - 1;
 
     /** @internal */
-    export const ClassOrInterface =
-        ReflectionKind.Class | ReflectionKind.Interface;
+    export const ClassOrInterface = ReflectionKind.Class | ReflectionKind.Interface;
     /** @internal */
-    export const VariableOrProperty =
-        ReflectionKind.Variable | ReflectionKind.Property;
+    export const VariableOrProperty = ReflectionKind.Variable | ReflectionKind.Property;
     /** @internal */
-    export const FunctionOrMethod =
-        ReflectionKind.Function | ReflectionKind.Method;
+    export const FunctionOrMethod = ReflectionKind.Function | ReflectionKind.Method;
     /** @internal */
-    export const ClassMember =
-        ReflectionKind.Accessor |
+    export const ClassMember = ReflectionKind.Accessor |
         ReflectionKind.Constructor |
         ReflectionKind.Method |
         ReflectionKind.Property;
     /** @internal */
-    export const SomeSignature =
-        ReflectionKind.CallSignature |
+    export const SomeSignature = ReflectionKind.CallSignature |
         ReflectionKind.IndexSignature |
         ReflectionKind.ConstructorSignature |
         ReflectionKind.GetSignature |
@@ -66,22 +61,19 @@ export namespace ReflectionKind {
     /** @internal */
     export const SomeModule = ReflectionKind.Namespace | ReflectionKind.Module;
     /** @internal */
-    export const SomeType =
-        ReflectionKind.Interface |
+    export const SomeType = ReflectionKind.Interface |
         ReflectionKind.TypeLiteral |
         ReflectionKind.TypeParameter |
         ReflectionKind.TypeAlias;
     /** @internal */
     export const SomeValue = ReflectionKind.Variable | ReflectionKind.Function;
     /** @internal */
-    export const SomeMember =
-        ReflectionKind.EnumMember |
+    export const SomeMember = ReflectionKind.EnumMember |
         ReflectionKind.Property |
         ReflectionKind.Method |
         ReflectionKind.Accessor;
     /** @internal */
-    export const SomeExport =
-        ReflectionKind.Module |
+    export const SomeExport = ReflectionKind.Module |
         ReflectionKind.Namespace |
         ReflectionKind.Enum |
         ReflectionKind.Variable |
@@ -91,37 +83,31 @@ export namespace ReflectionKind {
         ReflectionKind.TypeAlias |
         ReflectionKind.Reference;
     /** @internal */
-    export const MayContainDocuments =
-        SomeExport | ReflectionKind.Project | ReflectionKind.Document;
+    export const MayContainDocuments = SomeExport | ReflectionKind.Project | ReflectionKind.Document;
     /** @internal */
-    export const ExportContainer =
-        ReflectionKind.SomeModule | ReflectionKind.Project;
+    export const ExportContainer = ReflectionKind.SomeModule | ReflectionKind.Project;
 
     /** @internal */
-    export const Inheritable =
-        ReflectionKind.Accessor |
+    export const Inheritable = ReflectionKind.Accessor |
         ReflectionKind.IndexSignature |
         ReflectionKind.Property |
         ReflectionKind.Method |
         ReflectionKind.Constructor;
 
     /** @internal */
-    export const ContainsCallSignatures =
-        ReflectionKind.Constructor |
+    export const ContainsCallSignatures = ReflectionKind.Constructor |
         ReflectionKind.Function |
         ReflectionKind.Method;
 
     // The differences between Type/Value here only really matter for
     // possibly merged declarations where we have multiple reflections.
     /** @internal */
-    export const TypeReferenceTarget =
-        ReflectionKind.Interface |
+    export const TypeReferenceTarget = ReflectionKind.Interface |
         ReflectionKind.TypeAlias |
         ReflectionKind.Class |
         ReflectionKind.Enum;
     /** @internal */
-    export const ValueReferenceTarget =
-        ReflectionKind.Module |
+    export const ValueReferenceTarget = ReflectionKind.Module |
         ReflectionKind.Namespace |
         ReflectionKind.Variable |
         ReflectionKind.Function;
@@ -130,15 +116,13 @@ export namespace ReflectionKind {
      * Note: This does not include Class/Interface, even though they technically could contain index signatures
      * @internal
      */
-    export const SignatureContainer =
-        ContainsCallSignatures | ReflectionKind.Accessor;
+    export const SignatureContainer = ContainsCallSignatures | ReflectionKind.Accessor;
 
     /** @internal */
     export const VariableContainer = SomeModule | ReflectionKind.Project;
 
     /** @internal */
-    export const MethodContainer =
-        ClassOrInterface |
+    export const MethodContainer = ClassOrInterface |
         VariableOrProperty |
         FunctionOrMethod |
         ReflectionKind.TypeLiteral;
@@ -179,9 +163,11 @@ export namespace ReflectionKind {
     }
 
     export function classString(kind: ReflectionKind): string {
-        return `tsd-kind-${ReflectionKind[kind]
-            .replace(/(.)([A-Z])/g, (_m, a, b) => `${a}-${b}`)
-            .toLowerCase()}`;
+        return `tsd-kind-${
+            ReflectionKind[kind]
+                .replace(/(.)([A-Z])/g, (_m, a, b) => `${a}-${b}`)
+                .toLowerCase()
+        }`;
     }
 }
 

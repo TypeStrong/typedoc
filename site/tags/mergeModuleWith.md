@@ -45,5 +45,5 @@ export function fn2() {}
 
 ## See Also
 
--   The [`@module`](module.md) tag
--   The [`@packageDocumentation`](packageDocumentation.md) tag
+- The [`@module`](module.md) tag
+- The [`@packageDocumentation`](packageDocumentation.md) tag

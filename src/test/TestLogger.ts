@@ -2,10 +2,7 @@ import { Logger, LogLevel } from "../lib/utils/index.js";
 import { fail, ok } from "assert";
 import ts from "typescript";
 import { resolve } from "path";
-import {
-    Internationalization,
-    type TranslationProxy,
-} from "../lib/internationalization/internationalization.js";
+import { Internationalization, type TranslationProxy } from "../lib/internationalization/internationalization.js";
 
 const levelMap: Record<LogLevel, string> = {
     [LogLevel.None]: "none: ",
@@ -55,9 +52,11 @@ export class TestLogger extends Logger {
 
         ok(
             messages.length === 0,
-            `Expected no other messages to be logged. The logged messages were:\n\t${this.messages.join(
-                "\n\t",
-            )}`,
+            `Expected no other messages to be logged. The logged messages were:\n\t${
+                this.messages.join(
+                    "\n\t",
+                )
+            }`,
         );
     }
 

@@ -24,4 +24,4 @@ export function sum(a: number, b: number): number;
 
 ## See Also
 
--   The [`@param`](param.md) tag
+- The [`@param`](param.md) tag

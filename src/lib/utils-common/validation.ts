@@ -1,28 +1,23 @@
-export type Infer<T extends Schema> =
-    T extends Optional<infer U>
-        ? Infer<U>
-        : T extends Guard<infer U>
-          ? U
-          : T extends typeof String
-            ? string
-            : T extends typeof Number
-              ? number
-              : T extends typeof Boolean
-                ? boolean
-                : T extends readonly string[]
-                  ? T[number]
-                  : T extends readonly [typeof Array, Schema]
-                    ? Array<Infer<T[1]>>
-                    : {
-                          -readonly [K in OptionalKeys<T>]?: Infer<
-                              Extract<T[K & keyof T], Schema>
-                          >;
-                      } & {
-                          -readonly [K in Exclude<
-                              keyof T,
-                              OptionalKeys<T> | typeof additionalProperties
-                          >]: Infer<Extract<T[K], Schema>>;
-                      };
+export type Infer<T extends Schema> = T extends Optional<infer U> ? Infer<U> :
+    T extends Guard<infer U> ? U :
+    T extends typeof String ? string :
+    T extends typeof Number ? number :
+    T extends typeof Boolean ? boolean :
+    T extends readonly string[] ? T[number] :
+    T extends readonly [typeof Array, Schema] ? Array<Infer<T[1]>> :
+    & {
+        -readonly [K in OptionalKeys<T>]?: Infer<
+            Extract<T[K & keyof T], Schema>
+        >;
+    }
+    & {
+        -readonly [
+            K in Exclude<
+                keyof T,
+                OptionalKeys<T> | typeof additionalProperties
+            >
+        ]: Infer<Extract<T[K], Schema>>;
+    };
 
 export type Optional<T extends Schema> = Record<typeof opt, T>;
 export type Guard<T> = (x: unknown) => x is T;
@@ -53,9 +48,9 @@ export type Schema =
     | Optional<readonly string[]>
     | Optional<readonly [typeof Array, Schema]>
     | Optional<{
-          readonly [k: string]: Schema;
-          [additionalProperties]?: boolean;
-      }>
+        readonly [k: string]: Schema;
+        [additionalProperties]?: boolean;
+    }>
     | Optional<Guard<unknown>>;
 
 /**
@@ -116,9 +111,7 @@ export function validate(schema: Schema, obj: any): boolean {
         !!obj &&
         typeof obj === "object" &&
         !Array.isArray(obj) &&
-        Object.entries<Schema>(type).every(([key, prop]) =>
-            validate(prop, obj[key]),
-        )
+        Object.entries<Schema>(type).every(([key, prop]) => validate(prop, obj[key]))
     );
 }
 

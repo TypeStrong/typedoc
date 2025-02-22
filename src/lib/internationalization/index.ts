@@ -4,8 +4,8 @@
  * @module
  */
 export {
-    type TranslatableStrings,
     Internationalization,
+    type TranslatableStrings,
     type TranslatedString,
     type TranslationProxy,
 } from "./internationalization.js";

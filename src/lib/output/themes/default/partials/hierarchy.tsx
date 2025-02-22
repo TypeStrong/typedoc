@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import type { DeclarationHierarchy, Type } from "../../../../models/index.js";
 
 const isLinkedReferenceType = (type: Type) =>
@@ -18,22 +18,21 @@ function hasAnyLinkedReferenceType(h: DeclarationHierarchy | undefined): boolean
 export function hierarchy(context: DefaultThemeRenderContext, typeHierarchy: DeclarationHierarchy | undefined) {
     if (!typeHierarchy) return;
 
-    const summaryLink =
-        context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(typeHierarchy) ? (
+    const summaryLink = context.options.getValue("includeHierarchySummary") && hasAnyLinkedReferenceType(typeHierarchy)
+        ? (
             <>
                 {" "}
                 (
-                <a href={context.relativeURL("hierarchy.html") + "#" + context.page.model.getFullName()}>
+                <a href={context.relativeURL("hierarchy.html") + "#" + context.model.getFullName()}>
                     {context.i18n.theme_hierarchy_view_summary()}
                 </a>
                 )
             </>
-        ) : (
-            <></>
-        );
+        )
+        : <></>;
 
     return (
-        <section class="tsd-panel tsd-hierarchy" data-refl={context.page.model.id}>
+        <section class="tsd-panel tsd-hierarchy" data-refl={context.model.id}>
             <h4>
                 {context.i18n.theme_hierarchy()}
                 {summaryLink}

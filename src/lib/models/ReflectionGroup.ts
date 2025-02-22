@@ -1,16 +1,7 @@
 import { ReflectionCategory } from "./ReflectionCategory.js";
 import { Comment } from "./comments/index.js";
-import type {
-    CommentDisplayPart,
-    DeclarationReflection,
-    DocumentReflection,
-    Reflection,
-} from "./index.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../serialization/index.js";
+import type { CommentDisplayPart, DeclarationReflection, DocumentReflection, Reflection } from "./index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -53,23 +44,15 @@ export class ReflectionGroup {
         this.title = title;
     }
 
-    /**
-     * Do all children of this group have a separate document?
-     */
-    allChildrenHaveOwnDocument(): boolean {
-        return this.children.every((child) => child.hasOwnDocument);
-    }
-
     toObject(serializer: Serializer): JSONOutput.ReflectionGroup {
         return {
             title: this.title,
             description: this.description
                 ? Comment.serializeDisplayParts(serializer, this.description)
                 : undefined,
-            children:
-                this.children.length > 0
-                    ? this.children.map((child) => child.id)
-                    : undefined,
+            children: this.children.length > 0
+                ? this.children.map((child) => child.id)
+                : undefined,
             categories: serializer.toObjectsOptional(this.categories),
         };
     }

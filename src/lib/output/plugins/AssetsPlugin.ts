@@ -3,12 +3,13 @@ import { RendererEvent } from "../events.js";
 import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
-import { getEnumKeys, Option, type EnumKeys } from "../../utils/index.js";
+import { type EnumKeys, getEnumKeys, type NormalizedPath } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
 import { fileURLToPath } from "url";
 import type { Renderer } from "../index.js";
 import { ReflectionKind } from "../../models/index.js";
+import { Option } from "../../utils/index.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -16,13 +17,13 @@ import { ReflectionKind } from "../../models/index.js";
  */
 export class AssetsPlugin extends RendererComponent {
     @Option("favicon")
-    private accessor favicon!: string;
+    private accessor favicon!: NormalizedPath;
 
     @Option("customCss")
-    private accessor customCss!: string;
+    private accessor customCss!: NormalizedPath;
 
     @Option("customJs")
-    private accessor customJs!: string;
+    private accessor customJs!: NormalizedPath;
 
     constructor(owner: Renderer) {
         super(owner);
@@ -40,12 +41,10 @@ export class AssetsPlugin extends RendererComponent {
             normally_hidden: i18n.theme_normally_hidden(),
             hierarchy_expand: i18n.theme_hierarchy_expand(),
             hierarchy_collapse: i18n.theme_hierarchy_collapse(),
-            theme_search_index_not_available:
-                this.application.i18n.theme_search_index_not_available(),
-            theme_search_no_results_found_for_0:
-                this.application.i18n.theme_search_no_results_found_for_0(
-                    "{0}",
-                ),
+            search_index_not_available: this.application.i18n.theme_search_index_not_available(),
+            search_no_results_found_for_0: this.application.i18n.theme_search_no_results_found_for_0(
+                "{0}",
+            ),
             folder: i18n.theme_folder(),
         };
 

@@ -110,19 +110,15 @@ const config = {
                 message: "Benchmark calls must be removed before committing.",
             },
             {
-                selector:
-                    "MemberExpression[object.name=type][property.name=symbol]",
-                message:
-                    "Use type.getSymbol() instead, Type.symbol is not properly typed.",
+                selector: "MemberExpression[object.name=type][property.name=symbol]",
+                message: "Use type.getSymbol() instead, Type.symbol is not properly typed.",
             },
             {
-                selector:
-                    "ImportDeclaration[source.value=typescript] ImportNamespaceSpecifier",
+                selector: "ImportDeclaration[source.value=typescript] ImportNamespaceSpecifier",
                 message: "TS before 5.7 does not have non-default exports.",
             },
             {
-                selector:
-                    "ImportDeclaration[source.value=typescript] ImportDeclaration",
+                selector: "ImportDeclaration[source.value=typescript] ImportDeclaration",
                 message: "TS before 5.7 does not have non-default exports.",
             },
         ],
@@ -131,7 +127,129 @@ const config = {
     },
 };
 
+const nodeModules = [
+    "assert",
+    "assert/strict",
+    "async_hooks",
+    "buffer",
+    "child_process",
+    "cluster",
+    "console",
+    "constants",
+    "crypto",
+    "dgram",
+    "diagnostics_channel",
+    "dns",
+    "dns/promises",
+    "domain",
+    "events",
+    "fs",
+    "fs/promises",
+    "http",
+    "http2",
+    "https",
+    "inspector",
+    "inspector/promises",
+    "module",
+    "net",
+    "os",
+    "path",
+    "path/posix",
+    "path/win32",
+    "perf_hooks",
+    "process",
+    "punycode",
+    "querystring",
+    "readline",
+    "readline/promises",
+    "repl",
+    "stream",
+    "stream/consumers",
+    "stream/promises",
+    "stream/web",
+    "string_decoder",
+    "sys",
+    "timers",
+    "timers/promises",
+    "tls",
+    "trace_events",
+    "tty",
+    "url",
+    "util",
+    "util/types",
+    "v8",
+    "vm",
+    "wasi",
+    "worker_threads",
+    "zlib",
+];
+
 export default tslint.config(
+    {
+        files: ["src/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
+                    patterns: ["*/utils-common/*"],
+                },
+            ],
+        },
+    },
+    // {
+    //     files: ["src/lib/models/**/*.ts"],
+    //     rules: {
+    //         "no-restricted-imports": [
+    //             "error",
+    //             {
+    //                 paths: nodeModules,
+    //                 patterns: [
+    //                     "node:*",
+    //                     "../*",
+    //                     "!../FileRegistry.js",
+    //                     "!../types.js",
+    //                     "!../comments/index.js",
+    //                     "!../sources/file.js",
+    //                 ],
+    //             },
+    //         ],
+    //     },
+    // },
+    // Almost there, one import of Application, one of Logger
+    // {
+    //     files: ["src/lib/serialization/**/*.ts"],
+    //     rules: {
+    //         "no-restricted-imports": [
+    //             "error",
+    //             {
+    //                 paths: nodeModules,
+    //                 patterns: [
+    //                     "node:*",
+    //                     "\\#*",
+    //                     "!\\#utils",
+    //                     "!\\#models",
+    //                     "../*",
+    //                 ],
+    //             },
+    //         ],
+    //     },
+    // },
+    {
+        files: ["src/lib/utils-common/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
+                    paths: nodeModules,
+                    patterns: [
+                        "node:*",
+                        "\\#*",
+                        "../*",
+                    ],
+                },
+            ],
+        },
+    },
     eslint.configs.recommended,
     ...tslint.configs.strictTypeChecked,
     config,

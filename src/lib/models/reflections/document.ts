@@ -1,14 +1,6 @@
-import type {
-    Deserializer,
-    JSONOutput,
-    Serializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import { Comment, type CommentDisplayPart } from "../comments/index.js";
-import {
-    Reflection,
-    TraverseProperty,
-    type TraverseCallback,
-} from "./abstract.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ReflectionKind } from "./kind.js";
 
 /**
@@ -87,8 +79,6 @@ export class DocumentReflection extends Reflection {
         this.content = Comment.deserializeDisplayParts(de, obj.content);
         this.frontmatter = obj.frontmatter;
         this.relevanceBoost = obj.relevanceBoost;
-        this.children = de.reviveMany(obj.children, (obj) =>
-            de.reflectionBuilders.document(this, obj),
-        );
+        this.children = de.reviveMany(obj.children, (obj) => de.reflectionBuilders.document(this, obj));
     }
 }

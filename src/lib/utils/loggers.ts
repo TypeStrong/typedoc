@@ -3,11 +3,8 @@ import { url } from "inspector";
 import { resolve } from "path";
 import { nicePath } from "./paths.js";
 import type { MinimalSourceFile } from "./minimalSourceFile.js";
-import type {
-    TranslatedString,
-    TranslationProxy,
-} from "../internationalization/internationalization.js";
-import type { IfInternal } from "./index.js";
+import type { TranslatedString, TranslationProxy } from "../internationalization/internationalization.js";
+import type { IfInternal } from "#utils";
 
 const isDebugging = () => !!url();
 
@@ -281,20 +278,24 @@ export class ConsoleLogger extends Logger {
         const path = nicePath(file.fileName);
         const { line, character } = file.getLineAndCharacterOfPosition(pos);
 
-        const location = `${color(path, "cyan")}:${color(
-            `${line + 1}`,
-            "yellow",
-        )}:${color(`${character}`, "yellow")}`;
+        const location = `${color(path, "cyan")}:${
+            color(
+                `${line + 1}`,
+                "yellow",
+            )
+        }:${color(`${character}`, "yellow")}`;
 
         const start = file.text.lastIndexOf("\n", pos) + 1;
         let end = file.text.indexOf("\n", start);
         if (end === -1) end = file.text.length;
 
         const prefix = `${location} - ${messagePrefixes[level]}`;
-        const context = `${color(
-            `${line + 1}`,
-            "black",
-        )}    ${file.text.substring(start, end)}`;
+        const context = `${
+            color(
+                `${line + 1}`,
+                "black",
+            )
+        }    ${file.text.substring(start, end)}`;
 
         return `${prefix} ${message}\n\n${context}\n`;
     }

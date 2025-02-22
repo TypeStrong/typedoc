@@ -78,19 +78,19 @@ by position in source will always produce a non-equal comparison.
 
 The available sorting strategies are:
 
--   `source-order` (sorts by file, then by position in file)
--   `alphabetical`
--   `enum-value-ascending` (only applies to children of an enum)
--   `enum-value-descending` (only applies to children of an enum)
--   `static-first`
--   `instance-first`
--   `visibility` (public, then protected, then private)
--   `required-first`
--   `kind` (order according to the `kindSortOrder` option)
--   `external-last`
--   `documents-first`
--   `documents-last`
--   `alphabetical-ignoring-documents`
+- `source-order` (sorts by file, then by position in file)
+- `alphabetical`
+- `enum-value-ascending` (only applies to children of an enum)
+- `enum-value-descending` (only applies to children of an enum)
+- `static-first`
+- `instance-first`
+- `visibility` (public, then protected, then private)
+- `required-first`
+- `kind` (order according to the `kindSortOrder` option)
+- `external-last`
+- `documents-first`
+- `documents-last`
+- `alphabetical-ignoring-documents`
 
 ## sortEntryPoints
 

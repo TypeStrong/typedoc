@@ -22,7 +22,7 @@ export const blockTags = [
     "@default",
     "@document",
     "@extends",
-    "@augments", //Alias for @extends
+    "@augments", // Alias for @extends
     "@yields",
     "@group",
     "@groupDescription",
@@ -87,4 +87,5 @@ export const modifierTags = [
     "@showCategories",
     "@showGroups",
     "@useDeclaredType",
+    "@primaryExport",
 ] as const;

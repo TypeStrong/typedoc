@@ -143,8 +143,7 @@ export class FileRegistry {
     fromObject(de: Deserializer, obj: JSONFileRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
             const absolute = normalizePath(resolve(de.projectRoot, val));
-            de.oldFileIdToNewFileId[+key] =
-                this.registerAbsolute(absolute).target;
+            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute).target;
         }
 
         de.defer((project) => {
@@ -189,8 +188,7 @@ export class ValidatingFileRegistry extends FileRegistry {
                 continue;
             }
 
-            de.oldFileIdToNewFileId[+key] =
-                this.registerAbsolute(absolute).target;
+            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute).target;
         }
 
         de.defer((project) => {

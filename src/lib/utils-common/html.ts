@@ -490,8 +490,7 @@ export class HtmlAttributeParser {
             } else {
                 --this.pos;
                 this.temporaryBuffer.pop();
-                const lastChar =
-                    this.temporaryBuffer[this.temporaryBuffer.length - 1];
+                const lastChar = this.temporaryBuffer[this.temporaryBuffer.length - 1];
 
                 // If there is a match
                 if (currentTrie.data) {
@@ -637,10 +636,9 @@ export class HtmlAttributeParser {
         // ... and do nothing, so don't bother checking.
 
         // Handle replacements
-        this.characterReferenceCode =
-            characterReferenceCodePointReplacements.get(
-                this.characterReferenceCode,
-            ) ?? this.characterReferenceCode;
+        this.characterReferenceCode = characterReferenceCodePointReplacements.get(
+            this.characterReferenceCode,
+        ) ?? this.characterReferenceCode;
 
         this.temporaryBuffer = [this.characterReferenceCode];
         this.flushTemporaryBuffer();

@@ -1,13 +1,13 @@
 import { deepStrictEqual as equal } from "assert";
 
-import { Options } from "../../../../lib/utils/index.js";
+import { createGlobString, normalizePath, Options } from "../../../../lib/utils/index.js";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers/index.js";
 import {
-    ParameterType,
-    type NumberDeclarationOption,
     type MapDeclarationOption,
+    type NumberDeclarationOption,
+    ParameterType,
 } from "../../../../lib/utils/options/index.js";
-import { join, resolve } from "path";
+import { join } from "path";
 import { TestLogger } from "../../../TestLogger.js";
 import { Internationalization } from "../../../../lib/internationalization/internationalization.js";
 
@@ -62,13 +62,13 @@ describe("Options - ArgumentsReader", () => {
 
     test("Puts arguments with no flag into inputFiles", ["foo", "bar"], () => {
         equal(options.getValue("entryPoints"), [
-            join(process.cwd(), "foo"),
-            join(process.cwd(), "bar"),
+            createGlobString(normalizePath(process.cwd()), "foo"),
+            createGlobString(normalizePath(process.cwd()), "bar"),
         ]);
     });
 
     test("Works with string options", ["--out", "outDir"], () => {
-        equal(options.getValue("out"), join(process.cwd(), "outDir"));
+        equal(options.getValue("out"), normalizePath(join(process.cwd(), "outDir")));
     });
 
     test("Works with number options", ["-numOption", "123"], () => {
@@ -103,7 +103,7 @@ describe("Options - ArgumentsReader", () => {
         () => {
             equal(options.getValue("includeVersion"), true);
             equal(options.getValue("entryPoints"), [
-                join(process.cwd(), "foo"),
+                createGlobString(normalizePath(process.cwd()), "foo"),
             ]);
         },
     );
@@ -113,14 +113,17 @@ describe("Options - ArgumentsReader", () => {
     });
 
     test("Works with array options", ["--exclude", "a"], () => {
-        equal(options.getValue("exclude"), [resolve("a")]);
+        equal(options.getValue("exclude"), [createGlobString(normalizePath(process.cwd()), "a")]);
     });
 
     test(
         "Works with array options passed multiple times",
         ["--exclude", "a", "--exclude", "b"],
         () => {
-            equal(options.getValue("exclude"), [resolve("a"), resolve("b")]);
+            equal(options.getValue("exclude"), [
+                createGlobString(normalizePath(process.cwd()), "a"),
+                createGlobString(normalizePath(process.cwd()), "b"),
+            ]);
         },
     );
 
@@ -131,9 +134,11 @@ describe("Options - ArgumentsReader", () => {
         options.addReader(reader);
         await options.read(logger);
         logger.expectMessage(
-            `error: Unknown option: --badOption, you may have meant:\n\t${similarOptions.join(
-                "\n\t",
-            )}`,
+            `error: Unknown option: --badOption, you may have meant:\n\t${
+                similarOptions.join(
+                    "\n\t",
+                )
+            }`,
         );
     });
 

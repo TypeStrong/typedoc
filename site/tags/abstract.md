@@ -26,5 +26,5 @@ export class AbstractExample {
 
 ## See Also
 
--   The [`@public`](public.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option
+- The [`@public`](public.md) tag
+- The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

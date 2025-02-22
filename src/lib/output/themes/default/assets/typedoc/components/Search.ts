@@ -79,11 +79,14 @@ export function initSearch() {
     }
 
     const state: SearchState = {
-        base: document.documentElement.dataset.base! + "/",
+        base: document.documentElement.dataset.base!,
     };
+    if (!state.base.endsWith("/")) {
+        state.base += "/";
+    }
 
     searchScript.addEventListener("error", () => {
-        const message = window.translations.theme_search_index_not_available;
+        const message = window.translations.search_index_not_available;
         updateStatusEl(status, message);
     });
     searchScript.addEventListener("load", () => {
@@ -226,11 +229,10 @@ function updateResults(
     }
 
     if (res.length === 0 && searchText) {
-        const message =
-            window.translations.theme_search_no_results_found_for_0.replace(
-                "{0}",
-                ` "<strong>${escapeHtml(searchText)}</strong>" `,
-            );
+        const message = window.translations.search_no_results_found_for_0.replace(
+            "{0}",
+            ` "<strong>${escapeHtml(searchText)}</strong>" `,
+        );
         updateStatusEl(status, message);
         return;
     }
@@ -242,8 +244,7 @@ function updateResults(
 
         // boost by exact match on name
         if (row.name.toLowerCase().startsWith(searchText.toLowerCase())) {
-            boost *=
-                1 + 1 / (1 + Math.abs(row.name.length - searchText.length));
+            boost *= 10 / (1 + Math.abs(row.name.length - searchText.length));
         }
 
         item.score *= boost;
@@ -258,7 +259,8 @@ function updateResults(
             '"',
             "&quot;",
         );
-        const icon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${row.kind}"></use></svg>`;
+        const icon =
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${row.kind}"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
         let name = highlightMatches(row.name, searchText);
@@ -341,9 +343,11 @@ function highlightMatches(text: string, search: string) {
     while (index != -1) {
         parts.push(
             escapeHtml(text.substring(lastIndex, index)),
-            `<mark>${escapeHtml(
-                text.substring(index, index + lowerSearch.length),
-            )}</mark>`,
+            `<mark>${
+                escapeHtml(
+                    text.substring(index, index + lowerSearch.length),
+                )
+            }</mark>`,
         );
 
         lastIndex = index + lowerSearch.length;
@@ -405,8 +409,9 @@ function isKeyboardActive() {
         activeElement.isContentEditable ||
         activeElement.tagName === "TEXTAREA" ||
         activeElement.tagName === "SEARCH"
-    )
+    ) {
         return true;
+    }
 
     return (
         activeElement.tagName === "INPUT" &&

@@ -11,7 +11,7 @@ import {
     SignatureReflection,
     type TypeParameterReflection,
 } from "../../models/index.js";
-import { DefaultMap, filterMap, JSX } from "../../utils/index.js";
+import { DefaultMap, filterMap, JSX } from "#utils";
 
 export function stringify(data: unknown) {
     if (typeof data === "bigint") {
@@ -109,7 +109,7 @@ export function renderTypeParametersSignature(
                 <span class="tsd-signature-symbol">{"<"}</span>
                 {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                     <>
-                        {item.flags.isConst && <span class="tsd-signature-keyword">const </span>}
+                        {item.flags.isConst && <span class="tsd-signature-keyword">const</span>}
                         {item.varianceModifier ? `${item.varianceModifier} ` : ""}
                         <a class="tsd-signature-type tsd-kind-type-parameter" href={context.urlTo(item)}>
                             {item.name}
@@ -131,7 +131,7 @@ export function renderTypeParametersSignature(
                     <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
                     {!!item.type && (
                         <>
-                            <span class="tsd-signature-keyword"> extends </span>
+                            <span class="tsd-signature-keyword">extends</span>
                             {context.type(item.type)}
                         </>
                     )}

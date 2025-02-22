@@ -4,11 +4,11 @@ export type BaseUnionMember = {
 
 export type Union =
     | {
-          type: "one";
-      }
+        type: "one";
+    }
     | {
-          type: "two";
-      };
+        type: "two";
+    };
 
 export class GenericClass<U extends BaseUnionMember> {
     public arrowFunction = <MemberType extends U["type"]>(

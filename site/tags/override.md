@@ -20,6 +20,6 @@ export class Visibility {
 
 ## See Also
 
--   The [`@sealed`](sealed.md) tag
--   The [`@virtual`](virtual.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option
+- The [`@sealed`](sealed.md) tag
+- The [`@virtual`](virtual.md) tag
+- The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

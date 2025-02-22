@@ -2,24 +2,18 @@
 // Implements roughly the same algorithm as Prettier
 
 import { ok } from "assert";
-import {
-    LiteralType,
-    ReferenceType,
-    TypeContext,
-    type SomeType,
-    type TypeVisitor,
-} from "../models/types.js";
-import { aggregate } from "../utils/array.js";
-import { assertNever, JSX } from "../utils/index.js";
+import { LiteralType, ReferenceType, type SomeType, TypeContext, type TypeVisitor } from "../models/types.js";
+import { aggregate, assertNever, JSX } from "#utils";
 import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 import {
-    ReflectionKind,
-    type Reflection,
     type DeclarationReflection,
+    type ParameterReflection,
+    type Reflection,
+    ReflectionKind,
     type SignatureReflection,
     type TypeParameterReflection,
-    type ParameterReflection,
 } from "../models/index.js";
+import type { Router } from "./index.js";
 
 // Non breaking space
 const INDENT = "\u00A0\u00A0\u00A0\u00A0";
@@ -33,11 +27,11 @@ export type FormatterNode =
     | { type: "group"; id: number; content: FormatterNode[] }
     | { type: "nodes"; content: FormatterNode[] }
     | {
-          type: "if_wrap";
-          id: number;
-          true: FormatterNode;
-          false: FormatterNode;
-      };
+        type: "if_wrap";
+        id: number;
+        true: FormatterNode;
+        false: FormatterNode;
+    };
 
 const emptyNode = textNode("");
 
@@ -160,9 +154,7 @@ export class FormattedCodeGenerator {
                 break;
             }
             case "group": {
-                const width = aggregate(node.content, (n) =>
-                    nodeWidth(n, this.wrapped),
-                );
+                const width = aggregate(node.content, (n) => nodeWidth(n, this.wrapped));
                 let wrap: Wrap;
                 if (this.size + width > this.max || this.wrapped.has(node.id)) {
                     this.wrapped.add(node.id);
@@ -286,15 +278,26 @@ const typeBuilder: TypeVisitor<
             ]);
             if (childReflection) {
                 const displayed = stringify(type.indexType.value);
-                indexType = {
-                    type: "element",
-                    content: (
-                        <a href={builder.urlTo(childReflection)}>
-                            <span class="tsd-signature-type">{displayed}</span>
-                        </a>
-                    ),
-                    length: displayed.length,
-                };
+
+                if (builder.router.hasUrl(childReflection)) {
+                    indexType = {
+                        type: "element",
+                        content: (
+                            <a href={builder.urlTo(childReflection)}>
+                                <span class="tsd-signature-type">
+                                    {displayed}
+                                </span>
+                            </a>
+                        ),
+                        length: displayed.length,
+                    };
+                } else {
+                    indexType = {
+                        type: "element",
+                        content: <span class="tsd-signature-type">{displayed}</span>,
+                        length: displayed.length,
+                    };
+                }
             }
         }
 
@@ -489,41 +492,67 @@ const typeBuilder: TypeVisitor<
 
         if (reflection) {
             if (reflection.kindOf(ReflectionKind.TypeParameter)) {
-                name = simpleElement(
-                    <a
-                        class="tsd-signature-type tsd-kind-type-parameter"
-                        href={builder.urlTo(reflection)}
-                    >
-                        {reflection.name}
-                    </a>,
-                );
+                if (builder.router.hasUrl(reflection)) {
+                    name = simpleElement(
+                        <a
+                            class="tsd-signature-type tsd-kind-type-parameter"
+                            href={builder.urlTo(reflection)}
+                        >
+                            {reflection.name}
+                        </a>,
+                    );
+                } else {
+                    name = simpleElement(
+                        <span class="tsd-signature-type tsd-kind-type-parameter">
+                            {reflection.name}
+                        </span>,
+                    );
+                }
             } else {
                 name = join(
                     simpleElement(<span class="tsd-signature-symbol">.</span>),
                     getUniquePath(reflection),
-                    (item) =>
-                        simpleElement(
-                            <a
-                                href={builder.urlTo(item)}
-                                class={
-                                    "tsd-signature-type " + getKindClass(item)
-                                }
+                    (item) => {
+                        if (builder.router.hasUrl(item)) {
+                            return simpleElement(
+                                <a
+                                    href={builder.urlTo(item)}
+                                    class={"tsd-signature-type " +
+                                        getKindClass(item)}
+                                >
+                                    {item.name}
+                                </a>,
+                            );
+                        }
+
+                        return simpleElement(
+                            <span
+                                class={"tsd-signature-type " + getKindClass(item)}
                             >
                                 {item.name}
-                            </a>,
-                        ),
+                            </span>,
+                        );
+                    },
                 );
             }
         } else if (type.externalUrl) {
-            name = simpleElement(
-                <a
-                    href={type.externalUrl}
-                    class="tsd-signature-type external"
-                    target="_blank"
-                >
-                    {type.name}
-                </a>,
-            );
+            if (type.externalUrl === "#") {
+                name = simpleElement(
+                    <span class="tsd-signature-type external">
+                        {type.name}
+                    </span>,
+                );
+            } else {
+                name = simpleElement(
+                    <a
+                        href={type.externalUrl}
+                        class="tsd-signature-type external"
+                        target="_blank"
+                    >
+                        {type.name}
+                    </a>,
+                );
+            }
         } else if (type.refersToTypeParameter) {
             name = simpleElement(
                 <span class="tsd-signature-type tsd-kind-type-parameter">
@@ -681,7 +710,14 @@ export class FormattedCodeBuilder {
     forceWrap = new Set<number>();
     id = 0;
 
-    constructor(readonly urlTo: (refl: Reflection) => string) {}
+    constructor(
+        readonly router: Router,
+        readonly relativeReflection: Reflection,
+    ) {}
+
+    urlTo(refl: Reflection) {
+        return this.router.relativeUrl(this.relativeReflection, refl);
+    }
 
     newId() {
         return ++this.id;
@@ -726,13 +762,13 @@ export class FormattedCodeBuilder {
                     nodes(
                         ...(index.flags.isReadonly
                             ? [
-                                  simpleElement(
-                                      <span class="tsd-signature-keyword">
-                                          readonly
-                                      </span>,
-                                  ),
-                                  space(),
-                              ]
+                                simpleElement(
+                                    <span class="tsd-signature-keyword">
+                                        readonly
+                                    </span>,
+                                ),
+                                space(),
+                            ]
                             : []),
                         simpleElement(
                             <span class="tsd-signature-symbol">[</span>,
@@ -978,17 +1014,29 @@ export class FormattedCodeBuilder {
                 space(),
             );
         }
-        const content = [
-            prefix,
-            simpleElement(
-                <a
-                    class="tsd-signature-type tsd-kind-type-parameter"
-                    href={this.urlTo(param)}
-                >
-                    {param.name}
-                </a>,
-            ),
-        ];
+
+        const content = [prefix];
+
+        if (this.router.hasUrl(param)) {
+            content.push(
+                simpleElement(
+                    <a
+                        class="tsd-signature-type tsd-kind-type-parameter"
+                        href={this.urlTo(param)}
+                    >
+                        {param.name}
+                    </a>,
+                ),
+            );
+        } else {
+            content.push(
+                simpleElement(
+                    <span class="tsd-signature-type tsd-kind-type-parameter">
+                        {param.name}
+                    </span>,
+                ),
+            );
+        }
 
         if (param.type) {
             content.push(

@@ -1,25 +1,18 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import {
-    LiteralType,
-    ReflectionKind,
     Comment,
     CommentTag,
-    Reflection,
-    SignatureReflection,
     type ContainerReflection,
+    LiteralType,
+    Reflection,
+    ReflectionKind,
+    SignatureReflection,
 } from "../lib/models/index.js";
-import { filterMap } from "../lib/utils/index.js";
+import { filterMap } from "#utils";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
-import {
-    getConverter2App,
-    getConverter2Base,
-    getConverter2Program,
-} from "./programs.js";
-import { join } from "path";
-import { existsSync } from "fs";
-import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { getComment, getSigComment, query, querySig } from "./utils.js";
+import { getConverter2App, getConverter2Project } from "./programs.js";
 
 type NameTree = { [name: string]: NameTree | undefined };
 
@@ -65,34 +58,10 @@ function getLinkTexts(refl: Reflection) {
     });
 }
 
-const base = getConverter2Base();
 const app = getConverter2App();
-const program = getConverter2Program();
 
 function convert(...entries: [string, ...string[]]) {
-    const entryPoints = entries.map((entry) => {
-        const entryPoint = [
-            join(base, `behavior/${entry}.ts`),
-            join(base, `behavior/${entry}.d.ts`),
-            join(base, `behavior/${entry}.tsx`),
-            join(base, `behavior/${entry}.js`),
-            join(base, "behavior", entry, "index.ts"),
-            join(base, "behavior", entry, "index.js"),
-        ].find(existsSync);
-
-        ok(entryPoint, `No entry point found for ${entry}`);
-        const sourceFile = program.getSourceFile(entryPoint);
-        ok(sourceFile, `No source file found for ${entryPoint}`);
-
-        return { displayName: entry, program, sourceFile, entryPoint };
-    });
-
-    app.options.setValue(
-        "entryPoints",
-        entryPoints.map((e) => e.entryPoint),
-    );
-    clearCommentCache();
-    return app.converter.convert(entryPoints);
+    return getConverter2Project(entries, "behavior");
 }
 
 describe("Behavior Tests", () => {
@@ -484,8 +453,7 @@ describe("Behavior Tests", () => {
                 Promise: "/promise2",
             },
             "@types/markdown-it": {
-                "MarkdownIt.Token":
-                    "https://markdown-it.github.io/markdown-it/#Token",
+                "MarkdownIt.Token": "https://markdown-it.github.io/markdown-it/#Token",
                 "*": "https://markdown-it.github.io/markdown-it/",
             },
         });
@@ -526,9 +494,7 @@ describe("Behavior Tests", () => {
         );
 
         equal(
-            project.groups.map((g) =>
-                Comment.combineDisplayParts(g.description),
-            ),
+            project.groups.map((g) => Comment.combineDisplayParts(g.description)),
             ["Variables desc", "A description", "", "With spaces desc"],
         );
 
@@ -560,9 +526,7 @@ describe("Behavior Tests", () => {
             ["Cat", "Other"],
         );
         equal(
-            cls.categories.map((g) =>
-                Comment.combineDisplayParts(g.description),
-            ),
+            cls.categories.map((g) => Comment.combineDisplayParts(g.description)),
             ["Cat desc", ""],
         );
         equal(
@@ -756,13 +720,15 @@ describe("Behavior Tests", () => {
         app.options.setValue("sort", ["source-order"]);
         app.options.setValue("useTsLinkResolution", false);
         const project = convert("linkResolution");
-        for (const [refl, target] of [
-            ["Scoping.abc", "Scoping.abc"],
-            ["Scoping.Foo", "Scoping.Foo.abc"],
-            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
-            ["Scoping.Bar", "Scoping.abc"],
-            ["Scoping.Bar.abc", "Scoping.abc"],
-        ] as const) {
+        for (
+            const [refl, target] of [
+                ["Scoping.abc", "Scoping.abc"],
+                ["Scoping.Foo", "Scoping.Foo.abc"],
+                ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+                ["Scoping.Bar", "Scoping.abc"],
+                ["Scoping.Bar.abc", "Scoping.abc"],
+            ] as const
+        ) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
                 [query(project, target).getFullName()],
@@ -826,13 +792,15 @@ describe("Behavior Tests", () => {
     it("Handles TypeScript based link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
         const project = convert("linkResolutionTs");
-        for (const [refl, target] of [
-            ["Scoping.abc", "Scoping.abc"],
-            ["Scoping.Foo", "Scoping.Foo.abc"],
-            ["Scoping.Foo.abc", "Scoping.Foo.abc"],
-            ["Scoping.Bar", "Scoping.abc"],
-            ["Scoping.Bar.abc", "Scoping.abc"],
-        ] as const) {
+        for (
+            const [refl, target] of [
+                ["Scoping.abc", "Scoping.abc"],
+                ["Scoping.Foo", "Scoping.Foo.abc"],
+                ["Scoping.Foo.abc", "Scoping.Foo.abc"],
+                ["Scoping.Bar", "Scoping.abc"],
+                ["Scoping.Bar.abc", "Scoping.abc"],
+            ] as const
+        ) {
             equal(
                 getLinks(query(project, refl)).map((x) => x[1]),
                 [query(project, target).getFullName()],
@@ -962,9 +930,7 @@ describe("Behavior Tests", () => {
     it("Handles overloads", () => {
         const project = convert("overloads");
         const foo = query(project, "foo");
-        const fooComments = foo.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary),
-        );
+        const fooComments = foo.signatures?.map((sig) => Comment.combineDisplayParts(sig.comment?.summary));
         equal(fooComments, ["No arg comment\n", "No arg comment\n"]);
         equal(foo.comment, undefined);
 
@@ -974,9 +940,7 @@ describe("Behavior Tests", () => {
         );
 
         const bar = query(project, "bar");
-        const barComments = bar.signatures?.map((sig) =>
-            Comment.combineDisplayParts(sig.comment?.summary),
-        );
+        const barComments = bar.signatures?.map((sig) => Comment.combineDisplayParts(sig.comment?.summary));
         equal(barComments, ["", "Custom comment"]);
         equal(
             Comment.combineDisplayParts(bar.comment?.summary),
@@ -1053,7 +1017,7 @@ describe("Behavior Tests", () => {
         );
 
         const comments = [bar, bar.children[0], bar.children[1]].map((r) =>
-            Comment.combineDisplayParts(r.comment?.summary),
+            Comment.combineDisplayParts(r.comment?.summary)
         );
 
         equal(comments, ["Bar docs", "Bar.a docs", "Foo.b docs"]);
@@ -1117,8 +1081,7 @@ describe("Behavior Tests", () => {
     it("Handles renaming of destructured parameters via @param tag name inference", () => {
         const project = convert("destructuredParamRenames");
 
-        const params = (name: string) =>
-            querySig(project, name).parameters?.map((p) => p.name);
+        const params = (name: string) => querySig(project, name).parameters?.map((p) => p.name);
 
         equal(params("functionWithADestructuredParameter"), [
             "destructuredParam",
@@ -1188,8 +1151,7 @@ describe("Behavior Tests", () => {
         const project = convert("cascadedModifiers");
 
         const mods = (s: string) => query(project, s).comment?.modifierTags;
-        const sigMods = (s: string) =>
-            querySig(project, s).comment?.modifierTags;
+        const sigMods = (s: string) => querySig(project, s).comment?.modifierTags;
 
         equal(mods("BetaStuff"), new Set(["@beta"]));
         equal(mods("BetaStuff.AlsoBeta"), new Set(["@beta"]));

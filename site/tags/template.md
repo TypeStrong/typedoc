@@ -25,4 +25,4 @@ export function identity<T>(x) {
 
 ## See Also
 
--   The [`@typeParam`](typeParam.md) tag
+- The [`@typeParam`](typeParam.md) tag

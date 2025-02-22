@@ -44,5 +44,5 @@ for additional details.
 
 ## See Also
 
--   The [`@link`](link.md) tag
--   [Declaration references](../declaration-references.md) documentation
+- The [`@link`](link.md) tag
+- [Declaration references](../declaration-references.md) documentation

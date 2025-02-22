@@ -1,18 +1,10 @@
-import { type SomeType, ReflectionType, type ReferenceType } from "../types.js";
-import {
-    Reflection,
-    TraverseProperty,
-    type TraverseCallback,
-} from "./abstract.js";
+import { type ReferenceType, ReflectionType, type SomeType } from "../types.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import { SourceReference } from "../sources/file.js";
 
 /**
@@ -97,6 +89,10 @@ export class SignatureReflection extends Reflection {
         }
     }
 
+    override isSignature(): this is SignatureReflection {
+        return true;
+    }
+
     /**
      * Return a string representation of this reflection.
      */
@@ -144,17 +140,11 @@ export class SignatureReflection extends Reflection {
         // eslint-disable-next-line @typescript-eslint/no-deprecated
         if (obj.typeParameter) {
             // eslint-disable-next-line @typescript-eslint/no-deprecated
-            this.typeParameters = de.reviveMany(obj.typeParameter, (t) =>
-                de.constructReflection(t),
-            );
+            this.typeParameters = de.reviveMany(obj.typeParameter, (t) => de.constructReflection(t));
         } else {
-            this.typeParameters = de.reviveMany(obj.typeParameters, (t) =>
-                de.constructReflection(t),
-            );
+            this.typeParameters = de.reviveMany(obj.typeParameters, (t) => de.constructReflection(t));
         }
-        this.parameters = de.reviveMany(obj.parameters, (t) =>
-            de.constructReflection(t),
-        );
+        this.parameters = de.reviveMany(obj.parameters, (t) => de.constructReflection(t));
         this.type = de.reviveType(obj.type);
         this.overwrites = de.reviveType(obj.overwrites);
         this.inheritedFrom = de.reviveType(obj.inheritedFrom);

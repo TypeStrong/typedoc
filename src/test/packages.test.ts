@@ -5,7 +5,7 @@ import { expandPackages } from "../lib/utils/package-manifest.js";
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { TestLogger } from "./TestLogger.js";
-import { createMinimatch } from "../lib/utils/paths.js";
+import { createGlobString, MinimatchSet } from "../lib/utils/paths.js";
 
 describe("Packages support", () => {
     using project = tempdirProject();
@@ -82,9 +82,9 @@ describe("Packages support", () => {
         const logger = new TestLogger();
         const packages = expandPackages(
             logger,
-            project.cwd,
-            [project.cwd],
-            createMinimatch(["**/ign"]),
+            normalizePath(project.cwd),
+            [createGlobString(normalizePath(project.cwd), ".")],
+            new MinimatchSet([createGlobString(normalizePath(project.cwd), "**/ign")]),
         );
 
         equal(
@@ -112,7 +112,8 @@ describe("Packages support", () => {
             name: "typedoc-single-package",
             main: "dist/index.js",
         });
-        project.addFile("dist/index.js", `//# sourceMappingURL=index.js.map`);
+        // Split up this string so that VSCode doesn't try to use it for this file.
+        project.addFile("dist/index.js", `//` + `# sourceMappingURL=index.js.map`);
         project.addJsonFile("dist/index.js.map", {
             version: 3,
             file: "index.js",
@@ -128,7 +129,12 @@ describe("Packages support", () => {
         project.write();
 
         const logger = new TestLogger();
-        const packages = expandPackages(logger, project.cwd, [project.cwd], []);
+        const packages = expandPackages(
+            logger,
+            normalizePath(project.cwd),
+            [createGlobString(normalizePath(project.cwd), ".")],
+            new MinimatchSet([]),
+        );
 
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);
@@ -147,7 +153,8 @@ describe("Packages support", () => {
             name: "typedoc-single-package",
             main: "dist/index.cjs",
         });
-        project.addFile("dist/index.cjs", `//# sourceMappingURL=index.cjs.map`);
+        // Split up this string so that VSCode doesn't try to use it for this file.
+        project.addFile("dist/index.cjs", `//` + `# sourceMappingURL=index.cjs.map`);
         project.addJsonFile("dist/index.cjs.map", {
             version: 3,
             file: "index.cjs",
@@ -163,7 +170,12 @@ describe("Packages support", () => {
         project.write();
 
         const logger = new TestLogger();
-        const packages = expandPackages(logger, project.cwd, [project.cwd], []);
+        const packages = expandPackages(
+            logger,
+            normalizePath(project.cwd),
+            [createGlobString(normalizePath(project.cwd), ".")],
+            new MinimatchSet([]),
+        );
 
         logger.expectNoOtherMessages();
         equal(packages, [normalizePath(project.cwd)]);

@@ -3,17 +3,17 @@ import MarkdownIt from "markdown-it";
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
-import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
-import { Option, renderElement, assertNever, type ValidationOptions } from "../../utils/index.js";
+import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { escapeHtml } from "../../utils/html.js";
+import { assertNever, escapeHtml, JSX } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
+    type CommentDisplayPart,
     type Reflection,
     ReflectionKind,
-    type CommentDisplayPart,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
 import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
@@ -146,8 +146,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step. Warnings related to those broken links
                                     // have already been emitted.
-                                    url = context.urlTo(part.target);
                                     kindClass = ReflectionKind.classString(part.target.kind);
+                                    if (context.router.hasUrl(part.target)) {
+                                        url = context.urlTo(part.target);
+                                    }
 
                                     // If we don't have a URL the user probably linked to some deeply nested property
                                     // which doesn't get an assigned URL. We'll walk upwards until we find a reflection
@@ -155,22 +157,23 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     if (!url) {
                                         // Walk upwards to find something we can link to.
                                         let target = part.target.parent!;
-                                        url = context.urlTo(target);
-                                        while (!url && target.parent) {
-                                            target = target.parent;
-                                            // We know we'll always end up with a URL here eventually as the
-                                            // project always has a URL.
-                                            url = context.urlTo(target)!;
+                                        while (!context.router.hasUrl(target)) {
+                                            target = target.parent!;
                                         }
+
+                                        // We know we'll always end up with a URL here eventually as the
+                                        // project always has a URL.
+                                        url = context.urlTo(target);
 
                                         if (this.validation.rewrittenLink) {
                                             this.application.logger.warn(
-                                                this.application.i18n.reflection_0_links_to_1_with_text_2_but_resolved_to_3(
-                                                    page.model.getFriendlyFullName(),
-                                                    part.target.getFriendlyFullName(),
-                                                    part.text,
-                                                    target.getFriendlyFullName(),
-                                                ),
+                                                this.application.i18n
+                                                    .reflection_0_links_to_1_with_text_2_but_resolved_to_3(
+                                                        page.model.getFriendlyFullName(),
+                                                        part.target.getFriendlyFullName(),
+                                                        part.text,
+                                                        target.getFriendlyFullName(),
+                                                    ),
                                             );
                                         }
                                     }
@@ -245,7 +248,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     private onEnd() {
         for (const { source, target, link } of this.renderedRelativeLinks) {
-            const slugger = this.owner.theme!.getSlugger(target);
+            const slugger = this.owner.router!.getSlugger(target);
             if (!slugger.hasAnchor(link.targetAnchor!)) {
                 this.application.logger.warn(
                     this.application.i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
@@ -275,7 +278,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     private getSlugger() {
-        return this.owner.theme!.getSlugger(this.page!.model);
+        return this.owner.router!.getSlugger(this.page!.model);
     }
 
     /**
@@ -294,7 +297,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     return `<pre><code>${code}</code><button>${this.application.i18n.theme_copy()}</button></pre>\n`;
                 }
 
-                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
+                return `<pre><code class="${
+                    escapeHtml(lang)
+                }">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
             },
         });
 
@@ -321,7 +326,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
+            return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
@@ -352,9 +357,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         this.parser.renderer.rules["alert_open"] = (tokens, idx) => {
             const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
-            const iconHtml = renderElement(icon());
+            const iconHtml = JSX.renderElement(icon());
 
-            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${tokens[idx].attrGet("alert")}</span></div>`;
+            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${
+                tokens[idx].attrGet("alert")
+            }</span></div>`;
         };
     }
 

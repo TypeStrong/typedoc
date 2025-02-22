@@ -49,7 +49,7 @@ export class Accordion extends Component<HTMLDetailsElement> {
 
         const key = `tsd-accordion-${
             summary.dataset.key ??
-            summary.textContent!.trim().replace(/\s+/g, "-").toLowerCase()
+                summary.textContent!.trim().replace(/\s+/g, "-").toLowerCase()
         }`;
 
         let inst: AccordionImpl;

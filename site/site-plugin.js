@@ -23,7 +23,6 @@ export function load(app) {
     });
 
     /**
-     *
      * @param {string} sourceFile
      * @param {CommentDisplayPart[]} parts
      * @param {FileRegistry} files

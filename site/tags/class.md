@@ -25,4 +25,4 @@ export function ClassLike() {
 
 ## See Also
 
--   The [`@interface`](interface.md) tag
+- The [`@interface`](interface.md) tag

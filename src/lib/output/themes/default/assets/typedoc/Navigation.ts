@@ -67,7 +67,8 @@ function buildNavElement(
         // Also very annoying that we can't encode the svg in the cache, since that gets duplicated here...
         // If that breaks someone, we probably have to get the svg element from the cached div (and include them..)
         // and clone that into place...
-        summary.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>`;
+        summary.innerHTML =
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>`;
         addNavText(el, summary);
 
         const data = details.appendChild(document.createElement("div"));
@@ -102,13 +103,15 @@ function addNavText(
                 '"',
                 "&quot;",
             );
-            a.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${el.kind}"></use></svg>`;
+            a.innerHTML =
+                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${el.kind}"></use></svg>`;
         }
         a.appendChild(document.createElement("span")).textContent = el.text;
     } else {
         const span = parent.appendChild(document.createElement("span"));
         const label = window.translations.folder.replaceAll('"', "&quot;");
-        span.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
+        span.innerHTML =
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
         span.appendChild(document.createElement("span")).textContent = el.text;
     }
 }

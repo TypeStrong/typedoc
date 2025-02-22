@@ -1,15 +1,15 @@
 import {
+    type DeclarationReflection,
     type DocumentReflection,
+    type ProjectReflection,
     ReferenceReflection,
     type Reflection,
     ReflectionKind,
-    type DeclarationReflection,
-    type ProjectReflection,
 } from "../../../../models/index.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { anchorIcon } from "./anchor-icon.js";
+import { anchorIcon, anchorLink } from "./anchor-icon.js";
 
 export function moduleReflection(context: DefaultThemeRenderContext, mod: DeclarationReflection | ProjectReflection) {
     const sections = getMemberSections(mod);
@@ -25,7 +25,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
 
             {mod.isDeclaration() && mod.kind === ReflectionKind.Module && mod.readme?.length && (
                 <section class="tsd-panel tsd-typography">
-                    <Raw html={context.markdown(mod.readme)} />
+                    <JSX.Raw html={context.markdown(mod.readme)} />
                 </section>
             )}
 
@@ -41,7 +41,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                         </summary>
                         {description && (
                             <div class="tsd-comment tsd-typography">
-                                <Raw html={context.markdown(description)} />
+                                <JSX.Raw html={context.markdown(description)} />
                             </div>
                         )}
                         <dl class="tsd-member-summaries">
@@ -94,7 +94,7 @@ export function moduleMemberSummary(
     return (
         <>
             <dt class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))}>
-                <a id={id} class="tsd-anchor"></a>
+                {anchorLink(id)}
                 {name}
             </dt>
             <dd class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))}>
@@ -107,11 +107,15 @@ export function moduleMemberSummary(
 // Note: This version of uniqueName does NOT include colors... they looked weird to me
 // when looking at a module page.
 function uniqueName(context: DefaultThemeRenderContext, reflection: Reflection) {
-    const name = join(".", getUniquePath(reflection), (item) => (
-        <a href={context.urlTo(item)} class={classNames({ deprecated: item.isDeprecated() })}>
-            {item.name}
-        </a>
-    ));
+    const name = join(
+        ".",
+        getUniquePath(reflection),
+        (item) => (
+            <a href={context.urlTo(item)} class={classNames({ deprecated: item.isDeprecated() })}>
+                {item.name}
+            </a>
+        ),
+    );
 
     return <>{name}</>;
 }

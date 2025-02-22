@@ -2,19 +2,21 @@ import * as Path from "path";
 
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
-import {
-    deriveRootDir,
-    discoverInParentDir,
-    discoverPackageJson,
-} from "../../utils/fs.js";
-import { nicePath } from "../../utils/paths.js";
-import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
-import { join } from "path";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import type { GlobString } from "#utils";
+import {
+    discoverInParentDir,
+    discoverPackageJson,
+    type EntryPointStrategy,
+    getCommonDirectory,
+    MinimalSourceFile,
+    nicePath,
+    Option,
+    readFile,
+} from "#node-utils";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -28,7 +30,7 @@ export class PackagePlugin extends ConverterComponent {
     accessor entryPointStrategy!: EntryPointStrategy;
 
     @Option("entryPoints")
-    accessor entryPoints!: string[];
+    accessor entryPoints!: GlobString[];
 
     @Option("includeVersion")
     accessor includeVersion!: boolean;
@@ -76,14 +78,8 @@ export class PackagePlugin extends ConverterComponent {
         this.readmeContents = undefined;
         this.packageJson = undefined;
 
-        const entryFiles =
-            this.entryPointStrategy === EntryPointStrategy.Packages
-                ? this.entryPoints.map((d) => join(d, "package.json"))
-                : this.entryPoints;
-
-        const dirName =
-            this.application.options.packageDir ??
-            Path.resolve(deriveRootDir(entryFiles));
+        const dirName = this.application.options.packageDir ??
+            Path.resolve(getCommonDirectory(this.entryPoints.map(g => `${g}/`)));
 
         this.application.logger.verbose(
             `Begin readme.md/package.json search at ${nicePath(dirName)}`,

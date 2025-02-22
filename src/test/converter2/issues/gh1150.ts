@@ -4,9 +4,8 @@
 export type PopFront<T extends any[]> = ((...args: T) => any) extends (
     a: any,
     ...r: infer R
-) => any
-    ? R
-    : never;
+) => any ? R :
+    never;
 
 export type IntersectFirst<T extends any[], R = {}> = {
     0: R;

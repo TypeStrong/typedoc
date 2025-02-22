@@ -1,39 +1,30 @@
-export { Options, Option } from "./options.js";
+export { CommentStyle, EmitStrategy, ParameterHint, ParameterType } from "./declaration.js";
+export { Option, Options } from "./options.js";
 export type { OptionsReader } from "./options.js";
-export {
-    ArgumentsReader,
-    PackageJsonReader,
-    TypeDocReader,
-    TSConfigReader,
-} from "./readers/index.js";
-export {
-    CommentStyle,
-    EmitStrategy,
-    ParameterType,
-    ParameterHint,
-} from "./declaration.js";
+export { ArgumentsReader, PackageJsonReader, TSConfigReader, TypeDocReader } from "./readers/index.js";
 
 export type {
-    TypeDocOptions,
-    TypeDocOptionMap,
-    ValidationOptions,
-    KeyToDeclaration,
+    ArrayDeclarationOption,
+    BooleanDeclarationOption,
     DeclarationOption,
     DeclarationOptionBase,
-    StringDeclarationOption,
-    NumberDeclarationOption,
-    BooleanDeclarationOption,
-    ArrayDeclarationOption,
-    MixedDeclarationOption,
-    ObjectDeclarationOption,
-    MapDeclarationOption,
-    FlagsDeclarationOption,
     DeclarationOptionToOptionType,
-    TypeDocOptionValues,
-    ParameterTypeToOptionTypeMap,
-    ManuallyValidatedOption,
+    FlagsDeclarationOption,
+    GlobArrayDeclarationOption,
     JsDocCompatibility,
+    KeyToDeclaration,
+    ManuallyValidatedOption,
+    MapDeclarationOption,
+    MixedDeclarationOption,
+    NumberDeclarationOption,
+    ObjectDeclarationOption,
     OutputSpecification,
+    ParameterTypeToOptionTypeMap,
+    StringDeclarationOption,
+    TypeDocOptionMap,
+    TypeDocOptions,
+    TypeDocOptionValues,
+    ValidationOptions,
 } from "./declaration.js";
 
 export * as OptionDefaults from "./defaults.js";

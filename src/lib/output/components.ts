@@ -1,12 +1,9 @@
 import * as Path from "path";
 
 import { AbstractComponent } from "../utils/component.js";
-import type {
-    ProjectReflection,
-    Reflection,
-} from "../models/reflections/index.js";
+import type { ProjectReflection, Reflection } from "../models/reflections/index.js";
 import type { Renderer } from "./renderer.js";
-import { RendererEvent, PageEvent } from "./events.js";
+import { PageEvent, RendererEvent } from "./events.js";
 import { Option } from "../utils/index.js";
 
 export abstract class RendererComponent extends AbstractComponent<
@@ -53,9 +50,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
         super(owner);
         this.owner.on(RendererEvent.BEGIN, this.onBeginRenderer.bind(this));
         this.owner.on(PageEvent.BEGIN, this.onBeginPage.bind(this));
-        this.owner.on(RendererEvent.END, () =>
-            this.absoluteToRelativePathMap.clear(),
-        );
+        this.owner.on(RendererEvent.END, () => this.absoluteToRelativePathMap.clear());
     }
 
     private absoluteToRelativePathMap = new Map<string, string>();

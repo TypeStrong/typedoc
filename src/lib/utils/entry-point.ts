@@ -2,23 +2,11 @@ import { join, relative, resolve } from "path";
 import ts from "typescript";
 import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
-import {
-    createMinimatch,
-    matchesAny,
-    nicePath,
-    normalizePath,
-} from "./paths.js";
+import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
 import type { Logger } from "./loggers.js";
 import type { Options } from "./options/index.js";
-import {
-    deriveRootDir,
-    discoverPackageJson,
-    getCommonDirectory,
-    glob,
-    inferPackageEntryPointPaths,
-    isDir,
-} from "./fs.js";
-import { assertNever } from "./general.js";
+import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
+import { assertNever, type GlobString } from "#utils";
 
 /**
  * Defines how entry points are interpreted.
@@ -46,8 +34,7 @@ export const EntryPointStrategy = {
     Merge: "merge",
 } as const;
 
-export type EntryPointStrategy =
-    (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
+export type EntryPointStrategy = (typeof EntryPointStrategy)[keyof typeof EntryPointStrategy];
 
 export interface DocumentationEntryPoint {
     displayName: string;
@@ -83,8 +70,7 @@ export function inferEntryPoints(logger: Logger, options: Options) {
     const jsToTsSource = new Map<string, string>();
     for (const program of programs) {
         const opts = program.getCompilerOptions();
-        const rootDir =
-            opts.rootDir || getCommonDirectory(program.getRootFileNames());
+        const rootDir = opts.rootDir || getCommonDirectory(program.getRootFileNames());
         const outDir = opts.outDir || rootDir;
 
         for (const tsFile of program.getRootFileNames()) {
@@ -206,7 +192,7 @@ export function getDocumentEntryPoints(
         options,
         supportedFileRegex,
     );
-    const baseDir = options.getValue("basePath") || deriveRootDir(expanded);
+    const baseDir = options.getValue("basePath") || getCommonDirectory(expanded);
     return expanded.map((path) => {
         return {
             displayName: relative(baseDir, path).replace(/\.[^.]+$/, ""),
@@ -268,9 +254,9 @@ export function getWatchEntryPoints(
 export function getPackageDirectories(
     logger: Logger,
     options: Options,
-    packageGlobPaths: string[],
+    packageGlobPaths: GlobString[],
 ) {
-    const exclude = createMinimatch(options.getValue("exclude"));
+    const exclude = new MinimatchSet(options.getValue("exclude"));
     const rootDir = deriveRootDir(packageGlobPaths);
 
     // packages arguments are workspace tree roots, or glob patterns
@@ -295,12 +281,12 @@ function getEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
-    const baseDir = options.getValue("basePath") || deriveRootDir(inputFiles);
+    const baseDir = options.getValue("basePath") || getCommonDirectory(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
     let expandSuggestion = true;
 
     entryLoop: for (const fileOrDir of inputFiles.map(normalizePath)) {
-        const toCheck = [fileOrDir];
+        const toCheck: string[] = [fileOrDir];
         if (!/\.([cm][tj]s|[tj]sx?)$/.test(fileOrDir)) {
             toCheck.push(
                 `${fileOrDir}/index.ts`,
@@ -347,10 +333,9 @@ export function getExpandedEntryPointsForPaths(
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
     const compilerOptions = options.getCompilerOptions();
-    const supportedFileRegex =
-        compilerOptions.allowJs || compilerOptions.checkJs
-            ? /\.([cm][tj]s|[tj]sx?)$/
-            : /\.([cm]ts|tsx?)$/;
+    const supportedFileRegex = compilerOptions.allowJs || compilerOptions.checkJs
+        ? /\.([cm][tj]s|[tj]sx?)$/
+        : /\.([cm]ts|tsx?)$/;
 
     return getEntryPointsForPaths(
         logger,
@@ -360,24 +345,27 @@ export function getExpandedEntryPointsForPaths(
     );
 }
 
-function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
-    const excludePatterns = createMinimatch(exclude);
+function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger) {
+    const excludePatterns = new MinimatchSet(exclude);
 
-    const base = deriveRootDir(inputFiles);
-    const result = inputFiles.flatMap((entry) => {
+    const base = deriveRootDir(globs);
+    const result = globs.flatMap((entry) => {
         const result = glob(entry, base, {
             includeDirectories: true,
             followSymlinks: true,
         });
 
         const filtered = result.filter(
-            (file) => file === entry || !matchesAny(excludePatterns, file),
+            (file) => file === entry || !excludePatterns.matchesAny(file),
         );
 
         if (result.length === 0) {
             logger.warn(
                 logger.i18n.glob_0_did_not_match_any_files(nicePath(entry)),
             );
+            if (entry.includes("\\") && !entry.includes("/")) {
+                logger.info(logger.i18n.glob_should_use_posix_slash());
+            }
         } else if (filtered.length === 0) {
             logger.warn(
                 logger.i18n.entry_point_0_did_not_match_any_files_after_exclude(
@@ -386,9 +374,11 @@ function expandGlobs(inputFiles: string[], exclude: string[], logger: Logger) {
             );
         } else if (filtered.length !== 1) {
             logger.verbose(
-                `Expanded ${nicePath(entry)} to:\n\t${filtered
-                    .map(nicePath)
-                    .join("\n\t")}`,
+                `Expanded ${nicePath(entry)} to:\n\t${
+                    filtered
+                        .map(nicePath)
+                        .join("\n\t")
+                }`,
             );
         }
 
@@ -403,20 +393,19 @@ function getEntryPrograms(
     logger: Logger,
     options: Options,
 ) {
-    const noTsConfigFound =
-        options.getFileNames().length === 0 &&
+    const noTsConfigFound = options.getFileNames().length === 0 &&
         options.getProjectReferences().length === 0;
 
     const rootProgram = noTsConfigFound
         ? ts.createProgram({
-              rootNames: inputFiles,
-              options: options.getCompilerOptions(),
-          })
+            rootNames: inputFiles,
+            options: options.getCompilerOptions(),
+        })
         : ts.createProgram({
-              rootNames: options.getFileNames(),
-              options: options.getCompilerOptions(),
-              projectReferences: options.getProjectReferences(),
-          });
+            rootNames: options.getFileNames(),
+            options: options.getCompilerOptions(),
+            projectReferences: options.getProjectReferences(),
+        });
 
     const programs = [rootProgram];
     // This might be a solution style tsconfig, in which case we need to add a program for each
@@ -462,7 +451,7 @@ function expandInputFiles(
 ): string[] {
     const files: string[] = [];
 
-    const exclude = createMinimatch(options.getValue("exclude"));
+    const exclude = new MinimatchSet(options.getValue("exclude"));
 
     function add(file: string, entryPoint: boolean) {
         let stats: FS.Stats;
@@ -482,7 +471,7 @@ function expandInputFiles(
                 add(join(file, next), false);
             });
         } else if (supportedFile.test(file)) {
-            if (!entryPoint && matchesAny(exclude, file)) {
+            if (!entryPoint && exclude.matchesAny(file)) {
                 return;
             }
             files.push(normalizePath(file));

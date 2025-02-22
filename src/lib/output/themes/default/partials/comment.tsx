@@ -1,7 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
-import { anchorIcon } from "./anchor-icon.js";
+import { anchorIcon, anchorLink } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
@@ -14,7 +14,7 @@ export function renderDisplayParts(
 
     return (
         <div class="tsd-comment tsd-typography">
-            <Raw html={markdown(parts)} />
+            <JSX.Raw html={markdown(parts)} />
         </div>
     );
 }
@@ -43,10 +43,9 @@ export function commentSummary(context: DefaultThemeRenderContext, props: Reflec
         return context.displayParts(props.comment.summary);
     }
 
-    const target =
-        (props.isDeclaration() || props.isParameter()) && props.type?.type === "reference"
-            ? props.type.reflection
-            : undefined;
+    const target = (props.isDeclaration() || props.isParameter()) && props.type?.type === "reference"
+        ? props.type.reflection
+        : undefined;
 
     if (target?.comment?.hasModifier("@expand") && target?.comment?.summary.some((part) => part.text)) {
         return context.displayParts(target.comment.summary);
@@ -64,8 +63,8 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
     const tags = props.kindOf(ReflectionKind.SomeSignature)
         ? props.comment.blockTags.filter(
-              (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
-          )
+            (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
+        )
         : props.comment.blockTags.filter((tag) => !tag.skipRendering && !skippedTags.includes(tag.tag));
 
     skipSave.forEach((skip, i) => (props.comment!.blockTags[i].skipRendering = skip));
@@ -85,11 +84,11 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                         <>
                             <div class={`tsd-tag-${item.tag.substring(1)}`}>
                                 <h4 class="tsd-anchor-link">
-                                    <a id={anchor} class="tsd-anchor"></a>
+                                    {anchorLink(anchor)}
                                     {name}
                                     {anchorIcon(context, anchor)}
                                 </h4>
-                                <Raw html={context.markdown(item.content)} />
+                                <JSX.Raw html={context.markdown(item.content)} />
                             </div>
                         </>
                     );

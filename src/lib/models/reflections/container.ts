@@ -1,19 +1,11 @@
-import {
-    Reflection,
-    type TraverseCallback,
-    TraverseProperty,
-} from "./abstract.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ReflectionCategory } from "../ReflectionCategory.js";
 import { ReflectionGroup } from "../ReflectionGroup.js";
 import type { ReflectionKind } from "./kind.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
 import type { DocumentReflection } from "./document.js";
 import type { DeclarationReflection } from "./declaration.js";
-import { removeIfPresent } from "../../utils/index.js";
+import { removeIfPresent } from "#utils";
 
 /**
  * @category Reflections
@@ -120,10 +112,9 @@ export abstract class ContainerReflection extends Reflection {
             documents: serializer.toObjectsOptional(this.documents),
             // If we only have one type of child, don't bother writing the duplicate info about
             // ordering with documents to the serialized file.
-            childrenIncludingDocuments:
-                this.children?.length && this.documents?.length
-                    ? this.childrenIncludingDocuments?.map((refl) => refl.id)
-                    : undefined,
+            childrenIncludingDocuments: this.children?.length && this.documents?.length
+                ? this.childrenIncludingDocuments?.map((refl) => refl.id)
+                : undefined,
             groups: serializer.toObjectsOptional(this.groups),
             categories: serializer.toObjectsOptional(this.categories),
         };
@@ -131,12 +122,8 @@ export abstract class ContainerReflection extends Reflection {
 
     override fromObject(de: Deserializer, obj: JSONOutput.ContainerReflection) {
         super.fromObject(de, obj);
-        this.children = de.reviveMany(obj.children, (child) =>
-            de.constructReflection(child),
-        );
-        this.documents = de.reviveMany(obj.documents, (child) =>
-            de.constructReflection(child),
-        );
+        this.children = de.reviveMany(obj.children, (child) => de.constructReflection(child));
+        this.documents = de.reviveMany(obj.documents, (child) => de.constructReflection(child));
 
         const byId = new Map<
             number,

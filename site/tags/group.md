@@ -64,6 +64,6 @@ reflection.
 
 ## See Also
 
--   The [`@category`](category.md) tag
--   The [`--searchGroupBoosts`](../options/output.md#searchgroupboosts) option
--   The [`--navigation.includeGroups`](../options/output.md#navigation) option
+- The [`@category`](category.md) tag
+- The [`--searchGroupBoosts`](../options/output.md#searchgroupboosts) option
+- The [`--navigation.includeGroups`](../options/output.md#navigation) option

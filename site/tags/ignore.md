@@ -20,6 +20,6 @@ export class Visibility {
 
 ## See Also
 
--   The [`@ignore`](ignore.md) tag
--   The [`@internal`](internal.md) tag
--   The [JSDoc `@ignore`](https://jsdoc.app/tags-ignore.html) tag
+- The [`@ignore`](ignore.md) tag
+- The [`@internal`](internal.md) tag
+- The [JSDoc `@ignore`](https://jsdoc.app/tags-ignore.html) tag
