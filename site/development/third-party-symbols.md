@@ -65,7 +65,10 @@ Plugins can add support for linking to third party sites by calling
 
 If the given symbol is unknown, or does not appear in the documentation site,
 the resolver may return `undefined` and no link will be rendered unless provided
-by another resolver.
+by another resolver. The string `"#"` may also be returned to indicate that
+TypeDoc should mark the symbol as externally resolved, but not produce a link
+to it. This can be useful if you want to keep the link for usage in VSCode,
+but not include it in the documentation.
 
 The following plugin will resolve a few types from React to links on the
 official React documentation site.

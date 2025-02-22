@@ -665,6 +665,7 @@ export class Application extends AbstractComponent<
                 project,
                 this.logger,
                 this.options.getValue("requiredToBeDocumented"),
+                this.options.getValue("intentionallyNotDocumented"),
             );
         }
 

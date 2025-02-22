@@ -102,6 +102,8 @@ export = {
         `{0}, defined in {1}, is referenced by {2} but not included in the documentation`,
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation:
         `{0} ({1}), defined in {2}, does not have any documentation`,
+    invalid_intentionally_not_documented_names_0:
+        "The following qualified reflection names were marked as intentionally not documented, but were either not referenced in the documentation, or were documented:\n\t{0}",
     invalid_intentionally_not_exported_symbols_0:
         "The following symbols were marked as intentionally not exported, but were either not referenced in the documentation, or were exported:\n\t{0}",
     reflection_0_has_unused_mergeModuleWith_tag: "{0} has a @mergeModuleWith tag which could not be resolved",
@@ -339,6 +341,8 @@ export = {
         "If set and no @summary tag is specified, TypeDoc will use the first paragraph of comments as the short summary in the module/namespace view",
     help_jsDocCompatibility:
         "Sets compatibility options for comment parsing that increase similarity with JSDoc comments",
+    help_suppressCommentWarningsInDeclarationFiles:
+        "Prevents warnings due to unspecified tags from being reported in comments within .d.ts files.",
     help_commentStyle: "Determines how TypeDoc searches for comments",
     help_useTsLinkResolution:
         "Use TypeScript's link resolution when determining where @link tags point. This only applies to JSDoc style comments",
@@ -371,6 +375,8 @@ export = {
         "If set, warnings emitted during validation will be treated as errors. This option cannot be used to disable treatWarningsAsErrors for validation warnings",
     help_intentionallyNotExported: "A list of types which should not produce 'referenced but not documented' warnings",
     help_requiredToBeDocumented: "A list of reflection kinds that must be documented",
+    help_intentionallyNotDocumented:
+        "A list of full reflection names which should not produce warnings about not being documented",
     help_validation: "Specify which validation steps TypeDoc should perform on your generated documentation",
 
     // ==================================================================
@@ -396,7 +402,7 @@ export = {
     hostedBaseUrl_must_start_with_http: "hostedBaseUrl must start with http:// or https://",
     useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl:
         "The useHostedBaseUrlForAbsoluteLinks option requires that hostedBaseUrl be set",
-    favicon_must_have_one_of_the_following_extensions_0: "Favicon must have on of the following extensions: {0}",
+    favicon_must_have_one_of_the_following_extensions_0: "Favicon must have one of the following extensions: {0}",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object",
     option_0_must_be_a_function: "The '{0}' option must be a function",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values`,

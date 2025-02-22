@@ -18,6 +18,26 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.8 (2025-02-21)
+
+### Features
+
+- The `visibilityFilter` option now supports individual signatures, #2846.
+- The `favicon` option may now be given a link starting with `https?://` instead of a path, #2851.
+- TypeDoc now supports specifying `#` as the link in `externalSymbolLinkMappings` to indicate the type should not be linked to, #2853.
+
+### Bug Fixes
+
+- Fixed an issue where unrecognized languages would incorrectly be listed in the list of languages with translations, #2852.
+- Unresolved external type references will no longer incorrectly linked to `undefined`, #2854.
+
+### Thanks!
+
+- @pjeby
+- @XeroAlpha
+
+## v0.27.7 (2025-02-09)
+
 ### Features
 
 - `@includeCode` and `@inline` can now inject parts of files using region

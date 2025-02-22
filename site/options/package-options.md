@@ -144,6 +144,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`treatValidationWarningsAsErrors`](validation.md#treatvalidationwarningsaserrors) | Root     |                                                                                                                                        |
 | [`intentionallyNotExported`](validation.md#intentionallynotexported)               | Both     |                                                                                                                                        |
 | [`requiredToBeDocumented`](validation.md#requiredtobedocumented)                   | Both     |                                                                                                                                        |
+| [`intentionallyNotDocumented`](validation.md#intentionallynotdocumented)           | Both     |                                                                                                                                        |
 
 ## Other Options
 

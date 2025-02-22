@@ -123,3 +123,15 @@ typedoc.json:
     ]
 }
 ```
+
+## intentionallyNotDocumented
+
+Used to selectively ignore undocumented fields, used by `validation.notDocumented`.
+This should include the qualified name printed when a member is not documented if it cannot be
+or should not be documented normally.
+
+```json
+{
+    "intentionallyNotDocumented": ["Namespace.Class.prop"]
+}
+```

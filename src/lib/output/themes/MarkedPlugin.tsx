@@ -182,11 +182,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                 if (useHtml) {
                                     const text = part.tag === "@linkcode" ? `<code>${part.text}</code>` : part.text;
                                     result.push(
-                                        `<a href="${url}"${kindClass ? ` class="${kindClass}"` : ""}>${text}</a>`,
+                                        url
+                                            ? `<a href="${url}"${kindClass ? ` class="${kindClass}"` : ""}>${text}</a>`
+                                            : part.text,
                                     );
                                 } else {
                                     const text = part.tag === "@linkcode" ? "`" + part.text + "`" : part.text;
-                                    result.push(`[${text}](${url})`);
+                                    result.push(url ? `[${text}](${url})` : text);
                                 }
                             } else {
                                 result.push(part.text);
@@ -339,7 +341,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 // that becomes a real thing.
                 if (
                     this.markdownLinkExternal &&
-                    /https?:\/\//i.test(href) &&
+                    /^https?:\/\//i.test(href) &&
                     !(href + "/").startsWith(this.hostedBaseUrl)
                 ) {
                     token.attrSet("target", "_blank");
