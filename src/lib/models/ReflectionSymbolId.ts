@@ -1,11 +1,6 @@
-import { existsSync } from "fs";
-import { isAbsolute, join, relative, resolve } from "path";
-import ts from "typescript";
-import type { JSONOutput, Serializer } from "#serialization";
-import { findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath, readFile } from "#node-utils";
-import { Validation } from "#utils";
-import type { DeclarationReference } from "#utils";
-import { splitUnquotedString } from "./reflections/utils.js";
+import type { JSONOutput } from "#serialization";
+import { type DeclarationReference, type NormalizedPath } from "#utils";
+import { splitUnquotedString } from "./utils.js";
 
 /**
  * See {@link ReflectionSymbolId}
@@ -14,74 +9,70 @@ export type ReflectionSymbolIdString = string & {
     readonly __reflectionSymbolId: unique symbol;
 };
 
-let transientCount = 0;
-const transientIds = new WeakMap<ts.Symbol, number>();
-
 /**
  * This exists so that TypeDoc can store a unique identifier for a `ts.Symbol` without
  * keeping a reference to the `ts.Symbol` itself. This identifier should be stable across
  * runs so long as the symbol is exported from the same file.
  */
 export class ReflectionSymbolId {
-    readonly fileName: string;
+    /**
+     * This will only be used if we somehow cannot find a package.json file for
+     * source code. This is very unlikely, but if it occurs then the {@link packageName}
+     * will be set to this string, and {@link packagePath} will have the absolute path
+     * to the source file.
+     */
+    static readonly UNKNOWN_PACKAGE = "<unknown>";
+
+    /**
+     * The name of the package which this symbol ID resides within.
+     */
+    readonly packageName: string;
+
+    /**
+     * Path to the source file containing this symbol.
+     * Note that this is NOT an absolute path, but a package-relative path according
+     * to the directory containing package.json for the package name.
+     */
+    readonly packagePath: NormalizedPath;
+
+    /**
+     * Qualified name of this symbol within the source file.
+     */
     readonly qualifiedName: string;
+
     /**
      * Note: This is **not** serialized. It exists for sorting by declaration order, but
      * should not be needed when deserializing from JSON.
      * Will be set to `Infinity` if the ID was deserialized from JSON.
      */
-    pos: number;
+    pos: number = Infinity;
+
     /**
      * Note: This is **not** serialized. It exists to support detection of the differences between
      * symbols which share declarations, but are instantiated with different type parameters.
      * This will be `NaN` if the symbol reference is not transient.
      * Note: This can only be non-NaN if {@link pos} is finite.
      */
-    transientId: number;
+    transientId: number = NaN;
 
-    constructor(symbol: ts.Symbol, declaration?: ts.Declaration);
-    constructor(json: JSONOutput.ReflectionSymbolId);
-    constructor(
-        symbol: ts.Symbol | JSONOutput.ReflectionSymbolId,
-        declaration?: ts.Declaration,
-    ) {
-        if ("name" in symbol) {
-            declaration ??= symbol.declarations?.[0];
-            this.fileName = normalizePath(
-                declaration?.getSourceFile().fileName ?? "",
-            );
-            if (symbol.declarations?.some(ts.isSourceFile)) {
-                this.qualifiedName = "";
-            } else {
-                this.qualifiedName = getQualifiedName(symbol, symbol.name);
-            }
-            this.pos = declaration?.getStart() ?? Infinity;
-            if (symbol.flags & ts.SymbolFlags.Transient) {
-                this.transientId = transientIds.get(symbol) ?? ++transientCount;
-                transientIds.set(symbol, this.transientId);
-            } else {
-                this.transientId = NaN;
-            }
-        } else {
-            this.fileName = symbol.sourceFileName;
-            this.qualifiedName = symbol.qualifiedName;
-            this.pos = Infinity;
-            this.transientId = NaN;
-        }
+    constructor(json: JSONOutput.ReflectionSymbolId) {
+        this.packageName = json.packageName;
+        this.packagePath = json.packagePath;
+        this.qualifiedName = json.qualifiedName;
     }
 
     getStableKey(): ReflectionSymbolIdString {
         if (Number.isFinite(this.pos)) {
-            return `${this.fileName}\0${this.qualifiedName}\0${this.pos}\0${this.transientId}` as ReflectionSymbolIdString;
+            return `${this.packageName}\0${this.packagePath}\0${this.qualifiedName}\0${this.pos}\0${this.transientId}` as ReflectionSymbolIdString;
         } else {
-            return `${this.fileName}\0${this.qualifiedName}` as ReflectionSymbolIdString;
+            return `${this.packageName}\0${this.packagePath}\0${this.qualifiedName}` as ReflectionSymbolIdString;
         }
     }
 
     toDeclarationReference(): DeclarationReference {
         return {
             resolutionStart: "global",
-            moduleSource: findPackageForPath(this.fileName),
+            moduleSource: this.packageName,
             symbolReference: {
                 path: splitUnquotedString(this.qualifiedName, ".").map(
                     (path) => ({
@@ -93,84 +84,11 @@ export class ReflectionSymbolId {
         };
     }
 
-    toObject(serializer: Serializer) {
-        const sourceFileName = isAbsolute(this.fileName)
-            ? normalizePath(
-                relative(
-                    serializer.projectRoot,
-                    resolveDeclarationMaps(this.fileName),
-                ),
-            )
-            : this.fileName;
-
+    toObject(): JSONOutput.ReflectionSymbolId {
         return {
-            sourceFileName,
+            packageName: this.packageName,
+            packagePath: this.packagePath,
             qualifiedName: this.qualifiedName,
         };
-    }
-}
-
-const declarationMapCache = new Map<string, string>();
-
-function resolveDeclarationMaps(file: string): string {
-    if (!/\.d\.[cm]?ts$/.test(file)) return file;
-    if (declarationMapCache.has(file)) return declarationMapCache.get(file)!;
-
-    const mapFile = file + ".map";
-    if (!existsSync(mapFile)) return file;
-
-    let sourceMap: unknown;
-    try {
-        sourceMap = JSON.parse(readFile(mapFile)) as unknown;
-    } catch {
-        return file;
-    }
-
-    if (
-        Validation.validate(
-            {
-                file: String,
-                sourceRoot: Validation.optional(String),
-                sources: [Array, String],
-            },
-            sourceMap,
-        )
-    ) {
-        // There's a pretty large assumption in here that we only have
-        // 1 source file per js file. This is a pretty standard typescript approach,
-        // but people might do interesting things with transpilation that could break this.
-        let source = sourceMap.sources[0];
-
-        // If we have a sourceRoot, trim any leading slash from the source, and join them
-        // Similar to how it's done at https://github.com/mozilla/source-map/blob/58819f09018d56ef84dc41ba9c93f554e0645169/lib/util.js#L412
-        if (sourceMap.sourceRoot !== undefined) {
-            source = source.replace(/^\//, "");
-            source = join(sourceMap.sourceRoot, source);
-        }
-
-        const result = resolve(mapFile, "..", source);
-        declarationMapCache.set(file, result);
-        return result;
-    }
-
-    return file;
-}
-
-// See also: inferEntryPoints in entry-point.ts
-export function addInferredDeclarationMapPaths(
-    opts: ts.CompilerOptions,
-    files: readonly string[],
-) {
-    const rootDir = opts.rootDir || getCommonDirectory(files);
-    const declDir = opts.declarationDir || opts.outDir || rootDir;
-
-    for (const file of files) {
-        const mapFile = normalizePath(
-            resolve(declDir, relative(rootDir, file)).replace(
-                /\.([cm]?[tj]s)x?$/,
-                ".d.$1",
-            ),
-        );
-        declarationMapCache.set(mapFile, file);
     }
 }

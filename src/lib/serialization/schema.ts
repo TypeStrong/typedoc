@@ -32,6 +32,8 @@
 import type * as M from "#models";
 import type { IfInternal, NormalizedPath } from "#utils";
 
+export const SCHEMA_VERSION = "2.0";
+
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
  */
@@ -75,7 +77,8 @@ type S<T, K extends keyof T> = {
 };
 
 export interface ReflectionSymbolId {
-    sourceFileName: string;
+    packageName: string;
+    packagePath: NormalizedPath;
     qualifiedName: string;
 }
 
@@ -140,8 +143,6 @@ export interface SignatureReflection extends
         | "implementationOf"
     >
 {
-    /** @deprecated in 0.26, replaced with {@link typeParameters} */
-    typeParameter?: ModelToObject<M.TypeParameterReflection[]>;
 }
 
 /** @category Reflections */
@@ -159,7 +160,6 @@ export interface DeclarationReflection extends
         | "variant"
         | "packageVersion"
         | "sources"
-        | "relevanceBoost"
         | "type"
         | "signatures"
         | "indexSignatures"
@@ -177,8 +177,6 @@ export interface DeclarationReflection extends
         | "readme"
     >
 {
-    /** @deprecated moved to {@link indexSignatures} with 0.26. */
-    indexSignature?: SignatureReflection;
 }
 
 /** @category Reflections */
@@ -198,6 +196,11 @@ export interface ProjectReflection extends
         "variant" | "packageName" | "packageVersion" | "readme"
     >
 {
+    /**
+     * Used to determine if TypeDoc supports deserializing the specified json
+     * See {@link SCHEMA_VERSION} for the current version.
+     */
+    schemaVersion: string;
     symbolIdMap:
         | Record<number, ReflectionSymbolId>
         | IfInternal<undefined, never>;

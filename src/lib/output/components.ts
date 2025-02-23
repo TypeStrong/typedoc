@@ -1,7 +1,7 @@
 import * as Path from "path";
 
 import { AbstractComponent } from "../utils/component.js";
-import type { ProjectReflection, Reflection } from "../models/reflections/index.js";
+import type { ProjectReflection, Reflection } from "../models/index.js";
 import type { Renderer } from "./renderer.js";
 import { PageEvent, RendererEvent } from "./events.js";
 import { Option } from "../utils/index.js";

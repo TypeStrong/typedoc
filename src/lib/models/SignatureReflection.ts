@@ -1,11 +1,11 @@
-import { type ReferenceType, ReflectionType, type SomeType } from "../types.js";
-import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
-import type { ParameterReflection } from "./parameter.js";
-import type { TypeParameterReflection } from "./type-parameter.js";
-import type { DeclarationReflection } from "./declaration.js";
+import { type ReferenceType, ReflectionType, type SomeType } from "./types.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./Reflection.js";
+import type { ParameterReflection } from "./ParameterReflection.js";
+import type { TypeParameterReflection } from "./TypeParameterReflection.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
 import type { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import { SourceReference } from "../SourceReference.js";
+import { SourceReference } from "./SourceReference.js";
 
 /**
  * @category Reflections
@@ -137,13 +137,7 @@ export class SignatureReflection extends Reflection {
             obj.sources,
             (t) => new SourceReference(t.fileName, t.line, t.character),
         );
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
-        if (obj.typeParameter) {
-            // eslint-disable-next-line @typescript-eslint/no-deprecated
-            this.typeParameters = de.reviveMany(obj.typeParameter, (t) => de.constructReflection(t));
-        } else {
-            this.typeParameters = de.reviveMany(obj.typeParameters, (t) => de.constructReflection(t));
-        }
+        this.typeParameters = de.reviveMany(obj.typeParameters, (t) => de.constructReflection(t));
         this.parameters = de.reviveMany(obj.parameters, (t) => de.constructReflection(t));
         this.type = de.reviveType(obj.type);
         this.overwrites = de.reviveType(obj.overwrites);

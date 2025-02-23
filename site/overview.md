@@ -19,8 +19,9 @@ the supported version range will generally not include versions not supported by
 
 | TypeDoc Version | TypeScript Version | Status             |
 | --------------- | ------------------ | ------------------ |
-| 0.27            | 5.0 through 5.7    | ✅ Maintained      |
-| 0.26            | 4.6 through 5.6    | ⚠️ Security Updates |
+| 0.28            | 5.1 through 5.8    | ✅ Maintained      |
+| 0.27            | 5.0 through 5.7    | ⚠️ Security Updates |
+| 0.26            | 4.6 through 5.6    | ❌ Unmaintained    |
 | 0.25            | 4.6 through 5.4    | ❌ Unmaintained    |
 | 0.24            | 4.6 through 5.1    | ❌ Unmaintained    |
 | 0.23            | 4.6 through 5.0    | ❌ Unmaintained    |

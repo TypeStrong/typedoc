@@ -4,7 +4,7 @@ import ts from "typescript";
 import { Deserializer, type JSONOutput, Serializer } from "./serialization/index.js";
 import { Converter } from "./converter/index.js";
 import { Renderer } from "./output/renderer.js";
-import type { ProjectReflection } from "./models/index.js";
+import { type ProjectReflection, ReflectionSymbolId } from "./models/index.js";
 import {
     AbstractComponent,
     FancyConsoleLogger,
@@ -35,7 +35,6 @@ import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
 import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
-import { addInferredDeclarationMapPaths } from "./models/ReflectionSymbolId.js";
 import { Internationalization } from "./internationalization/internationalization.js";
 import { FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
@@ -45,6 +44,7 @@ import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
 import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
+import { addInferredDeclarationMapPaths } from "./converter/factories/symbol-id.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -670,11 +670,16 @@ export class Application extends AbstractComponent<
         }
 
         if (checks.notDocumented) {
+            const packagesRequiringDocumentation = this.options.isSet("packagesRequiringDocumentation")
+                ? this.options.getValue("packagesRequiringDocumentation")
+                : [project.packageName ?? ReflectionSymbolId.UNKNOWN_PACKAGE];
+
             validateDocumentation(
                 project,
                 this.logger,
                 this.options.getValue("requiredToBeDocumented"),
                 this.options.getValue("intentionallyNotDocumented"),
+                packagesRequiringDocumentation,
             );
         }
 

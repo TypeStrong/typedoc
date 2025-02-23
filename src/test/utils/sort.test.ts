@@ -8,10 +8,11 @@ import {
     ReflectionKind,
     ReflectionSymbolId,
 } from "../../lib/models/index.js";
-import { resetReflectionID } from "../../lib/models/reflections/abstract.js";
+import { resetReflectionID } from "../../lib/models/Reflection.js";
 import { Options } from "../../lib/utils/index.js";
 import { getSortFunction, type SortStrategy } from "../../lib/utils/sort.js";
 import { FileRegistry } from "../../lib/models/FileRegistry.js";
+import type { NormalizedPath } from "#utils";
 
 describe("Sort", () => {
     function sortReflections(
@@ -251,17 +252,20 @@ describe("Sort", () => {
 
     it("source-order should sort by file, then by position in file", () => {
         const aId = new ReflectionSymbolId({
-            sourceFileName: "a.ts",
+            packageName: "typedoc",
+            packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "a",
         });
         aId.pos = 1;
         const bId = new ReflectionSymbolId({
-            sourceFileName: "a.ts",
+            packageName: "typedoc",
+            packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "b",
         });
         bId.pos = 2;
         const cId = new ReflectionSymbolId({
-            sourceFileName: "b.ts",
+            packageName: "typedoc",
+            packagePath: "b.ts" as NormalizedPath,
             qualifiedName: "c",
         });
         cId.pos = 0;
@@ -287,12 +291,14 @@ describe("Sort", () => {
 
     it("enum-member-source-order should do nothing if not an enum member", () => {
         const bId = new ReflectionSymbolId({
-            sourceFileName: "a.ts",
+            packageName: "typedoc",
+            packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "b",
         });
         bId.pos = 2;
         const cId = new ReflectionSymbolId({
-            sourceFileName: "a.ts",
+            packageName: "typedoc",
+            packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "c",
         });
         cId.pos = 1;

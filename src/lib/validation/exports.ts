@@ -1,6 +1,5 @@
 import { ok } from "assert";
 import type { ProjectReflection, ReferenceType } from "../models/index.js";
-import { nicePath } from "../utils/paths.js";
 import { discoverAllReferenceTypes } from "../utils/reflections.js";
 import { i18n, type Logger } from "#utils";
 
@@ -45,7 +44,7 @@ function makeIntentionallyExportedHelper(
             for (const [index, [file, name]] of processed.entries()) {
                 if (
                     typeName === name &&
-                    type.symbolId!.fileName.endsWith(file)
+                    `${type.symbolId!.packageName}/${type.symbolId!.packagePath}`.endsWith(file)
                 ) {
                     used.add(index);
                     return true;
@@ -88,7 +87,7 @@ export function validateExports(
             logger.warn(
                 i18n.type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs(
                     type.qualifiedName,
-                    nicePath(type.symbolId!.fileName),
+                    `${type.symbolId!.packageName}/${type.symbolId!.packagePath}`,
                     owner.getFriendlyFullName(),
                 ),
             );

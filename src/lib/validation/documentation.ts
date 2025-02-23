@@ -6,13 +6,13 @@ import {
     ReflectionType,
 } from "../models/index.js";
 import { i18n, type Logger, removeFlag } from "#utils";
-import { nicePath } from "../utils/paths.js";
 
 export function validateDocumentation(
     project: ProjectReflection,
     logger: Logger,
     requiredToBeDocumented: readonly ReflectionKind.KindString[],
     intentionallyNotDocumented: readonly string[],
+    packagesRequiringDocumentation: readonly string[],
 ): void {
     let kinds = requiredToBeDocumented.reduce(
         (prev, cur) => prev | ReflectionKind[cur],
@@ -106,7 +106,7 @@ export function validateDocumentation(
                 ref.parent?.hasComment());
 
         if (!hasComment && symbolId) {
-            if (symbolId.fileName.includes("node_modules")) {
+            if (!packagesRequiringDocumentation.includes(symbolId.packageName)) {
                 continue;
             }
 
@@ -122,7 +122,7 @@ export function validateDocumentation(
                 i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
                     ref.getFriendlyFullName(),
                     ReflectionKind[ref.kind],
-                    nicePath(symbolId.fileName),
+                    `${symbolId.packageName}/${symbolId.packagePath}`,
                 ),
             );
         }

@@ -1,4 +1,4 @@
-import type { ProjectReflection } from "../models/reflections/project.js";
+import type { ProjectReflection } from "../models/ProjectReflection.js";
 import type { DeclarationReflection, DocumentReflection, ReflectionKind } from "../models/index.js";
 import type { PageDefinition, PageKind } from "./router.js";
 
@@ -136,15 +136,8 @@ export class PageEvent<out Model = unknown> {
      */
     static readonly END = "endPage";
 
-    constructor(model: Model);
-    /** @deprecated use the single constructor arg instead, will be removed in 0.27 */
-    constructor(name: string, model: Model);
-    constructor(nameOrModel: string | Model, model?: Model) {
-        if (typeof nameOrModel === "string") {
-            this.model = model!;
-        } else {
-            this.model = nameOrModel;
-        }
+    constructor(model: Model) {
+        this.model = model;
     }
 }
 

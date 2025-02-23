@@ -34,7 +34,7 @@ import {
     UnknownType,
 } from "#models";
 import { assert, insertPrioritySorted, type Logger, type NormalizedPath } from "#utils";
-import type { JSONOutput } from "./index.js";
+import * as JSONOutput from "./schema.js";
 
 export interface DeserializerComponent {
     priority: number;
@@ -45,6 +45,8 @@ export interface DeserializerComponent {
 export interface Deserializable<T> {
     fromObject(d: Deserializer, o: T): void;
 }
+
+const supportedSchemaVersions = [JSONOutput.SCHEMA_VERSION];
 
 /**
  * Deserializes TypeDoc's JSON output back to {@link Reflection} instances.
@@ -238,6 +240,15 @@ export class Deserializer {
             this.deferred.length === 0,
             "Deserializer.defer was called when not deserializing",
         );
+
+        if (!supportedSchemaVersions.includes(projectObj.schemaVersion)) {
+            throw new Error(
+                `Attempted to deserialize version "${projectObj.schemaVersion}" JSON, which is not supported. Supported versions: ${
+                    supportedSchemaVersions.join(", ")
+                }`,
+            );
+        }
+
         const project = new ProjectReflection(
             name || projectObj.name,
             options.registry,
@@ -296,6 +307,14 @@ export class Deserializer {
                 this.deferred.length === 0,
                 "Deserializer.defer was called when not deserializing",
             );
+
+            if (!supportedSchemaVersions.includes(proj.schemaVersion)) {
+                throw new Error(
+                    `Attempted to deserialize version "${proj.schemaVersion}" JSON, which is not supported. Supported versions: ${
+                        supportedSchemaVersions.join(", ")
+                    }`,
+                );
+            }
 
             const projModule = new DeclarationReflection(
                 proj.name,

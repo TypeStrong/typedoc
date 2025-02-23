@@ -8,7 +8,7 @@ import {
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
-} from "../../models/reflections/index.js";
+} from "../../models/index.js";
 import { ReferenceType, ReflectionType, type Type } from "../../models/types.js";
 import { filterMap, type TranslatedString, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
@@ -255,7 +255,7 @@ export class ImplementsPlugin extends ConverterComponent {
             return;
         }
 
-        const symbol = context.project.getSymbolFromReflection(
+        const symbol = context.getSymbolFromReflection(
             reflection.parent,
         );
         if (!symbol) {
@@ -497,7 +497,7 @@ function constructorInheritance(
 function findProperty(reflection: DeclarationReflection, parent: ts.Type) {
     return parent.getProperties().find((prop) => {
         return reflection.escapedName
-            ? prop.escapedName === reflection.escapedName
+            ? prop.escapedName === reflection.escapedName as ts.__String
             : prop.name === reflection.name;
     });
 }

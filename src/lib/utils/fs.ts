@@ -332,10 +332,10 @@ export function discoverPackageJson(
     );
 }
 
-// dir -> package name according to package.json in this or some parent dir
-const packageCache = new Map<string, string>();
+// dir -> package info
+const packageCache = new Map<string, [packageName: string, packageDir: string]>();
 
-export function findPackageForPath(sourcePath: string): string | undefined {
+export function findPackageForPath(sourcePath: string): readonly [packageName: string, packageDir: string] | undefined {
     // Attempt to decide package name from path if it contains "node_modules"
     let startIndex = sourcePath.lastIndexOf("node_modules/");
     if (startIndex !== -1) {
@@ -345,7 +345,8 @@ export function findPackageForPath(sourcePath: string): string | undefined {
         if (sourcePath[startIndex] === "@") {
             stopIndex = sourcePath.indexOf("/", stopIndex + 1);
         }
-        return sourcePath.substring(startIndex, stopIndex);
+        const packageName = sourcePath.substring(startIndex, stopIndex);
+        return [packageName, sourcePath.substring(0, stopIndex)];
     }
 
     const dir = dirname(sourcePath);
@@ -356,8 +357,8 @@ export function findPackageForPath(sourcePath: string): string | undefined {
 
     const packageJson = discoverPackageJson(dir);
     if (packageJson) {
-        packageCache.set(dir, packageJson.content.name);
-        return packageJson.content.name;
+        packageCache.set(dir, [packageJson.content.name, dirname(packageJson.file)]);
+        return [packageJson.content.name, dirname(packageJson.file)];
     }
 }
 

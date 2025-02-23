@@ -1,6 +1,6 @@
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import { Comment, type CommentDisplayPart } from "../Comment.js";
-import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
+import { Comment, type CommentDisplayPart } from "./Comment.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./Reflection.js";
 import { ReflectionKind } from "./kind.js";
 
 /**
@@ -67,7 +67,7 @@ export class DocumentReflection extends Reflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
-            content: Comment.serializeDisplayParts(serializer, this.content),
+            content: Comment.serializeDisplayParts(this.content),
             frontmatter: this.frontmatter,
             relevanceBoost: this.relevanceBoost,
             children: serializer.toObjectsOptional(this.children),

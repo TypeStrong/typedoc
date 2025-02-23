@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "exports",
     "variant": "project",
@@ -982,183 +983,228 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-assignment.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/exports/export-default.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-default.ts",
             "qualifiedName": ""
         },
         "3": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": ""
         },
         "4": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "add"
         },
         "5": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "add"
         },
         "6": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "x"
         },
         "7": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "y"
         },
         "8": {
-            "sourceFileName": "src/test/converter/exports/export-with-local.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-with-local.ts",
             "qualifiedName": "x"
         },
         "9": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": ""
         },
         "11": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453"
         },
         "12": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Module"
         },
         "13": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.TypedModule"
         },
         "14": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Member"
         },
         "15": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.TypedMember"
         },
         "16": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "GH1453.Foo"
         },
         "17": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": ""
         },
         "18": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
         "20": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "GH1453Helper"
         },
         "21": {
-            "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": ""
         },
         "22": {
-            "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": "abc"
         },
         "23": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-assignment.ts",
             "qualifiedName": "add"
         },
         "24": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-assignment.ts",
             "qualifiedName": "add"
         },
         "25": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-assignment.ts",
             "qualifiedName": "x"
         },
         "26": {
-            "sourceFileName": "src/test/converter/exports/export-assignment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-assignment.ts",
             "qualifiedName": "y"
         },
         "27": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "add"
         },
         "28": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "add"
         },
         "29": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "x"
         },
         "30": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "y"
         },
         "31": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "default"
         },
         "32": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "default"
         },
         "33": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "a"
         },
         "34": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
         "36": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "GH1453Helper"
         },
         "37": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         },
         "38": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "c"
         },
         "39": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "ThisModule"
         },
         "40": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "default"
         },
         "41": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "default"
         },
         "42": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "c"
         },
         "43": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "Mod"
         },
         "44": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "ModDefault"
         },
         "45": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "Mod2"
         },
         "46": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         },
         "47": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "ThisModule"
         },
         "48": {
-            "sourceFileName": "src/test/converter/exports/export-default.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export-default.ts",
             "qualifiedName": "x"
         }
     },

@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "exports",
     "variant": "project",
@@ -287,43 +288,53 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "9": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": ""
         },
         "17": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": ""
         },
         "18": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "a"
         },
         "21": {
-            "sourceFileName": "src/test/converter/exports/no-doc-members.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/no-doc-members.ts",
             "qualifiedName": ""
         },
         "37": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         },
         "38": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "c"
         },
         "40": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "default"
         },
         "41": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "default"
         },
         "45": {
-            "sourceFileName": "src/test/converter/exports/export.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
             "qualifiedName": "Mod2"
         },
         "46": {
-            "sourceFileName": "src/test/converter/exports/mod.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
         }
     },

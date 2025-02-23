@@ -2,8 +2,8 @@ import ts from "typescript";
 
 import type { Context } from "../context.js";
 import { ReferenceType } from "../../models/types.js";
-import { ReflectionSymbolId } from "../../models/index.js";
 import { findPackageForPath, getQualifiedName } from "#node-utils";
+import { createSymbolId } from "./symbol-id.js";
 
 export function createSymbolReference(
     symbol: ts.Symbol,
@@ -12,7 +12,7 @@ export function createSymbolReference(
 ) {
     const ref = ReferenceType.createUnresolvedReference(
         name ?? symbol.name,
-        new ReflectionSymbolId(symbol),
+        createSymbolId(symbol),
         context.project,
         getQualifiedName(symbol, name ?? symbol.name),
     );
@@ -23,6 +23,6 @@ export function createSymbolReference(
     const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
     if (!symbolPath) return ref;
 
-    ref.package = findPackageForPath(symbolPath);
+    ref.package = findPackageForPath(symbolPath)?.[0];
     return ref;
 }

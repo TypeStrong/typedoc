@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "js",
     "variant": "project",
@@ -777,7 +778,8 @@
                     "type": {
                         "type": "reference",
                         "target": {
-                            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                            "packageName": "typescript",
+                            "packagePath": "lib/lib.es5.d.ts",
                             "qualifiedName": "Object"
                         },
                         "name": "Object",
@@ -1023,183 +1025,228 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": "Foo"
         },
         "3": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": ""
         },
         "4": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "usedFoo"
         },
         "5": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "usedFoo"
         },
         "6": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "args"
         },
         "7": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "ColumnType"
         },
         "8": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__object.STRING"
         },
         "9": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__object.NUMBER"
         },
         "10": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "InterfaceIsh"
         },
         "11": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type.foo"
         },
         "12": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "AlsoInterfaceIsh"
         },
         "13": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type.foo"
         },
         "14": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type.bar"
         },
         "15": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "ObjectAlias"
         },
         "16": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "UnionType"
         },
         "17": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "IntersectionType"
         },
         "18": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "19": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type.x"
         },
         "20": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "21": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type.y"
         },
         "22": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "NoReturnTag"
         },
         "23": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "24": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "25": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "HasReturnTag"
         },
         "26": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "27": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "28": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "IdentityFn"
         },
         "29": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "30": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "31": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "data"
         },
         "32": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "T"
         },
         "33": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "OptionalArg"
         },
         "34": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "35": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "36": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "data"
         },
         "37": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "Identity"
         },
         "38": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "T"
         },
         "39": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "Foo"
         },
         "40": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "41": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "__type"
         },
         "42": {
-            "sourceFileName": "src/test/converter/js/index.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/index.js",
             "qualifiedName": "args"
         },
         "43": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": "foo"
         },
         "44": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": "foo"
         },
         "45": {
-            "sourceFileName": "src/test/converter/js/export-eq-type.js",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/js/export-eq-type.js",
             "qualifiedName": "x"
         }
     },

@@ -3,8 +3,8 @@
  * @module
  */
 
-import { ReflectionKind } from "../models/reflections/kind.js";
-import type { DeclarationReflection } from "../models/reflections/declaration.js";
+import { ReflectionKind } from "../models/kind.js";
+import type { DeclarationReflection } from "../models/DeclarationReflection.js";
 import type { Options } from "./options/index.js";
 import type { DocumentReflection } from "../models/index.js";
 import * as OptionDefaults from "./options/defaults.js";
@@ -44,11 +44,18 @@ const sorts: Record<
         const bSymbol = b.project.getSymbolIdFromReflection(b);
 
         if (aSymbol && bSymbol) {
-            if (aSymbol.fileName < bSymbol.fileName) {
+            if (aSymbol.packageName < bSymbol.packageName) {
                 return true;
             }
             if (
-                aSymbol.fileName === bSymbol.fileName &&
+                aSymbol.packageName === bSymbol.packageName &&
+                aSymbol.packagePath < bSymbol.packagePath
+            ) {
+                return true;
+            }
+            if (
+                aSymbol.packageName === bSymbol.packageName &&
+                aSymbol.packagePath === bSymbol.packagePath &&
                 aSymbol.pos < bSymbol.pos
             ) {
                 return true;

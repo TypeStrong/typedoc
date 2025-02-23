@@ -1,13 +1,12 @@
-import type ts from "typescript";
-import { type ReferenceType, ReflectionType, type SomeType } from "../types.js";
-import { type TraverseCallback, TraverseProperty } from "./abstract.js";
-import { ContainerReflection } from "./container.js";
-import type { SignatureReflection } from "./signature.js";
-import type { TypeParameterReflection } from "./type-parameter.js";
+import { type ReferenceType, ReflectionType, type SomeType } from "./types.js";
+import { type TraverseCallback, TraverseProperty } from "./Reflection.js";
+import { ContainerReflection } from "./ContainerReflection.js";
+import type { SignatureReflection } from "./SignatureReflection.js";
+import type { TypeParameterReflection } from "./TypeParameterReflection.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import { Comment, type CommentDisplayPart } from "../Comment.js";
-import { SourceReference } from "../SourceReference.js";
-import { ReflectionSymbolId } from "../ReflectionSymbolId.js";
+import { Comment, type CommentDisplayPart } from "./Comment.js";
+import { SourceReference } from "./SourceReference.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import { ReflectionKind } from "./kind.js";
 import { i18n } from "#utils";
 
@@ -49,21 +48,13 @@ export class DeclarationReflection extends ContainerReflection {
     sources?: SourceReference[];
 
     /**
-     * Precomputed boost for search results, may be less than 1 to de-emphasize this member in search results.
-     * Does NOT include group/category values as they are computed when building the JS index.
-     *
-     * This is preserved for plugins, and may be removed in 0.28 if no plugins have used it yet.
-     */
-    relevanceBoost?: number;
-
-    /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.
      *
-     * Not serialized, only useful during conversion.
+     * Not serialized, only useful during conversion. This is a `ts.__String`.
      * @internal
      */
-    escapedName?: ts.__String;
+    escapedName?: string;
 
     /**
      * The type of the reflection.
@@ -315,7 +306,6 @@ export class DeclarationReflection extends ContainerReflection {
             variant: this.variant,
             packageVersion: this.packageVersion,
             sources: serializer.toObjectsOptional(this.sources),
-            relevanceBoost: this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
@@ -332,7 +322,7 @@ export class DeclarationReflection extends ContainerReflection {
                 this.implementedTypes,
             ),
             implementedBy: serializer.toObjectsOptional(this.implementedBy),
-            readme: Comment.serializeDisplayParts(serializer, this.readme),
+            readme: Comment.serializeDisplayParts(this.readme),
         };
     }
 
@@ -380,22 +370,12 @@ export class DeclarationReflection extends ContainerReflection {
             obj.sources,
             (src) => new SourceReference(src.fileName, src.line, src.character),
         );
-        this.relevanceBoost = obj.relevanceBoost;
 
         this.typeParameters = de.reviveMany(obj.typeParameters, (tp) => de.constructReflection(tp));
         this.type = de.revive(obj.type, (t) => de.constructType(t));
         this.signatures = de.reviveMany(obj.signatures, (r) => de.constructReflection(r));
 
-        // TypeDoc 0.25, remove check with 0.28.
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
-        if (obj.indexSignature) {
-            this.indexSignatures = [
-                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                de.revive(obj.indexSignature, (r) => de.constructReflection(r)),
-            ];
-        } else {
-            this.indexSignatures = de.reviveMany(obj.indexSignatures, (r) => de.constructReflection(r));
-        }
+        this.indexSignatures = de.reviveMany(obj.indexSignatures, (r) => de.constructReflection(r));
         this.getSignature = de.revive(obj.getSignature, (r) => de.constructReflection(r));
         this.setSignature = de.revive(obj.setSignature, (r) => de.constructReflection(r));
         this.defaultValue = obj.defaultValue;

@@ -48,7 +48,7 @@ export class ReflectionGroup {
         return {
             title: this.title,
             description: this.description
-                ? Comment.serializeDisplayParts(serializer, this.description)
+                ? Comment.serializeDisplayParts(this.description)
                 : undefined,
             children: this.children.length > 0
                 ? this.children.map((child) => child.id)

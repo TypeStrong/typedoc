@@ -27,7 +27,6 @@ import {
     UnionType,
     UnknownType,
 } from "../models/index.js";
-import { ReflectionSymbolId } from "../models/ReflectionSymbolId.js";
 import { type TranslatedString, zip } from "#utils";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
@@ -37,6 +36,7 @@ import { convertSymbol } from "./symbols.js";
 import { isObjectType, isTypeReference } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
 import { createSymbolReference } from "./factories/types.js";
+import { createSymbolId } from "./factories/symbol-id.js";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -277,7 +277,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         }
         context.project.registerSymbolId(
             signature,
-            new ReflectionSymbolId(symbol, node),
+            createSymbolId(symbol, node),
         );
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
@@ -380,7 +380,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         );
         context.project.registerSymbolId(
             signature,
-            new ReflectionSymbolId(symbol, node),
+            createSymbolId(symbol, node),
         );
         context.registerReflection(signature, undefined);
         const signatureCtx = rc.withScope(signature);

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { DeclarationReflection, SignatureReflection } from "../../models/reflections/index.js";
+import { DeclarationReflection, SignatureReflection } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js";
@@ -72,12 +72,12 @@ export class SourcePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      */
     private onDeclaration(
-        _context: Context,
+        context: Context,
         reflection: DeclarationReflection,
     ) {
         if (this.disableSources) return;
 
-        const symbol = reflection.project.getSymbolFromReflection(reflection);
+        const symbol = context.getSymbolFromReflection(reflection);
         for (const node of symbol?.declarations || []) {
             const sourceFile = node.getSourceFile();
             const fileName = normalizePath(sourceFile.fileName);
@@ -179,7 +179,7 @@ export class SourcePlugin extends ConverterComponent {
                 continue;
             }
 
-            if (replaceSourcesWithParentSources(refl)) {
+            if (replaceSourcesWithParentSources(context, refl)) {
                 refl.sources = (refl.parent as DeclarationReflection).sources;
             }
 
@@ -205,13 +205,14 @@ function getLocationNode(node: ts.Node) {
 }
 
 function replaceSourcesWithParentSources(
+    context: Context,
     refl: SignatureReflection | DeclarationReflection,
 ) {
     if (refl instanceof DeclarationReflection || !refl.sources) {
         return false;
     }
 
-    const symbol = refl.project.getSymbolFromReflection(refl.parent);
+    const symbol = context.getSymbolFromReflection(refl.parent);
     if (!symbol?.declarations) {
         return false;
     }

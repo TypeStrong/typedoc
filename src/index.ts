@@ -8,7 +8,7 @@
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
-export { resetReflectionID } from "./lib/models/reflections/abstract.js";
+export { resetReflectionID } from "./lib/models/Reflection.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
  * @primaryExport
@@ -87,6 +87,7 @@ export {
     ParameterType,
     TSConfigReader,
     TypeDocReader,
+    ValidatingFileRegistry,
 } from "./lib/utils/index.js";
 
 export type {

@@ -11,10 +11,10 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models/index.js";
-import { ReflectionSymbolId } from "../models/ReflectionSymbolId.js";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertParameterNodes, convertTemplateParameterNodes } from "./factories/signature.js";
+import { createSymbolId } from "./factories/symbol-id.js";
 
 export function convertJsDocAlias(
     context: Context,
@@ -133,7 +133,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
     );
     context.project.registerSymbolId(
         signature,
-        new ReflectionSymbolId(symbol, node),
+        createSymbolId(symbol, node),
     );
     context.registerReflection(signature, void 0);
     const signatureCtx = context.withScope(signature);

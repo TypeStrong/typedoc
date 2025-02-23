@@ -1,5 +1,5 @@
 import { assertNever, i18n, NonEnumerable, type NormalizedPath, removeIf } from "#utils";
-import type { Reflection } from "./reflections/index.js";
+import type { Reflection } from "./Reflection.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
@@ -132,11 +132,11 @@ export class CommentTag {
         return tag;
     }
 
-    toObject(serializer: Serializer): JSONOutput.CommentTag {
+    toObject(): JSONOutput.CommentTag {
         return {
             tag: this.tag,
             name: this.name,
-            content: Comment.serializeDisplayParts(serializer, this.content),
+            content: Comment.serializeDisplayParts(this.content),
         };
     }
 
@@ -193,16 +193,13 @@ export class Comment {
 
     // Since display parts are plain objects, this lives here
     static serializeDisplayParts(
-        serializer: Serializer,
         parts: CommentDisplayPart[],
     ): JSONOutput.CommentDisplayPart[];
     /** @hidden no point in showing this signature in api docs */
     static serializeDisplayParts(
-        serializer: Serializer,
         parts: CommentDisplayPart[] | undefined,
     ): JSONOutput.CommentDisplayPart[] | undefined;
     static serializeDisplayParts(
-        serializer: Serializer,
         parts: CommentDisplayPart[] | undefined,
     ): JSONOutput.CommentDisplayPart[] | undefined {
         return parts?.map((part) => {
@@ -218,7 +215,7 @@ export class Comment {
                         if ("id" in part.target) {
                             target = part.target.id;
                         } else {
-                            target = part.target.toObject(serializer);
+                            target = part.target.toObject();
                         }
                     }
                     return {
@@ -602,7 +599,7 @@ export class Comment {
 
     toObject(serializer: Serializer): JSONOutput.Comment {
         return {
-            summary: Comment.serializeDisplayParts(serializer, this.summary),
+            summary: Comment.serializeDisplayParts(this.summary),
             blockTags: serializer.toObjectsOptional(this.blockTags),
             modifierTags: this.modifierTags.size > 0
                 ? Array.from(this.modifierTags)

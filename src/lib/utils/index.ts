@@ -46,3 +46,4 @@ export * from "./entry-point.js";
 
 export * from "./tsconfig.js";
 export * from "./tsutils.js";
+export * from "./ValidatingFileRegistry.js";

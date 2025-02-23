@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "interface",
     "variant": "project",
@@ -2719,443 +2720,553 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Constructor"
         },
         "3": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Constructor"
         },
         "4": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Constructor"
         },
         "5": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "x"
         },
         "6": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "y"
         },
         "7": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Constructor"
         },
         "8": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "x"
         },
         "9": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "y"
         },
         "10": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Constructor"
         },
         "11": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "x"
         },
         "12": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "y"
         },
         "13": {
-            "sourceFileName": "src/test/converter/interface/constructor-type.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/constructor-type.ts",
             "qualifiedName": "Instance"
         },
         "14": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": ""
         },
         "15": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "StrIndex"
         },
         "16": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "StrIndex.__index"
         },
         "18": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "NumIndex"
         },
         "19": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "NumIndex.__index"
         },
         "21": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "BothIndex"
         },
         "22": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "BothIndex.__index"
         },
         "24": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "BothIndex.__index"
         },
         "26": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "TypeIndex"
         },
         "27": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "__type"
         },
         "28": {
-            "sourceFileName": "src/test/converter/interface/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/index-signature.ts",
             "qualifiedName": "__type.__index"
         },
         "30": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": ""
         },
         "31": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": "EmptyInterface"
         },
         "32": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": "ClassImplementingEmptyInterface"
         },
         "35": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": "ClassImplementingEmptyInterface.name"
         },
         "36": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": "ClassImplementingEmptyInterface.goto"
         },
         "37": {
-            "sourceFileName": "src/test/converter/interface/interface-empty.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-empty.ts",
             "qualifiedName": "ClassImplementingEmptyInterface.goto"
         },
         "38": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": ""
         },
         "39": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms"
         },
         "40": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventListener"
         },
         "41": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventListener.T"
         },
         "42": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventListener"
         },
         "43": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "parameter"
         },
         "44": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt"
         },
         "45": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.listener"
         },
         "46": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.priority"
         },
         "47": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.filter"
         },
         "48": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
         },
         "49": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
         },
         "50": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.SubscriptionInt.T"
         },
         "51": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription"
         },
         "52": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.__constructor"
         },
         "53": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription"
         },
         "54": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.V"
         },
         "55": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "listener"
         },
         "56": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "filter"
         },
         "57": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "priority"
         },
         "58": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "dispatcher"
         },
         "59": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.listener"
         },
         "60": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.filter"
         },
         "61": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.priority"
         },
         "62": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.dispatcher"
         },
         "63": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.unsubscribe"
         },
         "64": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.unsubscribe"
         },
         "65": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.Subscription.V"
         },
         "66": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt"
         },
         "67": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.add"
         },
         "68": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.add"
         },
         "69": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "listener"
         },
         "70": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "filter"
         },
         "71": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "priority"
         },
         "72": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.remove"
         },
         "73": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.remove"
         },
         "74": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "subscription"
         },
         "75": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.dispatch"
         },
         "76": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.dispatch"
         },
         "77": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "parameter"
         },
         "78": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.clear"
         },
         "79": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.clear"
         },
         "80": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
         },
         "81": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
         },
         "82": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcherInt.U"
         },
         "83": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher"
         },
         "86": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.T"
         },
         "87": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.subscriptions"
         },
         "88": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.add"
         },
         "89": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.add"
         },
         "90": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "listener"
         },
         "91": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "filter"
         },
         "92": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "priority"
         },
         "93": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.remove"
         },
         "94": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.remove"
         },
         "95": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "subscription"
         },
         "96": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.dispatch"
         },
         "97": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.dispatch"
         },
         "98": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "event"
         },
         "99": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.clear"
         },
         "100": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.clear"
         },
         "101": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.hasListeners"
         },
         "102": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.hasListeners"
         },
         "103": {
-            "sourceFileName": "src/test/converter/interface/interface-implementation.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.T"
         },
         "104": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": ""
         },
         "105": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base"
         },
         "106": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base.base"
         },
         "107": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base2"
         },
         "108": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base2.base2"
         },
         "109": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child"
         },
         "110": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child.child"
         },
         "111": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child.child3"
         },
         "112": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base.base"
         },
         "113": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base2.base2"
         },
         "114": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child2"
         },
         "115": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child2.child2"
         },
         "116": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child.child"
         },
         "117": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Child.child3"
         },
         "118": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base.base"
         },
         "119": {
-            "sourceFileName": "src/test/converter/interface/merging.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/interface/merging.ts",
             "qualifiedName": "Base2.base2"
         }
     },

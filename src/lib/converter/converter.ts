@@ -519,7 +519,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         if (createModuleReflections === false) {
             // Special case for when we're giving a single entry point, we don't need to
             // create modules for each entry. Register the project as this module.
-            context.project.registerReflection(
+            context.registerReflection(
                 context.project,
                 symbol,
                 normalizePath(entryPoint.sourceFile.fileName),

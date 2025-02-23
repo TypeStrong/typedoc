@@ -34,7 +34,7 @@ const config = {
         ],
 
         // This can probably be turned back on in 0.27, when the component hierarchy goes away
-        "@typescript-eslint/no-unsafe-function-type": "off",
+        // "@typescript-eslint/no-unsafe-function-type": "off", GERRIT
 
         // This one is just annoying since it complains at incomplete code
         "no-empty": "off",
@@ -196,29 +196,21 @@ export default tslint.config(
             ],
         },
     },
-    // Down to 14 issues!
-    // {
-    //     files: ["src/lib/models/**/*.ts"],
-    //     rules: {
-    //         "no-restricted-imports": [
-    //             "error",
-    //             {
-    //                 paths: nodeModules,
-    //                 patterns: [
-    //                     "node:*",
-    //                     "\\#*",
-    //                     "!\\#utils",
-    //                     "!\\#serialization",
-    //                     "../*",
-    //                     "!../FileRegistry.js",
-    //                     "!../types.js",
-    //                     "!../comments/index.js",
-    //                     "!../sources/file.js",
-    //                 ],
-    //             },
-    //         ],
-    //     },
-    // },
+    {
+        files: ["src/lib/models/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
+                    paths: nodeModules,
+                    patterns: [{
+                        regex: "^(?!\./|#utils|#serialization).*",
+                        message: "models may only import within this directory or #utils/#serialization",
+                    }],
+                },
+            ],
+        },
+    },
     {
         files: ["src/lib/serialization/**/*.ts"],
         rules: {

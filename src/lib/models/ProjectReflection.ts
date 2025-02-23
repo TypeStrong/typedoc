@@ -1,19 +1,18 @@
-import type ts from "typescript";
-import { type Reflection, TraverseProperty } from "./abstract.js";
-import { ContainerReflection } from "./container.js";
-import { ReferenceReflection } from "./reference.js";
-import type { DeclarationReflection } from "./declaration.js";
-import type { SignatureReflection } from "./signature.js";
-import type { ParameterReflection } from "./parameter.js";
-import { IntrinsicType, makeRecursiveVisitor, type Type } from "../types.js";
-import type { TypeParameterReflection } from "./type-parameter.js";
+import { type Reflection, TraverseProperty } from "./Reflection.js";
+import { ContainerReflection } from "./ContainerReflection.js";
+import { ReferenceReflection } from "./ReferenceReflection.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
+import type { SignatureReflection } from "./SignatureReflection.js";
+import type { ParameterReflection } from "./ParameterReflection.js";
+import { IntrinsicType, makeRecursiveVisitor, type Type } from "./types.js";
+import type { TypeParameterReflection } from "./TypeParameterReflection.js";
 import { ReflectionKind } from "./kind.js";
-import { Comment, type CommentDisplayPart } from "../Comment.js";
-import { ReflectionSymbolId } from "../ReflectionSymbolId.js";
-import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import { assertNever, DefaultMap, i18n, type NormalizedPath, removeIf, removeIfPresent, StableKeyMap } from "#utils";
-import type { DocumentReflection } from "./document.js";
-import type { FileRegistry } from "../FileRegistry.js";
+import { Comment, type CommentDisplayPart } from "./Comment.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
+import { type Deserializer, JSONOutput, type Serializer } from "#serialization";
+import { assertNever, DefaultMap, i18n, type NormalizedPath, removeIfPresent, StableKeyMap } from "#utils";
+import type { DocumentReflection } from "./DocumentReflection.js";
+import type { FileRegistry } from "./FileRegistry.js";
 
 /**
  * A reflection that represents the root of the project.
@@ -32,8 +31,6 @@ export class ProjectReflection extends ContainerReflection {
     > = new StableKeyMap();
 
     private reflectionIdToSymbolIdMap = new Map<number, ReflectionSymbolId>();
-
-    private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
     private removedSymbolIds = new StableKeyMap<ReflectionSymbolId, true>();
 
@@ -97,10 +94,13 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Registers the given reflection so that it can be quickly looked up by helper methods.
      * Should be called for *every* reflection added to the project.
+     *
+     * Note: During conversion, {@link Context.registerReflection} should be used instead so
+     * that symbols can be saved for later use.
      */
     registerReflection(
         reflection: Reflection,
-        symbol: ts.Symbol | undefined,
+        id: ReflectionSymbolId | undefined,
         filePath: NormalizedPath | undefined,
     ) {
         this.referenceGraph = undefined;
@@ -111,38 +111,8 @@ export class ProjectReflection extends ContainerReflection {
         }
         this.reflections[reflection.id] = reflection;
 
-        if (symbol) {
-            this.reflectionIdToSymbolMap.set(reflection.id, symbol);
-            const id = new ReflectionSymbolId(symbol);
+        if (id) {
             this.registerSymbolId(reflection, id);
-
-            // #2466
-            // If we just registered a member of a class or interface, then we need to check if
-            // we've registered this symbol before under the wrong parent reflection.
-            // This can happen because the compiler API will use non-dependently-typed symbols
-            // for properties of classes/interfaces which inherit them, so we can't rely on the
-            // property being unique for each class.
-            if (
-                reflection.parent?.kindOf(ReflectionKind.ClassOrInterface) &&
-                reflection.kindOf(ReflectionKind.SomeMember)
-            ) {
-                const saved = this.symbolToReflectionIdMap.get(id);
-                const parentSymbolReflection = symbol.parent &&
-                    this.getReflectionFromSymbol(symbol.parent);
-
-                if (
-                    typeof saved === "object" &&
-                    saved.length > 1 &&
-                    parentSymbolReflection
-                ) {
-                    removeIf(
-                        saved,
-                        (item) =>
-                            this.getReflectionById(item)?.parent !==
-                                parentSymbolReflection,
-                    );
-                }
-            }
         }
 
         if (filePath) {
@@ -336,7 +306,6 @@ export class ProjectReflection extends ContainerReflection {
             }
         }
 
-        this.reflectionIdToSymbolMap.delete(reflection.id);
         this.reflectionIdToSymbolIdMap.delete(reflection.id);
         delete this.reflections[reflection.id];
     }
@@ -347,14 +316,6 @@ export class ProjectReflection extends ContainerReflection {
      */
     getReflectionById(id: number): Reflection | undefined {
         return this.reflections[id];
-    }
-
-    /**
-     * Gets the reflection associated with the given symbol, if it exists.
-     * @internal
-     */
-    getReflectionFromSymbol(symbol: ts.Symbol) {
-        return this.getReflectionFromSymbolId(new ReflectionSymbolId(symbol));
     }
 
     /**
@@ -406,14 +367,6 @@ export class ProjectReflection extends ContainerReflection {
         return this.removedSymbolIds.has(id);
     }
 
-    /**
-     * THIS MAY NOT BE USED AFTER CONVERSION HAS FINISHED.
-     * @internal
-     */
-    getSymbolFromReflection(reflection: Reflection) {
-        return this.reflectionIdToSymbolMap.get(reflection.id);
-    }
-
     private getReferenceGraph(): Map<number, number[]> {
         if (!this.referenceGraph) {
             this.referenceGraph = new Map();
@@ -436,15 +389,16 @@ export class ProjectReflection extends ContainerReflection {
     override toObject(serializer: Serializer): JSONOutput.ProjectReflection {
         const symbolIdMap: Record<number, JSONOutput.ReflectionSymbolId> = {};
         this.reflectionIdToSymbolIdMap.forEach((sid, id) => {
-            symbolIdMap[id] = sid.toObject(serializer);
+            symbolIdMap[id] = sid.toObject();
         });
 
         return {
+            schemaVersion: JSONOutput.SCHEMA_VERSION,
             ...super.toObject(serializer),
             variant: this.variant,
             packageName: this.packageName,
             packageVersion: this.packageVersion,
-            readme: Comment.serializeDisplayParts(serializer, this.readme),
+            readme: Comment.serializeDisplayParts(this.readme),
             symbolIdMap,
             files: serializer.toObject(this.files),
         };

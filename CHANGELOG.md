@@ -16,6 +16,13 @@ title: Changelog
   control over export conversion order, #2856
 - API: `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
 - API: `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
+- API: `Comment.serializeDisplayParts` no longer requires a serializer argument.
+- API: `ReflectionSymbolId.fileName` has been removed, TypeDoc now stores a combination of a package name and package relative path instead.
+- API: Removed `DeclarationReflection.relevanceBoost` attribute which was added for plugins, but never used.
+- The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
+- File name references in `intentionallyNotExported` now use a package name/package relative path instead of an absolute path for matching.
+- Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
+- TypeDoc's `--entryPointStrategy merge` mode now requires JSON from at least version 0.28.0.
 
 TODO:
 

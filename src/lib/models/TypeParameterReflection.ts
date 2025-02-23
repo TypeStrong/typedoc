@@ -1,9 +1,9 @@
-import type { SomeType } from "../types.js";
-import { Reflection, type TraverseCallback } from "./abstract.js";
-import type { DeclarationReflection } from "./declaration.js";
+import type { SomeType } from "./types.js";
+import { Reflection, type TraverseCallback } from "./Reflection.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
 import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import type { SignatureReflection } from "./signature.js";
+import type { SignatureReflection } from "./SignatureReflection.js";
 
 /**
  * Modifier flags for type parameters, added in TS 4.7

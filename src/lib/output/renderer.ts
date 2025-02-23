@@ -12,7 +12,7 @@ import * as path from "path";
 import type { Application } from "../application.js";
 import type { Theme } from "./theme.js";
 import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
-import type { ProjectReflection } from "../models/reflections/project.js";
+import type { ProjectReflection } from "../models/ProjectReflection.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
 import { AbstractComponent, Option } from "../utils/index.js";

@@ -1,10 +1,10 @@
-import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
-import { ReflectionCategory } from "../ReflectionCategory.js";
-import { ReflectionGroup } from "../ReflectionGroup.js";
+import { Reflection, type TraverseCallback, TraverseProperty } from "./Reflection.js";
+import { ReflectionCategory } from "./ReflectionCategory.js";
+import { ReflectionGroup } from "./ReflectionGroup.js";
 import type { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import type { DocumentReflection } from "./document.js";
-import type { DeclarationReflection } from "./declaration.js";
+import type { DocumentReflection } from "./DocumentReflection.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
 import { removeIfPresent } from "#utils";
 
 /**
@@ -145,7 +145,6 @@ export abstract class ContainerReflection extends Reflection {
         }
         if (byId.size) {
             // Anything left in byId wasn't included in the childrenIncludingDocuments array.
-            // This is expected if we're dealing with a JSON file produced by TypeDoc 0.25.
             this.childrenIncludingDocuments ||= [];
             this.childrenIncludingDocuments.push(...byId.values());
         }

@@ -1,6 +1,6 @@
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import type { ProjectReflection, Reflection } from "./reflections/index.js";
-import type { ReflectionId } from "./reflections/abstract.js";
+import type { ProjectReflection, Reflection } from "./index.js";
+import type { ReflectionId } from "./Reflection.js";
 import { type NormalizedPath, NormalizedPathUtils } from "#utils";
 
 export class FileRegistry {

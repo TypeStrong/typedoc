@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "alias",
     "variant": "project",
@@ -85,7 +86,8 @@
             "type": {
                 "type": "reference",
                 "target": {
-                    "sourceFileName": "src/test/converter/class/class.ts",
+                    "packageName": "typedoc",
+                    "packagePath": "src/test/converter/class/class.ts",
                     "qualifiedName": "TestClass"
                 },
                 "name": "TestClass",
@@ -135,7 +137,8 @@
                 "extendsType": {
                     "type": "reference",
                     "target": {
-                        "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                        "packageName": "typescript",
+                        "packagePath": "lib/lib.es5.d.ts",
                         "qualifiedName": "PromiseLike"
                     },
                     "typeArguments": [
@@ -150,7 +153,8 @@
                 "trueType": {
                     "type": "reference",
                     "target": {
-                        "sourceFileName": "src/test/converter/alias/alias.ts",
+                        "packageName": "typedoc",
+                        "packagePath": "src/test/converter/alias/alias.ts",
                         "qualifiedName": "U"
                     },
                     "name": "U",
@@ -311,55 +315,68 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "0": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": ""
         },
         "1": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "TCompareFunction"
         },
         "2": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "__type"
         },
         "3": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "__type"
         },
         "4": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "a"
         },
         "5": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "b"
         },
         "6": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "T"
         },
         "7": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "TId"
         },
         "8": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "IsString"
         },
         "9": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "T"
         },
         "10": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "PromiseType"
         },
         "11": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "T"
         },
         "12": {
-            "sourceFileName": "src/test/converter/alias/alias.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/alias/alias.ts",
             "qualifiedName": "MergedCrossReference"
         }
     },

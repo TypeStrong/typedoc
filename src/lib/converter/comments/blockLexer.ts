@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
-import { ReflectionSymbolId } from "../../models/ReflectionSymbolId.js";
 import { resolveAliasedSymbol } from "../utils/symbols.js";
+import { createSymbolId } from "../factories/symbol-id.js";
 
 export function* lexBlockComment(
     file: string,
@@ -356,7 +356,7 @@ function* lexBlockComment2(
                     getRightmostName(link.name),
                 );
                 if (tsTarget) {
-                    token.tsLinkTarget = new ReflectionSymbolId(
+                    token.tsLinkTarget = createSymbolId(
                         resolveAliasedSymbol(tsTarget, checker!),
                     );
                     token.tsLinkText = link.text.replace(/^\s*\|\s*/, "");

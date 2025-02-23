@@ -5,7 +5,7 @@ import {
     type ProjectReflection,
     ReferenceReflection,
     ReflectionKind,
-} from "../../models/reflections/index.js";
+} from "../../models/index.js";
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";

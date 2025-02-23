@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "comment",
     "variant": "project",
@@ -579,95 +580,118 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass"
         },
         "5": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass.prop"
         },
         "19": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass.mixedHidden"
         },
         "22": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass.mixedHidden"
         },
         "23": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "arg1"
         },
         "24": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "arg2"
         },
         "26": {
-            "sourceFileName": "src/test/converter/comment/comment.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "UnionWithCommentsOnMembers"
         },
         "27": {
-            "sourceFileName": "src/test/converter/comment/comment2.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
             "qualifiedName": ""
         },
         "28": {
-            "sourceFileName": "src/test/converter/comment/comment2.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
             "qualifiedName": "multiply"
         },
         "29": {
-            "sourceFileName": "src/test/converter/comment/comment2.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
             "qualifiedName": "multiply"
         },
         "30": {
-            "sourceFileName": "src/test/converter/comment/comment2.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
             "qualifiedName": "a"
         },
         "31": {
-            "sourceFileName": "src/test/converter/comment/comment2.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
             "qualifiedName": "b"
         },
         "32": {
-            "sourceFileName": "src/test/converter/comment/comment3.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
             "qualifiedName": ""
         },
         "33": {
-            "sourceFileName": "src/test/converter/comment/comment3.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
             "qualifiedName": "multiply"
         },
         "34": {
-            "sourceFileName": "src/test/converter/comment/comment3.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
             "qualifiedName": "multiply"
         },
         "35": {
-            "sourceFileName": "src/test/converter/comment/comment3.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
             "qualifiedName": "a"
         },
         "36": {
-            "sourceFileName": "src/test/converter/comment/comment3.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
             "qualifiedName": "b"
         },
         "37": {
-            "sourceFileName": "src/test/converter/comment/comment4.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": ""
         },
         "38": {
-            "sourceFileName": "src/test/converter/comment/comment4.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": "multiply"
         },
         "39": {
-            "sourceFileName": "src/test/converter/comment/comment4.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": "multiply"
         },
         "40": {
-            "sourceFileName": "src/test/converter/comment/comment4.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": "a"
         },
         "41": {
-            "sourceFileName": "src/test/converter/comment/comment4.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": "b"
         }
     },

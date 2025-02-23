@@ -106,7 +106,7 @@ function _convertSymbolNow(context: Context, symbol: ts.Symbol, exportSymbol: ts
 
     // This check can catch symbols which ought to be documented as references
     // but aren't aliased symbols because `export *` was used.
-    const previous = context.project.getReflectionFromSymbol(symbol);
+    const previous = context.getReflectionFromSymbol(symbol);
     if (
         previous &&
         previous.parent?.kindOf(
@@ -275,7 +275,7 @@ function convertNamespace(
     }
 
     // #2364, @namespace on a variable might be merged with a namespace containing types.
-    const existingReflection = context.project.getReflectionFromSymbol(
+    const existingReflection = context.getReflectionFromSymbol(
         exportSymbol || symbol,
     );
 
@@ -918,7 +918,7 @@ function convertAlias(
     }
 
     function _convertAlias() {
-        const reflection = context.project.getReflectionFromSymbol(
+        const reflection = context.getReflectionFromSymbol(
             context.resolveAliasedSymbol(symbol),
         );
         if (
@@ -1312,7 +1312,7 @@ function convertAccessor(
 }
 
 function isInherited(context: Context, symbol: ts.Symbol) {
-    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
+    const parentSymbol = context.getSymbolFromReflection(context.scope);
     // It'd be nice to be able to assert that this is true, but sometimes object
     // types don't get symbols if they are inferred.
     if (!parentSymbol) return false;

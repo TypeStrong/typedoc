@@ -48,7 +48,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
-     * Revisit when adding support for arbitrary pages in 0.26.
+     * Revisit in 0.28.
      */
     private renderContext: DefaultThemeRenderContext = null!;
     private lastHeaderSlug = "";

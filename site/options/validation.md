@@ -67,13 +67,16 @@ This option cannot be used to turn `treatWarningsAsErrors` off for validation wa
 ## intentionallyNotExported
 
 Lists symbols which are intentionally excluded from the documentation output and should not produce warnings.
-Entries may optionally specify a file name before a colon to only suppress warnings for symbols declared in a specific file.
+Entries may optionally specify a package name / package relative file name before a colon to only suppress warnings for symbols declared in a specific file.
 
 typedoc.json:
 
 ```json
 {
-    "intentionallyNotExported": ["InternalClass", "src/other.ts:OtherInternal"]
+    "intentionallyNotExported": [
+        "InternalClass",
+        "typedoc/src/other.ts:OtherInternal"
+    ]
 }
 ```
 
@@ -121,6 +124,17 @@ typedoc.json:
         // won't have any of these, and they just render as a link to the canonical name.
         //    "Reference",
     ]
+}
+```
+
+## packagesRequiringDocumentation
+
+Specifies which packages TypeDoc should expect to have documentation.
+Defaults to the name of your package from `package.json`.
+
+```json
+{
+    "packagesRequiringDocumentation": ["typedoc", "typedoc-plugin-mdn-links"]
 }
 ```
 

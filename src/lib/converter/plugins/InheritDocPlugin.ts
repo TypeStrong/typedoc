@@ -8,7 +8,7 @@ import {
 } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import type { Reflection } from "../../models/reflections/abstract.js";
+import type { Reflection } from "../../models/Reflection.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
 import { DefaultMap, i18n, parseDeclarationReference, zip } from "#utils";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";

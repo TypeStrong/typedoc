@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "function",
     "variant": "project",
@@ -537,7 +538,8 @@
                                     "type": {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                                            "packageName": "typescript",
+                                            "packagePath": "lib/lib.es2015.iterable.d.ts",
                                             "qualifiedName": "Iterable"
                                         },
                                         "typeArguments": [
@@ -687,7 +689,8 @@
                                                     "type": {
                                                         "type": "reference",
                                                         "target": {
-                                                            "sourceFileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                                                            "packageName": "typescript",
+                                                            "packagePath": "lib/lib.es2015.iterable.d.ts",
                                                             "qualifiedName": "Iterable"
                                                         },
                                                         "typeArguments": [
@@ -1386,7 +1389,8 @@
                                     "type": {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                                            "packageName": "typescript",
+                                            "packagePath": "lib/lib.es5.d.ts",
                                             "qualifiedName": "Object"
                                         },
                                         "name": "Object",
@@ -2326,7 +2330,8 @@
                                     "type": {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                                            "packageName": "typescript",
+                                            "packagePath": "lib/lib.es5.d.ts",
                                             "qualifiedName": "Object"
                                         },
                                         "name": "Object",
@@ -2666,467 +2671,583 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "exportedFunction"
         },
         "3": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "exportedFunction"
         },
         "4": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithParameters"
         },
         "5": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithParameters"
         },
         "6": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "paramZ"
         },
         "7": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "paramG"
         },
         "8": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "paramA"
         },
         "9": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithOptionalValue"
         },
         "10": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithOptionalValue"
         },
         "11": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "requiredParam"
         },
         "12": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "optionalParam"
         },
         "13": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithDefaults"
         },
         "14": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithDefaults"
         },
         "15": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "valueA"
         },
         "16": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "valueB"
         },
         "17": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "valueC"
         },
         "18": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "valueD"
         },
         "19": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "valueE"
         },
         "20": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithRest"
         },
         "21": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "functionWithRest"
         },
         "22": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "rest"
         },
         "23": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "multipleSignatures"
         },
         "24": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "multipleSignatures"
         },
         "25": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "value"
         },
         "26": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "multipleSignatures"
         },
         "27": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "value"
         },
         "28": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "29": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type.name"
         },
         "30": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction"
         },
         "31": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction"
         },
         "32": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "arg"
         },
         "33": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction"
         },
         "34": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction.append"
         },
         "35": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction.append"
         },
         "36": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction.prepend"
         },
         "37": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction.prepend"
         },
         "38": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "moduleFunction.functionVariable"
         },
         "39": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "assertionFunction"
         },
         "40": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "assertionFunction"
         },
         "41": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "condition"
         },
         "42": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "checkerFunction"
         },
         "43": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "checkerFunction"
         },
         "44": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "anything"
         },
         "45": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "assertIsNonNull"
         },
         "46": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "assertIsNonNull"
         },
         "47": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "T"
         },
         "48": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "arg"
         },
         "49": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "isNonNull"
         },
         "50": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "isNonNull"
         },
         "51": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "T"
         },
         "52": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "arg"
         },
         "53": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "boolOrUndef"
         },
         "54": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "boolOrUndef"
         },
         "55": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "x"
         },
         "56": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "merged"
         },
         "57": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "merged"
         },
         "58": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "merged.nsFn"
         },
         "59": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "merged.nsFn"
         },
         "60": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "variableFunction"
         },
         "61": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "variableFunction"
         },
         "62": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "someParam"
         },
         "63": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates"
         },
         "64": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.isString"
         },
         "65": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.isString"
         },
         "66": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "x"
         },
         "67": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.assert"
         },
         "68": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.assert"
         },
         "69": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "x"
         },
         "72": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.isString"
         },
         "73": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.isString"
         },
         "74": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.assertString"
         },
         "75": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "Predicates.assertString"
         },
         "76": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "all"
         },
         "77": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "all"
         },
         "78": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "T"
         },
         "79": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "fn"
         },
         "80": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "81": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "82": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "item"
         },
         "83": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "iterator"
         },
         "84": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "all"
         },
         "85": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "T"
         },
         "86": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "fn"
         },
         "87": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "88": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "89": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "item"
         },
         "90": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "91": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "__type"
         },
         "92": {
-            "sourceFileName": "src/test/converter/function/function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
             "qualifiedName": "iterator"
         },
         "93": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": ""
         },
         "94": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "genericFunction"
         },
         "95": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "genericFunction"
         },
         "96": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "T"
         },
         "97": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "value"
         },
         "98": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "functionWithGenericArrayParameter"
         },
         "99": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "functionWithGenericArrayParameter"
         },
         "100": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "T"
         },
         "101": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "param"
         },
         "102": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "params"
         },
         "103": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "functionWithTemplate"
         },
         "104": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "functionWithTemplate"
         },
         "105": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "T"
         },
         "106": {
-            "sourceFileName": "src/test/converter/function/generic-function.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/generic-function.ts",
             "qualifiedName": "param"
         },
         "107": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": ""
         },
         "108": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "getBreakpoints"
         },
         "109": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "getBreakpoints"
         },
         "110": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type"
         },
         "111": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type.small"
         },
         "112": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type.medium"
         },
         "113": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type.large"
         },
         "114": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type.xlarge"
         },
         "115": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "__type.xxlarge"
         },
         "116": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "BreakpointRange"
         },
         "117": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "BreakpointRange.start"
         },
         "118": {
-            "sourceFileName": "src/test/converter/function/implicit-types.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/implicit-types.ts",
             "qualifiedName": "BreakpointRange.end"
         }
     },

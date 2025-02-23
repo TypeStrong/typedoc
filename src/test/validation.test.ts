@@ -156,7 +156,7 @@ describe("validateDocumentation", () => {
     it("Should correctly handle functions", () => {
         const project = convertValidationFile("function.ts");
         const logger = new TestLogger();
-        validateDocumentation(project, logger, ["Function"], []);
+        validateDocumentation(project, logger, ["Function"], [], ["typedoc"]);
 
         logger.expectMessage(
             "warn: bar (CallSignature), defined in */function.ts, does not have any documentation",
@@ -167,7 +167,7 @@ describe("validateDocumentation", () => {
     it("Should correctly handle accessors", () => {
         const project = convertValidationFile("getSignature.ts");
         const logger = new TestLogger();
-        validateDocumentation(project, logger, ["Accessor"], []);
+        validateDocumentation(project, logger, ["Accessor"], [], ["typedoc"]);
 
         logger.expectMessage(
             "warn: Foo.foo (GetSignature), defined in */getSignature.ts, does not have any documentation",
@@ -178,7 +178,7 @@ describe("validateDocumentation", () => {
     it("Should correctly handle constructors", () => {
         const project = convertValidationFile("class.ts");
         const logger = new TestLogger();
-        validateDocumentation(project, logger, ["Constructor"], []);
+        validateDocumentation(project, logger, ["Constructor"], [], ["typedoc"]);
 
         logger.expectMessage(
             "warn: Foo.constructor (ConstructorSignature), defined in */class.ts, does not have any documentation",
@@ -189,7 +189,7 @@ describe("validateDocumentation", () => {
     it("Should correctly handle interfaces", () => {
         const project = convertValidationFile("interface.ts");
         const logger = new TestLogger();
-        validateDocumentation(project, logger, ["Method"], []);
+        validateDocumentation(project, logger, ["Method"], [], ["typedoc"]);
 
         logger.expectMessage(
             "warn: Foo.method (CallSignature), defined in */interface.ts, does not have any documentation",
@@ -200,7 +200,7 @@ describe("validateDocumentation", () => {
     it("Should correctly handle callback parameters", () => {
         const project = convertValidationFile("callbackParameters.ts");
         const logger = new TestLogger();
-        validateDocumentation(project, logger, ["Parameter", "Property"], []);
+        validateDocumentation(project, logger, ["Parameter", "Property"], [], ["typedoc"]);
 
         logger.expectNoOtherMessages();
     });
@@ -214,6 +214,7 @@ describe("validateDocumentation", () => {
             logger,
             ["Property"],
             ["Foo.notDoc", "Foo.doesNotExist"],
+            ["typedoc"],
         );
 
         logger.expectMessage(

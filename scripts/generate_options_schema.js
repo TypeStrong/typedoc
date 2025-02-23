@@ -17,15 +17,13 @@ const schema = {
     allowTrailingCommas: true,
 };
 
-const i18n = new Internationalization.Internationalization(null).proxy;
-
 addTypeDocOptions({
     /** @param {import("../dist/index.js").DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
         const data = {
-            description: option.help(i18n),
+            description: option.help(),
         };
 
         const type = option.type ?? ParameterType.String;
@@ -42,6 +40,7 @@ addTypeDocOptions({
                 break;
             case ParameterType.String:
             case ParameterType.Path:
+            case ParameterType.UrlOrPath:
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
                     data.default = /** @type {import("../dist/index.js").StringDeclarationOption} */ (

@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "inheritance",
     "variant": "project",
@@ -991,147 +992,183 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "functionSource"
         },
         "3": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "functionSource"
         },
         "4": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "T"
         },
         "5": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg1"
         },
         "6": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg2"
         },
         "7": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "functionTargetLocal"
         },
         "8": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "functionTargetLocal"
         },
         "9": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "T"
         },
         "10": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg1"
         },
         "11": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg2"
         },
         "12": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceSource"
         },
         "13": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceSource.property"
         },
         "14": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceSource.someMethod"
         },
         "15": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceSource.someMethod"
         },
         "16": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg"
         },
         "17": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceSource.T"
         },
         "18": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceTarget"
         },
         "19": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceTarget.property"
         },
         "20": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceTarget.someMethod"
         },
         "21": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceTarget.someMethod"
         },
         "22": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "arg"
         },
         "23": {
-            "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
             "qualifiedName": "InterfaceTarget.T"
         },
         "24": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": ""
         },
         "25": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor"
         },
         "26": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor.staticProp"
         },
         "27": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor"
         },
         "28": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor"
         },
         "29": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "My"
         },
         "30": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "My"
         },
         "31": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "My.instanceProp"
         },
         "32": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MySubClass"
         },
         "33": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor.staticProp"
         },
         "34": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MyCtor.__new"
         },
         "35": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "MySubClass"
         },
         "36": {
-            "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
             "qualifiedName": "My.instanceProp"
         }
     },

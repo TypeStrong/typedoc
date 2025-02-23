@@ -375,6 +375,7 @@ export = {
         "If set, warnings emitted during validation will be treated as errors. This option cannot be used to disable treatWarningsAsErrors for validation warnings",
     help_intentionallyNotExported: "A list of types which should not produce 'referenced but not documented' warnings",
     help_requiredToBeDocumented: "A list of reflection kinds that must be documented",
+    help_packagesRequiringDocumentation: "A list of packages that must be documented",
     help_intentionallyNotDocumented:
         "A list of full reflection names which should not produce warnings about not being documented",
     help_validation: "Specify which validation steps TypeDoc should perform on your generated documentation",

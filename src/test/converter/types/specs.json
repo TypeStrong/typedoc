@@ -1,4 +1,5 @@
 {
+    "schemaVersion": "2.0",
     "id": 0,
     "name": "types",
     "variant": "project",
@@ -118,7 +119,8 @@
                         "trueType": {
                             "type": "reference",
                             "target": {
-                                "sourceFileName": "src/test/converter/types/general.ts",
+                                "packageName": "typedoc",
+                                "packagePath": "src/test/converter/types/general.ts",
                                 "qualifiedName": "S"
                             },
                             "name": "S",
@@ -815,7 +817,8 @@
                             "indexType": {
                                 "type": "reference",
                                 "target": {
-                                    "sourceFileName": "src/test/converter/types/mapped.ts",
+                                    "packageName": "typedoc",
+                                    "packagePath": "src/test/converter/types/mapped.ts",
                                     "qualifiedName": "K"
                                 },
                                 "name": "K",
@@ -838,7 +841,8 @@
                                     {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "src/test/converter/types/mapped.ts",
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
                                             "qualifiedName": "K"
                                         },
                                         "name": "K",
@@ -851,7 +855,8 @@
                                     {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "src/test/converter/types/mapped.ts",
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
                                             "qualifiedName": "K"
                                         },
                                         "name": "K",
@@ -906,7 +911,8 @@
                             "indexType": {
                                 "type": "reference",
                                 "target": {
-                                    "sourceFileName": "src/test/converter/types/mapped.ts",
+                                    "packageName": "typedoc",
+                                    "packagePath": "src/test/converter/types/mapped.ts",
                                     "qualifiedName": "K"
                                 },
                                 "name": "K",
@@ -989,7 +995,8 @@
                                     "indexType": {
                                         "type": "reference",
                                         "target": {
-                                            "sourceFileName": "src/test/converter/types/mapped.ts",
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
                                             "qualifiedName": "K"
                                         },
                                         "name": "K",
@@ -1012,7 +1019,8 @@
                                             {
                                                 "type": "reference",
                                                 "target": {
-                                                    "sourceFileName": "src/test/converter/types/mapped.ts",
+                                                    "packageName": "typedoc",
+                                                    "packagePath": "src/test/converter/types/mapped.ts",
                                                     "qualifiedName": "K"
                                                 },
                                                 "name": "K",
@@ -1025,7 +1033,8 @@
                                             {
                                                 "type": "reference",
                                                 "target": {
-                                                    "sourceFileName": "src/test/converter/types/mapped.ts",
+                                                    "packageName": "typedoc",
+                                                    "packagePath": "src/test/converter/types/mapped.ts",
                                                     "qualifiedName": "K"
                                                 },
                                                 "name": "K",
@@ -2278,303 +2287,378 @@
     "packageName": "typedoc",
     "symbolIdMap": {
         "1": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": ""
         },
         "2": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "BigIntLiteral"
         },
         "3": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "BigIntLiteralType"
         },
         "4": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "NegativeBigIntLiteral"
         },
         "5": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "NegativeBigIntLiteralType"
         },
         "6": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "NumArray"
         },
         "7": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "numArray"
         },
         "8": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "BigIntAlias"
         },
         "9": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "NegativeOne"
         },
         "10": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "negativeOne"
         },
         "11": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "FirstIfString"
         },
         "12": {
-            "sourceFileName": "src/test/converter/types/general.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
             "qualifiedName": "T"
         },
         "13": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": ""
         },
         "14": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "SymbolIndex"
         },
         "15": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "SymbolIndex.__index"
         },
         "17": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "PartialIndex"
         },
         "18": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "PartialIndex.__index"
         },
         "20": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "UnionIndex"
         },
         "21": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "UnionIndex.__index"
         },
         "23": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "UnionIndex.__index"
         },
         "25": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "ReadonlyIndex"
         },
         "26": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "ReadonlyIndex.__index"
         },
         "28": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "A"
         },
         "33": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "A.__computed"
         },
         "34": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "A.__computed"
         },
         "35": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "A.__computed"
         },
         "36": {
-            "sourceFileName": "src/test/converter/types/index-signature.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
             "qualifiedName": "A.__computed"
         },
         "37": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": ""
         },
         "38": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "mapped"
         },
         "39": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "mapped"
         },
         "40": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "T"
         },
         "41": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "arg"
         },
         "42": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "doubleKey"
         },
         "43": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "doubleKey"
         },
         "44": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "T"
         },
         "45": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "arg"
         },
         "46": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "Mappy"
         },
         "47": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "T"
         },
         "48": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "DoubleKey"
         },
         "49": {
-            "sourceFileName": "src/test/converter/types/mapped.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
             "qualifiedName": "T"
         },
         "50": {
-            "sourceFileName": "src/test/converter/types/parens.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
             "qualifiedName": ""
         },
         "51": {
-            "sourceFileName": "src/test/converter/types/parens.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
             "qualifiedName": "ZZ"
         },
         "52": {
-            "sourceFileName": "src/test/converter/types/parens.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
             "qualifiedName": "__type"
         },
         "53": {
-            "sourceFileName": "src/test/converter/types/parens.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
             "qualifiedName": "__type.a"
         },
         "54": {
-            "sourceFileName": "src/test/converter/types/query.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
             "qualifiedName": ""
         },
         "55": {
-            "sourceFileName": "src/test/converter/types/query.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
             "qualifiedName": "x"
         },
         "56": {
-            "sourceFileName": "src/test/converter/types/query.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
             "qualifiedName": "TypeOfX"
         },
         "57": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": ""
         },
         "58": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "NamedTuple"
         },
         "59": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "namedTuple"
         },
         "60": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "WithRestType"
         },
         "61": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "withRestType"
         },
         "62": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "WithRestTypeNames"
         },
         "63": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "withRestTypeNames"
         },
         "64": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "WithOptionalElements"
         },
         "65": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "withOptionalElements"
         },
         "66": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "LeadingRest"
         },
         "67": {
-            "sourceFileName": "src/test/converter/types/tuple.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
             "qualifiedName": "leadingRest"
         },
         "68": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": ""
         },
         "69": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "a"
         },
         "70": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "B"
         },
         "71": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "C"
         },
         "72": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "__type"
         },
         "73": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "__type.prop1"
         },
         "74": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "__type.prop2"
         },
         "75": {
-            "sourceFileName": "src/test/converter/types/type-operator.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "D"
         },
         "76": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": ""
         },
         "77": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "FirstType"
         },
         "78": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "FirstType.firstProperty"
         },
         "79": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "SecondType"
         },
         "80": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "SecondType.secondProperty"
         },
         "81": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "ThirdType"
         },
         "82": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "ThirdType.thirdUnionProperty"
         },
         "83": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "ThirdType.thirdIntersectionProperty"
         },
         "84": {
-            "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "ThirdType.thirdComplexProperty"
         }
     },

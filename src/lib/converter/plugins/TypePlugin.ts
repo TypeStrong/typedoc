@@ -4,7 +4,7 @@ import {
     type ProjectReflection,
     type Reflection,
     ReflectionKind,
-} from "../../models/reflections/index.js";
+} from "../../models/index.js";
 import { ReferenceType, type SomeType, type Type } from "../../models/types.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";

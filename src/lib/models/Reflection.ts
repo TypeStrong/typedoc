@@ -1,16 +1,16 @@
-import { Comment } from "../Comment.js";
+import { Comment } from "./Comment.js";
 import { splitUnquotedString } from "./utils.js";
-import type { ProjectReflection } from "./project.js";
+import type { ProjectReflection } from "./ProjectReflection.js";
 import { i18n, type NeverIfInternal, NonEnumerable, type TranslatedString } from "#utils";
 import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { ReflectionVariant } from "./variant.js";
-import type { DeclarationReflection } from "./declaration.js";
-import type { DocumentReflection } from "./document.js";
-import type { ParameterReflection } from "./parameter.js";
-import type { ReferenceReflection } from "./reference.js";
-import type { SignatureReflection } from "./signature.js";
-import type { TypeParameterReflection } from "./type-parameter.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
+import type { DocumentReflection } from "./DocumentReflection.js";
+import type { ParameterReflection } from "./ParameterReflection.js";
+import type { ReferenceReflection } from "./ReferenceReflection.js";
+import type { SignatureReflection } from "./SignatureReflection.js";
+import type { TypeParameterReflection } from "./TypeParameterReflection.js";
 
 /**
  * Current reflection id.
@@ -479,7 +479,7 @@ export abstract class Reflection {
      * Traverse most potential child reflections of this reflection.
      *
      * Note: This may not necessarily traverse child reflections contained within the `type` property
-     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.27.
+     * of the reflection, and should not be relied on for this. Support for checking object types will likely be removed in v0.29.
      *
      * The given callback will be invoked for all children, signatures and type parameters
      * attached to this reflection.

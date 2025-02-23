@@ -1,13 +1,13 @@
-import type { Reflection } from "./reflections/abstract.js";
-import type { DeclarationReflection } from "./reflections/declaration.js";
-import type { ProjectReflection } from "./reflections/project.js";
+import type { Reflection } from "./Reflection.js";
+import type { DeclarationReflection } from "./DeclarationReflection.js";
+import type { ProjectReflection } from "./ProjectReflection.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { DeclarationReference } from "#utils";
-import { ReflectionKind } from "./reflections/kind.js";
+import { ReflectionKind } from "./kind.js";
 import { Comment, type CommentDisplayPart } from "./Comment.js";
 import { i18n, joinArray } from "#utils";
-import type { SignatureReflection } from "./reflections/signature.js";
+import type { SignatureReflection } from "./SignatureReflection.js";
 
 /**
  * Base class of all type definitions.
@@ -991,7 +991,7 @@ export class ReferenceType extends Type {
         } else if (this.reflection) {
             target = this.reflection.id;
         } else {
-            target = this._target.toObject(serializer);
+            target = this._target.toObject();
         }
 
         const result: JSONOutput.ReferenceType = {
@@ -1022,7 +1022,7 @@ export class ReferenceType extends Type {
                     ([key, parts]) => {
                         return [
                             key,
-                            Comment.serializeDisplayParts(serializer, parts),
+                            Comment.serializeDisplayParts(parts),
                         ];
                     },
                 ),
@@ -1428,7 +1428,7 @@ export class UnionType extends Type {
         return {
             type: this.type,
             types: this.types.map((t) => serializer.toObject(t)),
-            elementSummaries: this.elementSummaries?.map((parts) => Comment.serializeDisplayParts(serializer, parts)),
+            elementSummaries: this.elementSummaries?.map((parts) => Comment.serializeDisplayParts(parts)),
         };
     }
 }

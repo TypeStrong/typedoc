@@ -17,7 +17,7 @@ import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import { convertDefaultValue } from "../convert-expression.js";
 import { removeUndefined } from "../utils/reflections.js";
-import { ReflectionSymbolId } from "../../models/ReflectionSymbolId.js";
+import { createSymbolId } from "./symbol-id.js";
 
 export function createSignature(
     context: Context,
@@ -52,7 +52,7 @@ export function createSignature(
     if (symbol && declaration) {
         context.project.registerSymbolId(
             sigRef,
-            new ReflectionSymbolId(symbol, declaration),
+            createSymbolId(symbol, declaration),
         );
     }
 
