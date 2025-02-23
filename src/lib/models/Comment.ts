@@ -1,8 +1,8 @@
-import { assertNever, i18n, NonEnumerable, removeIf } from "#utils";
-import type { Reflection } from "../reflections/index.js";
-import { ReflectionSymbolId } from "../reflections/ReflectionSymbolId.js";
+import { assertNever, i18n, NonEnumerable, type NormalizedPath, removeIf } from "#utils";
+import type { Reflection } from "./reflections/index.js";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 
 /**
  * Represents a parsed piece of a comment.
@@ -412,7 +412,7 @@ export class Comment {
      * Note: This field is non-enumerable to make testing comment contents with `deepEqual` easier.
      */
     @NonEnumerable
-    sourcePath?: string;
+    sourcePath?: NormalizedPath;
 
     /**
      * Internal discovery ID used to prevent symbol comments from

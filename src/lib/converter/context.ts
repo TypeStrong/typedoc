@@ -17,6 +17,7 @@ import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
 import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
 import { getHumanName } from "../utils/tsutils.js";
+import { normalizePath } from "#node-utils";
 
 /**
  * The context describes the current state the converter is in.
@@ -212,7 +213,12 @@ export class Context {
             )
             ? symbol?.declarations?.find(ts.isSourceFile)?.fileName
             : undefined;
-        this.project.registerReflection(reflection, symbol, path);
+
+        if (path) {
+            this.project.registerReflection(reflection, symbol, normalizePath(path));
+        } else {
+            this.project.registerReflection(reflection, symbol, undefined);
+        }
     }
 
     finalizeDeclarationReflection(reflection: DeclarationReflection) {

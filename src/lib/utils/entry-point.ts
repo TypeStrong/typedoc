@@ -5,7 +5,7 @@ import { expandPackages } from "./package-manifest.js";
 import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
 import type { Options } from "./options/index.js";
 import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
-import { assertNever, type GlobString, i18n, type Logger } from "#utils";
+import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
 
 /**
  * Defines how entry points are interpreted.
@@ -43,7 +43,7 @@ export interface DocumentationEntryPoint {
 
 export interface DocumentEntryPoint {
     displayName: string;
-    path: string;
+    path: NormalizedPath;
 }
 
 export function inferEntryPoints(logger: Logger, options: Options) {
@@ -447,8 +447,8 @@ function expandInputFiles(
     entryPoints: string[],
     options: Options,
     supportedFile: RegExp,
-): string[] {
-    const files: string[] = [];
+): NormalizedPath[] {
+    const files: NormalizedPath[] = [];
 
     const exclude = new MinimatchSet(options.getValue("exclude"));
 

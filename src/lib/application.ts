@@ -28,22 +28,23 @@ import {
     getWatchEntryPoints,
     inferEntryPoints,
 } from "./utils/entry-point.js";
-import { nicePath } from "./utils/paths.js";
+import { nicePath, normalizePath } from "./utils/paths.js";
 import { getLoadedPaths, hasBeenLoadedMultipleTimes, isDebugging } from "./utils/general.js";
 import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
 import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
-import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
+import { addInferredDeclarationMapPaths } from "./models/ReflectionSymbolId.js";
 import { Internationalization } from "./internationalization/internationalization.js";
-import { FileRegistry, ValidatingFileRegistry } from "./models/FileRegistry.js";
+import { FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
+import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -204,7 +205,7 @@ export class Application extends AbstractComponent<
         this.renderer = new Renderer(this);
 
         this.outputs.addOutput("json", async (out, project) => {
-            const ser = this.serializer.projectToObject(project, process.cwd());
+            const ser = this.serializer.projectToObject(project, normalizePath(process.cwd()));
             const space = this.options.getValue("pretty") ? "\t" : "";
             await writeFile(out, JSON.stringify(ser, null, space) + "\n");
         });
@@ -818,7 +819,7 @@ export class Application extends AbstractComponent<
                 this.validate(project);
                 const serialized = this.serializer.projectToObject(
                     project,
-                    process.cwd(),
+                    normalizePath(process.cwd()),
                 );
                 projects.push(serialized);
             }
@@ -846,7 +847,7 @@ export class Application extends AbstractComponent<
             this.options.getValue("name") || "Documentation",
             projects,
             {
-                projectRoot: process.cwd(),
+                projectRoot: normalizePath(process.cwd()),
                 registry: this.files,
                 alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },
@@ -901,7 +902,7 @@ export class Application extends AbstractComponent<
             this.options.getValue("name"),
             jsonProjects,
             {
-                projectRoot: process.cwd(),
+                projectRoot: normalizePath(process.cwd()),
                 registry: this.files,
                 alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },

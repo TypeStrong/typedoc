@@ -1,11 +1,11 @@
 import { existsSync } from "fs";
 import { isAbsolute, join, relative, resolve } from "path";
 import ts from "typescript";
-import type { JSONOutput, Serializer } from "../../serialization/index.js";
+import type { JSONOutput, Serializer } from "#serialization";
 import { findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath, readFile } from "#node-utils";
 import { Validation } from "#utils";
 import type { DeclarationReference } from "#utils";
-import { splitUnquotedString } from "./utils.js";
+import { splitUnquotedString } from "./reflections/utils.js";
 
 /**
  * See {@link ReflectionSymbolId}

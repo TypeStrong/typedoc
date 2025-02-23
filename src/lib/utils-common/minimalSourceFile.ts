@@ -2,6 +2,7 @@
 // eslint-disable-next-line no-restricted-imports
 import type { LineAndCharacter, SourceFileLike } from "typescript";
 import { binaryFindPartition } from "./array.js";
+import type { NormalizedPath } from "./path.js";
 
 // I don't like this, but it's necessary so that the lineStarts property isn't
 // visible in the `MinimalSourceFile` type. Even when private it causes compilation
@@ -10,15 +11,19 @@ const lineStarts = new WeakMap<MinimalSourceFile, number[]>();
 
 export interface MinimalNode {
     // This is actually getStart(sourceFile: ts.SourceFile, includeJsDocComments: boolean): number
+    // but we define it with this signature so that `ts.Node` is assignable to it.
     getStart(): number;
     getSourceFile(): MinimalSourceFile;
 }
 
 export class MinimalSourceFile implements SourceFileLike {
     readonly text: string;
+    // This type is just string to ensure assignability from SourceFile
+    readonly fileName: string;
+
     constructor(
         text: string,
-        readonly fileName: string,
+        fileName: NormalizedPath,
     ) {
         // This is unfortunate, but the yaml library we use relies on the source
         // text using LF line endings https://github.com/eemeli/yaml/issues/127.
@@ -30,6 +35,8 @@ export class MinimalSourceFile implements SourceFileLike {
         // we'll end up with a parsed title of "Windows line endings\r"
         this.text = text.replaceAll("\r\n", "\n");
         lineStarts.set(this, [0]);
+
+        this.fileName = fileName;
     }
 
     getLineAndCharacterOfPosition(pos: number): LineAndCharacter {

@@ -129,6 +129,7 @@ export {
     LogLevel,
     type Meaning,
     type MeaningKeyword,
+    type MinimalNode,
     MinimalSourceFile,
     type NormalizedPath,
     type NormalizedPathOrModule,

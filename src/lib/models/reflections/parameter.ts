@@ -2,7 +2,7 @@ import type { SomeType } from "../index.js";
 import { ReflectionType } from "../types.js";
 import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
 import type { SignatureReflection } from "./signature.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 
 /**
  * @category Reflections

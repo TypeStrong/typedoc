@@ -27,7 +27,7 @@ import {
     UnionType,
     UnknownType,
 } from "../models/index.js";
-import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
+import { ReflectionSymbolId } from "../models/ReflectionSymbolId.js";
 import { type TranslatedString, zip } from "#utils";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";

@@ -1,11 +1,11 @@
 import type { Reflection } from "./reflections/abstract.js";
 import type { DeclarationReflection } from "./reflections/declaration.js";
 import type { ProjectReflection } from "./reflections/project.js";
-import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
-import { ReflectionSymbolId } from "./reflections/ReflectionSymbolId.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { DeclarationReference } from "#utils";
 import { ReflectionKind } from "./reflections/kind.js";
-import { Comment, type CommentDisplayPart } from "./comments/index.js";
+import { Comment, type CommentDisplayPart } from "./Comment.js";
 import { i18n, joinArray } from "#utils";
 import type { SignatureReflection } from "./reflections/signature.js";
 

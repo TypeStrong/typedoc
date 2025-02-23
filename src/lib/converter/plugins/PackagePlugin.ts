@@ -6,13 +6,14 @@ import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { type GlobString, i18n, MinimalSourceFile } from "#utils";
+import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath } from "#utils";
 import {
     discoverInParentDir,
     discoverPackageJson,
     type EntryPointStrategy,
     getCommonDirectory,
     nicePath,
+    normalizePath,
     Option,
     readFile,
 } from "#node-utils";
@@ -37,7 +38,7 @@ export class PackagePlugin extends ConverterComponent {
     /**
      * The file name of the found readme.md file.
      */
-    private readmeFile?: string;
+    private readmeFile?: NormalizedPath;
 
     /**
      * Contents of the readme.md file discovered, if any
@@ -96,7 +97,7 @@ export class PackagePlugin extends ConverterComponent {
             this.application.watchFile(this.readme);
             try {
                 this.readmeContents = readFile(this.readme);
-                this.readmeFile = this.readme;
+                this.readmeFile = normalizePath(this.readme);
             } catch {
                 this.application.logger.error(
                     i18n.provided_readme_at_0_could_not_be_read(
@@ -113,7 +114,7 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             if (result) {
-                this.readmeFile = result.file;
+                this.readmeFile = normalizePath(result.file);
                 this.readmeContents = result.content;
                 this.application.watchFile(this.readmeFile);
             }

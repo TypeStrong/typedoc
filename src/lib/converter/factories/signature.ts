@@ -17,7 +17,7 @@ import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import { convertDefaultValue } from "../convert-expression.js";
 import { removeUndefined } from "../utils/reflections.js";
-import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId.js";
+import { ReflectionSymbolId } from "../../models/ReflectionSymbolId.js";
 
 export function createSignature(
     context: Context,

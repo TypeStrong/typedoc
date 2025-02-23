@@ -23,8 +23,18 @@ import { getDocumentEntryPoints, Option, readFile } from "../utils/index.js";
 import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
-import { MinimatchSet, nicePath } from "../utils/paths.js";
-import { type GlobString, hasAllFlags, hasAnyFlag, i18n, MinimalSourceFile, partition, unique } from "#utils";
+import { MinimatchSet, nicePath, normalizePath } from "../utils/paths.js";
+import {
+    type GlobString,
+    hasAllFlags,
+    hasAnyFlag,
+    i18n,
+    MinimalSourceFile,
+    type NormalizedPath,
+    NormalizedPathUtils,
+    partition,
+    unique,
+} from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
 import type { CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
@@ -512,7 +522,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             context.project.registerReflection(
                 context.project,
                 symbol,
-                entryPoint.sourceFile.fileName,
+                normalizePath(entryPoint.sourceFile.fileName),
             );
             context.project.comment = symbol
                 ? context.getComment(symbol, context.project.kind)
@@ -626,7 +636,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     processDocumentTags(reflection: Reflection, parent: ContainerReflection) {
         let relativeTo = reflection.comment?.sourcePath;
         if (relativeTo) {
-            relativeTo = dirname(relativeTo);
+            relativeTo = NormalizedPathUtils.dirname(relativeTo);
             const tags = reflection.comment?.getTags("@document") || [];
             reflection.comment?.removeTags("@document");
             for (const tag of tags) {
@@ -634,7 +644,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
 
                 let file: MinimalSourceFile;
                 try {
-                    const resolved = resolve(relativeTo, path);
+                    const resolved = normalizePath(resolve(relativeTo, path));
                     file = new MinimalSourceFile(readFile(resolved), resolved);
                 } catch {
                     this.application.logger.warn(
@@ -675,7 +685,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
 
         this.application.watchFile(file.fileName);
         parent.addChild(docRefl);
-        parent.project.registerReflection(docRefl, undefined, file.fileName);
+        parent.project.registerReflection(docRefl, undefined, file.fileName as NormalizedPath);
         this.trigger(ConverterEvents.CREATE_DOCUMENT, undefined, docRefl);
 
         const childrenToAdd: [string, string][] = [];
@@ -715,7 +725,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         }
 
         for (const [displayName, path] of childrenToAdd) {
-            const absPath = resolve(dirname(file.fileName), path);
+            const absPath = normalizePath(resolve(dirname(file.fileName), path));
             let childFile: MinimalSourceFile;
             try {
                 childFile = new MinimalSourceFile(readFile(absPath), absPath);

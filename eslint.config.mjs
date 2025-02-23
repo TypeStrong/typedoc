@@ -196,6 +196,7 @@ export default tslint.config(
             ],
         },
     },
+    // Down to 14 issues!
     // {
     //     files: ["src/lib/models/**/*.ts"],
     //     rules: {
@@ -205,6 +206,9 @@ export default tslint.config(
     //                 paths: nodeModules,
     //                 patterns: [
     //                     "node:*",
+    //                     "\\#*",
+    //                     "!\\#utils",
+    //                     "!\\#serialization",
     //                     "../*",
     //                     "!../FileRegistry.js",
     //                     "!../types.js",

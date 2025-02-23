@@ -1,5 +1,4 @@
-import type { Deserializer } from "../../serialization/deserializer.js";
-import type { SourceReference as JSONSourceReference } from "../../serialization/schema.js";
+import type { Deserializer, JSONOutput } from "#serialization";
 
 /**
  * Represents references of reflections to their defining source files.
@@ -48,7 +47,7 @@ export class SourceReference {
         );
     }
 
-    toObject(): JSONSourceReference {
+    toObject(): JSONOutput.SourceReference {
         return {
             fileName: this.fileName,
             line: this.line,
@@ -57,7 +56,7 @@ export class SourceReference {
         };
     }
 
-    fromObject(_de: Deserializer, obj: JSONSourceReference) {
+    fromObject(_de: Deserializer, obj: JSONOutput.SourceReference) {
         this.url = obj.url;
     }
 }

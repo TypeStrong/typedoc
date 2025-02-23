@@ -8,7 +8,6 @@ export { ReflectionKind } from "./kind.js";
 export { ParameterReflection } from "./parameter.js";
 export { ProjectReflection } from "./project.js";
 export { ReferenceReflection } from "./reference.js";
-export { ReflectionSymbolId, type ReflectionSymbolIdString } from "./ReflectionSymbolId.js";
 export { SignatureReflection } from "./signature.js";
 export { TypeParameterReflection, VarianceModifier } from "./type-parameter.js";
 export { splitUnquotedString } from "./utils.js";

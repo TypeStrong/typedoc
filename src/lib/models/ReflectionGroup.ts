@@ -1,7 +1,7 @@
 import { ReflectionCategory } from "./ReflectionCategory.js";
-import { Comment } from "./comments/index.js";
+import { Comment } from "./Comment.js";
 import type { CommentDisplayPart, DeclarationReflection, DocumentReflection, Reflection } from "./index.js";
-import type { Deserializer, JSONOutput, Serializer } from "../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.

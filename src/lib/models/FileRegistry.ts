@@ -1,26 +1,23 @@
-import { basename, dirname, parse, relative, resolve } from "path";
-import type { Deserializer, Serializer } from "../serialization/index.js";
-import type { FileRegistry as JSONFileRegistry } from "../serialization/schema.js";
-import { isFile, normalizePath } from "../utils/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { ProjectReflection, Reflection } from "./reflections/index.js";
 import type { ReflectionId } from "./reflections/abstract.js";
-import { i18n } from "#utils";
+import { type NormalizedPath, NormalizedPathUtils } from "#utils";
 
 export class FileRegistry {
     protected nextId = 1;
 
     // The combination of these two make up the registry
     protected mediaToReflection = new Map<number, ReflectionId>();
-    protected mediaToPath = new Map<number, string>();
+    protected mediaToPath = new Map<number, NormalizedPath>();
 
-    protected reflectionToPath = new Map<ReflectionId, string>();
-    protected pathToMedia = new Map<string, number>();
+    protected reflectionToPath = new Map<ReflectionId, NormalizedPath>();
+    protected pathToMedia = new Map<NormalizedPath, number>();
 
     // Lazily created as we get names for rendering
     protected names = new Map<number, string>();
     protected nameUsage = new Map<string, number>();
 
-    registerAbsolute(absolute: string): {
+    registerAbsolute(absolute: NormalizedPath): {
         target: number;
         anchor: string | undefined;
     } {
@@ -28,9 +25,9 @@ export class FileRegistry {
         let anchor: string | undefined = undefined;
         if (anchorIndex !== -1) {
             anchor = absolute.substring(anchorIndex + 1);
-            absolute = absolute.substring(0, anchorIndex);
+            absolute = absolute.substring(0, anchorIndex) as NormalizedPath;
         }
-        absolute = normalizePath(absolute).replace(/#.*/, "");
+        absolute = absolute.replace(/#.*/, "") as NormalizedPath;
         const existing = this.pathToMedia.get(absolute);
         if (existing) {
             return { target: existing, anchor };
@@ -42,9 +39,7 @@ export class FileRegistry {
         return { target: this.nextId++, anchor };
     }
 
-    /** Called by {@link ProjectReflection.registerReflection} @internal*/
-    registerReflection(absolute: string, reflection: Reflection) {
-        absolute = normalizePath(absolute);
+    registerReflection(absolute: NormalizedPath, reflection: Reflection) {
         const { target } = this.registerAbsolute(absolute);
         this.reflectionToPath.set(reflection.id, absolute);
         this.mediaToReflection.set(target, reflection.id);
@@ -55,11 +50,11 @@ export class FileRegistry {
     }
 
     register(
-        sourcePath: string,
-        relativePath: string,
+        sourcePath: NormalizedPath,
+        relativePath: NormalizedPath,
     ): { target: number; anchor: string | undefined } | undefined {
         return this.registerAbsolute(
-            resolve(dirname(sourcePath), relativePath),
+            NormalizedPathUtils.resolve(NormalizedPathUtils.dirname(sourcePath), relativePath),
         );
     }
 
@@ -90,12 +85,12 @@ export class FileRegistry {
             return this.names.get(id);
         }
 
-        const file = basename(absolute);
+        const file = NormalizedPathUtils.basename(absolute);
         if (!this.nameUsage.has(file)) {
             this.nameUsage.set(file, 1);
             this.names.set(id, file);
         } else {
-            const { name, ext } = parse(file);
+            const { name, ext } = NormalizedPathUtils.splitFilename(file);
             let counter = this.nameUsage.get(file)!;
             while (this.nameUsage.has(`${name}-${counter}${ext}`)) {
                 ++counter;
@@ -116,14 +111,14 @@ export class FileRegistry {
         return result;
     }
 
-    toObject(ser: Serializer): JSONFileRegistry {
-        const result: JSONFileRegistry = {
+    toObject(ser: Serializer): JSONOutput.FileRegistry {
+        const result: JSONOutput.FileRegistry = {
             entries: {},
             reflections: {},
         };
 
         for (const [key, val] of this.mediaToPath.entries()) {
-            result.entries[key] = normalizePath(relative(ser.projectRoot, val));
+            result.entries[key] = NormalizedPathUtils.relative(ser.projectRoot, val);
         }
         for (const [key, val] of this.mediaToReflection.entries()) {
             // A registry may be shared by multiple projects. When serializing,
@@ -141,9 +136,9 @@ export class FileRegistry {
      * Note that in the packages context this may be called multiple times on
      * a single object, and should merge in files from the other registries.
      */
-    fromObject(de: Deserializer, obj: JSONFileRegistry): void {
+    fromObject(de: Deserializer, obj: JSONOutput.FileRegistry): void {
         for (const [key, val] of Object.entries(obj.entries)) {
-            const absolute = normalizePath(resolve(de.projectRoot, val));
+            const absolute = NormalizedPathUtils.resolve(de.projectRoot, val);
             de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute).target;
         }
 
@@ -156,57 +151,6 @@ export class FileRegistry {
                     this.mediaToReflection.set(
                         de.oldFileIdToNewFileId[+media]!,
                         refl.id,
-                    );
-                }
-            }
-        });
-    }
-}
-
-export class ValidatingFileRegistry extends FileRegistry {
-    override register(
-        sourcePath: string,
-        relativePath: string,
-    ): { target: number; anchor: string | undefined } | undefined {
-        const absolute = resolve(dirname(sourcePath), relativePath);
-        const absoluteWithoutAnchor = absolute.replace(/#.*/, "");
-        if (!isFile(absoluteWithoutAnchor)) {
-            return;
-        }
-        return this.registerAbsolute(absolute);
-    }
-
-    override fromObject(de: Deserializer, obj: JSONFileRegistry) {
-        for (const [key, val] of Object.entries(obj.entries)) {
-            const absolute = normalizePath(resolve(de.projectRoot, val));
-            if (!isFile(absolute)) {
-                de.logger.warn(
-                    i18n.saved_relative_path_0_resolved_from_1_is_not_a_file(
-                        val,
-                        de.projectRoot,
-                    ),
-                );
-                continue;
-            }
-
-            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute).target;
-        }
-
-        de.defer((project) => {
-            for (const [media, reflId] of Object.entries(obj.reflections)) {
-                const refl = project.getReflectionById(
-                    de.oldIdToNewId[reflId]!,
-                );
-                if (refl) {
-                    this.mediaToReflection.set(
-                        de.oldFileIdToNewFileId[+media]!,
-                        refl.id,
-                    );
-                } else {
-                    de.logger.warn(
-                        i18n.serialized_project_referenced_0_not_part_of_project(
-                            reflId.toString(),
-                        ),
                     );
                 }
             }

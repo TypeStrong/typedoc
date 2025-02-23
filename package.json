@@ -114,6 +114,10 @@
             "typedoc-ts": "./src/lib/models/index.ts",
             "default": "./dist/lib/models/index.js"
         },
+        "#serialization": {
+            "typedoc-ts": "./src/lib/serialization/index.ts",
+            "default": "./dist/lib/serialization/index.js"
+        },
         "#node-utils": {
             "typedoc-ts": "./src/lib/utils/index.ts",
             "default": "./dist/lib/utils/index.js"

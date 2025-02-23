@@ -1,6 +1,6 @@
 import { DeclarationReflection } from "./declaration.js";
 import { ReflectionKind } from "./kind.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { Reflection } from "./abstract.js";
 
 /**

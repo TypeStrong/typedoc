@@ -14,7 +14,7 @@ import {
     SignatureReflection,
     UnionType,
 } from "../lib/models/index.js";
-import type { InlineTagDisplayPart } from "../lib/models/comments/comment.js";
+import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { equalKind, getComment, getLinks, getSigComment, query, querySig } from "./utils.js";

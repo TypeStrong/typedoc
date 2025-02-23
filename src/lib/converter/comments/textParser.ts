@@ -8,14 +8,14 @@
 import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
 import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { HtmlAttributeParser, ParserState } from "#utils";
+import { HtmlAttributeParser, type NormalizedPath, ParserState } from "#utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";
 const MdHelpers = new MarkdownIt().helpers;
 
 interface TextParserData {
-    sourcePath: string;
+    sourcePath: NormalizedPath;
     token: Token;
     pos: number;
     i18n: TranslationProxy;
@@ -65,7 +65,7 @@ export class TextParserReentryState {
  * so that they can be correctly resolved during rendering.
  */
 export function textContent(
-    sourcePath: string,
+    sourcePath: NormalizedPath,
     token: Token,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
@@ -192,7 +192,7 @@ function checkMarkdownLink(
             if (isRelativePath(link.str)) {
                 const { target, anchor } = files.register(
                     sourcePath,
-                    link.str,
+                    link.str as NormalizedPath,
                 ) || { target: undefined, anchor: undefined };
                 return {
                     pos: labelEnd + 2,
@@ -248,7 +248,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                     if (isRelativePath(link.str)) {
                         const { target, anchor } = files.register(
                             sourcePath,
-                            link.str,
+                            link.str as NormalizedPath,
                         ) || { target: undefined, anchor: undefined };
                         return {
                             pos: lookahead,
@@ -298,7 +298,7 @@ function checkAttribute(
                 data.pos = parser.pos;
                 const { target, anchor } = data.files.register(
                     data.sourcePath,
-                    parser.currentAttributeValue,
+                    parser.currentAttributeValue as NormalizedPath,
                 ) || { target: undefined, anchor: undefined };
                 return {
                     pos: parser.currentAttributeValueStart,

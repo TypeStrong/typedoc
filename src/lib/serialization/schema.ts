@@ -30,7 +30,7 @@
  */
 
 import type * as M from "#models";
-import type { IfInternal } from "#utils";
+import type { IfInternal, NormalizedPath } from "#utils";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
@@ -413,7 +413,7 @@ export interface SourceReference extends S<M.SourceReference, "fileName" | "line
 
 export interface FileRegistry {
     /** Relative path according to the serialization root */
-    entries: Record<number, string>;
+    entries: Record<number, NormalizedPath>;
     /** File ID to reflection ID */
     reflections: Record<number, number>;
 }

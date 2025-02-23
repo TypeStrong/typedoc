@@ -10,7 +10,7 @@ import type { TranslationProxy } from "../../internationalization/internationali
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
-import { assertNever, i18n, type Logger, removeIf, type TranslatedString } from "#utils";
+import { assertNever, i18n, type Logger, type NormalizedPath, removeIf, type TranslatedString } from "#utils";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -71,7 +71,7 @@ export function parseComment(
     const tok = lexer.done() || lexer.peek();
 
     const comment = new Comment();
-    comment.sourcePath = file.fileName;
+    comment.sourcePath = file.fileName as NormalizedPath;
     comment.summary = blockContent(
         comment,
         lexer,
@@ -154,7 +154,7 @@ export function parseCommentString(
             case TokenSyntaxKind.Tag:
             case TokenSyntaxKind.CloseBrace:
                 textContent(
-                    file.fileName,
+                    file.fileName as NormalizedPath,
                     next,
                     i18n,
                     (msg, token) => logger.warn(msg, token.pos, file),
@@ -589,7 +589,7 @@ function blockContent(
 
             case TokenSyntaxKind.Text:
                 textContent(
-                    comment.sourcePath!,
+                    comment.sourcePath as NormalizedPath,
                     next,
                     i18n,
                     warning,

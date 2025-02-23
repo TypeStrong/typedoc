@@ -11,7 +11,7 @@ import {
     ReflectionType,
     SignatureReflection,
 } from "../models/index.js";
-import { ReflectionSymbolId } from "../models/reflections/ReflectionSymbolId.js";
+import { ReflectionSymbolId } from "../models/ReflectionSymbolId.js";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertParameterNodes, convertTemplateParameterNodes } from "./factories/signature.js";

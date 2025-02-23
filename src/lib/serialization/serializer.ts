@@ -3,7 +3,7 @@ import type { ProjectReflection } from "#models";
 import { SerializeEvent } from "./events.js";
 import type { ModelToObject } from "./schema.js";
 import type { SerializerComponent } from "./components.js";
-import { EventDispatcher, insertPrioritySorted, removeIfPresent } from "#utils";
+import { EventDispatcher, insertPrioritySorted, type NormalizedPath, removeIfPresent } from "#utils";
 
 export interface SerializerEvents {
     begin: [SerializeEvent];
@@ -34,7 +34,7 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
     /**
      * Only set when serializing.
      */
-    projectRoot!: string;
+    projectRoot!: NormalizedPath;
 
     /**
      * Only set when serializing
@@ -86,7 +86,7 @@ export class Serializer extends EventDispatcher<SerializerEvents> {
      */
     projectToObject(
         value: ProjectReflection,
-        projectRoot: string,
+        projectRoot: NormalizedPath,
     ): ModelToObject<ProjectReflection> {
         this.projectRoot = projectRoot;
         this.project = value;

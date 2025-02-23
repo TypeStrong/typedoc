@@ -4,8 +4,8 @@ import type { ParameterReflection } from "./parameter.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { ReflectionKind } from "./kind.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
-import { SourceReference } from "../sources/file.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import { SourceReference } from "../SourceReference.js";
 
 /**
  * @category Reflections

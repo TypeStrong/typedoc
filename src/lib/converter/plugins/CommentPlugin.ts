@@ -14,7 +14,16 @@ import {
     type TypeVisitor,
 } from "../../models/index.js";
 import { Option } from "../../utils/index.js";
-import { filterMap, i18n, partition, removeIf, removeIfPresent, setIntersection, unique } from "#utils";
+import {
+    filterMap,
+    i18n,
+    type NormalizedPath,
+    partition,
+    removeIf,
+    removeIfPresent,
+    setIntersection,
+    unique,
+} from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -724,7 +733,7 @@ function validHighlightedName(ref: ReferenceType, name: string) {
 function moveNestedParamTags(
     /* in-out */ paramTags: CommentTag[],
     parameters: ParameterReflection[],
-    sourcePath: string | undefined,
+    sourcePath: NormalizedPath | undefined,
 ) {
     const used = new Set<number>();
 

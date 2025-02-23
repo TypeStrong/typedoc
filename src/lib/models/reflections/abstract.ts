@@ -1,13 +1,12 @@
-import { Comment } from "../comments/comment.js";
+import { Comment } from "../Comment.js";
 import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./project.js";
-import { i18n, type NeverIfInternal, NonEnumerable } from "#utils";
+import { i18n, type NeverIfInternal, NonEnumerable, type TranslatedString } from "#utils";
 import { ReflectionKind } from "./kind.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { ReflectionVariant } from "./variant.js";
 import type { DeclarationReflection } from "./declaration.js";
 import type { DocumentReflection } from "./document.js";
-import type { TranslatedString } from "../../internationalization/index.js";
 import type { ParameterReflection } from "./parameter.js";
 import type { ReferenceReflection } from "./reference.js";
 import type { SignatureReflection } from "./signature.js";

@@ -33,7 +33,7 @@ import {
     UnionType,
     UnknownType,
 } from "#models";
-import { assert, insertPrioritySorted, type Logger } from "#utils";
+import { assert, insertPrioritySorted, type Logger, type NormalizedPath } from "#utils";
 import type { JSONOutput } from "./index.js";
 
 export interface DeserializerComponent {
@@ -209,7 +209,7 @@ export class Deserializer {
     /**
      * Only set when deserializing.
      */
-    projectRoot!: string;
+    projectRoot!: NormalizedPath;
 
     oldIdToNewId: Record<number, number | undefined> = {};
     oldFileIdToNewFileId: Record<number, number | undefined> = {};
@@ -230,7 +230,7 @@ export class Deserializer {
         name: string,
         projectObj: JSONOutput.ProjectReflection,
         options: {
-            projectRoot: string;
+            projectRoot: NormalizedPath;
             registry: FileRegistry;
         },
     ): ProjectReflection {
@@ -275,7 +275,7 @@ export class Deserializer {
         name: string,
         projects: readonly JSONOutput.ProjectReflection[],
         options: {
-            projectRoot: string;
+            projectRoot: NormalizedPath;
             registry: FileRegistry;
             alwaysCreateEntryPointModule: boolean;
         },

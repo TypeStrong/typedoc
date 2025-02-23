@@ -1,5 +1,5 @@
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
-import { Comment, type CommentDisplayPart } from "../comments/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import { Comment, type CommentDisplayPart } from "../Comment.js";
 import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ReflectionKind } from "./kind.js";
 

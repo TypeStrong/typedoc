@@ -17,9 +17,10 @@ import {
     SourceReference,
 } from "../index.js";
 import type { ModelToObject, SomeReflection } from "../lib/serialization/schema.js";
-import { getExpandedEntryPointsForPaths } from "../lib/utils/index.js";
+import { getExpandedEntryPointsForPaths, normalizePath } from "../lib/utils/index.js";
 import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";
-import { FileRegistry, ValidatingFileRegistry } from "../lib/models/FileRegistry.js";
+import { FileRegistry } from "../lib/models/FileRegistry.js";
+import { ValidatingFileRegistry } from "../lib/utils/ValidatingFileRegistry.js";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -215,7 +216,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             app.serializer.projectToObject(
                                 result!,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );
@@ -231,7 +232,7 @@ describe("Converter", function () {
                         specs.name,
                         specs,
                         {
-                            projectRoot: process.cwd(),
+                            projectRoot: normalizePath(process.cwd()),
                             registry: new FileRegistry(),
                         },
                     );
@@ -239,7 +240,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 revived,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );
@@ -249,7 +250,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 result!,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );

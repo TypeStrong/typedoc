@@ -2,7 +2,7 @@ import { Reflection, type TraverseCallback, TraverseProperty } from "./abstract.
 import { ReflectionCategory } from "../ReflectionCategory.js";
 import { ReflectionGroup } from "../ReflectionGroup.js";
 import type { ReflectionKind } from "./kind.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { DocumentReflection } from "./document.js";
 import type { DeclarationReflection } from "./declaration.js";
 import { removeIfPresent } from "#utils";

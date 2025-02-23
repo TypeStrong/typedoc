@@ -8,11 +8,10 @@ import type { ParameterReflection } from "./parameter.js";
 import { IntrinsicType, makeRecursiveVisitor, type Type } from "../types.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
 import { ReflectionKind } from "./kind.js";
-import { Comment, type CommentDisplayPart } from "../comments/index.js";
-import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
-import type { Serializer } from "../../serialization/serializer.js";
-import type { Deserializer, JSONOutput } from "../../serialization/index.js";
-import { assertNever, DefaultMap, i18n, removeIf, removeIfPresent, StableKeyMap } from "#utils";
+import { Comment, type CommentDisplayPart } from "../Comment.js";
+import { ReflectionSymbolId } from "../ReflectionSymbolId.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import { assertNever, DefaultMap, i18n, type NormalizedPath, removeIf, removeIfPresent, StableKeyMap } from "#utils";
 import type { DocumentReflection } from "./document.js";
 import type { FileRegistry } from "../FileRegistry.js";
 
@@ -102,7 +101,7 @@ export class ProjectReflection extends ContainerReflection {
     registerReflection(
         reflection: Reflection,
         symbol: ts.Symbol | undefined,
-        filePath: string | undefined,
+        filePath: NormalizedPath | undefined,
     ) {
         this.referenceGraph = undefined;
         if (reflection.parent) {

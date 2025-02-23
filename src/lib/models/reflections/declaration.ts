@@ -4,10 +4,10 @@ import { type TraverseCallback, TraverseProperty } from "./abstract.js";
 import { ContainerReflection } from "./container.js";
 import type { SignatureReflection } from "./signature.js";
 import type { TypeParameterReflection } from "./type-parameter.js";
-import type { Deserializer, JSONOutput, Serializer } from "../../serialization/index.js";
-import { Comment, type CommentDisplayPart } from "../comments/index.js";
-import { SourceReference } from "../sources/file.js";
-import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import { Comment, type CommentDisplayPart } from "../Comment.js";
+import { SourceReference } from "../SourceReference.js";
+import { ReflectionSymbolId } from "../ReflectionSymbolId.js";
 import { ReflectionKind } from "./kind.js";
 import { i18n } from "#utils";
 

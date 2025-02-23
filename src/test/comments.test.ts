@@ -12,7 +12,7 @@ import { MinimalSourceFile } from "../lib/utils-common/minimalSourceFile.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-import { dedent } from "#utils";
+import { dedent, type NormalizedPath } from "#utils";
 
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
@@ -1157,7 +1157,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1184,7 +1184,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1212,7 +1212,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1240,7 +1240,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1260,7 +1260,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(text, "<memory>"),
+            new MinimalSourceFile(text, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );

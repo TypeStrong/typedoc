@@ -8,6 +8,7 @@ import { MinimalSourceFile } from "../../utils-common/minimalSourceFile.js";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
 import { dedent, escapeRegExp, i18n } from "#utils";
+import { normalizePath } from "#node-utils";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.
@@ -65,7 +66,7 @@ export class IncludePlugin extends ConverterComponent {
 
             const { filename, regionTarget, requestedLines } = parseIncludeCodeTextPart(part.text);
 
-            const file = path.resolve(relative, filename);
+            const file = normalizePath(path.resolve(relative, filename));
             this.application.watchFile(file);
             if (included.includes(file) && part.tag === "@include") {
                 this.logger.error(
