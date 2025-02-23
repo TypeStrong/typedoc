@@ -374,7 +374,7 @@ describe("Issue Tests", () => {
             querySig(project, "bar"),
         ].map((r) => Comment.combineDisplayParts(r.comment?.summary));
 
-        equal(comments, ["bar", "metadata", "fn", ""]);
+        equal(comments, ["", "metadata", "fn", "bar"]);
     });
 
     it("#1660", () => {
@@ -429,7 +429,7 @@ describe("Issue Tests", () => {
 
     it("#1770", () => {
         const project = convert();
-        const sym1 = query(project, "sym1");
+        const sym1 = querySig(project, "sym1");
         equal(
             Comment.combineDisplayParts(sym1.comment?.summary),
             "Docs for Sym1",
@@ -670,7 +670,7 @@ describe("Issue Tests", () => {
 
         equal(comments, ["A override", "B module"]);
 
-        const comments2 = ["A.a", "B.b"].map((n) => Comment.combineDisplayParts(query(project, n).comment?.summary));
+        const comments2 = ["A.a", "B.b"].map((n) => Comment.combineDisplayParts(querySig(project, n).comment?.summary));
 
         equal(comments2, ["Comment for a", "Comment for b"]);
     });
@@ -742,7 +742,7 @@ describe("Issue Tests", () => {
 
     it("#2008", () => {
         const project = convert();
-        const fn = query(project, "myFn");
+        const fn = querySig(project, "myFn");
         equal(Comment.combineDisplayParts(fn.comment?.summary), "Docs");
     });
 
@@ -957,8 +957,7 @@ describe("Issue Tests", () => {
     it("#2156", () => {
         app.options.setValue("excludeNotDocumented", true);
         const project = convert();
-        const foo = query(project, "foo");
-        equal(foo.signatures?.length, 1);
+        const foo = querySig(project, "foo");
         equal(
             Comment.combineDisplayParts(foo.comment?.summary),
             "Is documented",
@@ -1568,7 +1567,7 @@ describe("Issue Tests", () => {
         equal(getComment(project, "f32"), "f32 comment");
         equal(getComment(project, "f32.a"), "A comment");
         equal(getComment(project, "f32.a.member"), "Member comment");
-        equal(getComment(project, "f32.a.fn"), "Fn comment");
+        equal(getSigComment(project, "f32.a.fn"), "Fn comment");
         equal(getComment(project, "f32.b"), "B comment");
     });
 

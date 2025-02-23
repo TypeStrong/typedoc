@@ -1941,14 +1941,6 @@
                     "variant": "declaration",
                     "kind": 64,
                     "flags": {},
-                    "comment": {
-                        "summary": [
-                            {
-                                "kind": "text",
-                                "text": "This is a function that is assigned to a variable."
-                            }
-                        ]
-                    },
                     "sources": [
                         {
                             "fileName": "function.ts",
@@ -1965,7 +1957,12 @@
                             "kind": 4096,
                             "flags": {},
                             "comment": {
-                                "summary": [],
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "This is a function that is assigned to a variable."
+                                    }
+                                ],
                                 "blockTags": [
                                     {
                                         "tag": "@returns",

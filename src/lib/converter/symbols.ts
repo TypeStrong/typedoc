@@ -1145,6 +1145,18 @@ function convertVariableAsFunction(
         );
     }
 
+    // #2824 If there is only one signature, and there isn't a comment
+    // on the signature already, treat the comment on the variable
+    // as if it belongs to the signature instead.
+    if (
+        reflection.signatures.length === 1 &&
+        !reflection.signatures[0].comment &&
+        reflection.comment
+    ) {
+        reflection.signatures[0].comment = reflection.comment;
+        delete reflection.comment;
+    }
+
     return (
         convertFunctionProperties(context.withScope(reflection), symbol, type) |
         ts.SymbolFlags.Property

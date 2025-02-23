@@ -24,6 +24,7 @@ title: Changelog
 - Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
 - TypeDoc's `--entryPointStrategy merge` mode now requires JSON from at least version 0.28.0.
 - TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
+- Variable-functions will now prefer placing the comment on the signature if there is only one signature present, #2824.
 
 TODO:
 

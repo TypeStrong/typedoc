@@ -1572,14 +1572,6 @@
             "variant": "declaration",
             "kind": 64,
             "flags": {},
-            "comment": {
-                "summary": [
-                    {
-                        "kind": "text",
-                        "text": "The \"mixin function\" of the Mixin1"
-                    }
-                ]
-            },
             "sources": [
                 {
                     "fileName": "mixin.ts",
@@ -1595,6 +1587,14 @@
                     "variant": "signature",
                     "kind": 4096,
                     "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "The \"mixin function\" of the Mixin1"
+                            }
+                        ]
+                    },
                     "sources": [
                         {
                             "fileName": "mixin.ts",
@@ -1751,14 +1751,6 @@
             "variant": "declaration",
             "kind": 64,
             "flags": {},
-            "comment": {
-                "summary": [
-                    {
-                        "kind": "text",
-                        "text": "The \"mixin function\" of the Mixin2"
-                    }
-                ]
-            },
             "sources": [
                 {
                     "fileName": "mixin.ts",
@@ -1774,6 +1766,14 @@
                     "variant": "signature",
                     "kind": 4096,
                     "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "The \"mixin function\" of the Mixin2"
+                            }
+                        ]
+                    },
                     "sources": [
                         {
                             "fileName": "mixin.ts",
@@ -1941,14 +1941,6 @@
             "variant": "declaration",
             "kind": 64,
             "flags": {},
-            "comment": {
-                "summary": [
-                    {
-                        "kind": "text",
-                        "text": "The \"mixin function\" of the Mixin3"
-                    }
-                ]
-            },
             "sources": [
                 {
                     "fileName": "mixin.ts",
@@ -1970,6 +1962,14 @@
                     "variant": "signature",
                     "kind": 4096,
                     "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "The \"mixin function\" of the Mixin3"
+                            }
+                        ]
+                    },
                     "sources": [
                         {
                             "fileName": "mixin.ts",
