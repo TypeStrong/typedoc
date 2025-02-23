@@ -14,9 +14,9 @@
  * @module
  */
 
-import { escapeHtml } from "./html.js";
 import type { IntrinsicElements, JsxChildren, JsxComponent, JsxElement, JsxHtmlGlobalProps } from "./jsx.elements.js";
 import { JsxFragment } from "./jsx.elements.js";
+import { escapeHtml } from "./string.js";
 
 export type { JsxChildren as Children, JsxComponent, JsxElement as Element } from "./jsx.elements.js";
 export { JsxFragment as Fragment } from "./jsx.elements.js";

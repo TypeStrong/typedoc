@@ -72,3 +72,41 @@ if (project) {
     await app.generateJson(project, outputDir + "/docs.json");
 }
 ```
+
+## Browser Bundle
+
+TypeDoc exports a limited portion of its API surface for users who want to process
+serialized JSON from TypeDoc within a browser via `typedoc/browser`. The browser
+entry point includes the following components:
+
+- TypeDoc's models
+- `Serializer` and `Deserializer` classes
+- A small set of utility functions
+
+```ts
+import {
+    ConsoleLogger,
+    Deserializer,
+    FileRegistry,
+    setTranslations,
+} from "typedoc/browser";
+
+// Similar paths are available for ja, ko, zh
+import translations from "typedoc/browser/en";
+
+// Before doing anything with TypeDoc, it should be configured with translations
+setTranslations(translations);
+
+const projectJson = await fetch("...").then(r => r.json());
+
+const logger = new ConsoleLogger();
+const deserializer = new Deserializer(logger);
+const project = deserializer.reviveProject("API Docs", projectJson, {
+    projectRoot: "/",
+    registry: new FileRegistry(),
+});
+
+// Now we can use TypeDoc's models to more easily analyze the json
+console.log(project.getChildByName("SomeClass.property"));
+console.log(project.getChildByName("SomeClass.property").type.toString());
+```

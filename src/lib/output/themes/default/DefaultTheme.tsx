@@ -16,9 +16,10 @@ import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { getIcons, type Icons } from "./partials/icon.js";
-import { createNormalizedUrl, filterMap, JSX } from "#utils";
+import { filterMap, JSX } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { PageKind, type Router } from "../../router.js";
+import { createNormalizedUrl } from "#node-utils";
 
 export interface NavigationElement {
     text: string;

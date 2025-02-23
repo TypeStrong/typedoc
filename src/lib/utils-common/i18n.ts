@@ -7,6 +7,9 @@ let translations: Record<PropertyKey, string> = {};
 declare const TranslatedString: unique symbol;
 export type TranslatedString = string & { [TranslatedString]: true };
 
+/**
+ * Set the available translations to be used by TypeDoc.
+ */
 export function setTranslations(t: Record<string, string>) {
     translations = t;
 }

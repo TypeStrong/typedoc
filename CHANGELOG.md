@@ -23,11 +23,10 @@ title: Changelog
 - File name references in `intentionallyNotExported` now use a package name/package relative path instead of an absolute path for matching.
 - Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
 - TypeDoc's `--entryPointStrategy merge` mode now requires JSON from at least version 0.28.0.
+- TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
 
 TODO:
 
-- Generate locale bundles for strings used in models/utils-common/serializer/deserializer
-- Finish supporting models/serde as browser import
 - Clean up Internationalization class, it probably doesn't make sense anymore.
 
 ## Unreleased

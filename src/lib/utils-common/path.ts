@@ -7,7 +7,7 @@ import { assert } from "./general.js";
  *
  * The empty string `""` is a valid normalized path.
  */
-export type NormalizedPath = "" | string & { readonly __normPath: unique symbol };
+export type NormalizedPath = "" | "/" | string & { readonly __normPath: unique symbol };
 
 /**
  * Represents either a {@link NormalizedPath} or a Node module name

@@ -8,10 +8,11 @@
 import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
 import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { HtmlAttributeParser, type NormalizedPath, ParserState } from "#utils";
+import { HtmlAttributeParser, ParserState } from "#node-utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";
+import type { NormalizedPath } from "#utils";
 const MdHelpers = new MarkdownIt().helpers;
 
 interface TextParserData {

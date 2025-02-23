@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { createNormalizedUrl, HtmlAttributeParser, ParserState } from "#utils";
+import { createNormalizedUrl, HtmlAttributeParser, ParserState } from "#node-utils";
 
 describe("HtmlAttributeParser", () => {
     enum State {

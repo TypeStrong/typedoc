@@ -2,7 +2,7 @@ import Path from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { writeFile } from "../../utils/index.js";
+import { writeFile } from "#node-utils";
 import { escapeHtml, JSX } from "#utils";
 import type { Renderer } from "../index.js";
 

@@ -4,7 +4,7 @@ import fs from "fs";
 import { ConverterComponent } from "../components.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { CommentDisplayPart, Reflection } from "../../models/index.js";
-import { MinimalSourceFile } from "../../utils-common/minimalSourceFile.js";
+import { MinimalSourceFile } from "#utils";
 import type { Converter } from "../converter.js";
 import { isFile } from "../../utils/fs.js";
 import { dedent, escapeRegExp, i18n } from "#utils";

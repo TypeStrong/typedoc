@@ -2,7 +2,7 @@ import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentParserConfig } from "./index.js";
 import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
-import type { MinimalSourceFile } from "../../utils-common/minimalSourceFile.js";
+import type { MinimalSourceFile } from "#utils";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";

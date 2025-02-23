@@ -1,4 +1,4 @@
-import { assertNever } from "./general.js";
+import { assertNever } from "#utils";
 import { htmlEntities } from "./html-entities.js";
 
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
@@ -23,18 +23,6 @@ for (const [name, data] of Object.entries(htmlEntities)) {
         current = current.children[name.charCodeAt(i)] ||= {};
     }
     current.data = data;
-}
-
-const htmlEscapes: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-};
-
-export function escapeHtml(html: string) {
-    return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
 }
 
 /**

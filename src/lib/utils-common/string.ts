@@ -92,3 +92,14 @@ export function getSimilarValues(values: Iterable<string>, compareTo: string) {
 export function escapeRegExp(s: string) {
     return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
+
+const htmlEscapes: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+};
+export function escapeHtml(html: string) {
+    return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
+}

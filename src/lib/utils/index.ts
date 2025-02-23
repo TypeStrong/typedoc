@@ -44,6 +44,7 @@ export type { SortStrategy } from "./sort.js";
 
 export * from "./entry-point.js";
 
+export * from "./html.js";
 export * from "./tsconfig.js";
 export * from "./tsutils.js";
 export * from "./ValidatingFileRegistry.js";

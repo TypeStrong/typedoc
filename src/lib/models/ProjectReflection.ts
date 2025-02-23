@@ -95,7 +95,7 @@ export class ProjectReflection extends ContainerReflection {
      * Registers the given reflection so that it can be quickly looked up by helper methods.
      * Should be called for *every* reflection added to the project.
      *
-     * Note: During conversion, {@link Context.registerReflection} should be used instead so
+     * Note: During conversion, `Context.registerReflection` should be used instead so
      * that symbols can be saved for later use.
      */
     registerReflection(

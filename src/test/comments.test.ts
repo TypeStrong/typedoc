@@ -8,11 +8,10 @@ import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer.js"
 import { parseComment } from "../lib/converter/comments/parser.js";
 import { lexCommentString } from "../lib/converter/comments/rawLexer.js";
 import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models/index.js";
-import { MinimalSourceFile } from "../lib/utils-common/minimalSourceFile.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-import { dedent, type NormalizedPath } from "#utils";
+import { dedent, MinimalSourceFile, type NormalizedPath } from "#utils";
 
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
