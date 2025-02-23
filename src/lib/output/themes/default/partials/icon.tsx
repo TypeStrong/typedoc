@@ -3,9 +3,8 @@
 
 import assert from "assert";
 import { ReflectionKind } from "../../../../models/index.js";
-import { i18n, JSX } from "#utils";
+import { i18n, JSX, type TranslatedString } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import type { TranslatedString } from "../../../../internationalization/index.js";
 
 const kindIcon = (letterPath: JSX.Element, color: string, label: TranslatedString, circular = false) => (
     <svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label={label}>

@@ -1,5 +1,4 @@
 import { deepEqual as equal, ok } from "assert/strict";
-import { Application } from "../index.js";
 import { readdirSync } from "fs";
 import { join } from "path";
 import translatable from "../lib/internationalization/locales/en.cjs";
@@ -7,6 +6,7 @@ import { i18n, setDifference } from "#utils";
 import { blockTags, inlineTags, modifierTags } from "../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
+import { Internationalization } from "../lib/internationalization/internationalization.js";
 
 const allValidTranslationKeys = Object.keys(translatable);
 // The tag names do not actually exist in the default locale, but are valid
@@ -18,17 +18,11 @@ allValidTranslationKeys.push(
 allValidTranslationKeys.push(...inlineTags.map((s) => "tag_" + s.substring(1)));
 
 describe("Internationalization", () => {
-    let app: Application;
-    before(async () => {
-        app = await Application.bootstrap({}, []);
-    });
-
-    afterEach(() => {
-        app.options.reset();
-    });
+    const inter = new Internationalization();
+    afterEach(() => inter.setLocale("en"));
 
     it("Supports getting the list of supported languages", () => {
-        const langs = app.internationalization.getSupportedLanguages();
+        const langs = inter.getSupportedLanguages();
         ok(langs.includes("en"));
         ok(langs.includes("ko"));
         ok(langs.includes("ja"));
@@ -39,13 +33,13 @@ describe("Internationalization", () => {
             i18n.no_entry_points_to_merge(),
             "No entry points provided to merge",
         );
-        app.options.setValue("lang", "zh");
+        inter.setLocale("zh");
         equal(i18n.no_entry_points_to_merge(), "没有提供合并的入口点");
     });
 
     it("Supports translating with placeholders", () => {
         equal(i18n.loaded_plugin_0("X"), "Loaded plugin X");
-        app.options.setValue("lang", "zh");
+        inter.setLocale("zh");
         equal(i18n.loaded_plugin_0("X"), "已加载插件 X");
     });
 });

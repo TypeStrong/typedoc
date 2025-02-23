@@ -35,7 +35,6 @@ import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
 import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
-import { Internationalization } from "./internationalization/internationalization.js";
 import { FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -45,6 +44,7 @@ import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
 import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
 import { addInferredDeclarationMapPaths } from "./converter/factories/symbol-id.js";
+import { Internationalization } from "./internationalization/internationalization.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -145,7 +145,7 @@ export class Application extends AbstractComponent<
      * Internationalization module which supports translating according to
      * the `lang` option.
      */
-    internationalization = new Internationalization(this);
+    internationalization = new Internationalization();
 
     options = new Options();
 
@@ -226,7 +226,9 @@ export class Application extends AbstractComponent<
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
         app.setOptions(options, /* reportErrors */ false);
+        app.internationalization.setLocale(app.lang);
         await app.options.read(new Logger(), undefined, (path) => app.watchConfigFile(path));
+        app.internationalization.setLocale(app.lang);
         app.logger.level = app.options.getValue("logLevel");
 
         await loadPlugins(app, app.options.getValue("plugin"));
@@ -260,8 +262,11 @@ export class Application extends AbstractComponent<
     private async _bootstrap(options: Partial<TypeDocOptions>) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
+        this.internationalization.setLocale(this.lang);
+
         await this.options.read(this.logger, undefined, (path) => this.watchConfigFile(path));
         this.setOptions(options);
+        this.internationalization.setLocale(this.lang);
 
         if (isDebugging()) {
             this.logger.level = LogLevel.Verbose;

@@ -1,6 +1,5 @@
-import { i18n } from "#utils";
+import { i18n, type TranslatedString } from "#utils";
 import type { Application } from "../application.js";
-import type { TranslatedString } from "../internationalization/index.js";
 import type { ProjectReflection } from "../models/index.js";
 import { type OutputSpecification, ParameterType, type StringDeclarationOption } from "../utils/options/declaration.js";
 import { nicePath } from "../utils/paths.js";

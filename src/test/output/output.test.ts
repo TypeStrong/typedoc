@@ -4,8 +4,8 @@ import { resolve } from "path";
 import { Outputs } from "../../lib/output/output.js";
 import { TestLogger } from "../TestLogger.js";
 import { FileRegistry, ProjectReflection } from "../../lib/models/index.js";
-import type { TranslatedString } from "../../lib/internationalization/index.js";
 import { normalizePath } from "#node-utils";
+import type { TranslatedString } from "#utils";
 
 const app = getConverter2App();
 

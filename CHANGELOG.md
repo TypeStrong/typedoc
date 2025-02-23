@@ -4,31 +4,49 @@ title: Changelog
 
 ## Beta
 
+### Breaking Changes
+
 - TypeDoc now expects all input globs paths to be specified with `/` path separators, #2825.
+- TypeDoc's `--entryPointStrategy merge` mode now requires JSON from at least version 0.28.0.
+- Removed `jp` translations from `lang`, to migrate switch to `ja`.
+- File name references in `intentionallyNotExported` now use a package name/package relative path instead of an absolute path for matching.
+- The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
+
+### API Breaking Changes
+
+- `Path` and `PathArray` parameter types now always contain normalized paths.
+- Introduced a `Router` which is used for URL creation. `Reflection.url`,
+  `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
+- `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
+- `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
+- `Comment.serializeDisplayParts` no longer requires a serializer argument.
+- `ReflectionSymbolId.fileName` has been removed, TypeDoc now stores a combination of a package name and package relative path instead.
+- Removed `DeclarationReflection.relevanceBoost` attribute which was added for plugins, but never used.
+- `i18n` proxy is no longer passed to many functions, instead, reference `i18n` exported from the module directly.
+- `ReflectionKind.singularString` and `ReflectionKind.pluralString` now returns translated strings.
+  The methods on `Internationalization` to do this previously have been removed.
+- The HTML output structure for the search box has changed to support the new modal.
+
+### Features
+
+- The search modal in the HTML output has been rewritten to provide better mobile support
 - Added a `--router` option which can be used to modify TypeDoc's output folder
   structure. This can be extended with plugins, #2111.
-- TypeDoc will now only create references for symbols re-exported from modules.
-- API: `Path` and `PathArray` parameter types now always contain normalized paths.
-- API: Introduced a `Router` which is used for URL creation. `Reflection.url`,
-  `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.
-- Removed `jp` translations from `lang`, to migrate switch to `ja`.
 - Introduced the `@primaryExport` modifier tag to provide more fine grained
   control over export conversion order, #2856
-- API: `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
-- API: `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
-- API: `Comment.serializeDisplayParts` no longer requires a serializer argument.
-- API: `ReflectionSymbolId.fileName` has been removed, TypeDoc now stores a combination of a package name and package relative path instead.
-- API: Removed `DeclarationReflection.relevanceBoost` attribute which was added for plugins, but never used.
-- The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
-- File name references in `intentionallyNotExported` now use a package name/package relative path instead of an absolute path for matching.
 - Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
-- TypeDoc's `--entryPointStrategy merge` mode now requires JSON from at least version 0.28.0.
 - TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
+
+### Bug Fixes
+
+- TypeDoc will now only create references for symbols re-exported from modules.
 - Variable-functions will now prefer placing the comment on the signature if there is only one signature present, #2824.
+- User filter settings will no longer sometimes cause the search to have fewer visible results than expected.
 
-TODO:
+### Thanks!
 
-- Clean up Internationalization class, it probably doesn't make sense anymore.
+- @phoneticallySAARTHaK
+- @XeroAlpha
 
 ## Unreleased
 

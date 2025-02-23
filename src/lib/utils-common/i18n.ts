@@ -11,7 +11,15 @@ export type TranslatedString = string & { [TranslatedString]: true };
  * Set the available translations to be used by TypeDoc.
  */
 export function setTranslations(t: Record<string, string>) {
-    translations = t;
+    translations = { ...t };
+}
+
+/**
+ * Add the specified translations to the current translations object
+ * Any keys already specified will overwrite current keys
+ */
+export function addTranslations(t: Record<string, string>) {
+    Object.assign(translations, t);
 }
 
 export const i18n = new Proxy({}, {

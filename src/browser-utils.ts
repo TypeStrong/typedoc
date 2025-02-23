@@ -1,6 +1,7 @@
 export * from "#models";
 
 export {
+    addTranslations,
     type ComponentPath,
     ConsoleLogger,
     type DeclarationReference,

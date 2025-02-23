@@ -1,9 +1,7 @@
 import { ok } from "assert";
-import type { Application } from "../application.js";
-import { DefaultMap, setTranslations, type TranslatedString, unique } from "#utils";
+import { addTranslations, DefaultMap, setTranslations, type TranslatedString } from "#utils";
 import { readdirSync } from "fs";
 import { join } from "path";
-import translatable from "./locales/en.cjs";
 import { type BuiltinTranslatableStringArgs } from "./translatable.js";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -54,85 +52,70 @@ export type TranslationProxy = {
     ) => TranslatedString;
 };
 
+const req = createRequire(fileURLToPath(import.meta.url));
+
 /**
- * Simple internationalization module which supports placeholders.
- * See {@link TranslatableStrings} for a description of how this module works and how
- * plugins should add translations.
+ * Load TypeDoc's translations for a specified language
+ */
+export function loadTranslations(lang: string): Record<string, string> {
+    // Make sure this isn't abused to load some random file by mistake
+    ok(
+        /^[A-Za-z-]+$/.test(lang),
+        "Locale names may only contain letters and dashes",
+    );
+    try {
+        return req(`./locales/${lang}.cjs`);
+    } catch {
+        return {};
+    }
+}
+
+/**
+ * Get languages which TypeDoc includes translations for
+ */
+export function getNativelySupportedLanguages(): string[] {
+    return readdirSync(join(fileURLToPath(import.meta.url), "../locales"))
+        .map((x) => x.substring(0, x.indexOf(".")));
+}
+
+/**
+ * Responsible for maintaining loaded internationalized strings.
  */
 export class Internationalization {
-    private allTranslations = new DefaultMap<string, Map<string, string>>(
-        (lang) => {
-            const req = createRequire(fileURLToPath(import.meta.url));
-            // Make sure this isn't abused to load some random file by mistake
-            ok(
-                /^[A-Za-z-]+$/.test(lang),
-                "Locale names may only contain letters and dashes",
-            );
-            try {
-                return new Map(Object.entries(req(`./locales/${lang}.cjs`)));
-            } catch {
-                return new Map();
-            }
-        },
-    );
+    private locales = new DefaultMap<string, Record<string, string>>(() => ({}));
+    private loadedLocale!: string;
 
-    /**
-     * If constructed without an application, will use the default language.
-     * Intended for use in unit tests only.
-     * @internal
-     */
-    constructor(private application: Application | null) {
-        // TODO: Get rid of this extra proxy
-        setTranslations(
-            new Proxy(this, {
-                get(i, p) {
-                    const t = i.allTranslations.get(i.application?.lang ?? "en") ??
-                        translatable;
-                    return t instanceof Map ? t.get(p as string) : t[p];
-                },
-                has(i, p) {
-                    const t = i.allTranslations.get(i.application?.lang ?? "en") ??
-                        translatable;
-                    return t instanceof Map ? t.has(p as string) : Object.prototype.hasOwnProperty.call(t, p);
-                },
-            }) as never,
-        );
+    constructor() {
+        this.setLocale("en");
     }
 
-    /**
-     * Add translations for a string which will be displayed to the user.
-     */
-    addTranslations(
-        lang: string,
-        translations: Partial<Record<keyof TranslatableStrings, string>>,
-        override = false,
-    ): void {
-        const target = this.allTranslations.get(lang);
-        for (const [key, val] of Object.entries(translations)) {
-            if (!target.has(key) || override) {
-                target.set(key, val);
-            }
+    setLocale(locale: string): void {
+        if (this.loadedLocale !== locale) {
+            const defaultTranslations = loadTranslations(locale);
+            const overrides = this.locales.get(locale);
+            setTranslations({ ...defaultTranslations, ...overrides });
+            this.loadedLocale = locale;
         }
     }
 
-    /**
-     * Checks if we have any translations in the specified language.
-     */
-    hasTranslations(lang: string): boolean {
-        return this.allTranslations.get(lang).size > 0;
+    addTranslations(locale: string, translations: Record<string, string>): void {
+        Object.assign(this.locales.get(locale), translations);
+        if (locale === this.loadedLocale) {
+            addTranslations(translations);
+        }
     }
 
-    /**
-     * Gets a list of all languages with at least one translation.
-     */
+    hasTranslations(locale: string) {
+        return this.getSupportedLanguages().includes(locale);
+    }
+
     getSupportedLanguages(): string[] {
-        return unique([
-            ...readdirSync(
-                join(fileURLToPath(import.meta.url), "../locales"),
-            ).map((x) => x.substring(0, x.indexOf("."))),
-            ...this.allTranslations.keys(),
-        ])
-            .filter((lang) => this.hasTranslations(lang))
-            .sort();
+        const supported = new Set(getNativelySupportedLanguages());
+        for (const [locale, translations] of this.locales) {
+            if (Object.entries(translations).length) {
+                supported.add(locale);
+            }
+        }
+        return Array.from(supported);
     }
 }

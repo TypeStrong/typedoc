@@ -7,7 +7,7 @@ import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { assertNever, escapeHtml, i18n, JSX } from "#utils";
+import { assertNever, escapeHtml, i18n, JSX, type TranslatedString } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
@@ -16,7 +16,6 @@ import {
     ReflectionKind,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
-import type { TranslatedString } from "../../internationalization/index.js";
 
 /**
  * Implements markdown and relativeURL helpers for templates.

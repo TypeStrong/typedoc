@@ -5,6 +5,10 @@
  * entry point which exports some functions which may be useful during plugin
  * development or debugging. Exports from that entry point are **not stable**
  * and may change or be removed at any time.
+ *
+ * TypeDoc also exports a `typedoc/browser` entry point which exports a subset
+ * of the members described here which makes it suitable for usage in browser
+ * bundles which want to use TypeDoc's JSON output in the browser.
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
@@ -125,6 +129,7 @@ export {
     EventDispatcher,
     EventHooks,
     type GlobString,
+    i18n,
     JSX,
     Logger,
     LogLevel,
@@ -135,6 +140,7 @@ export {
     type NormalizedPath,
     type NormalizedPathOrModule,
     type SymbolReference,
+    translateTagName,
 } from "#utils";
 
 export {
