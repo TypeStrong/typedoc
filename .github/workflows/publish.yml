@@ -37,7 +37,7 @@ jobs:
                   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Publish
               if: steps.check.outputs.changed == 'true'
-              run: pnpm publish
+              run: pnpm publish --no-git-checks
             - name: Generate Release
               if: steps.check.outputs.changed == 'true'
               run: |

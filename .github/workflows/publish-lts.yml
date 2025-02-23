@@ -35,4 +35,4 @@ jobs:
                   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Publish
               if: steps.check.outputs.changed == 'true'
-              run: pnpm publish --tag lts
+              run: pnpm publish --tag lts --no-git-checks
