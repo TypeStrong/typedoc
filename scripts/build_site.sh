@@ -14,7 +14,7 @@ fi
 if [[ -n "$CI" || ! -d example/docs ]]; then
     cd example
     pnpm i
-    pnpm run typedoc -- --logLevel Error
+    pnpm run typedoc --logLevel Error
     cd ..
 fi
 

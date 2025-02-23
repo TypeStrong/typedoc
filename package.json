@@ -82,7 +82,7 @@
         "build": "pnpm build:tsc && pnpm build:locales && pnpm build:themes",
         "build:tsc": "tsc --project .",
         "build:themes": "node scripts/build_themes.js",
-        "build:locales": "tsx scripts/build_browser_translations.js",
+        "build:locales": "node scripts/build_browser_translations.js",
         "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes",
         "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
         "lint": "eslint . --max-warnings 0 && dprint check",

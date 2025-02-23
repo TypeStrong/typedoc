@@ -1,4 +1,3 @@
-// Expects to be run with tsx
 // @ts-check
 
 import ts from "typescript";
@@ -7,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { Logger, Options, TSConfigReader } from "typedoc";
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { ok } from "node:assert";
+import { createRequire } from "node:module";
 
 const browserBundleFolders = [
     "/utils-common/",
@@ -14,9 +14,14 @@ const browserBundleFolders = [
     "/serialization/",
 ];
 
-const localesDir = join(
+const localesDirTs = join(
     fileURLToPath(import.meta.url),
     "../../src/lib/internationalization/locales",
+);
+
+const localesDir = join(
+    fileURLToPath(import.meta.url),
+    "../../dist/lib/internationalization/locales",
 );
 
 const distDir = join(
@@ -56,12 +61,12 @@ const service = ts.createLanguageService(
 const program = service.getProgram();
 ok(program, "Failed to get program for i18n analysis");
 
-const sf = program.getSourceFile(join(localesDir, "en.cts"));
+const sf = program.getSourceFile(join(localesDirTs, "en.cts"));
 ok(sf, "Failed to get source file");
 
 const moduleSymbol = program.getTypeChecker().getSymbolAtLocation(sf);
 const translatable = moduleSymbol?.exports?.get(
-    "export=" as ts.__String,
+    /** @type {ts.__String} */ ("export="),
 );
 ok(translatable, "Failed to get translatable symbol");
 
@@ -74,7 +79,8 @@ ok(
 );
 const translatableObj = translatable.valueDeclaration.expression.expression;
 
-const bundleUsedTranslationKeys: string[] = [];
+/** @type {string[]} */
+const bundleUsedTranslationKeys = [];
 
 translatableObj.forEachChild((child) => {
     ok(ts.isPropertyAssignment(child));
@@ -90,27 +96,29 @@ translatableObj.forEachChild((child) => {
 
 service.dispose();
 
-const enLocale = (await import(join(localesDir, "en.cts"))).default;
+const req = createRequire(import.meta.url);
+const enLocale = req(join(localesDir, "en.cjs"));
 
 rmSync(distDir, { recursive: true, force: true });
 mkdirSync(distDir, { recursive: true });
 
 for (const locale of readdirSync(localesDir)) {
+    if (!locale.endsWith(".cjs")) continue;
     console.log(`Processing ${locale}`);
 
     const browserTranslations = {};
-    const translations = (await import(join(localesDir, locale))).default;
+    const translations = req(join(localesDir, locale));
     for (const key of bundleUsedTranslationKeys) {
         browserTranslations[key] = translations[key] || enLocale[key];
     }
 
     writeFileSync(
-        join(distDir, locale.replace(".cts", ".js")),
+        join(distDir, locale.replace(".cjs", ".js")),
         `export default ${JSON.stringify(browserTranslations, null, 4)}\n`,
     );
 
     writeFileSync(
-        join(distDir, locale.replace(".cts", ".d.ts")),
+        join(distDir, locale.replace(".cjs", ".d.ts")),
         `const translations: Record<string, string>;\nexport default translations;\n`,
     );
 }
