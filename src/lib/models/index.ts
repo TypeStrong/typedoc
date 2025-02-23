@@ -3,7 +3,6 @@ export * from "./ContainerReflection.js";
 export * from "./DeclarationReflection.js";
 export * from "./DocumentReflection.js";
 export * from "./FileRegistry.js";
-export * from "./index.js";
 export * from "./kind.js";
 export * from "./ParameterReflection.js";
 export * from "./ProjectReflection.js";
