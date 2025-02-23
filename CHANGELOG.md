@@ -29,6 +29,7 @@ title: Changelog
 
 ### Features
 
+- Add support for TypeScript 5.8.x
 - The search modal in the HTML output has been rewritten to provide better mobile support
 - Added a `--router` option which can be used to modify TypeDoc's output folder
   structure. This can be extended with plugins, #2111.
