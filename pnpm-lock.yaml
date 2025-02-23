@@ -27,6 +27,9 @@ importers:
       '@eslint/js':
         specifier: ^9.21.0
         version: 9.21.0
+      '@shikijs/types':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@types/lunr':
         specifier: ^2.3.7
         version: 2.3.7

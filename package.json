@@ -42,6 +42,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",
+        "@shikijs/types": "^3.0.0",
         "@types/lunr": "^2.3.7",
         "@types/markdown-it": "^14.1.2",
         "@types/mocha": "^10.0.10",
