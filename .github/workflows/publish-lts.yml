@@ -19,7 +19,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "18"
-            - name: Upgrade pnpm
+            - name: Set up pnpm
               if: steps.check.outputs.changed == 'true'
               run: npm i -g pnpm@10
             - name: Install

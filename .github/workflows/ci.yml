@@ -14,7 +14,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node }}
-            - name: Upgrade pnpm
+            - name: Set up pnpm
               run: npm i -g pnpm@10
             - name: Install
               run: pnpm install
@@ -42,7 +42,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 22.4.1
-            - name: Upgrade pnpm
+            - name: Set up pnpm
               run: npm i -g pnpm@10
             - name: Install
               run: pnpm install
@@ -64,7 +64,7 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 18
-            - name: Upgrade pnpm
+            - name: Set up pnpm
               run: npm i -g pnpm@10
             - name: Install
               run: pnpm install

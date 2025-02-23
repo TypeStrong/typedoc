@@ -17,6 +17,8 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20
+            - name: Set up pnpm
+              run: npm i -g pnpm@10
             - name: Install
               run: pnpm install
             - name: Build
