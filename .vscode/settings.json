@@ -32,6 +32,11 @@
         "editor.formatOnSave": true,
         "editor.tabSize": 4
     },
+    "[css]": {
+        "editor.defaultFormatter": "dprint.dprint",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4
+    },
 
     "mochaExplorer.nodeArgv": ["--import=tsx", "--conditions=typedoc-ts"],
 
