@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.9 (2025-02-25)
+
 This will be the last v0.27.x release, see #2868 for discussion on the 0.28 beta.
 
 ### Features
