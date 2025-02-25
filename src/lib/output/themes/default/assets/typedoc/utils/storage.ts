@@ -5,6 +5,8 @@
 export interface MinimalStorage {
     getItem(key: string): string | null;
     setItem(key: string, value: string): void;
+    removeItem(key: string): void;
+    clear(): void;
 }
 
 let _storage: MinimalStorage;
@@ -17,6 +19,8 @@ try {
             return null;
         },
         setItem() {},
+        removeItem() {},
+        clear() {},
     };
 }
 
