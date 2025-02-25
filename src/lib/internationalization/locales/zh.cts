@@ -89,7 +89,10 @@ export = localeUtils.buildIncompleteTranslation({
         "无法解析文档 {1} 中指向 “{0}” 的链接。您可能想要 “{2}”",
     type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs: "{0} 在 {1} 中定义，被 {2} 引用，但未包含在文档中",
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation: "{0} ({1})，在 {2} 中定义，没有任何文档",
-    invalid_intentionally_not_exported_symbols_0: "以下符号被标记为有意不导出，但未在文档中引用，或已被导出：\n{0}",
+    invalid_intentionally_not_documented_names_0:
+        "以下的限定反射名称被设定为刻意无文档说明，但它们要么未在文档中被引用，要么已有文档说明：\n\t{0}",
+    invalid_intentionally_not_exported_symbols_0:
+        "以下符号被设定为刻意非导出，但它们要么未在文档中被引用，要么已为导出符号：\n{0}",
     reflection_0_has_unused_mergeModuleWith_tag: "{0} 中存在无法解析的 @mergeModuleWith 标签",
     reflection_0_links_to_1_with_text_2_but_resolved_to_3:
         "“{0}”中的链接“{2}”指向“{1}”，目标虽然存在但并没有直接的链接，因此将改为链接至“{3}”。",
@@ -258,6 +261,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_basePath: "指定显示文件路径时使用的基本路径",
     help_excludeTags: "从文档注释中删除列出的块级/修饰符标签",
     help_notRenderedTags: "保留在文档注释中但在创建输出时不渲染的标签",
+    help_cascadedModifierTags: "需要从父反射复制至所有子反射的修饰符标签",
     help_readme: "应显示在索引页上的自述文件路径。传递“none”以禁用索引页并在全局页上启动文档",
     help_cname: "设置 CNAME 文件文本，这对于 GitHub Pages 上的自定义域很有用",
     help_favicon: "作为站点图标包含的 favicon 的路径",
@@ -288,6 +292,7 @@ export = localeUtils.buildIncompleteTranslation({
     help_useFirstParagraphOfCommentAsSummary:
         "如果设置，且没有指定 @summary 标签，TypeDoc 会使用注释的第一行作为在模块/命名空间一览里的概述",
     help_jsDocCompatibility: "设置注释解析的兼容性选项，以增加与 JSDoc 注释的相似度",
+    help_suppressCommentWarningsInDeclarationFiles: "阻止 .d.ts 文件的注释中因为存在未指定的标签而弹出的警告。",
     help_commentStyle: "确定 TypeDoc 如何搜索注释",
     help_useTsLinkResolution: "使用 TypeScript 的链接解析来确定 @link 标签指向的位置。这仅适用于 JSDoc 样式注释",
     help_preserveLinkText: "如果设置，不带链接文本的 @link 标签将使用文本内容作为链接。如果未设置，将使用目标反射名称",
@@ -313,8 +318,10 @@ export = localeUtils.buildIncompleteTranslation({
     help_treatWarningsAsErrors: "如果设置，所有警告都将被视为错误",
     help_treatValidationWarningsAsErrors:
         "如果设置，验证期间发出的警告将被视为错误。此选项不能用于禁用验证警告的 treatWarningsAsErrors",
-    help_intentionallyNotExported: "不应产生“引用但未记录”警告的类型列表",
-    help_requiredToBeDocumented: "必须记录的反射类型列表",
+    help_intentionallyNotExported: "不会因为“引用但并未导出”而产生警告的符号列表",
+    help_requiredToBeDocumented: "需要有文档说明的反射类型列表",
+    help_packagesRequiringDocumentation: "需要有文档说明的包的列表",
+    help_intentionallyNotDocumented: "不会因为无文档说明而产生警告的完整反射名称列表",
     help_validation: "指定 TypeDoc 应对生成的文档执行哪些验证步骤",
 
     // ==================================================================
