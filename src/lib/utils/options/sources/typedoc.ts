@@ -801,7 +801,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     });
     options.addDeclaration({
         name: "cascadedModifierTags",
-        help: () => i18n.help_modifierTags(),
+        help: () => i18n.help_cascadedModifierTags(),
         type: ParameterType.Array,
         defaultValue: OptionDefaults.cascadedModifierTags,
         validate: makeTagArrayValidator("cascadedModifierTags"),
