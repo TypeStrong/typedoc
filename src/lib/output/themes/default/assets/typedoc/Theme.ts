@@ -8,7 +8,11 @@ export function initTheme(choices: HTMLOptionElement) {
     setTheme(savedTheme);
 
     choices.addEventListener("change", () => {
-        storage.setItem("tsd-theme", choices.value);
+        if (
+            !(document.documentElement.dataset.disableLocalStorage === "true")
+        ) {
+            storage.setItem("tsd-theme", choices.value);
+        }
         setTheme(choices.value as ThemeChoice);
     });
 }
