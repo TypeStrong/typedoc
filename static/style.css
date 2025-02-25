@@ -459,8 +459,8 @@
         margin: var(--dim-container-main-margin-y) auto;
         /* toolbar, footer, margin */
         min-height: calc(
-            100svh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
-                var(--dim-container-main-margin-y)
+            100svh - var(--dim-header-height) - var(--dim-footer-height) -
+                2 * var(--dim-container-main-margin-y)
         );
     }
 
@@ -500,8 +500,16 @@
     }
     body {
         background: var(--color-background);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-            Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            "Noto Sans",
+            Helvetica,
+            Arial,
+            sans-serif,
+            "Apple Color Emoji",
+            "Segoe UI Emoji";
         font-size: 16px;
         color: var(--color-text);
         margin: 0;
@@ -789,7 +797,7 @@
         margin-right: 0.5em;
         border-radius: 0.33em;
         /* Leaving this at full opacity breaks event listeners on Firefox.
-    Don't remove unless you know what you're doing. */
+        Don't remove unless you know what you're doing. */
         opacity: 0.99;
     }
     .tsd-filter-input input[type="checkbox"]:focus-visible + svg {
@@ -1152,9 +1160,7 @@
         height: 2.5rem;
         flex: 0 0 auto;
         font-size: 0.875rem;
-        transition:
-            border-color 0.2s,
-            background-color 0.2s;
+        transition: border-color 0.2s, background-color 0.2s;
     }
     #tsd-search-input:focus-visible {
         background-color: var(--color-background-active);
@@ -1334,9 +1340,7 @@
         opacity: 0.8;
         height: 2.5rem;
         width: 2.5rem;
-        transition:
-            opacity 0.1s,
-            background-color 0.1s;
+        transition: opacity 0.1s, background-color 0.1s;
         text-align: center;
         cursor: pointer;
         border: none;
@@ -1573,8 +1577,8 @@
     @media (min-width: 770px) and (max-width: 1399px) {
         .col-sidebar {
             max-height: calc(
-                100vh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
-                    var(--dim-container-main-margin-y)
+                100vh - var(--dim-header-height) - var(--dim-footer-height) -
+                    2 * var(--dim-container-main-margin-y)
             );
             overflow: auto;
             position: sticky;
@@ -1590,10 +1594,11 @@
     /* two sidebars */
     @media (min-width: 1200px) {
         .container-main {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr) minmax(
-                    0,
-                    20rem
-                );
+            grid-template-columns:
+                minmax(0, 1fr) minmax(0, 2.5fr) minmax(
+                0,
+                20rem
+            );
             grid-template-areas: "sidebar content toc";
         }
 
@@ -1616,8 +1621,8 @@
         .page-menu,
         .site-menu {
             max-height: calc(
-                100vh - var(--dim-header-height) - var(--dim-footer-height) - 2 *
-                    var(--dim-container-main-margin-y)
+                100vh - var(--dim-header-height) - var(--dim-footer-height) -
+                    2 * var(--dim-container-main-margin-y)
             );
             overflow: auto;
             position: sticky;

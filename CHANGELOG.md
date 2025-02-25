@@ -14,6 +14,7 @@ title: Changelog
 
 ### API Breaking Changes
 
+- `ProjectReflection.getReflectionFromSymbol` and `ProjectReflection.getSymbolFromReflection` have been moved to `Context`
 - `Path` and `PathArray` parameter types now always contain normalized paths.
 - Introduced a `Router` which is used for URL creation. `Reflection.url`,
   `Reflection.anchor`, and `Reflection.hasOwnDocument` have been removed.

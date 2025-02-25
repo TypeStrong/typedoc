@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "hbenl.vscode-test-explorer",
-        "hbenl.vscode-mocha-test-adapter"
+        "hbenl.vscode-mocha-test-adapter",
+        "dprint.dprint"
     ]
 }
