@@ -5,6 +5,7 @@ children:
     - themes.md
     - internationalization.md
     - third-party-symbols.md
+    - local-storage.md
 ---
 
 # Development
