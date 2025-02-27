@@ -6,6 +6,7 @@ import {
     Reflection,
     ReflectionKind,
     type SignatureReflection,
+    TraverseProperty,
 } from "../index.js";
 import { filterMap } from "#utils";
 import { equal } from "assert/strict";
@@ -109,4 +110,25 @@ export function equalKind(refl: Reflection, kind: ReflectionKind) {
         kind,
         `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]}`,
     );
+}
+
+interface ReflectionTree {
+    [name: string]: ReflectionTree;
+}
+
+export function reflToTree(refl: Reflection) {
+    const result: ReflectionTree = {};
+
+    refl.traverse((refl, prop) => {
+        if (prop == TraverseProperty.Children) {
+            if (refl.name in result) {
+                result[`${ReflectionKind[refl.kind]}:${refl.name}`] = reflToTree(refl);
+            } else {
+                result[refl.name] = reflToTree(refl);
+            }
+        }
+        return true;
+    });
+
+    return result;
 }

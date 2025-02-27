@@ -44,6 +44,7 @@ title: Changelog
 - TypeDoc will now only create references for symbols re-exported from modules.
 - Variable-functions will now prefer placing the comment on the signature if there is only one signature present, #2824.
 - User filter settings will no longer sometimes cause the search to have fewer visible results than expected.
+- Fixed handling of expando functions which were also merged with a namespace, #2876.
 
 ### Thanks!
 

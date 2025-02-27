@@ -17,7 +17,7 @@ import {
 import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
-import { equalKind, getComment, getLinks, getSigComment, query, querySig } from "./utils.js";
+import { equalKind, getComment, getLinks, getSigComment, query, querySig, reflToTree } from "./utils.js";
 import { DefaultTheme, KindRouter, PageEvent } from "../index.js";
 
 const app = getConverter2App();
@@ -1987,5 +1987,19 @@ describe("Issue Tests", () => {
 
         ok(query(project, "B.definedInA").isReference());
         ok(!query(project, "B.definedInB").isReference());
+    });
+
+    it("#2876 converts both expando and namespace properties", () => {
+        const project = convert();
+
+        equal(reflToTree(project), {
+            "MyComponent": {
+                "Props": {
+                    "children": {},
+                },
+                "propTypes": {},
+            },
+            "Function:MyComponent": {},
+        });
     });
 });

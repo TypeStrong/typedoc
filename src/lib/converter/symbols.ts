@@ -274,6 +274,10 @@ function convertNamespace(
         }
     }
 
+    if (symbol.declarations?.some(ts.isFunctionDeclaration)) {
+        exportFlags |= ts.SymbolFlags.PropertyOrAccessor;
+    }
+
     // #2364, @namespace on a variable might be merged with a namespace containing types.
     const existingReflection = context.getReflectionFromSymbol(
         exportSymbol || symbol,
@@ -1179,7 +1183,8 @@ function convertFunctionProperties(
     if (
         type.getProperties().length &&
         (hasAllFlags(symbol.flags, nsFlags) ||
-            !hasAnyFlag(symbol.flags, nsFlags))
+            !hasAnyFlag(symbol.flags, nsFlags)) &&
+        !symbol.declarations?.some(ts.isModuleDeclaration)
     ) {
         convertSymbols(context, type.getProperties());
 
