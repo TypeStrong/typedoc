@@ -178,6 +178,7 @@ describe("KindRouter", () => {
 
     it("Can link to the modules page", () => {
         const project = getProject();
+        project.readme = [{ kind: "text", text: "Needed so we create a modules page" }];
         const router = new KindRouter(app);
         router.buildPages(project);
 

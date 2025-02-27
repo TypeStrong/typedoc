@@ -58,7 +58,7 @@ async function main() {
     if (!code) {
         console.log("No codeblock found");
         const file = `src/test/converter2/issues/gh${issue}.ts`;
-        await exec(`code ${file}`);
+        await exec(`code ${file} src/test/issues.c2.test.ts`);
         return;
     }
 

@@ -260,32 +260,6 @@ export function hasDeclarationFileExtension(path: string) {
     return /\.d\.[cm]?ts$/.test(path);
 }
 
-export function discoverInParentDir<T extends {}>(
-    name: string,
-    dir: string,
-    read: (content: string) => T | undefined,
-): { file: string; content: T } | undefined {
-    if (!isDir(dir)) return;
-
-    const reachedTopDirectory = (dirName: string) => dirName === resolve(join(dirName, ".."));
-
-    while (!reachedTopDirectory(dir)) {
-        for (const file of fs.readdirSync(dir)) {
-            if (file.toLowerCase() !== name.toLowerCase()) continue;
-
-            try {
-                const content = read(readFile(join(dir, file)));
-                if (content != null) {
-                    return { file: join(dir, file), content };
-                }
-            } catch {
-                // Ignore, file didn't pass validation
-            }
-        }
-        dir = resolve(join(dir, ".."));
-    }
-}
-
 export function discoverInParentDirExactMatch<T extends {}>(
     name: string,
     dir: string,

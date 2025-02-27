@@ -8,7 +8,6 @@ import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath } from "#utils";
 import {
-    discoverInParentDir,
     discoverPackageJson,
     type EntryPointStrategy,
     getCommonDirectory,
@@ -17,6 +16,7 @@ import {
     Option,
     readFile,
 } from "#node-utils";
+import { existsSync } from "fs";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -82,10 +82,11 @@ export class PackagePlugin extends ConverterComponent {
             Path.resolve(getCommonDirectory(this.entryPoints.map(g => `${g}/`)));
 
         this.application.logger.verbose(
-            `Begin readme.md/package.json search at ${nicePath(dirName)}`,
+            `Begin package.json search at ${nicePath(dirName)}`,
         );
 
-        this.packageJson = discoverPackageJson(dirName)?.content;
+        const packageJson = discoverPackageJson(dirName);
+        this.packageJson = packageJson?.content;
 
         // Path will be resolved already. This is kind of ugly, but...
         if (this.readme.endsWith("none")) {
@@ -105,17 +106,22 @@ export class PackagePlugin extends ConverterComponent {
                     ),
                 );
             }
-        } else {
+        } else if (packageJson) {
             // No readme provided, automatically find the readme
-            const result = discoverInParentDir(
+            const possibleReadmePaths = [
+                "README.md",
                 "readme.md",
-                dirName,
-                (content) => content,
-            );
+                "Readme.md",
+            ].map(name => Path.join(Path.dirname(packageJson.file), name));
 
-            if (result) {
-                this.readmeFile = normalizePath(result.file);
-                this.readmeContents = result.content;
+            const readmePath = possibleReadmePaths.find(path => {
+                this.application.watchFile(path);
+                return existsSync(path);
+            });
+
+            if (readmePath) {
+                this.readmeFile = normalizePath(readmePath);
+                this.readmeContents = readFile(readmePath);
                 this.application.watchFile(this.readmeFile);
             }
         }

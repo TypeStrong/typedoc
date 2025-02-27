@@ -11,6 +11,8 @@ title: Changelog
 - Removed `jp` translations from `lang`, to migrate switch to `ja`.
 - File name references in `intentionallyNotExported` now use a package name/package relative path instead of an absolute path for matching.
 - The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
+- TypeDoc will only check for a project README file next to the discovered `package.json` file if `--readme` is not set
+  this change improves handling of monorepo setups where some packages have readme files and others do not, #2875.
 
 ### API Breaking Changes
 

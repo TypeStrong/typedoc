@@ -1396,4 +1396,10 @@ describe("Behavior Tests", () => {
             "error: @include *#circular* resulted in a circular include:*",
         );
     });
+
+    it("#2875 discovers readme files directly adjacent to the package.json file", () => {
+        const project = convert("asConstEnum");
+        // Previously, would find TypeDoc's root readme
+        equal(project.readme, undefined);
+    });
 });
