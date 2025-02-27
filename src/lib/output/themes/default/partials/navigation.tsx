@@ -115,14 +115,6 @@ export function settings(context: DefaultThemeRenderContext) {
                             <option value="dark">{context.i18n.theme_dark()}</option>
                         </select>
                     </div>
-                    <div class="tsd-disable-local-storage-toggle">
-                        <span class="settings-label">{context.i18n.theme_disable_local_storage()}</span>
-                        <label class="tsd-disable-local-storage-toggle-input">
-                            <input type="checkbox" id="tsd-disable-local-storage-toggle-checkbox" />
-                            {context.icons.checkbox()}
-                            <span>{context.i18n.theme_disable_local_storage()}</span>
-                        </label>
-                    </div>
                 </div>
             </details>
         </div>

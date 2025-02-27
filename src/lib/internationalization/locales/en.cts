@@ -525,7 +525,6 @@ export = {
     theme_os: "OS",
     theme_light: "Light",
     theme_dark: "Dark",
-    theme_disable_local_storage: "Disable Local Storage",
     theme_on_this_page: "On This Page",
 
     // aria-label

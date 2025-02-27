@@ -705,8 +705,7 @@
     .tsd-filter-item:not(:last-child) {
         margin-bottom: 0.5rem;
     }
-    .tsd-filter-input,
-    .tsd-disable-local-storage-toggle-input {
+    .tsd-filter-input {
         display: flex;
         width: -moz-fit-content;
         width: fit-content;
@@ -717,20 +716,17 @@
         user-select: none;
         cursor: pointer;
     }
-    .tsd-filter-input input[type="checkbox"],
-    .tsd-disable-local-storage-toggle-input input[type="checkbox"] {
+    .tsd-filter-input input[type="checkbox"] {
         cursor: pointer;
         position: absolute;
         width: 1.5em;
         height: 1.5em;
         opacity: 0;
     }
-    .tsd-filter-input input[type="checkbox"]:disabled,
-    .tsd-disable-local-storage-toggle-input input[type="checkbox"]:disabled {
+    .tsd-filter-input input[type="checkbox"]:disabled {
         pointer-events: none;
     }
-    .tsd-filter-input svg,
-    .tsd-disable-local-storage-toggle-input svg {
+    .tsd-filter-input svg {
         cursor: pointer;
         width: 1.5em;
         height: 1.5em;
@@ -740,10 +736,7 @@
     Don't remove unless you know what you're doing. */
         opacity: 0.99;
     }
-    .tsd-filter-input input[type="checkbox"]:focus-visible + svg,
-    .tsd-disable-local-storage-toggle-input
-        input[type="checkbox"]:focus-visible
-        + svg {
+    .tsd-filter-input input[type="checkbox"]:focus-visible + svg {
         outline: 2px solid var(--color-focus-outline);
     }
     .tsd-checkbox-background {
@@ -752,25 +745,13 @@
     input[type="checkbox"]:checked ~ svg .tsd-checkbox-checkmark {
         stroke: var(--color-text);
     }
-    .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-background,
-    .tsd-disable-local-storage-toggle-input
-        input:disabled
-        ~ svg
-        > .tsd-checkbox-background {
+    .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-background {
         fill: var(--color-background);
         stroke: var(--color-accent);
         stroke-width: 0.25rem;
     }
-    .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-checkmark,
-    .tsd-disable-local-storage-toggle-input
-        input:disabled
-        ~ svg
-        > .tsd-checkbox-checkmark {
+    .tsd-filter-input input:disabled ~ svg > .tsd-checkbox-checkmark {
         stroke: var(--color-accent);
-    }
-
-    .tsd-disable-local-storage-toggle {
-        display: none;
     }
 
     .settings-label {
@@ -785,10 +766,6 @@
 
     .tsd-theme-toggle .settings-label {
         margin: 0.75rem 0.75rem 0 0;
-    }
-
-    .tsd-disable-local-storage-toggle .settings-label {
-        margin: 0.75rem 0 0.5rem 0;
     }
 
     .tsd-hierarchy h4 label:hover span {

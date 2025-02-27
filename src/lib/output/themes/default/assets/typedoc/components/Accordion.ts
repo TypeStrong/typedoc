@@ -1,6 +1,5 @@
 import { Component, IComponentOptions } from "../Component.js";
 import { storage } from "../utils/storage.js";
-import { localStorageManager } from "../LocalStorageManager.js";
 
 const ACCORDION_INSTANCES = new Map<string, AccordionImpl>();
 
@@ -8,13 +7,10 @@ class AccordionImpl {
     open: boolean;
     accordions: HTMLDetailsElement[] = [];
     key: string;
-    disableStorage: boolean;
-    observer: MutationObserver;
 
-    constructor(key: string, open: boolean, disableStorage: boolean) {
+    constructor(key: string, open: boolean) {
         this.key = key;
         this.open = open;
-        this.disableStorage = disableStorage;
     }
 
     add(accordion: HTMLDetailsElement) {
@@ -29,16 +25,7 @@ class AccordionImpl {
         for (const acc of this.accordions) {
             acc.open = open;
         }
-        if (!this.disableStorage) {
-            storage.setItem(this.key, open.toString());
-        }
-    }
-
-    updateLocalStorageState(disableLocalStorage: boolean) {
-        this.disableStorage = disableLocalStorage;
-        if (disableLocalStorage) {
-            storage.removeItem(this.key);
-        }
+        storage.setItem(this.key, open.toString());
     }
 }
 
@@ -60,9 +47,6 @@ export class Accordion extends Component<HTMLDetailsElement> {
             });
         }
 
-        const disableStorage =
-            document.documentElement.dataset.disableLocalStorage === "true";
-
         const key = `tsd-accordion-${
             summary.dataset.key ??
             summary.textContent!.trim().replace(/\s+/g, "-").toLowerCase()
@@ -72,13 +56,12 @@ export class Accordion extends Component<HTMLDetailsElement> {
         if (ACCORDION_INSTANCES.has(key)) {
             inst = ACCORDION_INSTANCES.get(key)!;
         } else {
-            const stored = disableStorage ? null : storage.getItem(key);
+            const stored = storage.getItem(key);
             const open = stored ? stored === "true" : this.el.open;
-            inst = new AccordionImpl(key, open, disableStorage);
+            inst = new AccordionImpl(key, open);
             ACCORDION_INSTANCES.set(key, inst);
         }
 
         inst.add(this.el);
-        localStorageManager.register(inst);
     }
 }
