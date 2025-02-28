@@ -5,41 +5,35 @@
 export interface MinimalStorage {
     getItem(key: string): string | null;
     setItem(key: string, value: string): void;
-    removeItem(key: string): void;
-    clear(): void;
 }
 
 let _storage: MinimalStorage;
-
-const localStorageImpl: MinimalStorage = localStorage;
 
 const noOpStorageImpl: MinimalStorage = {
     getItem() {
         return null;
     },
     setItem() {},
-    removeItem() {},
-    clear() {},
 };
 
+let localStorageImpl: MinimalStorage;
+
 try {
+    localStorageImpl = localStorage;
     _storage = localStorageImpl;
 } catch {
+    localStorageImpl = noOpStorageImpl;
     _storage = noOpStorageImpl;
 }
 
 export const storage = {
     getItem: (key: string) => _storage.getItem(key),
     setItem: (key: string, value: string) => _storage.setItem(key, value),
-    removeItem: (key: string) => _storage.removeItem(key),
-    clear: () => _storage.clear(),
     disable() {
         localStorage.clear();
         _storage = noOpStorageImpl;
-        console.log(_storage);
     },
     enable() {
         _storage = localStorageImpl;
-        console.log(_storage);
     },
 };

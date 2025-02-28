@@ -24,11 +24,9 @@ declare global {
 window.TypeDoc ||= {
     disableLocalStorage: () => {
         storage.disable();
-        console.log("disable local storage option here");
     },
     enableLocalStorage: () => {
         storage.enable();
-        console.log("enable local storage option here");
     },
 };
 
