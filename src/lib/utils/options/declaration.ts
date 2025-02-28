@@ -109,7 +109,7 @@ export interface TypeDocOptionMap {
     plugin: NormalizedPathOrModule[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
-    packageOptions: ManuallyValidatedOption<TypeDocOptions>;
+    packageOptions: ManuallyValidatedOption<Partial<TypeDocOptions>>;
 
     // Input
     entryPoints: GlobString[];

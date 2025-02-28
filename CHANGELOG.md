@@ -40,6 +40,7 @@ title: Changelog
   control over export conversion order, #2856
 - Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
 - TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
+- Type `packageOptions` as `Partial<TypeDocOptions>`, #2878.
 
 ### Bug Fixes
 
