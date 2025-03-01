@@ -113,7 +113,7 @@ export function equalKind(refl: Reflection, kind: ReflectionKind) {
 }
 
 interface ReflectionTree {
-    [name: string]: ReflectionTree;
+    [name: string]: ReflectionTree | string;
 }
 
 export function reflToTree(refl: Reflection) {
@@ -130,5 +130,5 @@ export function reflToTree(refl: Reflection) {
         return true;
     });
 
-    return result;
+    return Object.keys(result).length ? result : ReflectionKind[refl.kind];
 }

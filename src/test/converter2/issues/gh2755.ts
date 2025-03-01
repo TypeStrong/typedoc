@@ -24,4 +24,5 @@ export interface MultiCallSignature {
     (x: string): string;
 }
 
+/** @function */
 export const Callable: MultiCallSignature = () => "";

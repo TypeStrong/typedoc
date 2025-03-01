@@ -993,7 +993,12 @@ function convertVariable(
         type.getCallSignatures().length &&
         !type.getConstructSignatures().length
     ) {
-        return convertVariableAsFunction(context, symbol, exportSymbol);
+        if (
+            comment?.hasModifier("@function") ||
+            !(declaration && ts.isVariableDeclaration(declaration) && declaration.type)
+        ) {
+            return convertVariableAsFunction(context, symbol, exportSymbol);
+        }
     }
 
     const reflection = context.createDeclarationReflection(
@@ -1148,6 +1153,8 @@ function convertVariableAsFunction(
             symbol,
         );
     }
+
+    reflection.comment?.removeModifier("@function");
 
     // #2824 If there is only one signature, and there isn't a comment
     // on the signature already, treat the comment on the variable

@@ -16,6 +16,7 @@ children:
     - tags/example.md
     - tags/expand.md
     - tags/experimental.md
+    - tags/function.md
     - tags/group.md
     - tags/hidden.md
     - tags/hideconstructor.md
@@ -150,6 +151,7 @@ as internal for use with
 - [`@eventProperty`](./tags/eventProperty.md)
 - [`@expand`](./tags/expand.md)
 - [`@experimental`](./tags/experimental.md)
+- [`@function`](./tags/function.md)
 - [`@hidden`](./tags/hidden.md)
 - [`@hideconstructor`](./tags/hideconstructor.md)
 - [`@ignore`](./tags/ignore.md)

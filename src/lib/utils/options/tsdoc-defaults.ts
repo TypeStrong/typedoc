@@ -81,6 +81,7 @@ export const modifierTags = [
     "@inline",
     "@interface",
     "@namespace",
+    "@function",
     "@overload",
     "@private",
     "@protected",

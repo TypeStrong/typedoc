@@ -1123,7 +1123,7 @@ describe("Issue Tests", () => {
 
         equal(getLines("double"), [3]);
         equal(getLines("foo"), [5]);
-        equal(getLines("all"), [8, 9]);
+        equal(getLines("all"), [9, 10]);
     });
 
     it("#2320 Uses type parameters from parent class in arrow-methods, ", () => {
@@ -1995,11 +1995,22 @@ describe("Issue Tests", () => {
         equal(reflToTree(project), {
             "MyComponent": {
                 "Props": {
-                    "children": {},
+                    "children": "Property",
                 },
-                "propTypes": {},
+                "propTypes": "Variable",
             },
-            "Function:MyComponent": {},
+            "Function:MyComponent": "Function",
+        });
+    });
+
+    it("#2881 converts variables as functions if desired", () => {
+        const project = convert();
+
+        equal(reflToTree(project), {
+            Callable: "Interface",
+            fnByDefault: "Function",
+            fnByTag: "Function",
+            notFn: "Variable",
         });
     });
 });

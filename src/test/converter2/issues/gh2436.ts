@@ -7,6 +7,7 @@ function bugInner(): { foo: string } {
     return { foo: "bar" };
 }
 
+/** @function */
 export const bug: {
     (): { foo: string };
     foo: typeof foo;

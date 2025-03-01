@@ -13,6 +13,7 @@ title: Changelog
 - The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
 - TypeDoc will only check for a project README file next to the discovered `package.json` file if `--readme` is not set
   this change improves handling of monorepo setups where some packages have readme files and others do not, #2875.
+- Function-like variable declarations with a type annotation will now be converted as variables unless annotated with `@function`, #2881.
 
 ### API Breaking Changes
 
@@ -42,6 +43,7 @@ title: Changelog
 - TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
 - Type `packageOptions` as `Partial<TypeDocOptions>`, #2878.
 - TypeDoc will now warn if an option which should only be set at the root level is set in `packageOptions`, #2878.
+- Introduced `@function` tag to force TypeDoc to convert variable declarations with a type annotation as functions, #2881.
 
 ### Bug Fixes
 
@@ -63,7 +65,7 @@ This will be the last v0.27.x release, see #2868 for discussion on the 0.28 beta
 
 ### Features
 
--   Added support for TypeScript 5.8
+- Added support for TypeScript 5.8
 
 ## v0.27.8 (2025-02-21)
 

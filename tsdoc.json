@@ -182,6 +182,10 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@function",
+            "syntaxKind": "modifier"
+        },
+        {
             "tagName": "@showCategories",
             "syntaxKind": "modifier"
         },
