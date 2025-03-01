@@ -1,6 +1,7 @@
 import { deepStrictEqual as equal, doesNotThrow, ok, throws } from "assert";
 import { Options, TYPEDOC_ROOT } from "../../../lib/utils/index.js";
 import { readFileSync } from "fs";
+import { rootPackageOptions } from "../../../lib/utils/options/declaration.js";
 
 describe("Default Options", () => {
     const opts = new Options();
@@ -143,7 +144,7 @@ describe("Default Options", () => {
                 "utf-8",
             ).split("\n")
         ) {
-            const match = line.match(/\[`(.*)`\]\(/);
+            const match = line.match(/\[`(.*?)`\]\(/);
             if (match) {
                 linkedOptions.push(match[1]);
             }
@@ -155,6 +156,27 @@ describe("Default Options", () => {
             linkedOptions,
             allOptions,
             "Option added but not documented in package-options.md",
+        );
+    });
+
+    it("Root package option documentation matches", () => {
+        const rootOptions: string[] = [];
+        for (
+            const line of readFileSync(
+                `${TYPEDOC_ROOT}/site/options/package-options.md`,
+                "utf-8",
+            ).split("\n")
+        ) {
+            const match = line.match(/\[`(.*?)`\]\(.*?\)\s*\| Root/);
+            if (match) {
+                rootOptions.push(match[1]);
+            }
+        }
+
+        equal(
+            rootOptions,
+            rootPackageOptions,
+            "Documented root options to not match internal list of root options",
         );
     });
 

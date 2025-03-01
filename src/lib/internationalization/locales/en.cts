@@ -26,6 +26,8 @@ export = {
         "Failed to find any packages, ensure you have provided at least one directory as an entry point containing package.json",
     nested_packages_unsupported_0:
         "Project at {0} has entryPointStrategy set to packages, but nested packages are not supported",
+    package_option_0_should_be_specified_at_root:
+        "The packageOptions option sets option {0}, which only has an affect at the root level",
     previous_error_occurred_when_reading_options_for_0:
         "The previous error occurred when reading options for the package at {0}",
     converting_project_at_0: "Converting project at {0}",

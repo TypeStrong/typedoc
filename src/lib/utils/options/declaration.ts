@@ -43,6 +43,77 @@ export type OutputSpecification = {
 };
 
 /**
+ * List of option names which, with `entryPointStrategy` set to `packages`
+ * should only be set at the root level.
+ */
+export const rootPackageOptions = [
+    // Configuration Options
+    "plugin",
+    // Input Options
+    "packageOptions",
+    "includeHierarchySummary", // GERRIT: Move to output options
+    // Output Options
+    "outputs",
+    "out",
+    "html",
+    "json",
+    "pretty",
+    // emit
+    "theme",
+    "router",
+    "lightHighlightTheme",
+    "darkHighlightTheme",
+    "highlightLanguages",
+    "ignoredHighlightLanguages",
+    "typePrintWidth",
+    "customCss",
+    "customJs",
+    "customFooterHtml",
+    "customFooterHtmlDisableWrapper",
+    "markdownItOptions",
+    "markdownItLoader",
+    // basePath
+    "cname",
+    "favicon",
+    "sourceLinkExternal",
+    "markdownLinkExternal",
+    "lang",
+    "locales",
+    "githubPages",
+    "cacheBust",
+    "hideGenerator",
+    "searchInComments",
+    "searchInDocuments",
+    "cleanOutputDir",
+    "titleLink",
+    "navigationLinks",
+    "sidebarLinks",
+    "navigation",
+    "headings",
+    "sluggerConfiguration",
+    "navigationLeaves",
+    "visibilityFilters",
+    "searchCategoryBoosts",
+    "searchGroupBoosts",
+    "hostedBaseUrl",
+    "useHostedBaseUrlForAbsoluteLinks",
+    "useFirstParagraphOfCommentAsSummary",
+    // Comment Options
+    "notRenderedTags",
+    // Organization Options
+    // Validation Options
+    "treatWarningsAsErrors",
+    "treatValidationWarningsAsErrors",
+    // Other Options
+    "watch",
+    "preserveWatchOutput",
+    "help",
+    "version",
+    "showConfig",
+    "logLevel",
+] as const satisfies ReadonlyArray<keyof TypeDocOptionMap>;
+
+/**
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
@@ -87,6 +158,13 @@ export type TypeDocOptionValues = {
 };
 
 /**
+ * Describes TypeDoc options suitable for setting within the `packageOptions` setting.
+ *
+ * This is a subset of all options specified in {@link TypeDocOptions}.
+ */
+export interface TypeDocPackageOptions extends Omit<TypeDocOptions, typeof rootPackageOptions[number]> {}
+
+/**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
  * External consumers should likely use {@link TypeDocOptions} instead.
  *
@@ -109,7 +187,9 @@ export interface TypeDocOptionMap {
     plugin: NormalizedPathOrModule[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
-    packageOptions: ManuallyValidatedOption<Partial<TypeDocOptions>>;
+    packageOptions: ManuallyValidatedOption<
+        Partial<TypeDocPackageOptions>
+    >;
 
     // Input
     entryPoints: GlobString[];

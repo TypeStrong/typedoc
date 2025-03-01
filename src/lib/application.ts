@@ -17,7 +17,7 @@ import {
 } from "./utils/index.js";
 
 import { Option, Options } from "./utils/index.js";
-import type { TypeDocOptions } from "./utils/options/declaration.js";
+import { rootPackageOptions, type TypeDocOptions } from "./utils/options/declaration.js";
 import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
 import { ok } from "assert";
 import {
@@ -775,6 +775,16 @@ export class Application extends AbstractComponent<
         const origFiles = this.files;
         const origOptions = this.options;
         const projects: JSONOutput.ProjectReflection[] = [];
+
+        for (const opt of Object.keys(this.options.getValue("packageOptions"))) {
+            if (rootPackageOptions.includes(opt as never)) {
+                this.logger.warn(
+                    i18n.package_option_0_should_be_specified_at_root(
+                        opt,
+                    ),
+                );
+            }
+        }
 
         const projectsToConvert: { dir: string; options: Options }[] = [];
         // Generate a json file for each package

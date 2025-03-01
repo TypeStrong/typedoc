@@ -24,6 +24,7 @@ export type {
     TypeDocOptionMap,
     TypeDocOptions,
     TypeDocOptionValues,
+    TypeDocPackageOptions,
     ValidationOptions,
 } from "./declaration.js";
 

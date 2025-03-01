@@ -41,6 +41,7 @@ title: Changelog
 - Introduced `packagesRequiringDocumentation` option for `validation.notDocumented`, TypeDoc will expect comments to be present for symbols in the specified packages.
 - TypeDoc now exports a `typedoc/browser` entrypoint for parsing and using serialized JSON files, #2528.
 - Type `packageOptions` as `Partial<TypeDocOptions>`, #2878.
+- TypeDoc will now warn if an option which should only be set at the root level is set in `packageOptions`, #2878.
 
 ### Bug Fixes
 
