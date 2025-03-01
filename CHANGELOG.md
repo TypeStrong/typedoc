@@ -46,6 +46,7 @@ title: Changelog
 - Type `packageOptions` as `Partial<TypeDocOptions>`, #2878.
 - TypeDoc will now warn if an option which should only be set at the root level is set in `packageOptions`, #2878.
 - Introduced `@function` tag to force TypeDoc to convert variable declarations with a type annotation as functions, #2881.
+- Exposed a `TypeDoc` global object in the HTML theme which can be used to prevent TypeDoc from using `localStorage`, #2872.
 
 ### Bug Fixes
 
@@ -56,6 +57,7 @@ title: Changelog
 
 ### Thanks!
 
+- @jsmith2-coveo
 - @phoneticallySAARTHaK
 - @XeroAlpha
 
