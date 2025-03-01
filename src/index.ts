@@ -63,7 +63,6 @@ export {
     StructureDirRouter,
     StructureRouter,
     Theme,
-    UrlMapping,
 } from "./lib/output/index.js";
 export type {
     Icons,

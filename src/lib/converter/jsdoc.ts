@@ -119,6 +119,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         ReflectionKind.TypeLiteral,
         context.scope,
     );
+    const rc = context.withScope(reflection);
     context.registerReflection(reflection, symbol);
     context.converter.trigger(
         ConverterEvents.CREATE_DECLARATION,
@@ -136,7 +137,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
         createSymbolId(symbol, node),
     );
     context.registerReflection(signature, void 0);
-    const signatureCtx = context.withScope(signature);
+    const signatureCtx = rc.withScope(signature);
 
     reflection.signatures = [signature];
     signature.type = context.converter.convertType(

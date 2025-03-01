@@ -11,7 +11,6 @@ import {
     ReflectionGroup,
     ReflectionKind,
 } from "../../../models/index.js";
-import { type RenderTemplate } from "../../models/UrlMapping.js";
 import type { PageEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
@@ -28,6 +27,12 @@ export interface NavigationElement {
     class?: string;
     children?: NavigationElement[];
 }
+
+/**
+ * @param data the reflection to render
+ * @returns either a string to be written to the file, or an element to be serialized and then written.
+ */
+export type RenderTemplate<T> = (data: T) => JSX.Element | string;
 
 export class DefaultTheme extends Theme {
     // Note: This will always contain lowercased names to avoid issues with

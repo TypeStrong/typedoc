@@ -368,8 +368,7 @@ export class Context {
     }
 
     public withScope(scope: Reflection): Context {
-        // TODO: This will be important for #2862
-        // assert(scope.parent === this.scope, "Incorrect context used for withScope");
+        assert(scope.parent === this.scope || scope === this.scope, "Incorrect context used for withScope");
 
         const context = new Context(
             this.converter,
