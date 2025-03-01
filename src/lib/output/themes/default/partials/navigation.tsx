@@ -87,7 +87,6 @@ export function settings(context: DefaultThemeRenderContext) {
     }
 
     // Settings panel above navigation
-
     return (
         <div class="tsd-navigation settings">
             <details class="tsd-accordion" open={false}>

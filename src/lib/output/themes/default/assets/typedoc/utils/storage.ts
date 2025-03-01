@@ -9,15 +9,31 @@ export interface MinimalStorage {
 
 let _storage: MinimalStorage;
 
+const noOpStorageImpl: MinimalStorage = {
+    getItem() {
+        return null;
+    },
+    setItem() {},
+};
+
+let localStorageImpl: MinimalStorage;
+
 try {
-    _storage = localStorage;
+    localStorageImpl = localStorage;
+    _storage = localStorageImpl;
 } catch {
-    _storage = {
-        getItem() {
-            return null;
-        },
-        setItem() {},
-    };
+    localStorageImpl = noOpStorageImpl;
+    _storage = noOpStorageImpl;
 }
 
-export const storage = _storage;
+export const storage = {
+    getItem: (key: string) => _storage.getItem(key),
+    setItem: (key: string, value: string) => _storage.setItem(key, value),
+    disable() {
+        localStorage.clear();
+        _storage = noOpStorageImpl;
+    },
+    enable() {
+        _storage = localStorageImpl;
+    },
+};

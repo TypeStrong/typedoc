@@ -1,4 +1,5 @@
 import type { IComponentOptions } from "./Component.js";
+import { storage } from "./utils/storage.js";
 
 declare global {
     interface Window {
@@ -15,8 +16,21 @@ declare global {
             folder: string;
             [k: `kind_${number}`]: string;
         };
+        TypeDoc: {
+            disableLocalStorage: () => void;
+            enableLocalStorage: () => void;
+        };
     }
 }
+
+window.TypeDoc ||= {
+    disableLocalStorage: () => {
+        storage.disable();
+    },
+    enableLocalStorage: () => {
+        storage.enable();
+    },
+};
 
 // For debugging with a watch build
 window.translations ||= {

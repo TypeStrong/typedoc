@@ -57,6 +57,14 @@ title: Changelog
 
 ## Unreleased
 
+## v0.27.9 (2025-02-25)
+
+This will be the last v0.27.x release, see #2868 for discussion on the 0.28 beta.
+
+### Features
+
+-   Added support for TypeScript 5.8
+
 ## v0.27.8 (2025-02-21)
 
 ### Features
