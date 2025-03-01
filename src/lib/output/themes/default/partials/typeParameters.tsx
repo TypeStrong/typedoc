@@ -13,15 +13,23 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                         <li>
                             <span>
                                 {anchorLinkIfPresent(context, item)}
-                                {item.flags.isConst && <span class="tsd-signature-keyword">const</span>}
+                                {item.flags.isConst && (
+                                    <>
+                                        <span class="tsd-signature-keyword">const</span>
+                                        {" "}
+                                    </>
+                                )}
                                 {item.varianceModifier && (
-                                    <span class="tsd-signature-keyword">{item.varianceModifier}</span>
+                                    <>
+                                        <span class="tsd-signature-keyword">{item.varianceModifier}</span>
+                                        {" "}
+                                    </>
                                 )}
                                 <span class="tsd-kind-type-parameter">{item.name}</span>
                                 {!!item.type && (
                                     <>
-                                        <span class="tsd-signature-keyword">extends</span>
-                                        {context.type(item.type)}
+                                        {" "}
+                                        <span class="tsd-signature-keyword">extends</span> {context.type(item.type)}
                                     </>
                                 )}
                                 {!!item.default && (
