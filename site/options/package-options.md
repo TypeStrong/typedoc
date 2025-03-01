@@ -53,7 +53,6 @@ at the root level. The following tables indicate where an option should be set.
 | [`gitRemote`](input.md#gitremote)                                       | Package  |                                                                                                           |
 | [`disableGit`](input.md#disablegit)                                     | Package  |                                                                                                           |
 | [`readme`](input.md#readme)                                             | Both     | Root: Site readme, Package: Package readme                                                                |
-| [`includeHierarchySummary`](input.md#includehierarchysummary)           | Root     |                                                                                                           |
 
 ## Output Options
 
@@ -104,6 +103,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`hostedBaseUrl`](output.md#hostedbaseurl)                                             | Root     |                                                            |
 | [`useHostedBaseUrlForAbsoluteLinks`](output.md#usehostedbaseurlforabsolutelinks)       | Root     |                                                            |
 | [`useFirstParagraphOfCommentAsSummary`](output.md#usefirstparagraphofcommentassummary) | Root     |                                                            |
+| [`includeHierarchySummary`](input.md#includehierarchysummary)                          | Root     |                                                            |
 
 ## Comment Options
 

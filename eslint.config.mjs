@@ -33,9 +33,6 @@ const config = {
             },
         ],
 
-        // This can probably be turned back on in 0.27, when the component hierarchy goes away
-        // "@typescript-eslint/no-unsafe-function-type": "off", GERRIT
-
         // This one is just annoying since it complains at incomplete code
         "no-empty": "off",
 

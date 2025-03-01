@@ -51,14 +51,12 @@ export const rootPackageOptions = [
     "plugin",
     // Input Options
     "packageOptions",
-    "includeHierarchySummary", // GERRIT: Move to output options
     // Output Options
     "outputs",
     "out",
     "html",
     "json",
     "pretty",
-    // emit
     "theme",
     "router",
     "lightHighlightTheme",
@@ -72,7 +70,6 @@ export const rootPackageOptions = [
     "customFooterHtmlDisableWrapper",
     "markdownItOptions",
     "markdownItLoader",
-    // basePath
     "cname",
     "favicon",
     "sourceLinkExternal",
@@ -98,6 +95,7 @@ export const rootPackageOptions = [
     "hostedBaseUrl",
     "useHostedBaseUrlForAbsoluteLinks",
     "useFirstParagraphOfCommentAsSummary",
+    "includeHierarchySummary",
     // Comment Options
     "notRenderedTags",
     // Organization Options

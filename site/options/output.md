@@ -656,3 +656,12 @@ page for each member which is rendered on another page. If the
 [`@summary`](../tags/summary.md) tag is used, it will specify the short summary
 text. If `@summary` is not used, this option controls whether TypeDoc will use
 the first paragraph from the comment as the short summary or leave it blank.
+
+## includeHierarchySummary
+
+```bash
+typedoc --includeHierarchySummary false
+```
+
+Specifies whether or not to generate the `hierarchy.html` page in the output
+which lists the full class hierarchy for generated members. Defaults to `true`.

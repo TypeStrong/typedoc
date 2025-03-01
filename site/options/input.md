@@ -322,12 +322,3 @@ typedoc --readme <path/to/readme|none>
 Path to the readme file that should be displayed on the index page. If set to
 `none`, or no readme file is automatically discovered, the index page will be
 disabled.
-
-## includeHierarchySummary
-
-```bash
-typedoc --includeHierarchySummary false
-```
-
-Specifies whether or not to generate the `hierarchy.html` page in the output
-which lists the full class hierarchy for generated members. Defaults to `true`.
