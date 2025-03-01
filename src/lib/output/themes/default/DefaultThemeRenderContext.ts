@@ -37,7 +37,7 @@ import { reflectionTemplate } from "./templates/reflection.js";
 import { typeDeclaration, typeDetails, typeDetailsIfUseful } from "./partials/typeDetails.js";
 import { moduleMemberSummary, moduleReflection } from "./partials/moduleReflection.js";
 import type { Router } from "../../router.js";
-import type { NeverIfInternal, TranslatedString } from "#utils";
+import type { NeverIfInternal } from "#utils";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);
@@ -88,25 +88,11 @@ export class DefaultThemeRenderContext {
     };
 
     getAnchor = (reflection: Reflection): string | undefined => {
-        const anchor = this.router.getAnchor(reflection);
-        if (!anchor) {
-            // This will go to debug level before release
-            this.theme.application.logger.warn(
-                `${reflection.getFullName()} does not have an anchor but one was requested when generating page for ${this.model.getFullName()}, this is a bug` as TranslatedString,
-            );
-        }
-        return anchor;
+        return this.router.getAnchor(reflection);
     };
 
     urlTo = (reflection: Reflection): string | undefined => {
-        if (this.router.hasUrl(reflection)) {
-            return this.router.relativeUrl(this.page.model, reflection);
-        }
-        // This will go to debug level before release
-        this.theme.application.logger.warn(
-            `${reflection.getFullName()} does not have a URL but was linked to when generating page for ${this.model.getFullName()}, this is a bug` as TranslatedString,
-        );
-        return undefined;
+        return this.router.relativeUrl(this.page.model, reflection);
     };
 
     markdown = (

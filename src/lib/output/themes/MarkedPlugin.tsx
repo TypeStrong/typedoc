@@ -153,7 +153,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     // If we don't have a URL the user probably linked to some deeply nested property
                                     // which doesn't get an assigned URL. We'll walk upwards until we find a reflection
                                     // which has a URL and link to that instead.
-                                    if (!url) {
+                                    if (typeof url === "undefined") {
                                         // Walk upwards to find something we can link to.
                                         let target = part.target.parent!;
                                         while (!context.router.hasUrl(target)) {

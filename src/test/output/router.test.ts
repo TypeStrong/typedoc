@@ -131,6 +131,7 @@ describe("KindRouter", () => {
         equal(router.relativeUrl(Obj, ObjArray), "ObjArray.html");
         equal(router.relativeUrl(Foo, codeGen), "#codegeneration");
         equal(router.relativeUrl(iterator, codeGen), "#codegeneration");
+        equal(router.relativeUrl(Foo, Foo), "");
     });
 
     it("Can get a URL to an asset relative to the base", () => {

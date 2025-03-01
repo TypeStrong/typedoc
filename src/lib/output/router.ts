@@ -180,6 +180,11 @@ export abstract class BaseRouter implements Router {
     }
 
     getAnchor(refl: Reflection): string | undefined {
+        if (!this.anchors.has(refl)) {
+            this.application.logger.verbose(
+                `${refl.getFullName()} does not have an anchor but one was requested, this is a bug in the theme`,
+            );
+        }
         return this.anchors.get(refl);
     }
 
@@ -209,6 +214,9 @@ export abstract class BaseRouter implements Router {
         }
 
         if (equal && !to.isProject()) {
+            if (fromUrl === toUrl) {
+                return "";
+            }
             return `#${this.getAnchor(to)}`;
         }
 
