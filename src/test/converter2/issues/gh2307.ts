@@ -1,5 +1,6 @@
 const times = (b: number) => (a: number) => a * b;
 
+/** @function */
 export const double = times(2);
 
 export const foo = () => 123;

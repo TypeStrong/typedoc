@@ -13,7 +13,9 @@ title: Changelog
 - The `source-order` sort ordering now considers package names / package relative paths instead of using the absolute paths to a file.
 - TypeDoc will only check for a project README file next to the discovered `package.json` file if `--readme` is not set
   this change improves handling of monorepo setups where some packages have readme files and others do not, #2875.
-- Function-like variable declarations with a type annotation will now be converted as variables unless annotated with `@function`, #2881.
+- Function-like variable exports will now only be automatically converted as function types if
+  they are initialized with a function expression. TypeDoc can be instructed to convert them as functions
+  with the `@function` tag, #2881.
 
 ### API Breaking Changes
 

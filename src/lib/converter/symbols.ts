@@ -995,7 +995,7 @@ function convertVariable(
     ) {
         if (
             comment?.hasModifier("@function") ||
-            !(declaration && ts.isVariableDeclaration(declaration) && declaration.type)
+            (declaration && shouldAutomaticallyConvertAsFunction(declaration))
         ) {
             return convertVariableAsFunction(context, symbol, exportSymbol);
         }
@@ -1417,4 +1417,49 @@ function setSymbolModifiers(symbol: ts.Symbol, reflection: Reflection) {
         ReflectionFlag.Optional,
         hasAllFlags(symbol.flags, ts.SymbolFlags.Optional),
     );
+}
+
+function shouldAutomaticallyConvertAsFunction(node: ts.Declaration): boolean {
+    // const fn = () => {}
+    if (ts.isVariableDeclaration(node)) {
+        if (node.type || !node.initializer) return false;
+
+        return isFunctionLikeInitializer(node.initializer);
+    }
+
+    // { fn: () => {} }
+    if (ts.isPropertyAssignment(node)) {
+        return isFunctionLikeInitializer(node.initializer);
+    }
+
+    // exports.fn = () => {}
+    // exports.fn ||= () => {}
+    // exports.fn ??= () => {}
+    if (ts.isPropertyAccessExpression(node)) {
+        if (
+            ts.isBinaryExpression(node.parent) &&
+            [ts.SyntaxKind.EqualsToken, ts.SyntaxKind.BarBarEqualsToken, ts.SyntaxKind.QuestionQuestionEqualsToken]
+                .includes(node.parent.operatorToken.kind)
+        ) {
+            return isFunctionLikeInitializer(node.parent.right);
+        }
+    }
+
+    return false;
+}
+
+function isFunctionLikeInitializer(node: ts.Expression): boolean {
+    if (ts.isFunctionExpression(node) || ts.isArrowFunction(node)) {
+        return true;
+    }
+
+    if (ts.isSatisfiesExpression(node)) {
+        return isFunctionLikeInitializer(node.expression);
+    }
+
+    if (ts.isAsExpression(node)) {
+        return isFunctionLikeInitializer(node.expression);
+    }
+
+    return false;
 }

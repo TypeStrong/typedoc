@@ -1121,9 +1121,9 @@ describe("Issue Tests", () => {
             return refl.signatures?.flatMap((sig) => sig.sources!.map((src) => src.line));
         };
 
-        equal(getLines("double"), [3]);
-        equal(getLines("foo"), [5]);
-        equal(getLines("all"), [9, 10]);
+        equal(getLines("double"), [4]);
+        equal(getLines("foo"), [6]);
+        equal(getLines("all"), [10, 11]);
     });
 
     it("#2320 Uses type parameters from parent class in arrow-methods, ", () => {

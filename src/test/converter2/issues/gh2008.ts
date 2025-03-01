@@ -1,4 +1,4 @@
 const makeFn = () => () => {};
 
-/** Docs */
+/** Docs @function */
 export const myFn = makeFn();

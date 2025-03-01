@@ -4,9 +4,10 @@ function factory() {
     return fn;
 }
 
+/** @function */
 export const built = factory();
 
-/** outer docs */
+/** outer docs @function */
 export const built2 = factory();
 
 const obj = {
@@ -14,10 +15,12 @@ const obj = {
     fn(x: unknown) {},
 };
 
+/** @function */
 export const fn = obj.fn;
 
 /**
  * outer docs
  * @param x param-docs
+ * @function
  */
 export const fn2 = obj.fn;
