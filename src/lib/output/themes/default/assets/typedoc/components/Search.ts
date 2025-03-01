@@ -40,7 +40,7 @@ let optionsIdCounter = 0;
 
 /**
  * Populates search data into `state`, if available.
- * Removes deault loading message
+ * Removes default loading message
  */
 async function updateIndex(state: SearchState, status: HTMLElement) {
     if (!window.searchData) return;
@@ -112,6 +112,10 @@ function bindEvents(
     setUpModal(searchEl, "fade-out", { closeOnClick: true });
 
     trigger.addEventListener("click", () => openModal(searchEl));
+
+    field.addEventListener("focus", () => {
+        field.setSelectionRange(0, field.value.length);
+    });
 
     field.addEventListener(
         "input",
@@ -367,7 +371,7 @@ function escapeHtml(text: string) {
 }
 
 /**
- * Updates the status element, with aria-live attriute, which should be announced to the user.
+ * Updates the status element, with aria-live attribute, which should be announced to the user.
  * @param message Message to set as **innerHTML** in a wrapper element, if not empty.
  */
 function updateStatusEl(status: HTMLElement, message: string) {
