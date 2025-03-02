@@ -186,7 +186,10 @@ export function convertSymbol(
 ): void {
     // #1795, defer conversion of symbols named `default` so that if a function
     // is default exported and also exported with a name, the name takes precedence
-    if ((exportSymbol?.name ?? symbol.name) === "default") {
+    if (
+        (exportSymbol?.name ?? symbol.name) === "default" &&
+        context.scope.kindOf(ReflectionKind.ExportContainer)
+    ) {
         context.converter.deferConversion(() => {
             _convertSymbolNow(context, symbol, exportSymbol);
         });
@@ -357,6 +360,7 @@ function convertTypeAlias(
             symbol,
             exportSymbol,
         );
+        context.finalizeDeclarationReflection(reflection);
 
         if (reflection.comment?.hasModifier("@useDeclaredType")) {
             reflection.comment.removeModifier("@useDeclaredType");
@@ -373,12 +377,19 @@ function convertTypeAlias(
 
         if (reflection.type.type === "union") {
             attachUnionComments(context, declaration, reflection.type);
+        } else if (reflection.type.type === "reflection" && reflection.type.declaration.children) {
+            // #2817 lift properties of object literal types up to the reflection level.
+            const typeDecl = reflection.type.declaration;
+            reflection.project.mergeReflections(typeDecl, reflection);
+            delete reflection.type;
+
+            // When created any signatures will be created with __type as their
+            // name, rename them so that they have the alias's name as their name
+            for (const sig of reflection.signatures || []) {
+                sig.name = reflection.name;
+            }
         }
 
-        context.finalizeDeclarationReflection(reflection);
-
-        // Do this after finalization so that the CommentPlugin can get @typeParam tags
-        // from the parent comment. Ugly, but works for now. Should be cleaned up eventually.
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );

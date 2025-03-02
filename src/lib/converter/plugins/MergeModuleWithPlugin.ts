@@ -72,6 +72,6 @@ export class MergeModuleWithPlugin extends ConverterComponent {
         this.application.logger.verbose(
             `Merging ${refl.getFullName()} into ${target.getFullName()}`,
         );
-        project.mergeModules(refl, target);
+        project.mergeReflections(refl, target);
     }
 }

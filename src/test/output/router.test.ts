@@ -66,7 +66,7 @@ describe("KindRouter", () => {
                 ["Foo.iterator", "interfaces/Foo.html#iterator"],
                 ["Foo.iterator.iterator", "interfaces/Foo.html#iterator-1"],
                 ["Obj", "types/Obj.html"],
-                ["Obj.__type.a", "types/Obj.html#a"],
+                ["Obj.a", "types/Obj.html#a"],
                 ["ObjArray", "types/ObjArray.html"],
                 ["abc", "variables/abc.html"],
                 ["abc.__type.abcProp", "variables/abc.html#abcprop"],

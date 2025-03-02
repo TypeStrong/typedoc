@@ -12,9 +12,17 @@
             "variant": "declaration",
             "kind": 2,
             "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "Module doc comment with document."
+                    }
+                ]
+            },
             "children": [
                 {
-                    "id": 2,
+                    "id": 3,
                     "name": "CommentedClass",
                     "variant": "declaration",
                     "kind": 128,
@@ -48,21 +56,21 @@
                     },
                     "children": [
                         {
-                            "id": 3,
+                            "id": 4,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 4,
+                                    "id": 5,
                                     "name": "CommentedClass",
                                     "variant": "signature",
                                     "kind": 16384,
                                     "flags": {},
                                     "type": {
                                         "type": "reference",
-                                        "target": 2,
+                                        "target": 3,
                                         "name": "CommentedClass",
                                         "package": "typedoc"
                                     }
@@ -70,7 +78,7 @@
                             ]
                         },
                         {
-                            "id": 5,
+                            "id": 6,
                             "name": "prop",
                             "variant": "declaration",
                             "kind": 1024,
@@ -86,9 +94,9 @@
                             "sources": [
                                 {
                                     "fileName": "comment.ts",
-                                    "line": 38,
+                                    "line": 40,
                                     "character": 4,
-                                    "url": "typedoc://comment.ts#L38"
+                                    "url": "typedoc://comment.ts#L40"
                                 }
                             ],
                             "type": {
@@ -97,7 +105,7 @@
                             }
                         },
                         {
-                            "id": 19,
+                            "id": 20,
                             "name": "mixedHidden",
                             "variant": "declaration",
                             "kind": 2048,
@@ -105,14 +113,14 @@
                             "sources": [
                                 {
                                     "fileName": "comment.ts",
-                                    "line": 78,
+                                    "line": 80,
                                     "character": 4,
-                                    "url": "typedoc://comment.ts#L78"
+                                    "url": "typedoc://comment.ts#L80"
                                 }
                             ],
                             "signatures": [
                                 {
-                                    "id": 22,
+                                    "id": 23,
                                     "name": "mixedHidden",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -128,14 +136,14 @@
                                     "sources": [
                                         {
                                             "fileName": "comment.ts",
-                                            "line": 78,
+                                            "line": 80,
                                             "character": 4,
-                                            "url": "typedoc://comment.ts#L78"
+                                            "url": "typedoc://comment.ts#L80"
                                         }
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 23,
+                                            "id": 24,
                                             "name": "arg1",
                                             "variant": "param",
                                             "kind": 32768,
@@ -146,7 +154,7 @@
                                             }
                                         },
                                         {
-                                            "id": 24,
+                                            "id": 25,
                                             "name": "arg2",
                                             "variant": "param",
                                             "kind": 32768,
@@ -169,13 +177,13 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                3
+                                4
                             ]
                         },
                         {
                             "title": "Properties",
                             "children": [
-                                5
+                                6
                             ]
                         },
                         {
@@ -187,21 +195,21 @@
                                 }
                             ],
                             "children": [
-                                19
+                                20
                             ]
                         }
                     ],
                     "sources": [
                         {
                             "fileName": "comment.ts",
-                            "line": 34,
+                            "line": 36,
                             "character": 13,
-                            "url": "typedoc://comment.ts#L34"
+                            "url": "typedoc://comment.ts#L36"
                         }
                     ]
                 },
                 {
-                    "id": 26,
+                    "id": 27,
                     "name": "UnionWithCommentsOnMembers",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -209,9 +217,9 @@
                     "sources": [
                         {
                             "fileName": "comment.ts",
-                            "line": 87,
+                            "line": 89,
                             "character": 12,
-                            "url": "typedoc://comment.ts#L87"
+                            "url": "typedoc://comment.ts#L89"
                         }
                     ],
                     "type": {
@@ -243,17 +251,52 @@
                     }
                 }
             ],
+            "documents": [
+                {
+                    "id": 2,
+                    "name": "document",
+                    "variant": "document",
+                    "kind": 8388608,
+                    "flags": {},
+                    "content": [
+                        {
+                            "kind": "text",
+                            "text": "External doc included with "
+                        },
+                        {
+                            "kind": "code",
+                            "text": "`@document`"
+                        },
+                        {
+                            "kind": "text",
+                            "text": " tag!"
+                        }
+                    ],
+                    "frontmatter": {}
+                }
+            ],
+            "childrenIncludingDocuments": [
+                2,
+                3,
+                27
+            ],
             "groups": [
                 {
-                    "title": "Classes",
+                    "title": "Documents",
                     "children": [
                         2
                     ]
                 },
                 {
+                    "title": "Classes",
+                    "children": [
+                        3
+                    ]
+                },
+                {
                     "title": "Type Aliases",
                     "children": [
-                        26
+                        27
                     ]
                 }
             ],
@@ -267,7 +310,7 @@
             ]
         },
         {
-            "id": 27,
+            "id": 28,
             "name": "comment2",
             "variant": "declaration",
             "kind": 2,
@@ -290,7 +333,7 @@
             },
             "children": [
                 {
-                    "id": 28,
+                    "id": 29,
                     "name": "multiply",
                     "variant": "declaration",
                     "kind": 64,
@@ -305,7 +348,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 29,
+                            "id": 30,
                             "name": "multiply",
                             "variant": "signature",
                             "kind": 4096,
@@ -320,7 +363,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 30,
+                                    "id": 31,
                                     "name": "a",
                                     "variant": "param",
                                     "kind": 32768,
@@ -331,7 +374,7 @@
                                     }
                                 },
                                 {
-                                    "id": 31,
+                                    "id": 32,
                                     "name": "b",
                                     "variant": "param",
                                     "kind": 32768,
@@ -354,7 +397,7 @@
                 {
                     "title": "Functions",
                     "children": [
-                        28
+                        29
                     ]
                 }
             ],
@@ -368,7 +411,7 @@
             ]
         },
         {
-            "id": 32,
+            "id": 33,
             "name": "comment3",
             "variant": "declaration",
             "kind": 2,
@@ -391,7 +434,7 @@
             },
             "children": [
                 {
-                    "id": 33,
+                    "id": 34,
                     "name": "multiply",
                     "variant": "declaration",
                     "kind": 64,
@@ -406,7 +449,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 34,
+                            "id": 35,
                             "name": "multiply",
                             "variant": "signature",
                             "kind": 4096,
@@ -421,7 +464,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 35,
+                                    "id": 36,
                                     "name": "a",
                                     "variant": "param",
                                     "kind": 32768,
@@ -432,7 +475,7 @@
                                     }
                                 },
                                 {
-                                    "id": 36,
+                                    "id": 37,
                                     "name": "b",
                                     "variant": "param",
                                     "kind": 32768,
@@ -455,7 +498,7 @@
                 {
                     "title": "Functions",
                     "children": [
-                        33
+                        34
                     ]
                 }
             ],
@@ -469,7 +512,7 @@
             ]
         },
         {
-            "id": 37,
+            "id": 38,
             "name": "comment4",
             "variant": "declaration",
             "kind": 2,
@@ -488,7 +531,7 @@
             },
             "children": [
                 {
-                    "id": 38,
+                    "id": 39,
                     "name": "multiply",
                     "variant": "declaration",
                     "kind": 64,
@@ -503,7 +546,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 39,
+                            "id": 40,
                             "name": "multiply",
                             "variant": "signature",
                             "kind": 4096,
@@ -518,7 +561,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 40,
+                                    "id": 41,
                                     "name": "a",
                                     "variant": "param",
                                     "kind": 32768,
@@ -529,7 +572,7 @@
                                     }
                                 },
                                 {
-                                    "id": 41,
+                                    "id": 42,
                                     "name": "b",
                                     "variant": "param",
                                     "kind": 32768,
@@ -552,7 +595,7 @@
                 {
                     "title": "Functions",
                     "children": [
-                        38
+                        39
                     ]
                 }
             ],
@@ -571,9 +614,9 @@
             "title": "Modules",
             "children": [
                 1,
-                27,
-                32,
-                37
+                28,
+                33,
+                38
             ]
         }
     ],
@@ -584,22 +627,17 @@
             "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": ""
         },
-        "2": {
+        "3": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass"
         },
-        "5": {
+        "6": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass.prop"
         },
-        "19": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/comment/comment.ts",
-            "qualifiedName": "CommentedClass.mixedHidden"
-        },
-        "22": {
+        "20": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "CommentedClass.mixedHidden"
@@ -607,27 +645,27 @@
         "23": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
-            "qualifiedName": "arg1"
+            "qualifiedName": "CommentedClass.mixedHidden"
         },
         "24": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "arg1"
+        },
+        "25": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "arg2"
         },
-        "26": {
+        "27": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment.ts",
             "qualifiedName": "UnionWithCommentsOnMembers"
         },
-        "27": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/comment/comment2.ts",
-            "qualifiedName": ""
-        },
         "28": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment2.ts",
-            "qualifiedName": "multiply"
+            "qualifiedName": ""
         },
         "29": {
             "packageName": "typedoc",
@@ -637,22 +675,22 @@
         "30": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment2.ts",
-            "qualifiedName": "a"
+            "qualifiedName": "multiply"
         },
         "31": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment2.ts",
-            "qualifiedName": "b"
+            "qualifiedName": "a"
         },
         "32": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/comment/comment3.ts",
-            "qualifiedName": ""
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": "b"
         },
         "33": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment3.ts",
-            "qualifiedName": "multiply"
+            "qualifiedName": ""
         },
         "34": {
             "packageName": "typedoc",
@@ -662,22 +700,22 @@
         "35": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment3.ts",
-            "qualifiedName": "a"
+            "qualifiedName": "multiply"
         },
         "36": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment3.ts",
-            "qualifiedName": "b"
+            "qualifiedName": "a"
         },
         "37": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/comment/comment4.ts",
-            "qualifiedName": ""
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": "b"
         },
         "38": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment4.ts",
-            "qualifiedName": "multiply"
+            "qualifiedName": ""
         },
         "39": {
             "packageName": "typedoc",
@@ -687,9 +725,14 @@
         "40": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment4.ts",
-            "qualifiedName": "a"
+            "qualifiedName": "multiply"
         },
         "41": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": "a"
+        },
+        "42": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/comment/comment4.ts",
             "qualifiedName": "b"
@@ -698,15 +741,17 @@
     "files": {
         "entries": {
             "1": "src/test/converter/comment/comment.ts",
-            "2": "src/test/converter/comment/comment2.ts",
-            "3": "src/test/converter/comment/comment3.ts",
-            "4": "src/test/converter/comment/comment4.ts"
+            "2": "src/test/converter/comment/document.md",
+            "3": "src/test/converter/comment/comment2.ts",
+            "4": "src/test/converter/comment/comment3.ts",
+            "5": "src/test/converter/comment/comment4.ts"
         },
         "reflections": {
             "1": 1,
-            "2": 27,
-            "3": 32,
-            "4": 37
+            "2": 2,
+            "3": 28,
+            "4": 33,
+            "5": 38
         }
     }
 }

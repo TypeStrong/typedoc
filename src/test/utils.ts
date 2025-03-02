@@ -121,6 +121,8 @@ export function reflToTree(refl: Reflection) {
 
     refl.traverse((refl, prop) => {
         if (prop == TraverseProperty.Children) {
+            // Intentionally using `in` here rather than hasOwnProperty to avoid
+            // accidentally conflicting with a builtin property.
             if (refl.name in result) {
                 result[`${ReflectionKind[refl.kind]}:${refl.name}`] = reflToTree(refl);
             } else {

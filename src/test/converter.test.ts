@@ -14,9 +14,10 @@ import {
     ReflectionGroup,
     resetReflectionID,
     Serializer,
+    type SomeReflection,
     SourceReference,
 } from "../index.js";
-import type { ModelToObject, SomeReflection } from "../lib/serialization/schema.js";
+import type { ModelToObject } from "../lib/serialization/schema.js";
 import { getExpandedEntryPointsForPaths, normalizePath } from "../lib/utils/index.js";
 import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
@@ -76,8 +77,11 @@ comparisonSerializer.addSerializer<SomeReflection>({
     supports(x) {
         return x instanceof Reflection;
     },
-    toObject(_refl, obj) {
+    toObject(refl, obj: any) {
         delete obj["id"];
+        if (refl.isDeclaration()) {
+            obj["childrenIncludingDocuments"] = refl.childrenIncludingDocuments?.map(id => id.getFullName());
+        }
         return obj;
     },
 });

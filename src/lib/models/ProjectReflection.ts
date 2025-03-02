@@ -223,7 +223,7 @@ export class ProjectReflection extends ContainerReflection {
     }
 
     /** @internal */
-    mergeModules(
+    mergeReflections(
         source: DeclarationReflection,
         target: DeclarationReflection | ProjectReflection,
     ) {
@@ -234,9 +234,7 @@ export class ProjectReflection extends ContainerReflection {
         const newChildren = this.reflectionChildren.get(target.id);
 
         for (const childId of oldChildrenIds) {
-            const childRefl = this.getReflectionById(childId) as
-                | DocumentReflection
-                | DeclarationReflection;
+            const childRefl = this.getReflectionById(childId);
 
             // To avoid conflicting with some plugins which do this surgery somewhat incorrectly
             // (typedoc-plugin-merge-modules and likely others I'm not aware of) only move children

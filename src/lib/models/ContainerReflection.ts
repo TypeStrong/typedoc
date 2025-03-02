@@ -1,11 +1,11 @@
 import { Reflection, type TraverseCallback, TraverseProperty } from "./Reflection.js";
 import { ReflectionCategory } from "./ReflectionCategory.js";
 import { ReflectionGroup } from "./ReflectionGroup.js";
-import type { ReflectionKind } from "./kind.js";
+import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { DocumentReflection } from "./DocumentReflection.js";
 import type { DeclarationReflection } from "./DeclarationReflection.js";
-import { removeIfPresent } from "#utils";
+import { assertNever, removeIfPresent } from "#utils";
 
 /**
  * @category Reflections
@@ -59,17 +59,39 @@ export abstract class ContainerReflection extends Reflection {
         return (this.children || []).filter((child) => child.kindOf(kind));
     }
 
-    addChild(child: DeclarationReflection | DocumentReflection) {
+    addChild(child: Reflection) {
         if (child.isDeclaration()) {
             this.children ||= [];
             this.children.push(child);
-        } else {
+
+            this.childrenIncludingDocuments ||= [];
+            this.childrenIncludingDocuments.push(child);
+        } else if (child.isDocument()) {
             this.documents ||= [];
             this.documents.push(child);
-        }
 
-        this.childrenIncludingDocuments ||= [];
-        this.childrenIncludingDocuments.push(child);
+            this.childrenIncludingDocuments ||= [];
+            this.childrenIncludingDocuments.push(child);
+        } else if (this.isDeclaration() && child.isSignature()) {
+            switch (child.kind) {
+                case ReflectionKind.CallSignature:
+                case ReflectionKind.ConstructorSignature:
+                    this.signatures ||= [];
+                    this.signatures.push(child);
+                    break;
+                case ReflectionKind.IndexSignature:
+                    this.indexSignatures ||= [];
+                    this.indexSignatures.push(child);
+                    break;
+                case ReflectionKind.GetSignature:
+                case ReflectionKind.SetSignature:
+                    throw new Error("Unsupported child type: " + ReflectionKind[child.kind]);
+                default:
+                    assertNever(child.kind);
+            }
+        } else {
+            throw new Error("Unsupported child type: " + ReflectionKind[child.kind]);
+        }
     }
 
     removeChild(child: DeclarationReflection | DocumentReflection) {

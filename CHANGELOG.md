@@ -16,6 +16,8 @@ title: Changelog
 - Function-like variable exports will now only be automatically converted as function types if
   they are initialized with a function expression. TypeDoc can be instructed to convert them as functions
   with the `@function` tag, #2881.
+- Object literal type alias types will now be converted in a way which causes them to be rendered more similarly
+  to how interfaces are rendered, #2817.
 
 ### API Breaking Changes
 

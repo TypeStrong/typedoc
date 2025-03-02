@@ -11,7 +11,7 @@ import {
 import { filterMap } from "#utils";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
-import { getComment, getSigComment, query, querySig } from "./utils.js";
+import { getComment, getSigComment, query, querySig, reflToTree } from "./utils.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 
 type NameTree = { [name: string]: NameTree | undefined };
@@ -1401,5 +1401,20 @@ describe("Behavior Tests", () => {
         const project = convert("asConstEnum");
         // Previously, would find TypeDoc's root readme
         equal(project.readme, undefined);
+    });
+
+    it("Supports @document tags", () => {
+        const project = convert("documentTag");
+
+        equal(reflToTree(project), {
+            HasDescriptor: "Interface",
+        });
+
+        const refl = query(project, "HasDescriptor");
+        equal(refl.documents?.length, 1);
+
+        equal(refl.documents[0].content, [
+            { kind: "text", text: "External doc!" },
+        ]);
     });
 });

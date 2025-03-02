@@ -1427,11 +1427,11 @@ describe("Issue Tests", () => {
         equal(getLinks(def), [
             {
                 display: "other",
-                target: [ReflectionKind.Property, "Alias.__type.other"],
+                target: [ReflectionKind.Property, "Alias.other"],
             },
             {
                 display: "other",
-                target: [ReflectionKind.Property, "Alias.__type.other"],
+                target: [ReflectionKind.Property, "Alias.other"],
             },
         ]);
 
@@ -1439,11 +1439,11 @@ describe("Issue Tests", () => {
         equal(getLinks(other), [
             {
                 display: "default",
-                target: [ReflectionKind.Property, "Alias.__type.default"],
+                target: [ReflectionKind.Property, "Alias.default"],
             },
             {
                 display: "default",
-                target: [ReflectionKind.Property, "Alias.__type.default"],
+                target: [ReflectionKind.Property, "Alias.default"],
             },
         ]);
     });
@@ -1928,6 +1928,29 @@ describe("Issue Tests", () => {
         const rename2 = query(project, "rename2");
         ok(rename2.isReference());
         ok(rename2.getTargetReflection() === abc);
+    });
+
+    it("#2817 handles edge cases with lifted type aliases", () => {
+        const project = convert();
+        equal(reflToTree(project), {
+            Ctor: "TypeAlias",
+            Edges: {
+                "Constructor:constructor": "Constructor",
+                getter: "Accessor",
+                prop: "Property",
+            },
+            Edges2: {
+                getter: "Accessor",
+                prop: "Property",
+            },
+            NotLifted: "TypeAlias",
+        });
+
+        const edges = query(project, "Edges2");
+        equal(edges.indexSignatures?.length, 1);
+        equal(edges.signatures?.length, 3);
+
+        equal(edges.signatures[0].name, edges.name);
     });
 
     it("#2820 does not include defaulted type arguments", () => {

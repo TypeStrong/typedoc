@@ -76,5 +76,8 @@
         "@types/markdown-it": {
             "MarkdownIt": "https://markdown-it.github.io/markdown-it/#MarkdownIt"
         }
-    }
+    },
+
+    // Saves a couple seconds when generating docs
+    "skipErrorChecking": true
 }
