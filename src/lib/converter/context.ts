@@ -6,6 +6,7 @@ import {
     DeclarationReflection,
     type DocumentReflection,
     type ProjectReflection,
+    ReferenceType,
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
@@ -16,8 +17,8 @@ import { isNamedNode } from "./utils/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
 import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
-import { getHumanName } from "../utils/tsutils.js";
-import { normalizePath } from "#node-utils";
+import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
+import { findPackageForPath, normalizePath } from "#node-utils";
 import { createSymbolId } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";
 
@@ -235,6 +236,34 @@ export class Context {
         if (reflection.kindOf(ReflectionKind.MayContainDocuments)) {
             this.converter.processDocumentTags(reflection, reflection);
         }
+    }
+
+    /**
+     * Create a {@link ReferenceType} which points to the provided symbol.
+     *
+     * @privateRemarks
+     * This is available on Context so that it can be monkey-patched by typedoc-plugin-missing-exports
+     */
+    createSymbolReference(
+        symbol: ts.Symbol,
+        context: Context,
+        name?: string,
+    ): ReferenceType {
+        const ref = ReferenceType.createUnresolvedReference(
+            name ?? symbol.name,
+            createSymbolId(symbol),
+            context.project,
+            getQualifiedName(symbol, name ?? symbol.name),
+        );
+        ref.refersToTypeParameter = !!(
+            symbol.flags & ts.SymbolFlags.TypeParameter
+        );
+
+        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
+        if (!symbolPath) return ref;
+
+        ref.package = findPackageForPath(symbolPath)?.[0];
+        return ref;
     }
 
     addChild(reflection: DeclarationReflection | DocumentReflection) {

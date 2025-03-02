@@ -35,7 +35,6 @@ import { convertParameterNodes, convertTypeParameterNodes, createSignature } fro
 import { convertSymbol } from "./symbols.js";
 import { isObjectType, isTypeReference } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
-import { createSymbolReference } from "./factories/types.js";
 import { createSymbolId } from "./factories/symbol-id.js";
 
 export interface TypeConverter<
@@ -340,7 +339,7 @@ const exprWithTypeArgsConverter: TypeConverter<
             );
         }
         const parameters = node.typeArguments?.map((type) => convertType(context, type)) ?? [];
-        const ref = createSymbolReference(
+        const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(targetSymbol),
             context,
         );
@@ -439,7 +438,7 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
             return new IntrinsicType("any");
         }
 
-        return createSymbolReference(
+        return context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
             name,
@@ -448,7 +447,7 @@ const importType: TypeConverter<ts.ImportTypeNode> = {
     convertType(context, type) {
         const symbol = type.getSymbol();
         assert(symbol, "Missing symbol when converting import type"); // Should be a compiler error
-        return createSymbolReference(
+        return context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
             "__module",
@@ -710,7 +709,7 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
             );
         }
 
-        const ref = createSymbolReference(
+        const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(querySymbol),
             context,
             node.exprName.getText(),
@@ -730,7 +729,7 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
                 )
             }. This is a bug.`,
         );
-        const ref = createSymbolReference(
+        const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
         );
@@ -780,7 +779,7 @@ const referenceConverter: TypeConverter<
 
         const name = node.typeName.getText();
 
-        const ref = createSymbolReference(
+        const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
             name,
@@ -828,7 +827,7 @@ const referenceConverter: TypeConverter<
             name = node.typeName.right.text;
         }
 
-        const ref = createSymbolReference(
+        const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
             context,
             name,
