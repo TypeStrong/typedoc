@@ -1,7 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { TypeParameterReflection } from "../../../../models/index.js";
 import { i18n, JSX } from "#utils";
-import { anchorLinkIfPresent } from "./anchor-icon.js";
+import { anchorTargetIfPresent } from "./anchor-icon.js";
 
 export function typeParameters(context: DefaultThemeRenderContext, typeParameters: TypeParameterReflection[]) {
     return (
@@ -11,8 +11,7 @@ export function typeParameters(context: DefaultThemeRenderContext, typeParameter
                 <ul class="tsd-type-parameter-list">
                     {typeParameters.map((item) => (
                         <li>
-                            <span>
-                                {anchorLinkIfPresent(context, item)}
+                            <span id={anchorTargetIfPresent(context, item)}>
                                 {item.flags.isConst && (
                                     <>
                                         <span class="tsd-signature-keyword">const</span>

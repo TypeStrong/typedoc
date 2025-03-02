@@ -1,7 +1,7 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, translateTagName } from "#utils";
 import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
-import { anchorIcon, anchorLink } from "./anchor-icon.js";
+import { anchorIcon } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 
 // Note: Comment modifiers are handled in `renderFlags`
@@ -83,8 +83,7 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                     return (
                         <>
                             <div class={`tsd-tag-${item.tag.substring(1)}`}>
-                                <h4 class="tsd-anchor-link">
-                                    {anchorLink(anchor)}
+                                <h4 class="tsd-anchor-link" id={anchor}>
                                     {name}
                                     {anchorIcon(context, anchor)}
                                 </h4>

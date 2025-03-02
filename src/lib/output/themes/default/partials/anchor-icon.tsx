@@ -12,14 +12,6 @@ export function anchorIcon(context: DefaultThemeRenderContext, anchor: string | 
     );
 }
 
-export function anchorLink(anchor: string | undefined) {
-    if (!anchor) return <></>;
-
-    return <a id={anchor} class="tsd-anchor" />;
-}
-
-export function anchorLinkIfPresent(context: DefaultThemeRenderContext, refl: Reflection) {
-    if (!context.router.hasUrl(refl)) return <></>;
-
-    return anchorLink(context.router.getAnchor(refl));
+export function anchorTargetIfPresent(context: DefaultThemeRenderContext, refl: Reflection) {
+    return context.router.hasUrl(refl) ? context.router.getAnchor(refl) : undefined;
 }

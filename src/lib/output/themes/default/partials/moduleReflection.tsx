@@ -9,7 +9,7 @@ import {
 import { JSX } from "#utils";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { anchorIcon, anchorLink } from "./anchor-icon.js";
+import { anchorIcon } from "./anchor-icon.js";
 
 export function moduleReflection(context: DefaultThemeRenderContext, mod: DeclarationReflection | ProjectReflection) {
     const sections = getMemberSections(mod);
@@ -93,8 +93,7 @@ export function moduleMemberSummary(
 
     return (
         <>
-            <dt class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))}>
-                {anchorLink(id)}
+            <dt class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))} id={id}>
                 {name}
             </dt>
             <dd class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))}>

@@ -322,7 +322,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 level,
             });
 
-            return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
+            return `<${token.tag} id="${slug}" class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
             return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;

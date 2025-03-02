@@ -261,10 +261,6 @@
         }
     }
 
-    html {
-        color-scheme: var(--color-scheme);
-    }
-
     :root[data-theme="light"] {
         --color-background: var(--light-color-background);
         --color-background-secondary: var(--light-color-background-secondary);
@@ -377,6 +373,13 @@
 
         --external-icon: var(--dark-external-icon);
         --color-scheme: var(--dark-color-scheme);
+    }
+
+    html {
+        color-scheme: var(--color-scheme);
+        @media (prefers-reduced-motion: no-preference) {
+            scroll-behavior: smooth;
+        }
     }
 
     *:focus-visible,
@@ -530,6 +533,9 @@
     }
     a.tsd-anchor-link {
         color: var(--color-text);
+    }
+    :target {
+        scroll-margin-block: calc(var(--dim-header-height) + 0.5rem);
     }
 
     code,
@@ -1370,6 +1376,7 @@
         align-items: center;
         margin-left: 0.5rem;
         color: var(--color-text);
+        vertical-align: middle;
     }
 
     .tsd-anchor-icon svg {
