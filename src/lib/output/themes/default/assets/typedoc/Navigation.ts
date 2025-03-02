@@ -97,6 +97,7 @@ function addNavText(
         }
         if (location.pathname === a.pathname && !a.href.includes("#")) {
             a.classList.add("current");
+            a.ariaCurrent = "page";
         }
         if (el.kind) {
             const label = window.translations[`kind_${el.kind}`].replaceAll(

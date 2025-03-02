@@ -11,10 +11,12 @@ export function breadcrumbs(context: DefaultThemeRenderContext, props: Reflectio
     }
 
     return (
-        <ul class="tsd-breadcrumb">
-            {path.reverse().map((r) => (
+        <ul class="tsd-breadcrumb" aria-label="Breadcrumb">
+            {path.reverse().map((r, index) => (
                 <li>
-                    <a href={context.urlTo(r)}>{r.name}</a>
+                    <a href={context.urlTo(r)} aria-current={index === path.length - 1 ? "page" : undefined}>
+                        {r.name}
+                    </a>
                 </li>
             ))}
         </ul>
