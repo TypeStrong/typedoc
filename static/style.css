@@ -562,7 +562,8 @@
         box-sizing: border-box;
     }
     pre:hover > button,
-    pre > button.visible {
+    pre > button.visible,
+    pre > button:focus-visible {
         opacity: 1;
     }
 
@@ -1378,7 +1379,8 @@
     }
 
     .tsd-member-summary-name:hover > .tsd-anchor-icon svg,
-    .tsd-anchor-link:hover > .tsd-anchor-icon svg {
+    .tsd-anchor-link:hover > .tsd-anchor-icon svg,
+    .tsd-anchor-icon:focus-visible svg {
         visibility: visible;
     }
 
