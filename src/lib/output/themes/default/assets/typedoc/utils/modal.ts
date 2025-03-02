@@ -44,7 +44,6 @@ function resetScrollbar() {
     document.body.style.removeProperty("padding-right");
 }
 
-/** Could be popover too */
 type Modal = HTMLDialogElement;
 
 /**
@@ -54,22 +53,27 @@ type Modal = HTMLDialogElement;
  *
  * Adds workaround to fix scrolling issues caused by default browser behavior.
  *
- * @param closingAnimation Name of `@keyframes` for closing animation
+ * **Note**:
+ * - Do not use native `show`, `showModal` or `close` methods when using this.
+ * - `cancel` event is overridden.
+ *
  * @param options Configure modal behavior
  * @param options.closeOnEsc Defaults to true
  * @param options.closeOnClick Closes modal when clicked on overlay, defaults to false.
  */
 export function setUpModal(
     modal: Modal,
-    closingAnimation: string,
     options?: {
         closeOnEsc?: boolean;
         closeOnClick?: boolean;
     },
 ) {
     // Event listener for closing animation
-    modal.addEventListener("animationend", (e) => {
-        if (e.animationName !== closingAnimation) return;
+    // Closes the modal on *any* animation if it has the CLOSING_CLASS
+    // If another animation is needed, make the animation longer than the actual closing animation
+    modal.addEventListener("animationend", () => {
+        if (!modal.classList.contains(CLOSING_CLASS)) return;
+
         modal.classList.remove(CLOSING_CLASS);
         document.getElementById(OVERLAY_ID)?.remove();
         modal.close();
@@ -97,6 +101,7 @@ export function setUpModal(
     }
 }
 
+/** Opens modal and adds overlay */
 export function openModal(modal: Modal) {
     if (modal.open) return;
 
@@ -108,12 +113,10 @@ export function openModal(modal: Modal) {
     hideScrollbar();
 }
 
-/** Initiates modal closing, by adding a `closing` class that starts the closing animation */
+/** Initiates modal closing */
 export function closeModal(modal: Modal) {
     if (!modal.open) return;
     const overlay = document.getElementById(OVERLAY_ID);
-    if (overlay) {
-        overlay.classList.add(CLOSING_CLASS);
-    }
+    overlay?.classList.add(CLOSING_CLASS);
     modal.classList.add(CLOSING_CLASS);
 }

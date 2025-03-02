@@ -109,7 +109,7 @@ function bindEvents(
 ) {
     const { field, results, searchEl, status, trigger } = elements;
 
-    setUpModal(searchEl, "fade-out", { closeOnClick: true });
+    setUpModal(searchEl, { closeOnClick: true });
 
     function showSearch() {
         openModal(searchEl);
