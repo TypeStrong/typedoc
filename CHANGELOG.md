@@ -26,7 +26,8 @@ title: Changelog
 - `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
 - `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
 - `Comment.serializeDisplayParts` no longer requires a serializer argument.
-- `ReflectionSymbolId.fileName` has been removed, TypeDoc now stores a combination of a package name and package relative path instead.
+- `ReflectionSymbolId.fileName` is now optional, TypeDoc now stores a combination of a package name and package relative path instead.
+  The `fileName` property will be present when initially created, but is not serialized.
 - Removed `DeclarationReflection.relevanceBoost` attribute which was added for plugins, but never used.
 - `i18n` proxy is no longer passed to many functions, instead, reference `i18n` exported from the module directly.
 - `ReflectionKind.singularString` and `ReflectionKind.pluralString` now returns translated strings.
