@@ -1,0 +1,279 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "ul.tsd-breadcrumb": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": ""
+                                    },
+                                    "children": "Enumeration"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Enumeration Enumeration"
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel.tsd-comment": [
+                        {
+                            "div.tsd-comment.tsd-typography": "<p>Enum comment <a href=\"#value1\" class=\"tsd-kind-enum-member\">Value1</a></p>\n"
+                        },
+                        {
+                            "div.tsd-comment.tsd-typography": {
+                                "div.tsd-tag-remarks": [
+                                    {
+                                        "h4.tsd-anchor-link": [
+                                            {
+                                                "tag": "a.tsd-anchor",
+                                                "props": {
+                                                    "id": "remarks"
+                                                }
+                                            },
+                                            "Remarks",
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#remarks",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "<p>Block tag</p>\n"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel-group.tsd-index-group": {
+                        "section.tsd-panel.tsd-index-panel": {
+                            "tag": "details.tsd-index-content.tsd-accordion",
+                            "props": {
+                                "open": true
+                            },
+                            "children": [
+                                {
+                                    "summary.tsd-accordion-summary.tsd-index-summary": {
+                                        "tag": "h5.tsd-index-heading.uppercase",
+                                        "props": {
+                                            "role": "button",
+                                            "aria-expanded": "false",
+                                            "tabIndex": "0"
+                                        },
+                                        "children": " Index"
+                                    }
+                                },
+                                {
+                                    "div.tsd-accordion-details": {
+                                        "section.tsd-index-section": [
+                                            {
+                                                "h3.tsd-index-heading": "Enumeration Members"
+                                            },
+                                            {
+                                                "div.tsd-index-list": [
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#value1"
+                                                        },
+                                                        "children": {
+                                                            "span": "Value1"
+                                                        }
+                                                    },
+                                                    "\n",
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#value2"
+                                                        },
+                                                        "children": {
+                                                            "span": "Value2"
+                                                        }
+                                                    },
+                                                    "\n"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Enumeration Members"
+                            },
+                            "children": {
+                                "h2": " Enumeration Members"
+                            }
+                        },
+                        {
+                            "section": [
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "a.tsd-anchor",
+                                            "props": {
+                                                "id": "value1"
+                                            }
+                                        },
+                                        {
+                                            "h3.tsd-anchor-link": [
+                                                {
+                                                    "span": "Value1"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#value1",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-enum-member": "Value1"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": "<p>Value1 comment</p>\n"
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "a.tsd-anchor",
+                                            "props": {
+                                                "id": "value2"
+                                            }
+                                        },
+                                        {
+                                            "h3.tsd-anchor-link": [
+                                                {
+                                                    "span": "Value2"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#value2",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-enum-member": "Value2"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "0"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": "<p>Value2 comment</p>\n"
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": {
+                                "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                "props": {
+                                    "open": true
+                                },
+                                "children": [
+                                    {
+                                        "tag": "summary.tsd-accordion-summary",
+                                        "props": {
+                                            "data-key": "section-Enumeration Members"
+                                        },
+                                        "children": "Enumeration Members"
+                                    },
+                                    {
+                                        "div": [
+                                            {
+                                                "tag": "a.",
+                                                "props": {
+                                                    "href": "#value1"
+                                                },
+                                                "children": {
+                                                    "span": "Value1"
+                                                }
+                                            },
+                                            {
+                                                "tag": "a.",
+                                                "props": {
+                                                    "href": "#value2"
+                                                },
+                                                "children": {
+                                                    "span": "Value2"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

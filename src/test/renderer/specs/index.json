@@ -1,0 +1,26 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "ul.tsd-breadcrumb": []
+                        },
+                        {
+                            "h1": "typedoc"
+                        }
+                    ]
+                },
+                {
+                    "div.tsd-panel.tsd-typography": "<p>Readme text</p>\n"
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": []
+            }
+        }
+    ]
+}

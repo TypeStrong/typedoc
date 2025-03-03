@@ -11,14 +11,15 @@ import {
     ReflectionGroup,
     ReflectionKind,
 } from "../../../models/index.js";
-import type { PageEvent } from "../../events.js";
+import type { PageEvent, RendererEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { getIcons, type Icons } from "./partials/icon.js";
 import { filterMap, JSX } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { PageKind, type Router } from "../../router.js";
-import { createNormalizedUrl } from "#node-utils";
+import { createNormalizedUrl, loadHighlighter, Option } from "#node-utils";
+import type { BundledLanguage, BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 
 export interface NavigationElement {
     text: string;
@@ -60,6 +61,18 @@ export class DefaultTheme extends Theme {
     icons: Icons;
 
     ContextClass = DefaultThemeRenderContext;
+
+    @Option("lightHighlightTheme")
+    private accessor lightTheme!: ShikiTheme;
+
+    @Option("darkHighlightTheme")
+    private accessor darkTheme!: ShikiTheme;
+
+    @Option("highlightLanguages")
+    private accessor highlightLanguages!: string[];
+
+    @Option("ignoredHighlightLanguages")
+    private accessor ignoredHighlightLanguages!: string[];
 
     getRenderContext(pageEvent: PageEvent<Reflection>) {
         return new this.ContextClass(this.router, this, pageEvent, this.application.options);
@@ -134,6 +147,16 @@ export class DefaultTheme extends Theme {
 
         const templateOutput = this.defaultLayoutTemplate(page, template);
         return "<!DOCTYPE html>" + JSX.renderElement(templateOutput) + "\n";
+    }
+
+    override async preRender(_event: RendererEvent): Promise<void> {
+        await loadHighlighter(
+            this.lightTheme,
+            this.darkTheme,
+            // Checked in option validation
+            this.highlightLanguages as BundledLanguage[],
+            this.ignoredHighlightLanguages,
+        );
     }
 
     private _navigationCache: NavigationElement[] | undefined;

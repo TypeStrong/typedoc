@@ -1,0 +1,84 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "ul.tsd-breadcrumb": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": ""
+                                    },
+                                    "children": "UnionComments"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Type Alias UnionComments"
+                        }
+                    ]
+                },
+                {
+                    "div.tsd-signature": [
+                        {
+                            "span.tsd-kind-type-alias": "UnionComments"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "\"abc\""
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-symbol": "|"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "\"def\""
+                        }
+                    ]
+                },
+                {
+                    "div.tsd-type-declaration": [
+                        {
+                            "h4": "Type declaration"
+                        },
+                        {
+                            "ul": [
+                                {
+                                    "li": [
+                                        {
+                                            "span.tsd-signature-type": "\"abc\""
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": "<p>Commentary on abc</p>\n"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "li": [
+                                        {
+                                            "span.tsd-signature-type": "\"def\""
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": "<p>Commentary on def</p>\n"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": []
+            }
+        }
+    ]
+}

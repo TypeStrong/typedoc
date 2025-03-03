@@ -16,8 +16,6 @@ import type { ProjectReflection } from "../models/ProjectReflection.js";
 import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
 import { AbstractComponent, Option } from "../utils/index.js";
-import { loadHighlighter } from "../utils/highlighter.js";
-import type { BundledLanguage, BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 import type { Comment, Reflection } from "../models/index.js";
 import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 import { EventHooks, i18n, JSX } from "#utils";
@@ -257,18 +255,6 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
     @Option("cacheBust")
     accessor cacheBust!: boolean;
 
-    @Option("lightHighlightTheme")
-    private accessor lightTheme!: ShikiTheme;
-
-    @Option("darkHighlightTheme")
-    private accessor darkTheme!: ShikiTheme;
-
-    @Option("highlightLanguages")
-    private accessor highlightLanguages!: string[];
-
-    @Option("ignoredHighlightLanguages")
-    private accessor ignoredHighlightLanguages!: string[];
-
     @Option("pretty")
     private accessor pretty!: boolean;
 
@@ -350,6 +336,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             this.renderDocument(outputDirectory, page);
         }
 
+        this.postRenderAsyncJobs.push(async o => await this.theme!.postRender(o));
         await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));
         this.postRenderAsyncJobs = [];
 
@@ -363,22 +350,12 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private async runPreRenderJobs(output: RendererEvent) {
         const start = Date.now();
 
-        this.preRenderAsyncJobs.push(this.loadHighlighter.bind(this));
+        this.preRenderAsyncJobs.push(async o => await this.theme!.preRender(o));
         await Promise.all(this.preRenderAsyncJobs.map((job) => job(output)));
         this.preRenderAsyncJobs = [];
 
         this.application.logger.verbose(
             `Pre render async jobs took ${Date.now() - start}ms`,
-        );
-    }
-
-    private async loadHighlighter() {
-        await loadHighlighter(
-            this.lightTheme,
-            this.darkTheme,
-            // Checked in option validation
-            this.highlightLanguages as BundledLanguage[],
-            this.ignoredHighlightLanguages,
         );
     }
 
