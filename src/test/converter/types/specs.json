@@ -1798,6 +1798,55 @@
                     "variant": "declaration",
                     "kind": 2097152,
                     "flags": {},
+                    "children": [
+                        {
+                            "id": 73,
+                            "name": "prop1",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "type-operator.ts",
+                                    "line": 4,
+                                    "character": 4,
+                                    "url": "typedoc://type-operator.ts#L4"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "id": 74,
+                            "name": "prop2",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "type-operator.ts",
+                                    "line": 5,
+                                    "character": 4,
+                                    "url": "typedoc://type-operator.ts#L5"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                73,
+                                74
+                            ]
+                        }
+                    ],
                     "sources": [
                         {
                             "fileName": "type-operator.ts",
@@ -1805,74 +1854,7 @@
                             "character": 12,
                             "url": "typedoc://type-operator.ts#L3"
                         }
-                    ],
-                    "type": {
-                        "type": "reflection",
-                        "declaration": {
-                            "id": 72,
-                            "name": "__type",
-                            "variant": "declaration",
-                            "kind": 65536,
-                            "flags": {},
-                            "children": [
-                                {
-                                    "id": 73,
-                                    "name": "prop1",
-                                    "variant": "declaration",
-                                    "kind": 1024,
-                                    "flags": {},
-                                    "sources": [
-                                        {
-                                            "fileName": "type-operator.ts",
-                                            "line": 4,
-                                            "character": 4,
-                                            "url": "typedoc://type-operator.ts#L4"
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "string"
-                                    }
-                                },
-                                {
-                                    "id": 74,
-                                    "name": "prop2",
-                                    "variant": "declaration",
-                                    "kind": 1024,
-                                    "flags": {},
-                                    "sources": [
-                                        {
-                                            "fileName": "type-operator.ts",
-                                            "line": 5,
-                                            "character": 4,
-                                            "url": "typedoc://type-operator.ts#L5"
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                }
-                            ],
-                            "groups": [
-                                {
-                                    "title": "Properties",
-                                    "children": [
-                                        73,
-                                        74
-                                    ]
-                                }
-                            ],
-                            "sources": [
-                                {
-                                    "fileName": "type-operator.ts",
-                                    "line": 3,
-                                    "character": 16,
-                                    "url": "typedoc://type-operator.ts#L3"
-                                }
-                            ]
-                        }
-                    }
+                    ]
                 },
                 {
                     "id": 75,
@@ -2595,11 +2577,6 @@
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
             "qualifiedName": "C"
-        },
-        "72": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "__type"
         },
         "73": {
             "packageName": "typedoc",

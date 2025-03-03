@@ -16,6 +16,8 @@ title: Changelog
 - Function-like variable exports will now only be automatically converted as function types if
   they are initialized with a function expression. TypeDoc can be instructed to convert them as functions
   with the `@function` tag, #2881.
+- Object literal type alias types will now be converted in a way which causes them to be rendered more similarly
+  to how interfaces are rendered, #2817.
 
 ### API Breaking Changes
 
@@ -26,7 +28,8 @@ title: Changelog
 - `Deserializer.reviveProject(s)` no longer accepts an option to add project documents.
 - `Deserializer.reviveProjects` now requires an `alwaysCreateEntryPointModule` option.
 - `Comment.serializeDisplayParts` no longer requires a serializer argument.
-- `ReflectionSymbolId.fileName` has been removed, TypeDoc now stores a combination of a package name and package relative path instead.
+- `ReflectionSymbolId.fileName` is now optional, TypeDoc now stores a combination of a package name and package relative path instead.
+  The `fileName` property will be present when initially created, but is not serialized.
 - Removed `DeclarationReflection.relevanceBoost` attribute which was added for plugins, but never used.
 - `i18n` proxy is no longer passed to many functions, instead, reference `i18n` exported from the module directly.
 - `ReflectionKind.singularString` and `ReflectionKind.pluralString` now returns translated strings.
@@ -47,6 +50,7 @@ title: Changelog
 - TypeDoc will now warn if an option which should only be set at the root level is set in `packageOptions`, #2878.
 - Introduced `@function` tag to force TypeDoc to convert variable declarations with a type annotation as functions, #2881.
 - Exposed a `TypeDoc` global object in the HTML theme which can be used to prevent TypeDoc from using `localStorage`, #2872.
+- Introduced `@preventInline` and `@inlineType` tags for further control extending the `@inline` tag, #2862.
 
 ### Bug Fixes
 

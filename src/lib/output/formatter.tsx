@@ -836,6 +836,19 @@ export class FormattedCodeBuilder {
         return simpleElement(<span class="tsd-signature-symbol">{"{}"}</span>);
     }
 
+    typeAlias(item: DeclarationReflection) {
+        return nodes(
+            simpleElement(<span class="tsd-signature-keyword">type</span>),
+            space(),
+            simpleElement(<span class={getKindClass(item)}>{item.name}</span>),
+            this.typeParameters(item),
+            space(),
+            simpleElement(<span class="tsd-signature-symbol">{"="}</span>),
+            space(),
+            this.reflection(item, { topLevelLinks: true }),
+        );
+    }
+
     interface(item: DeclarationReflection) {
         return nodes(
             simpleElement(<span class="tsd-signature-keyword">interface</span>),

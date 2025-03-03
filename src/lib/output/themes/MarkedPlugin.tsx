@@ -215,7 +215,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                 }
                             }
 
-                            if (url) {
+                            if (typeof url !== "undefined") {
                                 if (part.targetAnchor) {
                                     url += "#" + part.targetAnchor;
 

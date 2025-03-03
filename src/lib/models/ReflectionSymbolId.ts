@@ -55,6 +55,17 @@ export class ReflectionSymbolId {
      */
     transientId: number = NaN;
 
+    /**
+     * Note: This is **not** serialized, only {@link packageName} and {@link packagePath} path
+     * information is preserved when serializing. This is set so that it is available to plugins
+     * when initially converting a project.
+     *
+     * @privateRemarks
+     * This is used by typedoc-plugin-dt-links to determine the path to read to get the source
+     * code of a definitely typed package.
+     */
+    fileName?: NormalizedPath;
+
     constructor(json: JSONOutput.ReflectionSymbolId) {
         this.packageName = json.packageName;
         this.packagePath = json.packagePath;

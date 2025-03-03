@@ -8,6 +8,7 @@ import {
     ProjectReflection,
     SourceReference,
     TSConfigReader,
+    type TypeDocOptions,
 } from "../index.js";
 import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
@@ -28,18 +29,21 @@ export function getConverterApp() {
     if (!converterApp) {
         converterApp = createAppForTesting();
         for (
-            const [name, value] of Object.entries({
-                name: "typedoc",
-                excludeExternals: true,
-                disableSources: false,
-                excludePrivate: false,
-                tsconfig: join(getConverterBase(), "tsconfig.json"),
-                externalPattern: ["**/node_modules/**"],
-                plugin: [],
-                entryPointStrategy: EntryPointStrategy.Expand,
-                gitRevision: "fake",
-                readme: "none",
-            })
+            const [name, value] of Object.entries(
+                {
+                    name: "typedoc",
+                    excludeExternals: true,
+                    disableSources: false,
+                    excludePrivate: false,
+                    tsconfig: join(getConverterBase(), "tsconfig.json"),
+                    externalPattern: ["**/node_modules/**"],
+                    plugin: [],
+                    entryPointStrategy: EntryPointStrategy.Expand,
+                    gitRevision: "fake",
+                    readme: "none",
+                    skipErrorChecking: true,
+                } satisfies Partial<TypeDocOptions>,
+            )
         ) {
             converterApp.options.setValue(name as never, value as never);
         }
@@ -109,11 +113,14 @@ export function getConverter2App() {
     if (!converter2App) {
         converter2App = createAppForTesting();
         for (
-            const [name, value] of Object.entries({
-                excludeExternals: true,
-                tsconfig: join(getConverter2Base(), "tsconfig.json"),
-                validation: true,
-            })
+            const [name, value] of Object.entries(
+                {
+                    excludeExternals: true,
+                    tsconfig: join(getConverter2Base(), "tsconfig.json"),
+                    validation: true,
+                    skipErrorChecking: true,
+                } satisfies Partial<TypeDocOptions>,
+            )
         ) {
             converter2App.options.setValue(name as never, value as never);
         }

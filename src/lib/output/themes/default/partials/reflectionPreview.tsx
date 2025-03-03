@@ -18,4 +18,14 @@ export function reflectionPreview(context: DefaultThemeRenderContext, props: Ref
 
         return <div class="tsd-signature">{generator.toElement()}</div>;
     }
+
+    if (props.kindOf(ReflectionKind.TypeAlias) && props.children) {
+        const builder = new FormattedCodeBuilder(context.router, context.model);
+        const tree = builder.typeAlias(props);
+        const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
+        generator.forceWrap(builder.forceWrap); // Ensure elements are added to new lines.
+        generator.node(tree, Wrap.Enable);
+
+        return <div class="tsd-signature">{generator.toElement()}</div>;
+    }
 }

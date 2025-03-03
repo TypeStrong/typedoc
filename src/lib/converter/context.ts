@@ -2,10 +2,12 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
+    Comment,
     ContainerReflection,
     DeclarationReflection,
     type DocumentReflection,
     type ProjectReflection,
+    ReferenceType,
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
@@ -16,8 +18,8 @@ import { isNamedNode } from "./utils/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
 import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
-import { getHumanName } from "../utils/tsutils.js";
-import { normalizePath } from "#node-utils";
+import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
+import { findPackageForPath, normalizePath } from "#node-utils";
 import { createSymbolId } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";
 
@@ -68,6 +70,8 @@ export class Context {
     convertingTypeNode = false; // Inherited by withScope
     convertingClassOrInterface = false; // Not inherited
     shouldBeStatic = false; // Not inherited
+    inlineType = new Set<string>(); // Inherited by withScope
+    preventInline = new Set<string>(); // Inherited by withScope
 
     private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
@@ -237,6 +241,34 @@ export class Context {
         }
     }
 
+    /**
+     * Create a {@link ReferenceType} which points to the provided symbol.
+     *
+     * @privateRemarks
+     * This is available on Context so that it can be monkey-patched by typedoc-plugin-missing-exports
+     */
+    createSymbolReference(
+        symbol: ts.Symbol,
+        context: Context,
+        name?: string,
+    ): ReferenceType {
+        const ref = ReferenceType.createUnresolvedReference(
+            name ?? symbol.name,
+            createSymbolId(symbol),
+            context.project,
+            getQualifiedName(symbol, name ?? symbol.name),
+        );
+        ref.refersToTypeParameter = !!(
+            symbol.flags & ts.SymbolFlags.TypeParameter
+        );
+
+        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
+        if (!symbolPath) return ref;
+
+        ref.package = findPackageForPath(symbolPath)?.[0];
+        return ref;
+    }
+
     addChild(reflection: DeclarationReflection | DocumentReflection) {
         if (this.scope instanceof ContainerReflection) {
             this.scope.addChild(reflection);
@@ -367,6 +399,15 @@ export class Context {
         );
     }
 
+    shouldInline(symbol: ts.Symbol, name: string): boolean {
+        if (this.preventInline.has(name)) return false;
+        if (this.inlineType.has(name)) return true;
+
+        return this
+            .getComment(symbol, ReflectionKind.Interface)
+            ?.hasModifier("@inline") ?? false;
+    }
+
     public withScope(scope: Reflection): Context {
         assert(scope.parent === this.scope || scope === this.scope, "Incorrect context used for withScope");
 
@@ -379,6 +420,17 @@ export class Context {
         context.convertingTypeNode = this.convertingTypeNode;
         context.setActiveProgram(this._program);
         context.reflectionIdToSymbolMap = this.reflectionIdToSymbolMap;
+        context.preventInline = new Set(this.preventInline);
+        context.inlineType = new Set(this.inlineType);
+
+        for (const tag of scope.comment?.blockTags || []) {
+            if (tag.tag === "@preventInline") {
+                context.preventInline.add(Comment.combineDisplayParts(tag.content));
+            } else if (tag.tag === "@inlineType") {
+                context.inlineType.add(Comment.combineDisplayParts(tag.content));
+            }
+        }
+
         return context;
     }
 }

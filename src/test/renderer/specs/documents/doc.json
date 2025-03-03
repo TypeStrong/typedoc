@@ -1,0 +1,29 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": {
+                        "ul.tsd-breadcrumb": {
+                            "li": {
+                                "tag": "a",
+                                "props": {
+                                    "href": ""
+                                },
+                                "children": "doc"
+                            }
+                        }
+                    }
+                },
+                {
+                    "div.tsd-panel.tsd-typography": "<p>Rendered document</p>\n<p>Link to this doc: <a href=\"\">link</a></p>\n<pre><code class=\"ts\">test();\n</code><button type=\"button\">Copy</button></pre>\n\n<div class=\"tsd-alert tsd-alert-note\"><div class=\"tsd-alert-title\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use href=\"../assets/icons.svg#icon-alertNote\"></use></svg><span>Note</span></div><p>\nThis is an alert</p>\n</div>\n"
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": []
+            }
+        }
+    ]
+}

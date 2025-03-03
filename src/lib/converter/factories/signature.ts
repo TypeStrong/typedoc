@@ -48,7 +48,6 @@ export function createSignature(
     if (context.shouldBeStatic) {
         sigRef.setFlag(ReflectionFlag.Static);
     }
-    const sigRefCtx = context.withScope(sigRef);
     if (symbol && declaration) {
         context.project.registerSymbolId(
             sigRef,
@@ -74,6 +73,7 @@ export function createSignature(
         }
     }
 
+    const sigRefCtx = context.withScope(sigRef);
     sigRef.typeParameters = convertTypeParameters(
         sigRefCtx,
         sigRef,

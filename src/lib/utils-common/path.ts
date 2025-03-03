@@ -108,7 +108,9 @@ export namespace NormalizedPathUtils {
         let canRemoveDotDot = false;
         for (let i = 0; i < parts.length;/* inside loop */
         ) {
-            if (parts[i] == "..") {
+            if (parts[i] == "." && i + 1 != parts.length) {
+                parts.splice(i, 1);
+            } else if (parts[i] == "..") {
                 if (canRemoveDotDot) {
                     if (i - 1 === 0 && /\w:/i.test(parts[0])) {
                         parts.splice(i, 1);

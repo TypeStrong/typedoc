@@ -46,6 +46,7 @@ export function createSymbolId(symbol: ts.Symbol, declaration?: ts.Declaration) 
     });
     id.pos = pos;
     id.transientId = transientId;
+    id.fileName = normalizePath(sourceFileName);
 
     return id;
 }

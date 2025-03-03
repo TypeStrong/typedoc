@@ -117,6 +117,14 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@preventInline",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@inlineType",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@primaryExport",
             "syntaxKind": "modifier"
         },

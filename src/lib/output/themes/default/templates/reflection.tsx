@@ -12,7 +12,8 @@ import { i18n, JSX } from "#utils";
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {
     if (
         props.model.kindOf(ReflectionKind.TypeAlias | ReflectionKind.Variable) &&
-        props.model instanceof DeclarationReflection
+        props.model instanceof DeclarationReflection &&
+        props.model.type
     ) {
         return context.memberDeclaration(props.model);
     }
@@ -87,8 +88,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
                         <span class={getKindClass(item)}>{item.name}</span>: {context.type(item.type)}
                     </>
                 ))}
-                <span class="tsd-signature-symbol">]:</span>
-                {context.type(index.type)}
+                <span class="tsd-signature-symbol">]:</span> {context.type(index.type)}
             </div>
             {context.commentSummary(index)}
             {context.commentTags(index)}

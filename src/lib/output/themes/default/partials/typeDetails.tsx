@@ -319,8 +319,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
                         {context.type(item.type)}
                     </>
                 ))}
-                <span class="tsd-signature-symbol">{"]: "}</span>
-                {context.type(index.type)}
+                <span class="tsd-signature-symbol">]:</span> {context.type(index.type)}
             </h5>
             {context.commentSummary(index)}
             {context.commentTags(index)}
