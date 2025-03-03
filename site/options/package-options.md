@@ -103,7 +103,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`hostedBaseUrl`](output.md#hostedbaseurl)                                             | Root     |                                                            |
 | [`useHostedBaseUrlForAbsoluteLinks`](output.md#usehostedbaseurlforabsolutelinks)       | Root     |                                                            |
 | [`useFirstParagraphOfCommentAsSummary`](output.md#usefirstparagraphofcommentassummary) | Root     |                                                            |
-| [`includeHierarchySummary`](input.md#includehierarchysummary)                          | Root     |                                                            |
+| [`includeHierarchySummary`](output.md#includehierarchysummary)                         | Root     |                                                            |
 
 ## Comment Options
 

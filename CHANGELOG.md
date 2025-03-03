@@ -50,6 +50,7 @@ title: Changelog
 - TypeDoc will now warn if an option which should only be set at the root level is set in `packageOptions`, #2878.
 - Introduced `@function` tag to force TypeDoc to convert variable declarations with a type annotation as functions, #2881.
 - Exposed a `TypeDoc` global object in the HTML theme which can be used to prevent TypeDoc from using `localStorage`, #2872.
+- Introduced `@preventInline` and `@inlineType` tags for further control extending the `@inline` tag, #2862.
 
 ### Bug Fixes
 

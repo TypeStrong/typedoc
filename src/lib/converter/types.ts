@@ -756,14 +756,13 @@ const referenceConverter: TypeConverter<
         }
 
         const symbol = context.expectSymbolAtLocation(node.typeName);
+        const name = node.typeName.getText();
 
         // Ignore @inline if there are type arguments, as they won't be resolved
         // in the type we just retrieved from node.typeName.
         if (
             !node.typeArguments &&
-            context
-                .getComment(symbol, ReflectionKind.Interface)
-                ?.hasModifier("@inline")
+            context.shouldInline(symbol, name)
         ) {
             // typeLiteralConverter doesn't use the node, so we can get away with lying here.
             // This might not actually be safe, it appears that it is in the relatively small
@@ -776,8 +775,6 @@ const referenceConverter: TypeConverter<
                 undefined,
             );
         }
-
-        const name = node.typeName.getText();
 
         const ref = context.createSymbolReference(
             context.resolveAliasedSymbol(symbol),
@@ -803,11 +800,14 @@ const referenceConverter: TypeConverter<
             return ref;
         }
 
-        if (
-            context
-                .getComment(symbol, ReflectionKind.Interface)
-                ?.hasModifier("@inline")
-        ) {
+        let name: string;
+        if (ts.isIdentifier(node.typeName)) {
+            name = node.typeName.text;
+        } else {
+            name = node.typeName.right.text;
+        }
+
+        if (context.shouldInline(symbol, name)) {
             // typeLiteralConverter doesn't use the node, so we can get away with lying here.
             // This might not actually be safe, it appears that it is in the relatively small
             // amount of testing I've done with it, but I wouldn't be surprised if someone manages
@@ -818,13 +818,6 @@ const referenceConverter: TypeConverter<
                 null!,
                 undefined,
             );
-        }
-
-        let name: string;
-        if (ts.isIdentifier(node.typeName)) {
-            name = node.typeName.text;
-        } else {
-            name = node.typeName.right.text;
         }
 
         const ref = context.createSymbolReference(

@@ -1203,6 +1203,33 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Handles the @preventInline tag preventing @inline from taking effect", () => {
+        const project = convert("inlineTag");
+
+        const bar2 = querySig(project, "bar2");
+        equal(
+            bar2.parameters?.map((p) => p.type?.toString()),
+            ["Record<string, Foo>"],
+        );
+
+        const baz = querySig(project, "Class.baz");
+        equal(
+            baz.parameters?.map((p) => p.type?.toString()),
+            ["Foo"],
+        );
+        equal(baz.type?.toString(), "Complex<number>");
+    });
+
+    it("Handles the @inlineType tag to inline a requested type", () => {
+        const project = convert("inlineTag");
+
+        const selectiveInline = querySig(project, "selectiveInline");
+        equal(
+            selectiveInline.parameters?.map((p) => p.type?.toString()),
+            ["{ inlined: false }"],
+        );
+    });
+
     it("Handles the @useDeclaredType tag on types", () => {
         const project = convert("useDeclaredTypeTag");
         const data = query(project, "Data");

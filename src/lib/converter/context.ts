@@ -2,6 +2,7 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
+    Comment,
     ContainerReflection,
     DeclarationReflection,
     type DocumentReflection,
@@ -69,6 +70,8 @@ export class Context {
     convertingTypeNode = false; // Inherited by withScope
     convertingClassOrInterface = false; // Not inherited
     shouldBeStatic = false; // Not inherited
+    inlineType = new Set<string>(); // Inherited by withScope
+    preventInline = new Set<string>(); // Inherited by withScope
 
     private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
@@ -396,6 +399,15 @@ export class Context {
         );
     }
 
+    shouldInline(symbol: ts.Symbol, name: string): boolean {
+        if (this.preventInline.has(name)) return false;
+        if (this.inlineType.has(name)) return true;
+
+        return this
+            .getComment(symbol, ReflectionKind.Interface)
+            ?.hasModifier("@inline") ?? false;
+    }
+
     public withScope(scope: Reflection): Context {
         assert(scope.parent === this.scope || scope === this.scope, "Incorrect context used for withScope");
 
@@ -408,6 +420,17 @@ export class Context {
         context.convertingTypeNode = this.convertingTypeNode;
         context.setActiveProgram(this._program);
         context.reflectionIdToSymbolMap = this.reflectionIdToSymbolMap;
+        context.preventInline = new Set(this.preventInline);
+        context.inlineType = new Set(this.inlineType);
+
+        for (const tag of scope.comment?.blockTags || []) {
+            if (tag.tag === "@preventInline") {
+                context.preventInline.add(Comment.combineDisplayParts(tag.content));
+            } else if (tag.tag === "@inlineType") {
+                context.inlineType.add(Comment.combineDisplayParts(tag.content));
+            }
+        }
+
         return context;
     }
 }
