@@ -5,7 +5,10 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": []
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            }
                         },
                         {
                             "h1": "typedoc"
@@ -40,32 +43,28 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "doc"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "documents/doc.json"
-                                                    },
-                                                    "children": "doc"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "doc"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "documents/doc.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#doc",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "doc"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#doc",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
@@ -92,32 +91,28 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "enumeration"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "enums/Enumeration.json"
-                                                    },
-                                                    "children": "Enumeration"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "enumeration"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "enums/Enumeration.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#enumeration",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "Enumeration"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#enumeration",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
@@ -144,63 +139,55 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "genericclass"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "classes/GenericClass.json"
-                                                    },
-                                                    "children": "GenericClass"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "genericclass"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "classes/GenericClass.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#genericclass",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "GenericClass"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#genericclass",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "renderclass"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "classes/RenderClass.json"
-                                                    },
-                                                    "children": "RenderClass"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "renderclass"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "classes/RenderClass.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#renderclass",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "RenderClass"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#renderclass",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
@@ -227,63 +214,55 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "nested"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "types/Nested.json"
-                                                    },
-                                                    "children": "Nested"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "nested"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "types/Nested.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#nested",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "Nested"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#nested",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "unioncomments"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "types/UnionComments.json"
-                                                    },
-                                                    "children": "UnionComments"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "unioncomments"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "types/UnionComments.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#unioncomments",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "UnionComments"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#unioncomments",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []
@@ -310,32 +289,28 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "dt.tsd-member-summary": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "box"
-                                            }
-                                        },
-                                        {
-                                            "span.tsd-member-summary-name": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "functions/box.json"
-                                                    },
-                                                    "children": "box"
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "box"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "functions/box.json"
                                                 },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#box",
-                                                        "aria-label": "Permalink"
-                                                    }
+                                                "children": "box"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#box",
+                                                    "aria-label": "Permalink"
                                                 }
-                                            ]
-                                        }
-                                    ]
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "dd.tsd-member-summary": []

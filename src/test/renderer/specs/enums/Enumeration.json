@@ -5,11 +5,16 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
                                 "li": {
                                     "tag": "a",
                                     "props": {
-                                        "href": ""
+                                        "href": "",
+                                        "aria-current": "page"
                                     },
                                     "children": "Enumeration"
                                 }
@@ -29,13 +34,11 @@
                             "div.tsd-comment.tsd-typography": {
                                 "div.tsd-tag-remarks": [
                                     {
-                                        "h4.tsd-anchor-link": [
-                                            {
-                                                "tag": "a.tsd-anchor",
-                                                "props": {
-                                                    "id": "remarks"
-                                                }
-                                            },
+                                        "tag": "h4.tsd-anchor-link",
+                                        "props": {
+                                            "id": "remarks"
+                                        },
+                                        "children": [
                                             "Remarks",
                                             {
                                                 "tag": "a.tsd-anchor-icon",
@@ -128,13 +131,11 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "a.tsd-anchor",
+                                            "tag": "h3.tsd-anchor-link",
                                             "props": {
                                                 "id": "value1"
-                                            }
-                                        },
-                                        {
-                                            "h3.tsd-anchor-link": [
+                                            },
+                                            "children": [
                                                 {
                                                     "span": "Value1"
                                                 },
@@ -172,13 +173,11 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "a.tsd-anchor",
+                                            "tag": "h3.tsd-anchor-link",
                                             "props": {
                                                 "id": "value2"
-                                            }
-                                        },
-                                        {
-                                            "h3.tsd-anchor-link": [
+                                            },
+                                            "children": [
                                                 {
                                                     "span": "Value2"
                                                 },

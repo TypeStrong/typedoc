@@ -5,11 +5,16 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
                                 "li": {
                                     "tag": "a",
                                     "props": {
-                                        "href": ""
+                                        "href": "",
+                                        "aria-current": "page"
                                     },
                                     "children": "box"
                                 }
@@ -25,13 +30,11 @@
                         "ul.tsd-signatures": {
                             "li.": [
                                 {
-                                    "div.tsd-signature.tsd-anchor-link": [
-                                        {
-                                            "tag": "a.tsd-anchor",
-                                            "props": {
-                                                "id": "box"
-                                            }
-                                        },
+                                    "tag": "div.tsd-signature.tsd-anchor-link",
+                                    "props": {
+                                        "id": "box"
+                                    },
+                                    "children": [
                                         {
                                             "span.tsd-kind-call-signature": "box"
                                         },
@@ -116,17 +119,13 @@
                                                 {
                                                     "ul.tsd-type-parameter-list": {
                                                         "li": {
-                                                            "span": [
-                                                                {
-                                                                    "tag": "a.tsd-anchor",
-                                                                    "props": {
-                                                                        "id": "boxt"
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "span.tsd-kind-type-parameter": "T"
-                                                                }
-                                                            ]
+                                                            "tag": "span",
+                                                            "props": {
+                                                                "id": "boxt"
+                                                            },
+                                                            "children": {
+                                                                "span.tsd-kind-type-parameter": "T"
+                                                            }
                                                         }
                                                     }
                                                 }

@@ -5,7 +5,10 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": []
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            }
                         },
                         {
                             "h1": "typedoc"

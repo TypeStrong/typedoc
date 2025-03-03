@@ -5,11 +5,16 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
                                 "li": {
                                     "tag": "a",
                                     "props": {
-                                        "href": ""
+                                        "href": "",
+                                        "aria-current": "page"
                                     },
                                     "children": "RenderClass"
                                 }
@@ -189,13 +194,11 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "a.tsd-anchor",
+                                        "tag": "h3.tsd-anchor-link",
                                         "props": {
                                             "id": "constructor"
-                                        }
-                                    },
-                                    {
-                                        "h3.tsd-anchor-link": [
+                                        },
+                                        "children": [
                                             {
                                                 "span": "constructor"
                                             },
@@ -212,13 +215,11 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "div.tsd-signature.tsd-anchor-link": [
-                                                        {
-                                                            "tag": "a.tsd-anchor",
-                                                            "props": {
-                                                                "id": "constructorrenderclass"
-                                                            }
-                                                        },
+                                                    "tag": "div.tsd-signature.tsd-anchor-link",
+                                                    "props": {
+                                                        "id": "constructorrenderclass"
+                                                    },
+                                                    "children": [
                                                         {
                                                             "span.tsd-signature-keyword": "new"
                                                         },
@@ -333,13 +334,11 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "a.tsd-anchor",
+                                        "tag": "h3.tsd-anchor-link",
                                         "props": {
                                             "id": "prop"
-                                        }
-                                    },
-                                    {
-                                        "h3.tsd-anchor-link": [
+                                        },
+                                        "children": [
                                             {
                                                 "span": "prop"
                                             },
@@ -400,13 +399,11 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "a.tsd-anchor",
+                                            "tag": "h3.tsd-anchor-link",
                                             "props": {
                                                 "id": "method"
-                                            }
-                                        },
-                                        {
-                                            "h3.tsd-anchor-link": [
+                                            },
+                                            "children": [
                                                 {
                                                     "span": "method"
                                                 },
@@ -423,13 +420,11 @@
                                             "ul.tsd-signatures": {
                                                 "li.": [
                                                     {
-                                                        "div.tsd-signature.tsd-anchor-link": [
-                                                            {
-                                                                "tag": "a.tsd-anchor",
-                                                                "props": {
-                                                                    "id": "method-1"
-                                                                }
-                                                            },
+                                                        "tag": "div.tsd-signature.tsd-anchor-link",
+                                                        "props": {
+                                                            "id": "method-1"
+                                                        },
+                                                        "children": [
                                                             {
                                                                 "span.tsd-kind-call-signature": "method"
                                                             },
@@ -513,13 +508,11 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "a.tsd-anchor",
+                                            "tag": "h3.tsd-anchor-link",
                                             "props": {
                                                 "id": "overloaded"
-                                            }
-                                        },
-                                        {
-                                            "h3.tsd-anchor-link": [
+                                            },
+                                            "children": [
                                                 {
                                                     "span": "overloaded"
                                                 },
@@ -537,13 +530,11 @@
                                                 {
                                                     "li.": [
                                                         {
-                                                            "div.tsd-signature.tsd-anchor-link": [
-                                                                {
-                                                                    "tag": "a.tsd-anchor",
-                                                                    "props": {
-                                                                        "id": "overloaded-1"
-                                                                    }
-                                                                },
+                                                            "tag": "div.tsd-signature.tsd-anchor-link",
+                                                            "props": {
+                                                                "id": "overloaded-1"
+                                                            },
+                                                            "children": [
                                                                 {
                                                                     "span.tsd-kind-call-signature": "overloaded"
                                                                 },
@@ -589,13 +580,11 @@
                                                 {
                                                     "li.": [
                                                         {
-                                                            "div.tsd-signature.tsd-anchor-link": [
-                                                                {
-                                                                    "tag": "a.tsd-anchor",
-                                                                    "props": {
-                                                                        "id": "overloaded-2"
-                                                                    }
-                                                                },
+                                                            "tag": "div.tsd-signature.tsd-anchor-link",
+                                                            "props": {
+                                                                "id": "overloaded-2"
+                                                            },
+                                                            "children": [
                                                                 {
                                                                     "span.tsd-kind-call-signature": "overloaded"
                                                                 },

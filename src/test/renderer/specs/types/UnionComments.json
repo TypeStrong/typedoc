@@ -5,11 +5,16 @@
                 {
                     "div.tsd-page-title": [
                         {
-                            "ul.tsd-breadcrumb": {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
                                 "li": {
                                     "tag": "a",
                                     "props": {
-                                        "href": ""
+                                        "href": "",
+                                        "aria-current": "page"
                                     },
                                     "children": "UnionComments"
                                 }
