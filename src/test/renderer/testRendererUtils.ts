@@ -119,7 +119,7 @@ export class TestTheme extends DefaultTheme {
 
         const templateOutput = this.defaultLayoutTemplate(page, template);
         const snapshot = renderElementToSnapshot(templateOutput) as any;
-        return JSON.stringify(snapshot.children.body, null, 4);
+        return JSON.stringify(snapshot.children.body, null, 4) + "\n";
     }
 
     override async preRender() {
