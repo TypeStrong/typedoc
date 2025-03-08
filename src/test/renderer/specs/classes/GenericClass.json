@@ -83,13 +83,7 @@
                             "children": [
                                 {
                                     "summary.tsd-accordion-summary.tsd-index-summary": {
-                                        "tag": "h5.tsd-index-heading.uppercase",
-                                        "props": {
-                                            "role": "button",
-                                            "aria-expanded": "false",
-                                            "tabIndex": "0"
-                                        },
-                                        "children": " Index"
+                                        "h5.tsd-index-heading.uppercase": "Index"
                                     }
                                 },
                                 {
@@ -160,7 +154,7 @@
                                 "data-key": "section-Constructors"
                             },
                             "children": {
-                                "h2": " Constructors"
+                                "h2": "Constructors"
                             }
                         },
                         {
@@ -356,7 +350,7 @@
                                 "data-key": "section-Methods"
                             },
                             "children": {
-                                "h2": " Methods"
+                                "h2": "Methods"
                             }
                         },
                         {

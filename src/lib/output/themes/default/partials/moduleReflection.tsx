@@ -35,8 +35,9 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                 return (
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + title}>
+                            {context.icons.chevronDown()}
                             <h2>
-                                {context.icons.chevronDown()} {title}
+                                {title}
                             </h2>
                         </summary>
                         {description && (
