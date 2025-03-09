@@ -43,11 +43,7 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "doc"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#doc": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -91,11 +87,7 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "enumeration"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#enumeration": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -139,11 +131,7 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "baseclass"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#baseclass": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -166,11 +154,7 @@
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "genericclass"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#genericclass": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -193,11 +177,7 @@
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "modifiersclass"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#modifiersclass": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -220,11 +200,7 @@
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "renderclass"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#renderclass": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -268,11 +244,7 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "nested"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#nested": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -295,11 +267,7 @@
                                     "dd.tsd-member-summary": []
                                 },
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "unioncomments"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#unioncomments": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",
@@ -343,11 +311,7 @@
                         {
                             "dl.tsd-member-summaries": [
                                 {
-                                    "tag": "dt.tsd-member-summary",
-                                    "props": {
-                                        "id": "box"
-                                    },
-                                    "children": {
+                                    "dt.tsd-member-summary#box": {
                                         "span.tsd-member-summary-name": [
                                             {
                                                 "tag": "a",

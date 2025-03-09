@@ -34,11 +34,7 @@
                             "div.tsd-comment.tsd-typography": {
                                 "div.tsd-tag-remarks": [
                                     {
-                                        "tag": "h4.tsd-anchor-link",
-                                        "props": {
-                                            "id": "remarks"
-                                        },
-                                        "children": [
+                                        "h4.tsd-anchor-link#remarks": [
                                             "Remarks",
                                             {
                                                 "tag": "a.tsd-anchor-icon",
@@ -131,11 +127,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "value1"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#value1": [
                                                 {
                                                     "span": "Value1"
                                                 },
@@ -173,11 +165,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "value2"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#value2": [
                                                 {
                                                     "span": "Value2"
                                                 },

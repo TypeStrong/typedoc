@@ -20,10 +20,9 @@
                 },
                 {
                     "ul.tsd-full-hierarchy": {
-                        "tag": "li",
+                        "tag": "li#BaseClass",
                         "props": {
-                            "data-refl": "8",
-                            "id": "BaseClass"
+                            "data-refl": "8"
                         },
                         "children": [
                             {
@@ -35,10 +34,9 @@
                             },
                             {
                                 "ul": {
-                                    "tag": "li",
+                                    "tag": "li#RenderClass",
                                     "props": {
-                                        "data-refl": "11",
-                                        "id": "RenderClass"
+                                        "data-refl": "11"
                                     },
                                     "children": {
                                         "tag": "a",

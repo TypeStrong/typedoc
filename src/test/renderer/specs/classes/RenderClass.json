@@ -272,11 +272,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "constructor"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#constructor": [
                                             {
                                                 "span": "constructor"
                                             },
@@ -293,11 +289,7 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "constructorrenderclass"
-                                                    },
-                                                    "children": [
+                                                    "div.tsd-signature.tsd-anchor-link#constructorrenderclass": [
                                                         {
                                                             "span.tsd-signature-keyword": "new"
                                                         },
@@ -434,11 +426,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "prop"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#prop": [
                                             {
                                                 "span": "prop"
                                             },
@@ -499,11 +487,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "getset"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#getset": [
                                                 {
                                                     "span": [
                                                         "get",
@@ -527,11 +511,7 @@
                                                 {
                                                     "li": [
                                                         {
-                                                            "tag": "div.tsd-signature",
-                                                            "props": {
-                                                                "id": "getsetgetset"
-                                                            },
-                                                            "children": [
+                                                            "div.tsd-signature#getsetgetset": [
                                                                 {
                                                                     "span.tsd-signature-keyword": "get"
                                                                 },
@@ -566,11 +546,7 @@
                                                 {
                                                     "li": [
                                                         {
-                                                            "tag": "div.tsd-signature",
-                                                            "props": {
-                                                                "id": "getsetgetset-1"
-                                                            },
-                                                            "children": [
+                                                            "div.tsd-signature#getsetgetset-1": [
                                                                 {
                                                                     "span.tsd-signature-keyword": "set"
                                                                 },
@@ -646,11 +622,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "getter"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#getter": [
                                                 {
                                                     "span": "getter"
                                                 },
@@ -667,11 +639,7 @@
                                             "ul.tsd-signatures": {
                                                 "li": [
                                                     {
-                                                        "tag": "div.tsd-signature",
-                                                        "props": {
-                                                            "id": "gettergetter"
-                                                        },
-                                                        "children": [
+                                                        "div.tsd-signature#gettergetter": [
                                                             {
                                                                 "span.tsd-signature-keyword": "get"
                                                             },
@@ -730,11 +698,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "method"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#method": [
                                                 {
                                                     "span": "method"
                                                 },
@@ -751,11 +715,7 @@
                                             "ul.tsd-signatures": {
                                                 "li.": [
                                                     {
-                                                        "tag": "div.tsd-signature.tsd-anchor-link",
-                                                        "props": {
-                                                            "id": "method-1"
-                                                        },
-                                                        "children": [
+                                                        "div.tsd-signature.tsd-anchor-link#method-1": [
                                                             {
                                                                 "span.tsd-kind-call-signature": "method"
                                                             },
@@ -839,11 +799,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "overloaded"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#overloaded": [
                                                 {
                                                     "span": "overloaded"
                                                 },
@@ -861,11 +817,7 @@
                                                 {
                                                     "li.": [
                                                         {
-                                                            "tag": "div.tsd-signature.tsd-anchor-link",
-                                                            "props": {
-                                                                "id": "overloaded-1"
-                                                            },
-                                                            "children": [
+                                                            "div.tsd-signature.tsd-anchor-link#overloaded-1": [
                                                                 {
                                                                     "span.tsd-kind-call-signature": "overloaded"
                                                                 },
@@ -911,11 +863,7 @@
                                                 {
                                                     "li.": [
                                                         {
-                                                            "tag": "div.tsd-signature.tsd-anchor-link",
-                                                            "props": {
-                                                                "id": "overloaded-2"
-                                                            },
-                                                            "children": [
+                                                            "div.tsd-signature.tsd-anchor-link#overloaded-2": [
                                                                 {
                                                                     "span.tsd-kind-call-signature": "overloaded"
                                                                 },

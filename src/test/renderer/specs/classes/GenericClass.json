@@ -43,11 +43,7 @@
                         {
                             "ul.tsd-type-parameter-list": {
                                 "li": {
-                                    "tag": "span",
-                                    "props": {
-                                        "id": "t"
-                                    },
-                                    "children": [
+                                    "span#t": [
                                         {
                                             "span.tsd-signature-keyword": "out"
                                         },
@@ -167,11 +163,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "constructor"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#constructor": [
                                             {
                                                 "span": "constructor"
                                             },
@@ -188,11 +180,7 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "constructorgenericclass"
-                                                    },
-                                                    "children": [
+                                                    "div.tsd-signature.tsd-anchor-link#constructorgenericclass": [
                                                         {
                                                             "span.tsd-signature-keyword": "new"
                                                         },
@@ -279,11 +267,7 @@
                                                                 {
                                                                     "ul.tsd-type-parameter-list": {
                                                                         "li": {
-                                                                            "tag": "span",
-                                                                            "props": {
-                                                                                "id": "constructorgenericclasst"
-                                                                            },
-                                                                            "children": [
+                                                                            "span#constructorgenericclasst": [
                                                                                 {
                                                                                     "span.tsd-signature-keyword": "out"
                                                                                 },
@@ -363,11 +347,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "genericmethod"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#genericmethod": [
                                             {
                                                 "span": [
                                                     "generic",
@@ -390,11 +370,7 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "genericmethod-1"
-                                                    },
-                                                    "children": [
+                                                    "div.tsd-signature.tsd-anchor-link#genericmethod-1": [
                                                         {
                                                             "span.tsd-kind-call-signature": "genericMethod"
                                                         },
@@ -448,11 +424,7 @@
                                                                 {
                                                                     "ul.tsd-type-parameter-list": {
                                                                         "li": {
-                                                                            "tag": "span",
-                                                                            "props": {
-                                                                                "id": "genericmethodu"
-                                                                            },
-                                                                            "children": [
+                                                                            "span#genericmethodu": [
                                                                                 {
                                                                                     "span.tsd-kind-type-parameter": "U"
                                                                                 },

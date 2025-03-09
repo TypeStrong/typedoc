@@ -236,11 +236,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "options"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#options": [
                                             {
                                                 "span": "options"
                                             },

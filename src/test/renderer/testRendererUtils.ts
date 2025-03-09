@@ -83,6 +83,10 @@ function renderElementToSnapshot(element: JsxChildren): unknown {
             name += "." + val.replaceAll(" ", ".");
             continue;
         }
+        if (key === "id") {
+            name += "#" + val;
+            continue;
+        }
 
         propsData ||= {};
 

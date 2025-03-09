@@ -143,11 +143,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "constructor"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#constructor": [
                                             {
                                                 "span": "constructor"
                                             },
@@ -164,11 +160,7 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "constructormodifiersclass"
-                                                    },
-                                                    "children": [
+                                                    "div.tsd-signature.tsd-anchor-link#constructormodifiersclass": [
                                                         {
                                                             "span.tsd-signature-keyword": "new"
                                                         },
@@ -241,11 +233,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "dep"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#dep": [
                                                 {
                                                     "span.deprecated": "dep"
                                                 },
@@ -278,11 +266,7 @@
                                         {
                                             "div.tsd-comment.tsd-typography": {
                                                 "div.tsd-tag-deprecated": {
-                                                    "tag": "h4.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "deprecated"
-                                                    },
-                                                    "children": [
+                                                    "h4.tsd-anchor-link#deprecated": [
                                                         "Deprecated",
                                                         {
                                                             "tag": "a.tsd-anchor-icon",
@@ -300,11 +284,7 @@
                                 {
                                     "section.tsd-panel.tsd-member.tsd-is-protected": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "prot"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#prot": [
                                                 {
                                                     "code.tsd-tag": "Protected"
                                                 },
@@ -342,11 +322,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "pub"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#pub": [
                                                 {
                                                     "span": "pub"
                                                 },
@@ -381,11 +357,7 @@
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
-                                            "tag": "h3.tsd-anchor-link",
-                                            "props": {
-                                                "id": "read"
-                                            },
-                                            "children": [
+                                            "h3.tsd-anchor-link#read": [
                                                 {
                                                     "code.tsd-tag": "Readonly"
                                                 },

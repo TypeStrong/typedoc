@@ -131,11 +131,7 @@
                             "section": {
                                 "section.tsd-panel.tsd-member": [
                                     {
-                                        "tag": "h3.tsd-anchor-link",
-                                        "props": {
-                                            "id": "constructor"
-                                        },
-                                        "children": [
+                                        "h3.tsd-anchor-link#constructor": [
                                             {
                                                 "span": "constructor"
                                             },
@@ -152,11 +148,7 @@
                                         "ul.tsd-signatures": {
                                             "li.": [
                                                 {
-                                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                                    "props": {
-                                                        "id": "constructorbaseclass"
-                                                    },
-                                                    "children": [
+                                                    "div.tsd-signature.tsd-anchor-link#constructorbaseclass": [
                                                         {
                                                             "span.tsd-signature-keyword": "new"
                                                         },

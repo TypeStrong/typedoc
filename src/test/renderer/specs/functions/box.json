@@ -30,11 +30,7 @@
                         "ul.tsd-signatures": {
                             "li.": [
                                 {
-                                    "tag": "div.tsd-signature.tsd-anchor-link",
-                                    "props": {
-                                        "id": "box"
-                                    },
-                                    "children": [
+                                    "div.tsd-signature.tsd-anchor-link#box": [
                                         {
                                             "span.tsd-kind-call-signature": "box"
                                         },
@@ -119,11 +115,7 @@
                                                 {
                                                     "ul.tsd-type-parameter-list": {
                                                         "li": {
-                                                            "tag": "span",
-                                                            "props": {
-                                                                "id": "boxt"
-                                                            },
-                                                            "children": {
+                                                            "span#boxt": {
                                                                 "span.tsd-kind-type-parameter": "T"
                                                             }
                                                         }
