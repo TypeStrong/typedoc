@@ -81,7 +81,12 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
     return (
         <li class={classNames({ "tsd-index-signature": true }, context.getReflectionClasses(index))}>
             <div class="tsd-signature">
-                {index.flags.isReadonly && <span class="tsd-signature-keyword">readonly</span>}
+                {index.flags.isReadonly && (
+                    <>
+                        <span class="tsd-signature-keyword">readonly</span>
+                        {" "}
+                    </>
+                )}
                 <span class="tsd-signature-symbol">[</span>
                 {index.parameters!.map((item) => (
                     <>

@@ -109,8 +109,12 @@ export function renderTypeParametersSignature(
                 <span class="tsd-signature-symbol">{"<"}</span>
                 {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                     <>
-                        {item.flags.isConst && <span class="tsd-signature-keyword">const</span>}
-                        {item.varianceModifier ? `${item.varianceModifier} ` : ""}
+                        {(item.flags.isConst || item.varianceModifier) && (
+                            <span class="tsd-signature-keyword">
+                                {item.flags.isConst && "const "}
+                                {item.varianceModifier && `${item.varianceModifier} `}
+                            </span>
+                        )}
                         <a class="tsd-signature-type tsd-kind-type-parameter" href={context.urlTo(item)}>
                             {item.name}
                         </a>
@@ -126,13 +130,17 @@ export function renderTypeParametersSignature(
             <span class="tsd-signature-symbol">{"<"}</span>
             {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
                 <>
-                    {item.flags.isConst && "const "}
-                    {item.varianceModifier ? `${item.varianceModifier} ` : ""}
+                    {(item.flags.isConst || item.varianceModifier) && (
+                        <span class="tsd-signature-keyword">
+                            {item.flags.isConst && "const "}
+                            {item.varianceModifier && `${item.varianceModifier} `}
+                        </span>
+                    )}
                     <span class="tsd-signature-type tsd-kind-type-parameter">{item.name}</span>
                     {!!item.type && (
                         <>
-                            <span class="tsd-signature-keyword">extends</span>
-                            {context.type(item.type)}
+                            {" "}
+                            <span class="tsd-signature-keyword">extends</span> {context.type(item.type)}
                         </>
                     )}
                 </>
