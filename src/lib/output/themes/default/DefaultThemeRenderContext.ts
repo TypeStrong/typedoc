@@ -37,7 +37,7 @@ import { reflectionTemplate } from "./templates/reflection.js";
 import { typeDeclaration, typeDetails, typeDetailsIfUseful } from "./partials/typeDetails.js";
 import { moduleMemberSummary, moduleReflection } from "./partials/moduleReflection.js";
 import type { Router } from "../../router.js";
-import type { NeverIfInternal } from "#utils";
+import type { JSX, NeverIfInternal } from "#utils";
 
 function bind<F, L extends any[], R>(fn: (f: F, ...a: L) => R, first: F) {
     return (...r: L) => fn(first, ...r);
@@ -62,6 +62,9 @@ export class DefaultThemeRenderContext {
 
     /**
      * Icons available for use within the page.
+     * When getting an icon for a reflection, {@link reflectionIcon} should be used so
+     * that themes which define multiple icon variants can correctly specify which icon
+     * they want to be used.
      *
      * Note: This creates a reference to icons declared by {@link DefaultTheme.icons},
      * to customize icons, that object must be modified instead.
@@ -69,6 +72,13 @@ export class DefaultThemeRenderContext {
     get icons(): Readonly<Icons> {
         return this._refIcons;
     }
+
+    /**
+     * Do not override this method, override {@link DefaultTheme.getReflectionIcon} instead.
+     */
+    reflectionIcon = (reflection: Reflection): JSX.Element => {
+        return this.icons[this.theme.getReflectionIcon(reflection)]();
+    };
 
     get slugger() {
         return this.router.getSlugger(this.page.model);

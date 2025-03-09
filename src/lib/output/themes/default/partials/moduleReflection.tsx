@@ -72,7 +72,7 @@ export function moduleMemberSummary(
 
         name = (
             <span class="tsd-member-summary-name">
-                {context.icons[target.kind]()}
+                {context.reflectionIcon(target)}
                 <span class={classNames({ deprecated: member.isDeprecated() })}>{member.name}</span>
                 <span>&nbsp;{"\u2192"}&nbsp;</span>
                 {uniqueName(context, target)}
@@ -82,7 +82,7 @@ export function moduleMemberSummary(
     } else {
         name = (
             <span class="tsd-member-summary-name">
-                {context.icons[member.kind]()}
+                {context.reflectionIcon(member)}
                 <a class={classNames({ deprecated: member.isDeprecated() })} href={context.urlTo(member)}>
                     {member.name}
                 </a>

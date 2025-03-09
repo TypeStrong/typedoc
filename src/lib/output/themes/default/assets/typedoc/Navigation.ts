@@ -6,6 +6,7 @@ export interface NavigationElement {
     kind?: number;
     class?: string;
     children?: NavigationElement[];
+    icon?: string | number;
 }
 
 let BASE_URL: string;
@@ -105,7 +106,9 @@ function addNavText(
                 "&quot;",
             );
             a.innerHTML =
-                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${el.kind}"></use></svg>`;
+                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${
+                    el.icon || el.kind
+                }"></use></svg>`;
         }
         a.appendChild(document.createElement("span")).textContent = el.text;
     } else {

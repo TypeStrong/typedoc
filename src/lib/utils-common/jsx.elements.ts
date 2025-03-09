@@ -125,6 +125,7 @@ export interface IntrinsicElements {
     line: JsxLineElementProps;
     use: JsxUseElementProps;
     text: JsxTextElementProps;
+    image: JsxImageElementProps;
 }
 
 export function JsxFragment(): never {
@@ -1173,4 +1174,20 @@ export interface JsxUseElementProps
 export interface JsxTextElementProps extends JsxSvgCoreProps, JsxSvgStyleProps, JsxSvgPresentationProps {
     x?: string | number;
     y?: string | number;
+}
+
+/**
+ * Properties permitted on the `<image>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image
+ */
+export interface JsxImageElementProps extends JsxSvgCoreProps {
+    x?: string | number;
+    y?: string | number;
+    width?: string | number;
+    height?: string | number;
+    href: string;
+    preserveAspectRatio?: string;
+    crossorigin?: "anonymous" | "use-credentials";
+    decoding?: "async" | "sync" | "auto";
 }

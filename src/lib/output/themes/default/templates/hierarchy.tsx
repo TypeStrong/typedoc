@@ -13,7 +13,7 @@ function fullHierarchy(
         return (
             <li data-refl={root.id}>
                 <a href={context.urlTo(root)}>
-                    {context.icons[root.kind]()}
+                    {context.reflectionIcon(root)}
                     {root.name}
                 </a>
             </li>
@@ -34,7 +34,7 @@ function fullHierarchy(
     return (
         <li data-refl={root.id} id={root.getFullName()}>
             <a href={context.urlTo(root)}>
-                {context.icons[root.kind]()}
+                {context.reflectionIcon(root)}
                 {root.name}
             </a>
             {children.length && <ul>{children}</ul>}

@@ -16,6 +16,7 @@ interface SearchDocument {
     url: string;
     classes?: string;
     parent?: string;
+    icon?: string | number;
 }
 
 interface IData {
@@ -274,7 +275,9 @@ function updateResults(
             "&quot;",
         );
         const icon =
-            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${row.kind}"></use></svg>`;
+            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${
+                row.icon || row.kind
+            }"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
         let name = highlightMatches(row.name, searchText);

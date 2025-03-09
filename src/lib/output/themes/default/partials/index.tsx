@@ -4,7 +4,7 @@ import { i18n, JSX } from "#utils";
 import type { ContainerReflection, ReflectionCategory, ReflectionGroup } from "../../../../models/index.js";
 
 function renderCategory(
-    { urlTo, icons, getReflectionClasses, markdown }: DefaultThemeRenderContext,
+    { urlTo, reflectionIcon, getReflectionClasses, markdown }: DefaultThemeRenderContext,
     item: ReflectionCategory | ReflectionGroup,
     prependName = "",
 ) {
@@ -26,7 +26,7 @@ function renderCategory(
                                 getReflectionClasses(item),
                             )}
                         >
-                            {icons[item.kind]()}
+                            {reflectionIcon(item)}
                             <span>{renderName(item)}</span>
                         </a>
                         {"\n"}

@@ -27,6 +27,7 @@ export interface NavigationElement {
     kind?: ReflectionKind;
     class?: string;
     children?: NavigationElement[];
+    icon?: string | number;
 }
 
 /**
@@ -97,6 +98,13 @@ export class DefaultTheme extends Theme {
     getReflectionClasses(reflection: Reflection) {
         const filters = this.application.options.getValue("visibilityFilters") as Record<string, boolean>;
         return getReflectionClasses(reflection, filters);
+    }
+
+    /**
+     * This is used so that themes may define multiple icons for modified icons (e.g. method, and inherited method)
+     */
+    getReflectionIcon(reflection: Reflection): keyof this["icons"] & (string | number) {
+        return reflection.kind;
     }
 
     /**
@@ -176,12 +184,17 @@ export class DefaultTheme extends Theme {
                 };
             }
 
+            const icon = theme.getReflectionIcon(element) === element.kind
+                ? undefined
+                : theme.getReflectionIcon(element);
+
             return {
                 text: getDisplayName(element),
                 path: router.getFullUrl(element),
                 kind: element.kind & ReflectionKind.Project ? undefined : element.kind,
                 class: classNames({ deprecated: element.isDeprecated() }, theme.getReflectionClasses(element)),
                 children: children?.length ? children : undefined,
+                icon,
             };
         }
 

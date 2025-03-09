@@ -21,6 +21,7 @@ interface SearchDocument {
     url: string;
     classes?: string;
     parent?: string;
+    icon?: string | number;
 }
 
 /**
@@ -111,6 +112,11 @@ export class JavascriptIndexPlugin extends RendererComponent {
                 url: theme.router.getFullUrl(reflection),
                 classes: theme.getReflectionClasses(reflection),
             };
+
+            const icon = theme.getReflectionIcon(reflection);
+            if (icon !== reflection.kind) {
+                row.icon = icon;
+            }
 
             if (parent) {
                 row.parent = parent.getFullName();
