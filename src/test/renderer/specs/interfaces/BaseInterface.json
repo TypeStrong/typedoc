@@ -16,58 +16,94 @@
                                         "href": "",
                                         "aria-current": "page"
                                     },
-                                    "children": "BaseClass"
+                                    "children": "BaseInterface"
                                 }
                             }
                         },
                         {
-                            "h1": [
-                                "Class BaseClass",
-                                {
-                                    "code.tsd-tag": "Abstract"
-                                }
-                            ]
+                            "h1": "Interface BaseInterface"
                         }
                     ]
                 },
                 {
-                    "tag": "section.tsd-panel.tsd-hierarchy",
-                    "props": {
-                        "data-refl": "14"
-                    },
-                    "children": [
+                    "div.tsd-signature": [
                         {
-                            "h4": [
-                                "Hierarchy (",
-                                {
-                                    "tag": "a",
-                                    "props": {
-                                        "href": "../hierarchy.html#BaseClass"
-                                    },
-                                    "children": "View Summary"
-                                },
-                                ")"
-                            ]
+                            "span.tsd-signature-keyword": "interface"
+                        },
+                        " ",
+                        {
+                            "span.tsd-kind-interface": "BaseInterface"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-symbol": "{"
                         },
                         {
-                            "ul.tsd-hierarchy": {
-                                "li.tsd-hierarchy-item": [
-                                    {
-                                        "span.tsd-hierarchy-target": "BaseClass"
-                                    },
-                                    {
-                                        "ul.tsd-hierarchy": {
-                                            "li.tsd-hierarchy-item": {
-                                                "tag": "a.tsd-signature-type.tsd-kind-class",
-                                                "props": {
-                                                    "href": "RenderClass.json"
-                                                },
-                                                "children": "RenderClass"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-call-signature",
+                            "props": {
+                                "href": "#base-1"
+                            },
+                            "children": "base"
+                        },
+                        {
+                            "span.tsd-signature-symbol": "()"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "void"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-call-signature",
+                            "props": {
+                                "href": "#method-1"
+                            },
+                            "children": "method"
+                        },
+                        {
+                            "span.tsd-signature-symbol": "("
+                        },
+                        {
+                            "span.tsd-kind-parameter": "x"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "string"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ")"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "void"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        {
+                            "span.tsd-signature-symbol": "}"
                         }
                     ]
                 },
@@ -81,7 +117,7 @@
                                     "props": {
                                         "href": "index.ts"
                                     },
-                                    "children": "index.ts:17"
+                                    "children": "index.ts:10"
                                 }
                             ]
                         }
@@ -107,153 +143,41 @@
                                     }
                                 },
                                 {
-                                    "div.tsd-accordion-details": [
-                                        {
-                                            "section.tsd-index-section": [
-                                                {
-                                                    "h3.tsd-index-heading": "Constructors"
-                                                },
-                                                {
-                                                    "div.tsd-index-list": [
-                                                        {
-                                                            "tag": "a.tsd-index-link",
-                                                            "props": {
-                                                                "href": "#constructor"
-                                                            },
-                                                            "children": {
-                                                                "span": "constructor"
-                                                            }
+                                    "div.tsd-accordion-details": {
+                                        "section.tsd-index-section": [
+                                            {
+                                                "h3.tsd-index-heading": "Methods"
+                                            },
+                                            {
+                                                "div.tsd-index-list": [
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#base"
                                                         },
-                                                        "\n"
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "section.tsd-index-section": [
-                                                {
-                                                    "h3.tsd-index-heading": "Methods"
-                                                },
-                                                {
-                                                    "div.tsd-index-list": [
-                                                        {
-                                                            "tag": "a.tsd-index-link",
-                                                            "props": {
-                                                                "href": "#base"
-                                                            },
-                                                            "children": {
-                                                                "span": "base"
-                                                            }
+                                                        "children": {
+                                                            "span": "base"
+                                                        }
+                                                    },
+                                                    "\n",
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#method"
                                                         },
-                                                        "\n",
-                                                        {
-                                                            "tag": "a.tsd-index-link",
-                                                            "props": {
-                                                                "href": "#method"
-                                                            },
-                                                            "children": {
-                                                                "span": "method"
-                                                            }
-                                                        },
-                                                        "\n"
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                                        "children": {
+                                                            "span": "method"
+                                                        }
+                                                    },
+                                                    "\n"
+                                                ]
+                                            }
+                                        ]
+                                    }
                                 }
                             ]
                         }
                     }
-                },
-                {
-                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
-                    "props": {
-                        "open": true
-                    },
-                    "children": [
-                        {
-                            "tag": "summary.tsd-accordion-summary",
-                            "props": {
-                                "data-key": "section-Constructors"
-                            },
-                            "children": {
-                                "h2": " Constructors"
-                            }
-                        },
-                        {
-                            "section": {
-                                "section.tsd-panel.tsd-member": [
-                                    {
-                                        "h3.tsd-anchor-link#constructor": [
-                                            {
-                                                "span": "constructor"
-                                            },
-                                            {
-                                                "tag": "a.tsd-anchor-icon",
-                                                "props": {
-                                                    "href": "#constructor",
-                                                    "aria-label": "Permalink"
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "ul.tsd-signatures": {
-                                            "li.": [
-                                                {
-                                                    "div.tsd-signature.tsd-anchor-link#constructorbaseclass": [
-                                                        {
-                                                            "span.tsd-signature-keyword": "new"
-                                                        },
-                                                        " ",
-                                                        {
-                                                            "span.tsd-kind-constructor-signature": "BaseClass"
-                                                        },
-                                                        {
-                                                            "span.tsd-signature-symbol": "()"
-                                                        },
-                                                        {
-                                                            "span.tsd-signature-symbol": ":"
-                                                        },
-                                                        " ",
-                                                        {
-                                                            "tag": "a.tsd-signature-type.tsd-kind-class",
-                                                            "props": {
-                                                                "href": ""
-                                                            },
-                                                            "children": "BaseClass"
-                                                        },
-                                                        {
-                                                            "tag": "a.tsd-anchor-icon",
-                                                            "props": {
-                                                                "href": "#constructorbaseclass",
-                                                                "aria-label": "Permalink"
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "div.tsd-description": {
-                                                        "h4.tsd-returns-title": [
-                                                            "Returns ",
-                                                            {
-                                                                "tag": "a.tsd-signature-type.tsd-kind-class",
-                                                                "props": {
-                                                                    "href": ""
-                                                                },
-                                                                "children": "BaseClass"
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
                 },
                 {
                     "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
@@ -335,7 +259,7 @@
                                                                                 "props": {
                                                                                     "href": "index.ts"
                                                                                 },
-                                                                                "children": "index.ts:21"
+                                                                                "children": "index.ts:14"
                                                                             }
                                                                         ]
                                                                     }
@@ -407,7 +331,7 @@
                                                     {
                                                         "div.tsd-description": [
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Base class method</p>\n"
+                                                                "div.tsd-comment.tsd-typography": "<p>Interface method</p>\n"
                                                             },
                                                             {
                                                                 "div.tsd-parameters": [
@@ -452,7 +376,7 @@
                                                                                 "props": {
                                                                                     "href": "index.ts"
                                                                                 },
-                                                                                "children": "index.ts:19"
+                                                                                "children": "index.ts:12"
                                                                             }
                                                                         ]
                                                                     }
@@ -485,71 +409,43 @@
                             }
                         },
                         {
-                            "div.tsd-accordion-details": [
-                                {
-                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
-                                    "props": {
-                                        "open": true
-                                    },
-                                    "children": [
-                                        {
-                                            "tag": "summary.tsd-accordion-summary",
-                                            "props": {
-                                                "data-key": "section-Constructors"
-                                            },
-                                            "children": "Constructors"
+                            "div.tsd-accordion-details": {
+                                "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                "props": {
+                                    "open": true
+                                },
+                                "children": [
+                                    {
+                                        "tag": "summary.tsd-accordion-summary",
+                                        "props": {
+                                            "data-key": "section-Methods"
                                         },
-                                        {
-                                            "div": {
+                                        "children": "Methods"
+                                    },
+                                    {
+                                        "div": [
+                                            {
                                                 "tag": "a",
                                                 "props": {
-                                                    "href": "#constructor"
+                                                    "href": "#base"
                                                 },
                                                 "children": {
-                                                    "span": "constructor"
+                                                    "span": "base"
+                                                }
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#method"
+                                                },
+                                                "children": {
+                                                    "span": "method"
                                                 }
                                             }
-                                        }
-                                    ]
-                                },
-                                {
-                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
-                                    "props": {
-                                        "open": true
-                                    },
-                                    "children": [
-                                        {
-                                            "tag": "summary.tsd-accordion-summary",
-                                            "props": {
-                                                "data-key": "section-Methods"
-                                            },
-                                            "children": "Methods"
-                                        },
-                                        {
-                                            "div": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "#base"
-                                                    },
-                                                    "children": {
-                                                        "span": "base"
-                                                    }
-                                                },
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "#method"
-                                                    },
-                                                    "children": {
-                                                        "span": "method"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
+                                        ]
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }

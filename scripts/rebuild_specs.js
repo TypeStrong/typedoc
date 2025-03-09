@@ -132,9 +132,8 @@ async function rebuildRendererTest(specPath) {
 
     app2.options.setValue("theme", "test-theme");
     app2.options.setValue("router", "test-router");
-    app2.options.setValue("disableSources", true);
     app2.options.setValue("disableGit", true);
-    app2.options.setValue("sourceLinkTemplate", "{path}:{line}");
+    app2.options.setValue("sourceLinkTemplate", "{path}");
 
     td.resetReflectionID();
     const project = getConverter2Project(["renderer"], ".");

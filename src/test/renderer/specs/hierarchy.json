@@ -22,7 +22,7 @@
                     "ul.tsd-full-hierarchy": {
                         "tag": "li#BaseClass",
                         "props": {
-                            "data-refl": "8"
+                            "data-refl": "14"
                         },
                         "children": [
                             {
@@ -36,7 +36,7 @@
                                 "ul": {
                                     "tag": "li#RenderClass",
                                     "props": {
-                                        "data-refl": "11"
+                                        "data-refl": "22"
                                     },
                                     "children": {
                                         "tag": "a",

@@ -23,9 +23,8 @@ describe("DefaultTheme", () => {
 
         app.options.setValue("theme", "test-theme");
         app.options.setValue("router", "test-router");
-        app.options.setValue("disableSources", true);
         app.options.setValue("disableGit", true);
-        app.options.setValue("sourceLinkTemplate", "{path}:{line}");
+        app.options.setValue("sourceLinkTemplate", "{path}");
 
         resetReflectionID();
         const project = getConverter2Project(["renderer"], ".");

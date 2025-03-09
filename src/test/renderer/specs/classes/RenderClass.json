@@ -38,7 +38,7 @@
                 {
                     "tag": "section.tsd-panel.tsd-hierarchy",
                     "props": {
-                        "data-refl": "11"
+                        "data-refl": "22"
                     },
                     "children": [
                         {
@@ -115,6 +115,22 @@
                             }
                         }
                     ]
+                },
+                {
+                    "aside.tsd-sources": {
+                        "ul": {
+                            "li": [
+                                "Defined in ",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "index.ts"
+                                    },
+                                    "children": "index.ts:25"
+                                }
+                            ]
+                        }
+                    }
                 },
                 {
                     "section.tsd-panel-group.tsd-index-group": {
@@ -223,6 +239,16 @@
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link.tsd-is-inherited",
+                                                            "props": {
+                                                                "href": "#base"
+                                                            },
+                                                            "children": {
+                                                                "span": "base"
+                                                            }
+                                                        },
+                                                        "\n",
                                                         {
                                                             "tag": "a.tsd-index-link",
                                                             "props": {
@@ -376,26 +402,42 @@
                                                             "div.tsd-comment.tsd-typography": []
                                                         },
                                                         {
-                                                            "aside.tsd-sources": {
-                                                                "p": [
-                                                                    "Overrides ",
-                                                                    {
-                                                                        "tag": "a",
-                                                                        "props": {
-                                                                            "href": "BaseClass.json"
+                                                            "aside.tsd-sources": [
+                                                                {
+                                                                    "p": [
+                                                                        "Overrides ",
+                                                                        {
+                                                                            "tag": "a",
+                                                                            "props": {
+                                                                                "href": "BaseClass.json"
+                                                                            },
+                                                                            "children": "BaseClass"
                                                                         },
-                                                                        "children": "BaseClass"
-                                                                    },
-                                                                    ".",
-                                                                    {
-                                                                        "tag": "a",
-                                                                        "props": {
-                                                                            "href": "BaseClass.json#constructor"
-                                                                        },
-                                                                        "children": "constructor"
+                                                                        ".",
+                                                                        {
+                                                                            "tag": "a",
+                                                                            "props": {
+                                                                                "href": "BaseClass.json#constructor"
+                                                                            },
+                                                                            "children": "constructor"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "ul": {
+                                                                        "li": [
+                                                                            "Defined in ",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "index.ts"
+                                                                                },
+                                                                                "children": "index.ts:33"
+                                                                            }
+                                                                        ]
                                                                     }
-                                                                ]
-                                                            }
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 }
@@ -461,6 +503,22 @@
                                     },
                                     {
                                         "div.tsd-comment.tsd-typography": []
+                                    },
+                                    {
+                                        "aside.tsd-sources": {
+                                            "ul": {
+                                                "li": [
+                                                    "Defined in ",
+                                                    {
+                                                        "tag": "a",
+                                                        "props": {
+                                                            "href": "index.ts"
+                                                        },
+                                                        "children": "index.ts:30"
+                                                    }
+                                                ]
+                                            }
+                                        }
                                     }
                                 ]
                             }
@@ -532,14 +590,32 @@
                                                             ]
                                                         },
                                                         {
-                                                            "div.tsd-description": {
-                                                                "h4.tsd-returns-title": [
-                                                                    "Returns ",
-                                                                    {
-                                                                        "span.tsd-signature-type": "number"
+                                                            "div.tsd-description": [
+                                                                {
+                                                                    "h4.tsd-returns-title": [
+                                                                        "Returns ",
+                                                                        {
+                                                                            "span.tsd-signature-type": "number"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "aside.tsd-sources": {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:53"
+                                                                                }
+                                                                            ]
+                                                                        }
                                                                     }
-                                                                ]
-                                                            }
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -610,6 +686,22 @@
                                                                             "span.tsd-signature-type": "void"
                                                                         }
                                                                     ]
+                                                                },
+                                                                {
+                                                                    "aside.tsd-sources": {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:56"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -660,14 +752,32 @@
                                                         ]
                                                     },
                                                     {
-                                                        "div.tsd-description": {
-                                                            "h4.tsd-returns-title": [
-                                                                "Returns ",
-                                                                {
-                                                                    "span.tsd-signature-type": "number"
+                                                        "div.tsd-description": [
+                                                            {
+                                                                "h4.tsd-returns-title": [
+                                                                    "Returns ",
+                                                                    {
+                                                                        "span.tsd-signature-type": "number"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "aside.tsd-sources": {
+                                                                    "ul": {
+                                                                        "li": [
+                                                                            "Defined in ",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "index.ts"
+                                                                                },
+                                                                                "children": "index.ts:49"
+                                                                            }
+                                                                        ]
+                                                                    }
                                                                 }
-                                                            ]
-                                                        }
+                                                            }
+                                                        ]
                                                     }
                                                 ]
                                             }
@@ -695,6 +805,104 @@
                         },
                         {
                             "section": [
+                                {
+                                    "section.tsd-panel.tsd-member.tsd-is-inherited": [
+                                        {
+                                            "h3.tsd-anchor-link#base": [
+                                                {
+                                                    "span": "base"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#base",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "ul.tsd-signatures.tsd-is-inherited": {
+                                                "li.tsd-is-inherited": [
+                                                    {
+                                                        "div.tsd-signature.tsd-anchor-link#base-1": [
+                                                            {
+                                                                "span.tsd-kind-call-signature": "base"
+                                                            },
+                                                            {
+                                                                "span.tsd-signature-symbol": "()"
+                                                            },
+                                                            {
+                                                                "span.tsd-signature-symbol": ":"
+                                                            },
+                                                            " ",
+                                                            {
+                                                                "span.tsd-signature-type": "void"
+                                                            },
+                                                            {
+                                                                "tag": "a.tsd-anchor-icon",
+                                                                "props": {
+                                                                    "href": "#base-1",
+                                                                    "aria-label": "Permalink"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "div.tsd-description": [
+                                                            {
+                                                                "h4.tsd-returns-title": [
+                                                                    "Returns ",
+                                                                    {
+                                                                        "span.tsd-signature-type": "void"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "aside.tsd-sources": [
+                                                                    {
+                                                                        "p": [
+                                                                            "Inherited from ",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "BaseClass.json"
+                                                                                },
+                                                                                "children": "BaseClass"
+                                                                            },
+                                                                            ".",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "BaseClass.json#base"
+                                                                                },
+                                                                                "children": "base"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:21"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
                                 {
                                     "section.tsd-panel.tsd-member": [
                                         {
@@ -788,6 +996,44 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": []
+                                                            },
+                                                            {
+                                                                "aside.tsd-sources": [
+                                                                    {
+                                                                        "p": [
+                                                                            "Overrides ",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "BaseClass.json"
+                                                                                },
+                                                                                "children": "BaseClass"
+                                                                            },
+                                                                            ".",
+                                                                            {
+                                                                                "tag": "a",
+                                                                                "props": {
+                                                                                    "href": "BaseClass.json#method"
+                                                                                },
+                                                                                "children": "method"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:38"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                ]
                                                             }
                                                         ]
                                                     }
@@ -855,6 +1101,22 @@
                                                                 },
                                                                 {
                                                                     "div.tsd-comment.tsd-typography": []
+                                                                },
+                                                                {
+                                                                    "aside.tsd-sources": {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:41"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -936,6 +1198,22 @@
                                                                 },
                                                                 {
                                                                     "div.tsd-comment.tsd-typography": []
+                                                                },
+                                                                {
+                                                                    "aside.tsd-sources": {
+                                                                        "ul": {
+                                                                            "li": [
+                                                                                "Defined in ",
+                                                                                {
+                                                                                    "tag": "a",
+                                                                                    "props": {
+                                                                                        "href": "index.ts"
+                                                                                    },
+                                                                                    "children": "index.ts:43"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -1076,6 +1354,15 @@
                                         },
                                         {
                                             "div": [
+                                                {
+                                                    "tag": "a.tsd-is-inherited",
+                                                    "props": {
+                                                        "href": "#base"
+                                                    },
+                                                    "children": {
+                                                        "span": "base"
+                                                    }
+                                                },
                                                 {
                                                     "tag": "a",
                                                     "props": {

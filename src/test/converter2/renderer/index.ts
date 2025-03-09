@@ -7,7 +7,19 @@
 
 // Exports from this file will be rendered for the renderer snapshot testing
 
-export class BaseClass {}
+export interface BaseInterface {
+    /** Interface method */
+    method(x: string): void;
+
+    base(): void;
+}
+
+export abstract class BaseClass {
+    /** Base class method */
+    method(x: string) {}
+
+    base() {}
+}
 
 /** Renderer class */
 export class RenderClass extends BaseClass {

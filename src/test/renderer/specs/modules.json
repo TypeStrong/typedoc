@@ -235,6 +235,50 @@
                         {
                             "tag": "summary.tsd-accordion-summary",
                             "props": {
+                                "data-key": "section-Interfaces"
+                            },
+                            "children": {
+                                "h2": " Interfaces"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#baseinterface": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "interfaces/BaseInterface.json"
+                                                },
+                                                "children": "BaseInterface"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#baseinterface",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
                                 "data-key": "section-Type Aliases"
                             },
                             "children": {
@@ -482,6 +526,38 @@
                                                     }
                                                 }
                                             ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Interfaces"
+                                            },
+                                            "children": "Interfaces"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#baseinterface"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "Base",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Interface"
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 },

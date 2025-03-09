@@ -186,6 +186,22 @@
                                         },
                                         {
                                             "div.tsd-comment.tsd-typography": []
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:109"
+                                                        }
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 }

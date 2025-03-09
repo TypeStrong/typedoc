@@ -59,8 +59,8 @@ export class SourcePlugin extends ConverterComponent {
     }
 
     private onEnd() {
-        // Should probably clear repositories/ignoredPaths here, but these aren't likely to change between runs...
         this.fileNames.clear();
+        delete this.repositories;
     }
 
     /**

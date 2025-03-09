@@ -26,6 +26,22 @@
                     ]
                 },
                 {
+                    "aside.tsd-sources": {
+                        "ul": {
+                            "li": [
+                                "Defined in ",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "index.ts"
+                                    },
+                                    "children": "index.ts:64"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
                     "section.tsd-panel-group.tsd-index-group": {
                         "section.tsd-panel.tsd-index-panel": {
                             "tag": "details.tsd-index-content.tsd-accordion",
@@ -278,6 +294,22 @@
                                                     ]
                                                 }
                                             }
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:70"
+                                                        }
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 },
@@ -316,6 +348,22 @@
                                                     "span.tsd-signature-symbol": " = 1"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:65"
+                                                        }
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 },
@@ -351,6 +399,22 @@
                                                     "span.tsd-signature-symbol": " = 3"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:67"
+                                                        }
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 },
@@ -386,6 +450,22 @@
                                                     "span.tsd-signature-type": "4"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:68"
+                                                        }
+                                                    ]
+                                                }
+                                            }
                                         }
                                     ]
                                 }
