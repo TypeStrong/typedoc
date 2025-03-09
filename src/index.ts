@@ -139,6 +139,7 @@ export {
     type NormalizedPath,
     type NormalizedPathOrModule,
     type SymbolReference,
+    type TranslatedString,
     translateTagName,
 } from "#utils";
 
