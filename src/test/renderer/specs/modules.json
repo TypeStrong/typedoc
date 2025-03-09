@@ -37,7 +37,7 @@
                                 "data-key": "section-Documents"
                             },
                             "children": {
-                                "h2": " Documents"
+                                "h2": "Documents"
                             }
                         },
                         {
@@ -81,7 +81,7 @@
                                 "data-key": "section-Enumerations"
                             },
                             "children": {
-                                "h2": " Enumerations"
+                                "h2": "Enumerations"
                             }
                         },
                         {
@@ -125,7 +125,7 @@
                                 "data-key": "section-Classes"
                             },
                             "children": {
-                                "h2": " Classes"
+                                "h2": "Classes"
                             }
                         },
                         {
@@ -282,7 +282,7 @@
                                 "data-key": "section-Type Aliases"
                             },
                             "children": {
-                                "h2": " Type Aliases"
+                                "h2": "Type Aliases"
                             }
                         },
                         {
@@ -349,7 +349,7 @@
                                 "data-key": "section-Functions"
                             },
                             "children": {
-                                "h2": " Functions"
+                                "h2": "Functions"
                             }
                         },
                         {

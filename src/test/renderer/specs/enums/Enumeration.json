@@ -77,13 +77,7 @@
                             "children": [
                                 {
                                     "summary.tsd-accordion-summary.tsd-index-summary": {
-                                        "tag": "h5.tsd-index-heading.uppercase",
-                                        "props": {
-                                            "role": "button",
-                                            "aria-expanded": "false",
-                                            "tabIndex": "0"
-                                        },
-                                        "children": " Index"
+                                        "h5.tsd-index-heading.uppercase": "Index"
                                     }
                                 },
                                 {
@@ -135,7 +129,7 @@
                                 "data-key": "section-Enumeration Members"
                             },
                             "children": {
-                                "h2": " Enumeration Members"
+                                "h2": "Enumeration Members"
                             }
                         },
                         {

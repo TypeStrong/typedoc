@@ -14,8 +14,9 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                 return (
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + title}>
+                            {context.icons.chevronDown()}
                             <h2>
-                                {context.icons.chevronDown()} {title}
+                                {title}
                             </h2>
                         </summary>
                         <section>{children.map((item) => context.member(item))}</section>

@@ -1037,6 +1037,10 @@
     .tsd-accordion-summary {
         list-style-type: none; /* hide marker on non-safari */
         outline: none; /* broken on safari, so just hide it */
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        box-sizing: border-box;
     }
     .tsd-accordion-summary::-webkit-details-marker {
         display: none; /* hide marker on safari */
@@ -1059,28 +1063,22 @@
         padding-top: 0;
         padding-bottom: 0;
     }
-    .tsd-accordion .tsd-accordion-summary > svg {
-        margin-left: 0.25rem;
-        vertical-align: text-top;
-    }
     /*
      * We need to be careful to target the arrow indicating whether the accordion
      * is open, but not any other SVGs included in the details element.
      */
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h1 > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h2 > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h3 > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h4 > svg:first-child,
-    .tsd-accordion:not([open]) > .tsd-accordion-summary > h5 > svg:first-child {
+    .tsd-accordion:not([open]) > .tsd-accordion-summary > svg:first-child {
         transform: rotate(-90deg);
     }
     .tsd-index-content > :not(:first-child) {
         margin-top: 0.75rem;
     }
-    .tsd-index-heading {
+    .tsd-index-summary {
         margin-top: 1.5rem;
         margin-bottom: 0.75rem;
+    }
+    .tsd-index-heading {
+        margin: 0;
     }
 
     .tsd-no-select {
