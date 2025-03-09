@@ -1,0 +1,529 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "",
+                                        "aria-current": "page"
+                                    },
+                                    "children": "ModifiersClass"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Class ModifiersClass"
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel-group.tsd-index-group": {
+                        "section.tsd-panel.tsd-index-panel": {
+                            "tag": "details.tsd-index-content.tsd-accordion",
+                            "props": {
+                                "open": true
+                            },
+                            "children": [
+                                {
+                                    "summary.tsd-accordion-summary.tsd-index-summary": {
+                                        "tag": "h5.tsd-index-heading.uppercase",
+                                        "props": {
+                                            "role": "button",
+                                            "aria-expanded": "false",
+                                            "tabIndex": "0"
+                                        },
+                                        "children": " Index"
+                                    }
+                                },
+                                {
+                                    "div.tsd-accordion-details": [
+                                        {
+                                            "section.tsd-index-section": [
+                                                {
+                                                    "h3.tsd-index-heading": "Constructors"
+                                                },
+                                                {
+                                                    "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#constructor"
+                                                            },
+                                                            "children": {
+                                                                "span": "constructor"
+                                                            }
+                                                        },
+                                                        "\n"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "section.tsd-index-section": [
+                                                {
+                                                    "h3.tsd-index-heading": "Properties"
+                                                },
+                                                {
+                                                    "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link.deprecated",
+                                                            "props": {
+                                                                "href": "#dep"
+                                                            },
+                                                            "children": {
+                                                                "span": "dep"
+                                                            }
+                                                        },
+                                                        "\n",
+                                                        {
+                                                            "tag": "a.tsd-index-link.tsd-is-protected",
+                                                            "props": {
+                                                                "href": "#prot"
+                                                            },
+                                                            "children": {
+                                                                "span": "prot"
+                                                            }
+                                                        },
+                                                        "\n",
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#pub"
+                                                            },
+                                                            "children": {
+                                                                "span": "pub"
+                                                            }
+                                                        },
+                                                        "\n",
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#read"
+                                                            },
+                                                            "children": {
+                                                                "span": "read"
+                                                            }
+                                                        },
+                                                        "\n"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Constructors"
+                            },
+                            "children": {
+                                "h2": " Constructors"
+                            }
+                        },
+                        {
+                            "section": {
+                                "section.tsd-panel.tsd-member": [
+                                    {
+                                        "tag": "h3.tsd-anchor-link",
+                                        "props": {
+                                            "id": "constructor"
+                                        },
+                                        "children": [
+                                            {
+                                                "span": "constructor"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#constructor",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "ul.tsd-signatures": {
+                                            "li.": [
+                                                {
+                                                    "tag": "div.tsd-signature.tsd-anchor-link",
+                                                    "props": {
+                                                        "id": "constructormodifiersclass"
+                                                    },
+                                                    "children": [
+                                                        {
+                                                            "span.tsd-signature-keyword": "new"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-kind-constructor-signature": "ModifiersClass"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "()"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                            "props": {
+                                                                "href": ""
+                                                            },
+                                                            "children": "ModifiersClass"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#constructormodifiersclass",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "div.tsd-description": {
+                                                        "h4.tsd-returns-title": [
+                                                            "Returns ",
+                                                            {
+                                                                "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                                "props": {
+                                                                    "href": ""
+                                                                },
+                                                                "children": "ModifiersClass"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Properties"
+                            },
+                            "children": {
+                                "h2": " Properties"
+                            }
+                        },
+                        {
+                            "section": [
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "dep"
+                                            },
+                                            "children": [
+                                                {
+                                                    "span.deprecated": "dep"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#dep",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "dep"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "number"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": " = 5"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": {
+                                                "div.tsd-tag-deprecated": {
+                                                    "tag": "h4.tsd-anchor-link",
+                                                    "props": {
+                                                        "id": "deprecated"
+                                                    },
+                                                    "children": [
+                                                        "Deprecated",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#deprecated",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member.tsd-is-protected": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "prot"
+                                            },
+                                            "children": [
+                                                {
+                                                    "code.tsd-tag": "Protected"
+                                                },
+                                                {
+                                                    "span": "prot"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#prot",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "prot"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "number"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": " = 1"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "pub"
+                                            },
+                                            "children": [
+                                                {
+                                                    "span": "pub"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#pub",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "pub"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "number"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": " = 3"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "read"
+                                            },
+                                            "children": [
+                                                {
+                                                    "code.tsd-tag": "Readonly"
+                                                },
+                                                {
+                                                    "span": "read"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#read",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "read"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-type": "4"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": [
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Constructors"
+                                            },
+                                            "children": "Constructors"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#constructor"
+                                                },
+                                                "children": {
+                                                    "span": "constructor"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Properties"
+                                            },
+                                            "children": "Properties"
+                                        },
+                                        {
+                                            "div": [
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#dep"
+                                                    },
+                                                    "children": {
+                                                        "span": "dep"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a.tsd-is-protected",
+                                                    "props": {
+                                                        "href": "#prot"
+                                                    },
+                                                    "children": {
+                                                        "span": "prot"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#pub"
+                                                    },
+                                                    "children": {
+                                                        "span": "pub"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#read"
+                                                    },
+                                                    "children": {
+                                                        "span": "read"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

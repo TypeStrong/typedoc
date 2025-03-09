@@ -141,6 +141,33 @@
                                 {
                                     "tag": "dt.tsd-member-summary",
                                     "props": {
+                                        "id": "baseclass"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "classes/BaseClass.json"
+                                                },
+                                                "children": "BaseClass"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#baseclass",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
                                         "id": "genericclass"
                                     },
                                     "children": {
@@ -156,6 +183,33 @@
                                                 "tag": "a.tsd-anchor-icon",
                                                 "props": {
                                                     "href": "#genericclass",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "tag": "dt.tsd-member-summary",
+                                    "props": {
+                                        "id": "modifiersclass"
+                                    },
+                                    "children": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "classes/ModifiersClass.json"
+                                                },
+                                                "children": "ModifiersClass"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#modifiersclass",
                                                     "aria-label": "Permalink"
                                                 }
                                             }
@@ -351,7 +405,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#doc"
                                                 },
@@ -377,7 +431,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#enumeration"
                                                 },
@@ -404,7 +458,22 @@
                                         {
                                             "div": [
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#baseclass"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "Base",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Class"
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#genericclass"
                                                     },
@@ -419,7 +488,22 @@
                                                     }
                                                 },
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#modifiersclass"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "Modifiers",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Class"
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#renderclass"
                                                     },
@@ -453,7 +537,7 @@
                                         {
                                             "div": [
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#nested"
                                                     },
@@ -462,7 +546,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#unioncomments"
                                                     },
@@ -495,7 +579,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#box"
                                                 },

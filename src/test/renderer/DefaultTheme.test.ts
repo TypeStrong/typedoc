@@ -5,6 +5,7 @@ import { deepEqual as equal } from "assert/strict";
 import { glob, readFile } from "#node-utils";
 import type { GlobString, NormalizedPath } from "#utils";
 import { join, relative } from "path";
+import { resetReflectionID } from "#models";
 
 const app = getConverter2App();
 
@@ -26,6 +27,7 @@ describe("DefaultTheme", () => {
         app.options.setValue("disableGit", true);
         app.options.setValue("sourceLinkTemplate", "{path}:{line}");
 
+        resetReflectionID();
         const project = getConverter2Project(["renderer"], ".");
         project.readme = [{ kind: "text", text: "Readme text" }];
         await app.generateDocs(project, outPath);

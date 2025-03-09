@@ -511,7 +511,7 @@
                                     },
                                     {
                                         "div": {
-                                            "tag": "a.",
+                                            "tag": "a",
                                             "props": {
                                                 "href": "#options"
                                             },

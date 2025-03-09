@@ -18,7 +18,7 @@ import { getIcons, type Icons } from "./partials/icon.js";
 import { filterMap, JSX } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { PageKind, type Router } from "../../router.js";
-import { createNormalizedUrl, loadHighlighter, Option } from "#node-utils";
+import { loadHighlighter, Option } from "#node-utils";
 import type { BundledLanguage, BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 
 export interface NavigationElement {
@@ -109,32 +109,6 @@ export class DefaultTheme extends Theme {
         this.icons = getIcons();
         this.markedPlugin = renderer.markedPlugin;
         this.router = renderer.router!;
-    }
-
-    /**
-     * @param reflection  The reflection the url should be generated for.
-     */
-    getFileName(reflection: Reflection): string {
-        const parts = [createNormalizedUrl(reflection.name)];
-        while (reflection.parent && !reflection.parent.isProject()) {
-            reflection = reflection.parent;
-            parts.unshift(createNormalizedUrl(reflection.name));
-        }
-
-        const baseName = parts.join(".");
-        const lowerBaseName = baseName.toLocaleLowerCase();
-        if (this.usedFileNames.has(lowerBaseName)) {
-            let index = 1;
-            while (this.usedFileNames.has(`${lowerBaseName}-${index}`)) {
-                ++index;
-            }
-
-            this.usedFileNames.add(`${lowerBaseName}-${index}`);
-            return `${baseName}-${index}.html`;
-        }
-
-        this.usedFileNames.add(lowerBaseName);
-        return `${baseName}.html`;
     }
 
     render(page: PageEvent<Reflection>): string {

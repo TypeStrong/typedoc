@@ -7,8 +7,10 @@
 
 // Exports from this file will be rendered for the renderer snapshot testing
 
+export class BaseClass {}
+
 /** Renderer class */
-export class RenderClass {
+export class RenderClass extends BaseClass {
     /** Index signature */
     [k: string]: unknown;
 
@@ -16,7 +18,9 @@ export class RenderClass {
     prop: string = "abc";
 
     /** Ctor comment */
-    constructor(x: string) {}
+    constructor(x: string) {
+        super();
+    }
 
     /** Method comment */
     method(x: string) {}
@@ -29,11 +33,29 @@ export class RenderClass {
     overloaded(p?: string): number | string {
         return 1;
     }
+
+    get getter() {
+        return 1;
+    }
+
+    get getSet() {
+        return 1;
+    }
+    set getSet(value: number) {}
 }
 
 /** Generic class */
 export class GenericClass<out T extends string = ""> {
     genericMethod<U extends T>() {}
+}
+
+export class ModifiersClass {
+    protected prot = 1;
+    private priv = 2;
+    public pub = 3;
+    readonly read = 4;
+    /** @deprecated */
+    dep = 5;
 }
 
 /**

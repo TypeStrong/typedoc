@@ -17,6 +17,40 @@
                 },
                 {
                     "h2": "Hierarchy Summary"
+                },
+                {
+                    "ul.tsd-full-hierarchy": {
+                        "tag": "li",
+                        "props": {
+                            "data-refl": "8",
+                            "id": "BaseClass"
+                        },
+                        "children": [
+                            {
+                                "tag": "a",
+                                "props": {
+                                    "href": "classes/BaseClass.json"
+                                },
+                                "children": "BaseClass"
+                            },
+                            {
+                                "ul": {
+                                    "tag": "li",
+                                    "props": {
+                                        "data-refl": "11",
+                                        "id": "RenderClass"
+                                    },
+                                    "children": {
+                                        "tag": "a",
+                                        "props": {
+                                            "href": "classes/RenderClass.json"
+                                        },
+                                        "children": "RenderClass"
+                                    }
+                                }
+                            }
+                        ]
+                    }
                 }
             ]
         },

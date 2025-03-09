@@ -520,7 +520,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#constructor"
                                                 },
@@ -546,7 +546,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#genericmethod"
                                                 },

@@ -36,6 +36,47 @@
                     ]
                 },
                 {
+                    "tag": "section.tsd-panel.tsd-hierarchy",
+                    "props": {
+                        "data-refl": "11"
+                    },
+                    "children": [
+                        {
+                            "h4": [
+                                "Hierarchy (",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "../hierarchy.html#RenderClass"
+                                    },
+                                    "children": "View Summary"
+                                },
+                                ")"
+                            ]
+                        },
+                        {
+                            "ul.tsd-hierarchy": {
+                                "li.tsd-hierarchy-item": [
+                                    {
+                                        "tag": "a.tsd-signature-type.tsd-kind-class",
+                                        "props": {
+                                            "href": "BaseClass.json"
+                                        },
+                                        "children": "BaseClass"
+                                    },
+                                    {
+                                        "ul.tsd-hierarchy": {
+                                            "li.tsd-hierarchy-item": {
+                                                "span.tsd-hierarchy-target": "RenderClass"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
                     "section.tsd-panel": [
                         {
                             "h4.tsd-before-signature": "Indexable"
@@ -131,6 +172,43 @@
                                                             },
                                                             "children": {
                                                                 "span": "prop"
+                                                            }
+                                                        },
+                                                        "\n"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "section.tsd-index-section": [
+                                                {
+                                                    "h3.tsd-index-heading": "Accessors"
+                                                },
+                                                {
+                                                    "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#getset"
+                                                            },
+                                                            "children": {
+                                                                "span": [
+                                                                    "get",
+                                                                    {
+                                                                        "wbr": []
+                                                                    },
+                                                                    "Set"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "\n",
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#getter"
+                                                            },
+                                                            "children": {
+                                                                "span": "getter"
                                                             }
                                                         },
                                                         "\n"
@@ -304,6 +382,28 @@
                                                         },
                                                         {
                                                             "div.tsd-comment.tsd-typography": []
+                                                        },
+                                                        {
+                                                            "aside.tsd-sources": {
+                                                                "p": [
+                                                                    "Overrides ",
+                                                                    {
+                                                                        "tag": "a",
+                                                                        "props": {
+                                                                            "href": "BaseClass.json"
+                                                                        },
+                                                                        "children": "BaseClass"
+                                                                    },
+                                                                    ".",
+                                                                    {
+                                                                        "tag": "a",
+                                                                        "props": {
+                                                                            "href": "BaseClass.json#constructor"
+                                                                        },
+                                                                        "children": "constructor"
+                                                                    }
+                                                                ]
+                                                            }
                                                         }
                                                     ]
                                                 }
@@ -376,6 +476,237 @@
                                     }
                                 ]
                             }
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Accessors"
+                            },
+                            "children": {
+                                "h2": " Accessors"
+                            }
+                        },
+                        {
+                            "section": [
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "getset"
+                                            },
+                                            "children": [
+                                                {
+                                                    "span": [
+                                                        "get",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Set"
+                                                    ]
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#getset",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "ul.tsd-signatures": [
+                                                {
+                                                    "li": [
+                                                        {
+                                                            "tag": "div.tsd-signature",
+                                                            "props": {
+                                                                "id": "getsetgetset"
+                                                            },
+                                                            "children": [
+                                                                {
+                                                                    "span.tsd-signature-keyword": "get"
+                                                                },
+                                                                " ",
+                                                                {
+                                                                    "span.tsd-kind-get-signature": "getSet"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": "()"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": ":"
+                                                                },
+                                                                " ",
+                                                                {
+                                                                    "span.tsd-signature-type": "number"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "div.tsd-description": {
+                                                                "h4.tsd-returns-title": [
+                                                                    "Returns ",
+                                                                    {
+                                                                        "span.tsd-signature-type": "number"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "li": [
+                                                        {
+                                                            "tag": "div.tsd-signature",
+                                                            "props": {
+                                                                "id": "getsetgetset-1"
+                                                            },
+                                                            "children": [
+                                                                {
+                                                                    "span.tsd-signature-keyword": "set"
+                                                                },
+                                                                " ",
+                                                                {
+                                                                    "span.tsd-kind-set-signature": "getSet"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": "("
+                                                                },
+                                                                {
+                                                                    "span.tsd-kind-parameter": "value"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": ":"
+                                                                },
+                                                                " ",
+                                                                {
+                                                                    "span.tsd-signature-type": "number"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": ")"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": ":"
+                                                                },
+                                                                " ",
+                                                                {
+                                                                    "span.tsd-signature-type": "void"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "div.tsd-description": [
+                                                                {
+                                                                    "div.tsd-parameters": [
+                                                                        {
+                                                                            "h4.tsd-parameters-title": "Parameters"
+                                                                        },
+                                                                        {
+                                                                            "ul.tsd-parameter-list": {
+                                                                                "li": {
+                                                                                    "span": [
+                                                                                        {
+                                                                                            "span.tsd-kind-parameter": "value"
+                                                                                        },
+                                                                                        ": ",
+                                                                                        {
+                                                                                            "span.tsd-signature-type": "number"
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "h4.tsd-returns-title": [
+                                                                        "Returns ",
+                                                                        {
+                                                                            "span.tsd-signature-type": "void"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "tag": "h3.tsd-anchor-link",
+                                            "props": {
+                                                "id": "getter"
+                                            },
+                                            "children": [
+                                                {
+                                                    "span": "getter"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#getter",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "ul.tsd-signatures": {
+                                                "li": [
+                                                    {
+                                                        "tag": "div.tsd-signature",
+                                                        "props": {
+                                                            "id": "gettergetter"
+                                                        },
+                                                        "children": [
+                                                            {
+                                                                "span.tsd-signature-keyword": "get"
+                                                            },
+                                                            " ",
+                                                            {
+                                                                "span.tsd-kind-get-signature": "getter"
+                                                            },
+                                                            {
+                                                                "span.tsd-signature-symbol": "()"
+                                                            },
+                                                            {
+                                                                "span.tsd-signature-symbol": ":"
+                                                            },
+                                                            " ",
+                                                            {
+                                                                "span.tsd-signature-type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "div.tsd-description": {
+                                                            "h4.tsd-returns-title": [
+                                                                "Returns ",
+                                                                {
+                                                                    "span.tsd-signature-type": "number"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
@@ -702,7 +1033,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#constructor"
                                                 },
@@ -728,7 +1059,7 @@
                                         },
                                         {
                                             "div": {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#prop"
                                                 },
@@ -748,6 +1079,49 @@
                                         {
                                             "tag": "summary.tsd-accordion-summary",
                                             "props": {
+                                                "data-key": "section-Accessors"
+                                            },
+                                            "children": "Accessors"
+                                        },
+                                        {
+                                            "div": [
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#getset"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "get",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Set"
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#getter"
+                                                    },
+                                                    "children": {
+                                                        "span": "getter"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
                                                 "data-key": "section-Methods"
                                             },
                                             "children": "Methods"
@@ -755,7 +1129,7 @@
                                         {
                                             "div": [
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#method"
                                                     },
@@ -764,7 +1138,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "tag": "a.",
+                                                    "tag": "a",
                                                     "props": {
                                                         "href": "#overloaded"
                                                     },

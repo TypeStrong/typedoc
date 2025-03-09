@@ -136,6 +136,7 @@ async function rebuildRendererTest(specPath) {
     app2.options.setValue("disableGit", true);
     app2.options.setValue("sourceLinkTemplate", "{path}:{line}");
 
+    td.resetReflectionID();
     const project = getConverter2Project(["renderer"], ".");
     project.readme = [{ kind: "text", text: "Readme text" }];
     await app2.generateDocs(project, specPath);

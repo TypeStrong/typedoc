@@ -248,7 +248,7 @@
                                     {
                                         "div": [
                                             {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#value1"
                                                 },
@@ -257,7 +257,7 @@
                                                 }
                                             },
                                             {
-                                                "tag": "a.",
+                                                "tag": "a",
                                                 "props": {
                                                     "href": "#value2"
                                                 },

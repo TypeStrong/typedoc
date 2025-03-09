@@ -179,7 +179,7 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
         }
 
         levels[levels.length - 1].push(
-            <a href={heading.link} class={heading.classes}>
+            <a href={heading.link} class={classNames({}, heading.classes)}>
                 {heading.kind && context.icons[heading.kind]()}
                 <span>{wbr(heading.text)}</span>
             </a>,
