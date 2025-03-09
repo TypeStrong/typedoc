@@ -42,8 +42,12 @@
 
     "eslint.workingDirectories": [".", "./example"],
     "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
-    // Ignore usernames in the Thanks sections of the changelog
-    "cSpell.ignoreRegExpList": ["/^- +@[A-Z0-9_-]+/igm"],
+    "cSpell.ignoreRegExpList": [
+        // Ignore usernames in the Thanks sections of the changelog
+        "/^- +@[A-Z0-9_-]+/igm",
+        // Ignore combined hashes in JSON output for rendering testing
+        "/#[a-z0-9_]+\"/"
+    ],
     "cSpell.words": [
         "callouts",
         "cname",

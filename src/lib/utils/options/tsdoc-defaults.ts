@@ -43,6 +43,8 @@ export const blockTags = [
     "@summary",
     "@preventInline",
     "@inlineType",
+    "@preventExpand",
+    "@expandType",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;

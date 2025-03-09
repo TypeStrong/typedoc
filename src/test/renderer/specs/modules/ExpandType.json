@@ -1,0 +1,376 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "",
+                                        "aria-current": "page"
+                                    },
+                                    "children": "ExpandType"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Namespace ExpandType"
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Namespaces"
+                            },
+                            "children": {
+                                "h2": "Namespaces"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#nestedbehavior1": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "ExpandType.NestedBehavior1.json"
+                                                },
+                                                "children": "NestedBehavior1"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#nestedbehavior1",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Interfaces"
+                            },
+                            "children": {
+                                "h2": "Interfaces"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#expandedbydefault": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "../interfaces/ExpandType.ExpandedByDefault.json"
+                                                },
+                                                "children": "ExpandedByDefault"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#expandedbydefault",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Type Aliases"
+                            },
+                            "children": {
+                                "h2": "Type Aliases"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#aexpanded": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "../types/ExpandType.AExpanded.json"
+                                                },
+                                                "children": "AExpanded"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#aexpanded",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#bexpanded": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "../types/ExpandType.BExpanded.json"
+                                                },
+                                                "children": "BExpanded"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#bexpanded",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#expandable": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "../types/ExpandType.Expandable.json"
+                                                },
+                                                "children": "Expandable"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#expandable",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#expandable2": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "../types/ExpandType.Expandable2.json"
+                                                },
+                                                "children": "Expandable2"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#expandable2",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": [
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Namespaces"
+                                            },
+                                            "children": "Namespaces"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#nestedbehavior1"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "Nested",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Behavior1"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Interfaces"
+                                            },
+                                            "children": "Interfaces"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#expandedbydefault"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "Expanded",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "By",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Default"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Type Aliases"
+                                            },
+                                            "children": "Type Aliases"
+                                        },
+                                        {
+                                            "div": [
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#aexpanded"
+                                                    },
+                                                    "children": {
+                                                        "span": "AExpanded"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#bexpanded"
+                                                    },
+                                                    "children": {
+                                                        "span": "BExpanded"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#expandable"
+                                                    },
+                                                    "children": {
+                                                        "span": "Expandable"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#expandable2"
+                                                    },
+                                                    "children": {
+                                                        "span": "Expandable2"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

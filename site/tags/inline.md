@@ -98,4 +98,4 @@ export function Hello2(props: HelloProps) {
 
 ## See Also
 
-- The [`@expand`](expand.md) tag
+- The [`@expand`](expand.md) tags

@@ -97,7 +97,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
             </div>
             {context.commentSummary(index)}
             {context.commentTags(index)}
-            {context.typeDetailsIfUseful(index.type)}
+            {context.typeDetailsIfUseful(index, index.type)}
         </li>
     );
 }

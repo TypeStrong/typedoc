@@ -56,6 +56,8 @@ export const notRenderedTags: readonly `@${string}`[] = [
     "@hideCategories",
     "@hideGroups",
     "@expand",
+    "@preventExpand",
+    "@expandType",
     "@summary",
     "@group",
     "@groupDescription",

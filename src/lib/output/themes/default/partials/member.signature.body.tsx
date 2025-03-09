@@ -38,7 +38,7 @@ export function memberSignatureBody(
                                 </span>
                                 {context.commentSummary(item)}
                                 {context.commentTags(item)}
-                                {context.typeDetailsIfUseful(item.type)}
+                                {context.typeDetailsIfUseful(item, item.type)}
                             </li>
                         ))}
                     </ul>
@@ -50,7 +50,7 @@ export function memberSignatureBody(
                         {i18n.theme_returns()} {context.type(props.type)}
                     </h4>
                     {returnsTag && <JSX.Raw html={context.markdown(returnsTag.content)} />}
-                    {context.typeDetailsIfUseful(props.type)}
+                    {context.typeDetailsIfUseful(props, props.type)}
                 </>
             )}
 

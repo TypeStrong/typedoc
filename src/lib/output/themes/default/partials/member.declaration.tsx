@@ -43,7 +43,7 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
 
             {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
 
-            {props.type && context.typeDeclaration(props.type)}
+            {props.type && context.typeDeclaration(props, props.type)}
 
             {context.commentTags(props)}
 

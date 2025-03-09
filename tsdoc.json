@@ -113,6 +113,14 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@preventExpand",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@expandType",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@inline",
             "syntaxKind": "modifier"
         },

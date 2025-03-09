@@ -35,6 +35,9 @@ title: Changelog
 - `ReflectionKind.singularString` and `ReflectionKind.pluralString` now returns translated strings.
   The methods on `Internationalization` to do this previously have been removed.
 - The HTML output structure for the search box has changed to support the new modal.
+- `DefaultThemeRenderContext`'s `typeDeclaration` and `typeDetailsIfUseful`
+  methods now require both a reflection and a type in order to support
+  `@expandType`
 
 ### Features
 
@@ -51,6 +54,7 @@ title: Changelog
 - Introduced `@function` tag to force TypeDoc to convert variable declarations with a type annotation as functions, #2881.
 - Exposed a `TypeDoc` global object in the HTML theme which can be used to prevent TypeDoc from using `localStorage`, #2872.
 - Introduced `@preventInline` and `@inlineType` tags for further control extending the `@inline` tag, #2862.
+- Introduced `@preventExpand` and `@expandType` tags for further control extending the `@expand` tag, #2862.
 - API: Introduced `DefaultThemeRenderContext.reflectionIcon` for more granular control over displayed reflection icons.
 
 ### Bug Fixes

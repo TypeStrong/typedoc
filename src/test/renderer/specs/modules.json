@@ -78,6 +78,50 @@
                         {
                             "tag": "summary.tsd-accordion-summary",
                             "props": {
+                                "data-key": "section-Namespaces"
+                            },
+                            "children": {
+                                "h2": "Namespaces"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#expandtype": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "modules/ExpandType.json"
+                                                },
+                                                "children": "ExpandType"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#expandtype",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
                                 "data-key": "section-Enumerations"
                             },
                             "children": {
@@ -419,6 +463,38 @@
                                                 },
                                                 "children": {
                                                     "span": "doc"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Namespaces"
+                                            },
+                                            "children": "Namespaces"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#expandtype"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "Expand",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Type"
+                                                    ]
                                                 }
                                             }
                                         }

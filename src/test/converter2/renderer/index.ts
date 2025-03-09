@@ -109,3 +109,5 @@ export type UnionComments =
 export function box<T>(item: T) {
     return { box: item };
 }
+
+export * as ExpandType from "./expandType";
