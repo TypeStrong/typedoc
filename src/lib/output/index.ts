@@ -16,6 +16,7 @@ export {
     type PageDefinition,
     PageKind,
     type Router,
+    type RouterTarget,
     StructureDirRouter,
     StructureRouter,
 } from "./router.js";

@@ -73,6 +73,7 @@ export type {
     RendererHooks,
     RenderTemplate,
     Router,
+    RouterTarget,
 } from "./lib/output/index.js";
 
 export { Outputs } from "./lib/output/output.js";
