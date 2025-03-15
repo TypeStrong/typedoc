@@ -1121,7 +1121,15 @@ export class ReflectionType extends Type {
         return `{ ${parts.join("; ")} }`;
     }
 
-    override needsParenthesis(): boolean {
+    override needsParenthesis(where: TypeContext): boolean {
+        if (this.declaration.children || this.declaration.indexSignatures) {
+            return false;
+        }
+
+        if (this.declaration.signatures?.length === 1) {
+            return where === TypeContext.arrayElement || where === TypeContext.unionElement;
+        }
+
         return false;
     }
 

@@ -1,5 +1,6 @@
 import { equal } from "assert";
 import {
+    ArrayType,
     ConditionalType,
     IndexedAccessType,
     InferredType,
@@ -694,5 +695,27 @@ describe("Formatter", () => {
 
         const text = renderElementToText(renderType(type));
         equal(text, "(0 | 1) & (2 | 3)");
+    });
+
+    it("Adds parenthesis for functions inside an array, #2892", () => {
+        const decl = new DeclarationReflection("__type", ReflectionKind.TypeLiteral);
+        decl.signatures = [new SignatureReflection("__call", ReflectionKind.CallSignature, decl)];
+        decl.signatures[0].type = new IntrinsicType("number");
+        const fnType = new ReflectionType(decl);
+        const type = new ArrayType(fnType);
+
+        const text = renderElementToText(renderType(type));
+        equal(text, "(() => number)[]");
+    });
+
+    it("Adds parenthesis for functions inside a union, #2892", () => {
+        const decl = new DeclarationReflection("__type", ReflectionKind.TypeLiteral);
+        decl.signatures = [new SignatureReflection("__call", ReflectionKind.CallSignature, decl)];
+        decl.signatures[0].type = new IntrinsicType("number");
+        const fnType = new ReflectionType(decl);
+        const type = new UnionType([fnType, new IntrinsicType("string")]);
+
+        const text = renderElementToText(renderType(type));
+        equal(text, "(() => number) | string");
     });
 });
