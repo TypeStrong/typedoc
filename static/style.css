@@ -1076,9 +1076,8 @@
     .tsd-index-summary {
         margin-top: 1.5rem;
         margin-bottom: 0.75rem;
-    }
-    .tsd-index-heading {
-        margin: 0;
+        display: flex;
+        align-content: center;
     }
 
     .tsd-no-select {
@@ -1475,7 +1474,7 @@
     @media (max-width: 769px) {
         #tsd-toolbar-menu-trigger {
             display: inline-block;
-            /* temporary fix to vertically align, for compatibilty */
+            /* temporary fix to vertically align, for compatibility */
             line-height: 2.5;
         }
         #tsd-toolbar-links {
