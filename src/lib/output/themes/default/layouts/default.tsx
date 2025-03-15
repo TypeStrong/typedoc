@@ -101,7 +101,7 @@ export const defaultLayout = (
                 {/* settings, this appears to be a reasonable tradeoff between displaying page content without the */}
                 {/* navigation on exceptionally slow connections and not having the navigation obviously repaint. */}
                 <Raw html='document.body.style.display="none";' />
-                <Raw html='setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)' />
+                <Raw html='setTimeout(() => typeof app!=="undefined"?app.showPage():document.body.style.removeProperty("display"),500)' />
             </script>
             {context.toolbar(props)}
 
