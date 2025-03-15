@@ -64,9 +64,11 @@ title: Changelog
 - User filter settings will no longer sometimes cause the search to have fewer visible results than expected.
 - Fixed handling of expando functions which were also merged with a namespace, #2876.
 - Fixed rendering of function types within arrays and union types, #2892.
+- Fixed an issue where if the theme JS didn't load, the page wouldn't be shown, #2894.
 
 ### Thanks!
 
+- @crimx
 - @jsmith2-coveo
 - @phoneticallySAARTHaK
 - @XeroAlpha
