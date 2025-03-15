@@ -2,7 +2,7 @@
 title: Changelog
 ---
 
-## Beta
+## Unreleased
 
 ### Breaking Changes
 
@@ -72,8 +72,6 @@ title: Changelog
 - @jsmith2-coveo
 - @phoneticallySAARTHaK
 - @XeroAlpha
-
-## Unreleased
 
 ## v0.27.9 (2025-02-25)
 
