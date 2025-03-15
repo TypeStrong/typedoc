@@ -1,11 +1,11 @@
-import { JSX } from "../../../../utils/index.js";
+import { i18n, JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function footer(context: DefaultThemeRenderContext) {
     const hideGenerator = context.options.getValue("hideGenerator");
     let generatorDisplay = <></>;
     if (!hideGenerator) {
-        const message = context.i18n.theme_generated_using_typedoc();
+        const message = i18n.theme_generated_using_typedoc();
 
         // Only handles one occurrence, but that's all I expect...
         const index = message.indexOf("TypeDoc");

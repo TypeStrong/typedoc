@@ -8,6 +8,7 @@ const api = (): {
 export const {
     /**
      * Docs for Sym1
+     * @function
      */
     sym1,
 

@@ -1,12 +1,6 @@
 import type { Options } from "./options.js";
-import {
-    ParameterHint,
-    type StringDeclarationOption,
-    ParameterType,
-    type DeclarationOption,
-} from "./declaration.js";
+import { type DeclarationOption, ParameterHint, ParameterType, type StringDeclarationOption } from "./declaration.js";
 import { getSupportedLanguages, getSupportedThemes } from "../highlighter.js";
-import type { TranslationProxy } from "../../internationalization/internationalization.js";
 
 export interface ParameterHelp {
     names: string[];
@@ -31,12 +25,9 @@ function hasHint(
  */
 function getParameterHelp(
     options: Options,
-    i18n: TranslationProxy,
 ): ParameterHelp {
     const parameters = options.getDeclarations();
-    parameters.sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-    );
+    parameters.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 
     const names: string[] = [];
     const helps: string[] = [];
@@ -56,7 +47,7 @@ function getParameterHelp(
         helps.push(
             typeof parameter.help === "string"
                 ? parameter.help
-                : parameter.help(i18n),
+                : parameter.help(),
         );
         margin = Math.max(name.length, margin);
     }
@@ -65,8 +56,7 @@ function getParameterHelp(
 }
 
 function toEvenColumns(values: string[], maxLineWidth: number) {
-    const columnWidth =
-        values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
+    const columnWidth = values.reduce((acc, val) => Math.max(acc, val.length), 0) + 2;
 
     const numColumns = Math.max(1, Math.floor(maxLineWidth / columnWidth));
     let line = "";
@@ -88,11 +78,10 @@ function toEvenColumns(values: string[], maxLineWidth: number) {
 
 export function getOptionsHelp(
     options: Options,
-    i18n: TranslationProxy,
 ): string {
     const output = ["typedoc path/to/entry.ts", "", "Options:"];
 
-    const columns = getParameterHelp(options, i18n);
+    const columns = getParameterHelp(options);
     for (let i = 0; i < columns.names.length; i++) {
         const usage = columns.names[i];
         const description = columns.helps[i];

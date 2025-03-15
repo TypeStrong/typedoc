@@ -5,6 +5,7 @@ children:
     - themes.md
     - internationalization.md
     - third-party-symbols.md
+    - local-storage.md
 ---
 
 # Development
@@ -43,7 +44,7 @@ be resolved.
 TypeDoc has tests for individual utilities and some components, but the majority of the project is tested by converting source files into their JSON model and comparing it to a known good version. The basic example under `src/test/renderer/testProject` is rendered to HTML to test theme changes.
 
 If changing the behavior of a converter or resolver, it should be possible to modify one of the existing tests under `src/test/converter`.
-Bug fixes or feature additions which need to change one of the `specs*.json` files should run `npm run rebuild_specs [converter|renderer] [converter filter]` to run the current build of TypeDoc on the source files and generate new specs.
+Bug fixes or feature additions which need to change one of the `specs*.json` files should run `pnpm rebuild_specs [converter|renderer] [converter filter]` to run the current build of TypeDoc on the source files and generate new specs.
 For other components, we use [Mocha](https://mochajs.org/) to write tests.
 
 ### Running the Visual Regression Tests
@@ -71,17 +72,17 @@ The [Options](https://typedoc.org/api/classes/Configuration.Options.html) class 
 
 There are 11 builtin option types as specified by the [ParameterType](https://typedoc.org/api/enums/Configuration.ParameterType.html) enum.
 
--   `String` - A string
--   `Path` - A string which will be resolved to a path. Paths in config files will be resolved relative to the config directory.
--   `Number` - A number which is not `NaN`
--   `Boolean` - `true` or `false`
--   `Map` - Defines a map between string keys and an arbitrary type. See the [tests](https://github.com/TypeStrong/typedoc/blob/master/src/test/utils/options/declaration.test.ts#L39) for an example.
--   `Mixed` - An object type that is passed through by TypeDoc to create specific implicit behavior.
--   `Object` - An object type of which value keys can be overridden or extended by passing a new object.
--   `Array` - An array of strings.
--   `PathArray` - An array of paths, if specified in a config file, will be resolved relative to the config file directory.
--   `ModuleArray` - An array of modules/paths. Items will be resolved if they start with `.`.
--   `GlobArray` - An array of globs. Globs will be resolved if they do not start with `**`, after skipping leading `!` and `#` characters.
+- `String` - A string
+- `Path` - A string which will be resolved to a path. Paths in config files will be resolved relative to the config directory.
+- `Number` - A number which is not `NaN`
+- `Boolean` - `true` or `false`
+- `Map` - Defines a map between string keys and an arbitrary type. See the [tests](https://github.com/TypeStrong/typedoc/blob/master/src/test/utils/options/declaration.test.ts#L39) for an example.
+- `Mixed` - An object type that is passed through by TypeDoc to create specific implicit behavior.
+- `Object` - An object type of which value keys can be overridden or extended by passing a new object.
+- `Array` - An array of strings.
+- `PathArray` - An array of paths, if specified in a config file, will be resolved relative to the config file directory.
+- `ModuleArray` - An array of modules/paths. Items will be resolved if they start with `.`.
+- `GlobArray` - An array of globs. Globs will be resolved if they do not start with `**`, after skipping leading `!` and `#` characters.
 
 Options are discovered and set by option readers, which are documented in the
 [Configuration.OptionsReader](https://typedoc.org/api/interfaces/Configuration.OptionsReader.html) interface.
@@ -94,7 +95,7 @@ Plugins should export a `load` function which will be called by TypeDoc when loa
 This function should add any options the plugin accepts and add any listeners necessary to effect TypeDoc's behavior.
 
 ```typescript
-import { Application, ParameterType, Converter, Context } from "typedoc";
+import { Application, Context, Converter, ParameterType } from "typedoc";
 
 export function load(app: Application) {
     app.options.addDeclaration({
@@ -119,9 +120,9 @@ TypeDoc converts the syntax tree created by TypeScript into its own structure of
 themes and serialization to work with a standard object format. Conversion is
 done primarily in three files.
 
--   [symbols.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/symbols.ts) - contains converters for each `ts.Symbol` that is exported from entry points.
--   [types.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/types.ts) - contains converters for `ts.Type`s and `ts.TypeNode`s.
--   [jsdoc.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/jsdoc.ts) - contains converters for types and symbols declared within JSDoc comments.
+- [symbols.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/symbols.ts) - contains converters for each `ts.Symbol` that is exported from entry points.
+- [types.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/types.ts) - contains converters for `ts.Type`s and `ts.TypeNode`s.
+- [jsdoc.ts](https://github.com/TypeStrong/typedoc/blob/master/src/lib/converter/jsdoc.ts) - contains converters for types and symbols declared within JSDoc comments.
 
 ### JSON Output
 

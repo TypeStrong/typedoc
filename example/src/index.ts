@@ -9,11 +9,11 @@
  * @document documents/syntax-highlighting.md
  * @document documents/include.md
  */
-export * from "./functions";
-export * from "./variables";
-export * from "./types";
 export * from "./classes";
 export * from "./enums";
-export * from "./reexports";
-export * from "./reactComponents";
+export * from "./functions";
 export * from "./internals";
+export * from "./reactComponents";
+export * from "./reexports";
+export * from "./types";
+export * from "./variables";

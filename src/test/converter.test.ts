@@ -2,34 +2,26 @@ import { deepStrictEqual as equal, ok } from "assert";
 import * as FS from "fs";
 import * as Path from "path";
 import {
+    Comment,
+    type CommentDisplayPart,
+    CommentTag,
+    type JSONOutput,
     ProjectReflection,
-    Serializer,
-    resetReflectionID,
+    ReferenceReflection,
+    ReferenceType,
     Reflection,
     ReflectionCategory,
     ReflectionGroup,
-    type JSONOutput,
-    CommentTag,
-    ReferenceType,
-    Comment,
-    type CommentDisplayPart,
+    resetReflectionID,
+    Serializer,
+    type SomeReflection,
     SourceReference,
-    ReferenceReflection,
 } from "../index.js";
-import type {
-    SomeReflection,
-    ModelToObject,
-} from "../lib/serialization/schema.js";
-import { getExpandedEntryPointsForPaths } from "../lib/utils/index.js";
-import {
-    getConverterApp,
-    getConverterBase,
-    getConverterProgram,
-} from "./programs.js";
-import {
-    FileRegistry,
-    ValidatingFileRegistry,
-} from "../lib/models/FileRegistry.js";
+import type { ModelToObject } from "../lib/serialization/schema.js";
+import { getExpandedEntryPointsForPaths, normalizePath } from "../lib/utils/index.js";
+import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";
+import { FileRegistry } from "../lib/models/FileRegistry.js";
+import { ValidatingFileRegistry } from "../lib/utils/ValidatingFileRegistry.js";
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -85,8 +77,11 @@ comparisonSerializer.addSerializer<SomeReflection>({
     supports(x) {
         return x instanceof Reflection;
     },
-    toObject(_refl, obj) {
+    toObject(refl, obj: any) {
         delete obj["id"];
+        if (refl.isDeclaration()) {
+            obj["childrenIncludingDocuments"] = refl.childrenIncludingDocuments?.map(id => id.getFullName());
+        }
         return obj;
     },
 });
@@ -121,9 +116,11 @@ comparisonSerializer.addSerializer({
         _serializer,
     ) {
         if (obj.url) {
-            obj.url = `typedoc://${obj.url.substring(
-                obj.url.indexOf(ref.fileName),
-            )}`;
+            obj.url = `typedoc://${
+                obj.url.substring(
+                    obj.url.indexOf(ref.fileName),
+                )
+            }`;
         }
         return obj;
     },
@@ -223,7 +220,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             app.serializer.projectToObject(
                                 result!,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );
@@ -239,7 +236,7 @@ describe("Converter", function () {
                         specs.name,
                         specs,
                         {
-                            projectRoot: process.cwd(),
+                            projectRoot: normalizePath(process.cwd()),
                             registry: new FileRegistry(),
                         },
                     );
@@ -247,7 +244,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 revived,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );
@@ -257,7 +254,7 @@ describe("Converter", function () {
                         JSON.stringify(
                             comparisonSerializer.projectToObject(
                                 result!,
-                                process.cwd(),
+                                normalizePath(process.cwd()),
                             ),
                         ),
                     );

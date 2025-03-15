@@ -29,55 +29,42 @@
  * @module
  */
 
-import type * as M from "../models/index.js";
-import type { IfInternal } from "../utils/index.js";
+import type * as M from "#models";
+import type { IfInternal, NormalizedPath } from "#utils";
+
+export const SCHEMA_VERSION = "2.0";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
  */
-export type ModelToObject<T> = [T] extends [Array<infer U>]
-    ? ModelToObject<U>[]
-    : [M.SomeType] extends [T]
-      ? SomeType
-      : _ModelToObject<T>;
+export type ModelToObject<T> = [T] extends [Array<infer U>] ? ModelToObject<U>[] :
+    [M.SomeType] extends [T] ? SomeType :
+    _ModelToObject<T>;
 
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
     // Reflections
-    T extends Primitive
-        ? T
-        : Required<T> extends Required<M.ReflectionGroup>
-          ? ReflectionGroup
-          : Required<T> extends Required<M.ReflectionCategory>
-            ? ReflectionCategory
-            : T extends M.ReflectionVariant[keyof M.ReflectionVariant]
-              ? ReflectionVariantMap[T["variant"]]
-              : // Types
-                T extends M.SomeType
-                ? TypeKindMap[T["type"]]
-                : T extends M.Type
-                  ? SomeType
-                  : // Miscellaneous
-                    T extends M.Comment
-                    ? Comment
-                    : T extends M.CommentTag
-                      ? CommentTag
-                      : T extends M.CommentDisplayPart
-                        ? CommentDisplayPart
-                        : T extends M.SourceReference
-                          ? SourceReference
-                          : T extends M.FileRegistry
-                            ? FileRegistry
-                            : never;
+    T extends Primitive ? T :
+        Required<T> extends Required<M.ReflectionGroup> ? ReflectionGroup :
+        Required<T> extends Required<M.ReflectionCategory> ? ReflectionCategory :
+        T extends M.ReflectionVariant[keyof M.ReflectionVariant] ? ReflectionVariantMap[T["variant"]] :
+        // Types
+        T extends M.SomeType ? TypeKindMap[T["type"]] :
+        T extends M.Type ? SomeType :
+        // Miscellaneous
+        T extends M.Comment ? Comment :
+        T extends M.CommentTag ? CommentTag :
+        T extends M.CommentDisplayPart ? CommentDisplayPart :
+        T extends M.SourceReference ? SourceReference :
+        T extends M.FileRegistry ? FileRegistry :
+        never;
 
 type Primitive = string | number | undefined | null | boolean;
 
 // Separate helper so that we can trigger distribution.
-type ToSerialized<T> = T extends Primitive
-    ? T
-    : T extends bigint
-      ? { value: string; negative: boolean }
-      : ModelToObject<T>;
+type ToSerialized<T> = T extends Primitive ? T :
+    T extends bigint ? { value: string; negative: boolean } :
+    ModelToObject<T>;
 
 /**
  * Helper to describe a set of serialized properties. Primitive types are returned
@@ -90,17 +77,16 @@ type S<T, K extends keyof T> = {
 };
 
 export interface ReflectionSymbolId {
-    sourceFileName: string;
+    packageName: string;
+    packagePath: NormalizedPath;
     qualifiedName: string;
 }
 
-export interface ReflectionGroup
-    extends S<M.ReflectionGroup, "title" | "description" | "categories"> {
+export interface ReflectionGroup extends S<M.ReflectionGroup, "title" | "description" | "categories"> {
     children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
-export interface ReflectionCategory
-    extends S<M.ReflectionCategory, "title" | "description"> {
+export interface ReflectionCategory extends S<M.ReflectionCategory, "title" | "description"> {
     children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
@@ -121,19 +107,20 @@ export interface ReflectionVariantMap {
 export type SomeReflection = ReflectionVariantMap[keyof ReflectionVariantMap];
 
 /** @category Reflections */
-export interface DocumentReflection
-    extends Omit<Reflection, "variant">,
-        S<
-            M.DocumentReflection,
-            "variant" | "content" | "relevanceBoost" | "children"
-        > {
+export interface DocumentReflection extends
+    Omit<Reflection, "variant">,
+    S<
+        M.DocumentReflection,
+        "variant" | "content" | "relevanceBoost" | "children"
+    >
+{
     frontmatter: Record<string, unknown>;
 }
 
 /** @category Reflections */
 export interface ReferenceReflection
-    extends Omit<DeclarationReflection, "variant">,
-        S<M.ReferenceReflection, "variant"> {
+    extends Omit<DeclarationReflection, "variant">, S<M.ReferenceReflection, "variant">
+{
     /**
      * -1 if the reference refers to a symbol that does not exist in the documentation.
      * Otherwise, the reflection ID.
@@ -142,74 +129,78 @@ export interface ReferenceReflection
 }
 
 /** @category Reflections */
-export interface SignatureReflection
-    extends Omit<Reflection, "variant">,
-        S<
-            M.SignatureReflection,
-            | "variant"
-            | "sources"
-            | "parameters"
-            | "typeParameters"
-            | "type"
-            | "overwrites"
-            | "inheritedFrom"
-            | "implementationOf"
-        > {
-    /** @deprecated in 0.26, replaced with {@link typeParameters} */
-    typeParameter?: ModelToObject<M.TypeParameterReflection[]>;
+export interface SignatureReflection extends
+    Omit<Reflection, "variant">,
+    S<
+        M.SignatureReflection,
+        | "variant"
+        | "sources"
+        | "parameters"
+        | "typeParameters"
+        | "type"
+        | "overwrites"
+        | "inheritedFrom"
+        | "implementationOf"
+    >
+{
 }
 
 /** @category Reflections */
 export interface ParameterReflection
-    extends Omit<Reflection, "variant">,
-        S<M.ParameterReflection, "variant" | "type" | "defaultValue"> {
+    extends Omit<Reflection, "variant">, S<M.ParameterReflection, "variant" | "type" | "defaultValue">
+{
     variant: "param";
 }
 
 /** @category Reflections */
-export interface DeclarationReflection
-    extends Omit<ContainerReflection, "variant">,
-        S<
-            M.DeclarationReflection,
-            | "variant"
-            | "packageVersion"
-            | "sources"
-            | "relevanceBoost"
-            | "type"
-            | "signatures"
-            | "indexSignatures"
-            | "defaultValue"
-            | "overwrites"
-            | "inheritedFrom"
-            | "implementationOf"
-            | "extendedTypes"
-            | "extendedBy"
-            | "implementedTypes"
-            | "implementedBy"
-            | "getSignature"
-            | "setSignature"
-            | "typeParameters"
-            | "readme"
-        > {
-    /** @deprecated moved to {@link indexSignatures} with 0.26. */
-    indexSignature?: SignatureReflection;
+export interface DeclarationReflection extends
+    Omit<ContainerReflection, "variant">,
+    S<
+        M.DeclarationReflection,
+        | "variant"
+        | "packageVersion"
+        | "sources"
+        | "type"
+        | "signatures"
+        | "indexSignatures"
+        | "defaultValue"
+        | "overwrites"
+        | "inheritedFrom"
+        | "implementationOf"
+        | "extendedTypes"
+        | "extendedBy"
+        | "implementedTypes"
+        | "implementedBy"
+        | "getSignature"
+        | "setSignature"
+        | "typeParameters"
+        | "readme"
+    >
+{
 }
 
 /** @category Reflections */
-export interface TypeParameterReflection
-    extends Omit<Reflection, "variant">,
-        S<
-            M.TypeParameterReflection,
-            "variant" | "type" | "default" | "varianceModifier"
-        > {}
+export interface TypeParameterReflection extends
+    Omit<Reflection, "variant">,
+    S<
+        M.TypeParameterReflection,
+        "variant" | "type" | "default" | "varianceModifier"
+    >
+{}
 
 /** @category Reflections */
-export interface ProjectReflection
-    extends Omit<ContainerReflection, "variant">,
-        S<
-            M.ProjectReflection,
-            "variant" | "packageName" | "packageVersion" | "readme"
-        > {
+export interface ProjectReflection extends
+    Omit<ContainerReflection, "variant">,
+    S<
+        M.ProjectReflection,
+        "variant" | "packageName" | "packageVersion" | "readme"
+    >
+{
+    /**
+     * Used to determine if TypeDoc supports deserializing the specified json
+     * See {@link SCHEMA_VERSION} for the current version.
+     */
+    schemaVersion: string;
     symbolIdMap:
         | Record<number, ReflectionSymbolId>
         | IfInternal<undefined, never>;
@@ -217,18 +208,18 @@ export interface ProjectReflection
 }
 
 /** @category Reflections */
-export interface ContainerReflection
-    extends Reflection,
-        S<
-            M.ContainerReflection,
-            "children" | "documents" | "groups" | "categories"
-        > {
+export interface ContainerReflection extends
+    Reflection,
+    S<
+        M.ContainerReflection,
+        "children" | "documents" | "groups" | "categories"
+    >
+{
     childrenIncludingDocuments?: number[];
 }
 
 /** @category Reflections */
-export interface Reflection
-    extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {
+export interface Reflection extends S<M.Reflection, "id" | "variant" | "name" | "kind" | "comment"> {
     flags: ReflectionFlags;
 }
 
@@ -262,58 +253,46 @@ export type TypeKindMap = {
 };
 
 /** @category Types */
-export interface ArrayType
-    extends Type,
-        S<M.ArrayType, "type" | "elementType"> {}
+export interface ArrayType extends Type, S<M.ArrayType, "type" | "elementType"> {}
 
 /** @category Types */
-export interface ConditionalType
-    extends Type,
-        S<
-            M.ConditionalType,
-            "type" | "checkType" | "extendsType" | "trueType" | "falseType"
-        > {}
+export interface ConditionalType extends
+    Type,
+    S<
+        M.ConditionalType,
+        "type" | "checkType" | "extendsType" | "trueType" | "falseType"
+    >
+{}
 
 /** @category Types */
-export interface IndexedAccessType
-    extends Type,
-        S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
+export interface IndexedAccessType extends Type, S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
 
 /** @category Types */
-export interface InferredType
-    extends Type,
-        S<M.InferredType, "type" | "name" | "constraint"> {}
+export interface InferredType extends Type, S<M.InferredType, "type" | "name" | "constraint"> {}
 
 /** @category Types */
-export interface IntersectionType
-    extends Type,
-        S<M.IntersectionType, "type" | "types"> {}
+export interface IntersectionType extends Type, S<M.IntersectionType, "type" | "types"> {}
 
 /** @category Types */
-export interface IntrinsicType
-    extends Type,
-        S<M.IntrinsicType, "type" | "name"> {}
+export interface IntrinsicType extends Type, S<M.IntrinsicType, "type" | "name"> {}
 
 /** @category Types */
-export interface OptionalType
-    extends Type,
-        S<M.OptionalType, "type" | "elementType"> {}
+export interface OptionalType extends Type, S<M.OptionalType, "type" | "elementType"> {}
 
 /** @category Types */
-export interface PredicateType
-    extends Type,
-        S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
+export interface PredicateType extends Type, S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
 
 /** @category Types */
 export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
 /** @category Types */
-export interface ReferenceType
-    extends Type,
-        S<
-            M.ReferenceType,
-            "type" | "name" | "typeArguments" | "package" | "externalUrl"
-        > {
+export interface ReferenceType extends
+    Type,
+    S<
+        M.ReferenceType,
+        "type" | "name" | "typeArguments" | "package" | "externalUrl"
+    >
+{
     target: number | ReflectionSymbolId;
     qualifiedName?: string;
     refersToTypeParameter?: boolean;
@@ -322,9 +301,7 @@ export interface ReferenceType
 }
 
 /** @category Types */
-export interface ReflectionType
-    extends Type,
-        S<M.ReflectionType, "type" | "declaration"> {}
+export interface ReflectionType extends Type, S<M.ReflectionType, "type" | "declaration"> {}
 
 /** @category Types */
 export interface RestType extends Type, S<M.RestType, "type" | "elementType"> {}
@@ -338,40 +315,33 @@ export interface TupleType extends Type, S<M.TupleType, "type"> {
 }
 
 /** @category Types */
-export interface NamedTupleMemberType
-    extends Type,
-        S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
+export interface NamedTupleMemberType extends Type, S<M.NamedTupleMember, "type" | "name" | "isOptional" | "element"> {}
 
 /** @category Types */
-export interface TemplateLiteralType
-    extends Type,
-        S<M.TemplateLiteralType, "type" | "head"> {
+export interface TemplateLiteralType extends Type, S<M.TemplateLiteralType, "type" | "head"> {
     tail: [SomeType, string][];
 }
 
 /** @category Types */
-export interface MappedType
-    extends Type,
-        S<
-            M.MappedType,
-            | "type"
-            | "parameter"
-            | "parameterType"
-            | "templateType"
-            | "readonlyModifier"
-            | "optionalModifier"
-            | "nameType"
-        > {}
+export interface MappedType extends
+    Type,
+    S<
+        M.MappedType,
+        | "type"
+        | "parameter"
+        | "parameterType"
+        | "templateType"
+        | "readonlyModifier"
+        | "optionalModifier"
+        | "nameType"
+    >
+{}
 
 /** @category Types */
-export interface TypeOperatorType
-    extends Type,
-        S<M.TypeOperatorType, "type" | "operator" | "target"> {}
+export interface TypeOperatorType extends Type, S<M.TypeOperatorType, "type" | "operator" | "target"> {}
 
 /** @category Types */
-export interface UnionType
-    extends Type,
-        S<M.UnionType, "type" | "types" | "elementSummaries"> {}
+export interface UnionType extends Type, S<M.UnionType, "type" | "types" | "elementSummaries"> {}
 
 /** @category Types */
 export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
@@ -385,8 +355,7 @@ type BoolKeys<T> = {
     [K in keyof T]-?: T[K] extends boolean ? K : never;
 }[keyof T];
 
-export interface ReflectionFlags
-    extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
+export interface ReflectionFlags extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
 /** @category Comments */
 export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
@@ -443,12 +412,11 @@ export interface RelativeLinkDisplayPart {
     targetAnchor?: string;
 }
 
-export interface SourceReference
-    extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
+export interface SourceReference extends S<M.SourceReference, "fileName" | "line" | "character" | "url"> {}
 
 export interface FileRegistry {
     /** Relative path according to the serialization root */
-    entries: Record<number, string>;
+    entries: Record<number, NormalizedPath>;
     /** File ID to reflection ID */
     reflections: Record<number, number>;
 }

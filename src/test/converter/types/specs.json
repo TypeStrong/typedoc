@@ -1,2603 +1,2664 @@
 {
-  "id": 0,
-  "name": "types",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 1,
-      "name": "general",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
+    "schemaVersion": "2.0",
+    "id": 0,
+    "name": "types",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 8,
-          "name": "BigIntAlias",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 12,
-              "character": 12,
-              "url": "typedoc://general.ts#L12"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "bigint"
-          }
-        },
-        {
-          "id": 2,
-          "name": "BigIntLiteral",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 3,
-              "character": 12,
-              "url": "typedoc://general.ts#L3"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": {
-              "value": "1",
-              "negative": false
-            }
-          }
-        },
-        {
-          "id": 11,
-          "name": "FirstIfString",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 17,
-              "character": 12,
-              "url": "typedoc://general.ts#L17"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 12,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "type": {
-                "type": "array",
-                "elementType": {
-                  "type": "intrinsic",
-                  "name": "unknown"
-                }
-              }
-            }
-          ],
-          "type": {
-            "type": "conditional",
-            "checkType": {
-              "type": "reference",
-              "target": 12,
-              "name": "T",
-              "package": "typedoc",
-              "refersToTypeParameter": true
-            },
-            "extendsType": {
-              "type": "tuple",
-              "elements": [
+            "id": 1,
+            "name": "general",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
                 {
-                  "type": "inferred",
-                  "name": "S",
-                  "constraint": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+                    "id": 8,
+                    "name": "BigIntAlias",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 12,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L12"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "bigint"
+                    }
                 },
                 {
-                  "type": "rest",
-                  "elementType": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "unknown"
-                    }
-                  }
-                }
-              ]
-            },
-            "trueType": {
-              "type": "reference",
-              "target": {
-                "sourceFileName": "src/test/converter/types/general.ts",
-                "qualifiedName": "S"
-              },
-              "name": "S",
-              "package": "typedoc",
-              "refersToTypeParameter": true
-            },
-            "falseType": {
-              "type": "intrinsic",
-              "name": "never"
-            }
-          }
-        },
-        {
-          "id": 4,
-          "name": "NegativeBigIntLiteral",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 6,
-              "character": 12,
-              "url": "typedoc://general.ts#L6"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": {
-              "value": "1",
-              "negative": true
-            }
-          }
-        },
-        {
-          "id": 9,
-          "name": "NegativeOne",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 14,
-              "character": 12,
-              "url": "typedoc://general.ts#L14"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": -1
-          }
-        },
-        {
-          "id": 6,
-          "name": "NumArray",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 9,
-              "character": 12,
-              "url": "typedoc://general.ts#L9"
-            }
-          ],
-          "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
-          }
-        },
-        {
-          "id": 3,
-          "name": "BigIntLiteralType",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 4,
-              "character": 13,
-              "url": "typedoc://general.ts#L4"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": {
-              "value": "1",
-              "negative": false
-            }
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 5,
-          "name": "NegativeBigIntLiteralType",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 7,
-              "character": 13,
-              "url": "typedoc://general.ts#L7"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": {
-              "value": "1",
-              "negative": true
-            }
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 10,
-          "name": "negativeOne",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 15,
-              "character": 13,
-              "url": "typedoc://general.ts#L15"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": -1
-          },
-          "defaultValue": "-1"
-        },
-        {
-          "id": 7,
-          "name": "numArray",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "general.ts",
-              "line": 10,
-              "character": 13,
-              "url": "typedoc://general.ts#L10"
-            }
-          ],
-          "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
-          },
-          "defaultValue": "..."
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            8,
-            2,
-            11,
-            4,
-            9,
-            6
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            3,
-            5,
-            10,
-            7
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "general.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://general.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "name": "index-signature",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 28,
-          "name": "A",
-          "variant": "declaration",
-          "kind": 128,
-          "flags": {},
-          "children": [
-            {
-              "id": 29,
-              "name": "constructor",
-              "variant": "declaration",
-              "kind": 512,
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 30,
-                  "name": "A",
-                  "variant": "signature",
-                  "kind": 16384,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 28,
-                    "name": "A",
-                    "package": "typedoc"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                29
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "index-signature.ts",
-              "line": 21,
-              "character": 13,
-              "url": "typedoc://index-signature.ts#L21"
-            }
-          ],
-          "indexSignatures": [
-            {
-              "id": 31,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 32,
-                  "name": "key",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "symbol"
-                  }
-                }
-              ],
-              "type": {
-                "type": "union",
-                "types": [
-                  {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 33,
-                      "name": "__type",
-                      "variant": "declaration",
-                      "kind": 65536,
-                      "flags": {},
-                      "sources": [
+                    "id": 2,
+                    "name": "BigIntLiteral",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
                         {
-                          "fileName": "index-signature.ts",
-                          "line": 22,
-                          "character": 4,
-                          "url": "typedoc://index-signature.ts#L22"
+                            "fileName": "general.ts",
+                            "line": 3,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L3"
                         }
-                      ],
-                      "signatures": [
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": {
+                            "value": "1",
+                            "negative": false
+                        }
+                    }
+                },
+                {
+                    "id": 11,
+                    "name": "FirstIfString",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
                         {
-                          "id": 34,
-                          "name": "__type",
-                          "variant": "signature",
-                          "kind": 4096,
-                          "flags": {},
-                          "sources": [
-                            {
-                              "fileName": "index-signature.ts",
-                              "line": 22,
-                              "character": 4,
-                              "url": "typedoc://index-signature.ts#L22"
+                            "fileName": "general.ts",
+                            "line": 17,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L17"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 12,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "intrinsic",
+                                    "name": "unknown"
+                                }
                             }
-                          ],
-                          "type": {
+                        }
+                    ],
+                    "type": {
+                        "type": "conditional",
+                        "checkType": {
+                            "type": "reference",
+                            "target": 12,
+                            "name": "T",
+                            "package": "typedoc",
+                            "refersToTypeParameter": true
+                        },
+                        "extendsType": {
+                            "type": "tuple",
+                            "elements": [
+                                {
+                                    "type": "inferred",
+                                    "name": "S",
+                                    "constraint": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                    }
+                                },
+                                {
+                                    "type": "rest",
+                                    "elementType": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "intrinsic",
+                                            "name": "unknown"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "trueType": {
+                            "type": "reference",
+                            "target": {
+                                "packageName": "typedoc",
+                                "packagePath": "src/test/converter/types/general.ts",
+                                "qualifiedName": "S"
+                            },
+                            "name": "S",
+                            "package": "typedoc",
+                            "refersToTypeParameter": true
+                        },
+                        "falseType": {
+                            "type": "intrinsic",
+                            "name": "never"
+                        }
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "NegativeBigIntLiteral",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 6,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L6"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": {
+                            "value": "1",
+                            "negative": true
+                        }
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "NegativeOne",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 14,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L14"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": -1
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "NumArray",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 9,
+                            "character": 12,
+                            "url": "typedoc://general.ts#L9"
+                        }
+                    ],
+                    "type": {
+                        "type": "array",
+                        "elementType": {
                             "type": "intrinsic",
                             "name": "number"
-                          }
                         }
-                      ]
                     }
-                  },
-                  {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 35,
-                      "name": "__type",
-                      "variant": "declaration",
-                      "kind": 65536,
-                      "flags": {},
-                      "sources": [
+                },
+                {
+                    "id": 3,
+                    "name": "BigIntLiteralType",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
                         {
-                          "fileName": "index-signature.ts",
-                          "line": 25,
-                          "character": 4,
-                          "url": "typedoc://index-signature.ts#L25"
+                            "fileName": "general.ts",
+                            "line": 4,
+                            "character": 13,
+                            "url": "typedoc://general.ts#L4"
                         }
-                      ],
-                      "signatures": [
-                        {
-                          "id": 36,
-                          "name": "__type",
-                          "variant": "signature",
-                          "kind": 4096,
-                          "flags": {},
-                          "sources": [
-                            {
-                              "fileName": "index-signature.ts",
-                              "line": 25,
-                              "character": 4,
-                              "url": "typedoc://index-signature.ts#L25"
-                            }
-                          ],
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "string"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "id": 17,
-          "name": "PartialIndex",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "index-signature.ts",
-              "line": 5,
-              "character": 17,
-              "url": "typedoc://index-signature.ts#L5"
-            }
-          ],
-          "indexSignatures": [
-            {
-              "id": 18,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "index-signature.ts",
-                  "line": 6,
-                  "character": 4,
-                  "url": "typedoc://index-signature.ts#L6"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 19,
-                  "name": "optName",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "templateLiteral",
-                    "head": "data-",
-                    "tail": [
-                      [
-                        {
-                          "type": "intrinsic",
-                          "name": "string"
-                        },
-                        ""
-                      ]
-                    ]
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "unknown"
-              }
-            }
-          ]
-        },
-        {
-          "id": 25,
-          "name": "ReadonlyIndex",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "index-signature.ts",
-              "line": 14,
-              "character": 17,
-              "url": "typedoc://index-signature.ts#L14"
-            }
-          ],
-          "indexSignatures": [
-            {
-              "id": 26,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {
-                "isReadonly": true
-              },
-              "sources": [
-                {
-                  "fileName": "index-signature.ts",
-                  "line": 15,
-                  "character": 4,
-                  "url": "typedoc://index-signature.ts#L15"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 27,
-                  "name": "x",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        },
-        {
-          "id": 14,
-          "name": "SymbolIndex",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "index-signature.ts",
-              "line": 1,
-              "character": 17,
-              "url": "typedoc://index-signature.ts#L1"
-            }
-          ],
-          "indexSignatures": [
-            {
-              "id": 15,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "index-signature.ts",
-                  "line": 2,
-                  "character": 4,
-                  "url": "typedoc://index-signature.ts#L2"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 16,
-                  "name": "sym",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "symbol"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "unknown"
-              }
-            }
-          ]
-        },
-        {
-          "id": 20,
-          "name": "UnionIndex",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "index-signature.ts",
-              "line": 9,
-              "character": 17,
-              "url": "typedoc://index-signature.ts#L9"
-            }
-          ],
-          "indexSignatures": [
-            {
-              "id": 21,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "index-signature.ts",
-                  "line": 10,
-                  "character": 4,
-                  "url": "typedoc://index-signature.ts#L10"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 22,
-                  "name": "optName",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "union",
-                    "types": [
-                      {
-                        "type": "intrinsic",
-                        "name": "string"
-                      },
-                      {
-                        "type": "intrinsic",
-                        "name": "symbol"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "unknown"
-              }
-            },
-            {
-              "id": 23,
-              "name": "__index",
-              "variant": "signature",
-              "kind": 8192,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "index-signature.ts",
-                  "line": 11,
-                  "character": 4,
-                  "url": "typedoc://index-signature.ts#L11"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 24,
-                  "name": "numName",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Classes",
-          "children": [
-            28
-          ]
-        },
-        {
-          "title": "Interfaces",
-          "children": [
-            17,
-            25,
-            14,
-            20
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "index-signature.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://index-signature.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 37,
-      "name": "mapped",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 48,
-          "name": "DoubleKey",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mapped.ts",
-              "line": 7,
-              "character": 12,
-              "url": "typedoc://mapped.ts#L7"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 49,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {}
-            }
-          ],
-          "type": {
-            "type": "mapped",
-            "parameter": "K",
-            "parameterType": {
-              "type": "intersection",
-              "types": [
-                {
-                  "type": "typeOperator",
-                  "operator": "keyof",
-                  "target": {
-                    "type": "reference",
-                    "target": 49,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
-                },
-                {
-                  "type": "intrinsic",
-                  "name": "string"
-                }
-              ]
-            },
-            "templateType": {
-              "type": "indexedAccess",
-              "indexType": {
-                "type": "reference",
-                "target": {
-                  "sourceFileName": "src/test/converter/types/mapped.ts",
-                  "qualifiedName": "K"
-                },
-                "name": "K",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              },
-              "objectType": {
-                "type": "reference",
-                "target": 49,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            },
-            "nameType": {
-              "type": "templateLiteral",
-              "head": "",
-              "tail": [
-                [
-                  {
-                    "type": "reference",
-                    "target": {
-                      "sourceFileName": "src/test/converter/types/mapped.ts",
-                      "qualifiedName": "K"
-                    },
-                    "name": "K",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  },
-                  ""
-                ],
-                [
-                  {
-                    "type": "reference",
-                    "target": {
-                      "sourceFileName": "src/test/converter/types/mapped.ts",
-                      "qualifiedName": "K"
-                    },
-                    "name": "K",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  },
-                  ""
-                ]
-              ]
-            }
-          }
-        },
-        {
-          "id": 46,
-          "name": "Mappy",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mapped.ts",
-              "line": 5,
-              "character": 12,
-              "url": "typedoc://mapped.ts#L5"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 47,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {}
-            }
-          ],
-          "type": {
-            "type": "mapped",
-            "parameter": "K",
-            "parameterType": {
-              "type": "typeOperator",
-              "operator": "keyof",
-              "target": {
-                "type": "reference",
-                "target": 47,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            },
-            "templateType": {
-              "type": "indexedAccess",
-              "indexType": {
-                "type": "reference",
-                "target": {
-                  "sourceFileName": "src/test/converter/types/mapped.ts",
-                  "qualifiedName": "K"
-                },
-                "name": "K",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              },
-              "objectType": {
-                "type": "reference",
-                "target": 47,
-                "name": "T",
-                "package": "typedoc",
-                "refersToTypeParameter": true
-              }
-            }
-          }
-        },
-        {
-          "id": 42,
-          "name": "doubleKey",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mapped.ts",
-              "line": 9,
-              "character": 16,
-              "url": "typedoc://mapped.ts#L9"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 43,
-              "name": "doubleKey",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mapped.ts",
-                  "line": 9,
-                  "character": 16,
-                  "url": "typedoc://mapped.ts#L9"
-                }
-              ],
-              "typeParameters": [
-                {
-                  "id": 44,
-                  "name": "T",
-                  "variant": "typeParam",
-                  "kind": 131072,
-                  "flags": {}
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 45,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 44,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
-                }
-              ],
-              "type": {
-                "type": "mapped",
-                "parameter": "K",
-                "parameterType": {
-                  "type": "intrinsic",
-                  "name": "string"
-                },
-                "templateType": {
-                  "type": "indexedAccess",
-                  "indexType": {
-                    "type": "reference",
-                    "target": {
-                      "sourceFileName": "src/test/converter/types/mapped.ts",
-                      "qualifiedName": "K"
-                    },
-                    "name": "K",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  },
-                  "objectType": {
-                    "type": "reference",
-                    "target": 44,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
-                },
-                "nameType": {
-                  "type": "templateLiteral",
-                  "head": "",
-                  "tail": [
-                    [
-                      {
-                        "type": "reference",
-                        "target": {
-                          "sourceFileName": "src/test/converter/types/mapped.ts",
-                          "qualifiedName": "K"
-                        },
-                        "name": "K",
-                        "package": "typedoc",
-                        "refersToTypeParameter": true
-                      },
-                      ""
                     ],
-                    [
-                      {
-                        "type": "reference",
-                        "target": {
-                          "sourceFileName": "src/test/converter/types/mapped.ts",
-                          "qualifiedName": "K"
-                        },
-                        "name": "K",
-                        "package": "typedoc",
-                        "refersToTypeParameter": true
-                      },
-                      ""
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        {
-          "id": 38,
-          "name": "mapped",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mapped.ts",
-              "line": 1,
-              "character": 16,
-              "url": "typedoc://mapped.ts#L1"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 39,
-              "name": "mapped",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mapped.ts",
-                  "line": 1,
-                  "character": 16,
-                  "url": "typedoc://mapped.ts#L1"
-                }
-              ],
-              "typeParameters": [
-                {
-                  "id": 40,
-                  "name": "T",
-                  "variant": "typeParam",
-                  "kind": 131072,
-                  "flags": {}
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 41,
-                  "name": "arg",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 40,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
-                }
-              ],
-              "type": {
-                "type": "mapped",
-                "parameter": "K",
-                "parameterType": {
-                  "type": "union",
-                  "types": [
-                    {
-                      "type": "intrinsic",
-                      "name": "string"
-                    },
-                    {
-                      "type": "intrinsic",
-                      "name": "number"
-                    },
-                    {
-                      "type": "intrinsic",
-                      "name": "symbol"
-                    }
-                  ]
-                },
-                "templateType": {
-                  "type": "intrinsic",
-                  "name": "string"
-                },
-                "readonlyModifier": "-",
-                "optionalModifier": "+"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            48,
-            46
-          ]
-        },
-        {
-          "title": "Functions",
-          "children": [
-            42,
-            38
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mapped.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://mapped.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 50,
-      "name": "parens",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 51,
-          "name": "ZZ",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "parens.ts",
-              "line": 3,
-              "character": 12,
-              "url": "typedoc://parens.ts#L3"
-            }
-          ],
-          "type": {
-            "type": "intersection",
-            "types": [
-              {
-                "type": "literal",
-                "value": 1
-              },
-              {
-                "type": "reflection",
-                "declaration": {
-                  "id": 52,
-                  "name": "__type",
-                  "variant": "declaration",
-                  "kind": 65536,
-                  "flags": {},
-                  "children": [
-                    {
-                      "id": 53,
-                      "name": "a",
-                      "variant": "declaration",
-                      "kind": 1024,
-                      "flags": {},
-                      "sources": [
-                        {
-                          "fileName": "parens.ts",
-                          "line": 3,
-                          "character": 24,
-                          "url": "typedoc://parens.ts#L3"
+                    "type": {
+                        "type": "literal",
+                        "value": {
+                            "value": "1",
+                            "negative": false
                         }
-                      ],
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "string"
-                      }
-                    }
-                  ],
-                  "groups": [
-                    {
-                      "title": "Properties",
-                      "children": [
-                        53
-                      ]
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "parens.ts",
-                      "line": 3,
-                      "character": 22,
-                      "url": "typedoc://parens.ts#L3"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            51
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "parens.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://parens.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 54,
-      "name": "query",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 56,
-          "name": "TypeOfX",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "query.ts",
-              "line": 3,
-              "character": 12,
-              "url": "typedoc://query.ts#L3"
-            }
-          ],
-          "type": {
-            "type": "query",
-            "queryType": {
-              "type": "reference",
-              "target": 55,
-              "name": "x",
-              "package": "typedoc"
-            }
-          }
-        },
-        {
-          "id": 55,
-          "name": "x",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "query.ts",
-              "line": 1,
-              "character": 13,
-              "url": "typedoc://query.ts#L1"
-            }
-          ],
-          "type": {
-            "type": "literal",
-            "value": 1
-          },
-          "defaultValue": "1"
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            56
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            55
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "query.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://query.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 57,
-      "name": "tuple",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 66,
-          "name": "LeadingRest",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 14,
-              "character": 12,
-              "url": "typedoc://tuple.ts#L14"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "rest",
-                "elementType": {
-                  "type": "array",
-                  "elementType": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              },
-              {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            ]
-          }
-        },
-        {
-          "id": 58,
-          "name": "NamedTuple",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 1,
-              "character": 12,
-              "url": "typedoc://tuple.ts#L1"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "namedTupleMember",
-                "name": "name",
-                "isOptional": false,
-                "element": {
-                  "type": "intrinsic",
-                  "name": "string"
-                }
-              },
-              {
-                "type": "namedTupleMember",
-                "name": "optionalName",
-                "isOptional": true,
-                "element": {
-                  "type": "intrinsic",
-                  "name": "number"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": 64,
-          "name": "WithOptionalElements",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 11,
-              "character": 12,
-              "url": "typedoc://tuple.ts#L11"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "literal",
-                "value": 1
-              },
-              {
-                "type": "optional",
-                "elementType": {
-                  "type": "literal",
-                  "value": 2
-                }
-              },
-              {
-                "type": "optional",
-                "elementType": {
-                  "type": "literal",
-                  "value": 3
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": 60,
-          "name": "WithRestType",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 5,
-              "character": 12,
-              "url": "typedoc://tuple.ts#L5"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "literal",
-                "value": 1
-              },
-              {
-                "type": "rest",
-                "elementType": {
-                  "type": "array",
-                  "elementType": {
-                    "type": "literal",
-                    "value": 2
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": 62,
-          "name": "WithRestTypeNames",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 8,
-              "character": 12,
-              "url": "typedoc://tuple.ts#L8"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "namedTupleMember",
-                "name": "a",
-                "isOptional": false,
-                "element": {
-                  "type": "literal",
-                  "value": 123
-                }
-              },
-              {
-                "type": "namedTupleMember",
-                "name": "b",
-                "isOptional": false,
-                "element": {
-                  "type": "array",
-                  "elementType": {
-                    "type": "literal",
-                    "value": 456
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": 67,
-          "name": "leadingRest",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 16,
-              "character": 13,
-              "url": "typedoc://tuple.ts#L16"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "rest",
-                "elementType": {
-                  "type": "array",
-                  "elementType": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              },
-              {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            ]
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 59,
-          "name": "namedTuple",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 3,
-              "character": 13,
-              "url": "typedoc://tuple.ts#L3"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "namedTupleMember",
-                "name": "name",
-                "isOptional": false,
-                "element": {
-                  "type": "intrinsic",
-                  "name": "string"
-                }
-              },
-              {
-                "type": "namedTupleMember",
-                "name": "optionalName",
-                "isOptional": true,
-                "element": {
-                  "type": "intrinsic",
-                  "name": "number"
-                }
-              }
-            ]
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 65,
-          "name": "withOptionalElements",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 12,
-              "character": 13,
-              "url": "typedoc://tuple.ts#L12"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "literal",
-                "value": 1
-              },
-              {
-                "type": "optional",
-                "elementType": {
-                  "type": "literal",
-                  "value": 2
-                }
-              },
-              {
-                "type": "optional",
-                "elementType": {
-                  "type": "literal",
-                  "value": 3
-                }
-              }
-            ]
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 61,
-          "name": "withRestType",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 6,
-              "character": 13,
-              "url": "typedoc://tuple.ts#L6"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "literal",
-                "value": 1
-              },
-              {
-                "type": "rest",
-                "elementType": {
-                  "type": "array",
-                  "elementType": {
-                    "type": "literal",
-                    "value": 2
-                  }
-                }
-              }
-            ]
-          },
-          "defaultValue": "..."
-        },
-        {
-          "id": 63,
-          "name": "withRestTypeNames",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "tuple.ts",
-              "line": 9,
-              "character": 13,
-              "url": "typedoc://tuple.ts#L9"
-            }
-          ],
-          "type": {
-            "type": "tuple",
-            "elements": [
-              {
-                "type": "namedTupleMember",
-                "name": "a",
-                "isOptional": false,
-                "element": {
-                  "type": "literal",
-                  "value": 123
-                }
-              },
-              {
-                "type": "rest",
-                "elementType": {
-                  "type": "namedTupleMember",
-                  "name": "b",
-                  "isOptional": false,
-                  "element": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "literal",
-                      "value": 456
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "defaultValue": "..."
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            66,
-            58,
-            64,
-            60,
-            62
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            67,
-            59,
-            65,
-            61,
-            63
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "tuple.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://tuple.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 68,
-      "name": "type-operator",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 70,
-          "name": "B",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 2,
-              "character": 12,
-              "url": "typedoc://type-operator.ts#L2"
-            }
-          ],
-          "type": {
-            "type": "typeOperator",
-            "operator": "readonly",
-            "target": {
-              "type": "array",
-              "elementType": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          }
-        },
-        {
-          "id": 71,
-          "name": "C",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 3,
-              "character": 12,
-              "url": "typedoc://type-operator.ts#L3"
-            }
-          ],
-          "type": {
-            "type": "reflection",
-            "declaration": {
-              "id": 72,
-              "name": "__type",
-              "variant": "declaration",
-              "kind": 65536,
-              "flags": {},
-              "children": [
-                {
-                  "id": 73,
-                  "name": "prop1",
-                  "variant": "declaration",
-                  "kind": 1024,
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "type-operator.ts",
-                      "line": 4,
-                      "character": 4,
-                      "url": "typedoc://type-operator.ts#L4"
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
+                    },
+                    "defaultValue": "..."
                 },
                 {
-                  "id": 74,
-                  "name": "prop2",
-                  "variant": "declaration",
-                  "kind": 1024,
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "type-operator.ts",
-                      "line": 5,
-                      "character": 4,
-                      "url": "typedoc://type-operator.ts#L5"
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Properties",
-                  "children": [
-                    73,
-                    74
-                  ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "type-operator.ts",
-                  "line": 3,
-                  "character": 16,
-                  "url": "typedoc://type-operator.ts#L3"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "id": 75,
-          "name": "D",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 7,
-              "character": 12,
-              "url": "typedoc://type-operator.ts#L7"
-            }
-          ],
-          "type": {
-            "type": "typeOperator",
-            "operator": "keyof",
-            "target": {
-              "type": "reference",
-              "target": 71,
-              "name": "C",
-              "package": "typedoc"
-            }
-          }
-        },
-        {
-          "id": 69,
-          "name": "a",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 1,
-              "character": 13,
-              "url": "typedoc://type-operator.ts#L1"
-            }
-          ],
-          "type": {
-            "type": "typeOperator",
-            "operator": "unique",
-            "target": {
-              "type": "intrinsic",
-              "name": "symbol"
-            }
-          },
-          "defaultValue": "..."
-        }
-      ],
-      "groups": [
-        {
-          "title": "Type Aliases",
-          "children": [
-            70,
-            71,
-            75
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            69
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "type-operator.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://type-operator.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 76,
-      "name": "union-or-intersection",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 77,
-          "name": "FirstType",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "First type for union or intersection type tests."
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 78,
-              "name": "firstProperty",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Property of first type."
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 8,
-                  "character": 4,
-                  "url": "typedoc://union-or-intersection.ts#L8"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                78
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 4,
-              "character": 17,
-              "url": "typedoc://union-or-intersection.ts#L4"
-            }
-          ]
-        },
-        {
-          "id": 79,
-          "name": "SecondType",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Second type for union or intersection type tests."
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 80,
-              "name": "secondProperty",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Property of second type."
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 18,
-                  "character": 4,
-                  "url": "typedoc://union-or-intersection.ts#L18"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                80
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 14,
-              "character": 17,
-              "url": "typedoc://union-or-intersection.ts#L14"
-            }
-          ]
-        },
-        {
-          "id": 81,
-          "name": "ThirdType",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Third type for union or intersection type tests."
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 84,
-              "name": "thirdComplexProperty",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Complex Property of third type."
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 38,
-                  "character": 4,
-                  "url": "typedoc://union-or-intersection.ts#L38"
-                }
-              ],
-              "type": {
-                "type": "array",
-                "elementType": {
-                  "type": "union",
-                  "types": [
-                    {
-                      "type": "intrinsic",
-                      "name": "string"
+                    "id": 5,
+                    "name": "NegativeBigIntLiteralType",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
                     },
-                    {
-                      "type": "array",
-                      "elementType": {
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 7,
+                            "character": 13,
+                            "url": "typedoc://general.ts#L7"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": {
+                            "value": "1",
+                            "negative": true
+                        }
+                    },
+                    "defaultValue": "..."
+                },
+                {
+                    "id": 10,
+                    "name": "negativeOne",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 15,
+                            "character": 13,
+                            "url": "typedoc://general.ts#L15"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": -1
+                    },
+                    "defaultValue": "-1"
+                },
+                {
+                    "id": 7,
+                    "name": "numArray",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "general.ts",
+                            "line": 10,
+                            "character": 13,
+                            "url": "typedoc://general.ts#L10"
+                        }
+                    ],
+                    "type": {
+                        "type": "array",
+                        "elementType": {
+                            "type": "intrinsic",
+                            "name": "number"
+                        }
+                    },
+                    "defaultValue": "..."
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        8,
+                        2,
+                        11,
+                        4,
+                        9,
+                        6
+                    ]
+                },
+                {
+                    "title": "Variables",
+                    "children": [
+                        3,
+                        5,
+                        10,
+                        7
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "general.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://general.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": "index-signature",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 28,
+                    "name": "A",
+                    "variant": "declaration",
+                    "kind": 128,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 29,
+                            "name": "constructor",
+                            "variant": "declaration",
+                            "kind": 512,
+                            "flags": {},
+                            "signatures": [
+                                {
+                                    "id": 30,
+                                    "name": "A",
+                                    "variant": "signature",
+                                    "kind": 16384,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 28,
+                                        "name": "A",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Constructors",
+                            "children": [
+                                29
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "index-signature.ts",
+                            "line": 21,
+                            "character": 13,
+                            "url": "typedoc://index-signature.ts#L21"
+                        }
+                    ],
+                    "indexSignatures": [
+                        {
+                            "id": 31,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {},
+                            "parameters": [
+                                {
+                                    "id": 32,
+                                    "name": "key",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "symbol"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "union",
+                                "types": [
+                                    {
+                                        "type": "reflection",
+                                        "declaration": {
+                                            "id": 33,
+                                            "name": "__type",
+                                            "variant": "declaration",
+                                            "kind": 65536,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "index-signature.ts",
+                                                    "line": 22,
+                                                    "character": 4,
+                                                    "url": "typedoc://index-signature.ts#L22"
+                                                }
+                                            ],
+                                            "signatures": [
+                                                {
+                                                    "id": 34,
+                                                    "name": "__type",
+                                                    "variant": "signature",
+                                                    "kind": 4096,
+                                                    "flags": {},
+                                                    "sources": [
+                                                        {
+                                                            "fileName": "index-signature.ts",
+                                                            "line": 22,
+                                                            "character": 4,
+                                                            "url": "typedoc://index-signature.ts#L22"
+                                                        }
+                                                    ],
+                                                    "type": {
+                                                        "type": "intrinsic",
+                                                        "name": "number"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "reflection",
+                                        "declaration": {
+                                            "id": 35,
+                                            "name": "__type",
+                                            "variant": "declaration",
+                                            "kind": 65536,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "index-signature.ts",
+                                                    "line": 25,
+                                                    "character": 4,
+                                                    "url": "typedoc://index-signature.ts#L25"
+                                                }
+                                            ],
+                                            "signatures": [
+                                                {
+                                                    "id": 36,
+                                                    "name": "__type",
+                                                    "variant": "signature",
+                                                    "kind": 4096,
+                                                    "flags": {},
+                                                    "sources": [
+                                                        {
+                                                            "fileName": "index-signature.ts",
+                                                            "line": 25,
+                                                            "character": 4,
+                                                            "url": "typedoc://index-signature.ts#L25"
+                                                        }
+                                                    ],
+                                                    "type": {
+                                                        "type": "intrinsic",
+                                                        "name": "string"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 17,
+                    "name": "PartialIndex",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "index-signature.ts",
+                            "line": 5,
+                            "character": 17,
+                            "url": "typedoc://index-signature.ts#L5"
+                        }
+                    ],
+                    "indexSignatures": [
+                        {
+                            "id": 18,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "index-signature.ts",
+                                    "line": 6,
+                                    "character": 4,
+                                    "url": "typedoc://index-signature.ts#L6"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 19,
+                                    "name": "optName",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "templateLiteral",
+                                        "head": "data-",
+                                        "tail": [
+                                            [
+                                                {
+                                                    "type": "intrinsic",
+                                                    "name": "string"
+                                                },
+                                                ""
+                                            ]
+                                        ]
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 25,
+                    "name": "ReadonlyIndex",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "index-signature.ts",
+                            "line": 14,
+                            "character": 17,
+                            "url": "typedoc://index-signature.ts#L14"
+                        }
+                    ],
+                    "indexSignatures": [
+                        {
+                            "id": 26,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {
+                                "isReadonly": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "index-signature.ts",
+                                    "line": 15,
+                                    "character": 4,
+                                    "url": "typedoc://index-signature.ts#L15"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 27,
+                                    "name": "x",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 14,
+                    "name": "SymbolIndex",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "index-signature.ts",
+                            "line": 1,
+                            "character": 17,
+                            "url": "typedoc://index-signature.ts#L1"
+                        }
+                    ],
+                    "indexSignatures": [
+                        {
+                            "id": 15,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "index-signature.ts",
+                                    "line": 2,
+                                    "character": 4,
+                                    "url": "typedoc://index-signature.ts#L2"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 16,
+                                    "name": "sym",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "symbol"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 20,
+                    "name": "UnionIndex",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "index-signature.ts",
+                            "line": 9,
+                            "character": 17,
+                            "url": "typedoc://index-signature.ts#L9"
+                        }
+                    ],
+                    "indexSignatures": [
+                        {
+                            "id": 21,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "index-signature.ts",
+                                    "line": 10,
+                                    "character": 4,
+                                    "url": "typedoc://index-signature.ts#L10"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 22,
+                                    "name": "optName",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "union",
+                                        "types": [
+                                            {
+                                                "type": "intrinsic",
+                                                "name": "string"
+                                            },
+                                            {
+                                                "type": "intrinsic",
+                                                "name": "symbol"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                            }
+                        },
+                        {
+                            "id": 23,
+                            "name": "__index",
+                            "variant": "signature",
+                            "kind": 8192,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "index-signature.ts",
+                                    "line": 11,
+                                    "character": 4,
+                                    "url": "typedoc://index-signature.ts#L11"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 24,
+                                    "name": "numName",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Classes",
+                    "children": [
+                        28
+                    ]
+                },
+                {
+                    "title": "Interfaces",
+                    "children": [
+                        17,
+                        25,
+                        14,
+                        20
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "index-signature.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://index-signature.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "name": "mapped",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 48,
+                    "name": "DoubleKey",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mapped.ts",
+                            "line": 7,
+                            "character": 12,
+                            "url": "typedoc://mapped.ts#L7"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 49,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {}
+                        }
+                    ],
+                    "type": {
+                        "type": "mapped",
+                        "parameter": "K",
+                        "parameterType": {
+                            "type": "intersection",
+                            "types": [
+                                {
+                                    "type": "typeOperator",
+                                    "operator": "keyof",
+                                    "target": {
+                                        "type": "reference",
+                                        "target": 49,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                },
+                                {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                }
+                            ]
+                        },
+                        "templateType": {
+                            "type": "indexedAccess",
+                            "indexType": {
+                                "type": "reference",
+                                "target": {
+                                    "packageName": "typedoc",
+                                    "packagePath": "src/test/converter/types/mapped.ts",
+                                    "qualifiedName": "K"
+                                },
+                                "name": "K",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            },
+                            "objectType": {
+                                "type": "reference",
+                                "target": 49,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        },
+                        "nameType": {
+                            "type": "templateLiteral",
+                            "head": "",
+                            "tail": [
+                                [
+                                    {
+                                        "type": "reference",
+                                        "target": {
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
+                                            "qualifiedName": "K"
+                                        },
+                                        "name": "K",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    },
+                                    ""
+                                ],
+                                [
+                                    {
+                                        "type": "reference",
+                                        "target": {
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
+                                            "qualifiedName": "K"
+                                        },
+                                        "name": "K",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    },
+                                    ""
+                                ]
+                            ]
+                        }
+                    }
+                },
+                {
+                    "id": 46,
+                    "name": "Mappy",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mapped.ts",
+                            "line": 5,
+                            "character": 12,
+                            "url": "typedoc://mapped.ts#L5"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 47,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {}
+                        }
+                    ],
+                    "type": {
+                        "type": "mapped",
+                        "parameter": "K",
+                        "parameterType": {
+                            "type": "typeOperator",
+                            "operator": "keyof",
+                            "target": {
+                                "type": "reference",
+                                "target": 47,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        },
+                        "templateType": {
+                            "type": "indexedAccess",
+                            "indexType": {
+                                "type": "reference",
+                                "target": {
+                                    "packageName": "typedoc",
+                                    "packagePath": "src/test/converter/types/mapped.ts",
+                                    "qualifiedName": "K"
+                                },
+                                "name": "K",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            },
+                            "objectType": {
+                                "type": "reference",
+                                "target": 47,
+                                "name": "T",
+                                "package": "typedoc",
+                                "refersToTypeParameter": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": 42,
+                    "name": "doubleKey",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mapped.ts",
+                            "line": 9,
+                            "character": 16,
+                            "url": "typedoc://mapped.ts#L9"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 43,
+                            "name": "doubleKey",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mapped.ts",
+                                    "line": 9,
+                                    "character": 16,
+                                    "url": "typedoc://mapped.ts#L9"
+                                }
+                            ],
+                            "typeParameters": [
+                                {
+                                    "id": 44,
+                                    "name": "T",
+                                    "variant": "typeParam",
+                                    "kind": 131072,
+                                    "flags": {}
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 45,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 44,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "mapped",
+                                "parameter": "K",
+                                "parameterType": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                },
+                                "templateType": {
+                                    "type": "indexedAccess",
+                                    "indexType": {
+                                        "type": "reference",
+                                        "target": {
+                                            "packageName": "typedoc",
+                                            "packagePath": "src/test/converter/types/mapped.ts",
+                                            "qualifiedName": "K"
+                                        },
+                                        "name": "K",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    },
+                                    "objectType": {
+                                        "type": "reference",
+                                        "target": 44,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                },
+                                "nameType": {
+                                    "type": "templateLiteral",
+                                    "head": "",
+                                    "tail": [
+                                        [
+                                            {
+                                                "type": "reference",
+                                                "target": {
+                                                    "packageName": "typedoc",
+                                                    "packagePath": "src/test/converter/types/mapped.ts",
+                                                    "qualifiedName": "K"
+                                                },
+                                                "name": "K",
+                                                "package": "typedoc",
+                                                "refersToTypeParameter": true
+                                            },
+                                            ""
+                                        ],
+                                        [
+                                            {
+                                                "type": "reference",
+                                                "target": {
+                                                    "packageName": "typedoc",
+                                                    "packagePath": "src/test/converter/types/mapped.ts",
+                                                    "qualifiedName": "K"
+                                                },
+                                                "name": "K",
+                                                "package": "typedoc",
+                                                "refersToTypeParameter": true
+                                            },
+                                            ""
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 38,
+                    "name": "mapped",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mapped.ts",
+                            "line": 1,
+                            "character": 16,
+                            "url": "typedoc://mapped.ts#L1"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 39,
+                            "name": "mapped",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mapped.ts",
+                                    "line": 1,
+                                    "character": 16,
+                                    "url": "typedoc://mapped.ts#L1"
+                                }
+                            ],
+                            "typeParameters": [
+                                {
+                                    "id": 40,
+                                    "name": "T",
+                                    "variant": "typeParam",
+                                    "kind": 131072,
+                                    "flags": {}
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 41,
+                                    "name": "arg",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 40,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "mapped",
+                                "parameter": "K",
+                                "parameterType": {
+                                    "type": "union",
+                                    "types": [
+                                        {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                        },
+                                        {
+                                            "type": "intrinsic",
+                                            "name": "number"
+                                        },
+                                        {
+                                            "type": "intrinsic",
+                                            "name": "symbol"
+                                        }
+                                    ]
+                                },
+                                "templateType": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                },
+                                "readonlyModifier": "-",
+                                "optionalModifier": "+"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        48,
+                        46
+                    ]
+                },
+                {
+                    "title": "Functions",
+                    "children": [
+                        42,
+                        38
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mapped.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://mapped.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 50,
+            "name": "parens",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 51,
+                    "name": "ZZ",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "parens.ts",
+                            "line": 3,
+                            "character": 12,
+                            "url": "typedoc://parens.ts#L3"
+                        }
+                    ],
+                    "type": {
                         "type": "intersection",
                         "types": [
-                          {
-                            "type": "reference",
-                            "target": 77,
-                            "name": "FirstType",
-                            "package": "typedoc"
-                          },
-                          {
-                            "type": "reference",
-                            "target": 79,
-                            "name": "SecondType",
-                            "package": "typedoc"
-                          }
+                            {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            {
+                                "type": "reflection",
+                                "declaration": {
+                                    "id": 52,
+                                    "name": "__type",
+                                    "variant": "declaration",
+                                    "kind": 65536,
+                                    "flags": {},
+                                    "children": [
+                                        {
+                                            "id": 53,
+                                            "name": "a",
+                                            "variant": "declaration",
+                                            "kind": 1024,
+                                            "flags": {},
+                                            "sources": [
+                                                {
+                                                    "fileName": "parens.ts",
+                                                    "line": 3,
+                                                    "character": 24,
+                                                    "url": "typedoc://parens.ts#L3"
+                                                }
+                                            ],
+                                            "type": {
+                                                "type": "intrinsic",
+                                                "name": "string"
+                                            }
+                                        }
+                                    ],
+                                    "groups": [
+                                        {
+                                            "title": "Properties",
+                                            "children": [
+                                                53
+                                            ]
+                                        }
+                                    ],
+                                    "sources": [
+                                        {
+                                            "fileName": "parens.ts",
+                                            "line": 3,
+                                            "character": 22,
+                                            "url": "typedoc://parens.ts#L3"
+                                        }
+                                    ]
+                                }
+                            }
                         ]
-                      }
                     }
-                  ]
                 }
-              }
-            },
-            {
-              "id": 83,
-              "name": "thirdIntersectionProperty",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Intersection Property of third type."
-                  }
-                ]
-              },
-              "sources": [
+            ],
+            "groups": [
                 {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 33,
-                  "character": 4,
-                  "url": "typedoc://union-or-intersection.ts#L33"
+                    "title": "Type Aliases",
+                    "children": [
+                        51
+                    ]
                 }
-              ],
-              "type": {
-                "type": "intersection",
-                "types": [
-                  {
-                    "type": "reference",
-                    "target": 77,
-                    "name": "FirstType",
-                    "package": "typedoc"
-                  },
-                  {
-                    "type": "reference",
-                    "target": 81,
-                    "name": "ThirdType",
-                    "package": "typedoc"
-                  }
-                ]
-              }
-            },
-            {
-              "id": 82,
-              "name": "thirdUnionProperty",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Union Property of third type."
-                  }
-                ]
-              },
-              "sources": [
+            ],
+            "sources": [
                 {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 28,
-                  "character": 4,
-                  "url": "typedoc://union-or-intersection.ts#L28"
+                    "fileName": "parens.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://parens.ts#L1"
                 }
-              ],
-              "type": {
-                "type": "union",
-                "types": [
-                  {
-                    "type": "reference",
-                    "target": 77,
+            ]
+        },
+        {
+            "id": 54,
+            "name": "query",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 56,
+                    "name": "TypeOfX",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "query.ts",
+                            "line": 3,
+                            "character": 12,
+                            "url": "typedoc://query.ts#L3"
+                        }
+                    ],
+                    "type": {
+                        "type": "query",
+                        "queryType": {
+                            "type": "reference",
+                            "target": 55,
+                            "name": "x",
+                            "package": "typedoc"
+                        }
+                    }
+                },
+                {
+                    "id": 55,
+                    "name": "x",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "query.ts",
+                            "line": 1,
+                            "character": 13,
+                            "url": "typedoc://query.ts#L1"
+                        }
+                    ],
+                    "type": {
+                        "type": "literal",
+                        "value": 1
+                    },
+                    "defaultValue": "1"
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        56
+                    ]
+                },
+                {
+                    "title": "Variables",
+                    "children": [
+                        55
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "query.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://query.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 57,
+            "name": "tuple",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 66,
+                    "name": "LeadingRest",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 14,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L14"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "array",
+                                    "elementType": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 58,
+                    "name": "NamedTuple",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 1,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L1"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "namedTupleMember",
+                                "name": "name",
+                                "isOptional": false,
+                                "element": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                }
+                            },
+                            {
+                                "type": "namedTupleMember",
+                                "name": "optionalName",
+                                "isOptional": true,
+                                "element": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 64,
+                    "name": "WithOptionalElements",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 11,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L11"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            {
+                                "type": "optional",
+                                "elementType": {
+                                    "type": "literal",
+                                    "value": 2
+                                }
+                            },
+                            {
+                                "type": "optional",
+                                "elementType": {
+                                    "type": "literal",
+                                    "value": 3
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 60,
+                    "name": "WithRestType",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 5,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L5"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            {
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "array",
+                                    "elementType": {
+                                        "type": "literal",
+                                        "value": 2
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 62,
+                    "name": "WithRestTypeNames",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 8,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L8"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "namedTupleMember",
+                                "name": "a",
+                                "isOptional": false,
+                                "element": {
+                                    "type": "literal",
+                                    "value": 123
+                                }
+                            },
+                            {
+                                "type": "namedTupleMember",
+                                "name": "b",
+                                "isOptional": false,
+                                "element": {
+                                    "type": "array",
+                                    "elementType": {
+                                        "type": "literal",
+                                        "value": 456
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 67,
+                    "name": "leadingRest",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 16,
+                            "character": 13,
+                            "url": "typedoc://tuple.ts#L16"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "array",
+                                    "elementType": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        ]
+                    },
+                    "defaultValue": "..."
+                },
+                {
+                    "id": 59,
+                    "name": "namedTuple",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 3,
+                            "character": 13,
+                            "url": "typedoc://tuple.ts#L3"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "namedTupleMember",
+                                "name": "name",
+                                "isOptional": false,
+                                "element": {
+                                    "type": "intrinsic",
+                                    "name": "string"
+                                }
+                            },
+                            {
+                                "type": "namedTupleMember",
+                                "name": "optionalName",
+                                "isOptional": true,
+                                "element": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                }
+                            }
+                        ]
+                    },
+                    "defaultValue": "..."
+                },
+                {
+                    "id": 65,
+                    "name": "withOptionalElements",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 12,
+                            "character": 13,
+                            "url": "typedoc://tuple.ts#L12"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            {
+                                "type": "optional",
+                                "elementType": {
+                                    "type": "literal",
+                                    "value": 2
+                                }
+                            },
+                            {
+                                "type": "optional",
+                                "elementType": {
+                                    "type": "literal",
+                                    "value": 3
+                                }
+                            }
+                        ]
+                    },
+                    "defaultValue": "..."
+                },
+                {
+                    "id": 61,
+                    "name": "withRestType",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 6,
+                            "character": 13,
+                            "url": "typedoc://tuple.ts#L6"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            {
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "array",
+                                    "elementType": {
+                                        "type": "literal",
+                                        "value": 2
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "defaultValue": "..."
+                },
+                {
+                    "id": 63,
+                    "name": "withRestTypeNames",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 9,
+                            "character": 13,
+                            "url": "typedoc://tuple.ts#L9"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple",
+                        "elements": [
+                            {
+                                "type": "namedTupleMember",
+                                "name": "a",
+                                "isOptional": false,
+                                "element": {
+                                    "type": "literal",
+                                    "value": 123
+                                }
+                            },
+                            {
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "namedTupleMember",
+                                    "name": "b",
+                                    "isOptional": false,
+                                    "element": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "literal",
+                                            "value": 456
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "defaultValue": "..."
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        66,
+                        58,
+                        64,
+                        60,
+                        62
+                    ]
+                },
+                {
+                    "title": "Variables",
+                    "children": [
+                        67,
+                        59,
+                        65,
+                        61,
+                        63
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "tuple.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://tuple.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 68,
+            "name": "type-operator",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 70,
+                    "name": "B",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "type-operator.ts",
+                            "line": 2,
+                            "character": 12,
+                            "url": "typedoc://type-operator.ts#L2"
+                        }
+                    ],
+                    "type": {
+                        "type": "typeOperator",
+                        "operator": "readonly",
+                        "target": {
+                            "type": "array",
+                            "elementType": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": 71,
+                    "name": "C",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 73,
+                            "name": "prop1",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "type-operator.ts",
+                                    "line": 4,
+                                    "character": 4,
+                                    "url": "typedoc://type-operator.ts#L4"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "id": 74,
+                            "name": "prop2",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "type-operator.ts",
+                                    "line": 5,
+                                    "character": 4,
+                                    "url": "typedoc://type-operator.ts#L5"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                73,
+                                74
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "type-operator.ts",
+                            "line": 3,
+                            "character": 12,
+                            "url": "typedoc://type-operator.ts#L3"
+                        }
+                    ]
+                },
+                {
+                    "id": 75,
+                    "name": "D",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "type-operator.ts",
+                            "line": 7,
+                            "character": 12,
+                            "url": "typedoc://type-operator.ts#L7"
+                        }
+                    ],
+                    "type": {
+                        "type": "typeOperator",
+                        "operator": "keyof",
+                        "target": {
+                            "type": "reference",
+                            "target": 71,
+                            "name": "C",
+                            "package": "typedoc"
+                        }
+                    }
+                },
+                {
+                    "id": 69,
+                    "name": "a",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {
+                        "isConst": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "type-operator.ts",
+                            "line": 1,
+                            "character": 13,
+                            "url": "typedoc://type-operator.ts#L1"
+                        }
+                    ],
+                    "type": {
+                        "type": "typeOperator",
+                        "operator": "unique",
+                        "target": {
+                            "type": "intrinsic",
+                            "name": "symbol"
+                        }
+                    },
+                    "defaultValue": "..."
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        70,
+                        71,
+                        75
+                    ]
+                },
+                {
+                    "title": "Variables",
+                    "children": [
+                        69
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "type-operator.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://type-operator.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 76,
+            "name": "union-or-intersection",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 77,
                     "name": "FirstType",
-                    "package": "typedoc"
-                  },
-                  {
-                    "type": "reference",
-                    "target": 79,
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "First type for union or intersection type tests."
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 78,
+                            "name": "firstProperty",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Property of first type."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "union-or-intersection.ts",
+                                    "line": 8,
+                                    "character": 4,
+                                    "url": "typedoc://union-or-intersection.ts#L8"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                78
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "union-or-intersection.ts",
+                            "line": 4,
+                            "character": 17,
+                            "url": "typedoc://union-or-intersection.ts#L4"
+                        }
+                    ]
+                },
+                {
+                    "id": 79,
                     "name": "SecondType",
-                    "package": "typedoc"
-                  }
-                ]
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                84,
-                83,
-                82
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 24,
-              "character": 17,
-              "url": "typedoc://union-or-intersection.ts#L24"
-            }
-          ]
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "Second type for union or intersection type tests."
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 80,
+                            "name": "secondProperty",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Property of second type."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "union-or-intersection.ts",
+                                    "line": 18,
+                                    "character": 4,
+                                    "url": "typedoc://union-or-intersection.ts#L18"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                80
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "union-or-intersection.ts",
+                            "line": 14,
+                            "character": 17,
+                            "url": "typedoc://union-or-intersection.ts#L14"
+                        }
+                    ]
+                },
+                {
+                    "id": 81,
+                    "name": "ThirdType",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "Third type for union or intersection type tests."
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 84,
+                            "name": "thirdComplexProperty",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Complex Property of third type."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "union-or-intersection.ts",
+                                    "line": 38,
+                                    "character": 4,
+                                    "url": "typedoc://union-or-intersection.ts#L38"
+                                }
+                            ],
+                            "type": {
+                                "type": "array",
+                                "elementType": {
+                                    "type": "union",
+                                    "types": [
+                                        {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "elementType": {
+                                                "type": "intersection",
+                                                "types": [
+                                                    {
+                                                        "type": "reference",
+                                                        "target": 77,
+                                                        "name": "FirstType",
+                                                        "package": "typedoc"
+                                                    },
+                                                    {
+                                                        "type": "reference",
+                                                        "target": 79,
+                                                        "name": "SecondType",
+                                                        "package": "typedoc"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "id": 83,
+                            "name": "thirdIntersectionProperty",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Intersection Property of third type."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "union-or-intersection.ts",
+                                    "line": 33,
+                                    "character": 4,
+                                    "url": "typedoc://union-or-intersection.ts#L33"
+                                }
+                            ],
+                            "type": {
+                                "type": "intersection",
+                                "types": [
+                                    {
+                                        "type": "reference",
+                                        "target": 77,
+                                        "name": "FirstType",
+                                        "package": "typedoc"
+                                    },
+                                    {
+                                        "type": "reference",
+                                        "target": 81,
+                                        "name": "ThirdType",
+                                        "package": "typedoc"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 82,
+                            "name": "thirdUnionProperty",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Union Property of third type."
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "union-or-intersection.ts",
+                                    "line": 28,
+                                    "character": 4,
+                                    "url": "typedoc://union-or-intersection.ts#L28"
+                                }
+                            ],
+                            "type": {
+                                "type": "union",
+                                "types": [
+                                    {
+                                        "type": "reference",
+                                        "target": 77,
+                                        "name": "FirstType",
+                                        "package": "typedoc"
+                                    },
+                                    {
+                                        "type": "reference",
+                                        "target": 79,
+                                        "name": "SecondType",
+                                        "package": "typedoc"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                84,
+                                83,
+                                82
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "union-or-intersection.ts",
+                            "line": 24,
+                            "character": 17,
+                            "url": "typedoc://union-or-intersection.ts#L24"
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Interfaces",
+                    "children": [
+                        77,
+                        79,
+                        81
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "union-or-intersection.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://union-or-intersection.ts#L1"
+                }
+            ]
         }
-      ],
-      "groups": [
+    ],
+    "groups": [
         {
-          "title": "Interfaces",
-          "children": [
-            77,
-            79,
-            81
-          ]
+            "title": "Modules",
+            "children": [
+                1,
+                13,
+                37,
+                50,
+                54,
+                57,
+                68,
+                76
+            ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "union-or-intersection.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://union-or-intersection.ts#L1"
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "1": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": ""
+        },
+        "2": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "BigIntLiteral"
+        },
+        "3": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "BigIntLiteralType"
+        },
+        "4": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "NegativeBigIntLiteral"
+        },
+        "5": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "NegativeBigIntLiteralType"
+        },
+        "6": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "NumArray"
+        },
+        "7": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "numArray"
+        },
+        "8": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "BigIntAlias"
+        },
+        "9": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "NegativeOne"
+        },
+        "10": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "negativeOne"
+        },
+        "11": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "FirstIfString"
+        },
+        "12": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/general.ts",
+            "qualifiedName": "T"
+        },
+        "13": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": ""
+        },
+        "14": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "SymbolIndex"
+        },
+        "15": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "SymbolIndex.__index"
+        },
+        "17": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "PartialIndex"
+        },
+        "18": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "PartialIndex.__index"
+        },
+        "20": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "UnionIndex"
+        },
+        "21": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "UnionIndex.__index"
+        },
+        "23": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "UnionIndex.__index"
+        },
+        "25": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "ReadonlyIndex"
+        },
+        "26": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "ReadonlyIndex.__index"
+        },
+        "28": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "A"
+        },
+        "33": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "A.__computed"
+        },
+        "34": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "A.__computed"
+        },
+        "35": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "A.__computed"
+        },
+        "36": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/index-signature.ts",
+            "qualifiedName": "A.__computed"
+        },
+        "37": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": ""
+        },
+        "38": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "mapped"
+        },
+        "39": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "mapped"
+        },
+        "40": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "T"
+        },
+        "41": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "arg"
+        },
+        "42": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "doubleKey"
+        },
+        "43": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "doubleKey"
+        },
+        "44": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "T"
+        },
+        "45": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "arg"
+        },
+        "46": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "Mappy"
+        },
+        "47": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "T"
+        },
+        "48": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "DoubleKey"
+        },
+        "49": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/mapped.ts",
+            "qualifiedName": "T"
+        },
+        "50": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
+            "qualifiedName": ""
+        },
+        "51": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
+            "qualifiedName": "ZZ"
+        },
+        "52": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
+            "qualifiedName": "__type"
+        },
+        "53": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/parens.ts",
+            "qualifiedName": "__type.a"
+        },
+        "54": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
+            "qualifiedName": ""
+        },
+        "55": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
+            "qualifiedName": "x"
+        },
+        "56": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/query.ts",
+            "qualifiedName": "TypeOfX"
+        },
+        "57": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": ""
+        },
+        "58": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "NamedTuple"
+        },
+        "59": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "namedTuple"
+        },
+        "60": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "WithRestType"
+        },
+        "61": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "withRestType"
+        },
+        "62": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "WithRestTypeNames"
+        },
+        "63": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "withRestTypeNames"
+        },
+        "64": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "WithOptionalElements"
+        },
+        "65": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "withOptionalElements"
+        },
+        "66": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "LeadingRest"
+        },
+        "67": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "leadingRest"
+        },
+        "68": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": ""
+        },
+        "69": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "a"
+        },
+        "70": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "B"
+        },
+        "71": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "C"
+        },
+        "73": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "__type.prop1"
+        },
+        "74": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "__type.prop2"
+        },
+        "75": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "D"
+        },
+        "76": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": ""
+        },
+        "77": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "FirstType"
+        },
+        "78": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "FirstType.firstProperty"
+        },
+        "79": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "SecondType"
+        },
+        "80": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "SecondType.secondProperty"
+        },
+        "81": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "ThirdType"
+        },
+        "82": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "ThirdType.thirdUnionProperty"
+        },
+        "83": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "ThirdType.thirdIntersectionProperty"
+        },
+        "84": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "ThirdType.thirdComplexProperty"
         }
-      ]
+    },
+    "files": {
+        "entries": {
+            "1": "src/test/converter/types/general.ts",
+            "2": "src/test/converter/types/index-signature.ts",
+            "3": "src/test/converter/types/mapped.ts",
+            "4": "src/test/converter/types/parens.ts",
+            "5": "src/test/converter/types/query.ts",
+            "6": "src/test/converter/types/tuple.ts",
+            "7": "src/test/converter/types/type-operator.ts",
+            "8": "src/test/converter/types/union-or-intersection.ts"
+        },
+        "reflections": {
+            "1": 1,
+            "2": 13,
+            "3": 37,
+            "4": 50,
+            "5": 54,
+            "6": 57,
+            "7": 68,
+            "8": 76
+        }
     }
-  ],
-  "groups": [
-    {
-      "title": "Modules",
-      "children": [
-        1,
-        13,
-        37,
-        50,
-        54,
-        57,
-        68,
-        76
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "1": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": ""
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "BigIntLiteral"
-    },
-    "3": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "BigIntLiteralType"
-    },
-    "4": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "NegativeBigIntLiteral"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "NegativeBigIntLiteralType"
-    },
-    "6": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "NumArray"
-    },
-    "7": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "numArray"
-    },
-    "8": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "BigIntAlias"
-    },
-    "9": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "NegativeOne"
-    },
-    "10": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "negativeOne"
-    },
-    "11": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "FirstIfString"
-    },
-    "12": {
-      "sourceFileName": "src/test/converter/types/general.ts",
-      "qualifiedName": "T"
-    },
-    "13": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": ""
-    },
-    "14": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "SymbolIndex"
-    },
-    "15": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "SymbolIndex.__index"
-    },
-    "17": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "PartialIndex"
-    },
-    "18": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "PartialIndex.__index"
-    },
-    "20": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "UnionIndex"
-    },
-    "21": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "UnionIndex.__index"
-    },
-    "23": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "UnionIndex.__index"
-    },
-    "25": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "ReadonlyIndex"
-    },
-    "26": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "ReadonlyIndex.__index"
-    },
-    "28": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "A"
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "A.__computed"
-    },
-    "34": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "A.__computed"
-    },
-    "35": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "A.__computed"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/types/index-signature.ts",
-      "qualifiedName": "A.__computed"
-    },
-    "37": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": ""
-    },
-    "38": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "mapped"
-    },
-    "39": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "mapped"
-    },
-    "40": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "T"
-    },
-    "41": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "arg"
-    },
-    "42": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "doubleKey"
-    },
-    "43": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "doubleKey"
-    },
-    "44": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "T"
-    },
-    "45": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "arg"
-    },
-    "46": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "Mappy"
-    },
-    "47": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "T"
-    },
-    "48": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "DoubleKey"
-    },
-    "49": {
-      "sourceFileName": "src/test/converter/types/mapped.ts",
-      "qualifiedName": "T"
-    },
-    "50": {
-      "sourceFileName": "src/test/converter/types/parens.ts",
-      "qualifiedName": ""
-    },
-    "51": {
-      "sourceFileName": "src/test/converter/types/parens.ts",
-      "qualifiedName": "ZZ"
-    },
-    "52": {
-      "sourceFileName": "src/test/converter/types/parens.ts",
-      "qualifiedName": "__type"
-    },
-    "53": {
-      "sourceFileName": "src/test/converter/types/parens.ts",
-      "qualifiedName": "__type.a"
-    },
-    "54": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": ""
-    },
-    "55": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": "x"
-    },
-    "56": {
-      "sourceFileName": "src/test/converter/types/query.ts",
-      "qualifiedName": "TypeOfX"
-    },
-    "57": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": ""
-    },
-    "58": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "NamedTuple"
-    },
-    "59": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "namedTuple"
-    },
-    "60": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithRestType"
-    },
-    "61": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withRestType"
-    },
-    "62": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithRestTypeNames"
-    },
-    "63": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withRestTypeNames"
-    },
-    "64": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "WithOptionalElements"
-    },
-    "65": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "withOptionalElements"
-    },
-    "66": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "LeadingRest"
-    },
-    "67": {
-      "sourceFileName": "src/test/converter/types/tuple.ts",
-      "qualifiedName": "leadingRest"
-    },
-    "68": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": ""
-    },
-    "69": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "a"
-    },
-    "70": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "B"
-    },
-    "71": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "C"
-    },
-    "72": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "__type"
-    },
-    "73": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "__type.prop1"
-    },
-    "74": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "__type.prop2"
-    },
-    "75": {
-      "sourceFileName": "src/test/converter/types/type-operator.ts",
-      "qualifiedName": "D"
-    },
-    "76": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": ""
-    },
-    "77": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "FirstType"
-    },
-    "78": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "FirstType.firstProperty"
-    },
-    "79": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "SecondType"
-    },
-    "80": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "SecondType.secondProperty"
-    },
-    "81": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "ThirdType"
-    },
-    "82": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "ThirdType.thirdUnionProperty"
-    },
-    "83": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "ThirdType.thirdIntersectionProperty"
-    },
-    "84": {
-      "sourceFileName": "src/test/converter/types/union-or-intersection.ts",
-      "qualifiedName": "ThirdType.thirdComplexProperty"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/types/general.ts",
-      "2": "src/test/converter/types/index-signature.ts",
-      "3": "src/test/converter/types/mapped.ts",
-      "4": "src/test/converter/types/parens.ts",
-      "5": "src/test/converter/types/query.ts",
-      "6": "src/test/converter/types/tuple.ts",
-      "7": "src/test/converter/types/type-operator.ts",
-      "8": "src/test/converter/types/union-or-intersection.ts"
-    },
-    "reflections": {
-      "1": 1,
-      "2": 13,
-      "3": 37,
-      "4": 50,
-      "5": 54,
-      "6": 57,
-      "7": 68,
-      "8": 76
-    }
-  }
 }

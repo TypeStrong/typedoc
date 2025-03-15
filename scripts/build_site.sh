@@ -13,8 +13,8 @@ fi
 # Build the example
 if [[ -n "$CI" || ! -d example/docs ]]; then
     cd example
-    npm i
-    npm run typedoc -- --logLevel Error
+    pnpm i
+    pnpm run typedoc --logLevel Error
     cd ..
 fi
 

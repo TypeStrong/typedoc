@@ -1,1148 +1,1185 @@
 {
-  "id": 0,
-  "name": "inheritance",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 1,
-      "name": "inherit-doc",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
+    "schemaVersion": "2.0",
+    "id": 0,
+    "name": "inheritance",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 12,
-          "name": "InterfaceSource",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Source interface summary"
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 13,
-              "name": "property",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Source interface property description"
-                  }
-                ],
-                "blockTags": [
-                  {
-                    "tag": "@typeParam",
-                    "name": "T",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "Source interface type parameter"
-                      }
+            "id": 1,
+            "name": "inherit-doc",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
+                {
+                    "id": 12,
+                    "name": "InterfaceSource",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "Source interface summary"
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 13,
+                            "name": "property",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Source interface property description"
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@typeParam",
+                                        "name": "T",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Source interface type parameter"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 12,
+                                    "character": 4,
+                                    "url": "typedoc://inherit-doc.ts#L12"
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 17,
+                                "name": "T",
+                                "package": "typedoc",
+                                "qualifiedName": "InterfaceSource.T",
+                                "refersToTypeParameter": true
+                            }
+                        },
+                        {
+                            "id": 14,
+                            "name": "someMethod",
+                            "variant": "declaration",
+                            "kind": 2048,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 19,
+                                    "character": 4,
+                                    "url": "typedoc://inherit-doc.ts#L19"
+                                }
+                            ],
+                            "signatures": [
+                                {
+                                    "id": 15,
+                                    "name": "someMethod",
+                                    "variant": "signature",
+                                    "kind": 4096,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Source interface method description"
+                                            }
+                                        ]
+                                    },
+                                    "sources": [
+                                        {
+                                            "fileName": "inherit-doc.ts",
+                                            "line": 19,
+                                            "character": 4,
+                                            "url": "typedoc://inherit-doc.ts#L19"
+                                        }
+                                    ],
+                                    "parameters": [
+                                        {
+                                            "id": 16,
+                                            "name": "arg",
+                                            "variant": "param",
+                                            "kind": 32768,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "intrinsic",
+                                                "name": "number"
+                                            }
+                                        }
+                                    ],
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 17,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "qualifiedName": "InterfaceSource.T",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                13
+                            ]
+                        },
+                        {
+                            "title": "Methods",
+                            "children": [
+                                14
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "inherit-doc.ts",
+                            "line": 6,
+                            "character": 17,
+                            "url": "typedoc://inherit-doc.ts#L6"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 17,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Source interface type parameter"
+                                    }
+                                ]
+                            }
+                        }
                     ]
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 12,
-                  "character": 4,
-                  "url": "typedoc://inherit-doc.ts#L12"
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 17,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "InterfaceSource.T",
-                "refersToTypeParameter": true
-              }
-            },
-            {
-              "id": 14,
-              "name": "someMethod",
-              "variant": "declaration",
-              "kind": 2048,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 19,
-                  "character": 4,
-                  "url": "typedoc://inherit-doc.ts#L19"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 15,
-                  "name": "someMethod",
-                  "variant": "signature",
-                  "kind": 4096,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Source interface method description"
-                      }
-                    ]
-                  },
-                  "sources": [
-                    {
-                      "fileName": "inherit-doc.ts",
-                      "line": 19,
-                      "character": 4,
-                      "url": "typedoc://inherit-doc.ts#L19"
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 16,
-                      "name": "arg",
-                      "variant": "param",
-                      "kind": 32768,
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "target": 17,
-                    "name": "T",
-                    "package": "typedoc",
-                    "qualifiedName": "InterfaceSource.T",
-                    "refersToTypeParameter": true
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                13
-              ]
-            },
-            {
-              "title": "Methods",
-              "children": [
-                14
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "inherit-doc.ts",
-              "line": 6,
-              "character": 17,
-              "url": "typedoc://inherit-doc.ts#L6"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 17,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Source interface type parameter"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "id": 18,
-          "name": "InterfaceTarget",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "Source interface summary"
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 19,
-              "name": "property",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Source interface property description"
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 30,
-                  "character": 4,
-                  "url": "typedoc://inherit-doc.ts#L30"
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 23,
-                "name": "T",
-                "package": "typedoc",
-                "qualifiedName": "InterfaceTarget.T",
-                "refersToTypeParameter": true
-              }
-            },
-            {
-              "id": 20,
-              "name": "someMethod",
-              "variant": "declaration",
-              "kind": 2048,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 37,
-                  "character": 4,
-                  "url": "typedoc://inherit-doc.ts#L37"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 21,
-                  "name": "someMethod",
-                  "variant": "signature",
-                  "kind": 4096,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Source interface method description"
-                      }
-                    ]
-                  },
-                  "sources": [
-                    {
-                      "fileName": "inherit-doc.ts",
-                      "line": 37,
-                      "character": 4,
-                      "url": "typedoc://inherit-doc.ts#L37"
-                    }
-                  ],
-                  "parameters": [
-                    {
-                      "id": 22,
-                      "name": "arg",
-                      "variant": "param",
-                      "kind": 32768,
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "target": 23,
-                    "name": "T",
-                    "package": "typedoc",
-                    "qualifiedName": "InterfaceTarget.T",
-                    "refersToTypeParameter": true
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                19
-              ]
-            },
-            {
-              "title": "Methods",
-              "children": [
-                20
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "inherit-doc.ts",
-              "line": 26,
-              "character": 17,
-              "url": "typedoc://inherit-doc.ts#L26"
-            }
-          ],
-          "typeParameters": [
-            {
-              "id": 23,
-              "name": "T",
-              "variant": "typeParam",
-              "kind": 131072,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Source interface type parameter"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "functionSource",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "inherit-doc.ts",
-              "line": 58,
-              "character": 16,
-              "url": "typedoc://inherit-doc.ts#L58"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 3,
-              "name": "functionSource",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
-                  }
-                ],
-                "blockTags": [
-                  {
-                    "tag": "@remarks",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "Remarks will be inherited"
-                      }
-                    ]
-                  },
-                  {
-                    "tag": "@default",
-                    "content": [
-                      {
-                        "kind": "code",
-                        "text": "```ts\nThis part of the commentary will not be inherited (this is an abuse of this tag)\n```"
-                      }
-                    ]
-                  },
-                  {
-                    "tag": "@returns",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "Stringified sum or concatenation of numeric arguments"
-                      }
-                    ]
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 58,
-                  "character": 16,
-                  "url": "typedoc://inherit-doc.ts#L58"
-                }
-              ],
-              "typeParameters": [
-                {
-                  "id": 4,
-                  "name": "T",
-                  "variant": "typeParam",
-                  "kind": 131072,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Type of arguments"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 5,
-                  "name": "arg1",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "First argument"
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "reference",
-                    "target": 4,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
                 },
                 {
-                  "id": 6,
-                  "name": "arg2",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Second argument"
-                      }
+                    "id": 18,
+                    "name": "InterfaceTarget",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "Source interface summary"
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 19,
+                            "name": "property",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Source interface property description"
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 29,
+                                    "character": 4,
+                                    "url": "typedoc://inherit-doc.ts#L29"
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 23,
+                                "name": "T",
+                                "package": "typedoc",
+                                "qualifiedName": "InterfaceTarget.T",
+                                "refersToTypeParameter": true
+                            }
+                        },
+                        {
+                            "id": 20,
+                            "name": "someMethod",
+                            "variant": "declaration",
+                            "kind": 2048,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 36,
+                                    "character": 4,
+                                    "url": "typedoc://inherit-doc.ts#L36"
+                                }
+                            ],
+                            "signatures": [
+                                {
+                                    "id": 21,
+                                    "name": "someMethod",
+                                    "variant": "signature",
+                                    "kind": 4096,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Source interface method description"
+                                            }
+                                        ]
+                                    },
+                                    "sources": [
+                                        {
+                                            "fileName": "inherit-doc.ts",
+                                            "line": 36,
+                                            "character": 4,
+                                            "url": "typedoc://inherit-doc.ts#L36"
+                                        }
+                                    ],
+                                    "parameters": [
+                                        {
+                                            "id": 22,
+                                            "name": "arg",
+                                            "variant": "param",
+                                            "kind": 32768,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "intrinsic",
+                                                "name": "number"
+                                            }
+                                        }
+                                    ],
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 23,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "qualifiedName": "InterfaceTarget.T",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                19
+                            ]
+                        },
+                        {
+                            "title": "Methods",
+                            "children": [
+                                20
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "inherit-doc.ts",
+                            "line": 25,
+                            "character": 17,
+                            "url": "typedoc://inherit-doc.ts#L25"
+                        }
+                    ],
+                    "typeParameters": [
+                        {
+                            "id": 23,
+                            "name": "T",
+                            "variant": "typeParam",
+                            "kind": 131072,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Source interface type parameter"
+                                    }
+                                ]
+                            }
+                        }
                     ]
-                  },
-                  "type": {
-                    "type": "reference",
-                    "target": 4,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        },
-        {
-          "id": 7,
-          "name": "functionTargetLocal",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "inherit-doc.ts",
-              "line": 78,
-              "character": 16,
-              "url": "typedoc://inherit-doc.ts#L78"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 8,
-              "name": "functionTargetLocal",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "comment": {
-                "summary": [
-                  {
-                    "kind": "text",
-                    "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
-                  }
-                ],
-                "blockTags": [
-                  {
-                    "tag": "@remarks",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "Remarks will be inherited"
-                      }
-                    ]
-                  },
-                  {
-                    "tag": "@example",
-                    "content": [
-                      {
-                        "kind": "code",
-                        "text": "```ts\nThis function inherited commentary from the `functionSource` function\n```"
-                      }
-                    ]
-                  },
-                  {
-                    "tag": "@returns",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "This will be inherited"
-                      }
-                    ]
-                  },
-                  {
-                    "tag": "@returns",
-                    "content": [
-                      {
-                        "kind": "text",
-                        "text": "Stringified sum or concatenation of numeric arguments"
-                      }
-                    ]
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "inherit-doc.ts",
-                  "line": 78,
-                  "character": 16,
-                  "url": "typedoc://inherit-doc.ts#L78"
-                }
-              ],
-              "typeParameters": [
-                {
-                  "id": 9,
-                  "name": "T",
-                  "variant": "typeParam",
-                  "kind": 131072,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Type of arguments"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 10,
-                  "name": "arg1",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "First argument"
-                      }
-                    ]
-                  },
-                  "type": {
-                    "type": "reference",
-                    "target": 9,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
                 },
                 {
-                  "id": 11,
-                  "name": "arg2",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
-                        "kind": "text",
-                        "text": "Second argument"
-                      }
+                    "id": 2,
+                    "name": "functionSource",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "inherit-doc.ts",
+                            "line": 57,
+                            "character": 16,
+                            "url": "typedoc://inherit-doc.ts#L57"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 3,
+                            "name": "functionSource",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@remarks",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Remarks will be inherited"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@default",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\nThis part of the commentary will not be inherited (this is an abuse of this tag)\n```"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@returns",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Stringified sum or concatenation of numeric arguments"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 57,
+                                    "character": 16,
+                                    "url": "typedoc://inherit-doc.ts#L57"
+                                }
+                            ],
+                            "typeParameters": [
+                                {
+                                    "id": 4,
+                                    "name": "T",
+                                    "variant": "typeParam",
+                                    "kind": 131072,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Type of arguments"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 5,
+                                    "name": "arg1",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "First argument"
+                                            }
+                                        ]
+                                    },
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 4,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                },
+                                {
+                                    "id": 6,
+                                    "name": "arg2",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Second argument"
+                                            }
+                                        ]
+                                    },
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 4,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
                     ]
-                  },
-                  "type": {
-                    "type": "reference",
-                    "target": 9,
-                    "name": "T",
-                    "package": "typedoc",
-                    "refersToTypeParameter": true
-                  }
+                },
+                {
+                    "id": 7,
+                    "name": "functionTargetLocal",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "inherit-doc.ts",
+                            "line": 76,
+                            "character": 16,
+                            "url": "typedoc://inherit-doc.ts#L76"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 8,
+                            "name": "functionTargetLocal",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Function summary\n\nThis part of the commentary will be inherited by other entities"
+                                    }
+                                ],
+                                "blockTags": [
+                                    {
+                                        "tag": "@remarks",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Remarks will be inherited"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@example",
+                                        "content": [
+                                            {
+                                                "kind": "code",
+                                                "text": "```ts\nThis function inherited commentary from the `functionSource` function\n```"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@returns",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "This will be inherited"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "@returns",
+                                        "content": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Stringified sum or concatenation of numeric arguments"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "inherit-doc.ts",
+                                    "line": 76,
+                                    "character": 16,
+                                    "url": "typedoc://inherit-doc.ts#L76"
+                                }
+                            ],
+                            "typeParameters": [
+                                {
+                                    "id": 9,
+                                    "name": "T",
+                                    "variant": "typeParam",
+                                    "kind": 131072,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Type of arguments"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 10,
+                                    "name": "arg1",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "First argument"
+                                            }
+                                        ]
+                                    },
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 9,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                },
+                                {
+                                    "id": 11,
+                                    "name": "arg2",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Second argument"
+                                            }
+                                        ]
+                                    },
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 9,
+                                        "name": "T",
+                                        "package": "typedoc",
+                                        "refersToTypeParameter": true
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        }
+                    ]
                 }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Interfaces",
-          "children": [
-            12,
-            18
-          ]
+            ],
+            "groups": [
+                {
+                    "title": "Interfaces",
+                    "children": [
+                        12,
+                        18
+                    ]
+                },
+                {
+                    "title": "Functions",
+                    "children": [
+                        2,
+                        7
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "inherit-doc.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://inherit-doc.ts#L1"
+                }
+            ]
         },
         {
-          "title": "Functions",
-          "children": [
-            2,
-            7
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "inherit-doc.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://inherit-doc.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 24,
-      "name": "mergable-class",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
-        {
-          "id": 32,
-          "name": "MySubClass",
-          "variant": "declaration",
-          "kind": 128,
-          "flags": {},
-          "children": [
-            {
-              "id": 34,
-              "name": "constructor",
-              "variant": "declaration",
-              "kind": 512,
-              "flags": {},
-              "sources": [
+            "id": 24,
+            "name": "mergable-class",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "children": [
                 {
-                  "fileName": "mergable-class.ts",
-                  "line": 3,
-                  "character": 4,
-                  "url": "typedoc://mergable-class.ts#L3"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 35,
-                  "name": "MySubClass",
-                  "variant": "signature",
-                  "kind": 16384,
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "mergable-class.ts",
-                      "line": 3,
-                      "character": 4,
-                      "url": "typedoc://mergable-class.ts#L3"
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "target": 32,
+                    "id": 32,
                     "name": "MySubClass",
-                    "package": "typedoc"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "target": -1,
-                    "name": "My.constructor"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "My.constructor"
-              }
-            },
-            {
-              "id": 36,
-              "name": "instanceProp",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {
-                "isInherited": true
-              },
-              "sources": [
+                    "variant": "declaration",
+                    "kind": 128,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 34,
+                            "name": "constructor",
+                            "variant": "declaration",
+                            "kind": 512,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 3,
+                                    "character": 4,
+                                    "url": "typedoc://mergable-class.ts#L3"
+                                }
+                            ],
+                            "signatures": [
+                                {
+                                    "id": 35,
+                                    "name": "MySubClass",
+                                    "variant": "signature",
+                                    "kind": 16384,
+                                    "flags": {},
+                                    "sources": [
+                                        {
+                                            "fileName": "mergable-class.ts",
+                                            "line": 3,
+                                            "character": 4,
+                                            "url": "typedoc://mergable-class.ts#L3"
+                                        }
+                                    ],
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 32,
+                                        "name": "MySubClass",
+                                        "package": "typedoc"
+                                    },
+                                    "inheritedFrom": {
+                                        "type": "reference",
+                                        "target": -1,
+                                        "name": "My.constructor"
+                                    }
+                                }
+                            ],
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "My.constructor"
+                            }
+                        },
+                        {
+                            "id": 36,
+                            "name": "instanceProp",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 7,
+                                    "character": 4,
+                                    "url": "typedoc://mergable-class.ts#L7"
+                                }
+                            ],
+                            "type": {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": 31,
+                                "name": "My.instanceProp"
+                            }
+                        },
+                        {
+                            "id": 33,
+                            "name": "staticProp",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {
+                                "isStatic": true,
+                                "isInherited": true
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 2,
+                                    "character": 4,
+                                    "url": "typedoc://mergable-class.ts#L2"
+                                }
+                            ],
+                            "type": {
+                                "type": "literal",
+                                "value": 1
+                            },
+                            "inheritedFrom": {
+                                "type": "reference",
+                                "target": -1,
+                                "name": "My.staticProp"
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Constructors",
+                            "children": [
+                                34
+                            ]
+                        },
+                        {
+                            "title": "Properties",
+                            "children": [
+                                36,
+                                33
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 12,
+                            "character": 13,
+                            "url": "typedoc://mergable-class.ts#L12"
+                        }
+                    ],
+                    "extendedTypes": [
+                        {
+                            "type": "reference",
+                            "target": 30,
+                            "name": "My",
+                            "package": "typedoc"
+                        }
+                    ]
+                },
                 {
-                  "fileName": "mergable-class.ts",
-                  "line": 7,
-                  "character": 4,
-                  "url": "typedoc://mergable-class.ts#L7"
-                }
-              ],
-              "type": {
-                "type": "literal",
-                "value": 1
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": 31,
-                "name": "My.instanceProp"
-              }
-            },
-            {
-              "id": 33,
-              "name": "staticProp",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {
-                "isStatic": true,
-                "isInherited": true
-              },
-              "sources": [
-                {
-                  "fileName": "mergable-class.ts",
-                  "line": 2,
-                  "character": 4,
-                  "url": "typedoc://mergable-class.ts#L2"
-                }
-              ],
-              "type": {
-                "type": "literal",
-                "value": 1
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "target": -1,
-                "name": "My.staticProp"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                34
-              ]
-            },
-            {
-              "title": "Properties",
-              "children": [
-                36,
-                33
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mergable-class.ts",
-              "line": 12,
-              "character": 13,
-              "url": "typedoc://mergable-class.ts#L12"
-            }
-          ],
-          "extendedTypes": [
-            {
-              "type": "reference",
-              "target": 30,
-              "name": "My",
-              "package": "typedoc"
-            }
-          ]
-        },
-        {
-          "id": 30,
-          "name": "My",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "children": [
-            {
-              "id": 31,
-              "name": "instanceProp",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mergable-class.ts",
-                  "line": 7,
-                  "character": 4,
-                  "url": "typedoc://mergable-class.ts#L7"
-                }
-              ],
-              "type": {
-                "type": "literal",
-                "value": 1
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "children": [
-                31
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mergable-class.ts",
-              "line": 6,
-              "character": 17,
-              "url": "typedoc://mergable-class.ts#L6"
-            },
-            {
-              "fileName": "mergable-class.ts",
-              "line": 10,
-              "character": 21,
-              "url": "typedoc://mergable-class.ts#L10"
-            }
-          ],
-          "extendedBy": [
-            {
-              "type": "reference",
-              "target": 32,
-              "name": "MySubClass"
-            }
-          ]
-        },
-        {
-          "id": 25,
-          "name": "MyCtor",
-          "variant": "declaration",
-          "kind": 256,
-          "flags": {},
-          "children": [
-            {
-              "id": 27,
-              "name": "constructor",
-              "variant": "declaration",
-              "kind": 512,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "mergable-class.ts",
-                  "line": 1,
-                  "character": 17,
-                  "url": "typedoc://mergable-class.ts#L1"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 28,
-                  "name": "MyCtor",
-                  "variant": "signature",
-                  "kind": 16384,
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "mergable-class.ts",
-                      "line": 3,
-                      "character": 4,
-                      "url": "typedoc://mergable-class.ts#L3"
-                    }
-                  ],
-                  "type": {
-                    "type": "reference",
-                    "target": 30,
+                    "id": 30,
                     "name": "My",
-                    "package": "typedoc"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 26,
-              "name": "staticProp",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "sources": [
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 31,
+                            "name": "instanceProp",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 7,
+                                    "character": 4,
+                                    "url": "typedoc://mergable-class.ts#L7"
+                                }
+                            ],
+                            "type": {
+                                "type": "literal",
+                                "value": 1
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Properties",
+                            "children": [
+                                31
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 6,
+                            "character": 17,
+                            "url": "typedoc://mergable-class.ts#L6"
+                        },
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 10,
+                            "character": 21,
+                            "url": "typedoc://mergable-class.ts#L10"
+                        }
+                    ],
+                    "extendedBy": [
+                        {
+                            "type": "reference",
+                            "target": 32,
+                            "name": "MySubClass"
+                        }
+                    ]
+                },
                 {
-                  "fileName": "mergable-class.ts",
-                  "line": 2,
-                  "character": 4,
-                  "url": "typedoc://mergable-class.ts#L2"
+                    "id": 25,
+                    "name": "MyCtor",
+                    "variant": "declaration",
+                    "kind": 256,
+                    "flags": {},
+                    "children": [
+                        {
+                            "id": 27,
+                            "name": "constructor",
+                            "variant": "declaration",
+                            "kind": 512,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 1,
+                                    "character": 17,
+                                    "url": "typedoc://mergable-class.ts#L1"
+                                }
+                            ],
+                            "signatures": [
+                                {
+                                    "id": 28,
+                                    "name": "MyCtor",
+                                    "variant": "signature",
+                                    "kind": 16384,
+                                    "flags": {},
+                                    "sources": [
+                                        {
+                                            "fileName": "mergable-class.ts",
+                                            "line": 3,
+                                            "character": 4,
+                                            "url": "typedoc://mergable-class.ts#L3"
+                                        }
+                                    ],
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 30,
+                                        "name": "My",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": 26,
+                            "name": "staticProp",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "mergable-class.ts",
+                                    "line": 2,
+                                    "character": 4,
+                                    "url": "typedoc://mergable-class.ts#L2"
+                                }
+                            ],
+                            "type": {
+                                "type": "literal",
+                                "value": 1
+                            }
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Constructors",
+                            "children": [
+                                27
+                            ]
+                        },
+                        {
+                            "title": "Properties",
+                            "children": [
+                                26
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 1,
+                            "character": 17,
+                            "url": "typedoc://mergable-class.ts#L1"
+                        }
+                    ]
+                },
+                {
+                    "id": 29,
+                    "name": "My",
+                    "variant": "declaration",
+                    "kind": 32,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 6,
+                            "character": 17,
+                            "url": "typedoc://mergable-class.ts#L6"
+                        },
+                        {
+                            "fileName": "mergable-class.ts",
+                            "line": 10,
+                            "character": 21,
+                            "url": "typedoc://mergable-class.ts#L10"
+                        }
+                    ],
+                    "type": {
+                        "type": "reference",
+                        "target": 25,
+                        "name": "MyCtor",
+                        "package": "typedoc"
+                    }
                 }
-              ],
-              "type": {
-                "type": "literal",
-                "value": 1
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                27
-              ]
-            },
-            {
-              "title": "Properties",
-              "children": [
-                26
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mergable-class.ts",
-              "line": 1,
-              "character": 17,
-              "url": "typedoc://mergable-class.ts#L1"
-            }
-          ]
-        },
-        {
-          "id": 29,
-          "name": "My",
-          "variant": "declaration",
-          "kind": 32,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "mergable-class.ts",
-              "line": 6,
-              "character": 17,
-              "url": "typedoc://mergable-class.ts#L6"
-            },
-            {
-              "fileName": "mergable-class.ts",
-              "line": 10,
-              "character": 21,
-              "url": "typedoc://mergable-class.ts#L10"
-            }
-          ],
-          "type": {
-            "type": "reference",
-            "target": 25,
-            "name": "MyCtor",
-            "package": "typedoc"
-          }
+            ],
+            "groups": [
+                {
+                    "title": "Classes",
+                    "children": [
+                        32
+                    ]
+                },
+                {
+                    "title": "Interfaces",
+                    "children": [
+                        30,
+                        25
+                    ]
+                },
+                {
+                    "title": "Variables",
+                    "children": [
+                        29
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "mergable-class.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://mergable-class.ts#L1"
+                }
+            ]
         }
-      ],
-      "groups": [
+    ],
+    "groups": [
         {
-          "title": "Classes",
-          "children": [
-            32
-          ]
-        },
-        {
-          "title": "Interfaces",
-          "children": [
-            30,
-            25
-          ]
-        },
-        {
-          "title": "Variables",
-          "children": [
-            29
-          ]
+            "title": "Modules",
+            "children": [
+                1,
+                24
+            ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "mergable-class.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://mergable-class.ts#L1"
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "1": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": ""
+        },
+        "2": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "functionSource"
+        },
+        "3": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "functionSource"
+        },
+        "4": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "T"
+        },
+        "5": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg1"
+        },
+        "6": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg2"
+        },
+        "7": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "functionTargetLocal"
+        },
+        "8": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "functionTargetLocal"
+        },
+        "9": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "T"
+        },
+        "10": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg1"
+        },
+        "11": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg2"
+        },
+        "12": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceSource"
+        },
+        "13": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceSource.property"
+        },
+        "14": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceSource.someMethod"
+        },
+        "15": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceSource.someMethod"
+        },
+        "16": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg"
+        },
+        "17": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceSource.T"
+        },
+        "18": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceTarget"
+        },
+        "19": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceTarget.property"
+        },
+        "20": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceTarget.someMethod"
+        },
+        "21": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceTarget.someMethod"
+        },
+        "22": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "arg"
+        },
+        "23": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
+            "qualifiedName": "InterfaceTarget.T"
+        },
+        "24": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": ""
+        },
+        "25": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor"
+        },
+        "26": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor.staticProp"
+        },
+        "27": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor"
+        },
+        "28": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor"
+        },
+        "29": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "My"
+        },
+        "30": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "My"
+        },
+        "31": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "My.instanceProp"
+        },
+        "32": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MySubClass"
+        },
+        "33": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor.staticProp"
+        },
+        "34": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MyCtor.__new"
+        },
+        "35": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "MySubClass"
+        },
+        "36": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/inheritance/mergable-class.ts",
+            "qualifiedName": "My.instanceProp"
         }
-      ]
+    },
+    "files": {
+        "entries": {
+            "1": "src/test/converter/inheritance/inherit-doc.ts",
+            "2": "src/test/converter/inheritance/mergable-class.ts"
+        },
+        "reflections": {
+            "1": 1,
+            "2": 24
+        }
     }
-  ],
-  "groups": [
-    {
-      "title": "Modules",
-      "children": [
-        1,
-        24
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "1": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": ""
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionSource"
-    },
-    "3": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionSource"
-    },
-    "4": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "T"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg1"
-    },
-    "6": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg2"
-    },
-    "7": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetLocal"
-    },
-    "8": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "functionTargetLocal"
-    },
-    "9": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "T"
-    },
-    "10": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg1"
-    },
-    "11": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg2"
-    },
-    "12": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource"
-    },
-    "13": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.property"
-    },
-    "14": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.someMethod"
-    },
-    "15": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.someMethod"
-    },
-    "16": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg"
-    },
-    "17": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceSource.T"
-    },
-    "18": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget"
-    },
-    "19": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.property"
-    },
-    "20": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.someMethod"
-    },
-    "21": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.someMethod"
-    },
-    "22": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "arg"
-    },
-    "23": {
-      "sourceFileName": "src/test/converter/inheritance/inherit-doc.ts",
-      "qualifiedName": "InterfaceTarget.T"
-    },
-    "24": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": ""
-    },
-    "25": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor"
-    },
-    "26": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.staticProp"
-    },
-    "27": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor"
-    },
-    "28": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor"
-    },
-    "29": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My"
-    },
-    "30": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My"
-    },
-    "31": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My.instanceProp"
-    },
-    "32": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MySubClass"
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.staticProp"
-    },
-    "34": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MyCtor.__new"
-    },
-    "35": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "MySubClass"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/inheritance/mergable-class.ts",
-      "qualifiedName": "My.instanceProp"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/inheritance/inherit-doc.ts",
-      "2": "src/test/converter/inheritance/mergable-class.ts"
-    },
-    "reflections": {
-      "1": 1,
-      "2": 24
-    }
-  }
 }

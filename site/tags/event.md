@@ -22,5 +22,5 @@ export class App extends EventEmitter {
 
 ## See Also
 
--   The [`@group`](group.md) tag
--   The [`@eventProperty`](eventProperty.md) tag
+- The [`@group`](group.md) tag
+- The [`@eventProperty`](eventProperty.md) tag

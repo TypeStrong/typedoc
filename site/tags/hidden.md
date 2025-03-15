@@ -20,5 +20,5 @@ export class Visibility {
 
 ## See Also
 
--   The [`@ignore`](ignore.md) tag
--   The [`@internal`](internal.md) tag
+- The [`@ignore`](ignore.md) tag
+- The [`@internal`](internal.md) tag

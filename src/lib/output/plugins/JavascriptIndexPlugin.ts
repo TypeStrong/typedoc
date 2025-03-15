@@ -1,13 +1,7 @@
 import * as Path from "path";
 import lunr from "lunr";
 
-import {
-    type Comment,
-    DeclarationReflection,
-    DocumentReflection,
-    ProjectReflection,
-    type Reflection,
-} from "../../models/index.js";
+import { type Comment, type DeclarationReflection, type DocumentReflection, Reflection } from "../../models/index.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
 import { Option, writeFile } from "../../utils/index.js";
@@ -16,6 +10,7 @@ import type { Renderer } from "../index.js";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
 import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
 import { compressJson } from "../../utils/compress.js";
+import { i18n } from "#utils";
 
 /**
  * Keep this in sync with the interface in src/lib/output/themes/default/assets/typedoc/components/Search.ts
@@ -26,6 +21,7 @@ interface SearchDocument {
     url: string;
     classes?: string;
     parent?: string;
+    icon?: string | number;
 }
 
 /**
@@ -65,9 +61,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             return;
         }
 
-        this.owner.preRenderAsyncJobs.push((event) =>
-            this.buildSearchIndex(event),
-        );
+        this.owner.preRenderAsyncJobs.push((event) => this.buildSearchIndex(event));
     }
 
     private async buildSearchIndex(event: RendererEvent) {
@@ -75,17 +69,15 @@ export class JavascriptIndexPlugin extends RendererComponent {
 
         const rows: SearchDocument[] = [];
 
-        const initialSearchResults = Object.values(
-            event.project.reflections,
-        ).filter((refl) => {
-            return (
-                (refl instanceof DeclarationReflection ||
-                    refl instanceof DocumentReflection) &&
-                refl.url &&
-                refl.name &&
-                !refl.flags.isExternal
-            );
-        }) as Array<DeclarationReflection | DocumentReflection>;
+        const initialSearchResults = this.owner
+            .router!.getLinkTargets()
+            .filter(
+                (refl) =>
+                    refl instanceof Reflection &&
+                    (refl.isDeclaration() || refl.isDocument()) &&
+                    refl.name &&
+                    !refl.flags.isExternal,
+            ) as Array<DeclarationReflection | DocumentReflection>;
 
         const indexEvent = new IndexEvent(initialSearchResults);
 
@@ -95,17 +87,15 @@ export class JavascriptIndexPlugin extends RendererComponent {
         builder.pipeline.add(lunr.trimmer);
 
         builder.ref("id");
-        for (const [key, boost] of Object.entries(
-            indexEvent.searchFieldWeights,
-        )) {
+        for (
+            const [key, boost] of Object.entries(
+                indexEvent.searchFieldWeights,
+            )
+        ) {
             builder.field(key, { boost });
         }
 
         for (const reflection of indexEvent.searchResults) {
-            if (!reflection.url) {
-                continue;
-            }
-
             const boost = this.getBoost(reflection);
 
             if (boost <= 0) {
@@ -113,16 +103,21 @@ export class JavascriptIndexPlugin extends RendererComponent {
             }
 
             let parent = reflection.parent;
-            if (parent instanceof ProjectReflection) {
+            if (parent?.isProject()) {
                 parent = undefined;
             }
 
             const row: SearchDocument = {
                 kind: reflection.kind,
                 name: reflection.name,
-                url: reflection.url,
+                url: theme.router.getFullUrl(reflection),
                 classes: theme.getReflectionClasses(reflection),
             };
+
+            const icon = theme.getReflectionIcon(reflection);
+            if (icon !== reflection.kind) {
+                row.icon = icon;
+            }
 
             if (parent) {
                 row.parent = parent.getFullName();
@@ -163,7 +158,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             this.application.options.isSet("searchGroupBoosts")
         ) {
             this.application.logger.warn(
-                this.application.i18n.not_all_search_group_boosts_used_0(
+                i18n.not_all_search_group_boosts_used_0(
                     Array.from(this.unusedGroupBoosts).join("\n\t"),
                 ),
             );
@@ -174,7 +169,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             this.application.options.isSet("searchCategoryBoosts")
         ) {
             this.application.logger.warn(
-                this.application.i18n.not_all_search_category_boosts_used_0(
+                i18n.not_all_search_category_boosts_used_0(
                     Array.from(this.unusedCatBoosts).join("\n\t"),
                 ),
             );
@@ -182,13 +177,14 @@ export class JavascriptIndexPlugin extends RendererComponent {
     }
 
     private getBoost(refl: DeclarationReflection | DocumentReflection): number {
-        let boost = refl.relevanceBoost ?? 1;
+        let boost = 1;
 
-        for (const group of GroupPlugin.getGroups(
-            refl,
-            this.groupReferencesByType,
-            this.application.internationalization,
-        )) {
+        for (
+            const group of GroupPlugin.getGroups(
+                refl,
+                this.groupReferencesByType,
+            )
+        ) {
             boost *= this.searchGroupBoosts[group] ?? 1;
             this.unusedGroupBoosts.delete(group);
         }

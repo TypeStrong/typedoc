@@ -2,19 +2,21 @@ import * as Path from "path";
 
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { Option, EntryPointStrategy, readFile } from "../../utils/index.js";
-import {
-    deriveRootDir,
-    discoverInParentDir,
-    discoverPackageJson,
-} from "../../utils/fs.js";
-import { nicePath } from "../../utils/paths.js";
-import { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
 import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
-import { join } from "path";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath } from "#utils";
+import {
+    discoverPackageJson,
+    type EntryPointStrategy,
+    getCommonDirectory,
+    nicePath,
+    normalizePath,
+    Option,
+    readFile,
+} from "#node-utils";
+import { existsSync } from "fs";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -28,7 +30,7 @@ export class PackagePlugin extends ConverterComponent {
     accessor entryPointStrategy!: EntryPointStrategy;
 
     @Option("entryPoints")
-    accessor entryPoints!: string[];
+    accessor entryPoints!: GlobString[];
 
     @Option("includeVersion")
     accessor includeVersion!: boolean;
@@ -36,7 +38,7 @@ export class PackagePlugin extends ConverterComponent {
     /**
      * The file name of the found readme.md file.
      */
-    private readmeFile?: string;
+    private readmeFile?: NormalizedPath;
 
     /**
      * Contents of the readme.md file discovered, if any
@@ -76,20 +78,15 @@ export class PackagePlugin extends ConverterComponent {
         this.readmeContents = undefined;
         this.packageJson = undefined;
 
-        const entryFiles =
-            this.entryPointStrategy === EntryPointStrategy.Packages
-                ? this.entryPoints.map((d) => join(d, "package.json"))
-                : this.entryPoints;
-
-        const dirName =
-            this.application.options.packageDir ??
-            Path.resolve(deriveRootDir(entryFiles));
+        const dirName = this.application.options.packageDir ??
+            Path.resolve(getCommonDirectory(this.entryPoints.map(g => `${g}/`)));
 
         this.application.logger.verbose(
-            `Begin readme.md/package.json search at ${nicePath(dirName)}`,
+            `Begin package.json search at ${nicePath(dirName)}`,
         );
 
-        this.packageJson = discoverPackageJson(dirName)?.content;
+        const packageJson = discoverPackageJson(dirName);
+        this.packageJson = packageJson?.content;
 
         // Path will be resolved already. This is kind of ugly, but...
         if (this.readme.endsWith("none")) {
@@ -101,25 +98,30 @@ export class PackagePlugin extends ConverterComponent {
             this.application.watchFile(this.readme);
             try {
                 this.readmeContents = readFile(this.readme);
-                this.readmeFile = this.readme;
+                this.readmeFile = normalizePath(this.readme);
             } catch {
                 this.application.logger.error(
-                    this.application.i18n.provided_readme_at_0_could_not_be_read(
+                    i18n.provided_readme_at_0_could_not_be_read(
                         nicePath(this.readme),
                     ),
                 );
             }
-        } else {
+        } else if (packageJson) {
             // No readme provided, automatically find the readme
-            const result = discoverInParentDir(
+            const possibleReadmePaths = [
+                "README.md",
                 "readme.md",
-                dirName,
-                (content) => content,
-            );
+                "Readme.md",
+            ].map(name => Path.join(Path.dirname(packageJson.file), name));
 
-            if (result) {
-                this.readmeFile = result.file;
-                this.readmeContents = result.content;
+            const readmePath = possibleReadmePaths.find(path => {
+                this.application.watchFile(path);
+                return existsSync(path);
+            });
+
+            if (readmePath) {
+                this.readmeFile = normalizePath(readmePath);
+                this.readmeContents = readFile(readmePath);
                 this.application.watchFile(this.readmeFile);
             }
         }
@@ -160,7 +162,7 @@ export class PackagePlugin extends ConverterComponent {
             }
         } else if (!project.name) {
             this.application.logger.warn(
-                this.application.i18n.defaulting_project_name(),
+                i18n.defaulting_project_name(),
             );
             project.name = "Documentation";
         }

@@ -5,13 +5,17 @@
  * entry point which exports some functions which may be useful during plugin
  * development or debugging. Exports from that entry point are **not stable**
  * and may change or be removed at any time.
+ *
+ * TypeDoc also exports a `typedoc/browser` entry point which exports a subset
+ * of the members described here which makes it suitable for usage in browser
+ * bundles which want to use TypeDoc's JSON output in the browser.
  */
 export { Application, type ApplicationEvents } from "./lib/application.js";
 
-export { EventDispatcher } from "./lib/utils/events.js";
-export { resetReflectionID } from "./lib/models/reflections/abstract.js";
+export { resetReflectionID } from "./lib/models/Reflection.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
+ * @primaryExport
  *
  * @categoryDescription Types
  * Describes a TypeScript type.
@@ -29,101 +33,125 @@ export * as Models from "./lib/models/index.js";
  * @summary
  * Controls how TypeDoc reads option files and what options are available.
  */
-export * as Configuration from "./lib/utils/options/index.js";
-export * from "./lib/models/index.js";
 export {
-    Converter,
-    Context,
     type CommentParserConfig,
-    type DeclarationReference,
-    type SymbolReference,
-    type ComponentPath,
-    type Meaning,
-    type MeaningKeyword,
+    Context,
+    Converter,
+    type ConverterEvents,
     type ExternalResolveResult,
     type ExternalSymbolResolver,
-    type ConverterEvents,
 } from "./lib/converter/index.js";
+export * from "./lib/models/index.js";
+/** @primaryExport */
+export * as Configuration from "./lib/utils/options/index.js";
 
 export {
-    Renderer,
+    BaseRouter,
+    CategoryRouter,
     DefaultTheme,
     DefaultThemeRenderContext,
-    Slugger,
-    UrlMapping,
-    Theme,
-    PageEvent,
-    RendererEvent,
-    MarkdownEvent,
+    GroupRouter,
     IndexEvent,
+    KindDirRouter,
+    KindRouter,
+    MarkdownEvent,
+    PageEvent,
+    PageKind,
+    Renderer,
+    RendererEvent,
+    Slugger,
+    StructureDirRouter,
+    StructureRouter,
+    Theme,
 } from "./lib/output/index.js";
 export type {
-    RenderTemplate,
-    RendererHooks,
-    NavigationElement,
-    RendererEvents,
-    PageHeading,
     Icons,
+    NavigationElement,
+    PageDefinition,
+    PageHeading,
+    RendererEvents,
+    RendererHooks,
+    RenderTemplate,
+    Router,
 } from "./lib/output/index.js";
 
 export { Outputs } from "./lib/output/output.js";
 
 export {
     ArgumentsReader,
-    Option,
     CommentStyle,
-    JSX,
-    LogLevel,
-    Logger,
-    Options,
+    EntryPointStrategy,
+    normalizePath,
+    Option,
     OptionDefaults,
+    Options,
     PackageJsonReader,
     ParameterHint,
     ParameterType,
     TSConfigReader,
     TypeDocReader,
-    EntryPointStrategy,
-    EventHooks,
-    MinimalSourceFile,
-    normalizePath,
+    ValidatingFileRegistry,
 } from "./lib/utils/index.js";
 
 export type {
-    OptionsReader,
-    TypeDocOptions,
-    TypeDocOptionMap,
-    ValidationOptions,
-    TypeDocOptionValues,
-    KeyToDeclaration,
+    ArrayDeclarationOption,
+    BooleanDeclarationOption,
     DeclarationOption,
     DeclarationOptionBase,
-    StringDeclarationOption,
-    NumberDeclarationOption,
-    BooleanDeclarationOption,
-    ArrayDeclarationOption,
-    MixedDeclarationOption,
-    ObjectDeclarationOption,
-    MapDeclarationOption,
-    FlagsDeclarationOption,
     DeclarationOptionToOptionType,
-    SortStrategy,
-    ParameterTypeToOptionTypeMap,
     DocumentationEntryPoint,
-    ManuallyValidatedOption,
-    EnumKeys,
+    FancyConsoleLogger,
+    FlagsDeclarationOption,
     JsDocCompatibility,
+    KeyToDeclaration,
+    ManuallyValidatedOption,
+    MapDeclarationOption,
+    MixedDeclarationOption,
+    NumberDeclarationOption,
+    ObjectDeclarationOption,
+    OptionsReader,
     OutputSpecification,
+    ParameterTypeToOptionTypeMap,
+    SortStrategy,
+    StringDeclarationOption,
+    TypeDocOptionMap,
+    TypeDocOptions,
+    TypeDocOptionValues,
+    ValidationOptions,
 } from "./lib/utils/index.js";
 
 export {
-    JSONOutput,
-    Serializer,
-    type SerializerEvents,
-    Deserializer,
+    type ComponentPath,
+    ConsoleLogger,
+    type DeclarationReference,
+    type EnumKeys,
+    EventDispatcher,
+    EventHooks,
+    type GlobString,
+    i18n,
+    JSX,
+    Logger,
+    LogLevel,
+    type Meaning,
+    type MeaningKeyword,
+    type MinimalNode,
+    MinimalSourceFile,
+    type NormalizedPath,
+    type NormalizedPathOrModule,
+    type SymbolReference,
+    type TranslatedString,
+    translateTagName,
+} from "#utils";
+
+export {
     type Deserializable,
+    Deserializer,
     type DeserializerComponent,
-    type SerializerComponent,
+    JSONOutput,
     SerializeEvent,
+    Serializer,
+    type SerializerComponent,
+    type SerializerEvents,
 } from "./lib/serialization/index.js";
 
 export * as Internationalization from "./lib/internationalization/index.js";

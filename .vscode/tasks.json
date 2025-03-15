@@ -34,7 +34,7 @@
         {
             "label": "dev-build-tsc",
             "type": "shell",
-            "command": "npm run build:tsc -- --watch",
+            "command": "pnpm build:tsc --watch",
             "problemMatcher": ["$tsc-watch"],
             "detail": "Build TypeDoc w/ tsc in watch mode",
             "isBackground": true,
@@ -49,7 +49,7 @@
         {
             "label": "dev-build-themes",
             "type": "shell",
-            "command": "npm run build:themes -- --watch",
+            "command": "pnpm build:themes --watch",
             "problemMatcher": ["$esbuild-watch"],
             "detail": "Build TypeDoc themes in watch mode",
             "isBackground": true,

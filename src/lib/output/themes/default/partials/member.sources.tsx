@@ -1,12 +1,12 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX } from "../../../../utils/index.js";
+import { i18n, JSX } from "#utils";
 import type { DeclarationReflection, SignatureReflection, SourceReference } from "../../../../models/index.js";
 
 function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
     if (!item.url) {
         return (
             <li>
-                {context.i18n.theme_defined_in()} {item.fileName}:{item.line}
+                {i18n.theme_defined_in()} {item.fileName}:{item.line}
             </li>
         );
     }
@@ -14,7 +14,7 @@ function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
     if (context.options.getValue("sourceLinkExternal")) {
         return (
             <li>
-                {context.i18n.theme_defined_in()}{" "}
+                {i18n.theme_defined_in()}{" "}
                 <a href={item.url} class="external" target="_blank">
                     {item.fileName}:{item.line}
                 </a>
@@ -24,7 +24,7 @@ function sourceLink(context: DefaultThemeRenderContext, item: SourceReference) {
 
     return (
         <li>
-            {context.i18n.theme_defined_in()}{" "}
+            {i18n.theme_defined_in()}{" "}
             <a href={item.url}>
                 {item.fileName}:{item.line}
             </a>
@@ -41,21 +41,21 @@ export const memberSources = (
     if (props.implementationOf) {
         sources.push(
             <p>
-                {context.i18n.theme_implementation_of()} {context.typeAndParent(props.implementationOf)}
+                {i18n.theme_implementation_of()} {context.typeAndParent(props.implementationOf)}
             </p>,
         );
     }
     if (props.inheritedFrom) {
         sources.push(
             <p>
-                {context.i18n.theme_inherited_from()} {context.typeAndParent(props.inheritedFrom)}
+                {i18n.theme_inherited_from()} {context.typeAndParent(props.inheritedFrom)}
             </p>,
         );
     }
     if (props.overwrites) {
         sources.push(
             <p>
-                {context.i18n.theme_overrides()} {context.typeAndParent(props.overwrites)}
+                {i18n.theme_overrides()} {context.typeAndParent(props.overwrites)}
             </p>,
         );
     }

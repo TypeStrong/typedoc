@@ -2,6 +2,7 @@ import type ts from "typescript";
 
 /**
  * Expose the internal TypeScript APIs that are used by TypeDoc
+ * @ignore
  */
 declare module "typescript" {
     interface Node {

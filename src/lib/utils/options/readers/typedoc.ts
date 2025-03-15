@@ -1,22 +1,19 @@
-import { join, dirname, resolve } from "path";
+import { dirname, join, resolve } from "path";
 import * as FS from "fs";
 import ts from "typescript";
 
 import type { OptionsReader } from "../options.js";
-import type { Logger } from "../../loggers.js";
 import type { Options } from "../options.js";
 import { ok } from "assert";
 import { nicePath, normalizePath } from "../../paths.js";
 import { isFile } from "../../fs.js";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
-import type { TranslatedString } from "../../../internationalization/internationalization.js";
+import { i18n, type Logger, type TranslatedString } from "#utils";
 
 /**
  * Obtains option values from typedoc.json
  */
-// Changes need to happen here at some point. I think we should follow ESLint's new config
-// system eventually: https://eslint.org/blog/2022/08/new-config-system-part-1/
 export class TypeDocReader implements OptionsReader {
     /**
      * Should run before the tsconfig reader so that it can specify a tsconfig file to read.
@@ -42,7 +39,7 @@ export class TypeDocReader implements OptionsReader {
         if (!file) {
             if (container.isSet("options")) {
                 logger.error(
-                    logger.i18n.options_file_0_does_not_exist(nicePath(path)),
+                    i18n.options_file_0_does_not_exist(nicePath(path)),
                 );
             }
             return;
@@ -66,7 +63,7 @@ export class TypeDocReader implements OptionsReader {
     ) {
         if (seen.has(file)) {
             logger.error(
-                logger.i18n.circular_reference_extends_0(nicePath(file)),
+                i18n.circular_reference_extends_0(nicePath(file)),
             );
             return;
         }
@@ -74,13 +71,11 @@ export class TypeDocReader implements OptionsReader {
 
         let fileContent: any;
         if (file.endsWith(".json") || file.endsWith(".jsonc")) {
-            const readResult = ts.readConfigFile(normalizePath(file), (path) =>
-                FS.readFileSync(path, "utf-8"),
-            );
+            const readResult = ts.readConfigFile(normalizePath(file), (path) => FS.readFileSync(path, "utf-8"));
 
             if (readResult.error) {
                 logger.error(
-                    logger.i18n.failed_read_options_file_0(nicePath(file)),
+                    i18n.failed_read_options_file_0(nicePath(file)),
                 );
                 return;
             } else {
@@ -94,7 +89,7 @@ export class TypeDocReader implements OptionsReader {
                 fileContent = await (await import(esmPath)).default;
             } catch (error) {
                 logger.error(
-                    logger.i18n.failed_read_options_file_0(nicePath(file)),
+                    i18n.failed_read_options_file_0(nicePath(file)),
                 );
                 logger.error(
                     String(
@@ -107,7 +102,7 @@ export class TypeDocReader implements OptionsReader {
 
         if (typeof fileContent !== "object" || !fileContent) {
             logger.error(
-                logger.i18n.failed_read_options_file_0(nicePath(file)),
+                i18n.failed_read_options_file_0(nicePath(file)),
             );
             return;
         }
@@ -125,7 +120,7 @@ export class TypeDocReader implements OptionsReader {
                     resolvedParent = resolver.resolve(extendedFile);
                 } catch {
                     logger.error(
-                        logger.i18n.failed_resolve_0_to_file_in_1(
+                        i18n.failed_resolve_0_to_file_in_1(
                             extendedFile,
                             nicePath(file),
                         ),

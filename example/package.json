@@ -1,24 +1,24 @@
 {
-  "name": "typedoc-example",
-  "version": "0.0.0",
-  "private": true,
-  "description": "An example of using the TypeDoc documentation generator.",
-  "license": "Apache-2.0",
-  "author": "TypeDoc contributors",
-  "scripts": {
-    "lint": "eslint .",
-    "tsc": "tsc",
-    "typedoc": "node ../bin/typedoc"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.17.5",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "lodash": "^4.17.21",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "devDependencies": {
-    "typescript": "^5.4.5"
-  }
+    "name": "typedoc-example",
+    "version": "0.0.0",
+    "private": true,
+    "description": "An example of using the TypeDoc documentation generator.",
+    "license": "Apache-2.0",
+    "author": "TypeDoc contributors",
+    "scripts": {
+        "lint": "eslint .",
+        "tsc": "tsc",
+        "typedoc": "node ../bin/typedoc"
+    },
+    "dependencies": {
+        "@types/lodash": "^4.17.5",
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "lodash": "^4.17.21",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
 }

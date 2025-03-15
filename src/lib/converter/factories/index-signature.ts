@@ -51,6 +51,7 @@ export function convertIndexSignatures(context: Context, type: ts.Type) {
             ReflectionKind.IndexSignature,
             context.scope,
         );
+        const ic = context.withScope(index);
         if (indexInfo.isReadonly) {
             index.setFlag(ReflectionFlag.Readonly);
         }
@@ -72,11 +73,11 @@ export function convertIndexSignatures(context: Context, type: ts.Type) {
             ),
         ];
         index.parameters[0].type = context.converter.convertType(
-            context.withScope(index.parameters[0]),
+            ic.withScope(index.parameters[0]),
             indexInfo.keyType,
         );
         index.type = context.converter.convertType(
-            context.withScope(index),
+            ic,
             indexInfo.type,
         );
 

@@ -1,24 +1,16 @@
 import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentParserConfig } from "./index.js";
-import {
-    Comment,
-    type CommentDisplayPart,
-    CommentTag,
-    type InlineTagDisplayPart,
-} from "../../models/index.js";
-import { assertNever, type Logger, removeIf } from "../../utils/index.js";
-import type { MinimalSourceFile } from "../../utils/minimalSourceFile.js";
+import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
+import type { MinimalSourceFile } from "#utils";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";
-import type {
-    TranslatedString,
-    TranslationProxy,
-} from "../../internationalization/internationalization.js";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
+import { assertNever, i18n, type Logger, type NormalizedPath, removeIf, type TranslatedString } from "#utils";
 
 interface LookaheadGenerator<T> {
     done(): boolean;
@@ -79,19 +71,19 @@ export function parseComment(
     const tok = lexer.done() || lexer.peek();
 
     const comment = new Comment();
-    comment.sourcePath = file.fileName;
+    comment.sourcePath = file.fileName as NormalizedPath;
     comment.summary = blockContent(
         comment,
         lexer,
         config,
-        logger.i18n,
+        i18n,
         warningImpl,
         files,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, config, logger.i18n, warningImpl, files),
+            blockTag(comment, lexer, config, i18n, warningImpl, files),
         );
     }
 
@@ -99,11 +91,8 @@ export function parseComment(
 
     postProcessComment(
         comment,
-        logger.i18n,
-        () =>
-            `${nicePath(file.fileName)}:${
-                file.getLineAndCharacterOfPosition(tok2.pos).line + 1
-            }`,
+        i18n,
+        () => `${nicePath(file.fileName)}:${file.getLineAndCharacterOfPosition(tok2.pos).line + 1}`,
         (message) => logger.warn(message),
     );
 
@@ -165,9 +154,9 @@ export function parseCommentString(
             case TokenSyntaxKind.Tag:
             case TokenSyntaxKind.CloseBrace:
                 textContent(
-                    file.fileName,
+                    file.fileName as NormalizedPath,
                     next,
-                    logger.i18n,
+                    i18n,
                     (msg, token) => logger.warn(msg, token.pos, file),
                     content,
                     files,
@@ -185,7 +174,7 @@ export function parseCommentString(
                     lexer,
                     content,
                     suppressWarningsConfig,
-                    logger.i18n,
+                    i18n,
                     (message, token) => logger.warn(message, token.pos, file),
                 );
                 consume = false;
@@ -236,7 +225,7 @@ export function parseCommentString(
                     frontmatterData = data;
                 } else {
                     logger.error(
-                        logger.i18n.yaml_frontmatter_not_an_object(),
+                        i18n.yaml_frontmatter_not_an_object(),
                         5,
                         file,
                     );
@@ -290,8 +279,7 @@ function postProcessComment(
 
         if (
             tag.content.some(
-                (part) =>
-                    part.kind === "inline-tag" && part.tag === "@inheritDoc",
+                (part) => part.kind === "inline-tag" && part.tag === "@inheritDoc",
             )
         ) {
             warning(
@@ -601,7 +589,7 @@ function blockContent(
 
             case TokenSyntaxKind.Text:
                 textContent(
-                    comment.sourcePath!,
+                    comment.sourcePath as NormalizedPath,
                     next,
                     i18n,
                     warning,
@@ -670,7 +658,7 @@ function blockContent(
     }
 
     // Collapse adjacent text parts
-    for (let i = 0; i < content.length - 1 /* inside loop */; ) {
+    for (let i = 0; i < content.length - 1 /* inside loop */;) {
         if (content[i].kind === "text" && content[i + 1].kind === "text") {
             content[i].text += content[i + 1].text;
             content.splice(i + 1, 1);
@@ -680,7 +668,7 @@ function blockContent(
     }
 
     // Now get rid of extra whitespace, and any empty parts
-    for (let i = 0; i < content.length /* inside loop */; ) {
+    for (let i = 0; i < content.length /* inside loop */;) {
         if (i === 0 || content[i].kind === "inline-tag") {
             content[i].text = content[i].text.trimStart();
         }

@@ -2,10 +2,8 @@ import * as fs from "fs";
 import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { optional, validate } from "./validation.js";
-import { createMinimatch, normalizePath } from "./paths.js";
-import { filterMap } from "./array.js";
-import { escapeRegExp } from "./general.js";
+import { escapeRegExp, type GlobString, type NormalizedPath, Validation } from "#utils";
+import { normalizePath } from "./paths.js";
 import { ok } from "assert";
 
 export function isFile(file: string) {
@@ -22,51 +20,6 @@ export function isDir(path: string) {
     } catch {
         return false;
     }
-}
-
-export function deriveRootDir(globPaths: string[]): string {
-    const normalized = globPaths.map(normalizePath);
-    const globs = createMinimatch(normalized);
-    const rootPaths = globs.flatMap((glob, i) =>
-        filterMap(glob.set, (set) => {
-            const stop = set.findIndex((part) => typeof part !== "string");
-            if (stop === -1) {
-                return normalized[i];
-            } else {
-                const kept = set.slice(0, stop).join("/");
-                return normalized[i].substring(
-                    0,
-                    normalized[i].indexOf(kept) + kept.length,
-                );
-            }
-        }),
-    );
-    return getCommonDirectory(rootPaths);
-}
-
-/**
- * Get the longest directory path common to all files.
- */
-export function getCommonDirectory(files: readonly string[]): string {
-    if (!files.length) {
-        return "";
-    }
-
-    const roots = files.map((f) => f.split(/\\|\//));
-    if (roots.length === 1) {
-        return roots[0].slice(0, -1).join("/");
-    }
-
-    let i = 0;
-
-    while (
-        i < roots[0].length &&
-        new Set(roots.map((part) => part[i])).size === 1
-    ) {
-        i++;
-    }
-
-    return roots[0].slice(0, i).join("/");
 }
 
 /**
@@ -156,9 +109,7 @@ export function copySync(src: string, dest: string): void {
 
     if (stat.isDirectory()) {
         const contained = fs.readdirSync(src);
-        contained.forEach((file) =>
-            copySync(join(src, file), join(dest, file)),
-        );
+        contained.forEach((file) => copySync(join(src, file), join(dest, file)));
     } else if (stat.isFile()) {
         fs.mkdirSync(dirname(dest), { recursive: true });
         fs.copyFileSync(src, dest);
@@ -181,10 +132,10 @@ export interface DiscoverFilesController {
 const realpathCache: Map<string, string> = new Map();
 
 export function discoverFiles(
-    rootDir: string,
+    rootDir: NormalizedPath,
     controller: DiscoverFilesController,
-) {
-    const result: string[] = [];
+): NormalizedPath[] {
+    const result: NormalizedPath[] = [];
     const dirs: string[][] = [normalizePath(rootDir).split("/")];
     // cache of real paths to avoid infinite recursion
     const symlinkTargetsSeen: Set<string> = new Set();
@@ -194,7 +145,7 @@ export function discoverFiles(
     const handleFile = (path: string) => {
         const childPath = [...dir!, path].join("/");
         if (controller.matches(childPath)) {
-            result.push(childPath);
+            result.push(childPath as NormalizedPath);
         }
     };
 
@@ -209,8 +160,7 @@ export function discoverFiles(
         const childPath = [...dir!, path].join("/");
         let realpath: string;
         try {
-            realpath =
-                realpathCache.get(childPath) ?? fs.realpathSync(childPath);
+            realpath = realpathCache.get(childPath) ?? fs.realpathSync(childPath);
             realpathCache.set(childPath, realpath);
         } catch {
             return;
@@ -243,12 +193,14 @@ export function discoverFiles(
 
     while (dir) {
         if (matchDirectories && controller.matches(dir.join("/"))) {
-            result.push(dir.join("/"));
+            result.push(dir.join("/") as NormalizedPath);
         }
 
-        for (const child of fs.readdirSync(dir.join("/"), {
-            withFileTypes: true,
-        })) {
+        for (
+            const child of fs.readdirSync(dir.join("/"), {
+                withFileTypes: true,
+            })
+        ) {
             if (child.isFile()) {
                 handleFile(child.name);
             } else if (child.isDirectory()) {
@@ -268,11 +220,11 @@ export function discoverFiles(
  * Simpler version of `glob.sync` that only covers our use cases, always ignoring node_modules.
  */
 export function glob(
-    pattern: string,
-    root: string,
+    pattern: GlobString,
+    root: NormalizedPath,
     options: { includeDirectories?: boolean; followSymlinks?: boolean } = {},
-): string[] {
-    const mini = new Minimatch(normalizePath(pattern));
+): NormalizedPath[] {
+    const mini = new Minimatch(pattern);
     const shouldIncludeNodeModules = pattern.includes("node_modules");
 
     const controller: DiscoverFilesController = {
@@ -291,9 +243,7 @@ export function glob(
                 return false;
             }
 
-            return mini.set.some((row) =>
-                mini.matchOne(childPath, row, /* partial */ true),
-            );
+            return mini.set.some((row) => mini.matchOne(childPath, row, /* partial */ true));
         },
         matchDirectories: options.includeDirectories,
         followSymlinks: options.followSymlinks,
@@ -310,33 +260,6 @@ export function hasDeclarationFileExtension(path: string) {
     return /\.d\.[cm]?ts$/.test(path);
 }
 
-export function discoverInParentDir<T extends {}>(
-    name: string,
-    dir: string,
-    read: (content: string) => T | undefined,
-): { file: string; content: T } | undefined {
-    if (!isDir(dir)) return;
-
-    const reachedTopDirectory = (dirName: string) =>
-        dirName === resolve(join(dirName, ".."));
-
-    while (!reachedTopDirectory(dir)) {
-        for (const file of fs.readdirSync(dir)) {
-            if (file.toLowerCase() !== name.toLowerCase()) continue;
-
-            try {
-                const content = read(readFile(join(dir, file)));
-                if (content != null) {
-                    return { file: join(dir, file), content };
-                }
-            } catch {
-                // Ignore, file didn't pass validation
-            }
-        }
-        dir = resolve(join(dir, ".."));
-    }
-}
-
 export function discoverInParentDirExactMatch<T extends {}>(
     name: string,
     dir: string,
@@ -345,8 +268,7 @@ export function discoverInParentDirExactMatch<T extends {}>(
 ): { file: string; content: T } | undefined {
     if (!isDir(dir)) return;
 
-    const reachedTopDirectory = (dirName: string) =>
-        dirName === resolve(join(dirName, ".."));
+    const reachedTopDirectory = (dirName: string) => dirName === resolve(join(dirName, ".."));
 
     while (!reachedTopDirectory(dir)) {
         usedFile?.(join(dir, name));
@@ -371,7 +293,12 @@ export function discoverPackageJson(
         dir,
         (content) => {
             const pkg: unknown = JSON.parse(content);
-            if (validate({ name: String, version: optional(String) }, pkg)) {
+            if (
+                Validation.validate(
+                    { name: String, version: Validation.optional(String) },
+                    pkg,
+                )
+            ) {
                 return pkg;
             }
         },
@@ -379,10 +306,10 @@ export function discoverPackageJson(
     );
 }
 
-// dir -> package name according to package.json in this or some parent dir
-const packageCache = new Map<string, string>();
+// dir -> package info
+const packageCache = new Map<string, [packageName: string, packageDir: string]>();
 
-export function findPackageForPath(sourcePath: string): string | undefined {
+export function findPackageForPath(sourcePath: string): readonly [packageName: string, packageDir: string] | undefined {
     // Attempt to decide package name from path if it contains "node_modules"
     let startIndex = sourcePath.lastIndexOf("node_modules/");
     if (startIndex !== -1) {
@@ -392,7 +319,8 @@ export function findPackageForPath(sourcePath: string): string | undefined {
         if (sourcePath[startIndex] === "@") {
             stopIndex = sourcePath.indexOf("/", stopIndex + 1);
         }
-        return sourcePath.substring(startIndex, stopIndex);
+        const packageName = sourcePath.substring(startIndex, stopIndex);
+        return [packageName, sourcePath.substring(0, stopIndex)];
     }
 
     const dir = dirname(sourcePath);
@@ -403,15 +331,15 @@ export function findPackageForPath(sourcePath: string): string | undefined {
 
     const packageJson = discoverPackageJson(dir);
     if (packageJson) {
-        packageCache.set(dir, packageJson.content.name);
-        return packageJson.content.name;
+        packageCache.set(dir, [packageJson.content.name, dirname(packageJson.file)]);
+        return [packageJson.content.name, dirname(packageJson.file)];
     }
 }
 
 export function inferPackageEntryPointPaths(
     packagePath: string,
 ): [importPath: string, resolvedPath: string][] {
-    const packageDir = dirname(packagePath);
+    const packageDir = normalizePath(dirname(packagePath));
     const packageJson = JSON.parse(readFile(packagePath));
     const exports: unknown = packageJson.exports;
     if (typeof exports === "string") {
@@ -440,7 +368,7 @@ export function inferPackageEntryPointPaths(
 }
 
 function resolveExport(
-    packageDir: string,
+    packageDir: NormalizedPath,
     name: string,
     exportDeclaration: string | string[] | Record<string, string>,
     validatePath: boolean,
@@ -492,7 +420,7 @@ function isWildcardName(name: string) {
 }
 
 function resolveStarredExport(
-    packageDir: string,
+    packageDir: NormalizedPath,
     name: string,
     exportDeclaration: string,
     validatePath: boolean,

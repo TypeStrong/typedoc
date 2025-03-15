@@ -29,5 +29,5 @@ export function rand(): number;
 
 ## See also
 
--   The [`@inheritDoc`](inheritDoc.md) tag
--   The [`@privateRemarks`](privateRemarks.md) tag
+- The [`@inheritDoc`](inheritDoc.md) tag
+- The [`@privateRemarks`](privateRemarks.md) tag

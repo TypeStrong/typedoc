@@ -1,29 +1,24 @@
 import * as Path from "path";
 import ts from "typescript";
 
-import {
-    Deserializer,
-    type JSONOutput,
-    Serializer,
-} from "./serialization/index.js";
+import { Deserializer, type JSONOutput, Serializer } from "./serialization/index.js";
 import { Converter } from "./converter/index.js";
 import { Renderer } from "./output/renderer.js";
-import type { ProjectReflection } from "./models/index.js";
+import { type ProjectReflection, ReflectionSymbolId } from "./models/index.js";
 import {
-    Logger,
-    ConsoleLogger,
+    AbstractComponent,
+    FancyConsoleLogger,
     loadPlugins,
-    writeFile,
     type OptionsReader,
+    PackageJsonReader,
     TSConfigReader,
     TypeDocReader,
-    PackageJsonReader,
-    AbstractComponent,
+    writeFile,
 } from "./utils/index.js";
 
-import { Options, Option } from "./utils/index.js";
-import type { TypeDocOptions } from "./utils/options/declaration.js";
-import { unique } from "./utils/array.js";
+import { Option, Options } from "./utils/index.js";
+import { rootPackageOptions, type TypeDocOptions } from "./utils/options/declaration.js";
+import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
 import { ok } from "assert";
 import {
     type DocumentationEntryPoint,
@@ -33,25 +28,23 @@ import {
     getWatchEntryPoints,
     inferEntryPoints,
 } from "./utils/entry-point.js";
-import { nicePath } from "./utils/paths.js";
-import { getLoadedPaths, hasBeenLoadedMultipleTimes } from "./utils/general.js";
+import { nicePath, normalizePath } from "./utils/paths.js";
+import { getLoadedPaths, hasBeenLoadedMultipleTimes, isDebugging } from "./utils/general.js";
 import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
-import { findTsConfigFile } from "./utils/tsconfig.js";
-import { deriveRootDir, glob, readFile } from "./utils/fs.js";
-import { addInferredDeclarationMapPaths } from "./models/reflections/ReflectionSymbolId.js";
-import {
-    Internationalization,
-    type TranslatedString,
-} from "./internationalization/internationalization.js";
-import { ValidatingFileRegistry, FileRegistry } from "./models/FileRegistry.js";
+import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
+import { FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
+import { diagnostic, diagnostics } from "./utils/loggers.js";
+import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
+import { addInferredDeclarationMapPaths } from "./converter/factories/symbol-id.js";
+import { Internationalization } from "./internationalization/internationalization.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -113,6 +106,8 @@ export class Application extends AbstractComponent<
     Application,
     ApplicationEvents
 > {
+    private _logger: Logger = new FancyConsoleLogger();
+
     /**
      * The converter used to create the declaration reflections.
      */
@@ -133,25 +128,26 @@ export class Application extends AbstractComponent<
     /**
      * The deserializer used to restore previously serialized JSON output.
      */
-    deserializer = new Deserializer(this);
+    deserializer = new Deserializer(this._logger);
 
     /**
      * The logger that should be used to output messages.
      */
-    logger: Logger = new ConsoleLogger();
+    get logger(): Logger {
+        return this._logger;
+    }
+    set logger(l: Logger) {
+        this._logger = l;
+        this.deserializer.logger = l;
+    }
 
     /**
      * Internationalization module which supports translating according to
      * the `lang` option.
      */
-    internationalization = new Internationalization(this);
+    internationalization = new Internationalization();
 
-    /**
-     * Proxy based shortcuts for internationalization keys.
-     */
-    i18n = this.internationalization.proxy;
-
-    options = new Options(this.i18n);
+    options = new Options();
 
     files: FileRegistry = new ValidatingFileRegistry();
 
@@ -169,7 +165,7 @@ export class Application extends AbstractComponent<
 
     /** @internal */
     @Option("entryPoints")
-    accessor entryPoints!: string[];
+    accessor entryPoints!: GlobString[];
 
     /**
      * The version number of TypeDoc.
@@ -207,10 +203,9 @@ export class Application extends AbstractComponent<
 
         this.converter = new Converter(this);
         this.renderer = new Renderer(this);
-        this.logger.i18n = this.i18n;
 
         this.outputs.addOutput("json", async (out, project) => {
-            const ser = this.serializer.projectToObject(project, process.cwd());
+            const ser = this.serializer.projectToObject(project, normalizePath(process.cwd()));
             const space = this.options.getValue("pretty") ? "\t" : "";
             await writeFile(out, JSON.stringify(ser, null, space) + "\n");
         });
@@ -231,9 +226,9 @@ export class Application extends AbstractComponent<
         readers.forEach((r) => app.options.addReader(r));
         app.options.reset();
         app.setOptions(options, /* reportErrors */ false);
-        await app.options.read(new Logger(), undefined, (path) =>
-            app.watchConfigFile(path),
-        );
+        app.internationalization.setLocale(app.lang);
+        await app.options.read(new Logger(), undefined, (path) => app.watchConfigFile(path));
+        app.internationalization.setLocale(app.lang);
         app.logger.level = app.options.getValue("logLevel");
 
         await loadPlugins(app, app.options.getValue("plugin"));
@@ -267,20 +262,29 @@ export class Application extends AbstractComponent<
     private async _bootstrap(options: Partial<TypeDocOptions>) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
-        await this.options.read(this.logger, undefined, (path) =>
-            this.watchConfigFile(path),
-        );
+        this.internationalization.setLocale(this.lang);
+
+        await this.options.read(this.logger, undefined, (path) => this.watchConfigFile(path));
         this.setOptions(options);
-        this.logger.level = this.options.getValue("logLevel");
-        for (const [lang, locales] of Object.entries(
-            this.options.getValue("locales"),
-        )) {
+        this.internationalization.setLocale(this.lang);
+
+        if (isDebugging()) {
+            this.logger.level = LogLevel.Verbose;
+        } else {
+            this.logger.level = this.options.getValue("logLevel");
+        }
+
+        for (
+            const [lang, locales] of Object.entries(
+                this.options.getValue("locales"),
+            )
+        ) {
             this.internationalization.addTranslations(lang, locales);
         }
 
         if (hasBeenLoadedMultipleTimes()) {
             this.logger.warn(
-                this.i18n.loaded_multiple_times_0(
+                i18n.loaded_multiple_times_0(
                     getLoadedPaths().join("\n\t"),
                 ),
             );
@@ -301,11 +305,6 @@ export class Application extends AbstractComponent<
             this.logger.info(
                 "You can define/override local locales with the `locales` option, or contribute them to TypeDoc!" as TranslatedString,
             );
-        } else if (this.lang === "jp") {
-            this.logger.warn(
-                // Only Japanese see this. Meaning: "jp" is going to be removed in the future. Please designate "ja" instead.
-                "「jp」は将来削除されます。代わりに「ja」を指定してください。" as TranslatedString,
-            );
         }
 
         if (
@@ -313,7 +312,7 @@ export class Application extends AbstractComponent<
             !this.options.getValue("hostedBaseUrl")
         ) {
             this.logger.warn(
-                this.i18n.useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl(),
+                i18n.useHostedBaseUrlForAbsoluteLinks_requires_hostedBaseUrl(),
             );
             this.options.setValue("useHostedBaseUrlForAbsoluteLinks", false);
         }
@@ -388,7 +387,7 @@ export class Application extends AbstractComponent<
             )
         ) {
             this.logger.warn(
-                this.i18n.unsupported_ts_version_0(
+                i18n.unsupported_ts_version_0(
                     supportedVersionMajorMinor.join(", "),
                 ),
             );
@@ -407,11 +406,9 @@ export class Application extends AbstractComponent<
         );
 
         if (this.skipErrorChecking === false) {
-            const errors = programs.flatMap((program) =>
-                ts.getPreEmitDiagnostics(program),
-            );
+            const errors = programs.flatMap((program) => ts.getPreEmitDiagnostics(program));
             if (errors.length) {
-                this.logger.diagnostics(errors);
+                diagnostics(this.logger, errors);
                 return;
             }
         }
@@ -479,7 +476,7 @@ export class Application extends AbstractComponent<
     ): Promise<boolean> {
         if (
             !this.options.getValue("preserveWatchOutput") &&
-            this.logger instanceof ConsoleLogger
+            this.logger instanceof FancyConsoleLogger
         ) {
             ts.sys.clearScreen?.();
         }
@@ -494,20 +491,20 @@ export class Application extends AbstractComponent<
             )
         ) {
             this.logger.warn(
-                this.i18n.unsupported_ts_version_0(
+                i18n.unsupported_ts_version_0(
                     supportedVersionMajorMinor.join(", "),
                 ),
             );
         }
 
         if (Object.keys(this.options.getCompilerOptions()).length === 0) {
-            this.logger.warn(this.i18n.no_compiler_options_set());
+            this.logger.warn(i18n.no_compiler_options_set());
         }
 
         // Doing this is considerably more complicated, we'd need to manage an array of programs, not convert until all programs
         // have reported in the first time... just error out for now. I'm not convinced anyone will actually notice.
         if (this.options.getFileNames().length === 0) {
-            this.logger.error(this.i18n.solution_not_supported_in_watch_mode());
+            this.logger.error(i18n.solution_not_supported_in_watch_mode());
             return false;
         }
 
@@ -516,12 +513,11 @@ export class Application extends AbstractComponent<
             this.entryPointStrategy !== EntryPointStrategy.Resolve &&
             this.entryPointStrategy !== EntryPointStrategy.Expand
         ) {
-            this.logger.error(this.i18n.strategy_not_supported_in_watch_mode());
+            this.logger.error(i18n.strategy_not_supported_in_watch_mode());
             return false;
         }
 
-        const tsconfigFile =
-            findTsConfigFile(this.options.getValue("tsconfig")) ??
+        const tsconfigFile = findTsConfigFile(this.options.getValue("tsconfig")) ??
             "tsconfig.json";
 
         // We don't want to do it the first time to preserve initial debug status messages. They'll be lost
@@ -533,13 +529,13 @@ export class Application extends AbstractComponent<
             this.options.fixCompilerOptions({}),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
-            (diagnostic) => this.logger.diagnostic(diagnostic),
+            (d) => diagnostic(this.logger, d),
             (status, newLine, _options, errorCount) => {
                 if (
                     !firstStatusReport &&
                     errorCount === void 0 &&
                     !this.options.getValue("preserveWatchOutput") &&
-                    this.logger instanceof ConsoleLogger
+                    this.logger instanceof FancyConsoleLogger
                 ) {
                     ts.sys.clearScreen?.();
                 }
@@ -573,7 +569,7 @@ export class Application extends AbstractComponent<
                         } else if (!currentProgram) {
                             currentProgram = lastProgram;
                             this.logger.info(
-                                this.i18n.file_0_changed_rebuilding(
+                                i18n.file_0_changed_rebuilding(
                                     nicePath(file),
                                 ),
                             );
@@ -590,7 +586,7 @@ export class Application extends AbstractComponent<
         const restartMain = (file: string) => {
             if (restarting) return;
             this.logger.info(
-                this.i18n.file_0_changed_restarting(nicePath(file)),
+                i18n.file_0_changed_restarting(nicePath(file)),
             );
             restarting = true;
             currentProgram = undefined;
@@ -630,9 +626,7 @@ export class Application extends AbstractComponent<
                     return;
                 }
                 this.clearWatches();
-                this.criticalFiles.forEach((path) =>
-                    this.watchFile(path, true),
-                );
+                this.criticalFiles.forEach((path) => this.watchFile(path, true));
                 const project = this.converter.convert(entryPoints);
                 currentProgram = undefined;
                 successFinished = false;
@@ -681,11 +675,16 @@ export class Application extends AbstractComponent<
         }
 
         if (checks.notDocumented) {
+            const packagesRequiringDocumentation = this.options.isSet("packagesRequiringDocumentation")
+                ? this.options.getValue("packagesRequiringDocumentation")
+                : [project.packageName ?? ReflectionSymbolId.UNKNOWN_PACKAGE];
+
             validateDocumentation(
                 project,
                 this.logger,
                 this.options.getValue("requiredToBeDocumented"),
                 this.options.getValue("intentionallyNotDocumented"),
+                packagesRequiringDocumentation,
             );
         }
 
@@ -758,7 +757,7 @@ export class Application extends AbstractComponent<
 
     private async _convertPackages(): Promise<ProjectReflection | undefined> {
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error(this.i18n.no_entry_points_for_packages());
+            this.logger.error(i18n.no_entry_points_for_packages());
             return;
         }
 
@@ -769,13 +768,23 @@ export class Application extends AbstractComponent<
         );
 
         if (packageDirs.length === 0) {
-            this.logger.error(this.i18n.failed_to_find_packages());
+            this.logger.error(i18n.failed_to_find_packages());
             return;
         }
 
         const origFiles = this.files;
         const origOptions = this.options;
         const projects: JSONOutput.ProjectReflection[] = [];
+
+        for (const opt of Object.keys(this.options.getValue("packageOptions"))) {
+            if (rootPackageOptions.includes(opt as never)) {
+                this.logger.warn(
+                    i18n.package_option_0_should_be_specified_at_root(
+                        opt,
+                    ),
+                );
+            }
+        }
 
         const projectsToConvert: { dir: string; options: Options }[] = [];
         // Generate a json file for each package
@@ -788,7 +797,7 @@ export class Application extends AbstractComponent<
                 ok(error instanceof Error);
                 this.logger.error(error.message as TranslatedString);
                 this.logger.info(
-                    this.i18n.previous_error_occurred_when_reading_options_for_0(
+                    i18n.previous_error_occurred_when_reading_options_for_0(
                         nicePath(dir),
                     ),
                 );
@@ -805,10 +814,10 @@ export class Application extends AbstractComponent<
             });
             if (
                 opts.getValue("entryPointStrategy") ===
-                EntryPointStrategy.Packages
+                    EntryPointStrategy.Packages
             ) {
                 this.logger.error(
-                    this.i18n.nested_packages_unsupported_0(nicePath(dir)),
+                    i18n.nested_packages_unsupported_0(nicePath(dir)),
                 );
                 continue;
             }
@@ -822,7 +831,7 @@ export class Application extends AbstractComponent<
         }
 
         for (const { dir, options } of projectsToConvert) {
-            this.logger.info(this.i18n.converting_project_at_0(nicePath(dir)));
+            this.logger.info(i18n.converting_project_at_0(nicePath(dir)));
             this.options = options;
             this.files = new ValidatingFileRegistry();
             let project = await this.convert();
@@ -830,7 +839,7 @@ export class Application extends AbstractComponent<
                 this.validate(project);
                 const serialized = this.serializer.projectToObject(
                     project,
-                    process.cwd(),
+                    normalizePath(process.cwd()),
                 );
                 projects.push(serialized);
             }
@@ -849,20 +858,21 @@ export class Application extends AbstractComponent<
         this.files = origFiles;
 
         if (projects.length !== packageDirs.length) {
-            this.logger.error(this.i18n.failed_to_convert_packages());
+            this.logger.error(i18n.failed_to_convert_packages());
             return;
         }
 
-        this.logger.info(this.i18n.merging_converted_projects());
+        this.logger.info(i18n.merging_converted_projects());
         const result = this.deserializer.reviveProjects(
             this.options.getValue("name") || "Documentation",
             projects,
             {
-                projectRoot: process.cwd(),
+                projectRoot: normalizePath(process.cwd()),
                 registry: this.files,
-                addProjectDocuments: true,
+                alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },
         );
+        this.converter.addProjectDocuments(result);
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
     }
@@ -871,7 +881,7 @@ export class Application extends AbstractComponent<
         const start = Date.now();
 
         if (!this.options.isSet("entryPoints")) {
-            this.logger.error(this.i18n.no_entry_points_to_merge());
+            this.logger.error(i18n.no_entry_points_to_merge());
             return;
         }
 
@@ -881,13 +891,15 @@ export class Application extends AbstractComponent<
 
             if (result.length === 0) {
                 this.logger.warn(
-                    this.i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
+                    i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
                 );
             } else if (result.length !== 1) {
                 this.logger.verbose(
-                    `Expanded ${nicePath(entry)} to:\n\t${result
-                        .map(nicePath)
-                        .join("\n\t")}`,
+                    `Expanded ${nicePath(entry)} to:\n\t${
+                        result
+                            .map(nicePath)
+                            .join("\n\t")
+                    }`,
                 );
             }
 
@@ -899,7 +911,7 @@ export class Application extends AbstractComponent<
                 return JSON.parse(readFile(path));
             } catch {
                 this.logger.error(
-                    this.i18n.failed_to_parse_json_0(nicePath(path)),
+                    i18n.failed_to_parse_json_0(nicePath(path)),
                 );
                 return null;
             }
@@ -910,11 +922,12 @@ export class Application extends AbstractComponent<
             this.options.getValue("name"),
             jsonProjects,
             {
-                projectRoot: process.cwd(),
+                projectRoot: normalizePath(process.cwd()),
                 registry: this.files,
-                addProjectDocuments: true,
+                alwaysCreateEntryPointModule: this.options.getValue("alwaysCreateEntryPointModule"),
             },
         );
+        this.converter.addProjectDocuments(result);
         this.logger.verbose(`Reviving projects took ${Date.now() - start}ms`);
 
         this.trigger(ApplicationEvents.REVIVE, result);

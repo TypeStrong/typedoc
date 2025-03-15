@@ -4,22 +4,14 @@ import type { CommentParserConfig } from "../lib/converter/comments/index.js";
 
 import { lexBlockComment } from "../lib/converter/comments/blockLexer.js";
 import { lexLineComments } from "../lib/converter/comments/lineLexer.js";
-import {
-    type Token,
-    TokenSyntaxKind,
-} from "../lib/converter/comments/lexer.js";
+import { type Token, TokenSyntaxKind } from "../lib/converter/comments/lexer.js";
 import { parseComment } from "../lib/converter/comments/parser.js";
 import { lexCommentString } from "../lib/converter/comments/rawLexer.js";
-import {
-    Comment,
-    type CommentDisplayPart,
-    CommentTag,
-} from "../lib/models/index.js";
-import { MinimalSourceFile } from "../lib/utils/minimalSourceFile.js";
+import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models/index.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
-import { dedent } from "../lib/utils/general.js";
+import { dedent, MinimalSourceFile, type NormalizedPath } from "#utils";
 
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
@@ -1164,7 +1156,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1191,7 +1183,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1219,7 +1211,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1247,7 +1239,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(file, "<memory>"),
+            new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1267,7 +1259,7 @@ describe("Comment Parser", () => {
         const comment = parseComment(
             content,
             config,
-            new MinimalSourceFile(text, "<memory>"),
+            new MinimalSourceFile(text, "/dev/zero" as NormalizedPath),
             logger,
             files,
         );
@@ -1419,26 +1411,30 @@ describe("Comment Parser", () => {
             * Not relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)
             */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: "[text](" },
-            {
-                kind: "relative-link",
-                text: "./relative.md",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: ") ![](" },
-            {
-                kind: "relative-link",
-                text: "image.png",
-                target: 2,
-                targetAnchor: undefined,
-            },
-            {
-                kind: "text",
-                text: ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)",
-            },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: "[text](" },
+                {
+                    kind: "relative-link",
+                    text: "./relative.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: ") ![](" },
+                {
+                    kind: "relative-link",
+                    text: "image.png",
+                    target: 2,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text:
+                        ")\nNot relative: [passwd](/etc/passwd) [Windows](C:\\\\\\\\Windows) [example.com](http://example.com) [hash](#hash)",
+                },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("#2606 Recognizes markdown links which contain inline code in the label", () => {
@@ -1451,32 +1447,35 @@ describe("Comment Parser", () => {
             * more](./relative.md)
             */`);
 
-        equal(comment.summary, [
-            // Simple case with code
-            { kind: "text", text: "[" },
-            { kind: "code", text: "`text`" },
-            { kind: "text", text: "](" },
-            {
-                kind: "relative-link",
-                text: "./relative.md",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            // Labels can also include single newlines
-            { kind: "text", text: ")\n[" },
-            { kind: "code", text: "`text`" },
-            { kind: "text", text: "\nmore](" },
-            {
-                kind: "relative-link",
-                text: "./relative.md",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            // But not double!
-            { kind: "text", text: ")\n[" },
-            { kind: "code", text: "`text`" },
-            { kind: "text", text: "\n\nmore](./relative.md)" },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                // Simple case with code
+                { kind: "text", text: "[" },
+                { kind: "code", text: "`text`" },
+                { kind: "text", text: "](" },
+                {
+                    kind: "relative-link",
+                    text: "./relative.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                // Labels can also include single newlines
+                { kind: "text", text: ")\n[" },
+                { kind: "code", text: "`text`" },
+                { kind: "text", text: "\nmore](" },
+                {
+                    kind: "relative-link",
+                    text: "./relative.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                // But not double!
+                { kind: "text", text: ")\n[" },
+                { kind: "code", text: "`text`" },
+                { kind: "text", text: "\n\nmore](./relative.md)" },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Recognizes markdown links which contain inline code in the label", () => {
@@ -1484,18 +1483,21 @@ describe("Comment Parser", () => {
             * [\`text\`](./relative.md)
             */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: "[" },
-            { kind: "code", text: "`text`" },
-            { kind: "text", text: "](" },
-            {
-                kind: "relative-link",
-                text: "./relative.md",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: ")" },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: "[" },
+                { kind: "code", text: "`text`" },
+                { kind: "text", text: "](" },
+                {
+                    kind: "relative-link",
+                    text: "./relative.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: ")" },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Recognizes markdown reference definition blocks", () => {
@@ -1506,26 +1508,29 @@ describe("Comment Parser", () => {
             * [4]: #hash
             */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: "[1]: " },
-            {
-                kind: "relative-link",
-                text: "./example.md",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: "\n[2]:" },
-            {
-                kind: "relative-link",
-                text: "<./example with space>",
-                target: 2,
-                targetAnchor: undefined,
-            },
-            {
-                kind: "text",
-                text: "\n[3]: https://example.com\n[4]: #hash",
-            },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: "[1]: " },
+                {
+                    kind: "relative-link",
+                    text: "./example.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: "\n[2]:" },
+                {
+                    kind: "relative-link",
+                    text: "<./example with space>",
+                    target: 2,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: "\n[3]: https://example.com\n[4]: #hash",
+                },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Does not mistake mailto: links as relative paths", () => {
@@ -1533,9 +1538,12 @@ describe("Comment Parser", () => {
             * [1]: mailto:example@example.com
             */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: "[1]: mailto:example@example.com" },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: "[1]: mailto:example@example.com" },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Recognizes HTML image links", () => {
@@ -1545,26 +1553,29 @@ describe("Comment Parser", () => {
         * <img src="https://example.com/favicon.ico">
         */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: '<img width=100 height="200" src="' },
-            {
-                kind: "relative-link",
-                text: "./test.png",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: '" >\n<img src="' },
-            {
-                kind: "relative-link",
-                text: "./test space.png",
-                target: 2,
-                targetAnchor: undefined,
-            },
-            {
-                kind: "text",
-                text: '"/>\n<img src="https://example.com/favicon.ico">',
-            },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<img width=100 height="200" src="' },
+                {
+                    kind: "relative-link",
+                    text: "./test.png",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: '" >\n<img src="' },
+                {
+                    kind: "relative-link",
+                    text: "./test space.png",
+                    target: 2,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: '"/>\n<img src="https://example.com/favicon.ico">',
+                },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Recognizes HTML anchor links", () => {
@@ -1575,26 +1586,29 @@ describe("Comment Parser", () => {
         * <a href="#hash">
         */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: '<a data-foo="./path.txt" href="' },
-            {
-                kind: "relative-link",
-                text: "./test.png",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: '" >\n<a href="' },
-            {
-                kind: "relative-link",
-                text: "./test space.png",
-                target: 2,
-                targetAnchor: undefined,
-            },
-            {
-                kind: "text",
-                text: '"/>\n<a href="https://example.com/favicon.ico">\n<a href="#hash">',
-            },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<a data-foo="./path.txt" href="' },
+                {
+                    kind: "relative-link",
+                    text: "./test.png",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: '" >\n<a href="' },
+                {
+                    kind: "relative-link",
+                    text: "./test space.png",
+                    target: 2,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: '"/>\n<a href="https://example.com/favicon.ico">\n<a href="#hash">',
+                },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Recognizes anchors within relative links", () => {
@@ -1603,23 +1617,26 @@ describe("Comment Parser", () => {
             * [test](./test.txt#bar)
             */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: '<a href="' },
-            {
-                kind: "relative-link",
-                text: "./path.md#foo",
-                target: 1,
-                targetAnchor: "foo",
-            },
-            { kind: "text", text: '" >\n[test](' },
-            {
-                kind: "relative-link",
-                text: "./test.txt#bar",
-                target: 2,
-                targetAnchor: "bar",
-            },
-            { kind: "text", text: ")" },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<a href="' },
+                {
+                    kind: "relative-link",
+                    text: "./path.md#foo",
+                    target: 1,
+                    targetAnchor: "foo",
+                },
+                { kind: "text", text: '" >\n[test](' },
+                {
+                    kind: "relative-link",
+                    text: "./test.txt#bar",
+                    target: 2,
+                    targetAnchor: "bar",
+                },
+                { kind: "text", text: ")" },
+            ] satisfies CommentDisplayPart[],
+        );
     });
 
     it("Properly handles character escapes", () => {
@@ -1627,16 +1644,19 @@ describe("Comment Parser", () => {
         * <a href="./&amp;&#97;.png" >
         */`);
 
-        equal(comment.summary, [
-            { kind: "text", text: '<a href="' },
-            {
-                kind: "relative-link",
-                text: "./&amp;&#97;.png",
-                target: 1,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: '" >' },
-        ] satisfies CommentDisplayPart[]);
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<a href="' },
+                {
+                    kind: "relative-link",
+                    text: "./&amp;&#97;.png",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: '" >' },
+            ] satisfies CommentDisplayPart[],
+        );
 
         equal(files.getName(1), "&a.png");
         equal(files.getName(1), "&a.png");

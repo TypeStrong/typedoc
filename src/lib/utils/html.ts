@@ -1,4 +1,4 @@
-import { assertNever } from "./general.js";
+import { assertNever } from "#utils";
 import { htmlEntities } from "./html-entities.js";
 
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
@@ -25,18 +25,6 @@ for (const [name, data] of Object.entries(htmlEntities)) {
     current.data = data;
 }
 
-const htmlEscapes: Record<string, string> = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-};
-
-export function escapeHtml(html: string) {
-    return html.replace(/[&<>'"]/g, (c) => htmlEscapes[c as never]);
-}
-
 /**
  * Replaces non-[URL code points](https://url.spec.whatwg.org/#url-code-points)
  * with an underscore. Also disallows some additional special characters which either
@@ -45,6 +33,8 @@ export function escapeHtml(html: string) {
  * Ref: #2714
  */
 export function createNormalizedUrl(url: string) {
+    // We are intentionally operating on code points here.
+    // eslint-disable-next-line @typescript-eslint/no-misused-spread
     const codePoints: number[] = [...url].map((c) => c.codePointAt(0)!);
 
     for (let i = 0; i < codePoints.length; ++i) {
@@ -490,8 +480,7 @@ export class HtmlAttributeParser {
             } else {
                 --this.pos;
                 this.temporaryBuffer.pop();
-                const lastChar =
-                    this.temporaryBuffer[this.temporaryBuffer.length - 1];
+                const lastChar = this.temporaryBuffer[this.temporaryBuffer.length - 1];
 
                 // If there is a match
                 if (currentTrie.data) {
@@ -637,10 +626,9 @@ export class HtmlAttributeParser {
         // ... and do nothing, so don't bother checking.
 
         // Handle replacements
-        this.characterReferenceCode =
-            characterReferenceCodePointReplacements.get(
-                this.characterReferenceCode,
-            ) ?? this.characterReferenceCode;
+        this.characterReferenceCode = characterReferenceCodePointReplacements.get(
+            this.characterReferenceCode,
+        ) ?? this.characterReferenceCode;
 
         this.temporaryBuffer = [this.characterReferenceCode];
         this.flushTemporaryBuffer();

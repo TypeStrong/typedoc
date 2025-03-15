@@ -1,7 +1,7 @@
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, EntryPointStrategy } from "../../index.js";
+import { Application, EntryPointStrategy, normalizePath } from "../../index.js";
 
 describe("Entry Points", () => {
     using fixture = tempdirProject();
@@ -27,9 +27,11 @@ describe("Entry Points", () => {
     it("Supports expanding existing paths", async () => {
         const app = await Application.bootstrap({
             tsconfig,
-            entryPoints: [fixture.cwd],
+            entryPoints: [normalizePath(fixture.cwd)],
             entryPointStrategy: EntryPointStrategy.Expand,
         });
+
+        equal(app.options.getValue("entryPoints"), [normalizePath(fixture.cwd)]);
 
         const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);
@@ -42,10 +44,14 @@ describe("Entry Points", () => {
 
     it("Supports expanding globs in paths", async () => {
         const app = await Application.bootstrap({
-            tsconfig,
-            entryPoints: [`${fixture.cwd}/*.ts`],
             entryPointStrategy: EntryPointStrategy.Expand,
+            tsconfig,
         });
+        app.options.setValue("entryPoints", ["*.ts"], fixture.cwd);
+
+        equal(app.options.getValue("entryPoints"), [
+            `${normalizePath(fixture.cwd)}/*.ts`,
+        ]);
 
         const entryPoints = app.getDefinedEntryPoints();
         ok(entryPoints);
@@ -58,8 +64,8 @@ describe("Entry Points", () => {
 
     it("Supports resolving directories", async () => {
         const app = await Application.bootstrap({
-            tsconfig,
-            entryPoints: [fixture.cwd],
+            tsconfig: normalizePath(tsconfig),
+            entryPoints: [normalizePath(fixture.cwd)],
             entryPointStrategy: EntryPointStrategy.Resolve,
         });
 

@@ -17,17 +17,18 @@ on the scale of breaking changes introduced in a new TypeScript version, a given
 support more versions of TypeScript. TypeDoc may work with older (or newer) TypeScript versions, but
 the supported version range will generally not include versions not supported by DefinitelyTyped.
 
-| TypeDoc Version | TypeScript Version | Status              |
-| --------------- | ------------------ | ------------------- |
-| 0.27            | 5.0 through 5.8    | ✅ Maintained       |
-| 0.26            | 4.6 through 5.6    | ⚠️ Security Updates |
-| 0.25            | 4.6 through 5.4    | ❌ Unmaintained     |
-| 0.24            | 4.6 through 5.1    | ❌ Unmaintained     |
-| 0.23            | 4.6 through 5.0    | ❌ Unmaintained     |
-| 0.22            | 4.0 through 4.7    | ❌ Unmaintained     |
-| 0.21            | 4.0 through 4.4    | ❌ Unmaintained     |
-| 0.20            | 3.9 through 4.2    | ❌ Unmaintained     |
-| 0.19            | 3.9 through 4.0    | ❌ Unmaintained     |
+| TypeDoc Version | TypeScript Version | Status             |
+| --------------- | ------------------ | ------------------ |
+| 0.28            | 5.0 through 5.8    | ✅ Maintained      |
+| 0.27            | 5.0 through 5.8    | ⚠️ Security Updates |
+| 0.26            | 4.6 through 5.6    | ❌ Unmaintained    |
+| 0.25            | 4.6 through 5.4    | ❌ Unmaintained    |
+| 0.24            | 4.6 through 5.1    | ❌ Unmaintained    |
+| 0.23            | 4.6 through 5.0    | ❌ Unmaintained    |
+| 0.22            | 4.0 through 4.7    | ❌ Unmaintained    |
+| 0.21            | 4.0 through 4.4    | ❌ Unmaintained    |
+| 0.20            | 3.9 through 4.2    | ❌ Unmaintained    |
+| 0.19            | 3.9 through 4.0    | ❌ Unmaintained    |
 
 ## Command Line Interface
 
@@ -52,6 +53,7 @@ import * as td from "typedoc";
 // Also accepts an array of option readers if you want to disable
 // TypeDoc's tsconfig.json/package.json/typedoc.json option readers
 const app = await td.Application.bootstrapWithPlugins({
+    // Note: This accepts globs, do not pass paths with backslash path separators!
     entryPoints: ["src/index.ts"],
 });
 
@@ -59,10 +61,52 @@ const app = await td.Application.bootstrapWithPlugins({
 const project = await app.convert();
 
 if (project) {
+    // Generate configured outputs
+    await generateOutputs(project);
+
+    // Alternatively...
     const outputDir = "docs";
     // Generate HTML rendered docs
     await app.generateDocs(project, outputDir);
     // Alternatively generate JSON output
     await app.generateJson(project, outputDir + "/docs.json");
 }
+```
+
+## Browser Bundle
+
+TypeDoc exports a limited portion of its API surface for users who want to process
+serialized JSON from TypeDoc within a browser via `typedoc/browser`. The browser
+entry point includes the following components:
+
+- TypeDoc's models
+- `Serializer` and `Deserializer` classes
+- A small set of utility functions
+
+```ts
+import {
+    ConsoleLogger,
+    Deserializer,
+    FileRegistry,
+    setTranslations,
+} from "typedoc/browser";
+
+// Similar paths are available for ja, ko, zh
+import translations from "typedoc/browser/en";
+
+// Before doing anything with TypeDoc, it should be configured with translations
+setTranslations(translations);
+
+const projectJson = await fetch("...").then(r => r.json());
+
+const logger = new ConsoleLogger();
+const deserializer = new Deserializer(logger);
+const project = deserializer.reviveProject("API Docs", projectJson, {
+    projectRoot: "/",
+    registry: new FileRegistry(),
+});
+
+// Now we can use TypeDoc's models to more easily analyze the json
+console.log(project.getChildByName("SomeClass.property"));
+console.log(project.getChildByName("SomeClass.property").type.toString());
 ```

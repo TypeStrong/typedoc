@@ -8,14 +8,9 @@ import {
 } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import type { Reflection } from "../../models/reflections/abstract.js";
-import {
-    Option,
-    DefaultMap,
-    type ValidationOptions,
-} from "../../utils/index.js";
-import { zip } from "../../utils/array.js";
-import { parseDeclarationReference } from "../comments/declarationReference.js";
+import type { Reflection } from "../../models/Reflection.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
+import { DefaultMap, i18n, parseDeclarationReference, zip } from "#utils";
 import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -46,9 +41,7 @@ export class InheritDocPlugin extends ConverterComponent {
      */
     constructor(owner: Converter) {
         super(owner);
-        this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) =>
-            this.processInheritDoc(context.project),
-        );
+        this.owner.on(ConverterEvents.RESOLVE_END, (context: Context) => this.processInheritDoc(context.project));
         this.application.on(
             ApplicationEvents.REVIVE,
             this.processInheritDoc.bind(this),
@@ -69,13 +62,12 @@ export class InheritDocPlugin extends ConverterComponent {
             const declRef = parseDeclarationReference(source, 0, source.length);
             if (!declRef || /\S/.test(source.substring(declRef[1]))) {
                 this.application.logger.warn(
-                    this.application.i18n.declaration_reference_in_inheritdoc_for_0_not_fully_parsed(
+                    i18n.declaration_reference_in_inheritdoc_for_0_not_fully_parsed(
                         reflection.getFriendlyFullName(),
                     ),
                 );
             }
-            let sourceRefl =
-                declRef && resolveDeclarationReference(reflection, declRef[0]);
+            let sourceRefl = declRef && resolveDeclarationReference(reflection, declRef[0]);
 
             if (reflection instanceof SignatureReflection) {
                 // Assumes that if there are overloads, they are declared in the same order as the parent.
@@ -87,8 +79,7 @@ export class InheritDocPlugin extends ConverterComponent {
                     const index = reflection.parent
                         .getAllSignatures()
                         .indexOf(reflection);
-                    sourceRefl =
-                        sourceRefl.getAllSignatures()[index] || sourceRefl;
+                    sourceRefl = sourceRefl.getAllSignatures()[index] || sourceRefl;
                 }
             }
 
@@ -105,7 +96,7 @@ export class InheritDocPlugin extends ConverterComponent {
             if (!sourceRefl) {
                 if (this.validation.invalidLink) {
                     this.application.logger.warn(
-                        this.application.i18n.failed_to_find_0_to_inherit_comment_from_in_1(
+                        i18n.failed_to_find_0_to_inherit_comment_from_in_1(
                             source,
                             reflection.getFriendlyFullName(),
                         ),
@@ -143,7 +134,7 @@ export class InheritDocPlugin extends ConverterComponent {
 
         if (!source.comment) {
             this.application.logger.warn(
-                this.application.i18n.reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment(
+                i18n.reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment(
                     target.getFullName(),
                     source.getFullName(),
                 ),
@@ -208,7 +199,7 @@ export class InheritDocPlugin extends ConverterComponent {
             parts.push(orig.name);
 
             this.application.logger.warn(
-                this.application.i18n.inheritdoc_circular_inheritance_chain_0(
+                i18n.inheritdoc_circular_inheritance_chain_0(
                     parts.reverse().join(" -> "),
                 ),
             );

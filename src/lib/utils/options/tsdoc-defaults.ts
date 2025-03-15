@@ -22,7 +22,7 @@ export const blockTags = [
     "@default",
     "@document",
     "@extends",
-    "@augments", //Alias for @extends
+    "@augments", // Alias for @extends
     "@yields",
     "@group",
     "@groupDescription",
@@ -41,6 +41,10 @@ export const blockTags = [
     "@type",
     "@typedef",
     "@summary",
+    "@preventInline",
+    "@inlineType",
+    "@preventExpand",
+    "@expandType",
 ] as const;
 
 export const tsdocInlineTags = ["@link", "@inheritDoc", "@label"] as const;
@@ -81,10 +85,12 @@ export const modifierTags = [
     "@inline",
     "@interface",
     "@namespace",
+    "@function",
     "@overload",
     "@private",
     "@protected",
     "@showCategories",
     "@showGroups",
     "@useDeclaredType",
+    "@primaryExport",
 ] as const;

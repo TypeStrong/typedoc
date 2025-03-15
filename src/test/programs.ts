@@ -1,4 +1,4 @@
-import { deepStrictEqual as equal } from "assert";
+import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
 import ts from "typescript";
 import {
@@ -8,9 +8,13 @@ import {
     ProjectReflection,
     SourceReference,
     TSConfigReader,
+    type TypeDocOptions,
 } from "../index.js";
 import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
+import { existsSync } from "fs";
+import { clearCommentCache } from "../lib/converter/comments/index.js";
+import { diagnostics } from "../lib/utils/loggers.js";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -24,18 +28,23 @@ export function getConverterBase() {
 export function getConverterApp() {
     if (!converterApp) {
         converterApp = createAppForTesting();
-        for (const [name, value] of Object.entries({
-            name: "typedoc",
-            excludeExternals: true,
-            disableSources: false,
-            excludePrivate: false,
-            tsconfig: join(getConverterBase(), "tsconfig.json"),
-            externalPattern: ["**/node_modules/**"],
-            plugin: [],
-            entryPointStrategy: EntryPointStrategy.Expand,
-            gitRevision: "fake",
-            readme: "none",
-        })) {
+        for (
+            const [name, value] of Object.entries(
+                {
+                    name: "typedoc",
+                    excludeExternals: true,
+                    disableSources: false,
+                    excludePrivate: false,
+                    tsconfig: join(getConverterBase(), "tsconfig.json"),
+                    externalPattern: ["**/node_modules/**"],
+                    plugin: [],
+                    entryPointStrategy: EntryPointStrategy.Expand,
+                    gitRevision: "fake",
+                    readme: "none",
+                    skipErrorChecking: true,
+                } satisfies Partial<TypeDocOptions>,
+            )
+        ) {
             converterApp.options.setValue(name as never, value as never);
         }
         new TSConfigReader().read(
@@ -55,9 +64,11 @@ export function getConverterApp() {
                 _serializer,
             ) {
                 if (obj.url) {
-                    obj.url = `typedoc://${obj.url.substring(
-                        obj.url.indexOf(ref.fileName),
-                    )}`;
+                    obj.url = `typedoc://${
+                        obj.url.substring(
+                            obj.url.indexOf(ref.fileName),
+                        )
+                    }`;
                 }
                 return obj;
             },
@@ -101,11 +112,16 @@ export function getConverter2Base() {
 export function getConverter2App() {
     if (!converter2App) {
         converter2App = createAppForTesting();
-        for (const [name, value] of Object.entries({
-            excludeExternals: true,
-            tsconfig: join(getConverter2Base(), "tsconfig.json"),
-            validation: true,
-        })) {
+        for (
+            const [name, value] of Object.entries(
+                {
+                    excludeExternals: true,
+                    tsconfig: join(getConverter2Base(), "tsconfig.json"),
+                    validation: true,
+                    skipErrorChecking: true,
+                } satisfies Partial<TypeDocOptions>,
+            )
+        ) {
             converter2App.options.setValue(name as never, value as never);
         }
         new TSConfigReader().read(
@@ -126,9 +142,48 @@ export function getConverter2Program() {
         );
 
         const errors = ts.getPreEmitDiagnostics(converter2Program);
-        app.logger.diagnostics(errors);
+        diagnostics(app.logger, errors);
         equal(errors.length, 0);
     }
 
     return converter2Program;
+}
+
+export function getConverter2Project(entries: string[], folder: string) {
+    const app = getConverter2App();
+    const base = getConverter2Base();
+    const program = getConverter2Program();
+
+    const entryPoints = entries
+        .map((entry) =>
+            [
+                join(base, `${folder}/${entry}.ts`),
+                join(base, `${folder}/${entry}.d.ts`),
+                join(base, `${folder}/${entry}.tsx`),
+                join(base, `${folder}/${entry}.js`),
+                join(base, folder, entry, "index.ts"),
+                join(base, folder, entry, "index.js"),
+                join(base, folder, entry),
+            ].find(existsSync)
+        )
+        .filter((x) => x !== undefined);
+
+    const files = entryPoints.map((e) => program.getSourceFile(e));
+    for (const [index, file] of files.entries()) {
+        ok(file, `No source file found for ${entryPoints[index]}`);
+    }
+
+    ok(entryPoints.length > 0, "Expected at least one entry point");
+
+    app.options.setValue("entryPoints", entryPoints);
+    clearCommentCache();
+    return app.converter.convert(
+        files.map((file, index) => {
+            return {
+                displayName: entries[index].replace(/\.[tj]sx?$/, ""),
+                program,
+                sourceFile: file!,
+            };
+        }),
+    );
 }

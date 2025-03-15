@@ -124,6 +124,76 @@ $ typedoc --theme default
 
 Specify the theme name that should be used.
 
+## router
+
+```bash
+$ typedoc --router default
+```
+
+Specify the router that should be used to determine what files to create for the
+HTML output and how to link between pages. Additional routers may be added by
+plugins/themes. TypeDoc ships with the following builtin routers:
+
+- **kind** (default) - Creates folders according to their the documented member's kind.
+- **kind-dir** - Like **kind**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
+- **structure** - Creates folders according to the module structure.
+- **structure-dir** - Like **structure**, but renders each page as `index.html` within a directory for the page name. This can be used to make "clean" urls.
+- **group** - Creates folders according to the reflection's [`@group`](../tags/group.md).
+- **category** - Creates folders according to the reflection's [`@category`](../tags/category.md).
+
+This is easiest to understand with an example. Given the following API:
+
+```ts
+export function initialize(): void;
+/** @group Opts */
+export class Options {}
+export namespace TypeDoc {
+    export const VERSION: string;
+}
+```
+
+TypeDoc will create a folder structure resembling the following, the common
+`assets` folder and `index.html` / `modules.html` files have been omitted for
+brevity.
+
+**kind**
+
+```text
+docs
+├── classes
+│   └── Options.html
+├── functions
+│   └── initialize.html
+├── modules
+│   └── TypeDoc.html
+└── variables
+    └── TypeDoc.VERSION.html
+```
+
+**structure**
+
+```text
+├── initialize.html
+├── Options.html
+├── TypeDoc
+│   └── VERSION.html
+└── TypeDoc.html
+```
+
+**groups**
+
+```text
+docs
+├── Opts
+│   └── Options.html
+├── Functions
+│   └── initialize.html
+├── Namespaces
+│   └── TypeDoc.html
+└── Variables
+    └── TypeDoc.VERSION.html
+```
+
 ## lightHighlightTheme
 
 ```bash
@@ -449,10 +519,10 @@ overwritten on a per-reflection basis by using the following
 tags within the comment for the reflection containing the
 categories/groups.
 
--   `@showGroups`
--   `@hideGroups`
--   `@showCategories`
--   `@hideCategories`
+- `@showGroups`
+- `@hideGroups`
+- `@showCategories`
+- `@hideCategories`
 
 ## headings
 
@@ -586,3 +656,12 @@ page for each member which is rendered on another page. If the
 [`@summary`](../tags/summary.md) tag is used, it will specify the short summary
 text. If `@summary` is not used, this option controls whether TypeDoc will use
 the first paragraph from the comment as the short summary or leave it blank.
+
+## includeHierarchySummary
+
+```bash
+typedoc --includeHierarchySummary false
+```
+
+Specifies whether or not to generate the `hierarchy.html` page in the output
+which lists the full class hierarchy for generated members. Defaults to `true`.

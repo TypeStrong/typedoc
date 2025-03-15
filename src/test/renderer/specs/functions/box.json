@@ -1,0 +1,220 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "",
+                                        "aria-current": "page"
+                                    },
+                                    "children": "box"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Function box"
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel": {
+                        "ul.tsd-signatures": {
+                            "li.": [
+                                {
+                                    "div.tsd-signature.tsd-anchor-link#box": [
+                                        {
+                                            "span.tsd-kind-call-signature": "box"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": "<"
+                                        },
+                                        {
+                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                            "props": {
+                                                "href": "#boxt"
+                                            },
+                                            "children": "T"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": ">"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": "("
+                                        },
+                                        {
+                                            "span.tsd-kind-parameter": "item"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": ":"
+                                        },
+                                        " ",
+                                        {
+                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                            "props": {
+                                                "href": "#boxt"
+                                            },
+                                            "children": "T"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": ")"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": ":"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-signature-symbol": "{"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-kind-property": "box"
+                                        },
+                                        {
+                                            "span.tsd-signature-symbol": ":"
+                                        },
+                                        " ",
+                                        {
+                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                            "props": {
+                                                "href": "#boxt"
+                                            },
+                                            "children": "T"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-signature-symbol": "}"
+                                        },
+                                        {
+                                            "tag": "a.tsd-anchor-icon",
+                                            "props": {
+                                                "href": "#box",
+                                                "aria-label": "Permalink"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "div.tsd-description": [
+                                        {
+                                            "div.tsd-comment.tsd-typography": "<p>Signature comment</p>\n"
+                                        },
+                                        {
+                                            "section.tsd-panel": [
+                                                {
+                                                    "h4": "Type Parameters"
+                                                },
+                                                {
+                                                    "ul.tsd-type-parameter-list": {
+                                                        "li": {
+                                                            "span#boxt": {
+                                                                "span.tsd-kind-type-parameter": "T"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-parameters": [
+                                                {
+                                                    "h4.tsd-parameters-title": "Parameters"
+                                                },
+                                                {
+                                                    "ul.tsd-parameter-list": {
+                                                        "li": [
+                                                            {
+                                                                "span": [
+                                                                    {
+                                                                        "span.tsd-kind-parameter": "item"
+                                                                    },
+                                                                    ": ",
+                                                                    {
+                                                                        "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                                        "props": {
+                                                                            "href": "#boxt"
+                                                                        },
+                                                                        "children": "T"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "div.tsd-comment.tsd-typography": "<p>Item comment</p>\n"
+                                                            },
+                                                            {
+                                                                "div.tsd-comment.tsd-typography": []
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "h4.tsd-returns-title": [
+                                                "Returns ",
+                                                {
+                                                    "span.tsd-signature-symbol": "{"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-kind-property": "box"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                    "props": {
+                                                        "href": "#boxt"
+                                                    },
+                                                    "children": "T"
+                                                },
+                                                " ",
+                                                {
+                                                    "span.tsd-signature-symbol": "}"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-comment.tsd-typography": []
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "index.ts"
+                                                            },
+                                                            "children": "index.ts:109"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": []
+            }
+        }
+    ]
+}

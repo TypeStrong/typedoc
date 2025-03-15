@@ -3,20 +3,38 @@ import MarkdownIt from "markdown-it";
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
 import { ContextAwareRendererComponent } from "../components.js";
-import { MarkdownEvent, RendererEvent, type PageEvent } from "../events.js";
-import { Option, renderElement, assertNever, type ValidationOptions } from "../../utils/index.js";
+import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
+import { Option, type ValidationOptions } from "../../utils/index.js";
 import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
 import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { escapeHtml } from "../../utils/html.js";
+import { assertNever, escapeHtml, i18n, JSX, type TranslatedString } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
-    type Reflection,
-    ReflectionKind,
     type CommentDisplayPart,
+    Reflection,
+    ReflectionKind,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
-import type { TranslatedString, TranslationProxy } from "../../internationalization/index.js";
+import type { RouterTarget } from "../router.js";
+
+type Namable = { name: string; parent?: Namable };
+function getFriendlyFullName(target: Namable): string {
+    if (target instanceof Reflection) {
+        return target.getFriendlyFullName();
+    }
+
+    if (target.parent) {
+        return target.name;
+    }
+    const parts: string[] = [target.name];
+    let current: Namable = target;
+    while (current.parent) {
+        parts.unshift(current.name);
+        current = current.parent!;
+    }
+    return parts.join(".");
+}
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -41,14 +59,14 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     private parser?: MarkdownIt;
 
     private renderedRelativeLinks: {
-        source: Reflection;
-        target: Reflection;
+        source: RouterTarget;
+        target: RouterTarget;
         link: RelativeLinkDisplayPart;
     }[] = [];
 
     /**
      * This needing to be here really feels hacky... probably some nicer way to do this.
-     * Revisit when adding support for arbitrary pages in 0.26.
+     * Revisit in 0.28.
      */
     private renderContext: DefaultThemeRenderContext = null!;
     private lastHeaderSlug = "";
@@ -71,18 +89,18 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
             this.application.logger.warn(
-                this.application.i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
                     lang,
-                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
                 ),
             );
             return text;
         }
         if (!isLoadedLanguage(lang)) {
             this.application.logger.warn(
-                this.application.i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
+                i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
                     lang,
-                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
                 ),
             );
             return text;
@@ -146,31 +164,34 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step. Warnings related to those broken links
                                     // have already been emitted.
-                                    url = context.urlTo(part.target);
                                     kindClass = ReflectionKind.classString(part.target.kind);
+                                    if (context.router.hasUrl(part.target)) {
+                                        url = context.urlTo(part.target);
+                                    }
 
                                     // If we don't have a URL the user probably linked to some deeply nested property
                                     // which doesn't get an assigned URL. We'll walk upwards until we find a reflection
                                     // which has a URL and link to that instead.
-                                    if (!url) {
+                                    if (typeof url === "undefined") {
                                         // Walk upwards to find something we can link to.
                                         let target = part.target.parent!;
-                                        url = context.urlTo(target);
-                                        while (!url && target.parent) {
-                                            target = target.parent;
-                                            // We know we'll always end up with a URL here eventually as the
-                                            // project always has a URL.
-                                            url = context.urlTo(target)!;
+                                        while (!context.router.hasUrl(target)) {
+                                            target = target.parent!;
                                         }
+
+                                        // We know we'll always end up with a URL here eventually as the
+                                        // project always has a URL.
+                                        url = context.urlTo(target);
 
                                         if (this.validation.rewrittenLink) {
                                             this.application.logger.warn(
-                                                this.application.i18n.reflection_0_links_to_1_with_text_2_but_resolved_to_3(
-                                                    page.model.getFriendlyFullName(),
-                                                    part.target.getFriendlyFullName(),
-                                                    part.text,
-                                                    target.getFriendlyFullName(),
-                                                ),
+                                                i18n
+                                                    .reflection_0_links_to_1_with_text_2_but_resolved_to_3(
+                                                        page.model.getFriendlyFullName(),
+                                                        part.target.getFriendlyFullName(),
+                                                        part.text,
+                                                        target.getFriendlyFullName(),
+                                                    ),
                                             );
                                         }
                                     }
@@ -213,7 +234,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                 }
                             }
 
-                            if (url) {
+                            if (typeof url !== "undefined") {
                                 if (part.targetAnchor) {
                                     url += "#" + part.targetAnchor;
 
@@ -245,11 +266,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
     private onEnd() {
         for (const { source, target, link } of this.renderedRelativeLinks) {
-            const slugger = this.owner.theme!.getSlugger(target);
+            const slugger = this.owner.router!.getSlugger(target);
             if (!slugger.hasAnchor(link.targetAnchor!)) {
                 this.application.logger.warn(
-                    this.application.i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
-                        source.getFriendlyFullName(),
+                    i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
+                        getFriendlyFullName(source),
                         link.text,
                         slugger
                             .getSimilarAnchors(link.targetAnchor!)
@@ -275,7 +296,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     private getSlugger() {
-        return this.owner.theme!.getSlugger(this.page!.model);
+        return this.owner.router!.getSlugger(this.page!.model);
     }
 
     /**
@@ -291,14 +312,16 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 code = code.replace(/\n$/, "") + "\n";
 
                 if (!lang) {
-                    return `<pre><code>${code}</code><button>${this.application.i18n.theme_copy()}</button></pre>\n`;
+                    return `<pre><code>${code}</code><button>${i18n.theme_copy()}</button></pre>\n`;
                 }
 
-                return `<pre><code class="${escapeHtml(lang)}">${code}</code><button type="button">${this.application.i18n.theme_copy()}</button></pre>\n`;
+                return `<pre><code class="${
+                    escapeHtml(lang)
+                }">${code}</code><button type="button">${i18n.theme_copy()}</button></pre>\n`;
             },
         });
 
-        githubAlertMarkdownPlugin(this.parser, this.application.i18n);
+        githubAlertMarkdownPlugin(this.parser);
 
         const loader = this.application.options.getValue("markdownItLoader");
         loader(this.parser);
@@ -318,10 +341,10 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 level,
             });
 
-            return `<a id="${slug}" class="tsd-anchor"></a><${token.tag} class="tsd-anchor-link">`;
+            return `<${token.tag} id="${slug}" class="tsd-anchor-link">`;
         };
         this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
+            return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
         };
 
         // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
@@ -352,9 +375,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         this.parser.renderer.rules["alert_open"] = (tokens, idx) => {
             const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
-            const iconHtml = renderElement(icon());
+            const iconHtml = JSX.renderElement(icon());
 
-            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${tokens[idx].attrGet("alert")}</span></div>`;
+            return `<div class="${tokens[idx].attrGet("class")}"><div class="tsd-alert-title">${iconHtml}<span>${
+                tokens[idx].attrGet("alert")
+            }</span></div>`;
         };
     }
 
@@ -378,15 +403,15 @@ function getTokenTextContent(token: md.Token): string {
 const kindNames = ["note", "tip", "important", "warning", "caution"];
 const iconNames = ["alertNote", "alertTip", "alertImportant", "alertWarning", "alertCaution"] as const;
 type AlertIconName = (typeof iconNames)[number];
-const kindTranslations: Array<(i18n: TranslationProxy) => TranslatedString> = [
-    (i18n) => i18n.alert_note(),
-    (i18n) => i18n.alert_tip(),
-    (i18n) => i18n.alert_important(),
-    (i18n) => i18n.alert_warning(),
-    (i18n) => i18n.alert_caution(),
+const kindTranslations: Array<() => TranslatedString> = [
+    () => i18n.alert_note(),
+    () => i18n.alert_tip(),
+    () => i18n.alert_important(),
+    () => i18n.alert_warning(),
+    () => i18n.alert_caution(),
 ];
 
-function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
+function githubAlertMarkdownPlugin(md: MarkdownIt) {
     md.core.ruler.after("block", "typedoc-github-alert-plugin", (state) => {
         const bqStarts: number[] = [];
 
@@ -396,7 +421,7 @@ function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
                 bqStarts.push(i);
             } else if (token.type === "blockquote_close") {
                 if (bqStarts.length === 1) {
-                    checkForAlert(state.tokens, bqStarts[0], i, i18n);
+                    checkForAlert(state.tokens, bqStarts[0], i);
                 }
                 bqStarts.pop();
             }
@@ -404,7 +429,7 @@ function githubAlertMarkdownPlugin(md: MarkdownIt, i18n: TranslationProxy) {
     });
 }
 
-function checkForAlert(tokens: md.Token[], start: number, end: number, i18n: TranslationProxy) {
+function checkForAlert(tokens: md.Token[], start: number, end: number) {
     let alertKind = -1;
 
     // Search for the first "inline" token. That will be the blockquote text.
@@ -428,7 +453,7 @@ function checkForAlert(tokens: md.Token[], start: number, end: number, i18n: Tra
     tokens[start].type = "alert_open";
     tokens[start].tag = "div";
     tokens[start].attrPush(["class", `tsd-alert tsd-alert-${kindNames[alertKind]}`]);
-    tokens[start].attrPush(["alert", kindTranslations[alertKind](i18n)]);
+    tokens[start].attrPush(["alert", kindTranslations[alertKind]()]);
     tokens[start].attrPush(["icon", iconNames[alertKind]]);
 
     tokens[end].type = "alert_close";

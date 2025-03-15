@@ -1,688 +1,757 @@
 {
-  "id": 0,
-  "name": "comment",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 1,
-      "name": "comment",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "children": [
+    "schemaVersion": "2.0",
+    "id": 0,
+    "name": "comment",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 2,
-          "name": "CommentedClass",
-          "variant": "declaration",
-          "kind": 128,
-          "flags": {},
-          "comment": {
-            "summary": [
-              {
-                "kind": "text",
-                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n"
-              },
-              {
-                "kind": "code",
-                "text": "```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```"
-              }
-            ],
-            "blockTags": [
-              {
-                "tag": "@deprecated",
-                "content": []
-              },
-              {
-                "tag": "@groupDescription",
-                "content": [
-                  {
-                    "kind": "text",
-                    "text": "Methods\nMethods description!"
-                  }
-                ]
-              }
-            ]
-          },
-          "children": [
-            {
-              "id": 3,
-              "name": "constructor",
-              "variant": "declaration",
-              "kind": 512,
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 4,
-                  "name": "CommentedClass",
-                  "variant": "signature",
-                  "kind": 16384,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 2,
-                    "name": "CommentedClass",
-                    "package": "typedoc"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 5,
-              "name": "prop",
-              "variant": "declaration",
-              "kind": 1024,
-              "flags": {},
-              "comment": {
+            "id": 1,
+            "name": "comment",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "comment": {
                 "summary": [
-                  {
-                    "kind": "text",
-                    "text": "The main prop"
-                  }
-                ]
-              },
-              "sources": [
-                {
-                  "fileName": "comment.ts",
-                  "line": 38,
-                  "character": 4,
-                  "url": "typedoc://comment.ts#L38"
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            },
-            {
-              "id": 19,
-              "name": "mixedHidden",
-              "variant": "declaration",
-              "kind": 2048,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "comment.ts",
-                  "line": 78,
-                  "character": 4,
-                  "url": "typedoc://comment.ts#L78"
-                }
-              ],
-              "signatures": [
-                {
-                  "id": 22,
-                  "name": "mixedHidden",
-                  "variant": "signature",
-                  "kind": 4096,
-                  "flags": {},
-                  "comment": {
-                    "summary": [
-                      {
+                    {
                         "kind": "text",
-                        "text": "Mixed hidden 2"
-                      }
-                    ]
-                  },
-                  "sources": [
-                    {
-                      "fileName": "comment.ts",
-                      "line": 78,
-                      "character": 4,
-                      "url": "typedoc://comment.ts#L78"
+                        "text": "Module doc comment with document."
                     }
-                  ],
-                  "parameters": [
+                ]
+            },
+            "children": [
+                {
+                    "id": 3,
+                    "name": "CommentedClass",
+                    "variant": "declaration",
+                    "kind": 128,
+                    "flags": {},
+                    "comment": {
+                        "summary": [
+                            {
+                                "kind": "text",
+                                "text": "A Comment for a class\n\n## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n"
+                            },
+                            {
+                                "kind": "code",
+                                "text": "```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```"
+                            }
+                        ],
+                        "blockTags": [
+                            {
+                                "tag": "@deprecated",
+                                "content": []
+                            },
+                            {
+                                "tag": "@groupDescription",
+                                "content": [
+                                    {
+                                        "kind": "text",
+                                        "text": "Methods\nMethods description!"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "children": [
+                        {
+                            "id": 4,
+                            "name": "constructor",
+                            "variant": "declaration",
+                            "kind": 512,
+                            "flags": {},
+                            "signatures": [
+                                {
+                                    "id": 5,
+                                    "name": "CommentedClass",
+                                    "variant": "signature",
+                                    "kind": 16384,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 3,
+                                        "name": "CommentedClass",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": 6,
+                            "name": "prop",
+                            "variant": "declaration",
+                            "kind": 1024,
+                            "flags": {},
+                            "comment": {
+                                "summary": [
+                                    {
+                                        "kind": "text",
+                                        "text": "The main prop"
+                                    }
+                                ]
+                            },
+                            "sources": [
+                                {
+                                    "fileName": "comment.ts",
+                                    "line": 40,
+                                    "character": 4,
+                                    "url": "typedoc://comment.ts#L40"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "id": 20,
+                            "name": "mixedHidden",
+                            "variant": "declaration",
+                            "kind": 2048,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "comment.ts",
+                                    "line": 80,
+                                    "character": 4,
+                                    "url": "typedoc://comment.ts#L80"
+                                }
+                            ],
+                            "signatures": [
+                                {
+                                    "id": 23,
+                                    "name": "mixedHidden",
+                                    "variant": "signature",
+                                    "kind": 4096,
+                                    "flags": {},
+                                    "comment": {
+                                        "summary": [
+                                            {
+                                                "kind": "text",
+                                                "text": "Mixed hidden 2"
+                                            }
+                                        ]
+                                    },
+                                    "sources": [
+                                        {
+                                            "fileName": "comment.ts",
+                                            "line": 80,
+                                            "character": 4,
+                                            "url": "typedoc://comment.ts#L80"
+                                        }
+                                    ],
+                                    "parameters": [
+                                        {
+                                            "id": 24,
+                                            "name": "arg1",
+                                            "variant": "param",
+                                            "kind": 32768,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "intrinsic",
+                                                "name": "any"
+                                            }
+                                        },
+                                        {
+                                            "id": 25,
+                                            "name": "arg2",
+                                            "variant": "param",
+                                            "kind": 32768,
+                                            "flags": {},
+                                            "type": {
+                                                "type": "intrinsic",
+                                                "name": "any"
+                                            }
+                                        }
+                                    ],
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "any"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "groups": [
+                        {
+                            "title": "Constructors",
+                            "children": [
+                                4
+                            ]
+                        },
+                        {
+                            "title": "Properties",
+                            "children": [
+                                6
+                            ]
+                        },
+                        {
+                            "title": "Methods",
+                            "description": [
+                                {
+                                    "kind": "text",
+                                    "text": "Methods description!"
+                                }
+                            ],
+                            "children": [
+                                20
+                            ]
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "fileName": "comment.ts",
+                            "line": 36,
+                            "character": 13,
+                            "url": "typedoc://comment.ts#L36"
+                        }
+                    ]
+                },
+                {
+                    "id": 27,
+                    "name": "UnionWithCommentsOnMembers",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "comment.ts",
+                            "line": 89,
+                            "character": 12,
+                            "url": "typedoc://comment.ts#L89"
+                        }
+                    ],
+                    "type": {
+                        "type": "union",
+                        "types": [
+                            {
+                                "type": "literal",
+                                "value": "foo1"
+                            },
+                            {
+                                "type": "literal",
+                                "value": "foo2"
+                            }
+                        ],
+                        "elementSummaries": [
+                            [
+                                {
+                                    "kind": "text",
+                                    "text": "Doc of foo1."
+                                }
+                            ],
+                            [
+                                {
+                                    "kind": "text",
+                                    "text": "Doc of foo2."
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ],
+            "documents": [
+                {
+                    "id": 2,
+                    "name": "document",
+                    "variant": "document",
+                    "kind": 8388608,
+                    "flags": {},
+                    "content": [
+                        {
+                            "kind": "text",
+                            "text": "External doc included with "
+                        },
+                        {
+                            "kind": "code",
+                            "text": "`@document`"
+                        },
+                        {
+                            "kind": "text",
+                            "text": " tag!"
+                        }
+                    ],
+                    "frontmatter": {}
+                }
+            ],
+            "childrenIncludingDocuments": [
+                2,
+                3,
+                27
+            ],
+            "groups": [
+                {
+                    "title": "Documents",
+                    "children": [
+                        2
+                    ]
+                },
+                {
+                    "title": "Classes",
+                    "children": [
+                        3
+                    ]
+                },
+                {
+                    "title": "Type Aliases",
+                    "children": [
+                        27
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "comment.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://comment.ts#L1"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "name": "comment2",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "comment": {
+                "summary": [
                     {
-                      "id": 23,
-                      "name": "arg1",
-                      "variant": "param",
-                      "kind": 32768,
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
+                        "kind": "text",
+                        "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
                     },
                     {
-                      "id": 24,
-                      "name": "arg2",
-                      "variant": "param",
-                      "kind": 32768,
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "any"
-                      }
+                        "kind": "code",
+                        "text": "`multiply`"
+                    },
+                    {
+                        "kind": "text",
+                        "text": " function."
                     }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "any"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Constructors",
-              "children": [
-                3
-              ]
+                ]
             },
-            {
-              "title": "Properties",
-              "children": [
-                5
-              ]
-            },
-            {
-              "title": "Methods",
-              "description": [
+            "children": [
                 {
-                  "kind": "text",
-                  "text": "Methods description!"
+                    "id": 29,
+                    "name": "multiply",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "comment2.ts",
+                            "line": 8,
+                            "character": 16,
+                            "url": "typedoc://comment2.ts#L8"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 30,
+                            "name": "multiply",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "comment2.ts",
+                                    "line": 8,
+                                    "character": 16,
+                                    "url": "typedoc://comment2.ts#L8"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 31,
+                                    "name": "a",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                },
+                                {
+                                    "id": 32,
+                                    "name": "b",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ]
                 }
-              ],
-              "children": [
-                19
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "comment.ts",
-              "line": 34,
-              "character": 13,
-              "url": "typedoc://comment.ts#L34"
-            }
-          ]
-        },
-        {
-          "id": 26,
-          "name": "UnionWithCommentsOnMembers",
-          "variant": "declaration",
-          "kind": 2097152,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "comment.ts",
-              "line": 87,
-              "character": 12,
-              "url": "typedoc://comment.ts#L87"
-            }
-          ],
-          "type": {
-            "type": "union",
-            "types": [
-              {
-                "type": "literal",
-                "value": "foo1"
-              },
-              {
-                "type": "literal",
-                "value": "foo2"
-              }
             ],
-            "elementSummaries": [
-              [
+            "groups": [
                 {
-                  "kind": "text",
-                  "text": "Doc of foo1."
+                    "title": "Functions",
+                    "children": [
+                        29
+                    ]
                 }
-              ],
-              [
+            ],
+            "sources": [
                 {
-                  "kind": "text",
-                  "text": "Doc of foo2."
+                    "fileName": "comment2.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://comment2.ts#L1"
                 }
-              ]
             ]
-          }
-        }
-      ],
-      "groups": [
-        {
-          "title": "Classes",
-          "children": [
-            2
-          ]
         },
         {
-          "title": "Type Aliases",
-          "children": [
-            26
-          ]
-        }
-      ],
-      "sources": [
+            "id": 33,
+            "name": "comment3",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
+                    },
+                    {
+                        "kind": "code",
+                        "text": "`multiply`"
+                    },
+                    {
+                        "kind": "text",
+                        "text": " function."
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 34,
+                    "name": "multiply",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "comment3.ts",
+                            "line": 8,
+                            "character": 16,
+                            "url": "typedoc://comment3.ts#L8"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 35,
+                            "name": "multiply",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "comment3.ts",
+                                    "line": 8,
+                                    "character": 16,
+                                    "url": "typedoc://comment3.ts#L8"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 36,
+                                    "name": "a",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                },
+                                {
+                                    "id": 37,
+                                    "name": "b",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Functions",
+                    "children": [
+                        34
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "comment3.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://comment3.ts#L1"
+                }
+            ]
+        },
         {
-          "fileName": "comment.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://comment.ts#L1"
+            "id": 38,
+            "name": "comment4",
+            "variant": "declaration",
+            "kind": 2,
+            "flags": {},
+            "comment": {
+                "summary": [
+                    {
+                        "kind": "text",
+                        "text": "This is a comment containing a multiline code block\n"
+                    },
+                    {
+                        "kind": "code",
+                        "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
+                    }
+                ]
+            },
+            "children": [
+                {
+                    "id": 39,
+                    "name": "multiply",
+                    "variant": "declaration",
+                    "kind": 64,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "comment4.ts",
+                            "line": 11,
+                            "character": 16,
+                            "url": "typedoc://comment4.ts#L11"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 40,
+                            "name": "multiply",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "comment4.ts",
+                                    "line": 11,
+                                    "character": 16,
+                                    "url": "typedoc://comment4.ts#L11"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 41,
+                                    "name": "a",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                },
+                                {
+                                    "id": 42,
+                                    "name": "b",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "intrinsic",
+                                        "name": "number"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Functions",
+                    "children": [
+                        39
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "comment4.ts",
+                    "line": 1,
+                    "character": 0,
+                    "url": "typedoc://comment4.ts#L1"
+                }
+            ]
         }
-      ]
+    ],
+    "groups": [
+        {
+            "title": "Modules",
+            "children": [
+                1,
+                28,
+                33,
+                38
+            ]
+        }
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "1": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": ""
+        },
+        "3": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "CommentedClass"
+        },
+        "6": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "CommentedClass.prop"
+        },
+        "20": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "CommentedClass.mixedHidden"
+        },
+        "23": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "CommentedClass.mixedHidden"
+        },
+        "24": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "arg1"
+        },
+        "25": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "arg2"
+        },
+        "27": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment.ts",
+            "qualifiedName": "UnionWithCommentsOnMembers"
+        },
+        "28": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": ""
+        },
+        "29": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": "multiply"
+        },
+        "30": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": "multiply"
+        },
+        "31": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": "a"
+        },
+        "32": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment2.ts",
+            "qualifiedName": "b"
+        },
+        "33": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": ""
+        },
+        "34": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": "multiply"
+        },
+        "35": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": "multiply"
+        },
+        "36": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": "a"
+        },
+        "37": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment3.ts",
+            "qualifiedName": "b"
+        },
+        "38": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": ""
+        },
+        "39": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": "multiply"
+        },
+        "40": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": "multiply"
+        },
+        "41": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": "a"
+        },
+        "42": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/comment/comment4.ts",
+            "qualifiedName": "b"
+        }
     },
-    {
-      "id": 27,
-      "name": "comment2",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
-          },
-          {
-            "kind": "code",
-            "text": "`multiply`"
-          },
-          {
-            "kind": "text",
-            "text": " function."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 28,
-          "name": "multiply",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "comment2.ts",
-              "line": 8,
-              "character": 16,
-              "url": "typedoc://comment2.ts#L8"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 29,
-              "name": "multiply",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "comment2.ts",
-                  "line": 8,
-                  "character": 16,
-                  "url": "typedoc://comment2.ts#L8"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 30,
-                  "name": "a",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 31,
-                  "name": "b",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ]
+    "files": {
+        "entries": {
+            "1": "src/test/converter/comment/comment.ts",
+            "2": "src/test/converter/comment/document.md",
+            "3": "src/test/converter/comment/comment2.ts",
+            "4": "src/test/converter/comment/comment3.ts",
+            "5": "src/test/converter/comment/comment4.ts"
+        },
+        "reflections": {
+            "1": 1,
+            "2": 2,
+            "3": 28,
+            "4": 33,
+            "5": 38
         }
-      ],
-      "groups": [
-        {
-          "title": "Functions",
-          "children": [
-            28
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "comment2.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://comment2.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 32,
-      "name": "comment3",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a module doc with the module tag to mark it as documentation\nfor the whole module. It is *not* documentation for the "
-          },
-          {
-            "kind": "code",
-            "text": "`multiply`"
-          },
-          {
-            "kind": "text",
-            "text": " function."
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 33,
-          "name": "multiply",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "comment3.ts",
-              "line": 8,
-              "character": 16,
-              "url": "typedoc://comment3.ts#L8"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 34,
-              "name": "multiply",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "comment3.ts",
-                  "line": 8,
-                  "character": 16,
-                  "url": "typedoc://comment3.ts#L8"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 35,
-                  "name": "a",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 36,
-                  "name": "b",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Functions",
-          "children": [
-            33
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "comment3.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://comment3.ts#L1"
-        }
-      ]
-    },
-    {
-      "id": 37,
-      "name": "comment4",
-      "variant": "declaration",
-      "kind": 2,
-      "flags": {},
-      "comment": {
-        "summary": [
-          {
-            "kind": "text",
-            "text": "This is a comment containing a multiline code block\n"
-          },
-          {
-            "kind": "code",
-            "text": "```ts\nexport function multiply(a: number, b: number) {\n  return a * b;\n}\n```"
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": 38,
-          "name": "multiply",
-          "variant": "declaration",
-          "kind": 64,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "comment4.ts",
-              "line": 11,
-              "character": 16,
-              "url": "typedoc://comment4.ts#L11"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 39,
-              "name": "multiply",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "comment4.ts",
-                  "line": 11,
-                  "character": 16,
-                  "url": "typedoc://comment4.ts#L11"
-                }
-              ],
-              "parameters": [
-                {
-                  "id": 40,
-                  "name": "a",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                },
-                {
-                  "id": 41,
-                  "name": "b",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Functions",
-          "children": [
-            38
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "comment4.ts",
-          "line": 1,
-          "character": 0,
-          "url": "typedoc://comment4.ts#L1"
-        }
-      ]
     }
-  ],
-  "groups": [
-    {
-      "title": "Modules",
-      "children": [
-        1,
-        27,
-        32,
-        37
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "1": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": ""
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "CommentedClass"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "CommentedClass.prop"
-    },
-    "19": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "CommentedClass.mixedHidden"
-    },
-    "22": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "CommentedClass.mixedHidden"
-    },
-    "23": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "arg1"
-    },
-    "24": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "arg2"
-    },
-    "26": {
-      "sourceFileName": "src/test/converter/comment/comment.ts",
-      "qualifiedName": "UnionWithCommentsOnMembers"
-    },
-    "27": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": ""
-    },
-    "28": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "multiply"
-    },
-    "29": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "multiply"
-    },
-    "30": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "a"
-    },
-    "31": {
-      "sourceFileName": "src/test/converter/comment/comment2.ts",
-      "qualifiedName": "b"
-    },
-    "32": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": ""
-    },
-    "33": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "multiply"
-    },
-    "34": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "multiply"
-    },
-    "35": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "a"
-    },
-    "36": {
-      "sourceFileName": "src/test/converter/comment/comment3.ts",
-      "qualifiedName": "b"
-    },
-    "37": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": ""
-    },
-    "38": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "multiply"
-    },
-    "39": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "multiply"
-    },
-    "40": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "a"
-    },
-    "41": {
-      "sourceFileName": "src/test/converter/comment/comment4.ts",
-      "qualifiedName": "b"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/comment/comment.ts",
-      "2": "src/test/converter/comment/comment2.ts",
-      "3": "src/test/converter/comment/comment3.ts",
-      "4": "src/test/converter/comment/comment4.ts"
-    },
-    "reflections": {
-      "1": 1,
-      "2": 27,
-      "3": 32,
-      "4": 37
-    }
-  }
 }

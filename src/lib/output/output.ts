@@ -1,11 +1,7 @@
+import { i18n, type TranslatedString } from "#utils";
 import type { Application } from "../application.js";
-import type { TranslatedString } from "../internationalization/index.js";
 import type { ProjectReflection } from "../models/index.js";
-import {
-    ParameterType,
-    type OutputSpecification,
-    type StringDeclarationOption,
-} from "../utils/options/declaration.js";
+import { type OutputSpecification, ParameterType, type StringDeclarationOption } from "../utils/options/declaration.js";
 import { nicePath } from "../utils/paths.js";
 
 export class Outputs {
@@ -40,8 +36,7 @@ export class Outputs {
         const outputShortcuts = options
             .getDeclarations()
             .filter(
-                (decl) =>
-                    decl.type === ParameterType.Path && decl.outputShortcut,
+                (decl) => decl.type === ParameterType.Path && decl.outputShortcut,
             );
 
         // --out is a special case. It isn't marked as a shortcut as what it is
@@ -92,7 +87,7 @@ export class Outputs {
         const writer = this.outputs.get(output.name);
         if (!writer) {
             this.application.logger.error(
-                this.application.i18n.specified_output_0_has_not_been_defined(
+                i18n.specified_output_0_has_not_been_defined(
                     output.name,
                 ),
             );
@@ -110,21 +105,20 @@ export class Outputs {
         try {
             await writer(output.path, project);
         } catch (error) {
-            const message =
-                error instanceof Error ? error.message : String(error);
+            const message = error instanceof Error ? error.message : String(error);
             this.application.logger.error(message as TranslatedString);
         }
 
         if (this.application.logger.errorCount === preErrors) {
             this.application.logger.info(
-                this.application.i18n.output_0_generated_at_1(
+                i18n.output_0_generated_at_1(
                     output.name,
                     nicePath(output.path),
                 ),
             );
         } else {
             this.application.logger.error(
-                this.application.i18n.output_0_could_not_be_generated(
+                i18n.output_0_could_not_be_generated(
                     output.name,
                 ),
             );

@@ -22,11 +22,13 @@ function isInstallingAsGitDepInNpm() {
     const normalizedNpmConfigCache = normalize(npm_config_cache);
 
     // Check if any of these paths are within npm's cache directory
-    for (const path of [
-        npm_package_json,
-        npm_package_resolved,
-        npm_config_local_prefix,
-    ]) {
+    for (
+        const path of [
+            npm_package_json,
+            npm_package_resolved,
+            npm_config_local_prefix,
+        ]
+    ) {
         if (!path) continue;
         // If local prefix is subdirectory of cache, assume we're being installed as
         // a git dep

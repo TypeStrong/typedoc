@@ -16,9 +16,7 @@ export class NavigationPlugin extends RendererComponent {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
-        this.owner.preRenderAsyncJobs.push((event) =>
-            this.buildNavigationIndex(event),
-        );
+        this.owner.preRenderAsyncJobs.push((event) => this.buildNavigationIndex(event));
     }
 
     private async buildNavigationIndex(event: RendererEvent) {

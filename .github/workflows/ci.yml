@@ -14,18 +14,20 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node }}
+            - name: Set up pnpm
+              run: npm i -g pnpm@10
             - name: Install
-              run: npm ci
+              run: pnpm install
             - name: Build
-              run: npm run build
+              run: pnpm run build
             - name: Test
               run: |
                   if node -e "process.exit(Number(+process.versions.node.slice(0, 2) < 23))"; then
                     export NODE_OPTIONS="--no-experimental-strip-types"
                   fi
-                  npm run test:full
+                  pnpm run test:full
             - name: Lint
-              run: npm run lint
+              run: pnpm run lint
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v2.0.2
               with:
@@ -40,16 +42,18 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 22.4.1
+            - name: Set up pnpm
+              run: npm i -g pnpm@10
             - name: Install
-              run: npm ci
+              run: pnpm install
             - name: Build
               run: |
                   node scripts/set_strict.js false
-                  npm run build
+                  pnpm run build
             - name: Test
-              run: npm run test:full
+              run: pnpm run test:full
             - name: Lint
-              run: npm run lint -- --max-warnings 0
+              run: pnpm run lint
     build-windows:
         runs-on: windows-latest
         name: Node 18 Windows
@@ -60,13 +64,13 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 18
-            - name: Upgrade npm
-              run: npm i -g npm@10
+            - name: Set up pnpm
+              run: npm i -g pnpm@10
             - name: Install
-              run: npm ci
+              run: pnpm install
             - name: Build
-              run: npm run build
+              run: pnpm run build
             - name: Test
-              run: npm run test:full
+              run: pnpm run test:full
             - name: Lint
-              run: npm run lint -- --max-warnings 0
+              run: pnpm run lint

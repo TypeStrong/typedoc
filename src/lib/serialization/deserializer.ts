@@ -1,10 +1,9 @@
-import { ok } from "assert";
-import type { Application } from "../application.js";
 import {
     ArrayType,
     ConditionalType,
     DeclarationReflection,
     DocumentReflection,
+    type FileRegistry,
     IndexedAccessType,
     InferredType,
     IntersectionType,
@@ -33,11 +32,9 @@ import {
     TypeParameterReflection,
     UnionType,
     UnknownType,
-} from "../models/index.js";
-import { insertPrioritySorted } from "../utils/array.js";
-import type { Logger } from "../utils/loggers.js";
-import type { JSONOutput } from "./index.js";
-import type { FileRegistry } from "../models/FileRegistry.js";
+} from "#models";
+import { assert, insertPrioritySorted, type Logger, type NormalizedPath } from "#utils";
+import * as JSONOutput from "./schema.js";
 
 export interface DeserializerComponent {
     priority: number;
@@ -49,6 +46,8 @@ export interface Deserializable<T> {
     fromObject(d: Deserializer, o: T): void;
 }
 
+const supportedSchemaVersions = [JSONOutput.SCHEMA_VERSION];
+
 /**
  * Deserializes TypeDoc's JSON output back to {@link Reflection} instances.
  *
@@ -59,11 +58,6 @@ export class Deserializer {
     private deferred: Array<(project: ProjectReflection) => void> = [];
     private deserializers: DeserializerComponent[] = [];
     private activeReflection: Reflection[] = [];
-    constructor(readonly application: Application) {}
-
-    get logger(): Logger {
-        return this.application.logger;
-    }
 
     reflectionBuilders: {
         [K in keyof ReflectionVariant]: (
@@ -217,11 +211,13 @@ export class Deserializer {
     /**
      * Only set when deserializing.
      */
-    projectRoot!: string;
+    projectRoot!: NormalizedPath;
 
     oldIdToNewId: Record<number, number | undefined> = {};
     oldFileIdToNewFileId: Record<number, number | undefined> = {};
     project: ProjectReflection | undefined;
+
+    constructor(public logger: Logger) {}
 
     addDeserializer(de: DeserializerComponent): void {
         insertPrioritySorted(this.deserializers, de);
@@ -236,22 +232,27 @@ export class Deserializer {
         name: string,
         projectObj: JSONOutput.ProjectReflection,
         options: {
-            projectRoot: string;
+            projectRoot: NormalizedPath;
             registry: FileRegistry;
-            addProjectDocuments?: boolean;
         },
     ): ProjectReflection {
-        ok(
+        assert(
             this.deferred.length === 0,
             "Deserializer.defer was called when not deserializing",
         );
+
+        if (!supportedSchemaVersions.includes(projectObj.schemaVersion)) {
+            throw new Error(
+                `Attempted to deserialize version "${projectObj.schemaVersion}" JSON, which is not supported. Supported versions: ${
+                    supportedSchemaVersions.join(", ")
+                }`,
+            );
+        }
+
         const project = new ProjectReflection(
             name || projectObj.name,
             options.registry,
         );
-        if (options.addProjectDocuments) {
-            this.application.converter.addProjectDocuments(project);
-        }
         this.project = project;
         this.projectRoot = options.projectRoot;
         this.oldIdToNewId = { [projectObj.id]: project.id };
@@ -264,12 +265,12 @@ export class Deserializer {
             def(project);
         }
 
-        ok(
+        assert(
             this.deferred.length === 0,
             "Work may not be double deferred when deserializing.",
         );
 
-        ok(
+        assert(
             this.activeReflection.length === 0,
             "Imbalanced reflection deserialization",
         );
@@ -285,30 +286,35 @@ export class Deserializer {
         name: string,
         projects: readonly JSONOutput.ProjectReflection[],
         options: {
-            projectRoot: string;
+            projectRoot: NormalizedPath;
             registry: FileRegistry;
-            addProjectDocuments?: boolean;
+            alwaysCreateEntryPointModule: boolean;
         },
     ): ProjectReflection {
         if (
             projects.length === 1 &&
-            !this.application.options.getValue("alwaysCreateEntryPointModule")
+            !options.alwaysCreateEntryPointModule
         ) {
             return this.reviveProject(name, projects[0], options);
         }
 
         const project = new ProjectReflection(name, options.registry);
-        if (options.addProjectDocuments) {
-            this.application.converter.addProjectDocuments(project);
-        }
         this.project = project;
         this.projectRoot = options.projectRoot;
 
         for (const proj of projects) {
-            ok(
+            assert(
                 this.deferred.length === 0,
                 "Deserializer.defer was called when not deserializing",
             );
+
+            if (!supportedSchemaVersions.includes(proj.schemaVersion)) {
+                throw new Error(
+                    `Attempted to deserialize version "${proj.schemaVersion}" JSON, which is not supported. Supported versions: ${
+                        supportedSchemaVersions.join(", ")
+                    }`,
+                );
+            }
 
             const projModule = new DeclarationReflection(
                 proj.name,
@@ -326,12 +332,12 @@ export class Deserializer {
             for (const def of deferred) {
                 def(project);
             }
-            ok(
+            assert(
                 this.deferred.length === 0,
                 "Work may not be double deferred when deserializing.",
             );
 
-            ok(
+            assert(
                 this.activeReflection.length === 0,
                 "Imbalanced reflection deserialization",
             );
@@ -395,7 +401,7 @@ export class Deserializer {
     constructReflection<T extends JSONOutput.SomeReflection>(
         obj: T,
     ): ReflectionVariant[T["variant"]] {
-        ok(this.activeReflection.length > 0);
+        assert(this.activeReflection.length > 0);
         const result = this.reflectionBuilders[obj.variant](
             this.activeReflection[this.activeReflection.length - 1] as never,
             obj as never,

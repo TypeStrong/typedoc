@@ -1,8 +1,7 @@
 import { ok } from "assert";
-import type { OptionsReader, Options } from "../index.js";
-import type { Logger } from "../../loggers.js";
+import type { Options, OptionsReader } from "../index.js";
 import { ParameterType } from "../declaration.js";
-import type { TranslatedString } from "../../../internationalization/internationalization.js";
+import { i18n, type Logger, type TranslatedString } from "#utils";
 
 const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
     ParameterType.Array,
@@ -52,7 +51,7 @@ export class ArgumentsReader implements OptionsReader {
             if (decl) {
                 if (decl.configFileOnly) {
                     logger.error(
-                        logger.i18n.option_0_can_only_be_specified_by_config_file(
+                        i18n.option_0_can_only_be_specified_by_config_file(
                             decl.name,
                         ),
                     );
@@ -83,7 +82,7 @@ export class ArgumentsReader implements OptionsReader {
                     if (index === this.args.length) {
                         // Only boolean values have optional values.
                         logger.warn(
-                            logger.i18n.option_0_expected_a_value_but_none_provided(
+                            i18n.option_0_expected_a_value_but_none_provided(
                                 decl.name,
                             ),
                         );
@@ -117,7 +116,7 @@ export class ArgumentsReader implements OptionsReader {
             }
 
             logger.error(
-                logger.i18n.unknown_option_0_may_have_meant_1(
+                i18n.unknown_option_0_may_have_meant_1(
                     name,
                     options.getSimilarOptions(name).join("\n\t"),
                 ),

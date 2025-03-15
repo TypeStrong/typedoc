@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
-import { ReflectionSymbolId } from "../../models/reflections/ReflectionSymbolId.js";
 import { resolveAliasedSymbol } from "../utils/symbols.js";
+import { createSymbolId } from "../factories/symbol-id.js";
 
 export function* lexBlockComment(
     file: string,
@@ -12,13 +12,15 @@ export function* lexBlockComment(
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
-    for (const token of lexBlockComment2(
-        file,
-        pos,
-        end,
-        getLinkTags(jsDoc),
-        checker,
-    )) {
+    for (
+        const token of lexBlockComment2(
+            file,
+            pos,
+            end,
+            getLinkTags(jsDoc),
+            checker,
+        )
+    ) {
         if (token.kind === TokenSyntaxKind.Text) {
             if (textToken) {
                 textToken.text += token.text;
@@ -354,7 +356,7 @@ function* lexBlockComment2(
                     getRightmostName(link.name),
                 );
                 if (tsTarget) {
-                    token.tsLinkTarget = new ReflectionSymbolId(
+                    token.tsLinkTarget = createSymbolId(
                         resolveAliasedSymbol(tsTarget, checker!),
                     );
                     token.tsLinkText = link.text.replace(/^\s*\|\s*/, "");

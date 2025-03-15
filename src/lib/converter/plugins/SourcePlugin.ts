@@ -1,22 +1,16 @@
 import ts from "typescript";
 
-import {
-    DeclarationReflection,
-    SignatureReflection,
-} from "../../models/reflections/index.js";
+import { DeclarationReflection, SignatureReflection } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import {
-    Option,
-    normalizePath,
-    getCommonDirectory,
-} from "../../utils/index.js";
+import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js";
 import { isNamedNode } from "../utils/nodes.js";
 import { relative } from "path";
 import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { i18n, type NormalizedPath } from "#utils";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -38,7 +32,7 @@ export class SourcePlugin extends ConverterComponent {
     accessor sourceLinkTemplate!: string;
 
     @Option("basePath")
-    accessor basePath!: string;
+    accessor basePath!: NormalizedPath;
 
     /**
      * All file names to find the base path from.
@@ -65,8 +59,8 @@ export class SourcePlugin extends ConverterComponent {
     }
 
     private onEnd() {
-        // Should probably clear repositories/ignoredPaths here, but these aren't likely to change between runs...
         this.fileNames.clear();
+        delete this.repositories;
     }
 
     /**
@@ -78,12 +72,12 @@ export class SourcePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      */
     private onDeclaration(
-        _context: Context,
+        context: Context,
         reflection: DeclarationReflection,
     ) {
         if (this.disableSources) return;
 
-        const symbol = reflection.project.getSymbolFromReflection(reflection);
+        const symbol = context.getSymbolFromReflection(reflection);
         for (const node of symbol?.declarations || []) {
             const sourceFile = node.getSourceFile();
             const fileName = normalizePath(sourceFile.fileName);
@@ -149,7 +143,7 @@ export class SourcePlugin extends ConverterComponent {
 
         if (this.disableGit && !this.sourceLinkTemplate) {
             this.application.logger.error(
-                context.i18n.disable_git_set_but_not_source_link_template(),
+                i18n.disable_git_set_but_not_source_link_template(),
             );
             return;
         }
@@ -159,12 +153,11 @@ export class SourcePlugin extends ConverterComponent {
             !this.gitRevision
         ) {
             this.application.logger.warn(
-                context.i18n.disable_git_set_and_git_revision_used(),
+                i18n.disable_git_set_and_git_revision_used(),
             );
         }
 
-        const basePath =
-            this.basePath || getCommonDirectory([...this.fileNames]);
+        const basePath = this.basePath || getCommonDirectory([...this.fileNames]);
         this.repositories ||= new RepositoryManager(
             basePath,
             this.gitRevision,
@@ -186,7 +179,7 @@ export class SourcePlugin extends ConverterComponent {
                 continue;
             }
 
-            if (replaceSourcesWithParentSources(refl)) {
+            if (replaceSourcesWithParentSources(context, refl)) {
                 refl.sources = (refl.parent as DeclarationReflection).sources;
             }
 
@@ -212,13 +205,14 @@ function getLocationNode(node: ts.Node) {
 }
 
 function replaceSourcesWithParentSources(
+    context: Context,
     refl: SignatureReflection | DeclarationReflection,
 ) {
     if (refl instanceof DeclarationReflection || !refl.sources) {
         return false;
     }
 
-    const symbol = refl.project.getSymbolFromReflection(refl.parent);
+    const symbol = context.getSymbolFromReflection(refl.parent);
     if (!symbol?.declarations) {
         return false;
     }

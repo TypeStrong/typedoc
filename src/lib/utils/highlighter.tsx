@@ -1,7 +1,5 @@
 import * as shiki from "@gerrit0/mini-shiki";
-import type { ShikiInternal } from "@shikijs/types";
-import * as JSX from "./jsx.js";
-import { unique } from "./array.js";
+import { JSX, unique } from "#utils";
 import assert from "assert";
 
 const aliases = new Map<string, string>();
@@ -21,11 +19,17 @@ const supportedLanguages: string[] = unique([
 
 const supportedThemes: string[] = Object.keys(shiki.bundledThemes);
 
-class DoubleHighlighter {
+interface DoubleHighlighter {
+    supports(lang: string): boolean;
+    highlight(code: string, lang: string): string;
+    getStyles(): string;
+}
+
+class ShikiHighlighter {
     private schemes = new Map<string, string>();
 
     constructor(
-        private highlighter: ShikiInternal,
+        private highlighter: shiki.ShikiInternal,
         private light: shiki.BundledTheme,
         private dark: shiki.BundledTheme,
     ) {}
@@ -114,9 +118,25 @@ class DoubleHighlighter {
     }
 }
 
+class TestHighlighter implements DoubleHighlighter {
+    supports(): boolean {
+        return true;
+    }
+    highlight(code: string): string {
+        return code;
+    }
+    getStyles(): string {
+        return "";
+    }
+}
+
 let shikiEngine: shiki.RegexEngine | undefined;
 let highlighter: DoubleHighlighter | undefined;
 let ignoredLanguages: string[] | undefined;
+
+export function loadTestHighlighter() {
+    highlighter = new TestHighlighter();
+}
 
 export async function loadHighlighter(
     lightTheme: shiki.BundledTheme,
@@ -138,7 +158,7 @@ export async function loadHighlighter(
         themes: [shiki.bundledThemes[lightTheme], shiki.bundledThemes[darkTheme]],
         langs: langs.map((lang) => shiki.bundledLanguages[lang]),
     });
-    highlighter = new DoubleHighlighter(hl, lightTheme, darkTheme);
+    highlighter = new ShikiHighlighter(hl, lightTheme, darkTheme);
 }
 
 export function isSupportedLanguage(lang: string) {

@@ -17,10 +17,12 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 20
+            - name: Set up pnpm
+              run: npm i -g pnpm@10
             - name: Install
-              run: npm ci
+              run: pnpm install
             - name: Build
-              run: npm run build
+              run: pnpm run build
             - name: Build Site
               run: ./scripts/build_site.sh
             - name: Upload static files as artifact

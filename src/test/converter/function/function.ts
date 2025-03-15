@@ -193,6 +193,7 @@ export class Predicates {
  * Returns true if fn returns true for every item in the iterator
  *
  * Returns true if the iterator is empty
+ * @function
  */
 export const all: {
     <T>(fn: (item: T) => boolean, iterator: Iterable<T>): boolean;

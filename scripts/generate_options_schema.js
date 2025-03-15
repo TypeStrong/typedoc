@@ -1,7 +1,7 @@
-//@ts-check
+// @ts-check
 
 import { writeFileSync } from "fs";
-import { ParameterType, Internationalization } from "../dist/index.js";
+import { Internationalization, ParameterType } from "../dist/index.js";
 import { addTypeDocOptions } from "../dist/lib/utils/options/sources/typedoc.js";
 import { SORT_STRATEGIES } from "../dist/lib/utils/sort.js";
 
@@ -17,15 +17,13 @@ const schema = {
     allowTrailingCommas: true,
 };
 
-const i18n = new Internationalization.Internationalization(null).proxy;
-
 addTypeDocOptions({
     /** @param {import("../dist/index.js").DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
         const data = {
-            description: option.help(i18n),
+            description: option.help(),
         };
 
         const type = option.type ?? ParameterType.String;
@@ -36,33 +34,30 @@ addTypeDocOptions({
             case ParameterType.ModuleArray:
                 data.type = "array";
                 data.items = { type: "string" };
-                data.default =
-                    /** @type {import("../dist/index.js").ArrayDeclarationOption} */ (
-                        option
-                    ).defaultValue ?? [];
+                data.default = /** @type {import("../dist/index.js").ArrayDeclarationOption} */ (
+                    option
+                ).defaultValue ?? [];
                 break;
             case ParameterType.String:
             case ParameterType.Path:
+            case ParameterType.UrlOrPath:
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
-                    data.default =
-                        /** @type {import("../dist/index.js").StringDeclarationOption} */ (
-                            option
-                        ).defaultValue ?? "";
+                    data.default = /** @type {import("../dist/index.js").StringDeclarationOption} */ (
+                        option
+                    ).defaultValue ?? "";
                 }
                 break;
             case ParameterType.Boolean:
                 data.type = "boolean";
-                data.default =
-                    /** @type {import("../dist/index.js").BooleanDeclarationOption} */ (
-                        option
-                    ).defaultValue ?? false;
+                data.default = /** @type {import("../dist/index.js").BooleanDeclarationOption} */ (
+                    option
+                ).defaultValue ?? false;
                 break;
             case ParameterType.Number: {
-                const decl =
-                    /** @type {import("../dist/index.js").NumberDeclarationOption} */ (
-                        option
-                    );
+                const decl = /** @type {import("../dist/index.js").NumberDeclarationOption} */ (
+                    option
+                );
                 data.type = "number";
                 data.default = decl.defaultValue ?? 0;
                 data.maximum = decl.maxValue;
@@ -70,26 +65,23 @@ addTypeDocOptions({
                 break;
             }
             case ParameterType.Map: {
-                const map =
-                    /** @type {import("../dist/index.js").MapDeclarationOption} */ (
-                        option
-                    ).map;
-                data.enum =
-                    map instanceof Map
-                        ? [...map.values()]
-                        : Object.keys(map)
-                              .filter((key) => isNaN(+key))
-                              .map((key) =>
-                                  typeof map[key] === "number" ? key : map[key],
-                              );
-                data.default =
-                    /** @type {import("../dist/index.js").MapDeclarationOption} */ (
-                        option
-                    ).defaultValue;
+                const map = /** @type {import("../dist/index.js").MapDeclarationOption} */ (
+                    option
+                ).map;
+                data.enum = map instanceof Map
+                    ? [...map.values()]
+                    : Object.keys(map)
+                        .filter((key) => isNaN(+key))
+                        .map((key) => typeof map[key] === "number" ? key : map[key]);
+                data.default = /** @type {import("../dist/index.js").MapDeclarationOption} */ (
+                    option
+                ).defaultValue;
                 if (!data.enum.includes(data.default)) {
-                    for (const [k, v] of map instanceof Map
-                        ? map
-                        : Object.entries(map)) {
+                    for (
+                        const [k, v] of map instanceof Map
+                            ? map
+                            : Object.entries(map)
+                    ) {
                         if (v === data.default) {
                             data.default = k;
                             break;
@@ -119,10 +111,9 @@ addTypeDocOptions({
             }
             case ParameterType.Mixed:
             case ParameterType.Object:
-                data.default =
-                    /** @type {import("../dist/index.js").MixedDeclarationOption} */ (
-                        option
-                    ).defaultValue;
+                data.default = /** @type {import("../dist/index.js").MixedDeclarationOption} */ (
+                    option
+                ).defaultValue;
                 break;
 
             default:

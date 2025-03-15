@@ -1,0 +1,27 @@
+{
+    "indentWidth": 4,
+    "typescript": {
+        "module.sortImportDeclarations": "maintain",
+        "operatorPosition": "sameLine",
+        "quoteStyle": "preferDouble",
+        "conditionalExpression.operatorPosition": "nextLine",
+        "forStatement.bracePosition": "sameLine",
+        "constructorType.spaceAfterNewKeyword": true,
+        "constructSignature.spaceAfterNewKeyword": true,
+        "functionExpression.spaceAfterFunctionKeyword": true
+    },
+    "json": {},
+    "markdown": {},
+    "excludes": [
+        "**/node_modules",
+        "**/*-lock.json",
+        "src/test/converter2/issues/gh1524.d.ts",
+        "src/test/converter2/issues/gh2631/crlf.md"
+    ],
+    "plugins": [
+        "https://plugins.dprint.dev/typescript-0.93.3.wasm",
+        "https://plugins.dprint.dev/json-0.19.4.wasm",
+        "https://plugins.dprint.dev/markdown-0.17.8.wasm",
+        "https://plugins.dprint.dev/g-plane/malva-v0.11.1.wasm"
+    ]
+}

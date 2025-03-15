@@ -1,0 +1,497 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": [
+                                {
+                                    "li": {
+                                        "tag": "a",
+                                        "props": {
+                                            "href": "../modules/ExpandType.json"
+                                        },
+                                        "children": "ExpandType"
+                                    }
+                                },
+                                {
+                                    "li": {
+                                        "tag": "a",
+                                        "props": {
+                                            "href": "",
+                                            "aria-current": "page"
+                                        },
+                                        "children": "AExpanded"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "h1": "Type Alias AExpanded"
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel.tsd-comment": {
+                        "div.tsd-comment.tsd-typography": []
+                    }
+                },
+                {
+                    "div.tsd-signature": [
+                        {
+                            "span.tsd-signature-keyword": "type"
+                        },
+                        " ",
+                        {
+                            "span.tsd-kind-type-alias": "AExpanded"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-symbol": "="
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-symbol": "{"
+                        },
+                        {
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-property",
+                            "props": {
+                                "href": "#a"
+                            },
+                            "children": "a"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "tag": "a.tsd-signature-type.tsd-kind-type-alias",
+                            "props": {
+                                "href": "ExpandType.Expandable.json"
+                            },
+                            "children": "Expandable"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-property",
+                            "props": {
+                                "href": "#b"
+                            },
+                            "children": "b"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "tag": "a.tsd-signature-type.tsd-kind-interface",
+                            "props": {
+                                "href": "../interfaces/ExpandType.ExpandedByDefault.json"
+                            },
+                            "children": "ExpandedByDefault"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-property",
+                            "props": {
+                                "href": "#c"
+                            },
+                            "children": "c"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "tag": "a.tsd-signature-type.tsd-kind-type-alias",
+                            "props": {
+                                "href": "ExpandType.Expandable2.json"
+                            },
+                            "children": "Expandable2"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        {
+                            "span.tsd-signature-symbol": "}"
+                        }
+                    ]
+                },
+                {
+                    "aside.tsd-sources": {
+                        "ul": {
+                            "li": [
+                                "Defined in ",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "expandType.ts"
+                                    },
+                                    "children": "expandType.ts:21"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "section.tsd-panel-group.tsd-index-group": {
+                        "section.tsd-panel.tsd-index-panel": {
+                            "tag": "details.tsd-index-content.tsd-accordion",
+                            "props": {
+                                "open": true
+                            },
+                            "children": [
+                                {
+                                    "summary.tsd-accordion-summary.tsd-index-summary": {
+                                        "h5.tsd-index-heading.uppercase": "Index"
+                                    }
+                                },
+                                {
+                                    "div.tsd-accordion-details": {
+                                        "section.tsd-index-section": [
+                                            {
+                                                "h3.tsd-index-heading": "Properties"
+                                            },
+                                            {
+                                                "div.tsd-index-list": [
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#a"
+                                                        },
+                                                        "children": {
+                                                            "span": "a"
+                                                        }
+                                                    },
+                                                    "\n",
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#b"
+                                                        },
+                                                        "children": {
+                                                            "span": "b"
+                                                        }
+                                                    },
+                                                    "\n",
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#c"
+                                                        },
+                                                        "children": {
+                                                            "span": "c"
+                                                        }
+                                                    },
+                                                    "\n"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Properties"
+                            },
+                            "children": {
+                                "h2": "Properties"
+                            }
+                        },
+                        {
+                            "section": [
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "h3.tsd-anchor-link#a": [
+                                                {
+                                                    "span": "a"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#a",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "a"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "tag": "a.tsd-signature-type.tsd-kind-type-alias",
+                                                    "props": {
+                                                        "href": "ExpandType.Expandable.json"
+                                                    },
+                                                    "children": "Expandable"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-type-declaration": [
+                                                {
+                                                    "h4": "Type declaration"
+                                                },
+                                                {
+                                                    "ul.tsd-parameters": {
+                                                        "li.tsd-parameter": [
+                                                            {
+                                                                "h5#a": [
+                                                                    {
+                                                                        "span.tsd-kind-property": "a"
+                                                                    },
+                                                                    {
+                                                                        "span.tsd-signature-symbol": ": "
+                                                                    },
+                                                                    {
+                                                                        "span.tsd-signature-type": "string"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "div.tsd-comment.tsd-typography": "<p>A</p>\n"
+                                                            },
+                                                            {
+                                                                "div.tsd-comment.tsd-typography": []
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "expandType.ts"
+                                                            },
+                                                            "children": "expandType.ts:21"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "h3.tsd-anchor-link#b": [
+                                                {
+                                                    "span": "b"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#b",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "b"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "tag": "a.tsd-signature-type.tsd-kind-interface",
+                                                    "props": {
+                                                        "href": "../interfaces/ExpandType.ExpandedByDefault.json"
+                                                    },
+                                                    "children": "ExpandedByDefault"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "expandType.ts"
+                                                            },
+                                                            "children": "expandType.ts:21"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "section.tsd-panel.tsd-member": [
+                                        {
+                                            "h3.tsd-anchor-link#c": [
+                                                {
+                                                    "span": "c"
+                                                },
+                                                {
+                                                    "tag": "a.tsd-anchor-icon",
+                                                    "props": {
+                                                        "href": "#c",
+                                                        "aria-label": "Permalink"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "div.tsd-signature": [
+                                                {
+                                                    "span.tsd-kind-property": "c"
+                                                },
+                                                {
+                                                    "span.tsd-signature-symbol": ":"
+                                                },
+                                                " ",
+                                                {
+                                                    "tag": "a.tsd-signature-type.tsd-kind-type-alias",
+                                                    "props": {
+                                                        "href": "ExpandType.Expandable2.json"
+                                                    },
+                                                    "children": "Expandable2"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "aside.tsd-sources": {
+                                                "ul": {
+                                                    "li": [
+                                                        "Defined in ",
+                                                        {
+                                                            "tag": "a",
+                                                            "props": {
+                                                                "href": "expandType.ts"
+                                                            },
+                                                            "children": "expandType.ts:21"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": {
+                                "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                "props": {
+                                    "open": true
+                                },
+                                "children": [
+                                    {
+                                        "tag": "summary.tsd-accordion-summary",
+                                        "props": {
+                                            "data-key": "section-Properties"
+                                        },
+                                        "children": "Properties"
+                                    },
+                                    {
+                                        "div": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#a"
+                                                },
+                                                "children": {
+                                                    "span": "a"
+                                                }
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#b"
+                                                },
+                                                "children": {
+                                                    "span": "b"
+                                                }
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#c"
+                                                },
+                                                "children": {
+                                                    "span": "c"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

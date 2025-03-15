@@ -17,6 +17,5 @@ export const negativeOne = -1;
 export type FirstIfString<T extends unknown[]> = T extends [
     infer S extends string,
     ...unknown[],
-]
-    ? S
-    : never;
+] ? S :
+    never;

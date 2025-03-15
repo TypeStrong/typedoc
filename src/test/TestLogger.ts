@@ -1,11 +1,5 @@
-import { Logger, LogLevel } from "../lib/utils/index.js";
+import { Logger, LogLevel } from "#utils";
 import { fail, ok } from "assert";
-import ts from "typescript";
-import { resolve } from "path";
-import {
-    Internationalization,
-    type TranslationProxy,
-} from "../lib/internationalization/internationalization.js";
 
 const levelMap: Record<LogLevel, string> = {
     [LogLevel.None]: "none: ",
@@ -17,7 +11,6 @@ const levelMap: Record<LogLevel, string> = {
 
 export class TestLogger extends Logger {
     messages: string[] = [];
-    override i18n: TranslationProxy = new Internationalization(null).proxy;
 
     reset() {
         this.resetErrors();
@@ -55,29 +48,12 @@ export class TestLogger extends Logger {
 
         ok(
             messages.length === 0,
-            `Expected no other messages to be logged. The logged messages were:\n\t${this.messages.join(
-                "\n\t",
-            )}`,
+            `Expected no other messages to be logged. The logged messages were:\n\t${
+                this.messages.join(
+                    "\n\t",
+                )
+            }`,
         );
-    }
-
-    override diagnostic(diagnostic: ts.Diagnostic): void {
-        const output = ts.formatDiagnostic(diagnostic, {
-            getCanonicalFileName: resolve,
-            getCurrentDirectory: () => process.cwd(),
-            getNewLine: () => ts.sys.newLine,
-        });
-
-        switch (diagnostic.category) {
-            case ts.DiagnosticCategory.Error:
-                this.log(output, LogLevel.Error);
-                break;
-            case ts.DiagnosticCategory.Warning:
-                this.log(output, LogLevel.Warn);
-                break;
-            case ts.DiagnosticCategory.Message:
-                this.log(output, LogLevel.Info);
-        }
     }
 
     override log(message: string, level: LogLevel): void {

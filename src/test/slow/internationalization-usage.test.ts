@@ -3,12 +3,11 @@ import { ok } from "assert/strict";
 import { Logger, Options, TSConfigReader } from "../../index.js";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
-import { Internationalization } from "../../lib/internationalization/internationalization.js";
 import { fileURLToPath } from "url";
 
 describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
-        const options = new Options(new Internationalization(null).proxy);
+        const options = new Options();
         const tsconfigReader = new TSConfigReader();
         tsconfigReader.read(options, new Logger(), process.cwd());
 
@@ -60,8 +59,7 @@ describe("Internationalization", () => {
                 translatable.valueDeclaration.expression.expression,
             ),
         );
-        const translatableObj =
-            translatable.valueDeclaration.expression.expression;
+        const translatableObj = translatable.valueDeclaration.expression.expression;
 
         translatableObj.forEachChild((child) => {
             ok(ts.isPropertyAssignment(child));
@@ -69,12 +67,11 @@ describe("Internationalization", () => {
                 sf.fileName,
                 child.getStart(),
             );
-            const refCount =
-                refs?.filter(
-                    (ref) =>
-                        !/locales\/.*\.cts$/.test(ref.fileName) &&
-                        !ref.fileName.endsWith("translatable.ts"),
-                ).length ?? 0;
+            const refCount = refs?.filter(
+                (ref) =>
+                    !/locales\/.*\.cts$/.test(ref.fileName) &&
+                    !ref.fileName.endsWith("translatable.ts"),
+            ).length ?? 0;
             ok(
                 refCount,
                 `Translatable key ${child.name.getText()} is not referenced.`,

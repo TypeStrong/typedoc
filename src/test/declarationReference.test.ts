@@ -7,7 +7,7 @@ import {
     parseModuleSource,
     parseString,
     parseSymbolReference,
-} from "../lib/converter/comments/declarationReference.js";
+} from "#utils";
 
 describe("Declaration References", () => {
     describe("String parsing", () => {
@@ -172,8 +172,7 @@ describe("Declaration References", () => {
     });
 
     describe("Full reference parsing", () => {
-        const parse = (s: string) =>
-            parseDeclarationReference(s, 0, s.length)?.[0];
+        const parse = (s: string) => parseDeclarationReference(s, 0, s.length)?.[0];
 
         it("Parses module if there is one", () => {
             equal(parse("abc!"), {

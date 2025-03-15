@@ -2,41 +2,17 @@ import * as fs from "fs";
 import { createServer } from "net";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
-import { basename, dirname, resolve, normalize, join } from "path";
-import {
-    getCommonDirectory,
-    glob,
-    inferPackageEntryPointPaths,
-} from "../../lib/utils/fs.js";
-import { normalizePath } from "../../lib/utils/paths.js";
+import { basename, dirname, join, normalize, resolve } from "path";
+import { createGlobString, glob, inferPackageEntryPointPaths, normalizePath } from "#node-utils";
+import type { NormalizedPath } from "#utils";
 
 describe("fs.ts", () => {
-    describe("getCommonDirectory", () => {
-        it("Returns the empty string if no files are provided", () => {
-            equal(getCommonDirectory([]), "");
-        });
-
-        it("Returns the dirname if only one file is provided", () => {
-            equal(getCommonDirectory(["a/b/c.ts"]), "a/b");
-        });
-
-        it("Handles duplicates paths appropriately", () => {
-            const p = "a/b/c";
-            equal(getCommonDirectory([p, p]), p);
-        });
-
-        it("Gets the path common to all files", () => {
-            equal(
-                getCommonDirectory(["/a/b/c", "/a/b/c/d/e", "/a/b/d"]),
-                "/a/b",
-            );
-        });
-    });
-
     describe("glob", () => {
         let fix: Project;
+        let cwd: NormalizedPath;
         beforeEach(() => {
             fix = tempdirProject();
+            cwd = normalizePath(fix.cwd);
         });
         afterEach(() => {
             fix.rm();
@@ -45,7 +21,9 @@ describe("fs.ts", () => {
         it("handles root match", () => {
             fix.write();
 
-            const result = glob(fix.cwd, fix.cwd, { includeDirectories: true });
+            const result = glob(createGlobString("", cwd), cwd, {
+                includeDirectories: true,
+            });
             equal(result.map(normalize), [fix.cwd].map(normalize));
         });
 
@@ -57,11 +35,11 @@ describe("fs.ts", () => {
             fix.write();
 
             equal(
-                glob(`${fix.cwd}/*.ts`, fix.cwd).map((f) => basename(f)),
+                glob(createGlobString(cwd, `*.ts`), cwd).map((f) => basename(f)),
                 ["a.ts", "test.ts", "test2.ts"],
             );
             equal(
-                glob(`**/test*.ts`, fix.cwd).map((f) => basename(f)),
+                glob(createGlobString(cwd, `**/test*.ts`), cwd).map((f) => basename(f)),
                 ["test.ts", "test2.ts"],
             );
         });
@@ -72,7 +50,7 @@ describe("fs.ts", () => {
                 fix.write();
                 fs.symlinkSync(target, resolve(fix.cwd, "b"), "junction");
                 equal(
-                    glob(`${fix.cwd}/b/*.ts`, fix.cwd, {
+                    glob(createGlobString(cwd, `b/*.ts`), cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test.ts"],
@@ -88,7 +66,7 @@ describe("fs.ts", () => {
                     "junction",
                 );
                 equal(
-                    glob(`${fix.cwd}/**/*.ts`, fix.cwd, {
+                    glob(createGlobString(cwd, `**/*.ts`), cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test.ts", "test.ts"],
@@ -115,7 +93,7 @@ describe("fs.ts", () => {
                     }
                 }
                 equal(
-                    glob(`${fix.cwd}/**/*.ts`, fix.cwd, {
+                    glob(createGlobString(cwd, `**/*.ts`), cwd, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test-2.ts", "test.ts"],
@@ -128,9 +106,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(`${fix.cwd}/node_modules/test.ts`, fix.cwd).map((f) =>
-                        basename(f),
-                    ),
+                    glob(createGlobString(cwd, `node_modules/test.ts`), cwd).map((f) => basename(f)),
                     ["test.ts"],
                 );
             });
@@ -141,9 +117,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(`${fix.cwd}/**/test.ts`, fix.cwd).map((f) =>
-                        basename(f),
-                    ),
+                    glob(createGlobString(cwd, `**/test.ts`), cwd).map((f) => basename(f)),
                     [],
                 );
             });
@@ -163,7 +137,7 @@ describe("fs.ts", () => {
                 .once("listening", () => {
                     let err: AssertionError | null = null;
                     try {
-                        equal(glob(`${fix.cwd}/*.sock`, fix.cwd), []);
+                        equal(glob(createGlobString(cwd, `*.sock`), cwd), []);
                     } catch (e) {
                         err = e as AssertionError;
                     } finally {
@@ -178,8 +152,7 @@ describe("fs.ts", () => {
     describe("inferPackageEntryPointPaths", () => {
         using fixture = tempdirProject();
         afterEach(() => fixture.rm());
-        const packagePath = (path: string) =>
-            normalizePath(join(fixture.cwd, path));
+        const packagePath = (path: string) => normalizePath(join(fixture.cwd, path));
 
         const inferExports = () =>
             inferPackageEntryPointPaths(fixture.cwd + "/package.json").map(

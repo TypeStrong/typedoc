@@ -8,12 +8,8 @@ import {
     ReflectionKind,
     ReflectionSymbolId,
 } from "../../models/index.js";
-import {
-    type DeclarationReference,
-    parseDeclarationReference,
-} from "./declarationReference.js";
 import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
-import { maxElementByScore } from "../../utils/array.js";
+import { type DeclarationReference, maxElementByScore, parseDeclarationReference } from "#utils";
 
 const urlPrefix = /^(http|ftp)s?:\/\//;
 
@@ -84,9 +80,7 @@ export function resolvePartLinks(
     externalResolver: ExternalSymbolResolver,
     options: LinkResolverOptions,
 ): CommentDisplayPart[] {
-    return parts.flatMap((part) =>
-        processPart(reflection, part, externalResolver, options),
-    );
+    return parts.flatMap((part) => processPart(reflection, part, externalResolver, options));
 }
 
 function processPart(
@@ -166,8 +160,7 @@ function resolveLinkTag(
                 return 1;
             })!;
             pos = end;
-            defaultDisplayText =
-                part.tsLinkText ||
+            defaultDisplayText = part.tsLinkText ||
                 (options.preserveLinkText ? part.text : target.name);
         } else {
             // If we didn't find a target, we might be pointing to a symbol in another project that will be merged in
@@ -184,8 +177,7 @@ function resolveLinkTag(
                 part.target,
             );
 
-            defaultDisplayText =
-                part.tsLinkText ||
+            defaultDisplayText = part.tsLinkText ||
                 (options.preserveLinkText
                     ? part.text
                     : part.text.substring(0, pos));
@@ -196,8 +188,7 @@ function resolveLinkTag(
                     break;
                 case "object":
                     target = externalResolveResult.target;
-                    defaultDisplayText =
-                        externalResolveResult.caption || defaultDisplayText;
+                    defaultDisplayText = externalResolveResult.caption || defaultDisplayText;
             }
         }
     }
@@ -232,8 +223,7 @@ function resolveLinkTag(
                     break;
                 case "object":
                     target = externalResolveResult.target;
-                    defaultDisplayText =
-                        externalResolveResult.caption || defaultDisplayText;
+                    defaultDisplayText = externalResolveResult.caption || defaultDisplayText;
             }
         }
     }
@@ -259,8 +249,7 @@ function resolveLinkTag(
     }
 
     part.target = target;
-    part.text =
-        part.text.substring(pos).trim() || defaultDisplayText || part.text;
+    part.text = part.text.substring(pos).trim() || defaultDisplayText || part.text;
 
     return part;
 }

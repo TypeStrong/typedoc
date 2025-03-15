@@ -8,17 +8,12 @@ import {
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
-} from "../../models/reflections/index.js";
-import {
-    ReferenceType,
-    ReflectionType,
-    type Type,
-} from "../../models/types.js";
-import { filterMap, zip } from "../../utils/array.js";
+} from "../../models/index.js";
+import { ReferenceType, ReflectionType, type Type } from "../../models/types.js";
+import { filterMap, type TranslatedString, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getHumanName } from "../../utils/index.js";
-import type { TranslatedString } from "../../internationalization/internationalization.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 
@@ -73,23 +68,19 @@ export class ImplementsPlugin extends ConverterComponent {
                 return;
             }
 
-            const interfaceMemberName =
-                interfaceReflection.name + "." + interfaceMember.name;
-            classMember.implementationOf =
-                ReferenceType.createResolvedReference(
-                    interfaceMemberName,
-                    interfaceMember,
-                    project,
-                );
+            const interfaceMemberName = interfaceReflection.name + "." + interfaceMember.name;
+            classMember.implementationOf = ReferenceType.createResolvedReference(
+                interfaceMemberName,
+                interfaceMember,
+                project,
+            );
 
-            const intSigs =
-                interfaceMember.signatures ||
+            const intSigs = interfaceMember.signatures ||
                 interfaceMember.type?.visit({
                     reflection: (r) => r.declaration.signatures,
                 });
 
-            const clsSigs =
-                classMember.signatures ||
+            const clsSigs = classMember.signatures ||
                 classMember.type?.visit({
                     reflection: (r) => r.declaration.signatures,
                 });
@@ -98,16 +89,15 @@ export class ImplementsPlugin extends ConverterComponent {
                 for (const [clsSig, intSig] of zip(clsSigs, intSigs)) {
                     if (clsSig.implementationOf) {
                         const target = intSig.parent.kindOf(
-                            ReflectionKind.FunctionOrMethod,
-                        )
+                                ReflectionKind.FunctionOrMethod,
+                            )
                             ? intSig
                             : intSig.parent.parent!;
-                        clsSig.implementationOf =
-                            ReferenceType.createResolvedReference(
-                                clsSig.implementationOf.name,
-                                target,
-                                project,
-                            );
+                        clsSig.implementationOf = ReferenceType.createResolvedReference(
+                            clsSig.implementationOf.name,
+                            target,
+                            project,
+                        );
                     }
                 }
             }
@@ -124,10 +114,10 @@ export class ImplementsPlugin extends ConverterComponent {
             reflection.extendedTypes ?? [],
             (type) => {
                 return type instanceof ReferenceType &&
-                    type.reflection instanceof DeclarationReflection
+                        type.reflection instanceof DeclarationReflection
                     ? (type as ReferenceType & {
-                          reflection: DeclarationReflection;
-                      })
+                        reflection: DeclarationReflection;
+                    })
                     : void 0;
             },
         );
@@ -143,10 +133,12 @@ export class ImplementsPlugin extends ConverterComponent {
                         ? "overwrites"
                         : "inheritedFrom";
 
-                    for (const [childSig, parentSig] of zip(
-                        child.signatures ?? [],
-                        parentMember.signatures ?? [],
-                    )) {
+                    for (
+                        const [childSig, parentSig] of zip(
+                            child.signatures ?? [],
+                            parentMember.signatures ?? [],
+                        )
+                    ) {
                         childSig[key] = ReferenceType.createResolvedReference(
                             `${parent.name}.${parentMember.name}`,
                             parentSig,
@@ -263,7 +255,7 @@ export class ImplementsPlugin extends ConverterComponent {
             return;
         }
 
-        const symbol = context.project.getSymbolFromReflection(
+        const symbol = context.getSymbolFromReflection(
             reflection.parent,
         );
         if (!symbol) {
@@ -311,9 +303,9 @@ export class ImplementsPlugin extends ConverterComponent {
 
         const childType = reflection.flags.isStatic
             ? context.checker.getTypeOfSymbolAtLocation(
-                  info.symbol,
-                  info.declaration,
-              )
+                info.symbol,
+                info.declaration,
+            )
             : context.checker.getDeclaredTypeOfSymbol(info.symbol);
 
         const property = findProperty(reflection, childType);
@@ -321,11 +313,9 @@ export class ImplementsPlugin extends ConverterComponent {
         if (!property) {
             // We're probably broken... but I don't think this should be fatal.
             context.logger.warn(
-                `Failed to retrieve${
-                    reflection.flags.isStatic ? " static" : ""
-                } member "${reflection.escapedName ?? reflection.name}" of "${
-                    reflection.parent?.name
-                }" for inheritance analysis. Please report a bug.` as TranslatedString,
+                `Failed to retrieve${reflection.flags.isStatic ? " static" : ""} member "${
+                    reflection.escapedName ?? reflection.name
+                }" of "${reflection.parent?.name}" for inheritance analysis. Please report a bug.` as TranslatedString,
             );
             return;
         }
@@ -347,10 +337,9 @@ export class ImplementsPlugin extends ConverterComponent {
 
                 const parentProperty = findProperty(reflection, parentType);
                 if (parentProperty) {
-                    const isInherit =
-                        property
-                            .getDeclarations()
-                            ?.some((d) => d.parent !== info.declaration) ??
+                    const isInherit = property
+                        .getDeclarations()
+                        ?.some((d) => d.parent !== info.declaration) ??
                         true;
 
                     createLink(
@@ -421,10 +410,12 @@ export class ImplementsPlugin extends ConverterComponent {
             parent.type.declaration.signatures &&
             child.signatures
         ) {
-            for (const [cs, ps] of zip(
-                child.signatures,
-                parent.type.declaration.signatures,
-            )) {
+            for (
+                const [cs, ps] of zip(
+                    child.signatures,
+                    parent.type.declaration.signatures,
+                )
+            ) {
                 this.copyComment(cs, ps);
             }
         }
@@ -445,10 +436,12 @@ export class ImplementsPlugin extends ConverterComponent {
             target instanceof DeclarationReflection &&
             source instanceof DeclarationReflection
         ) {
-            for (const [tt, ts] of zip(
-                target.typeParameters || [],
-                source.typeParameters || [],
-            )) {
+            for (
+                const [tt, ts] of zip(
+                    target.typeParameters || [],
+                    source.typeParameters || [],
+                )
+            ) {
                 this.copyComment(tt, ts);
             }
         }
@@ -456,16 +449,20 @@ export class ImplementsPlugin extends ConverterComponent {
             target instanceof SignatureReflection &&
             source instanceof SignatureReflection
         ) {
-            for (const [tt, ts] of zip(
-                target.typeParameters || [],
-                source.typeParameters || [],
-            )) {
+            for (
+                const [tt, ts] of zip(
+                    target.typeParameters || [],
+                    source.typeParameters || [],
+                )
+            ) {
                 this.copyComment(tt, ts);
             }
-            for (const [pt, ps] of zip(
-                target.parameters || [],
-                source.parameters || [],
-            )) {
+            for (
+                const [pt, ps] of zip(
+                    target.parameters || [],
+                    source.parameters || [],
+                )
+            ) {
                 this.copyComment(pt, ps);
             }
         }
@@ -500,7 +497,7 @@ function constructorInheritance(
 function findProperty(reflection: DeclarationReflection, parent: ts.Type) {
     return parent.getProperties().find((prop) => {
         return reflection.escapedName
-            ? prop.escapedName === reflection.escapedName
+            ? prop.escapedName === reflection.escapedName as ts.__String
             : prop.name === reflection.name;
     });
 }

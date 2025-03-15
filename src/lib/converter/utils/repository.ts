@@ -1,6 +1,6 @@
 import { spawnSync } from "child_process";
-import { normalizePath, type Logger } from "../../utils/index.js";
-import { NonEnumerable } from "../../utils/general.js";
+import { normalizePath } from "../../utils/index.js";
+import { i18n, type Logger, NonEnumerable } from "#utils";
 import { dirname, join } from "path";
 import { existsSync } from "fs";
 
@@ -138,7 +138,7 @@ export class GitRepository implements Repository {
                     remotesOut.stdout.split("\n"),
                 );
             } else {
-                logger.warn(logger.i18n.git_remote_0_not_valid(gitRemote));
+                logger.warn(i18n.git_remote_0_not_valid(gitRemote));
             }
         }
 

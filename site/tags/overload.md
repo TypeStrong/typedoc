@@ -34,5 +34,5 @@ function printValue(value, maximumFractionDigits) {}
 
 ## See Also
 
--   The [TypeScript 5.0 release notes](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#overload-support-in-jsdoc)
--   The [--excludeTags](../options/comments.md#excludetags) option.
+- The [TypeScript 5.0 release notes](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#overload-support-in-jsdoc)
+- The [--excludeTags](../options/comments.md#excludetags) option.

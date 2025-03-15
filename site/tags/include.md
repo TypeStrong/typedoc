@@ -14,6 +14,9 @@ For convenience, an `@includeCode` inline tag is also recognized, which will
 include the referenced file within a code block, using the file extension for
 selecting the syntax highlighting language.
 
+Note: Paths in `@include` and `@includeCode` should use forward POSIX style slashes (`/`)
+not Windows style path separators (`\`)
+
 ## Example
 
 ```ts
@@ -106,4 +109,4 @@ A colon (`:`) separates the file path from the line numbers: a comma-separated l
 
 ## See Also
 
--   The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.
+- The [jsdocCompatibility](../options/comments.md#jsdoccompatibility) option.

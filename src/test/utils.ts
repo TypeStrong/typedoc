@@ -6,10 +6,11 @@ import {
     Reflection,
     ReflectionKind,
     type SignatureReflection,
+    TraverseProperty,
 } from "../index.js";
-import { filterMap } from "../lib/utils/index.js";
+import { filterMap } from "#utils";
 import { equal } from "assert/strict";
-import type { SomeReflection } from "../lib/models/reflections/variant.js";
+import type { SomeReflection } from "../lib/models/variant.js";
 
 export function query(
     project: ProjectReflection,
@@ -109,4 +110,27 @@ export function equalKind(refl: Reflection, kind: ReflectionKind) {
         kind,
         `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]}`,
     );
+}
+
+interface ReflectionTree {
+    [name: string]: ReflectionTree | string;
+}
+
+export function reflToTree(refl: Reflection) {
+    const result: ReflectionTree = {};
+
+    refl.traverse((refl, prop) => {
+        if (prop == TraverseProperty.Children) {
+            // Intentionally using `in` here rather than hasOwnProperty to avoid
+            // accidentally conflicting with a builtin property.
+            if (refl.name in result) {
+                result[`${ReflectionKind[refl.kind]}:${refl.name}`] = reflToTree(refl);
+            } else {
+                result[refl.name] = reflToTree(refl);
+            }
+        }
+        return true;
+    });
+
+    return Object.keys(result).length ? result : ReflectionKind[refl.kind];
 }

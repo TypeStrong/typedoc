@@ -1,12 +1,14 @@
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { JSX } from "#utils";
 import { type DeclarationReflection, type DocumentReflection } from "../../../../models/index.js";
 import { anchorIcon } from "./anchor-icon.js";
 
 export function member(context: DefaultThemeRenderContext, props: DeclarationReflection | DocumentReflection) {
+    const anchor = context.getAnchor(props);
+
     context.page.pageHeadings.push({
-        link: `#${props.anchor}`,
+        link: `#${anchor}`,
         text: getDisplayName(props),
         kind: props.kind,
         classes: context.getReflectionClasses(props),
@@ -17,16 +19,15 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
     if (props.isDocument()) {
         return (
             <section class={classNames({ "tsd-panel": true, "tsd-member": true }, context.getReflectionClasses(props))}>
-                <a id={props.anchor} class="tsd-anchor"></a>
                 {!!props.name && (
-                    <h3 class="tsd-anchor-link">
+                    <h3 class="tsd-anchor-link" id={anchor}>
                         {context.reflectionFlags(props)}
                         <span class={classNames({ deprecated: props.isDeprecated() })}>{wbr(props.name)}</span>
-                        {anchorIcon(context, props.anchor)}
+                        {anchorIcon(context, anchor)}
                     </h3>
                 )}
                 <div class="tsd-comment tsd-typography">
-                    <Raw html={context.markdown(props.content)} />
+                    <JSX.Raw html={context.markdown(props.content)} />
                 </div>
             </section>
         );
@@ -34,21 +35,22 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
 
     return (
         <section class={classNames({ "tsd-panel": true, "tsd-member": true }, context.getReflectionClasses(props))}>
-            <a id={props.anchor} class="tsd-anchor"></a>
             {!!props.name && (
-                <h3 class="tsd-anchor-link">
+                <h3 class="tsd-anchor-link" id={anchor}>
                     {context.reflectionFlags(props)}
                     <span class={classNames({ deprecated: props.isDeprecated() })}>{wbr(props.name)}</span>
-                    {anchorIcon(context, props.anchor)}
+                    {anchorIcon(context, anchor)}
                 </h3>
             )}
             {props.signatures
                 ? context.memberSignatures(props)
                 : props.hasGetterOrSetter()
-                  ? context.memberGetterSetter(props)
-                  : context.memberDeclaration(props)}
+                ? context.memberGetterSetter(props)
+                : context.memberDeclaration(props)}
 
-            {props.groups?.map((item) => item.children.map((item) => !item.hasOwnDocument && context.member(item)))}
+            {props.groups?.map((item) =>
+                item.children.map((item) => !context.router.hasOwnDocument(item) && context.member(item))
+            )}
         </section>
     );
 }

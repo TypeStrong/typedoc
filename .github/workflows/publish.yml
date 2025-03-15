@@ -21,20 +21,22 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "18"
+            - name: Set up pnpm
+              if: steps.check.outputs.changed == 'true'
+              run: npm i -g pnpm@10
             - name: Install
               if: steps.check.outputs.changed == 'true'
-              run: npm ci
+              run: pnpm install
             - name: Test
               if: steps.check.outputs.changed == 'true'
-              run: npm test
-            - name: Setup publish token
-              if: steps.check.outputs.changed == 'true'
-              run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
-              env:
-                  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+              run: pnpm test
             - name: Publish
               if: steps.check.outputs.changed == 'true'
-              run: npm publish
+              # We need --no-git-checks because we swap a boolean to allow more lax types
+              # in the published package.
+              run: pnpm publish --no-git-checks
+              env:
+                npm_config_//registry.npmjs.org/:_authToken: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Generate Release
               if: steps.check.outputs.changed == 'true'
               run: |

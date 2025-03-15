@@ -8,13 +8,8 @@ import {
     type Reflection,
     ReflectionKind,
 } from "../../models/index.js";
-import { assertNever, filterMap } from "../../utils/index.js";
-import type {
-    ComponentPath,
-    DeclarationReference,
-    Meaning,
-    MeaningKeyword,
-} from "./declarationReference.js";
+import { assertNever, filterMap } from "#utils";
+import type { ComponentPath, DeclarationReference, Meaning, MeaningKeyword } from "#utils";
 
 function resolveReferenceReflection(ref: Reflection): Reflection {
     if (ref instanceof ReferenceReflection) {
@@ -31,12 +26,11 @@ export function resolveDeclarationReference(
     let low: Reflection[] = [];
 
     if (ref.moduleSource) {
-        high =
-            reflection.project.children?.filter(
-                (c) =>
-                    c.kindOf(ReflectionKind.SomeModule) &&
-                    c.name === ref.moduleSource,
-            ) || [];
+        high = reflection.project.children?.filter(
+            (c) =>
+                c.kindOf(ReflectionKind.SomeModule) &&
+                c.name === ref.moduleSource,
+        ) || [];
     } else if (ref.resolutionStart === "global") {
         high.push(reflection.project);
         if (reflection.project.children?.length === 1) {
@@ -174,9 +168,7 @@ function resolveKeyword(
                         ReflectionKind.TypeLiteral,
                 )
             ) {
-                const ctor = (refl as ContainerReflection).children?.find((c) =>
-                    c.kindOf(ReflectionKind.Constructor),
-                );
+                const ctor = (refl as ContainerReflection).children?.find((c) => c.kindOf(ReflectionKind.Constructor));
                 return (ctor as DeclarationReflection).signatures;
             }
             break;
@@ -262,14 +254,13 @@ function resolveSymbolReferencePart(
         // Resolve via "members", interface children, class instance properties/accessors/methods,
         // enum members, type literal properties
         case "#":
-            high =
-                children?.filter((r) => {
-                    return (
-                        r.name === path.path &&
-                        r.kindOf(ReflectionKind.SomeMember) &&
-                        !r.flags.isStatic
-                    );
-                }) || [];
+            high = children?.filter((r) => {
+                return (
+                    r.name === path.path &&
+                    r.kindOf(ReflectionKind.SomeMember) &&
+                    !r.flags.isStatic
+                );
+            }) || [];
             break;
 
         // Resolve via "locals"... treat this as a stricter `.` which only supports traversing

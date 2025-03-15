@@ -53,7 +53,6 @@ at the root level. The following tables indicate where an option should be set.
 | [`gitRemote`](input.md#gitremote)                                       | Package  |                                                                                                           |
 | [`disableGit`](input.md#disablegit)                                     | Package  |                                                                                                           |
 | [`readme`](input.md#readme)                                             | Both     | Root: Site readme, Package: Package readme                                                                |
-| [`includeHierarchySummary`](input.md#includehierarchysummary)           | Root     |                                                                                                           |
 
 ## Output Options
 
@@ -66,6 +65,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`pretty`](output.md#pretty)                                                           | Root     |                                                            |
 | [`emit`](output.md#emit)                                                               | Both     |                                                            |
 | [`theme`](output.md#theme)                                                             | Root     |                                                            |
+| [`router`](output.md#router)                                                           | Root     |                                                            |
 | [`lightHighlightTheme`](output.md#lighthighlighttheme)                                 | Root     |                                                            |
 | [`darkHighlightTheme`](output.md#darkhighlighttheme)                                   | Root     |                                                            |
 | [`highlightLanguages`](output.md#highlightlanguages)                                   | Root     |                                                            |
@@ -82,8 +82,8 @@ at the root level. The following tables indicate where an option should be set.
 | [`favicon`](output.md#favicon)                                                         | Root     |                                                            |
 | [`sourceLinkExternal`](output.md#sourcelinkexternal)                                   | Root     |                                                            |
 | [`markdownLinkExternal`](output.md#markdownlinkexternal)                               | Root     |                                                            |
-| [`lang`](output.md#lang)                                                               | Both     | Will move to Root in TypeDoc 0.28                          |
-| [`locales`](output.md#locales)                                                         | Both     | Will move to Root in TypeDoc 0.28                          |
+| [`lang`](output.md#lang)                                                               | Root     |                                                            |
+| [`locales`](output.md#locales)                                                         | Root     |                                                            |
 | [`githubPages`](output.md#githubpages)                                                 | Root     |                                                            |
 | [`cacheBust`](output.md#cachebust)                                                     | Root     |                                                            |
 | [`hideGenerator`](output.md#hidegenerator)                                             | Root     |                                                            |
@@ -103,6 +103,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`hostedBaseUrl`](output.md#hostedbaseurl)                                             | Root     |                                                            |
 | [`useHostedBaseUrlForAbsoluteLinks`](output.md#usehostedbaseurlforabsolutelinks)       | Root     |                                                            |
 | [`useFirstParagraphOfCommentAsSummary`](output.md#usefirstparagraphofcommentassummary) | Root     |                                                            |
+| [`includeHierarchySummary`](output.md#includehierarchysummary)                         | Root     |                                                            |
 
 ## Comment Options
 
@@ -143,6 +144,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`treatValidationWarningsAsErrors`](validation.md#treatvalidationwarningsaserrors) | Root     |                                                                                                                                        |
 | [`intentionallyNotExported`](validation.md#intentionallynotexported)               | Both     |                                                                                                                                        |
 | [`requiredToBeDocumented`](validation.md#requiredtobedocumented)                   | Both     |                                                                                                                                        |
+| [`packagesRequiringDocumentation`](validation.md#packagesrequiringdocumentation)   | Both     |                                                                                                                                        |
 | [`intentionallyNotDocumented`](validation.md#intentionallynotdocumented)           | Both     |                                                                                                                                        |
 
 ## Other Options

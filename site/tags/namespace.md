@@ -30,5 +30,5 @@ export namespace d {
 
 ## See Also
 
--   The [`@property`](property.md) tag
--   The [`@interface`](interface.md) tag
+- The [`@property`](property.md) tag
+- The [`@interface`](interface.md) tag

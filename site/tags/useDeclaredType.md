@@ -37,4 +37,4 @@ export type BarNum = { [K in keyof Bar]: number };
 
 ## See Also
 
--   The [`@interface`](interface.md) tag
+- The [`@interface`](interface.md) tag

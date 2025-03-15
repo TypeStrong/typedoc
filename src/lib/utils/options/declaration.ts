@@ -1,14 +1,19 @@
 import type { BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
-import type { LogLevel } from "../loggers.js";
 import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
-import type { ReflectionKind } from "../../models/reflections/kind.js";
-import type { NeverIfInternal } from "../index.js";
-import type {
-    TranslatedString,
-    TranslationProxy,
-} from "../../internationalization/internationalization.js";
+import type { ReflectionKind } from "../../models/kind.js";
+import {
+    type GlobString,
+    i18n,
+    type LogLevel,
+    type NeverIfInternal,
+    type NormalizedPath,
+    type NormalizedPathOrModule,
+    type TranslatedString,
+} from "#utils";
+import type { TranslationProxy } from "../../internationalization/internationalization.js";
+import { createGlobString, normalizePath } from "../paths.js";
 
 /** @enum */
 export const EmitStrategy = {
@@ -38,25 +43,95 @@ export type OutputSpecification = {
 };
 
 /**
+ * List of option names which, with `entryPointStrategy` set to `packages`
+ * should only be set at the root level.
+ */
+export const rootPackageOptions = [
+    // Configuration Options
+    "plugin",
+    // Input Options
+    "packageOptions",
+    // Output Options
+    "outputs",
+    "out",
+    "html",
+    "json",
+    "pretty",
+    "theme",
+    "router",
+    "lightHighlightTheme",
+    "darkHighlightTheme",
+    "highlightLanguages",
+    "ignoredHighlightLanguages",
+    "typePrintWidth",
+    "customCss",
+    "customJs",
+    "customFooterHtml",
+    "customFooterHtmlDisableWrapper",
+    "markdownItOptions",
+    "markdownItLoader",
+    "cname",
+    "favicon",
+    "sourceLinkExternal",
+    "markdownLinkExternal",
+    "lang",
+    "locales",
+    "githubPages",
+    "cacheBust",
+    "hideGenerator",
+    "searchInComments",
+    "searchInDocuments",
+    "cleanOutputDir",
+    "titleLink",
+    "navigationLinks",
+    "sidebarLinks",
+    "navigation",
+    "headings",
+    "sluggerConfiguration",
+    "navigationLeaves",
+    "visibilityFilters",
+    "searchCategoryBoosts",
+    "searchGroupBoosts",
+    "hostedBaseUrl",
+    "useHostedBaseUrlForAbsoluteLinks",
+    "useFirstParagraphOfCommentAsSummary",
+    "includeHierarchySummary",
+    // Comment Options
+    "notRenderedTags",
+    // Organization Options
+    // Validation Options
+    "treatWarningsAsErrors",
+    "treatValidationWarningsAsErrors",
+    // Other Options
+    "watch",
+    "preserveWatchOutput",
+    "help",
+    "version",
+    "showConfig",
+    "logLevel",
+] as const satisfies ReadonlyArray<keyof TypeDocOptionMap>;
+
+/**
  * An interface describing all TypeDoc specific options. Generated from a
  * map which contains more information about each option for better types when
  * defining said options.
  * @interface
  */
 export type TypeDocOptions = {
-    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
-        ? unknown
-        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
-                infer ManuallyValidated
-            >
-          ? ManuallyValidated
-          : TypeDocOptionMap[K] extends string | string[] | number | boolean
-            ? TypeDocOptionMap[K]
-            : TypeDocOptionMap[K] extends Record<string, boolean>
-              ? Partial<TypeDocOptionMap[K]> | boolean
-              :
-                    | keyof TypeDocOptionMap[K]
-                    | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
+    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K] ? unknown :
+        TypeDocOptionMap[K] extends ManuallyValidatedOption<
+            infer ManuallyValidated
+        > ? ManuallyValidated :
+        TypeDocOptionMap[K] extends NormalizedPath[] | NormalizedPathOrModule[] | GlobString[] ? string[] :
+        TypeDocOptionMap[K] extends NormalizedPath ? string :
+        TypeDocOptionMap[K] extends
+            | string
+            | string[]
+            | number
+            | boolean ? TypeDocOptionMap[K] :
+        TypeDocOptionMap[K] extends Record<string, boolean> ? Partial<TypeDocOptionMap[K]> | boolean :
+        | keyof TypeDocOptionMap[K]
+        | TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
 
 /**
@@ -66,21 +141,26 @@ export type TypeDocOptions = {
  * @interface
  */
 export type TypeDocOptionValues = {
-    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K]
-        ? unknown
-        : TypeDocOptionMap[K] extends ManuallyValidatedOption<
-                infer ManuallyValidated
-            >
-          ? ManuallyValidated
-          : TypeDocOptionMap[K] extends
-                  | string
-                  | string[]
-                  | number
-                  | boolean
-                  | Record<string, boolean>
-            ? TypeDocOptionMap[K]
-            : TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
+    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K] ? unknown :
+        TypeDocOptionMap[K] extends ManuallyValidatedOption<
+            infer ManuallyValidated
+        > ? ManuallyValidated :
+        TypeDocOptionMap[K] extends
+            | string
+            | string[]
+            | GlobString[]
+            | number
+            | boolean
+            | Record<string, boolean> ? TypeDocOptionMap[K] :
+        TypeDocOptionMap[K][keyof TypeDocOptionMap[K]];
 };
+
+/**
+ * Describes TypeDoc options suitable for setting within the `packageOptions` setting.
+ *
+ * This is a subset of all options specified in {@link TypeDocOptions}.
+ */
+export interface TypeDocPackageOptions extends Omit<TypeDocOptions, typeof rootPackageOptions[number]> {}
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
@@ -99,21 +179,23 @@ export type TypeDocOptionValues = {
  */
 export interface TypeDocOptionMap {
     // Configuration
-    options: string;
-    tsconfig: string;
+    options: NormalizedPath;
+    tsconfig: NormalizedPath;
     compilerOptions: unknown;
-    plugin: string[];
+    plugin: NormalizedPathOrModule[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
-    packageOptions: ManuallyValidatedOption<TypeDocOptions>;
+    packageOptions: ManuallyValidatedOption<
+        Partial<TypeDocPackageOptions>
+    >;
 
     // Input
-    entryPoints: string[];
+    entryPoints: GlobString[];
     entryPointStrategy: typeof EntryPointStrategy;
     alwaysCreateEntryPointModule: boolean;
-    projectDocuments: string[];
-    exclude: string[];
-    externalPattern: string[];
+    projectDocuments: GlobString[];
+    exclude: GlobString[];
+    externalPattern: GlobString[];
     excludeExternals: boolean;
     excludeNotDocumented: boolean;
     excludeNotDocumentedKinds: ReflectionKind.KindString[];
@@ -136,19 +218,20 @@ export interface TypeDocOptionMap {
 
     // Output
     outputs: ManuallyValidatedOption<Array<OutputSpecification>>;
-    out: string; // default output directory
-    html: string; // shortcut for defining html output
-    json: string; // shortcut for defining json output
+    out: NormalizedPath; // default output directory
+    html: NormalizedPath; // shortcut for defining html output
+    json: NormalizedPath; // shortcut for defining json output
     pretty: boolean;
     emit: typeof EmitStrategy;
     theme: string;
+    router: string;
     lightHighlightTheme: ShikiTheme;
     darkHighlightTheme: ShikiTheme;
     highlightLanguages: string[];
     ignoredHighlightLanguages: string[];
     typePrintWidth: number;
-    customCss: string;
-    customJs: string;
+    customCss: NormalizedPath;
+    customJs: NormalizedPath;
     markdownItOptions: ManuallyValidatedOption<Record<string, unknown>>;
     /**
      * Will be called when TypeDoc is setting up the markdown parser to use to render markdown.
@@ -171,9 +254,9 @@ export interface TypeDocOptionMap {
      * strictly typed here.
      */
     markdownItLoader: ManuallyValidatedOption<(parser: any) => void>;
-    basePath: string;
+    basePath: NormalizedPath;
     cname: string;
-    favicon: string;
+    favicon: NormalizedPath;
     githubPages: boolean;
     hostedBaseUrl: string;
     useHostedBaseUrlForAbsoluteLinks: boolean;
@@ -246,6 +329,7 @@ export interface TypeDocOptionMap {
     intentionallyNotExported: string[];
     validation: ValidationOptions;
     requiredToBeDocumented: ReflectionKind.KindString[];
+    packagesRequiringDocumentation: string[];
     intentionallyNotDocumented: string[];
 
     // Other
@@ -314,39 +398,32 @@ export type JsDocCompatibility = {
 /**
  * Converts a given TypeDoc option key to the type of the declaration expected.
  */
-export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
-    TypeDocOptionMap[K] extends boolean
-        ? BooleanDeclarationOption
-        : TypeDocOptionMap[K] extends string
-          ? StringDeclarationOption
-          : TypeDocOptionMap[K] extends number
-            ? NumberDeclarationOption
-            : TypeDocOptionMap[K] extends string[]
-              ? ArrayDeclarationOption
-              : unknown extends TypeDocOptionMap[K]
-                ? MixedDeclarationOption | ObjectDeclarationOption
-                : TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown>
-                  ?
-                        | (MixedDeclarationOption & {
-                              validate(
-                                  value: unknown,
-                                  i18n: TranslationProxy,
-                              ): void;
-                          })
-                        | (ObjectDeclarationOption & {
-                              validate(
-                                  value: unknown,
-                                  i18n: TranslationProxy,
-                              ): void;
-                          })
-                  : TypeDocOptionMap[K] extends Record<string, boolean>
-                    ? FlagsDeclarationOption<TypeDocOptionMap[K]>
-                    : TypeDocOptionMap[K] extends Record<
-                            string | number,
-                            infer U
-                        >
-                      ? MapDeclarationOption<U>
-                      : never;
+export type KeyToDeclaration<K extends keyof TypeDocOptionMap> = TypeDocOptionMap[K] extends boolean ?
+    BooleanDeclarationOption :
+    TypeDocOptionMap[K] extends string | NormalizedPath ? StringDeclarationOption :
+    TypeDocOptionMap[K] extends number ? NumberDeclarationOption :
+    TypeDocOptionMap[K] extends GlobString[] ? GlobArrayDeclarationOption :
+    TypeDocOptionMap[K] extends string[] | NormalizedPath[] | NormalizedPathOrModule[] ? ArrayDeclarationOption :
+    unknown extends TypeDocOptionMap[K] ? MixedDeclarationOption | ObjectDeclarationOption :
+    TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown> ?
+            | (MixedDeclarationOption & {
+                validate(
+                    value: unknown,
+                    i18n: TranslationProxy,
+                ): void;
+            })
+            | (ObjectDeclarationOption & {
+                validate(
+                    value: unknown,
+                    i18n: TranslationProxy,
+                ): void;
+            }) :
+    TypeDocOptionMap[K] extends Record<string, boolean> ? FlagsDeclarationOption<TypeDocOptionMap[K]> :
+    TypeDocOptionMap[K] extends Record<
+        string | number,
+        infer U
+    > ? MapDeclarationOption<U> :
+    never;
 
 export enum ParameterHint {
     File,
@@ -377,7 +454,7 @@ export enum ParameterType {
      */
     ModuleArray,
     /**
-     * Resolved according to the config directory unless it starts with `**`, after skipping any leading `!` and `#` characters.
+     * Relative to the config directory.
      */
     GlobArray,
     /**
@@ -400,10 +477,9 @@ export interface DeclarationOptionBase {
      * The help text to be displayed to the user when --help is passed.
      *
      * This may be a string, which will be presented directly, or a function,
-     * which will be called with an {@link TranslationProxy} so that option help
-     * can be translated into the user specified locale.
+     * which will be called so that option help can be translated into the user specified locale.
      */
-    help: NeverIfInternal<string> | ((i18n: TranslationProxy) => string);
+    help: NeverIfInternal<string> | (() => string);
 
     /**
      * The parameter type, used to convert user configuration values into the expected type.
@@ -449,7 +525,7 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: string, i18n: TranslationProxy) => void;
+    validate?: (value: string) => void;
 }
 
 export interface NumberDeclarationOption extends DeclarationOptionBase {
@@ -474,7 +550,7 @@ export interface NumberDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: number, i18n: TranslationProxy) => void;
+    validate?: (value: number) => void;
 }
 
 export interface BooleanDeclarationOption extends DeclarationOptionBase {
@@ -490,8 +566,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     type:
         | ParameterType.Array
         | ParameterType.PathArray
-        | ParameterType.ModuleArray
-        | ParameterType.GlobArray;
+        | ParameterType.ModuleArray;
 
     /**
      * If not specified defaults to an empty array.
@@ -502,7 +577,23 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: string[], i18n: TranslationProxy) => void;
+    validate?: (value: string[]) => void;
+}
+
+export interface GlobArrayDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.GlobArray;
+
+    /**
+     * If not specified defaults to an empty array.
+     * If specified, globs are relative to cwd when TypeDoc is run.
+     */
+    defaultValue?: readonly string[];
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
+     */
+    validate?: (value: GlobString[]) => void;
 }
 
 export interface MixedDeclarationOption extends DeclarationOptionBase {
@@ -517,7 +608,7 @@ export interface MixedDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: unknown, i18n: TranslationProxy) => void;
+    validate?: (value: unknown) => void;
 }
 
 export interface ObjectDeclarationOption extends DeclarationOptionBase {
@@ -532,7 +623,7 @@ export interface ObjectDeclarationOption extends DeclarationOptionBase {
      * An optional validation function that validates a potential value of this option.
      * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
-    validate?: (value: unknown, i18n: TranslationProxy) => void;
+    validate?: (value: unknown) => void;
 }
 export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     type: ParameterType.Map;
@@ -551,8 +642,7 @@ export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     defaultValue: T;
 }
 
-export interface FlagsDeclarationOption<T extends Record<string, boolean>>
-    extends DeclarationOptionBase {
+export interface FlagsDeclarationOption<T extends Record<string, boolean>> extends DeclarationOptionBase {
     type: ParameterType.Flags;
 
     /**
@@ -569,130 +659,121 @@ export type DeclarationOption =
     | ObjectDeclarationOption
     | MapDeclarationOption<unknown>
     | ArrayDeclarationOption
+    | GlobArrayDeclarationOption
     | FlagsDeclarationOption<Record<string, boolean>>;
 
 export interface ParameterTypeToOptionTypeMap {
     [ParameterType.String]: string;
-    [ParameterType.Path]: string;
-    [ParameterType.UrlOrPath]: string;
+    [ParameterType.Path]: NormalizedPath;
+    [ParameterType.UrlOrPath]: NormalizedPath | string;
     [ParameterType.Number]: number;
     [ParameterType.Boolean]: boolean;
     [ParameterType.Mixed]: unknown;
     [ParameterType.Object]: unknown;
     [ParameterType.Array]: string[];
-    [ParameterType.PathArray]: string[];
-    [ParameterType.ModuleArray]: string[];
-    [ParameterType.GlobArray]: string[];
+    [ParameterType.PathArray]: NormalizedPath[];
+    [ParameterType.ModuleArray]: NormalizedPathOrModule[];
+    [ParameterType.GlobArray]: GlobString[];
     [ParameterType.Flags]: Record<string, boolean>;
 
     // Special.. avoid this if possible.
     [ParameterType.Map]: unknown;
 }
 
-export type DeclarationOptionToOptionType<T extends DeclarationOption> =
-    T extends MapDeclarationOption<infer U>
-        ? U
-        : T extends FlagsDeclarationOption<infer U>
-          ? U
-          : ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
+export type DeclarationOptionToOptionType<T extends DeclarationOption> = T extends MapDeclarationOption<infer U> ? U :
+    T extends FlagsDeclarationOption<infer U> ? U :
+    ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
 
 const converters: {
     [K in ParameterType]: (
         value: unknown,
         option: DeclarationOption & { type: K },
-        i18n: TranslationProxy,
-        configPath: string,
+        configPath: NormalizedPath,
         oldValue: unknown,
     ) => ParameterTypeToOptionTypeMap[K];
 } = {
-    [ParameterType.String](value, option, i18n) {
+    [ParameterType.String](value, option) {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
         const stringValue = value == null ? "" : String(value);
-        option.validate?.(stringValue, i18n);
+        option.validate?.(stringValue);
         return stringValue;
     },
-    [ParameterType.Path](value, option, i18n, configPath) {
+    [ParameterType.Path](value, option, configPath) {
         const stringValue =
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             value == null ? "" : resolve(configPath, String(value));
-        option.validate?.(stringValue, i18n);
-        return stringValue;
+        option.validate?.(stringValue);
+        return normalizePath(stringValue);
     },
-    [ParameterType.UrlOrPath](value, option, i18n, configPath) {
+    [ParameterType.UrlOrPath](value, option, configPath) {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
         const stringValue = value == null ? "" : String(value);
 
         if (/^https?:\/\//i.test(stringValue)) {
-            option.validate?.(stringValue, i18n);
+            option.validate?.(stringValue);
             return stringValue;
         }
 
-        const resolved = resolve(configPath, stringValue);
-        option.validate?.(resolved, i18n);
+        const resolved = normalizePath(resolve(configPath, stringValue));
+        option.validate?.(resolved);
         return resolved;
     },
-    [ParameterType.Number](value, option, i18n) {
+    [ParameterType.Number](value, option) {
         const numValue = parseInt(String(value), 10) || 0;
         if (!valueIsWithinBounds(numValue, option.minValue, option.maxValue)) {
             throw new Error(
                 getBoundsError(
                     option.name,
-                    i18n,
                     option.minValue,
                     option.maxValue,
                 ),
             );
         }
-        option.validate?.(numValue, i18n);
+        option.validate?.(numValue);
         return numValue;
     },
     [ParameterType.Boolean](value) {
         return !!value;
     },
-    [ParameterType.Array](value, option, i18n) {
-        let strArrValue = new Array<string>();
+    [ParameterType.Array](value, option) {
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        option.validate?.(strArrValue, i18n);
+        option.validate?.(strArrValue);
         return strArrValue;
     },
-    [ParameterType.PathArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
+    [ParameterType.PathArray](value, option, configPath) {
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        strArrValue = strArrValue.map((path) => resolve(configPath, path));
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+        const normalized = strArrValue.map((path) => normalizePath(resolve(configPath, path)));
+        option.validate?.(normalized);
+        return normalized;
     },
-    [ParameterType.ModuleArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
+    [ParameterType.ModuleArray](value, option, configPath) {
+        let strArrValue: string[] = [];
         if (Array.isArray(value)) {
             strArrValue = value.map(String);
         } else if (typeof value === "string") {
             strArrValue = [value];
         }
-        strArrValue = resolveModulePaths(strArrValue, configPath);
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+        const resolved = resolveModulePaths(strArrValue, configPath);
+        option.validate?.(resolved);
+        return resolved;
     },
-    [ParameterType.GlobArray](value, option, i18n, configPath) {
-        let strArrValue = new Array<string>();
-        if (Array.isArray(value)) {
-            strArrValue = value.map(String);
-        } else if (typeof value === "string") {
-            strArrValue = [value];
-        }
-        strArrValue = resolveGlobPaths(strArrValue, configPath);
-        option.validate?.(strArrValue, i18n);
-        return strArrValue;
+    [ParameterType.GlobArray](value, option, configPath) {
+        const toGlobString = (v: unknown) => createGlobString(configPath, String(v));
+        const globs = Array.isArray(value) ? value.map(toGlobString) : [toGlobString(value)];
+        option.validate?.(globs);
+        return globs;
     },
-    [ParameterType.Map](value, option, i18n) {
+    [ParameterType.Map](value, option) {
         const key = String(value);
         if (option.map instanceof Map) {
             if (option.map.has(key)) {
@@ -708,19 +789,20 @@ const converters: {
         } else if (Object.values(option.map).includes(value)) {
             return value;
         }
-        throw new Error(getMapError(option.map, i18n, option.name));
+        throw new Error(getMapError(option.map, option.name));
     },
-    [ParameterType.Mixed](value, option, i18n) {
-        option.validate?.(value, i18n);
+    [ParameterType.Mixed](value, option) {
+        option.validate?.(value);
         return value;
     },
-    [ParameterType.Object](value, option, i18n, _configPath, oldValue) {
-        option.validate?.(value, i18n);
-        if (typeof oldValue !== "undefined")
+    [ParameterType.Object](value, option, _configPath, oldValue) {
+        option.validate?.(value);
+        if (typeof oldValue !== "undefined") {
             value = { ...(oldValue as object), ...(value as object) };
+        }
         return value;
     },
-    [ParameterType.Flags](value, option, i18n) {
+    [ParameterType.Flags](value, option) {
         if (typeof value === "boolean") {
             value = Object.fromEntries(
                 Object.keys(option.defaults).map((key) => [key, value]),
@@ -771,7 +853,6 @@ const converters: {
 export function convert(
     value: unknown,
     option: DeclarationOption,
-    i18n: TranslationProxy,
     configPath: string,
     oldValue?: unknown,
 ): unknown {
@@ -780,7 +861,6 @@ export function convert(
         (
             v: unknown,
             o: DeclarationOption,
-            i18n: TranslationProxy,
             c: string,
             ov: unknown,
         ) => unknown
@@ -788,7 +868,6 @@ export function convert(
     return _converters[option.type ?? ParameterType.String](
         value,
         option,
-        i18n,
         configPath,
         oldValue,
     );
@@ -807,9 +886,11 @@ const defaultGetters: {
         if (defaultStr == "") {
             return "";
         }
-        return isAbsolute(defaultStr)
-            ? defaultStr
-            : join(process.cwd(), defaultStr);
+        return normalizePath(
+            isAbsolute(defaultStr)
+                ? defaultStr
+                : join(process.cwd(), defaultStr),
+        );
     },
     [ParameterType.UrlOrPath](option) {
         const defaultStr = option.defaultValue ?? "";
@@ -843,20 +924,17 @@ const defaultGetters: {
     },
     [ParameterType.PathArray](option) {
         return (
-            option.defaultValue?.map((value) =>
-                resolve(process.cwd(), value),
-            ) ?? []
+            option.defaultValue?.map((value) => normalizePath(resolve(process.cwd(), value))) ?? []
         );
     },
     [ParameterType.ModuleArray](option) {
-        return (
-            option.defaultValue?.map((value) =>
-                value.startsWith(".") ? resolve(process.cwd(), value) : value,
-            ) ?? []
-        );
+        if (option.defaultValue) {
+            return resolveModulePaths(option.defaultValue, process.cwd());
+        }
+        return [];
     },
     [ParameterType.GlobArray](option) {
-        return resolveGlobPaths(option.defaultValue ?? [], process.cwd());
+        return (option.defaultValue ?? []).map(g => createGlobString(normalizePath(process.cwd()), g));
     },
     [ParameterType.Flags](option) {
         return { ...option.defaults };
@@ -871,23 +949,12 @@ export function getDefaultValue(option: DeclarationOption) {
     return getters[option.type ?? ParameterType.String](option);
 }
 
-function resolveGlobPaths(globs: readonly string[], configPath: string) {
-    return globs.map((path) => {
-        const start = path.match(/^[!#]+/)?.[0] ?? "";
-        const remaining = path.substring(start.length);
-        if (!remaining.startsWith("**")) {
-            return start + resolve(configPath, remaining);
-        }
-        return start + remaining;
-    });
-}
-
-function resolveModulePaths(modules: readonly string[], configPath: string) {
+function resolveModulePaths(modules: readonly string[], configPath: string): NormalizedPathOrModule[] {
     return modules.map((path) => {
         if (path.startsWith(".")) {
-            return resolve(configPath, path);
+            return normalizePath(resolve(configPath, path));
         }
-        return path;
+        return normalizePath(path);
     });
 }
 
@@ -903,7 +970,6 @@ function isTsNumericEnum(map: Record<string, any>) {
  */
 function getMapError(
     map: MapDeclarationOption<unknown>["map"],
-    i18n: TranslationProxy,
     name: string,
 ): TranslatedString {
     let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
@@ -927,7 +993,6 @@ function getMapError(
  */
 function getBoundsError(
     name: string,
-    i18n: TranslationProxy,
     minValue?: number,
     maxValue?: number,
 ): TranslatedString {

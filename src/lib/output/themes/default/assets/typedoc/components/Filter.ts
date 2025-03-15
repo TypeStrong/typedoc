@@ -4,6 +4,19 @@ import { storage } from "../utils/storage.js";
 const style = document.head.appendChild(document.createElement("style"));
 style.dataset.for = "filters";
 
+/** Filter classes, true if they will currently show, false otherwise */
+const filters: Record<string, boolean> = {};
+
+export function classListWillBeFiltered(classList: string): boolean {
+    for (const className of classList.split(/\s+/)) {
+        // There might be other classes in the list besides just what we filter on
+        if (filters.hasOwnProperty(className) && !filters[className]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Handles sidebar filtering functionality.
  */
@@ -56,6 +69,8 @@ export class Filter extends Component<HTMLInputElement> {
     private handleValueChange(): void {
         this.el.checked = this.value;
         document.documentElement.classList.toggle(this.key, this.value);
+
+        filters[`tsd-is-${this.el.name}`] = this.value;
 
         this.app.filterChanged();
         this.app.updateIndexVisibility();

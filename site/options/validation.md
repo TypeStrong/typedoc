@@ -32,20 +32,20 @@ documentation. Most validation occurs before rendering, but `rewrittenLink` is
 done during HTML rendering as links have not been generated before rendering
 begins.
 
--   **notExported** - Produce warnings if a type is referenced by the
-    documentation but the type isn't exported and therefore included in the
-    documentation.
--   **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
--   **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
-    but whose target does not have a unique URL in the documentation. TypeDoc
-    will rewrite these links to point to the first parent with a URL.
--   **notDocumented** - Produce warnings for reflections which do not have a
-    documentation comment. This is also controlled by the
-    [requiredToBeDocumented](#requiredtobedocumented) option.
--   **unusedMergeModuleWith** - Produce warnings for
-    [`@mergeModuleWith`](../tags/mergeModuleWith.md) tags which are not
-    resolved. This option should generally be disabled if generating JSON which
-    will be combined with another document later.
+- **notExported** - Produce warnings if a type is referenced by the
+  documentation but the type isn't exported and therefore included in the
+  documentation.
+- **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
+- **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
+  but whose target does not have a unique URL in the documentation. TypeDoc
+  will rewrite these links to point to the first parent with a URL.
+- **notDocumented** - Produce warnings for reflections which do not have a
+  documentation comment. This is also controlled by the
+  [requiredToBeDocumented](#requiredtobedocumented) option.
+- **unusedMergeModuleWith** - Produce warnings for
+  [`@mergeModuleWith`](../tags/mergeModuleWith.md) tags which are not
+  resolved. This option should generally be disabled if generating JSON which
+  will be combined with another document later.
 
 ## treatWarningsAsErrors
 
@@ -67,13 +67,16 @@ This option cannot be used to turn `treatWarningsAsErrors` off for validation wa
 ## intentionallyNotExported
 
 Lists symbols which are intentionally excluded from the documentation output and should not produce warnings.
-Entries may optionally specify a file name before a colon to only suppress warnings for symbols declared in a specific file.
+Entries may optionally specify a package name / package relative file name before a colon to only suppress warnings for symbols declared in a specific file.
 
 typedoc.json:
 
 ```json
 {
-    "intentionallyNotExported": ["InternalClass", "src/other.ts:OtherInternal"]
+    "intentionallyNotExported": [
+        "InternalClass",
+        "typedoc/src/other.ts:OtherInternal"
+    ]
 }
 ```
 
@@ -88,16 +91,16 @@ typedoc.json:
 ```json
 {
     "requiredToBeDocumented": [
-        //"Project",
-        //"Module",
-        //"Namespace",
+        // "Project",
+        // "Module",
+        // "Namespace",
         "Enum",
         "EnumMember",
         "Variable",
         "Function",
         "Class",
         "Interface",
-        //"Constructor",
+        // "Constructor",
         "Property",
         "Method",
         // Implicitly set if function/method is set (this means you can't require docs on methods, but not functions)
@@ -108,11 +111,11 @@ typedoc.json:
         //    "IndexSignature",
         // Equivalent to Constructor due to the same implementation detail as CallSignature
         //    "ConstructorSignature",
-        //"Parameter",
+        // "Parameter",
         // Used for object literal types. You probably should set TypeAlias instead, which refers to types created with `type X =`.
         // This only really exists because of an implementation detail.
         //    "TypeLiteral",
-        //"TypeParameter",
+        // "TypeParameter",
         "Accessor", // shorthand for GetSignature + SetSignature
         //   "GetSignature",
         //    "SetSignature",
@@ -121,6 +124,17 @@ typedoc.json:
         // won't have any of these, and they just render as a link to the canonical name.
         //    "Reference",
     ]
+}
+```
+
+## packagesRequiringDocumentation
+
+Specifies which packages TypeDoc should expect to have documentation.
+Defaults to the name of your package from `package.json`.
+
+```json
+{
+    "packagesRequiringDocumentation": ["typedoc", "typedoc-plugin-mdn-links"]
 }
 ```
 

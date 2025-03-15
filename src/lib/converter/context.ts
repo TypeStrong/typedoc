@@ -2,28 +2,26 @@ import { ok as assert } from "assert";
 import ts from "typescript";
 
 import {
-    type Reflection,
-    type ProjectReflection,
+    Comment,
     ContainerReflection,
     DeclarationReflection,
     type DocumentReflection,
-    ReflectionKind,
+    type ProjectReflection,
+    ReferenceType,
+    type Reflection,
     ReflectionFlag,
+    ReflectionKind,
 } from "../models/index.js";
 
 import type { Converter } from "./converter.js";
 import { isNamedNode } from "./utils/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
-import {
-    getComment,
-    getFileComment,
-    getJsDocComment,
-    getNodeComment,
-    getSignatureComment,
-} from "./comments/index.js";
-import { getHumanName } from "../utils/tsutils.js";
-import type { TranslationProxy } from "../internationalization/internationalization.js";
+import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
+import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
+import { findPackageForPath, normalizePath } from "#node-utils";
+import { createSymbolId } from "./factories/symbol-id.js";
+import { type NormalizedPath, removeIf } from "#utils";
 
 /**
  * The context describes the current state the converter is in.
@@ -39,13 +37,6 @@ export class Context {
      */
     get checker(): ts.TypeChecker {
         return this.program.getTypeChecker();
-    }
-
-    /**
-     * Translation interface for log messages.
-     */
-    get i18n(): TranslationProxy {
-        return this.converter.application.i18n;
     }
 
     /**
@@ -79,6 +70,10 @@ export class Context {
     convertingTypeNode = false; // Inherited by withScope
     convertingClassOrInterface = false; // Not inherited
     shouldBeStatic = false; // Not inherited
+    inlineType = new Set<string>(); // Inherited by withScope
+    preventInline = new Set<string>(); // Inherited by withScope
+
+    private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
     /**
      * Create a new Context instance.
@@ -90,7 +85,7 @@ export class Context {
         converter: Converter,
         programs: readonly ts.Program[],
         project: ProjectReflection,
-        scope: Context["scope"] = project,
+        scope: Reflection = project,
     ) {
         this.converter = converter;
         this.programs = programs;
@@ -151,9 +146,9 @@ export class Context {
                 node.pos,
             );
             throw new Error(
-                `Expected a symbol for node with kind ${
-                    ts.SyntaxKind[node.kind]
-                } at ${node.getSourceFile().fileName}:${line + 1}`,
+                `Expected a symbol for node with kind ${ts.SyntaxKind[node.kind]} at ${node.getSourceFile().fileName}:${
+                    line + 1
+                }`,
             );
         }
         return symbol;
@@ -210,7 +205,7 @@ export class Context {
         }
 
         if (reflection instanceof DeclarationReflection) {
-            reflection.escapedName = symbol?.escapedName;
+            reflection.escapedName = symbol?.escapedName ? String(symbol.escapedName) : undefined;
             this.addChild(reflection);
         }
 
@@ -218,15 +213,20 @@ export class Context {
             reflection.setFlag(ReflectionFlag.External);
         }
         if (exportSymbol) {
-            this.registerReflection(reflection, exportSymbol);
+            this.registerReflection(reflection, exportSymbol, void 0);
         }
 
         const path = reflection.kindOf(
-            ReflectionKind.Namespace | ReflectionKind.Module,
-        )
+                ReflectionKind.Namespace | ReflectionKind.Module,
+            )
             ? symbol?.declarations?.find(ts.isSourceFile)?.fileName
             : undefined;
-        this.project.registerReflection(reflection, symbol, path);
+
+        if (path) {
+            this.registerReflection(reflection, symbol, normalizePath(path));
+        } else {
+            this.registerReflection(reflection, symbol, undefined);
+        }
     }
 
     finalizeDeclarationReflection(reflection: DeclarationReflection) {
@@ -239,6 +239,34 @@ export class Context {
         if (reflection.kindOf(ReflectionKind.MayContainDocuments)) {
             this.converter.processDocumentTags(reflection, reflection);
         }
+    }
+
+    /**
+     * Create a {@link ReferenceType} which points to the provided symbol.
+     *
+     * @privateRemarks
+     * This is available on Context so that it can be monkey-patched by typedoc-plugin-missing-exports
+     */
+    createSymbolReference(
+        symbol: ts.Symbol,
+        context: Context,
+        name?: string,
+    ): ReferenceType {
+        const ref = ReferenceType.createUnresolvedReference(
+            name ?? symbol.name,
+            createSymbolId(symbol),
+            context.project,
+            getQualifiedName(symbol, name ?? symbol.name),
+        );
+        ref.refersToTypeParameter = !!(
+            symbol.flags & ts.SymbolFlags.TypeParameter
+        );
+
+        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
+        if (!symbolPath) return ref;
+
+        ref.package = findPackageForPath(symbolPath)?.[0];
+        return ref;
     }
 
     addChild(reflection: DeclarationReflection | DocumentReflection) {
@@ -258,8 +286,51 @@ export class Context {
      * @param reflection  The reflection that should be registered.
      * @param symbol  The symbol the given reflection was resolved from.
      */
-    registerReflection(reflection: Reflection, symbol: ts.Symbol | undefined) {
-        this.project.registerReflection(reflection, symbol, void 0);
+    registerReflection(reflection: Reflection, symbol: ts.Symbol | undefined, filePath?: NormalizedPath) {
+        if (symbol) {
+            this.reflectionIdToSymbolMap.set(reflection.id, symbol);
+            const id = createSymbolId(symbol);
+
+            // #2466
+            // If we just registered a member of a class or interface, then we need to check if
+            // we've registered this symbol before under the wrong parent reflection.
+            // This can happen because the compiler API will use non-dependently-typed symbols
+            // for properties of classes/interfaces which inherit them, so we can't rely on the
+            // property being unique for each class.
+            if (
+                reflection.parent?.kindOf(ReflectionKind.ClassOrInterface) &&
+                reflection.kindOf(ReflectionKind.SomeMember)
+            ) {
+                const saved = this.project["symbolToReflectionIdMap"].get(id);
+                const parentSymbolReflection = symbol.parent &&
+                    this.getReflectionFromSymbol(symbol.parent);
+
+                if (
+                    typeof saved === "object" &&
+                    saved.length > 1 &&
+                    parentSymbolReflection
+                ) {
+                    removeIf(
+                        saved,
+                        (item) =>
+                            this.project.getReflectionById(item)?.parent !==
+                                parentSymbolReflection,
+                    );
+                }
+            }
+
+            this.project.registerReflection(reflection, id, filePath);
+        } else {
+            this.project.registerReflection(reflection, void 0, filePath);
+        }
+    }
+
+    getReflectionFromSymbol(symbol: ts.Symbol) {
+        return this.project.getReflectionFromSymbolId(createSymbolId(symbol));
+    }
+
+    getSymbolFromReflection(reflection: Reflection) {
+        return this.reflectionIdToSymbolMap.get(reflection.id);
     }
 
     /** @internal */
@@ -328,7 +399,18 @@ export class Context {
         );
     }
 
+    shouldInline(symbol: ts.Symbol, name: string): boolean {
+        if (this.preventInline.has(name)) return false;
+        if (this.inlineType.has(name)) return true;
+
+        return this
+            .getComment(symbol, ReflectionKind.Interface)
+            ?.hasModifier("@inline") ?? false;
+    }
+
     public withScope(scope: Reflection): Context {
+        assert(scope.parent === this.scope || scope === this.scope, "Incorrect context used for withScope");
+
         const context = new Context(
             this.converter,
             this.programs,
@@ -337,6 +419,18 @@ export class Context {
         );
         context.convertingTypeNode = this.convertingTypeNode;
         context.setActiveProgram(this._program);
+        context.reflectionIdToSymbolMap = this.reflectionIdToSymbolMap;
+        context.preventInline = new Set(this.preventInline);
+        context.inlineType = new Set(this.inlineType);
+
+        for (const tag of scope.comment?.blockTags || []) {
+            if (tag.tag === "@preventInline") {
+                context.preventInline.add(Comment.combineDisplayParts(tag.content));
+            } else if (tag.tag === "@inlineType") {
+                context.inlineType.add(Comment.combineDisplayParts(tag.content));
+            }
+        }
+
         return context;
     }
 }

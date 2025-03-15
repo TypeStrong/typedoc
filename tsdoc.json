@@ -113,7 +113,27 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@preventExpand",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@expandType",
+            "syntaxKind": "block"
+        },
+        {
             "tagName": "@inline",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@preventInline",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@inlineType",
+            "syntaxKind": "block"
+        },
+        {
+            "tagName": "@primaryExport",
             "syntaxKind": "modifier"
         },
         {
@@ -175,6 +195,10 @@
         },
         {
             "tagName": "@interface",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@function",
             "syntaxKind": "modifier"
         },
         {

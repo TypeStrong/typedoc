@@ -1,3 +1,5 @@
 {
-  "type": "commonjs"
+    "name": "typedoc",
+    "private": true,
+    "type": "commonjs"
 }

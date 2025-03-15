@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { JSX, Raw } from "../../../../utils/index.js";
+import { i18n, JSX } from "#utils";
 import type { SignatureReflection } from "../../../../models/index.js";
 import { hasTypeParameters } from "../../lib.js";
 
@@ -19,7 +19,7 @@ export function memberSignatureBody(
 
             {props.parameters && props.parameters.length > 0 && (
                 <div class="tsd-parameters">
-                    <h4 class="tsd-parameters-title">{context.i18n.kind_plural_parameter()}</h4>
+                    <h4 class="tsd-parameters-title">{i18n.kind_plural_parameter()}</h4>
                     <ul class="tsd-parameter-list">
                         {props.parameters.map((item) => (
                             <li>
@@ -38,7 +38,7 @@ export function memberSignatureBody(
                                 </span>
                                 {context.commentSummary(item)}
                                 {context.commentTags(item)}
-                                {context.typeDetailsIfUseful(item.type)}
+                                {context.typeDetailsIfUseful(item, item.type)}
                             </li>
                         ))}
                     </ul>
@@ -47,10 +47,10 @@ export function memberSignatureBody(
             {props.type && (
                 <>
                     <h4 class="tsd-returns-title">
-                        {context.i18n.theme_returns()} {context.type(props.type)}
+                        {i18n.theme_returns()} {context.type(props.type)}
                     </h4>
-                    {returnsTag && <Raw html={context.markdown(returnsTag.content)} />}
-                    {context.typeDetailsIfUseful(props.type)}
+                    {returnsTag && <JSX.Raw html={context.markdown(returnsTag.content)} />}
+                    {context.typeDetailsIfUseful(props, props.type)}
                 </>
             )}
 

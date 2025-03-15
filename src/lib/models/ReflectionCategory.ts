@@ -1,14 +1,6 @@
-import { Comment } from "./comments/index.js";
-import type {
-    CommentDisplayPart,
-    DeclarationReflection,
-    DocumentReflection,
-} from "./index.js";
-import type {
-    Serializer,
-    JSONOutput,
-    Deserializer,
-} from "../serialization/index.js";
+import { Comment } from "./Comment.js";
+import type { CommentDisplayPart, DeclarationReflection, DocumentReflection } from "./index.js";
+import type { Deserializer, JSONOutput } from "#serialization";
 
 /**
  * A category of reflections.
@@ -42,23 +34,15 @@ export class ReflectionCategory {
         this.title = title;
     }
 
-    /**
-     * Do all children of this category have a separate document?
-     */
-    allChildrenHaveOwnDocument(): boolean {
-        return this.children.every((child) => child.hasOwnDocument);
-    }
-
-    toObject(serializer: Serializer): JSONOutput.ReflectionCategory {
+    toObject(): JSONOutput.ReflectionCategory {
         return {
             title: this.title,
             description: this.description
-                ? Comment.serializeDisplayParts(serializer, this.description)
+                ? Comment.serializeDisplayParts(this.description)
                 : undefined,
-            children:
-                this.children.length > 0
-                    ? this.children.map((child) => child.id)
-                    : undefined,
+            children: this.children.length > 0
+                ? this.children.map((child) => child.id)
+                : undefined,
         };
     }
 

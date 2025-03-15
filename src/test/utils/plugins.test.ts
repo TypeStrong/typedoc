@@ -3,13 +3,10 @@ import type { Application } from "../../index.js";
 import { loadPlugins } from "../../lib/utils/plugins.js";
 import { TestLogger } from "../TestLogger.js";
 import { join, resolve } from "path";
-import { Internationalization } from "../../lib/internationalization/internationalization.js";
 
 describe("loadPlugins", () => {
     let logger: TestLogger;
-    const fakeApp = {
-        i18n: new Internationalization(null).proxy,
-    } as any as Application;
+    const fakeApp = {} as any as Application;
     beforeEach(() => {
         logger = fakeApp.logger = new TestLogger();
     });

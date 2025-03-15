@@ -44,7 +44,7 @@ to include multiple documents.
 ```jsonc
 // typedoc.json
 {
-    "projectDocuments": ["documents/*.md"],
+    "projectDocuments": ["documents/*.md"]
 }
 ```
 

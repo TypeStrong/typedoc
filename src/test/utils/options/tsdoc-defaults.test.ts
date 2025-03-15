@@ -94,7 +94,7 @@ function getDocumentedTags() {
     const tags: string[] = [];
 
     for (const line of text.split("\n")) {
-        if (line.startsWith("-   [")) {
+        if (line.startsWith("- [")) {
             tags.push(...Array.from(line.matchAll(/(@\w+)/g), (m) => m[1]));
         }
     }

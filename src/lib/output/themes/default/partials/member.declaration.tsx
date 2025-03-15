@@ -1,11 +1,11 @@
 import type { DeclarationReflection } from "../../../../models/index.js";
-import { JSX } from "../../../../utils/index.js";
-import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap, type FormatterNode } from "../../../formatter.js";
+import { JSX } from "#utils";
+import { FormattedCodeBuilder, FormattedCodeGenerator, type FormatterNode, Wrap } from "../../../formatter.js";
 import { hasTypeParameters } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 
 export function memberDeclaration(context: DefaultThemeRenderContext, props: DeclarationReflection) {
-    const builder = new FormattedCodeBuilder(context.urlTo);
+    const builder = new FormattedCodeBuilder(context.router, context.model);
     const content: FormatterNode[] = [];
     builder.member(content, props, { topLevelLinks: false });
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
@@ -43,7 +43,7 @@ export function memberDeclaration(context: DefaultThemeRenderContext, props: Dec
 
             {hasTypeParameters(props) && context.typeParameters(props.typeParameters)}
 
-            {props.type && context.typeDeclaration(props.type)}
+            {props.type && context.typeDeclaration(props, props.type)}
 
             {context.commentTags(props)}
 

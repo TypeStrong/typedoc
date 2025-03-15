@@ -7,7 +7,7 @@ export function memberSignatureTitle(
     props: SignatureReflection,
     options: { hideName?: boolean } = {},
 ) {
-    const builder = new FormattedCodeBuilder(context.urlTo);
+    const builder = new FormattedCodeBuilder(context.router, context.model);
     const tree = builder.signature(props, options);
     const generator = new FormattedCodeGenerator(context.options.getValue("typePrintWidth"));
     generator.node(tree, Wrap.Detect);

@@ -1,289 +1,301 @@
 {
-  "id": 0,
-  "name": "react",
-  "variant": "project",
-  "kind": 1,
-  "flags": {},
-  "children": [
-    {
-      "id": 4,
-      "name": "Demo",
-      "variant": "declaration",
-      "kind": 128,
-      "flags": {},
-      "children": [
+    "schemaVersion": "2.0",
+    "id": 0,
+    "name": "react",
+    "variant": "project",
+    "kind": 1,
+    "flags": {},
+    "children": [
         {
-          "id": 5,
-          "name": "constructor",
-          "variant": "declaration",
-          "kind": 512,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 20,
-              "character": 4,
-              "url": "typedoc://react.tsx#L20"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 6,
-              "name": "Demo",
-              "variant": "signature",
-              "kind": 16384,
-              "flags": {},
-              "sources": [
+            "id": 4,
+            "name": "Demo",
+            "variant": "declaration",
+            "kind": 128,
+            "flags": {},
+            "children": [
                 {
-                  "fileName": "react.tsx",
-                  "line": 20,
-                  "character": 4,
-                  "url": "typedoc://react.tsx#L20"
-                }
-              ],
-              "parameters": [
+                    "id": 5,
+                    "name": "constructor",
+                    "variant": "declaration",
+                    "kind": 512,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "react.tsx",
+                            "line": 20,
+                            "character": 4,
+                            "url": "typedoc://react.tsx#L20"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 6,
+                            "name": "Demo",
+                            "variant": "signature",
+                            "kind": 16384,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "react.tsx",
+                                    "line": 20,
+                                    "character": 4,
+                                    "url": "typedoc://react.tsx#L20"
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 7,
+                                    "name": "props",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": 1,
+                                        "name": "DemoProps",
+                                        "package": "typedoc"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "reference",
+                                "target": 4,
+                                "name": "Demo",
+                                "package": "typedoc"
+                            }
+                        }
+                    ]
+                },
                 {
-                  "id": 7,
-                  "name": "props",
-                  "variant": "param",
-                  "kind": 32768,
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "target": 1,
-                    "name": "DemoProps",
-                    "package": "typedoc"
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "target": 4,
-                "name": "Demo",
-                "package": "typedoc"
-              }
-            }
-          ]
-        },
-        {
-          "id": 8,
-          "name": "foo",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {
-            "isPrivate": true
-          },
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 18,
-              "character": 12,
-              "url": "typedoc://react.tsx#L18"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "number"
-          }
-        },
-        {
-          "id": 9,
-          "name": "render",
-          "variant": "declaration",
-          "kind": 2048,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 25,
-              "character": 4,
-              "url": "typedoc://react.tsx#L25"
-            }
-          ],
-          "signatures": [
-            {
-              "id": 10,
-              "name": "render",
-              "variant": "signature",
-              "kind": 4096,
-              "flags": {},
-              "sources": [
+                    "id": 8,
+                    "name": "foo",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {
+                        "isPrivate": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "react.tsx",
+                            "line": 18,
+                            "character": 12,
+                            "url": "typedoc://react.tsx#L18"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                    }
+                },
                 {
-                  "fileName": "react.tsx",
-                  "line": 25,
-                  "character": 4,
-                  "url": "typedoc://react.tsx#L25"
+                    "id": 9,
+                    "name": "render",
+                    "variant": "declaration",
+                    "kind": 2048,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "react.tsx",
+                            "line": 25,
+                            "character": 4,
+                            "url": "typedoc://react.tsx#L25"
+                        }
+                    ],
+                    "signatures": [
+                        {
+                            "id": 10,
+                            "name": "render",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "react.tsx",
+                                    "line": 25,
+                                    "character": 4,
+                                    "url": "typedoc://react.tsx#L25"
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "any"
+                            }
+                        }
+                    ]
                 }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "any"
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Constructors",
-          "children": [
-            5
-          ]
+            ],
+            "groups": [
+                {
+                    "title": "Constructors",
+                    "children": [
+                        5
+                    ]
+                },
+                {
+                    "title": "Properties",
+                    "children": [
+                        8
+                    ]
+                },
+                {
+                    "title": "Methods",
+                    "children": [
+                        9
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "react.tsx",
+                    "line": 17,
+                    "character": 13,
+                    "url": "typedoc://react.tsx#L17"
+                }
+            ]
         },
         {
-          "title": "Properties",
-          "children": [
-            8
-          ]
+            "id": 1,
+            "name": "DemoProps",
+            "variant": "declaration",
+            "kind": 256,
+            "flags": {},
+            "children": [
+                {
+                    "id": 3,
+                    "name": "age",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "react.tsx",
+                            "line": 14,
+                            "character": 4,
+                            "url": "typedoc://react.tsx#L14"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "name",
+                    "variant": "declaration",
+                    "kind": 1024,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "react.tsx",
+                            "line": 13,
+                            "character": 4,
+                            "url": "typedoc://react.tsx#L13"
+                        }
+                    ],
+                    "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                    }
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Properties",
+                    "children": [
+                        3,
+                        2
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "react.tsx",
+                    "line": 12,
+                    "character": 17,
+                    "url": "typedoc://react.tsx#L12"
+                }
+            ]
+        }
+    ],
+    "groups": [
+        {
+            "title": "Classes",
+            "children": [
+                4
+            ]
         },
         {
-          "title": "Methods",
-          "children": [
-            9
-          ]
+            "title": "Interfaces",
+            "children": [
+                1
+            ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "react.tsx",
-          "line": 17,
-          "character": 13,
-          "url": "typedoc://react.tsx#L17"
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "name": "DemoProps",
-      "variant": "declaration",
-      "kind": 256,
-      "flags": {},
-      "children": [
-        {
-          "id": 3,
-          "name": "age",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 14,
-              "character": 4,
-              "url": "typedoc://react.tsx#L14"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "number"
-          }
+    ],
+    "packageName": "typedoc",
+    "symbolIdMap": {
+        "0": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": ""
         },
-        {
-          "id": 2,
-          "name": "name",
-          "variant": "declaration",
-          "kind": 1024,
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 13,
-              "character": 4,
-              "url": "typedoc://react.tsx#L13"
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "string"
-          }
+        "1": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "DemoProps"
+        },
+        "2": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "DemoProps.name"
+        },
+        "3": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "DemoProps.age"
+        },
+        "4": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo"
+        },
+        "5": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo.__constructor"
+        },
+        "6": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo"
+        },
+        "7": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "props"
+        },
+        "8": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo.foo"
+        },
+        "9": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo.render"
+        },
+        "10": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/react/react.tsx",
+            "qualifiedName": "Demo.render"
         }
-      ],
-      "groups": [
-        {
-          "title": "Properties",
-          "children": [
-            3,
-            2
-          ]
+    },
+    "files": {
+        "entries": {
+            "1": "src/test/converter/react/react.tsx"
+        },
+        "reflections": {
+            "1": 0
         }
-      ],
-      "sources": [
-        {
-          "fileName": "react.tsx",
-          "line": 12,
-          "character": 17,
-          "url": "typedoc://react.tsx#L12"
-        }
-      ]
     }
-  ],
-  "groups": [
-    {
-      "title": "Classes",
-      "children": [
-        4
-      ]
-    },
-    {
-      "title": "Interfaces",
-      "children": [
-        1
-      ]
-    }
-  ],
-  "packageName": "typedoc",
-  "symbolIdMap": {
-    "0": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": ""
-    },
-    "1": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "DemoProps"
-    },
-    "2": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "DemoProps.name"
-    },
-    "3": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "DemoProps.age"
-    },
-    "4": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo"
-    },
-    "5": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo.__constructor"
-    },
-    "6": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo"
-    },
-    "7": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "props"
-    },
-    "8": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo.foo"
-    },
-    "9": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo.render"
-    },
-    "10": {
-      "sourceFileName": "src/test/converter/react/react.tsx",
-      "qualifiedName": "Demo.render"
-    }
-  },
-  "files": {
-    "entries": {
-      "1": "src/test/converter/react/react.tsx"
-    },
-    "reflections": {
-      "1": 0
-    }
-  }
 }

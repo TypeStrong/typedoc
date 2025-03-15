@@ -1,5 +1,5 @@
 import type { Application } from "../application.js";
-import { EventDispatcher } from "./events.js";
+import { EventDispatcher } from "#utils";
 
 /**
  * Exposes a reference to the root Application component.
@@ -8,8 +8,7 @@ export interface ComponentHost {
     readonly application: Application;
 }
 
-export interface Component<E extends Record<keyof E, unknown[]> = {}>
-    extends AbstractComponent<ComponentHost, E> {}
+export interface Component<E extends Record<keyof E, unknown[]> = {}> extends AbstractComponent<ComponentHost, E> {}
 
 /**
  * Component base class.  Has an owner (unless it's the application root component),
@@ -18,12 +17,9 @@ export interface Component<E extends Record<keyof E, unknown[]> = {}>
  * @template O type of component's owner.
  */
 export abstract class AbstractComponent<
-        O extends ComponentHost,
-        E extends Record<keyof E, unknown[]>,
-    >
-    extends EventDispatcher<E>
-    implements ComponentHost
-{
+    O extends ComponentHost,
+    E extends Record<keyof E, unknown[]>,
+> extends EventDispatcher<E> implements ComponentHost {
     /**
      * The owner of this component instance.
      */

@@ -5,23 +5,18 @@
  * them into references.
  * @module
  */
-import type {
-    TranslationProxy,
-    TranslatedString,
-} from "../../internationalization/index.js";
-import type {
-    CommentDisplayPart,
-    RelativeLinkDisplayPart,
-} from "../../models/index.js";
+import type { TranslationProxy } from "../../internationalization/index.js";
+import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { HtmlAttributeParser, ParserState } from "../../utils/html.js";
+import { HtmlAttributeParser, ParserState } from "#node-utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";
+import type { NormalizedPath, TranslatedString } from "#utils";
 const MdHelpers = new MarkdownIt().helpers;
 
 interface TextParserData {
-    sourcePath: string;
+    sourcePath: NormalizedPath;
     token: Token;
     pos: number;
     i18n: TranslationProxy;
@@ -71,7 +66,7 @@ export class TextParserReentryState {
  * so that they can be correctly resolved during rendering.
  */
 export function textContent(
-    sourcePath: string,
+    sourcePath: NormalizedPath,
     token: Token,
     i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
@@ -157,7 +152,6 @@ export function textContent(
  *
  * Reference: https://github.com/markdown-it/markdown-it/blob/14.1.0/lib/rules_inline/link.mjs
  * Reference: https://github.com/markdown-it/markdown-it/blob/14.1.0/lib/rules_inline/image.mjs
- *
  */
 function checkMarkdownLink(
     data: TextParserData,
@@ -199,7 +193,7 @@ function checkMarkdownLink(
             if (isRelativePath(link.str)) {
                 const { target, anchor } = files.register(
                     sourcePath,
-                    link.str,
+                    link.str as NormalizedPath,
                 ) || { target: undefined, anchor: undefined };
                 return {
                     pos: labelEnd + 2,
@@ -255,7 +249,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                     if (isRelativePath(link.str)) {
                         const { target, anchor } = files.register(
                             sourcePath,
-                            link.str,
+                            link.str as NormalizedPath,
                         ) || { target: undefined, anchor: undefined };
                         return {
                             pos: lookahead,
@@ -305,7 +299,7 @@ function checkAttribute(
                 data.pos = parser.pos;
                 const { target, anchor } = data.files.register(
                     data.sourcePath,
-                    parser.currentAttributeValue,
+                    parser.currentAttributeValue as NormalizedPath,
                 ) || { target: undefined, anchor: undefined };
                 return {
                     pos: parser.currentAttributeValueStart,

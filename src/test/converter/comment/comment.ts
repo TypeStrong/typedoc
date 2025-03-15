@@ -1,7 +1,9 @@
 /**
- * This is a module doc comment with legacy behavior.
+ * Module doc comment with document.
+ *
+ * @document document.md
+ * @packageDocumentation
  */
-/** dummy comment */
 import "./comment2";
 
 /**

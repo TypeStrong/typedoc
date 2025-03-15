@@ -5,4 +5,8 @@ const sideEffects = {
     prop: 1,
 };
 
-export const { method: METHOD, prop: PROP } = sideEffects;
+export const {
+    /** @function */
+    method: METHOD,
+    prop: PROP,
+} = sideEffects;

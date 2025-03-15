@@ -5,11 +5,7 @@ import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 import type { Renderer } from "../index.js";
-import {
-    getHierarchyRoots,
-    getKindClass,
-    getUniquePath,
-} from "../themes/lib.js";
+import { getHierarchyRoots, getKindClass, getUniquePath } from "../themes/lib.js";
 import type { DeclarationReflection } from "../../models/index.js";
 import { compressJson } from "../../utils/compress.js";
 
@@ -39,9 +35,7 @@ export class HierarchyPlugin extends RendererComponent {
             return;
         }
 
-        this.owner.preRenderAsyncJobs.push((event) =>
-            this.buildHierarchy(event),
-        );
+        this.owner.preRenderAsyncJobs.push((event) => this.buildHierarchy(event));
     }
 
     private async buildHierarchy(event: RendererEvent) {
@@ -58,12 +52,14 @@ export class HierarchyPlugin extends RendererComponent {
             const id = queue.pop()!;
             const refl = project.getReflectionById(id) as DeclarationReflection;
             if (id in hierarchy.reflections) continue;
-            if (!refl.url) continue;
+
+            const url = this.owner.router!.getFullUrl(refl);
+            if (!url) continue;
 
             const jsonRecord: JsonHierarchyElement = {
                 name: refl.name,
                 kind: refl.kind,
-                url: refl.url,
+                url,
                 class: getKindClass(refl),
             };
 

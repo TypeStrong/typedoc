@@ -40,4 +40,4 @@ The following `@typeParam` tags will all be passed in the same way by TypeDoc.
 
 ## See Also
 
--   The [`@template`](template.md) tag
+- The [`@template`](template.md) tag

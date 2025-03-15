@@ -3,25 +3,27 @@ import {
     CommentTag,
     DeclarationReflection,
     ParameterReflection,
+    type ReferenceType,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
-    type ReferenceType,
-    type Reflection,
     type SourceReference,
     type TypeParameterReflection,
     type TypeVisitor,
 } from "../../models/index.js";
+import { Option } from "../../utils/index.js";
 import {
-    Option,
     filterMap,
+    i18n,
+    type NormalizedPath,
     partition,
     removeIf,
     removeIfPresent,
+    setIntersection,
     unique,
-} from "../../utils/index.js";
-import { setIntersection } from "../../utils/set.js";
+} from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
@@ -117,7 +119,6 @@ const MUTUALLY_EXCLUSIVE_MODIFIERS = [
  *
  * Resolve end:
  * - Resolve `@link` tags to point to target reflections
- *
  */
 export class CommentPlugin extends ConverterComponent {
     @Option("excludeTags")
@@ -356,8 +357,7 @@ export class CommentPlugin extends ConverterComponent {
                 filterMap(hidden, (reflection) =>
                     reflection.parent?.kindOf(ReflectionKind.SignatureContainer)
                         ? reflection.parent
-                        : void 0,
-                ) as DeclarationReflection[],
+                        : void 0) as DeclarationReflection[],
             ),
             (method) => method.getNonIndexSignatures().length === 0,
         );
@@ -390,7 +390,7 @@ export class CommentPlugin extends ConverterComponent {
                 !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
             ) {
                 context.logger.warn(
-                    context.i18n.label_0_for_1_cannot_be_referenced(
+                    i18n.label_0_for_1_cannot_be_referenced(
                         reflection.comment.label,
                         reflection.getFriendlyFullName(),
                     ),
@@ -405,7 +405,7 @@ export class CommentPlugin extends ConverterComponent {
                 if (intersect.size > 1) {
                     const [a, b] = intersect;
                     context.logger.warn(
-                        context.i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
+                        i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
                             a,
                             b,
                             reflection.getFriendlyFullName(),
@@ -423,6 +423,10 @@ export class CommentPlugin extends ConverterComponent {
             if (reflection.kindOf(ReflectionKind.Class)) {
                 reflection.comment.removeModifier("@hideconstructor");
             }
+
+            // Similar story for this one, if a namespace is merged the tag should
+            // still apply when merging the second declaration of the namespace
+            reflection.comment.removeModifier("@primaryExport");
         }
 
         if (
@@ -495,8 +499,7 @@ export class CommentPlugin extends ConverterComponent {
         });
 
         for (const parameter of signature.typeParameters || []) {
-            const tag =
-                comment.getIdentifiedTag(parameter.name, "@typeParam") ||
+            const tag = comment.getIdentifiedTag(parameter.name, "@typeParam") ||
                 comment.getIdentifiedTag(parameter.name, "@template") ||
                 comment.getIdentifiedTag(`<${parameter.name}>`, "@param");
             if (tag) {
@@ -535,9 +538,7 @@ export class CommentPlugin extends ConverterComponent {
 
         for (const mod of this.cascadedModifierTags) {
             if (parentComment.hasModifier(mod)) {
-                const exclusiveSet = MUTUALLY_EXCLUSIVE_MODIFIERS.find((tags) =>
-                    tags.has(mod),
-                );
+                const exclusiveSet = MUTUALLY_EXCLUSIVE_MODIFIERS.find((tags) => tags.has(mod));
 
                 if (
                     !exclusiveSet ||
@@ -586,8 +587,8 @@ export class CommentPlugin extends ConverterComponent {
             const cls = reflection.parent?.kindOf(ReflectionKind.Class)
                 ? reflection.parent
                 : reflection.parent?.parent?.kindOf(ReflectionKind.Class)
-                  ? reflection.parent.parent
-                  : undefined;
+                ? reflection.parent.parent
+                : undefined;
             if (cls?.comment?.hasModifier("@hideconstructor")) {
                 return true;
             }
@@ -642,8 +643,7 @@ export class CommentPlugin extends ConverterComponent {
             return false;
         }
 
-        const isHidden =
-            comment.hasModifier("@hidden") ||
+        const isHidden = comment.hasModifier("@hidden") ||
             comment.hasModifier("@ignore") ||
             (comment.hasModifier("@internal") && this.excludeInternal);
 
@@ -684,16 +684,14 @@ export class CommentPlugin extends ConverterComponent {
             (tag) => tag.tag === "@param",
         );
 
-        removeIf(paramTags, (tag) =>
-            params.some((param) => param.name === tag.name),
-        );
+        removeIf(paramTags, (tag) => params.some((param) => param.name === tag.name));
 
         moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
         if (!comment.inheritedFromParentDeclaration) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
-                    this.application.i18n.signature_0_has_unused_param_with_name_1(
+                    i18n.signature_0_has_unused_param_with_name_1(
                         signature.getFriendlyFullName(),
                         tag.name ?? "(missing)",
                     ),
@@ -735,21 +733,18 @@ function validHighlightedName(ref: ReferenceType, name: string) {
 function moveNestedParamTags(
     /* in-out */ paramTags: CommentTag[],
     parameters: ParameterReflection[],
-    sourcePath: string | undefined,
+    sourcePath: NormalizedPath | undefined,
 ) {
     const used = new Set<number>();
 
     for (const param of parameters) {
         const visitor: Partial<TypeVisitor> = {
             reflection(target) {
-                const tags = paramTags.filter((t) =>
-                    t.name?.startsWith(`${param.name}.`),
-                );
+                const tags = paramTags.filter((t) => t.name?.startsWith(`${param.name}.`));
                 for (const tag of tags) {
                     const path = tag.name!.split(".");
                     path.shift();
-                    const child =
-                        target.declaration.getChildOrTypePropertyByName(path);
+                    const child = target.declaration.getChildOrTypePropertyByName(path);
 
                     if (child && !child.comment) {
                         child.comment = new Comment(

@@ -21,7 +21,6 @@ export interface InterfaceSource<T> {
 
 /**
  * @inheritDoc InterfaceSource
- *
  */
 export interface InterfaceTarget<T> {
     /**
@@ -73,7 +72,6 @@ export function functionSource<T>(arg1: T, arg2: T): string {
  * @param arg1 - This will be inherited
  * @param arg2 - This will be inherited
  * @returns This will be inherited
- *
  */
 export function functionTargetLocal<T>(arg1: T, arg2: T) {
     return "";

@@ -22,7 +22,7 @@ export class Visibility {
 
 ## See Also
 
--   The [`@beta`](beta.md) tag
--   The [`@experimental`](experimental.md) tag
--   The [`@public`](public.md) tag
--   The [`--visibilityFilters`](../options/output.md#visibilityfilters) option
+- The [`@beta`](beta.md) tag
+- The [`@experimental`](experimental.md) tag
+- The [`@public`](public.md) tag
+- The [`--visibilityFilters`](../options/output.md#visibilityfilters) option

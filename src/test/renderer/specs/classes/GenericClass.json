@@ -1,0 +1,571 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "",
+                                        "aria-current": "page"
+                                    },
+                                    "children": "GenericClass"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Class GenericClass<T>"
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel.tsd-comment": [
+                        {
+                            "div.tsd-comment.tsd-typography": "<p>Generic class</p>\n"
+                        },
+                        {
+                            "div.tsd-comment.tsd-typography": []
+                        }
+                    ]
+                },
+                {
+                    "section.tsd-panel": [
+                        {
+                            "h4": "Type Parameters"
+                        },
+                        {
+                            "ul.tsd-type-parameter-list": {
+                                "li": {
+                                    "span#t": [
+                                        {
+                                            "span.tsd-signature-keyword": "out"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-kind-type-parameter": "T"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-signature-keyword": "extends"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-signature-type": "string"
+                                        },
+                                        " = ",
+                                        {
+                                            "span.tsd-signature-type": "\"\""
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "aside.tsd-sources": {
+                        "ul": {
+                            "li": [
+                                "Defined in ",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "index.ts"
+                                    },
+                                    "children": "index.ts:60"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "section.tsd-panel-group.tsd-index-group": {
+                        "section.tsd-panel.tsd-index-panel": {
+                            "tag": "details.tsd-index-content.tsd-accordion",
+                            "props": {
+                                "open": true
+                            },
+                            "children": [
+                                {
+                                    "summary.tsd-accordion-summary.tsd-index-summary": {
+                                        "h5.tsd-index-heading.uppercase": "Index"
+                                    }
+                                },
+                                {
+                                    "div.tsd-accordion-details": [
+                                        {
+                                            "section.tsd-index-section": [
+                                                {
+                                                    "h3.tsd-index-heading": "Constructors"
+                                                },
+                                                {
+                                                    "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#constructor"
+                                                            },
+                                                            "children": {
+                                                                "span": "constructor"
+                                                            }
+                                                        },
+                                                        "\n"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "section.tsd-index-section": [
+                                                {
+                                                    "h3.tsd-index-heading": "Methods"
+                                                },
+                                                {
+                                                    "div.tsd-index-list": [
+                                                        {
+                                                            "tag": "a.tsd-index-link",
+                                                            "props": {
+                                                                "href": "#genericmethod"
+                                                            },
+                                                            "children": {
+                                                                "span": [
+                                                                    "generic",
+                                                                    {
+                                                                        "wbr": []
+                                                                    },
+                                                                    "Method"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "\n"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Constructors"
+                            },
+                            "children": {
+                                "h2": "Constructors"
+                            }
+                        },
+                        {
+                            "section": {
+                                "section.tsd-panel.tsd-member": [
+                                    {
+                                        "h3.tsd-anchor-link#constructor": [
+                                            {
+                                                "span": "constructor"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#constructor",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "ul.tsd-signatures": {
+                                            "li.": [
+                                                {
+                                                    "div.tsd-signature.tsd-anchor-link#constructorgenericclass": [
+                                                        {
+                                                            "span.tsd-signature-keyword": "new"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-kind-constructor-signature": "GenericClass"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "<"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-keyword": "out"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                            "props": {
+                                                                "href": "#constructorgenericclasst"
+                                                            },
+                                                            "children": "T"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-keyword": "extends"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "string"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-symbol": "="
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "\"\""
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ">"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "()"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                            "props": {
+                                                                "href": ""
+                                                            },
+                                                            "children": "GenericClass"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "<"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                            "props": {
+                                                                "href": "#constructorgenericclasst"
+                                                            },
+                                                            "children": "T"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ">"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#constructorgenericclass",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "div.tsd-description": [
+                                                        {
+                                                            "section.tsd-panel": [
+                                                                {
+                                                                    "h4": "Type Parameters"
+                                                                },
+                                                                {
+                                                                    "ul.tsd-type-parameter-list": {
+                                                                        "li": {
+                                                                            "span#constructorgenericclasst": [
+                                                                                {
+                                                                                    "span.tsd-signature-keyword": "out"
+                                                                                },
+                                                                                " ",
+                                                                                {
+                                                                                    "span.tsd-kind-type-parameter": "T"
+                                                                                },
+                                                                                " ",
+                                                                                {
+                                                                                    "span.tsd-signature-keyword": "extends"
+                                                                                },
+                                                                                " ",
+                                                                                {
+                                                                                    "span.tsd-signature-type": "string"
+                                                                                },
+                                                                                " = ",
+                                                                                {
+                                                                                    "span.tsd-signature-type": "\"\""
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "h4.tsd-returns-title": [
+                                                                "Returns ",
+                                                                {
+                                                                    "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                                    "props": {
+                                                                        "href": ""
+                                                                    },
+                                                                    "children": "GenericClass"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": "<"
+                                                                },
+                                                                {
+                                                                    "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                                    "props": {
+                                                                        "href": "#constructorgenericclasst"
+                                                                    },
+                                                                    "children": "T"
+                                                                },
+                                                                {
+                                                                    "span.tsd-signature-symbol": ">"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Methods"
+                            },
+                            "children": {
+                                "h2": "Methods"
+                            }
+                        },
+                        {
+                            "section": {
+                                "section.tsd-panel.tsd-member": [
+                                    {
+                                        "h3.tsd-anchor-link#genericmethod": [
+                                            {
+                                                "span": [
+                                                    "generic",
+                                                    {
+                                                        "wbr": []
+                                                    },
+                                                    "Method"
+                                                ]
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#genericmethod",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "ul.tsd-signatures": {
+                                            "li.": [
+                                                {
+                                                    "div.tsd-signature.tsd-anchor-link#genericmethod-1": [
+                                                        {
+                                                            "span.tsd-kind-call-signature": "genericMethod"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "<"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                            "props": {
+                                                                "href": "#genericmethodu"
+                                                            },
+                                                            "children": "U"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-keyword": "extends"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "string"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ">"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "()"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "void"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#genericmethod-1",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "div.tsd-description": [
+                                                        {
+                                                            "section.tsd-panel": [
+                                                                {
+                                                                    "h4": "Type Parameters"
+                                                                },
+                                                                {
+                                                                    "ul.tsd-type-parameter-list": {
+                                                                        "li": {
+                                                                            "span#genericmethodu": [
+                                                                                {
+                                                                                    "span.tsd-kind-type-parameter": "U"
+                                                                                },
+                                                                                " ",
+                                                                                {
+                                                                                    "span.tsd-signature-keyword": "extends"
+                                                                                },
+                                                                                " ",
+                                                                                {
+                                                                                    "span.tsd-signature-type": "string"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "h4.tsd-returns-title": [
+                                                                "Returns ",
+                                                                {
+                                                                    "span.tsd-signature-type": "void"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "aside.tsd-sources": {
+                                                                "ul": {
+                                                                    "li": [
+                                                                        "Defined in ",
+                                                                        {
+                                                                            "tag": "a",
+                                                                            "props": {
+                                                                                "href": "index.ts"
+                                                                            },
+                                                                            "children": "index.ts:61"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": [
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Constructors"
+                                            },
+                                            "children": "Constructors"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#constructor"
+                                                },
+                                                "children": {
+                                                    "span": "constructor"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-Methods"
+                                            },
+                                            "children": "Methods"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#genericmethod"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "generic",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Method"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
