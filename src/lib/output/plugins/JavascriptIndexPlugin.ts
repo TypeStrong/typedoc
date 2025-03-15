@@ -1,7 +1,7 @@
 import * as Path from "path";
 import lunr from "lunr";
 
-import type { Comment, DeclarationReflection, DocumentReflection, Reflection } from "../../models/index.js";
+import { type Comment, type DeclarationReflection, type DocumentReflection, Reflection } from "../../models/index.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
 import { Option, writeFile } from "../../utils/index.js";
@@ -70,9 +70,10 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: SearchDocument[] = [];
 
         const initialSearchResults = this.owner
-            .router!.getLinkableReflections()
+            .router!.getLinkTargets()
             .filter(
                 (refl) =>
+                    refl instanceof Reflection &&
                     (refl.isDeclaration() || refl.isDocument()) &&
                     refl.name &&
                     !refl.flags.isExternal,

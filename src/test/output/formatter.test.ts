@@ -29,7 +29,6 @@ import {
     FileRegistry,
     ParameterReflection,
     ProjectReflection,
-    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     SignatureReflection,
@@ -48,7 +47,7 @@ export function renderType(type: SomeType, maxWidth = 80, startWidth = 0) {
         hasUrl(): boolean {
             return true;
         }
-        getLinkableReflections(): Reflection[] {
+        getLinkTargets(): [] {
             return [];
         }
         getAnchor(): string | undefined {

@@ -12,10 +12,29 @@ import type { DefaultThemeRenderContext, Renderer } from "../index.js";
 import { anchorIcon } from "./default/partials/anchor-icon.js";
 import {
     type CommentDisplayPart,
-    type Reflection,
+    Reflection,
     ReflectionKind,
     type RelativeLinkDisplayPart,
 } from "../../models/index.js";
+import type { RouterTarget } from "../router.js";
+
+type Namable = { name: string; parent?: Namable };
+function getFriendlyFullName(target: Namable): string {
+    if (target instanceof Reflection) {
+        return target.getFriendlyFullName();
+    }
+
+    if (target.parent) {
+        return target.name;
+    }
+    const parts: string[] = [target.name];
+    let current: Namable = target;
+    while (current.parent) {
+        parts.unshift(current.name);
+        current = current.parent!;
+    }
+    return parts.join(".");
+}
 
 /**
  * Implements markdown and relativeURL helpers for templates.
@@ -40,8 +59,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     private parser?: MarkdownIt;
 
     private renderedRelativeLinks: {
-        source: Reflection;
-        target: Reflection;
+        source: RouterTarget;
+        target: RouterTarget;
         link: RelativeLinkDisplayPart;
     }[] = [];
 
@@ -72,7 +91,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             this.application.logger.warn(
                 i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
                     lang,
-                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
                 ),
             );
             return text;
@@ -81,7 +100,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             this.application.logger.warn(
                 i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
                     lang,
-                    this.page?.model.getFriendlyFullName() ?? "(unknown)",
+                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
                 ),
             );
             return text;
@@ -251,7 +270,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             if (!slugger.hasAnchor(link.targetAnchor!)) {
                 this.application.logger.warn(
                     i18n.reflection_0_links_to_1_but_anchor_does_not_exist_try_2(
-                        source.getFriendlyFullName(),
+                        getFriendlyFullName(source),
                         link.text,
                         slugger
                             .getSimilarAnchors(link.targetAnchor!)

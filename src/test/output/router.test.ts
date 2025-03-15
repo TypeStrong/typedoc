@@ -4,12 +4,13 @@ import {
     GroupRouter,
     KindDirRouter,
     KindRouter,
+    type PageDefinition,
     StructureDirRouter,
     StructureRouter,
 } from "../../lib/output/index.js";
 import { getConverter2App, getConverter2Project } from "../programs.js";
 import { query } from "../utils.js";
-import { DeclarationReflection, ReflectionKind } from "../../lib/models/index.js";
+import { DeclarationReflection, type Reflection, ReflectionKind } from "../../lib/models/index.js";
 
 const app = getConverter2App();
 
@@ -21,7 +22,7 @@ describe("KindRouter", () => {
         project.readme = [{ kind: "text", text: "text" }];
         const router = new KindRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(pages.map((p) => [p.model.getFullName(), p.url]).slice(0, 3), [
             ["typedoc", "index.html"],
             ["typedoc", "modules.html"],
@@ -34,7 +35,7 @@ describe("KindRouter", () => {
         delete project.readme;
         const router = new KindRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [
@@ -51,7 +52,7 @@ describe("KindRouter", () => {
             ],
         );
 
-        const linkable = router.getLinkableReflections();
+        const linkable = router.getLinkTargets() as Reflection[];
         equal(
             linkable.map((refl) => [
                 refl.getFullName(),
@@ -195,7 +196,7 @@ describe("KindDirRouter", () => {
         delete project.readme;
         const router = new KindDirRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [
@@ -251,7 +252,7 @@ describe("StructureRouter", () => {
         delete project.readme;
         const router = new StructureRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [
@@ -276,7 +277,7 @@ describe("StructureDirRouter", () => {
         delete project.readme;
         const router = new StructureDirRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [
@@ -329,7 +330,7 @@ describe("GroupRouter", () => {
         delete project.readme;
         const router = new GroupRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [
@@ -354,7 +355,7 @@ describe("CategoryRouter", () => {
         delete project.readme;
         const router = new CategoryRouter(app);
 
-        const pages = router.buildPages(project);
+        const pages = router.buildPages(project) as PageDefinition<Reflection>[];
         equal(
             pages.map((p) => [p.model.getFullName(), p.url]),
             [

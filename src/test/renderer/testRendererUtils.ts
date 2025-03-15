@@ -114,12 +114,13 @@ function renderElementToSnapshot(element: JsxChildren): unknown {
 
 export class TestTheme extends DefaultTheme {
     override render(page: PageEvent<Reflection>): string {
-        const template = {
+        const templateMapping: Record<string, any> = {
             [PageKind.Index]: this.indexTemplate,
             [PageKind.Document]: this.documentTemplate,
             [PageKind.Hierarchy]: this.hierarchyTemplate,
             [PageKind.Reflection]: this.reflectionTemplate,
-        }[page.pageKind] as RenderTemplate<PageEvent<Reflection>>;
+        };
+        const template = templateMapping[page.pageKind] as RenderTemplate<PageEvent<Reflection>>;
 
         const templateOutput = this.defaultLayoutTemplate(page, template);
         const snapshot = renderElementToSnapshot(templateOutput) as any;

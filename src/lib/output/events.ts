@@ -1,6 +1,11 @@
 import type { ProjectReflection } from "../models/ProjectReflection.js";
-import type { DeclarationReflection, DocumentReflection, ReflectionKind } from "../models/index.js";
-import type { PageDefinition, PageKind } from "./router.js";
+import {
+    type DeclarationReflection,
+    type DocumentReflection,
+    Reflection,
+    type ReflectionKind,
+} from "../models/index.js";
+import type { PageDefinition, PageKind, RouterTarget } from "./router.js";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -63,7 +68,7 @@ export interface PageHeading {
  * @see {@link Renderer.EVENT_BEGIN_PAGE}
  * @see {@link Renderer.EVENT_END_PAGE}
  */
-export class PageEvent<out Model = unknown> {
+export class PageEvent<out Model extends RouterTarget = RouterTarget> {
     /**
      * The project the renderer is currently processing.
      */
@@ -138,6 +143,10 @@ export class PageEvent<out Model = unknown> {
 
     constructor(model: Model) {
         this.model = model;
+    }
+
+    isReflectionEvent(): this is PageEvent<Reflection> {
+        return this.model instanceof Reflection;
     }
 }
 

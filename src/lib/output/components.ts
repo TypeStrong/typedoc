@@ -1,7 +1,7 @@
 import * as Path from "path";
 
 import { AbstractComponent } from "../utils/component.js";
-import type { ProjectReflection, Reflection } from "../models/index.js";
+import type { ProjectReflection } from "../models/index.js";
 import type { Renderer } from "./renderer.js";
 import { PageEvent, RendererEvent } from "./events.js";
 import { Option } from "../utils/index.js";
@@ -23,7 +23,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     /**
      * The reflection that is currently processed.
      */
-    protected page?: PageEvent<Reflection>;
+    protected page?: PageEvent;
 
     /**
      * The url of the document that is being currently generated.
@@ -94,7 +94,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      *
      * @param page  An event object describing the current render operation.
      */
-    protected onBeginPage(page: PageEvent<Reflection>) {
+    protected onBeginPage(page: PageEvent) {
         this.location = Path.posix.dirname(page.url);
         this.page = page;
     }

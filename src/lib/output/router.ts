@@ -1,12 +1,7 @@
 import type { Application } from "../application.js";
 import { CategoryPlugin } from "../converter/plugins/CategoryPlugin.js";
 import { GroupPlugin } from "../converter/plugins/GroupPlugin.js";
-import {
-    type DeclarationReflection,
-    type ProjectReflection,
-    type Reflection,
-    ReflectionKind,
-} from "../models/index.js";
+import { type DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "../models/index.js";
 import { createNormalizedUrl } from "#node-utils";
 import { Option, type TypeDocOptionMap } from "../utils/index.js";
 import { Slugger } from "./themes/default/Slugger.js";
@@ -14,6 +9,9 @@ import { getHierarchyRoots } from "./themes/lib.js";
 
 /**
  * The type of page which should be rendered. This may be extended in the future.
+ *
+ * Note: TypeDoc any string may be used as the page kind. TypeDoc defines a few
+ * described by this object.
  * @enum
  */
 export const PageKind = {
@@ -22,12 +20,35 @@ export const PageKind = {
     Document: "document",
     Hierarchy: "hierarchy",
 } as const;
-export type PageKind = (typeof PageKind)[keyof typeof PageKind];
+export type PageKind = (typeof PageKind)[keyof typeof PageKind] | string & {};
 
-export interface PageDefinition {
+/**
+ * A router target is something that may be linked to within a page. Notably,
+ * {@link Reflection} is compatible with this interface. TypeDoc supports non-reflection
+ * router targets, but does not currently create any.
+ */
+export type RouterTarget = {
+    name: string;
+    parent: RouterTarget;
+} | Reflection;
+
+export interface PageDefinition<out Model extends RouterTarget = RouterTarget> {
     readonly url: string;
     readonly kind: PageKind;
-    readonly model: Reflection;
+    readonly model: Model;
+}
+
+function getFullName(target: RouterTarget): string {
+    if (target instanceof ProjectReflection) {
+        return target.name;
+    }
+    const parts: string[] = [target.name];
+    let current: RouterTarget = target;
+    while (!(current instanceof ProjectReflection)) {
+        parts.unshift(current.name);
+        current = current.parent!;
+    }
+    return parts.join(".");
 }
 
 /**
@@ -41,42 +62,42 @@ export interface Router {
     buildPages(project: ProjectReflection): PageDefinition[];
 
     /**
-     * Can be used to check if the reflection can be linked to.
+     * Can be used to check if the target can be linked to.
      */
-    hasUrl(reflection: Reflection): boolean;
+    hasUrl(target: RouterTarget): boolean;
 
     /**
-     * Get a list of all reflections which can be linked to.
+     * Get a list of all targets which can be linked to.
      * This is used for creating the search index.
      */
-    getLinkableReflections(): Reflection[];
+    getLinkTargets(): RouterTarget[];
 
     /**
-     * Gets an anchor for this reflection within its containing page.
-     * May be undefined if this reflection owns its own page.
+     * Gets an anchor for this target within its containing page.
+     * May be undefined if this target owns its own page.
      */
-    getAnchor(refl: Reflection): string | undefined;
+    getAnchor(refl: RouterTarget): string | undefined;
 
     /**
-     * Returns true if the reflection has its own page, false if embedded within
+     * Returns true if the target has its own page, false if embedded within
      * another page.
      */
-    hasOwnDocument(refl: Reflection): boolean;
+    hasOwnDocument(refl: RouterTarget): boolean;
 
     /**
      * Should return a URL which when clicked on the page containing `from`
      * takes the user to the page/anchor containing `to`.
      */
-    relativeUrl(from: Reflection, to: Reflection): string;
+    relativeUrl(from: RouterTarget, to: RouterTarget): string;
 
     /**
      * Should return a URL relative to the project base. This is used for
      * determining links to items in the assets folder.
      */
-    baseRelativeUrl(from: Reflection, target: string): string;
+    baseRelativeUrl(from: RouterTarget, target: string): string;
 
     /**
-     * Get the full URL to the reflection. In TypeDoc's default router this
+     * Get the full URL to the target. In TypeDoc's default router this
      * is equivalent to `relativeUrl(project, refl)`, but this might not be
      * the case for custom routers which place the project somewhere else
      * besides `index.html`.
@@ -84,14 +105,14 @@ export interface Router {
      * The URL returned by this by the frontend JS when building dynamic URLs
      * for the search, full hierarchy, and navigation components.
      */
-    getFullUrl(refl: Reflection): string;
+    getFullUrl(refl: RouterTarget): string;
 
     /**
-     * Responsible for getting a slugger for the given reflection. If a
-     * reflection is not associated with a page, the slugger for the parent
-     * reflection should be returned instead.
+     * Responsible for getting a slugger for the given target. If a
+     * target is not associated with a page, the slugger for the parent
+     * target should be returned instead.
      */
-    getSlugger(reflection: Reflection): Slugger;
+    getSlugger(reflection: RouterTarget): Slugger;
 }
 
 /**
@@ -107,9 +128,9 @@ export abstract class BaseRouter implements Router {
     // Note: This will always contain lowercased names to avoid issues with
     // case-insensitive file systems.
     protected usedFileNames = new Set<string>();
-    protected sluggers = new Map<Reflection, Slugger>();
-    protected fullUrls = new Map<Reflection, string>();
-    protected anchors = new Map<Reflection, string>();
+    protected sluggers = new Map<RouterTarget, Slugger>();
+    protected fullUrls = new Map<RouterTarget, string>();
+    protected anchors = new Map<RouterTarget, string>();
 
     @Option("sluggerConfiguration")
     protected accessor sluggerConfiguration!: TypeDocOptionMap["sluggerConfiguration"];
@@ -120,12 +141,12 @@ export abstract class BaseRouter implements Router {
     constructor(readonly application: Application) {}
 
     /**
-     * Should return the base-relative desired file name for a reflection.
+     * Should return the base-relative desired file name for a router target.
      * This name may not be used exactly as TypeDoc will detect conflicts
      * and automatically introduce a unique identifier to the URL to resolve
      * them.
      */
-    protected abstract getIdealBaseName(reflection: Reflection): string;
+    protected abstract getIdealBaseName(reflection: RouterTarget): string;
 
     buildPages(project: ProjectReflection): PageDefinition[] {
         this.usedFileNames = new Set();
@@ -171,31 +192,34 @@ export abstract class BaseRouter implements Router {
         return pages;
     }
 
-    hasUrl(reflection: Reflection): boolean {
-        return this.fullUrls.has(reflection);
+    hasUrl(target: RouterTarget): boolean {
+        return this.fullUrls.has(target);
     }
 
-    getLinkableReflections(): Reflection[] {
+    getLinkTargets(): RouterTarget[] {
         return Array.from(this.fullUrls.keys());
     }
 
-    getAnchor(refl: Reflection): string | undefined {
-        if (!this.anchors.has(refl)) {
+    getAnchor(target: RouterTarget): string | undefined {
+        if (!this.anchors.has(target)) {
             this.application.logger.verbose(
-                `${refl.getFullName()} does not have an anchor but one was requested, this is a bug in the theme`,
+                `${getFullName(target)} does not have an anchor but one was requested, this is a bug in the theme`,
             );
         }
-        return this.anchors.get(refl);
+        return this.anchors.get(target);
     }
 
-    hasOwnDocument(refl: Reflection): boolean {
-        return this.anchors.get(refl) === undefined && this.hasUrl(refl);
+    hasOwnDocument(target: RouterTarget): boolean {
+        return this.anchors.get(target) === undefined && this.hasUrl(target);
     }
 
-    relativeUrl(from: Reflection, to: Reflection): string {
+    relativeUrl(from: RouterTarget, to: RouterTarget): string {
         let slashes = 0;
         while (!this.hasOwnDocument(from)) {
-            from = from.parent!;
+            // We know we must have a parent here as the Project is the only
+            // root level element without a parent, and the project always has
+            // an own document.
+            from = from.parent as RouterTarget;
         }
         const fromUrl = this.getFullUrl(from);
         const toUrl = this.getFullUrl(to);
@@ -213,7 +237,7 @@ export abstract class BaseRouter implements Router {
             }
         }
 
-        if (equal && !to.isProject()) {
+        if (equal && !(to instanceof ProjectReflection)) {
             if (fromUrl === toUrl) {
                 return "";
             }
@@ -223,7 +247,7 @@ export abstract class BaseRouter implements Router {
         return "../".repeat(slashes) + toUrl.substring(start);
     }
 
-    baseRelativeUrl(from: Reflection, target: string): string {
+    baseRelativeUrl(from: RouterTarget, target: string): string {
         let slashes = 0;
         const full = this.getFullUrl(from);
         for (let i = 0; i < full.length; ++i) {
@@ -233,23 +257,23 @@ export abstract class BaseRouter implements Router {
         return "../".repeat(slashes) + target;
     }
 
-    getFullUrl(refl: Reflection): string {
-        const url = this.fullUrls.get(refl);
+    getFullUrl(target: RouterTarget): string {
+        const url = this.fullUrls.get(target);
         if (!url) {
             throw new Error(
-                `Tried to get a URL of a reflection ${refl.getFullName()} which did not receive a URL`,
+                `Tried to get a URL of a router target ${getFullName(target)} which did not receive a URL`,
             );
         }
 
         return url;
     }
 
-    getSlugger(reflection: Reflection): Slugger {
-        if (this.sluggers.has(reflection)) {
-            return this.sluggers.get(reflection)!;
+    getSlugger(target: RouterTarget): Slugger {
+        if (this.sluggers.has(target)) {
+            return this.sluggers.get(target)!;
         }
         // A slugger should always be defined at least for the project
-        return this.getSlugger(reflection.parent!);
+        return this.getSlugger(target.parent as RouterTarget);
     }
 
     /**
@@ -257,7 +281,11 @@ export abstract class BaseRouter implements Router {
      * page in the output. Note that once `undefined` is returned, children of
      * that reflection will not have their own document.
      */
-    protected getPageKind(reflection: Reflection): PageKind | undefined {
+    protected getPageKind(target: RouterTarget): PageKind | undefined {
+        if (!(target instanceof Reflection)) {
+            return undefined;
+        }
+
         const pageReflectionKinds = ReflectionKind.Class |
             ReflectionKind.Interface |
             ReflectionKind.Enum |
@@ -268,52 +296,58 @@ export abstract class BaseRouter implements Router {
             ReflectionKind.Variable;
         const documentReflectionKinds = ReflectionKind.Document;
 
-        if (reflection.kindOf(pageReflectionKinds)) {
+        if (target.kindOf(pageReflectionKinds)) {
             return PageKind.Reflection;
         }
 
-        if (reflection.kindOf(documentReflectionKinds)) {
+        if (target.kindOf(documentReflectionKinds)) {
             return PageKind.Document;
         }
     }
 
     protected buildChildPages(
-        reflection: Reflection,
+        target: RouterTarget,
         outPages: PageDefinition[],
     ): void {
-        const kind = this.getPageKind(reflection);
+        const kind = this.getPageKind(target);
         if (kind) {
-            const idealName = this.getIdealBaseName(reflection);
+            const idealName = this.getIdealBaseName(target);
             const actualName = this.getFileName(idealName);
-            this.fullUrls.set(reflection, actualName);
+            this.fullUrls.set(target, actualName);
             this.sluggers.set(
-                reflection,
+                target,
                 new Slugger(this.sluggerConfiguration),
             );
 
             outPages.push({
                 kind,
-                model: reflection,
+                model: target,
                 url: actualName,
             });
 
-            reflection.traverse((child) => {
-                this.buildChildPages(child, outPages);
-                return true;
-            });
+            if (target instanceof Reflection) {
+                target.traverse((child) => {
+                    this.buildChildPages(child, outPages);
+                    return true;
+                });
+            }
         } else {
-            this.buildAnchors(reflection, reflection.parent!);
+            this.buildAnchors(target, target.parent!);
         }
     }
 
     protected buildAnchors(
-        reflection: Reflection,
-        pageReflection: Reflection,
+        target: RouterTarget,
+        pageTarget: RouterTarget,
     ): void {
+        if (!(target instanceof Reflection) || !(pageTarget instanceof Reflection)) {
+            return;
+        }
+
         if (
-            !reflection.isDeclaration() &&
-            !reflection.isSignature() &&
-            !reflection.isTypeParameter()
+            !target.isDeclaration() &&
+            !target.isSignature() &&
+            !target.isTypeParameter()
         ) {
             return;
         }
@@ -324,18 +358,18 @@ export abstract class BaseRouter implements Router {
         // which might not be used may result in a link being generated which isn't valid. #2808.
         // This should be kept in sync with the renderingChildIsUseful function.
         if (
-            reflection.kindOf(ReflectionKind.TypeLiteral) &&
-            (!reflection.parent?.kindOf(ReflectionKind.SomeExport) ||
-                (reflection.parent as DeclarationReflection).type?.type !==
+            target.kindOf(ReflectionKind.TypeLiteral) &&
+            (!target.parent?.kindOf(ReflectionKind.SomeExport) ||
+                (target.parent as DeclarationReflection).type?.type !==
                     "reflection")
         ) {
             return;
         }
 
-        if (!reflection.kindOf(ReflectionKind.TypeLiteral)) {
-            let refl: Reflection | undefined = reflection;
+        if (!target.kindOf(ReflectionKind.TypeLiteral)) {
+            let refl: Reflection | undefined = target;
             const parts = [refl.name];
-            while (refl.parent && refl.parent !== pageReflection) {
+            while (refl.parent && refl.parent !== pageTarget) {
                 refl = refl.parent;
                 // Avoid duplicate names for signatures and useless __type in anchors
                 if (
@@ -348,19 +382,19 @@ export abstract class BaseRouter implements Router {
                 }
             }
 
-            const anchor = this.getSlugger(pageReflection).slug(
+            const anchor = this.getSlugger(pageTarget).slug(
                 parts.join("."),
             );
 
             this.fullUrls.set(
-                reflection,
-                this.fullUrls.get(pageReflection)! + "#" + anchor,
+                target,
+                this.fullUrls.get(pageTarget)! + "#" + anchor,
             );
-            this.anchors.set(reflection, anchor);
+            this.anchors.set(target, anchor);
         }
 
-        reflection.traverse((child) => {
-            this.buildAnchors(child, pageReflection);
+        target.traverse((child) => {
+            this.buildAnchors(child, pageTarget);
             return true;
         });
     }

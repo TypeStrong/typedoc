@@ -125,8 +125,8 @@ export interface RendererHooks {
 
 export interface RendererEvents {
     beginRender: [RendererEvent];
-    beginPage: [PageEvent<Reflection>];
-    endPage: [PageEvent<Reflection>];
+    beginPage: [PageEvent];
+    endPage: [PageEvent];
     endRender: [RendererEvent];
 
     parseMarkdown: [MarkdownEvent];
@@ -333,7 +333,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             `There are ${pages.length} pages to write.`,
         );
         for (const page of pages) {
-            this.renderDocument(outputDirectory, page);
+            this.renderDocument(outputDirectory, page, project);
         }
 
         this.postRenderAsyncJobs.push(async o => await this.theme!.postRender(o));
@@ -365,14 +365,14 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(outputDirectory: string, page: PageDefinition) {
+    private renderDocument(outputDirectory: string, page: PageDefinition, project: ProjectReflection) {
         const momento = this.hooks.saveMomento();
 
         const event = new PageEvent(page.model);
         event.url = page.url;
         event.filename = path.join(outputDirectory, page.url);
         event.pageKind = page.kind;
-        event.project = page.model.project;
+        event.project = project;
 
         this.trigger(PageEvent.BEGIN, event);
 
