@@ -3,6 +3,13 @@ import * as cp from "child_process";
 import { mkdirSync, promises as fs } from "fs";
 import semver from "semver";
 
+const { version: TYPEDOC_VERSION } = JSON.parse(await fs.readFile("package.json", "utf-8"));
+const NEXT_BREAKING_TYPEDOC_VERSION = semver.parse(TYPEDOC_VERSION)?.inc("minor");
+if (!NEXT_BREAKING_TYPEDOC_VERSION) {
+    throw new Error("Failed to determine next TypeDoc version");
+}
+console.log(NEXT_BREAKING_TYPEDOC_VERSION);
+
 const CACHE_ROOT = "tmp/site-cache";
 mkdirSync(CACHE_ROOT, { recursive: true });
 
@@ -112,10 +119,13 @@ function getSupportingPlugins(typedocVersion, plugins) {
             version = version.replace(/>=/g, "^");
         }
 
-        // Any plugin which claims compatibility with a version far in the future is lying.
-        // They can't possibly know that it satisfies this, so exclude them because we can't
-        // reliably figure out what version they do actually support.
-        if (semver.satisfies("0.99.0", version)) continue;
+        // Any plugin which claims compatibility with a version which includes breaking changes
+        // in the future is lying. They can't possibly know that it satisfies this, so exclude
+        // them because we can't reliably figure out what version they do actually support.
+        // (we could technically probably look at when they were published and match that up
+        //  to when TypeDoc breaking versions were released, but that's far too much hackery
+        //  to permit plugins which include inaccurate version support anyways.)
+        if (semver.satisfies(NEXT_BREAKING_TYPEDOC_VERSION || "", version)) continue;
 
         if (semver.satisfies(typedocVersion, version)) {
             supported.push(plugin);
