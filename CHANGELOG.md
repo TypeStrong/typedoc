@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.0 (2025-03-15)
+
 ### Breaking Changes
 
 - TypeDoc now expects all input globs paths to be specified with `/` path separators, #2825.
