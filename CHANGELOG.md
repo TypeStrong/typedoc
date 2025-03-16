@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- `--watch` can now infer entry points from `package.json` as supported in non-watch mode, #2899/
+
 ## v0.28.0 (2025-03-15)
 
 ### Breaking Changes

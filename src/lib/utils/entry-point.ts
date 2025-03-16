@@ -46,7 +46,7 @@ export interface DocumentEntryPoint {
     path: NormalizedPath;
 }
 
-export function inferEntryPoints(logger: Logger, options: Options) {
+export function inferEntryPoints(logger: Logger, options: Options, programs?: ts.Program[]) {
     const packageJson = discoverPackageJson(
         options.packageDir ?? process.cwd(),
     );
@@ -59,7 +59,7 @@ export function inferEntryPoints(logger: Logger, options: Options) {
 
     const entryPoints: DocumentationEntryPoint[] = [];
 
-    const programs = getEntryPrograms(
+    programs ||= getEntryPrograms(
         pathEntries.map((p) => p[1]),
         logger,
         options,
@@ -213,21 +213,29 @@ export function getWatchEntryPoints(
 
     switch (strategy) {
         case EntryPointStrategy.Resolve:
-            result = getEntryPointsForPaths(
-                logger,
-                expandGlobs(entryPoints, exclude, logger),
-                options,
-                [program],
-            );
+            if (options.isSet("entryPoints")) {
+                result = getEntryPointsForPaths(
+                    logger,
+                    expandGlobs(entryPoints, exclude, logger),
+                    options,
+                    [program],
+                );
+            } else {
+                result = inferEntryPoints(logger, options, [program]);
+            }
             break;
 
         case EntryPointStrategy.Expand:
-            result = getExpandedEntryPointsForPaths(
-                logger,
-                expandGlobs(entryPoints, exclude, logger),
-                options,
-                [program],
-            );
+            if (options.isSet("entryPoints")) {
+                result = getExpandedEntryPointsForPaths(
+                    logger,
+                    expandGlobs(entryPoints, exclude, logger),
+                    options,
+                    [program],
+                );
+            } else {
+                result = inferEntryPoints(logger, options, [program]);
+            }
             break;
 
         case EntryPointStrategy.Packages:
