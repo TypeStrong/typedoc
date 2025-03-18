@@ -8,6 +8,7 @@ title: Changelog
 
 - The `TypeDocOptions` interface now marks options as optional so it no longer has to be wrapped in `Partial`
   for use in config files, #2901.
+- API: Expose control methods for deferred conversion for plugin use (typedoc-plugin-missing-exports)
 
 ### Bug Fixes
 

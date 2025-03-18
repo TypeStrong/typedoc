@@ -452,7 +452,34 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     }
 
     /**
+     * Permit deferred conversion steps to take place. Until this is called, {@link deferConversion}
+     * will throw if used.
+     * @since 0.28.1
+     */
+    permitDeferredConversion(): void {
+        ok(!this._deferPermitted, "Attempted to allow deferred conversion when already permitted");
+        this._deferPermitted = true;
+    }
+
+    /**
+     * Finalize deferred conversion, must be called by the caller of {@link permitDeferredConversion}
+     * @since 0.28.1
+     */
+    finalizeDeferredConversion(): void {
+        this.application.logger.verbose(`Have ${this._defer.length} initial deferred tasks`);
+        let count = 0;
+        while (this._defer.length) {
+            ++count;
+            const first = this._defer.shift()!;
+            first();
+        }
+        this.application.logger.verbose(`Ran ${count} total deferred tasks`);
+        this._deferPermitted = false;
+    }
+
+    /**
      * Defer a conversion step until later. This may only be called during conversion.
+     * @since 0.28.0
      */
     deferConversion(cb: () => void): void {
         ok(this._deferPermitted, "Attempted to defer conversion when not permitted");
@@ -469,9 +496,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         entryPoints: readonly DocumentationEntryPoint[],
         context: Context,
     ) {
-        ok(!this._deferPermitted);
-        this._deferPermitted = true;
-
+        this.permitDeferredConversion();
         let createModuleReflections = entryPoints.length > 1;
         if (!createModuleReflections) {
             const opts = this.application.options;
@@ -495,15 +520,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             this.convertExports(entryContext, entry, createModuleReflections);
         }
 
-        this.application.logger.verbose(`Have ${this._defer.length} initial deferred tasks`);
-        let count = 0;
-        while (this._defer.length) {
-            ++count;
-            const first = this._defer.shift()!;
-            first();
-        }
-        this.application.logger.verbose(`Ran ${count} total deferred tasks`);
-        this._deferPermitted = false;
+        this.finalizeDeferredConversion();
     }
 
     private convertExports(
