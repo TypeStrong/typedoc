@@ -24,8 +24,8 @@ declare global {
 }
 
 window.TypeDoc ||= {
-    disableLocalStorage: () => {
-        storage.disable();
+    disableLocalStorage: (clearStorage: boolean = false) => {
+        storage.disable(clearStorage);
     },
     enableLocalStorage: () => {
         storage.enable();
