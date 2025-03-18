@@ -6,7 +6,8 @@ title: Changelog
 
 ### Bug Fixes
 
-- `--watch` can now infer entry points from `package.json` as supported in non-watch mode, #2899/
+- `--watch` can now infer entry points from `package.json` as supported in non-watch mode, #2899.
+- `@include` with regions now works on files with CRLF line endings, #2902.
 
 ## v0.28.0 (2025-03-15)
 

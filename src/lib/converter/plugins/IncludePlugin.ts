@@ -1,12 +1,11 @@
 import path from "path";
-import fs from "fs";
 
 import { ConverterComponent } from "../components.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "#utils";
 import type { Converter } from "../converter.js";
-import { isFile } from "../../utils/fs.js";
+import { isFile, readFile } from "../../utils/fs.js";
 import { dedent, escapeRegExp, i18n } from "#utils";
 import { normalizePath } from "#node-utils";
 
@@ -78,7 +77,7 @@ export class IncludePlugin extends ConverterComponent {
                     ),
                 );
             } else if (isFile(file)) {
-                const text = fs.readFileSync(file, "utf-8");
+                const text = readFile(file).replaceAll("\r\n", "\n");
                 const ext = path.extname(file).substring(1);
 
                 const includedText = regionTarget
