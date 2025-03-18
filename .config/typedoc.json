@@ -16,7 +16,7 @@
     "name": "TypeDoc API",
 
     // Don't document the debug entry point
-    // "entryPoints": ["../src/index.ts"],
+    "entryPoints": ["../src/index.ts"],
     "outputs": [
         {
             "name": "html",
