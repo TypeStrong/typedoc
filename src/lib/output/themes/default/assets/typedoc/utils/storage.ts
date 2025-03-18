@@ -29,8 +29,8 @@ try {
 export const storage = {
     getItem: (key: string) => _storage.getItem(key),
     setItem: (key: string, value: string) => _storage.setItem(key, value),
-    disable(clearStorage: boolean =  false) {
-        if (clearStorage) { removeTypeDocStorage();}
+    disable(clearStorage: boolean = false) {
+        if (clearStorage) removeTypeDocStorage();
         _storage = noOpStorageImpl;
     },
     enable() {
