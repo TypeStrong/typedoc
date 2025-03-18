@@ -219,7 +219,7 @@ export class Application extends AbstractComponent<
      * Initialize TypeDoc, loading plugins if applicable.
      */
     static async bootstrapWithPlugins(
-        options: Partial<TypeDocOptions> = {},
+        options: TypeDocOptions = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
         const app = new Application(DETECTOR);
@@ -250,7 +250,7 @@ export class Application extends AbstractComponent<
      * @param readers Option readers to use to discover options from config files.
      */
     static async bootstrap(
-        options: Partial<TypeDocOptions> = {},
+        options: TypeDocOptions = {},
         readers: readonly OptionsReader[] = DEFAULT_READERS,
     ): Promise<Application> {
         const app = new Application(DETECTOR);
@@ -259,7 +259,7 @@ export class Application extends AbstractComponent<
         return app;
     }
 
-    private async _bootstrap(options: Partial<TypeDocOptions>) {
+    private async _bootstrap(options: TypeDocOptions) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
         this.internationalization.setLocale(this.lang);
@@ -319,7 +319,7 @@ export class Application extends AbstractComponent<
     }
 
     /** @internal */
-    setOptions(options: Partial<TypeDocOptions>, reportErrors = true) {
+    setOptions(options: TypeDocOptions, reportErrors = true) {
         let success = true;
         for (const [key, val] of Object.entries(options)) {
             try {

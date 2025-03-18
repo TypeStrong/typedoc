@@ -270,7 +270,7 @@ export class Options {
     /**
      * Gets all of the TypeDoc option values defined in this option container.
      */
-    getRawValues(): Readonly<Partial<TypeDocOptions>> {
+    getRawValues(): Readonly<Partial<TypeDocOptionValues>> {
         return this._values;
     }
 
@@ -303,7 +303,7 @@ export class Options {
      */
     setValue<K extends keyof TypeDocOptions>(
         name: K,
-        value: TypeDocOptions[K],
+        value: Exclude<TypeDocOptions[K], undefined>,
         configPath?: string,
     ): void;
     setValue(

@@ -39,7 +39,7 @@ export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
 export type OutputSpecification = {
     name: string;
     path: string;
-    options?: Partial<TypeDocOptions>;
+    options?: TypeDocOptions;
 };
 
 /**
@@ -118,7 +118,7 @@ export const rootPackageOptions = [
  * @interface
  */
 export type TypeDocOptions = {
-    [K in keyof TypeDocOptionMap]: unknown extends TypeDocOptionMap[K] ? unknown :
+    [K in keyof TypeDocOptionMap]?: unknown extends TypeDocOptionMap[K] ? unknown :
         TypeDocOptionMap[K] extends ManuallyValidatedOption<
             infer ManuallyValidated
         > ? ManuallyValidated :
@@ -138,6 +138,7 @@ export type TypeDocOptions = {
  * Describes all TypeDoc specific options as returned by {@link Options.getValue}, this is
  * slightly more restrictive than the {@link TypeDocOptions} since it does not allow both
  * keys and values for mapped option types, and does not allow partials of flag values.
+ * It also does not mark keys as optional.
  * @interface
  */
 export type TypeDocOptionValues = {
@@ -186,7 +187,7 @@ export interface TypeDocOptionMap {
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
     packageOptions: ManuallyValidatedOption<
-        Partial<TypeDocPackageOptions>
+        TypeDocPackageOptions
     >;
 
     // Input

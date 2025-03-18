@@ -4,6 +4,11 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- The `TypeDocOptions` interface now marks options as optional so it no longer has to be wrapped in `Partial`
+  for use in config files, #2901.
+
 ### Bug Fixes
 
 - `--watch` can now infer entry points from `package.json` as supported in non-watch mode, #2899.

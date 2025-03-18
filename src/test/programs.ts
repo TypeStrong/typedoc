@@ -42,7 +42,7 @@ export function getConverterApp() {
                     gitRevision: "fake",
                     readme: "none",
                     skipErrorChecking: true,
-                } satisfies Partial<TypeDocOptions>,
+                } satisfies TypeDocOptions,
             )
         ) {
             converterApp.options.setValue(name as never, value as never);
@@ -119,7 +119,7 @@ export function getConverter2App() {
                     tsconfig: join(getConverter2Base(), "tsconfig.json"),
                     validation: true,
                     skipErrorChecking: true,
-                } satisfies Partial<TypeDocOptions>,
+                } satisfies TypeDocOptions,
             )
         ) {
             converter2App.options.setValue(name as never, value as never);
