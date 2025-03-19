@@ -288,4 +288,12 @@ describe("createNormalizedUrl", () => {
     it("Permits Chinese characters", () => {
         equal(createNormalizedUrl("文档"), "文档");
     });
+
+    it("Permits Emoji characters", () => {
+        equal(createNormalizedUrl("🐌 Foo 🪐.md"), "🐌_Foo_🪐.md");
+    });
+    
+    it("Permits UTF8 characters", () => {
+        equal(createNormalizedUrl("◉ bar⚐.md"), "◉_bar⚐.md");
+    });
 });
