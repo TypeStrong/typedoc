@@ -17,6 +17,7 @@ declare global {
             [k: `kind_${number}`]: string;
         };
         TypeDoc: {
+            disableWritingLocalStorage: () => void;
             disableLocalStorage: () => void;
             enableLocalStorage: () => void;
         };
@@ -24,8 +25,11 @@ declare global {
 }
 
 window.TypeDoc ||= {
-    disableLocalStorage: (clearStorage: boolean = false) => {
-        storage.disable(clearStorage);
+    disableWritingLocalStorage() {
+        storage.disableWritingLocalStorage();
+    },
+    disableLocalStorage: () => {
+        storage.disable();
     },
     enableLocalStorage: () => {
         storage.enable();

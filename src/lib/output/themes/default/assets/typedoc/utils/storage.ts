@@ -29,33 +29,14 @@ try {
 export const storage = {
     getItem: (key: string) => _storage.getItem(key),
     setItem: (key: string, value: string) => _storage.setItem(key, value),
-    disable(clearStorage: boolean = false) {
-        if (clearStorage) removeTypeDocStorage();
+    disableWritingLocalStorage() {
+        _storage = noOpStorageImpl;
+    },
+    disable() {
+        localStorage.clear();
         _storage = noOpStorageImpl;
     },
     enable() {
         _storage = localStorageImpl;
     },
 };
-
-function removeTypeDocStorage() {
-    const keysToRemove = [
-        "filter-protected",
-        "filter-inherited",
-        "filter-external",
-        "tsd-theme",
-    ];
-    const regex = /^tsd-accordion-/;
-
-    try {
-        const keys: string[] = [];
-
-        Object.keys(localStorage).forEach(key => {
-            if (keysToRemove.includes(key) || regex.test(key)) {
-                localStorage.removeItem(key);
-            }
-        });
-    } catch {
-        // Silently ignore any errors
-    }
-}

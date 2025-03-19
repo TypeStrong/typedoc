@@ -10,10 +10,14 @@ To disable local storage, use:
 
 `window.TypeDoc.disableLocalStorage();`
 
-**Note:** Optionally, passing `true`, `window.TypeDoc.disableLocalStorage(true);`, will clear TypeDoc contents from the local storage.
+**Note:** Disabling local storage will clear its contents.
 
 To enable local storage, use:
 
 `window.TypeDoc.enableLocalStorage();`
 
 **Note:** Local storage is enabled by default.
+
+To disable local storage without clearing it, use:
+
+`window.TypeDoc.disableWritingLocalStorage();`
