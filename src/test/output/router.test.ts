@@ -150,6 +150,15 @@ describe("KindRouter", () => {
             router.baseRelativeUrl(project, "assets/search.js"),
             "assets/search.js",
         );
+
+        equal(
+            router.baseRelativeUrl(Foo, "./"),
+            "../",
+        );
+        equal(
+            router.baseRelativeUrl(project, "./"),
+            "./",
+        );
     });
 
     it("Can get a full URL to a reflection", () => {

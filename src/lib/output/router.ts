@@ -254,6 +254,11 @@ export abstract class BaseRouter implements Router {
             if (full[i] === "/") ++slashes;
         }
 
+        // #2910 avoid urls like ".././"
+        if (target == "./" && slashes !== 0) {
+            return "../".repeat(slashes);
+        }
+
         return "../".repeat(slashes) + target;
     }
 
