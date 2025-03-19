@@ -204,7 +204,7 @@ const arrayConverter: TypeConverter<ts.ArrayTypeNode, ts.TypeReference> = {
         return new ArrayType(convertType(context, node.elementType));
     },
     convertType(context, type) {
-        const params = context.checker.getTypeArguments(type);
+        const params = type.aliasTypeArguments || context.checker.getTypeArguments(type);
         // This is *almost* always true... except for when this type is in the constraint of a type parameter see GH#1408
         // assert(params.length === 1);
         assert(params.length > 0);

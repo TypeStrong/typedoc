@@ -1044,7 +1044,8 @@ function convertVariable(
     reflection.defaultValue = convertDefaultValue(declaration);
     context.finalizeDeclarationReflection(reflection);
 
-    return ts.SymbolFlags.Property;
+    // Exclude ValueModule to handle `module.exports = []`
+    return ts.SymbolFlags.Property | ts.SymbolFlags.ValueModule;
 }
 
 function isEnumLike(

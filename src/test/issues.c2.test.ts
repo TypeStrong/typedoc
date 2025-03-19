@@ -2036,4 +2036,10 @@ describe("Issue Tests", () => {
             notFn: "Variable",
         });
     });
+
+    it("#2909 handles array export declarations", () => {
+        const project = convert();
+        const exp = query(project, "export=");
+        equal(exp.type?.toString(), "never[]");
+    });
 });
