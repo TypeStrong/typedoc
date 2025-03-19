@@ -8,12 +8,13 @@ import { type ProjectReflection, ReflectionSymbolId } from "./models/index.js";
 import {
     AbstractComponent,
     FancyConsoleLogger,
+    type FileSystem,
     loadPlugins,
+    NodeFileSystem,
     type OptionsReader,
     PackageJsonReader,
     TSConfigReader,
     TypeDocReader,
-    writeFile,
 } from "./utils/index.js";
 
 import { Option, Options } from "./utils/index.js";
@@ -25,7 +26,6 @@ import {
     EntryPointStrategy,
     getEntryPoints,
     getPackageDirectories,
-    getWatchEntryPoints,
     inferEntryPoints,
 } from "./utils/entry-point.js";
 import { nicePath, normalizePath } from "./utils/paths.js";
@@ -34,7 +34,7 @@ import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
 import { validateLinks } from "./validation/links.js";
 import { ApplicationEvents } from "./application-events.js";
-import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
+import { deriveRootDir, findTsConfigFile, glob } from "#node-utils";
 import { FileRegistry } from "./models/FileRegistry.js";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -150,6 +150,12 @@ export class Application extends AbstractComponent<
     options = new Options();
 
     files: FileRegistry = new ValidatingFileRegistry();
+
+    /**
+     * Object which will be used by TypeDoc to interact with the user's
+     * filesystem.
+     */
+    fs: FileSystem = new NodeFileSystem();
 
     /** @internal */
     @Option("lang")
@@ -351,7 +357,8 @@ export class Application extends AbstractComponent<
         if (this.options.isSet("entryPoints")) {
             return this.getDefinedEntryPoints();
         }
-        return inferEntryPoints(this.logger, this.options);
+        const host = ts.createCompilerHost({});
+        return inferEntryPoints(this.logger, this.options, host);
     }
 
     /**
@@ -359,7 +366,8 @@ export class Application extends AbstractComponent<
      * May return undefined if entry points fail to be expanded.
      */
     public getDefinedEntryPoints(): DocumentationEntryPoint[] | undefined {
-        return getEntryPoints(this.logger, this.options);
+        const host = ts.createCompilerHost({});
+        return getEntryPoints(this.logger, this.options, host);
     }
 
     /**
@@ -431,17 +439,10 @@ export class Application extends AbstractComponent<
         return project;
     }
 
-    private watchers = new Map<string, ts.FileWatcher>();
     private _watchFile?: (path: string, shouldRestart?: boolean) => void;
-    private criticalFiles = new Set<string>();
-
-    private clearWatches() {
-        this.watchers.forEach((w) => w.close());
-        this.watchers.clear();
-    }
 
     private watchConfigFile(path: string) {
-        this.criticalFiles.add(path);
+        this._watchFile?.(path, true);
     }
 
     /**

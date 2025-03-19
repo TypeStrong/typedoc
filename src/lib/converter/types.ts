@@ -276,7 +276,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         }
         context.project.registerSymbolId(
             signature,
-            createSymbolId(symbol, node),
+            createSymbolId(context.fs, symbol, node),
         );
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
@@ -379,7 +379,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         );
         context.project.registerSymbolId(
             signature,
-            createSymbolId(symbol, node),
+            createSymbolId(context.fs, symbol, node),
         );
         context.registerReflection(signature, undefined);
         const signatureCtx = rc.withScope(signature);

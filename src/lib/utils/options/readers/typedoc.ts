@@ -6,7 +6,7 @@ import type { OptionsReader } from "../options.js";
 import type { Options } from "../options.js";
 import { ok } from "assert";
 import { nicePath, normalizePath } from "../../paths.js";
-import { isFile } from "../../fs.js";
+import type { FileSystem } from "../../fs.js";
 import { createRequire } from "module";
 import { pathToFileURL } from "url";
 import { i18n, type Logger, type TranslatedString } from "#utils";
@@ -30,11 +30,11 @@ export class TypeDocReader implements OptionsReader {
     async read(
         container: Options,
         logger: Logger,
+        fs: FileSystem,
         cwd: string,
-        usedFile: (path: string) => void,
     ): Promise<void> {
         const path = container.getValue("options") || cwd;
-        const file = this.findTypedocFile(path, usedFile);
+        const file = this.findTypedocFile(path, fs);
 
         if (!file) {
             if (container.isSet("options")) {
@@ -155,7 +155,7 @@ export class TypeDocReader implements OptionsReader {
      */
     private findTypedocFile(
         path: string,
-        usedFile?: (path: string) => void,
+        fs: FileSystem,
     ): string | undefined {
         path = resolve(path);
 
@@ -177,7 +177,7 @@ export class TypeDocReader implements OptionsReader {
             join(path, ".config/typedoc.js"),
             join(path, ".config/typedoc.cjs"),
             join(path, ".config/typedoc.mjs"),
-        ].find((file) => (usedFile?.(file), isFile(file)));
+        ].find((file) => fs.isFile(file));
     }
 }
 

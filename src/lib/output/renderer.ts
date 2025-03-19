@@ -13,7 +13,6 @@ import type { Application } from "../application.js";
 import type { Theme } from "./theme.js";
 import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
 import type { ProjectReflection } from "../models/ProjectReflection.js";
-import { writeFileSync } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
 import { AbstractComponent, Option } from "../utils/index.js";
 import type { Comment, Reflection } from "../models/index.js";
@@ -382,7 +381,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.hooks.restoreMomento(momento);
 
         try {
-            writeFileSync(event.filename, event.contents);
+            this.application.fs.writeFile(event.filename, event.contents);
         } catch (error) {
             this.application.logger.error(
                 i18n.could_not_write_0(event.filename),

@@ -2,7 +2,7 @@ import type { OptionsReader } from "../index.js";
 import type { Options } from "../options.js";
 import { ok } from "assert";
 import { nicePath } from "../../paths.js";
-import { discoverPackageJson } from "../../fs.js";
+import { discoverPackageJson, type FileSystem } from "../../fs.js";
 import { dirname } from "path";
 import { i18n, type Logger, type TranslatedString } from "#utils";
 
@@ -18,10 +18,10 @@ export class PackageJsonReader implements OptionsReader {
     read(
         container: Options,
         logger: Logger,
+        fs: FileSystem,
         cwd: string,
-        usedFile: (path: string) => void,
     ): void {
-        const result = discoverPackageJson(cwd, usedFile);
+        const result = discoverPackageJson(cwd, fs);
 
         if (!result) {
             return;

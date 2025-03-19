@@ -2,7 +2,7 @@ import { rm } from "fs/promises";
 import { getConverter2App, getConverter2Project } from "../programs.js";
 import { TestRouter, TestTheme } from "./testRendererUtils.js";
 import { deepEqual as equal } from "assert/strict";
-import { glob, readFile } from "#node-utils";
+import { glob, NodeFileSystem } from "#node-utils";
 import type { GlobString, NormalizedPath } from "#utils";
 import { join, relative } from "path";
 import { resetReflectionID } from "#models";
@@ -33,8 +33,9 @@ describe("DefaultTheme", () => {
         await rm(outPath + "/assets", { recursive: true });
         await rm(outPath + "/.nojekyll");
 
-        const expectedFiles = glob("**/*" as GlobString, SPEC_PATH);
-        const actualFiles = glob("**/*" as GlobString, outPath);
+        const fs = new NodeFileSystem();
+        const expectedFiles = glob("**/*" as GlobString, SPEC_PATH, fs);
+        const actualFiles = glob("**/*" as GlobString, outPath, fs);
         const relPaths = expectedFiles.map(p => relative(SPEC_PATH, p)).sort();
 
         equal(
@@ -43,8 +44,8 @@ describe("DefaultTheme", () => {
         );
 
         for (const rel of relPaths) {
-            const expected = JSON.parse(readFile(join(SPEC_PATH, rel)));
-            const actual = JSON.parse(readFile(join(outPath, rel)));
+            const expected = JSON.parse(fs.readFile(join(SPEC_PATH, rel)));
+            const actual = JSON.parse(fs.readFile(join(outPath, rel)));
 
             equal(actual, expected);
         }

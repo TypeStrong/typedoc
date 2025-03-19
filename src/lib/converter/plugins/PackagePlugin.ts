@@ -14,7 +14,6 @@ import {
     nicePath,
     normalizePath,
     Option,
-    readFile,
 } from "#node-utils";
 import { existsSync } from "fs";
 
@@ -85,7 +84,8 @@ export class PackagePlugin extends ConverterComponent {
             `Begin package.json search at ${nicePath(dirName)}`,
         );
 
-        const packageJson = discoverPackageJson(dirName);
+        const fs = this.application.fs;
+        const packageJson = discoverPackageJson(dirName, fs);
         this.packageJson = packageJson?.content;
 
         // Path will be resolved already. This is kind of ugly, but...
@@ -97,7 +97,7 @@ export class PackagePlugin extends ConverterComponent {
             // Readme path provided, read only that file.
             this.application.watchFile(this.readme);
             try {
-                this.readmeContents = readFile(this.readme);
+                this.readmeContents = fs.readFile(this.readme);
                 this.readmeFile = normalizePath(this.readme);
             } catch {
                 this.application.logger.error(
@@ -121,7 +121,7 @@ export class PackagePlugin extends ConverterComponent {
 
             if (readmePath) {
                 this.readmeFile = normalizePath(readmePath);
-                this.readmeContents = readFile(readmePath);
+                this.readmeContents = fs.readFile(readmePath);
                 this.application.watchFile(this.readmeFile);
             }
         }

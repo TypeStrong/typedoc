@@ -1,7 +1,6 @@
 import * as Path from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { writeFile } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 import type { Renderer } from "../index.js";
@@ -95,7 +94,7 @@ export class HierarchyPlugin extends RendererComponent {
             "hierarchy.js",
         );
 
-        await writeFile(
+        this.application.fs.writeFile(
             hierarchyJs,
             `window.hierarchyData = "${await compressJson(hierarchy)}"`,
         );

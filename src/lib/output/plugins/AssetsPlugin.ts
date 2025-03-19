@@ -1,6 +1,5 @@
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
 import { type EnumKeys, getEnumKeys, i18n, type NormalizedPath } from "#utils";
@@ -56,12 +55,13 @@ export class AssetsPlugin extends RendererComponent {
 
     private onRenderBegin(event: RendererEvent) {
         const dest = join(event.outputDirectory, "assets");
+        const fs = this.application.fs;
 
         if (
             !/^https?:\/\//i.test(this.favicon) &&
             [".ico", ".png", ".svg"].includes(extname(this.favicon))
         ) {
-            copySync(
+            fs.copy(
                 this.favicon,
                 join(dest, "favicon" + extname(this.favicon)),
             );
@@ -70,7 +70,7 @@ export class AssetsPlugin extends RendererComponent {
         if (this.customCss) {
             this.application.watchFile(this.customCss);
             if (existsSync(this.customCss)) {
-                copySync(this.customCss, join(dest, "custom.css"));
+                fs.copy(this.customCss, join(dest, "custom.css"));
             } else {
                 this.application.logger.error(
                     i18n.custom_css_file_0_does_not_exist(
@@ -83,7 +83,7 @@ export class AssetsPlugin extends RendererComponent {
         if (this.customJs) {
             this.application.watchFile(this.customJs);
             if (existsSync(this.customJs)) {
-                copySync(this.customJs, join(dest, "custom.js"));
+                fs.copy(this.customJs, join(dest, "custom.js"));
             } else {
                 this.application.logger.error(
                     i18n.custom_js_file_0_does_not_exist(
@@ -100,16 +100,18 @@ export class AssetsPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRenderEnd(event: RendererEvent) {
+        const fs = this.application.fs;
+
         if (this.owner.theme instanceof DefaultTheme) {
             const src = join(
                 fileURLToPath(import.meta.url),
                 "../../../../../static",
             );
             const dest = join(event.outputDirectory, "assets");
-            copySync(join(src, "style.css"), join(dest, "style.css"));
+            fs.copy(join(src, "style.css"), join(dest, "style.css"));
 
-            const mainJs = readFile(join(src, "main.js"));
-            writeFileSync(
+            const mainJs = fs.readFile(join(src, "main.js"));
+            fs.writeFile(
                 join(dest, "main.js"),
                 [
                     '"use strict";',
@@ -118,12 +120,12 @@ export class AssetsPlugin extends RendererComponent {
                 ].join("\n"),
             );
 
-            writeFileSync(join(dest, "highlight.css"), getStyles());
+            fs.writeFile(join(dest, "highlight.css"), getStyles());
 
             const media = join(event.outputDirectory, "media");
             const toCopy = event.project.files.getNameToAbsoluteMap();
             for (const [fileName, absolute] of toCopy.entries()) {
-                copySync(absolute, join(media, fileName));
+                fs.copy(absolute, join(media, fileName));
             }
         }
     }

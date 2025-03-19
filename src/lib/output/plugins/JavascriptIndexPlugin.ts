@@ -4,7 +4,7 @@ import lunr from "lunr";
 import { type Comment, type DeclarationReflection, type DocumentReflection, Reflection } from "../../models/index.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
-import { Option, writeFile } from "../../utils/index.js";
+import { Option } from "../../utils/index.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import type { Renderer } from "../index.js";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
@@ -148,7 +148,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             rows,
             index,
         };
-        await writeFile(
+        this.application.fs.writeFile(
             jsonFileName,
             `window.searchData = "${await compressJson(data)}";`,
         );

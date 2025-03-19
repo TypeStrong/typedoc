@@ -15,6 +15,9 @@ import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { diagnostics } from "../lib/utils/loggers.js";
+import { NodeFileSystem } from "#node-utils";
+
+const nodeFs = new NodeFileSystem();
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -50,6 +53,7 @@ export function getConverterApp() {
         new TSConfigReader().read(
             converterApp.options,
             converterApp.logger,
+            nodeFs,
             process.cwd(),
         );
 
@@ -127,6 +131,7 @@ export function getConverter2App() {
         new TSConfigReader().read(
             converter2App.options,
             converter2App.logger,
+            nodeFs,
             process.cwd(),
         );
     }

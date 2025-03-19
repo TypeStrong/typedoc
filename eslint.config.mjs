@@ -188,6 +188,20 @@ export default tslint.config(
             "no-restricted-imports": [
                 "error",
                 {
+                    // Disallow importing the FS module everywhere to force all IO to go through
+                    // the FileSystem class.
+                    paths: ["fs", "node:fs", "fs/promises", "node:fs/promises"],
+                    patterns: ["*/utils-common/*"],
+                },
+            ],
+        },
+    },
+    {
+        files: ["src/**/*.ts"],
+        rules: {
+            "no-restricted-imports": [
+                "error",
+                {
                     patterns: ["*/utils-common/*"],
                 },
             ],

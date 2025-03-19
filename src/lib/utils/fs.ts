@@ -1,120 +1,100 @@
 import * as fs from "fs";
-import { promises as fsp } from "fs";
 import { Minimatch } from "minimatch";
 import { dirname, join, relative, resolve } from "path";
-import { escapeRegExp, type GlobString, type NormalizedPath, Validation } from "#utils";
+import { DefaultMap, escapeRegExp, type GlobString, type NormalizedPath, Validation } from "#utils";
 import { normalizePath } from "./paths.js";
 import { ok } from "assert";
 
-export function isFile(file: string) {
-    try {
-        return fs.statSync(file).isFile();
-    } catch {
-        return false;
-    }
+// cache of fs.realpathSync results to avoid extra I/O
+const REALPATH_CACHE = new DefaultMap<string, string>(path => fs.realpathSync(path));
+
+export interface Stats {
+    isFile(): boolean;
+    isDirectory(): boolean;
+    isSymbolicLink(): boolean;
 }
 
-export function isDir(path: string) {
-    try {
-        return fs.statSync(path).isDirectory();
-    } catch {
-        return false;
-    }
-}
+export interface FileSystem extends NodeFileSystem {}
 
-/**
- * Load the given file and return its contents.
- *
- * @param file  The path of the file to read.
- * @returns The files contents.
- */
-export function readFile(file: string): string {
-    const buffer = fs.readFileSync(file);
-    switch (buffer[0]) {
-        case 0xfe:
-            if (buffer[1] === 0xff) {
-                let i = 0;
-                while (i + 1 < buffer.length) {
-                    const temp = buffer[i];
-                    buffer[i] = buffer[i + 1];
-                    buffer[i + 1] = temp;
-                    i += 2;
+export class NodeFileSystem {
+    isFile(file: string) {
+        try {
+            return fs.statSync(file).isFile();
+        } catch {
+            return false;
+        }
+    }
+
+    isDir(path: string) {
+        try {
+            return fs.statSync(path).isDirectory();
+        } catch {
+            return false;
+        }
+    }
+
+    readFile(file: string): string {
+        const buffer = fs.readFileSync(file);
+        switch (buffer[0]) {
+            case 0xfe:
+                if (buffer[1] === 0xff) {
+                    let i = 0;
+                    while (i + 1 < buffer.length) {
+                        const temp = buffer[i];
+                        buffer[i] = buffer[i + 1];
+                        buffer[i + 1] = temp;
+                        i += 2;
+                    }
+                    return buffer.toString("ucs2", 2);
                 }
-                return buffer.toString("ucs2", 2);
-            }
-            break;
-        case 0xff:
-            if (buffer[1] === 0xfe) {
-                return buffer.toString("ucs2", 2);
-            }
-            break;
-        case 0xef:
-            if (buffer[1] === 0xbb) {
-                return buffer.toString("utf8", 3);
-            }
+                break;
+            case 0xff:
+                if (buffer[1] === 0xfe) {
+                    return buffer.toString("ucs2", 2);
+                }
+                break;
+            case 0xef:
+                if (buffer[1] === 0xbb) {
+                    return buffer.toString("utf8", 3);
+                }
+        }
+
+        return buffer.toString("utf8", 0);
     }
 
-    return buffer.toString("utf8", 0);
-}
-
-/**
- * Write a file to disc.
- *
- * If the containing directory does not exist it will be created.
- *
- * @param fileName  The name of the file that should be written.
- * @param data  The contents of the file.
- */
-export function writeFileSync(fileName: string, data: string) {
-    fs.mkdirSync(dirname(normalizePath(fileName)), { recursive: true });
-    fs.writeFileSync(normalizePath(fileName), data);
-}
-
-/**
- * Write a file to disc.
- *
- * If the containing directory does not exist it will be created.
- *
- * @param fileName  The name of the file that should be written.
- * @param data  The contents of the file.
- */
-export async function writeFile(fileName: string, data: string) {
-    await fsp.mkdir(dirname(normalizePath(fileName)), {
-        recursive: true,
-    });
-    await fsp.writeFile(normalizePath(fileName), data);
-}
-
-/**
- * Copy a file or directory recursively.
- */
-export async function copy(src: string, dest: string): Promise<void> {
-    const stat = await fsp.stat(src);
-
-    if (stat.isDirectory()) {
-        const contained = await fsp.readdir(src);
-        await Promise.all(
-            contained.map((file) => copy(join(src, file), join(dest, file))),
-        );
-    } else if (stat.isFile()) {
-        await fsp.mkdir(dirname(dest), { recursive: true });
-        await fsp.copyFile(src, dest);
-    } else {
-        // Do nothing for FIFO, special devices.
+    readDir(path: string): string[] {
+        return fs.readdirSync(path);
     }
-}
 
-export function copySync(src: string, dest: string): void {
-    const stat = fs.statSync(src);
+    readDirTypes(path: string): Array<Stats & { name: string }> {
+        return fs.readdirSync(path, { withFileTypes: true });
+    }
 
-    if (stat.isDirectory()) {
-        const contained = fs.readdirSync(src);
-        contained.forEach((file) => copySync(join(src, file), join(dest, file)));
-    } else if (stat.isFile()) {
-        fs.mkdirSync(dirname(dest), { recursive: true });
-        fs.copyFileSync(src, dest);
-    } else {
-        // Do nothing for FIFO, special devices.
+    writeFile(path: string, data: string) {
+        fs.mkdirSync(dirname(path), { recursive: true });
+        fs.writeFileSync(path, data);
+    }
+
+    copy(src: string, dest: string) {
+        const stat = fs.statSync(src);
+
+        if (stat.isDirectory()) {
+            const contained = fs.readdirSync(src);
+            contained.forEach((file) => this.copy(join(src, file), join(dest, file)));
+        } else if (stat.isFile()) {
+            fs.mkdirSync(dirname(dest), { recursive: true });
+            fs.copyFileSync(src, dest);
+        } else {
+            // Do nothing for FIFO, special devices.
+        }
+    }
+
+    realpath(path: string): string {
+        return REALPATH_CACHE.get(path);
+    }
+
+    stat(path: string): Stats {
+        return fs.statSync(path);
     }
 }
 
@@ -128,15 +108,13 @@ export interface DiscoverFilesController {
     followSymlinks?: boolean;
 }
 
-// cache of fs.realpathSync results to avoid extra I/O
-const realpathCache: Map<string, string> = new Map();
-
 export function discoverFiles(
+    fs: FileSystem,
     rootDir: NormalizedPath,
     controller: DiscoverFilesController,
 ): NormalizedPath[] {
     const result: NormalizedPath[] = [];
-    const dirs: string[][] = [normalizePath(rootDir).split("/")];
+    const dirs: string[][] = [rootDir.split("/")];
     // cache of real paths to avoid infinite recursion
     const symlinkTargetsSeen: Set<string> = new Set();
     const { matchDirectories = false, followSymlinks = false } = controller;
@@ -160,8 +138,7 @@ export function discoverFiles(
         const childPath = [...dir!, path].join("/");
         let realpath: string;
         try {
-            realpath = realpathCache.get(childPath) ?? fs.realpathSync(childPath);
-            realpathCache.set(childPath, realpath);
+            realpath = fs.realpath(childPath);
         } catch {
             return;
         }
@@ -172,7 +149,7 @@ export function discoverFiles(
         symlinkTargetsSeen.add(realpath);
 
         try {
-            const stats = fs.statSync(realpath);
+            const stats = fs.stat(realpath);
             if (stats.isDirectory()) {
                 handleDirectory(path);
             } else if (stats.isFile()) {
@@ -196,11 +173,7 @@ export function discoverFiles(
             result.push(dir.join("/") as NormalizedPath);
         }
 
-        for (
-            const child of fs.readdirSync(dir.join("/"), {
-                withFileTypes: true,
-            })
-        ) {
+        for (const child of fs.readDirTypes(dir.join("/"))) {
             if (child.isFile()) {
                 handleFile(child.name);
             } else if (child.isDirectory()) {
@@ -222,6 +195,7 @@ export function discoverFiles(
 export function glob(
     pattern: GlobString,
     root: NormalizedPath,
+    fs: FileSystem,
     options: { includeDirectories?: boolean; followSymlinks?: boolean } = {},
 ): NormalizedPath[] {
     const mini = new Minimatch(pattern);
@@ -249,7 +223,7 @@ export function glob(
         followSymlinks: options.followSymlinks,
     };
 
-    return discoverFiles(root, controller);
+    return discoverFiles(fs, root, controller);
 }
 
 export function hasTsExtension(path: string): boolean {
@@ -264,16 +238,15 @@ export function discoverInParentDirExactMatch<T extends {}>(
     name: string,
     dir: string,
     read: (content: string) => T | undefined,
-    usedFile?: (path: string) => void,
+    fs: FileSystem,
 ): { file: string; content: T } | undefined {
-    if (!isDir(dir)) return;
+    if (!fs.isDir(dir)) return;
 
     const reachedTopDirectory = (dirName: string) => dirName === resolve(join(dirName, ".."));
 
     while (!reachedTopDirectory(dir)) {
-        usedFile?.(join(dir, name));
         try {
-            const content = read(readFile(join(dir, name)));
+            const content = read(fs.readFile(join(dir, name)));
             if (content != null) {
                 return { file: join(dir, name), content };
             }
@@ -284,10 +257,7 @@ export function discoverInParentDirExactMatch<T extends {}>(
     }
 }
 
-export function discoverPackageJson(
-    dir: string,
-    usedFile?: (path: string) => void,
-) {
+export function discoverPackageJson(dir: string, fs: FileSystem) {
     return discoverInParentDirExactMatch(
         "package.json",
         dir,
@@ -302,14 +272,17 @@ export function discoverPackageJson(
                 return pkg;
             }
         },
-        usedFile,
+        fs,
     );
 }
 
 // dir -> package info
 const packageCache = new Map<string, [packageName: string, packageDir: string]>();
 
-export function findPackageForPath(sourcePath: string): readonly [packageName: string, packageDir: string] | undefined {
+export function findPackageForPath(
+    sourcePath: string,
+    fs: FileSystem,
+): readonly [packageName: string, packageDir: string] | undefined {
     // Attempt to decide package name from path if it contains "node_modules"
     let startIndex = sourcePath.lastIndexOf("node_modules/");
     if (startIndex !== -1) {
@@ -329,7 +302,7 @@ export function findPackageForPath(sourcePath: string): readonly [packageName: s
         return cache;
     }
 
-    const packageJson = discoverPackageJson(dir);
+    const packageJson = discoverPackageJson(dir, fs);
     if (packageJson) {
         packageCache.set(dir, [packageJson.content.name, dirname(packageJson.file)]);
         return [packageJson.content.name, dirname(packageJson.file)];
@@ -338,12 +311,13 @@ export function findPackageForPath(sourcePath: string): readonly [packageName: s
 
 export function inferPackageEntryPointPaths(
     packagePath: string,
+    fs: FileSystem,
 ): [importPath: string, resolvedPath: string][] {
     const packageDir = normalizePath(dirname(packagePath));
-    const packageJson = JSON.parse(readFile(packagePath));
+    const packageJson = JSON.parse(fs.readFile(packagePath));
     const exports: unknown = packageJson.exports;
     if (typeof exports === "string") {
-        return resolveExport(packageDir, ".", exports, false);
+        return resolveExport(packageDir, ".", exports, false, fs);
     }
 
     if (!exports || typeof exports !== "object") {
@@ -357,10 +331,10 @@ export function inferPackageEntryPointPaths(
     const results: [string, string][] = [];
 
     if (Array.isArray(exports)) {
-        results.push(...resolveExport(packageDir, ".", exports, true));
+        results.push(...resolveExport(packageDir, ".", exports, true, fs));
     } else {
         for (const [importPath, exp] of Object.entries(exports)) {
-            results.push(...resolveExport(packageDir, importPath, exp, false));
+            results.push(...resolveExport(packageDir, importPath, exp, false, fs));
         }
     }
 
@@ -372,6 +346,7 @@ function resolveExport(
     name: string,
     exportDeclaration: string | string[] | Record<string, string>,
     validatePath: boolean,
+    fs: FileSystem,
 ): [string, string][] {
     if (typeof exportDeclaration === "string") {
         return resolveStarredExport(
@@ -379,12 +354,13 @@ function resolveExport(
             name,
             exportDeclaration,
             validatePath,
+            fs,
         );
     }
 
     if (Array.isArray(exportDeclaration)) {
         for (const item of exportDeclaration) {
-            const result = resolveExport(packageDir, name, item, true);
+            const result = resolveExport(packageDir, name, item, true, fs);
             if (result.length) {
                 return result;
             }
@@ -401,6 +377,7 @@ function resolveExport(
                 name,
                 exportDeclaration[cond],
                 false,
+                fs,
             );
         }
     }
@@ -424,6 +401,7 @@ function resolveStarredExport(
     name: string,
     exportDeclaration: string,
     validatePath: boolean,
+    fs: FileSystem,
 ): [string, string][] {
     // Wildcards only do something if there is exactly one star in the name
     // If there isn't any star in the destination, all entries map to one file
@@ -450,7 +428,7 @@ function resolveStarredExport(
                 }) +
                 "$",
         );
-        const matchedFiles = discoverFiles(packageDir, {
+        const matchedFiles = discoverFiles(fs, packageDir, {
             matches(path) {
                 return matcher.test(path);
             },
@@ -468,7 +446,7 @@ function resolveStarredExport(
     }
 
     const exportPath = resolve(packageDir, exportDeclaration);
-    if (validatePath && !fs.existsSync(exportPath)) {
+    if (validatePath && !fs.isFile(exportPath)) {
         return [];
     }
 

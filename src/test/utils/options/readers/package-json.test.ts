@@ -1,8 +1,10 @@
 import { project } from "@typestrong/fs-fixture-builder";
 
 import { PackageJsonReader } from "../../../../lib/utils/options/readers/index.js";
-import { Options } from "../../../../lib/utils/index.js";
+import { NodeFileSystem, Options } from "../../../../lib/utils/index.js";
 import { TestLogger } from "../../../TestLogger.js";
+
+const fs = new NodeFileSystem();
 
 describe("Options - PackageJsonReader", () => {
     let optsContainer: Options;
@@ -16,7 +18,7 @@ describe("Options - PackageJsonReader", () => {
     });
 
     it("Does not error if no package.json file is found", async () => {
-        await optsContainer.read(testLogger, "/does-not-exist");
+        await optsContainer.read(testLogger, fs, "/does-not-exist");
         testLogger.expectNoOtherMessages();
     });
 
@@ -31,7 +33,7 @@ describe("Options - PackageJsonReader", () => {
             proj.write();
             after(() => proj.rm());
 
-            await optsContainer.read(testLogger, proj.cwd);
+            await optsContainer.read(testLogger, fs, proj.cwd);
 
             test(testLogger);
             testLogger.expectNoOtherMessages();

@@ -5,7 +5,6 @@ import { ConverterEvents } from "../converter-events.js";
 import type { CommentDisplayPart, Reflection } from "../../models/index.js";
 import { MinimalSourceFile } from "#utils";
 import type { Converter } from "../converter.js";
-import { isFile, readFile } from "../../utils/fs.js";
 import { dedent, escapeRegExp, i18n } from "#utils";
 import { normalizePath } from "#node-utils";
 
@@ -53,6 +52,7 @@ export class IncludePlugin extends ConverterComponent {
         parts: CommentDisplayPart[],
         included: string[] = [],
     ) {
+        const fs = this.application.fs;
         for (let i = 0; i < parts.length; ++i) {
             const part = parts[i];
 
@@ -76,8 +76,8 @@ export class IncludePlugin extends ConverterComponent {
                         included.join("\n\t"),
                     ),
                 );
-            } else if (isFile(file)) {
-                const text = readFile(file).replaceAll("\r\n", "\n");
+            } else if (fs.isFile(file)) {
+                const text = fs.readFile(file).replaceAll("\r\n", "\n");
                 const ext = path.extname(file).substring(1);
 
                 const includedText = regionTarget

@@ -1,11 +1,13 @@
 import { deepStrictEqual as equal } from "assert";
 import { join } from "path";
-import { normalizePath } from "../lib/utils/index.js";
+import { NodeFileSystem, normalizePath } from "../lib/utils/index.js";
 import { expandPackages } from "../lib/utils/package-manifest.js";
 
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
 import { TestLogger } from "./TestLogger.js";
 import { createGlobString, MinimatchSet } from "../lib/utils/paths.js";
+
+const fs = new NodeFileSystem();
 
 describe("Packages support", () => {
     using project = tempdirProject();
@@ -85,6 +87,7 @@ describe("Packages support", () => {
             normalizePath(project.cwd),
             [createGlobString(normalizePath(project.cwd), ".")],
             new MinimatchSet([createGlobString(normalizePath(project.cwd), "**/ign")]),
+            fs,
         );
 
         equal(
@@ -134,6 +137,7 @@ describe("Packages support", () => {
             normalizePath(project.cwd),
             [createGlobString(normalizePath(project.cwd), ".")],
             new MinimatchSet([]),
+            fs,
         );
 
         logger.expectNoOtherMessages();
@@ -175,6 +179,7 @@ describe("Packages support", () => {
             normalizePath(project.cwd),
             [createGlobString(normalizePath(project.cwd), ".")],
             new MinimatchSet([]),
+            fs,
         );
 
         logger.expectNoOtherMessages();

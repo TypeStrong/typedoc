@@ -19,7 +19,7 @@ import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
 import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
 import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
-import { findPackageForPath, normalizePath } from "#node-utils";
+import { type FileSystem, findPackageForPath, normalizePath } from "#node-utils";
 import { createSymbolId } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";
 
@@ -31,6 +31,13 @@ export class Context {
      * The converter instance that has created the context.
      */
     readonly converter: Converter;
+
+    /**
+     * The filesystem object to interact with the filesystem.
+     */
+    get fs(): FileSystem {
+        return this.converter.application.fs;
+    }
 
     /**
      * The TypeChecker instance returned by the TypeScript compiler.
@@ -254,7 +261,7 @@ export class Context {
     ): ReferenceType {
         const ref = ReferenceType.createUnresolvedReference(
             name ?? symbol.name,
-            createSymbolId(symbol),
+            createSymbolId(this.fs, symbol),
             context.project,
             getQualifiedName(symbol, name ?? symbol.name),
         );
@@ -265,7 +272,7 @@ export class Context {
         const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
         if (!symbolPath) return ref;
 
-        ref.package = findPackageForPath(symbolPath)?.[0];
+        ref.package = findPackageForPath(symbolPath, this.fs)?.[0];
         return ref;
     }
 
@@ -289,7 +296,7 @@ export class Context {
     registerReflection(reflection: Reflection, symbol: ts.Symbol | undefined, filePath?: NormalizedPath) {
         if (symbol) {
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
-            const id = createSymbolId(symbol);
+            const id = createSymbolId(this.fs, symbol);
 
             // #2466
             // If we just registered a member of a class or interface, then we need to check if
@@ -326,7 +333,7 @@ export class Context {
     }
 
     getReflectionFromSymbol(symbol: ts.Symbol) {
-        return this.project.getReflectionFromSymbolId(createSymbolId(symbol));
+        return this.project.getReflectionFromSymbolId(createSymbolId(this.fs, symbol));
     }
 
     getSymbolFromReflection(reflection: Reflection) {

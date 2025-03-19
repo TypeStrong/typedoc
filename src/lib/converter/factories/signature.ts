@@ -51,7 +51,7 @@ export function createSignature(
     if (symbol && declaration) {
         context.project.registerSymbolId(
             sigRef,
-            createSymbolId(symbol, declaration),
+            createSymbolId(context.fs, symbol, declaration),
         );
     }
 

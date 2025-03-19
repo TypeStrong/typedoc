@@ -18,10 +18,12 @@ import {
     SourceReference,
 } from "../index.js";
 import type { ModelToObject } from "../lib/serialization/schema.js";
-import { getExpandedEntryPointsForPaths, normalizePath } from "../lib/utils/index.js";
+import { getExpandedEntryPointsForPaths, NodeFileSystem, normalizePath } from "../lib/utils/index.js";
 import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";
 import { FileRegistry } from "../lib/models/FileRegistry.js";
 import { ValidatingFileRegistry } from "../lib/utils/ValidatingFileRegistry.js";
+
+const fs = new NodeFileSystem();
 
 const comparisonSerializer = new Serializer();
 comparisonSerializer.addSerializer({
@@ -201,12 +203,13 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    app.files = new ValidatingFileRegistry();
+                    app.files = new ValidatingFileRegistry(fs);
                     const entryPoints = getExpandedEntryPointsForPaths(
                         app.logger,
                         [path],
                         app.options,
                         [getConverterProgram()],
+                        fs,
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);

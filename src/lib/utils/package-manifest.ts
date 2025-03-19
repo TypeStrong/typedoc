@@ -2,7 +2,7 @@
 
 import { dirname } from "path";
 
-import { glob, readFile } from "./fs.js";
+import { type FileSystem, glob } from "./fs.js";
 import { createGlobString, type MinimatchSet, nicePath, normalizePath } from "./paths.js";
 import { type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
 
@@ -25,8 +25,9 @@ function hasOwnProperty<K extends PropertyKey>(
 export function loadPackageManifest(
     logger: Logger,
     packageJsonPath: string,
+    fs: FileSystem,
 ): Record<string, unknown> | undefined {
-    const packageJson: unknown = JSON.parse(readFile(packageJsonPath));
+    const packageJson: unknown = JSON.parse(fs.readFile(packageJsonPath));
     if (typeof packageJson !== "object" || !packageJson) {
         logger.error(
             i18n.file_0_not_an_object(nicePath(packageJsonPath)),
@@ -75,6 +76,7 @@ export function expandPackages(
     packageJsonDir: NormalizedPath,
     workspaces: GlobString[],
     exclude: MinimatchSet,
+    fs: FileSystem,
 ): string[] {
     // Technically npm and Yarn workspaces don't support recursive nesting,
     // however we support the passing of paths to either packages or
@@ -85,6 +87,7 @@ export function expandPackages(
         const expandedPackageJsonPaths = glob(
             createGlobString(packageJsonDir, `${workspace}/package.json`),
             packageJsonDir,
+            fs,
         );
 
         if (expandedPackageJsonPaths.length === 0) {
@@ -108,7 +111,7 @@ export function expandPackages(
                 return [];
             }
 
-            const packageJson = loadPackageManifest(logger, packageJsonPath);
+            const packageJson = loadPackageManifest(logger, packageJsonPath, fs);
             if (packageJson === undefined) {
                 return [];
             }
@@ -123,6 +126,7 @@ export function expandPackages(
                 normalizePath(dirname(packageJsonPath)),
                 packagePaths.map(p => createGlobString(normalizePath(dirname(packageJsonPath)), p)),
                 exclude,
+                fs,
             );
         });
     });

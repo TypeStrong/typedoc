@@ -1,9 +1,11 @@
 import { deepStrictEqual as equal } from "assert";
 import { project as fsProject } from "@typestrong/fs-fixture-builder";
 
-import { normalizePath, Options, TypeDocReader } from "#node-utils";
+import { NodeFileSystem, normalizePath, Options, TypeDocReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { join } from "path";
+
+const fs = new NodeFileSystem();
 
 describe("Options - TypeDocReader", () => {
     const options = new Options();
@@ -19,7 +21,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
         options.reset();
         options.setValue("options", normalizePath(project.cwd));
-        await options.read(logger);
+        await options.read(logger, fs);
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "comment");
@@ -40,7 +42,7 @@ describe("Options - TypeDocReader", () => {
         after(() => project.rm());
         options.reset();
         options.setValue("options", normalizePath(project.cwd));
-        await options.read(logger);
+        await options.read(logger, fs);
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "extends");
@@ -55,7 +57,7 @@ describe("Options - TypeDocReader", () => {
         project.write();
         options.reset();
         options.setValue("options", normalizePath(project.cwd));
-        await options.read(logger);
+        await options.read(logger, fs);
         project.rm();
 
         logger.expectNoOtherMessages();
@@ -71,7 +73,7 @@ describe("Options - TypeDocReader", () => {
         after(() => project.rm());
         options.reset();
         options.setValue("options", normalizePath(project.cwd));
-        await options.read(logger);
+        await options.read(logger, fs);
 
         logger.expectNoOtherMessages();
         equal(options.getValue("name"), "js");
@@ -81,7 +83,7 @@ describe("Options - TypeDocReader", () => {
         options.reset();
         options.setValue("options", normalizePath("./non-existent-file.json"));
         const logger = new TestLogger();
-        await options.read(logger);
+        await options.read(logger, fs);
         logger.expectMessage(
             "error: The options file */non-existent-file.json does not exist",
         );
@@ -108,7 +110,7 @@ describe("Options - TypeDocReader", () => {
             const logger = new TestLogger();
             project.write();
             after(() => project.rm());
-            await options.read(logger);
+            await options.read(logger, fs);
             logger.expectMessage(message);
         });
     }
@@ -160,7 +162,7 @@ describe("Options - TypeDocReader", () => {
 
         options.addReader(new TypeDocReader());
         const logger = new TestLogger();
-        await options.read(logger);
+        await options.read(logger, fs);
         equal(logger.hasErrors(), false);
     });
 
@@ -177,7 +179,7 @@ describe("Options - TypeDocReader", () => {
         const options = new Options();
         options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.mjs")));
         options.addReader(new TypeDocReader());
-        await options.read(logger);
+        await options.read(logger, fs);
         equal(logger.hasErrors(), false);
     });
 
@@ -191,7 +193,7 @@ describe("Options - TypeDocReader", () => {
         const options = new Options();
         options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.mjs")));
         options.addReader(new TypeDocReader());
-        await options.read(logger);
+        await options.read(logger, fs);
 
         logger.expectMessage(
             "error: Failed to parse */typedoc.config.mjs, ensure it exists and exports an object",
@@ -209,7 +211,7 @@ describe("Options - TypeDocReader", () => {
         const options = new Options();
         options.setValue("options", normalizePath(join(project.cwd, "typedoc.config.cjs")));
         options.addReader(new TypeDocReader());
-        await options.read(logger);
+        await options.read(logger, fs);
 
         logger.expectMessage(
             "error: Failed to parse */typedoc.config.cjs, ensure it exists and exports an object",

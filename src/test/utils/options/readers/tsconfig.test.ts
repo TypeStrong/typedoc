@@ -1,11 +1,13 @@
 import { basename, join } from "path";
 import { deepStrictEqual as equal } from "assert";
 
-import { normalizePath, Options, TSConfigReader } from "#node-utils";
+import { NodeFileSystem, normalizePath, Options, TSConfigReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { tmpdir } from "os";
 import { fileURLToPath } from "url";
+
+const fs = new NodeFileSystem();
 
 describe("Options - TSConfigReader", () => {
     const options = new Options();
@@ -24,7 +26,7 @@ describe("Options - TSConfigReader", () => {
         options.setValue("tsconfig", normalizePath(project.cwd));
         project.addFile("temp.ts", "export {}");
         project.write();
-        await options.read(logger);
+        await options.read(logger, fs);
         if (noErrors) {
             logger.expectNoOtherMessages();
         }
@@ -38,7 +40,7 @@ describe("Options - TSConfigReader", () => {
             "tsconfig",
             normalizePath(join(tmpdir(), "typedoc/does-not-exist.json")),
         );
-        await options.read(logger);
+        await options.read(logger, fs);
         logger.expectMessage("error: *");
     });
 
@@ -94,7 +96,7 @@ describe("Options - TSConfigReader", () => {
             normalizePath(join(fileURLToPath(import.meta.url), "../data/does_not_exist.json")),
         );
         options.addReader(new TSConfigReader());
-        await options.read(logger);
+        await options.read(logger, fs);
         equal(logger.hasErrors(), false);
     });
 

@@ -1,6 +1,5 @@
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { writeFile } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { join } from "path";
 import { JSX } from "#utils";
@@ -36,18 +35,15 @@ export class IconsPlugin extends RendererComponent {
 
     constructor(owner: Renderer) {
         super(owner);
-        this.owner.on(RendererEvent.BEGIN, this.onBeginRender.bind(this));
+        this.owner.on(RendererEvent.END, this.onRenderEnd.bind(this));
     }
 
-    private onBeginRender(_event: RendererEvent) {
-        if (this.owner.theme instanceof DefaultTheme) {
-            this.owner.postRenderAsyncJobs.push((event) => this.onRenderEnd(event));
+    private onRenderEnd(event: RendererEvent) {
+        if (!(this.owner.theme instanceof DefaultTheme)) {
+            return;
         }
-    }
-
-    private async onRenderEnd(event: RendererEvent) {
         const children: JSX.Element[] = [];
-        const icons = (this.owner.theme as DefaultTheme).icons;
+        const icons = this.owner.theme.icons;
 
         for (const [name, icon] of Object.entries(icons)) {
             children.push(
@@ -58,11 +54,11 @@ export class IconsPlugin extends RendererComponent {
         }
 
         const svg = JSX.renderElement(<svg xmlns="http://www.w3.org/2000/svg">{children}</svg>);
-        const js = ICONS_JS.replace("SVG_HTML", JSX.renderElement(<>{children}</>).replaceAll("`", "\\`"));
-
         const svgPath = join(event.outputDirectory, "assets/icons.svg");
-        const jsPath = join(event.outputDirectory, "assets/icons.js");
+        this.application.fs.writeFile(svgPath, svg);
 
-        await Promise.all([writeFile(svgPath, svg), writeFile(jsPath, js)]);
+        const js = ICONS_JS.replace("SVG_HTML", JSX.renderElement(<>{children}</>).replaceAll("`", "\\`"));
+        const jsPath = join(event.outputDirectory, "assets/icons.js");
+        this.application.fs.writeFile(jsPath, js);
     }
 }

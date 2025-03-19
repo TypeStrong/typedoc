@@ -19,7 +19,7 @@ import {
 } from "../models/index.js";
 import { Context } from "./context.js";
 import { AbstractComponent } from "../utils/component.js";
-import { getDocumentEntryPoints, Option, readFile } from "../utils/index.js";
+import { getDocumentEntryPoints, Option } from "../utils/index.js";
 import { convertType } from "./types.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
@@ -340,11 +340,12 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         const projectDocuments = getDocumentEntryPoints(
             this.application.logger,
             this.application.options,
+            this.application.fs,
         );
         for (const { displayName, path } of projectDocuments) {
             let file: MinimalSourceFile;
             try {
-                file = new MinimalSourceFile(readFile(path), path);
+                file = new MinimalSourceFile(this.application.fs.readFile(path), path);
             } catch (error: any) {
                 this.application.logger.error(
                     i18n.failed_to_read_0_when_processing_project_document(
@@ -662,7 +663,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 let file: MinimalSourceFile;
                 try {
                     const resolved = normalizePath(resolve(relativeTo, path));
-                    file = new MinimalSourceFile(readFile(resolved), resolved);
+                    file = new MinimalSourceFile(this.application.fs.readFile(resolved), resolved);
                 } catch {
                     this.application.logger.warn(
                         i18n.failed_to_read_0_when_processing_document_tag_in_1(
@@ -745,7 +746,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             const absPath = normalizePath(resolve(dirname(file.fileName), path));
             let childFile: MinimalSourceFile;
             try {
-                childFile = new MinimalSourceFile(readFile(absPath), absPath);
+                childFile = new MinimalSourceFile(this.application.fs.readFile(absPath), absPath);
             } catch (error: any) {
                 this.application.logger.error(
                     i18n.failed_to_read_0_when_processing_document_child_in_1(

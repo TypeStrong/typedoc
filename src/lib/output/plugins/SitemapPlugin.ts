@@ -2,7 +2,6 @@ import Path from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { writeFile } from "#node-utils";
 import { escapeHtml, JSX } from "#utils";
 import type { Renderer } from "../index.js";
 
@@ -17,7 +16,7 @@ export class SitemapPlugin extends RendererComponent {
         this.owner.on(RendererEvent.BEGIN, this.onRendererBegin.bind(this));
     }
 
-    private onRendererBegin(_event: RendererEvent) {
+    private onRendererBegin(event: RendererEvent) {
         if (!(this.owner.theme instanceof DefaultTheme)) {
             return;
         }
@@ -36,10 +35,10 @@ export class SitemapPlugin extends RendererComponent {
             return { tag: JSX.Fragment, props: null, children: [] };
         });
 
-        this.owner.preRenderAsyncJobs.push((event) => this.buildSitemap(event));
+        this.buildSitemap(event);
     }
 
-    private async buildSitemap(event: RendererEvent) {
+    private buildSitemap(event: RendererEvent) {
         // cSpell:words lastmod urlset
         const sitemapXml = Path.join(event.outputDirectory, "sitemap.xml");
         const lastmod = new Date(this.owner.renderStartTime).toISOString();
@@ -71,7 +70,7 @@ export class SitemapPlugin extends RendererComponent {
             }) +
             "\n";
 
-        await writeFile(sitemapXml, sitemap);
+        this.application.fs.writeFile(sitemapXml, sitemap);
     }
 }
 

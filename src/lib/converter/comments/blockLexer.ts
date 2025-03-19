@@ -2,8 +2,10 @@ import ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { resolveAliasedSymbol } from "../utils/symbols.js";
 import { createSymbolId } from "../factories/symbol-id.js";
+import type { FileSystem } from "#node-utils";
 
 export function* lexBlockComment(
+    fs: FileSystem,
     file: string,
     pos = 0,
     end = file.length,
@@ -14,6 +16,7 @@ export function* lexBlockComment(
     let textToken: Token | undefined;
     for (
         const token of lexBlockComment2(
+            fs,
             file,
             pos,
             end,
@@ -75,6 +78,7 @@ function getLinkTags(
 }
 
 function* lexBlockComment2(
+    fs: FileSystem,
     file: string,
     pos: number,
     end: number,
@@ -357,6 +361,7 @@ function* lexBlockComment2(
                 );
                 if (tsTarget) {
                     token.tsLinkTarget = createSymbolId(
+                        fs,
                         resolveAliasedSymbol(tsTarget, checker!),
                     );
                     token.tsLinkText = link.text.replace(/^\s*\|\s*/, "");

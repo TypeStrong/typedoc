@@ -1,5 +1,5 @@
 import { ReflectionSymbolId } from "#models";
-import { findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath, readFile } from "#node-utils";
+import { type FileSystem, findPackageForPath, getCommonDirectory, getQualifiedName, normalizePath } from "#node-utils";
 import { type NormalizedPath, Validation } from "#utils";
 import { existsSync } from "fs";
 import { join, relative, resolve } from "node:path";
@@ -10,13 +10,13 @@ const declarationMapCache = new Map<string, string>();
 let transientCount = 0;
 const transientIds = new WeakMap<ts.Symbol, number>();
 
-export function createSymbolId(symbol: ts.Symbol, declaration?: ts.Declaration) {
+export function createSymbolId(fs: FileSystem, symbol: ts.Symbol, declaration?: ts.Declaration) {
     declaration ??= symbol.declarations?.[0];
     const tsSource = declaration?.getSourceFile().fileName ?? "";
-    const sourceFileName = resolveDeclarationMaps(tsSource);
+    const sourceFileName = resolveDeclarationMaps(fs, tsSource);
     let packageName: string;
     let packagePath: NormalizedPath;
-    const packageInfo = findPackageForPath(tsSource);
+    const packageInfo = findPackageForPath(tsSource, fs);
     if (packageInfo) {
         let packageDir: string;
         [packageName, packageDir] = packageInfo;
@@ -51,7 +51,7 @@ export function createSymbolId(symbol: ts.Symbol, declaration?: ts.Declaration) 
     return id;
 }
 
-function resolveDeclarationMaps(file: string): string {
+function resolveDeclarationMaps(fs: FileSystem, file: string): string {
     if (!/\.d\.[cm]?ts$/.test(file)) return file;
     if (declarationMapCache.has(file)) return declarationMapCache.get(file)!;
 
@@ -60,7 +60,7 @@ function resolveDeclarationMaps(file: string): string {
 
     let sourceMap: unknown;
     try {
-        sourceMap = JSON.parse(readFile(mapFile)) as unknown;
+        sourceMap = JSON.parse(fs.readFile(mapFile)) as unknown;
     } catch {
         return file;
     }

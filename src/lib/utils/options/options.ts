@@ -1,7 +1,7 @@
 import type ts from "typescript";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
-import type { OutputSpecification } from "../index.js";
+import type { FileSystem, OutputSpecification } from "../index.js";
 import { normalizePath } from "../paths.js";
 import type { Application } from "../../../index.js";
 import {
@@ -54,13 +54,13 @@ export interface OptionsReader {
      * @param container the options container that provides declarations
      * @param logger logger to be used to report errors
      * @param cwd the directory which should be treated as the current working directory for option file discovery
-     * @param usedFile a callback to track files that were read or whose existence was checked, for purposes of restarting a build when watching files
+     * @param fs file system object that should be used to read files
      */
     read(
         container: Options,
         logger: Logger,
+        fs: FileSystem,
         cwd: string,
-        usedFile: (file: string) => void,
     ): void | Promise<void>;
 }
 
@@ -200,11 +200,11 @@ export class Options {
 
     async read(
         logger: Logger,
+        fs: FileSystem,
         cwd = process.cwd(),
-        usedFile: (path: string) => void = () => {},
     ) {
         for (const reader of this._readers) {
-            await reader.read(this, logger, cwd, usedFile);
+            await reader.read(this, logger, fs, cwd);
         }
     }
 

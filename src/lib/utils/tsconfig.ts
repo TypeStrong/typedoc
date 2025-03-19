@@ -1,22 +1,22 @@
 import ts from "typescript";
-import { isDir, isFile, readFile } from "./fs.js";
 import { createRequire } from "module";
 import type { Logger } from "#utils";
 import { diagnostic, diagnostics } from "./loggers.js";
+import type { FileSystem } from "./fs.js";
 
 export function findTsConfigFile(
+    fs: FileSystem,
     path: string,
-    usedFile?: (path: string) => void,
 ): string | undefined {
     let fileToRead: string | undefined = path;
-    if (isDir(fileToRead)) {
+    if (fs.isDir(fileToRead)) {
         fileToRead = ts.findConfigFile(
             path,
-            (file) => (usedFile?.(file), isFile(file)),
+            (file) => fs.isFile(file),
         );
     }
 
-    if (!fileToRead || !isFile(fileToRead)) {
+    if (!fileToRead || !fs.isFile(fileToRead)) {
         return;
     }
 
@@ -26,8 +26,8 @@ export function findTsConfigFile(
 // We don't need recursive read checks because that would cause a diagnostic
 // when reading the tsconfig for compiler options, which happens first, and we bail before
 // doing this in that case.
-export function getTypeDocOptionsFromTsConfig(file: string): any {
-    const readResult = ts.readConfigFile(file, readFile);
+export function getTypeDocOptionsFromTsConfig(fs: FileSystem, file: string): any {
+    const readResult = ts.readConfigFile(file, path => fs.readFile(path));
 
     const result = {};
 
@@ -50,7 +50,7 @@ export function getTypeDocOptionsFromTsConfig(file: string): any {
             }
             Object.assign(
                 result,
-                getTypeDocOptionsFromTsConfig(resolvedParent),
+                getTypeDocOptionsFromTsConfig(fs, resolvedParent),
             );
         }
     }

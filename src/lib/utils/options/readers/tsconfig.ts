@@ -3,7 +3,7 @@ import { dirname, join, resolve } from "path";
 import ts from "typescript";
 
 import type { Options, OptionsReader } from "../options.js";
-import { isFile } from "../../fs.js";
+import type { FileSystem } from "../../fs.js";
 import { ok } from "assert";
 import { i18n, type Logger, type TranslatedString, unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
@@ -62,12 +62,12 @@ export class TSConfigReader implements OptionsReader {
     read(
         container: Options,
         logger: Logger,
+        fs: FileSystem,
         cwd: string,
-        usedFile?: (path: string) => void,
     ): void {
         const file = container.getValue("tsconfig") || cwd;
 
-        let fileToRead = findTsConfigFile(file, usedFile);
+        let fileToRead = findTsConfigFile(fs, file);
 
         if (!fileToRead) {
             // If the user didn't give us this option, we shouldn't complain about not being able to find it.
@@ -81,7 +81,7 @@ export class TSConfigReader implements OptionsReader {
 
         fileToRead = normalizePath(resolve(fileToRead));
         logger.verbose(`Reading tsconfig at ${nicePath(fileToRead)}`);
-        this.addTagsFromTsdocJson(container, logger, resolve(fileToRead));
+        this.addTagsFromTsdocJson(container, logger, resolve(fileToRead), fs);
 
         const parsed = readTsConfig(fileToRead, logger);
         if (!parsed) {
@@ -93,7 +93,7 @@ export class TSConfigReader implements OptionsReader {
             return;
         }
 
-        const typedocOptions = getTypeDocOptionsFromTsConfig(fileToRead);
+        const typedocOptions = getTypeDocOptionsFromTsConfig(fs, fileToRead);
         if (typedocOptions.options) {
             logger.error(i18n.tsconfig_file_specifies_options_file());
             delete typedocOptions.options;
@@ -127,10 +127,11 @@ export class TSConfigReader implements OptionsReader {
         container: Options,
         logger: Logger,
         tsconfig: string,
+        fs: FileSystem,
     ) {
         this.seenTsdocPaths.clear();
         const tsdoc = join(dirname(tsconfig), "tsdoc.json");
-        if (!isFile(tsdoc)) {
+        if (!fs.isFile(tsdoc)) {
             return;
         }
 

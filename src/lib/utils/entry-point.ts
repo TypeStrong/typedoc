@@ -4,7 +4,7 @@ import * as FS from "fs";
 import { expandPackages } from "./package-manifest.js";
 import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
 import type { Options } from "./options/index.js";
-import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
+import { discoverPackageJson, type FileSystem, glob, inferPackageEntryPointPaths } from "./fs.js";
 import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
 
 /**
@@ -46,28 +46,32 @@ export interface DocumentEntryPoint {
     path: NormalizedPath;
 }
 
-export function inferEntryPoints(logger: Logger, options: Options, programs?: ts.Program[]) {
+export function inferEntryPoints(
+    logger: Logger,
+    options: Options,
+    hostOrPrograms: ts.CompilerHost | ts.Program[],
+    fs: FileSystem,
+) {
     const packageJson = discoverPackageJson(
         options.packageDir ?? process.cwd(),
+        fs,
     );
     if (!packageJson) {
         logger.warn(i18n.no_entry_points_provided());
         return [];
     }
 
-    const pathEntries = inferPackageEntryPointPaths(packageJson.file);
+    const pathEntries = inferPackageEntryPointPaths(packageJson.file, fs);
 
     const entryPoints: DocumentationEntryPoint[] = [];
 
-    programs ||= getEntryPrograms(
-        pathEntries.map((p) => p[1]),
-        logger,
-        options,
-    );
+    if (!Array.isArray(hostOrPrograms)) {
+        hostOrPrograms = getEntryPrograms(pathEntries.map(p => p[1]), logger, options, hostOrPrograms);
+    }
 
     // See also: addInferredDeclarationMapPaths in ReflectionSymbolId
     const jsToTsSource = new Map<string, string>();
-    for (const program of programs) {
+    for (const program of hostOrPrograms) {
         const opts = program.getCompilerOptions();
         const rootDir = opts.rootDir || getCommonDirectory(program.getRootFileNames());
         const outDir = opts.outDir || rootDir;
@@ -88,7 +92,7 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
         const displayName = name.replace(/^\.\/?/, "");
         const targetPath = jsToTsSource.get(path) || path;
 
-        const program = programs.find((p) => p.getSourceFile(targetPath));
+        const program = hostOrPrograms.find((p) => p.getSourceFile(targetPath));
         if (program) {
             entryPoints.push({
                 displayName,
@@ -113,6 +117,8 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
 export function getEntryPoints(
     logger: Logger,
     options: Options,
+    host: ts.CompilerHost,
+    fs: FileSystem,
 ): DocumentationEntryPoint[] | undefined {
     if (!options.isSet("entryPoints")) {
         logger.warn(i18n.no_entry_points_provided());
@@ -134,16 +140,20 @@ export function getEntryPoints(
         case EntryPointStrategy.Resolve:
             result = getEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints, exclude, logger),
+                expandGlobs(entryPoints, exclude, logger, fs),
                 options,
+                host,
+                fs,
             );
             break;
 
         case EntryPointStrategy.Expand:
             result = getExpandedEntryPointsForPaths(
                 logger,
-                expandGlobs(entryPoints, exclude, logger),
+                expandGlobs(entryPoints, exclude, logger, fs),
                 options,
+                host,
+                fs,
             );
             break;
 
@@ -173,13 +183,14 @@ export function getEntryPoints(
 export function getDocumentEntryPoints(
     logger: Logger,
     options: Options,
+    fs: FileSystem,
 ): DocumentEntryPoint[] {
     const docGlobs = options.getValue("projectDocuments");
     if (docGlobs.length === 0) {
         return [];
     }
 
-    const docPaths = expandGlobs(docGlobs, [], logger);
+    const docPaths = expandGlobs(docGlobs, [], logger, fs);
 
     // We might want to expand this in the future, there are quite a lot of extensions
     // that have at some point or another been used for markdown: https://superuser.com/a/285878
@@ -200,75 +211,18 @@ export function getDocumentEntryPoints(
     });
 }
 
-export function getWatchEntryPoints(
-    logger: Logger,
-    options: Options,
-    program: ts.Program,
-): DocumentationEntryPoint[] | undefined {
-    let result: DocumentationEntryPoint[] | undefined;
-
-    const entryPoints = options.getValue("entryPoints");
-    const exclude = options.getValue("exclude");
-    const strategy = options.getValue("entryPointStrategy");
-
-    switch (strategy) {
-        case EntryPointStrategy.Resolve:
-            if (options.isSet("entryPoints")) {
-                result = getEntryPointsForPaths(
-                    logger,
-                    expandGlobs(entryPoints, exclude, logger),
-                    options,
-                    [program],
-                );
-            } else {
-                result = inferEntryPoints(logger, options, [program]);
-            }
-            break;
-
-        case EntryPointStrategy.Expand:
-            if (options.isSet("entryPoints")) {
-                result = getExpandedEntryPointsForPaths(
-                    logger,
-                    expandGlobs(entryPoints, exclude, logger),
-                    options,
-                    [program],
-                );
-            } else {
-                result = inferEntryPoints(logger, options, [program]);
-            }
-            break;
-
-        case EntryPointStrategy.Packages:
-            logger.error(i18n.watch_does_not_support_packages_mode());
-            break;
-
-        case EntryPointStrategy.Merge:
-            logger.error(i18n.watch_does_not_support_merge_mode());
-            break;
-
-        default:
-            assertNever(strategy);
-    }
-
-    if (result && result.length === 0) {
-        logger.error(i18n.unable_to_find_any_entry_points());
-        return;
-    }
-
-    return result;
-}
-
 export function getPackageDirectories(
     logger: Logger,
     options: Options,
     packageGlobPaths: GlobString[],
+    fs: FileSystem,
 ) {
     const exclude = new MinimatchSet(options.getValue("exclude"));
     const rootDir = deriveRootDir(packageGlobPaths);
 
     // packages arguments are workspace tree roots, or glob patterns
     // This expands them to leave only leaf packages
-    return expandPackages(logger, rootDir, packageGlobPaths, exclude);
+    return expandPackages(logger, rootDir, packageGlobPaths, exclude, fs);
 }
 
 function getModuleName(fileName: string, baseDir: string) {
@@ -286,8 +240,12 @@ function getEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(inputFiles, logger, options),
+    hostOrPrograms: ts.CompilerHost | ts.Program[],
+    fs: FileSystem,
 ): DocumentationEntryPoint[] {
+    if (!Array.isArray(hostOrPrograms)) {
+        hostOrPrograms = getEntryPrograms(inputFiles, logger, options, hostOrPrograms);
+    }
     const baseDir = options.getValue("basePath") || getCommonDirectory(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
     let expandSuggestion = true;
@@ -307,7 +265,7 @@ function getEntryPointsForPaths(
             );
         }
 
-        for (const program of programs) {
+        for (const program of hostOrPrograms) {
             for (const check of toCheck) {
                 const sourceFile = program.getSourceFile(check);
                 if (sourceFile) {
@@ -324,7 +282,7 @@ function getEntryPointsForPaths(
         logger.warn(
             i18n.entry_point_0_not_in_program(nicePath(fileOrDir)),
         );
-        if (expandSuggestion && isDir(fileOrDir)) {
+        if (expandSuggestion && fs.isDir(fileOrDir)) {
             expandSuggestion = false;
             logger.info(i18n.use_expand_or_glob_for_files_in_dir());
         }
@@ -337,7 +295,8 @@ export function getExpandedEntryPointsForPaths(
     logger: Logger,
     inputFiles: string[],
     options: Options,
-    programs = getEntryPrograms(inputFiles, logger, options),
+    hostOrPrograms: ts.CompilerHost | ts.Program[],
+    fs: FileSystem,
 ): DocumentationEntryPoint[] {
     const compilerOptions = options.getCompilerOptions();
     const supportedFileRegex = compilerOptions.allowJs || compilerOptions.checkJs
@@ -348,16 +307,17 @@ export function getExpandedEntryPointsForPaths(
         logger,
         expandInputFiles(logger, inputFiles, options, supportedFileRegex),
         options,
-        programs,
+        hostOrPrograms,
+        fs,
     );
 }
 
-function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger) {
+function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger, fs: FileSystem) {
     const excludePatterns = new MinimatchSet(exclude);
 
     const base = deriveRootDir(globs);
     const result = globs.flatMap((entry) => {
-        const result = glob(entry, base, {
+        const result = glob(entry, base, fs, {
             includeDirectories: true,
             followSymlinks: true,
         });
@@ -399,16 +359,19 @@ function getEntryPrograms(
     inputFiles: string[],
     logger: Logger,
     options: Options,
+    host: ts.CompilerHost,
 ) {
     const noTsConfigFound = options.getFileNames().length === 0 &&
         options.getProjectReferences().length === 0;
 
     const rootProgram = noTsConfigFound
         ? ts.createProgram({
+            host,
             rootNames: inputFiles,
             options: options.getCompilerOptions(),
         })
         : ts.createProgram({
+            host,
             rootNames: options.getFileNames(),
             options: options.getCompilerOptions(),
             projectReferences: options.getProjectReferences(),
@@ -427,6 +390,7 @@ function getEntryPrograms(
 
             programs.push(
                 ts.createProgram({
+                    host,
                     options: options.fixCompilerOptions(
                         ref.commandLine.options,
                     ),

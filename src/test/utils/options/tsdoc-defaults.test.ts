@@ -4,7 +4,7 @@ import ts from "typescript";
 import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
 import { fileURLToPath } from "url";
 import { TYPEDOC_ROOT } from "../../../lib/utils/general.js";
-import { readFile } from "../../../lib/utils/fs.js";
+import { readFileSync } from "fs";
 
 describe("tsdoc-defaults.ts", () => {
     const tsdoc = ts.readConfigFile(
@@ -90,7 +90,7 @@ describe("tsdoc-defaults.ts", () => {
 });
 
 function getDocumentedTags() {
-    const text = readFile(TYPEDOC_ROOT + "/site/tags.md");
+    const text = readFileSync(TYPEDOC_ROOT + "/site/tags.md", "utf-8");
     const tags: string[] = [];
 
     for (const line of text.split("\n")) {

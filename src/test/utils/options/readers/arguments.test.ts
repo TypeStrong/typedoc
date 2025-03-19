@@ -1,6 +1,6 @@
 import { deepStrictEqual as equal } from "assert";
 
-import { createGlobString, normalizePath, Options } from "../../../../lib/utils/index.js";
+import { createGlobString, NodeFileSystem, normalizePath, Options } from "../../../../lib/utils/index.js";
 import { ArgumentsReader } from "../../../../lib/utils/options/readers/index.js";
 import {
     type MapDeclarationOption,
@@ -10,6 +10,7 @@ import {
 import { join } from "path";
 import { TestLogger } from "../../../TestLogger.js";
 
+const fs = new NodeFileSystem();
 const emptyHelp = () => "";
 
 describe("Options - ArgumentsReader", () => {
@@ -54,7 +55,7 @@ describe("Options - ArgumentsReader", () => {
             const reader = new ArgumentsReader(1, args);
             options.reset();
             options.addReader(reader);
-            await options.read(logger);
+            await options.read(logger, fs);
             cb();
         });
     }
@@ -131,7 +132,7 @@ describe("Options - ArgumentsReader", () => {
         const reader = new ArgumentsReader(1, ["--badOption"]);
         options.reset();
         options.addReader(reader);
-        await options.read(logger);
+        await options.read(logger, fs);
         logger.expectMessage(
             `error: Unknown option: --badOption, you may have meant:\n\t${
                 similarOptions.join(
@@ -146,7 +147,7 @@ describe("Options - ArgumentsReader", () => {
         options.reset();
         options.addReader(reader);
         const logger = new TestLogger();
-        await options.read(logger);
+        await options.read(logger, fs);
         logger.expectMessage(
             "warn: --out expected a value, but none was given as an argument",
         );

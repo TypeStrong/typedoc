@@ -134,7 +134,7 @@ function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
     );
     context.project.registerSymbolId(
         signature,
-        createSymbolId(symbol, node),
+        createSymbolId(context.fs, symbol, node),
     );
     context.registerReflection(signature, void 0);
     const signatureCtx = rc.withScope(signature);

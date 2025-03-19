@@ -1,10 +1,12 @@
-import * as fs from "fs";
+import * as FS from "fs";
 import { createServer } from "net";
 import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, join, normalize, resolve } from "path";
-import { createGlobString, glob, inferPackageEntryPointPaths, normalizePath } from "#node-utils";
+import { createGlobString, glob, inferPackageEntryPointPaths, NodeFileSystem, normalizePath } from "#node-utils";
 import type { NormalizedPath } from "#utils";
+
+const fs = new NodeFileSystem();
 
 describe("fs.ts", () => {
     describe("glob", () => {
@@ -21,7 +23,7 @@ describe("fs.ts", () => {
         it("handles root match", () => {
             fix.write();
 
-            const result = glob(createGlobString("", cwd), cwd, {
+            const result = glob(createGlobString("", cwd), cwd, fs, {
                 includeDirectories: true,
             });
             equal(result.map(normalize), [fix.cwd].map(normalize));
@@ -35,11 +37,11 @@ describe("fs.ts", () => {
             fix.write();
 
             equal(
-                glob(createGlobString(cwd, `*.ts`), cwd).map((f) => basename(f)),
+                glob(createGlobString(cwd, `*.ts`), cwd, fs).map((f) => basename(f)),
                 ["a.ts", "test.ts", "test2.ts"],
             );
             equal(
-                glob(createGlobString(cwd, `**/test*.ts`), cwd).map((f) => basename(f)),
+                glob(createGlobString(cwd, `**/test*.ts`), cwd, fs).map((f) => basename(f)),
                 ["test.ts", "test2.ts"],
             );
         });
@@ -48,9 +50,9 @@ describe("fs.ts", () => {
             it("should navigate symlinked directories", () => {
                 const target = dirname(fix.dir("a").addFile("test.ts").path);
                 fix.write();
-                fs.symlinkSync(target, resolve(fix.cwd, "b"), "junction");
+                FS.symlinkSync(target, resolve(fix.cwd, "b"), "junction");
                 equal(
-                    glob(createGlobString(cwd, `b/*.ts`), cwd, {
+                    glob(createGlobString(cwd, `b/*.ts`), cwd, fs, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test.ts"],
@@ -60,13 +62,13 @@ describe("fs.ts", () => {
             it("should navigate recursive symlinked directories only once", () => {
                 fix.addFile("test.ts");
                 fix.write();
-                fs.symlinkSync(
+                FS.symlinkSync(
                     fix.cwd,
                     resolve(fix.cwd, "recursive"),
                     "junction",
                 );
                 equal(
-                    glob(createGlobString(cwd, `**/*.ts`), cwd, {
+                    glob(createGlobString(cwd, `**/*.ts`), cwd, fs, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test.ts", "test.ts"],
@@ -77,7 +79,7 @@ describe("fs.ts", () => {
                 const { path } = fix.addFile("test.ts");
                 fix.write();
                 try {
-                    fs.symlinkSync(
+                    FS.symlinkSync(
                         path,
                         resolve(dirname(path), "test-2.ts"),
                         "file",
@@ -93,7 +95,7 @@ describe("fs.ts", () => {
                     }
                 }
                 equal(
-                    glob(createGlobString(cwd, `**/*.ts`), cwd, {
+                    glob(createGlobString(cwd, `**/*.ts`), cwd, fs, {
                         followSymlinks: true,
                     }).map((f) => basename(f)),
                     ["test-2.ts", "test.ts"],
@@ -106,7 +108,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(createGlobString(cwd, `node_modules/test.ts`), cwd).map((f) => basename(f)),
+                    glob(createGlobString(cwd, `node_modules/test.ts`), cwd, fs).map((f) => basename(f)),
                     ["test.ts"],
                 );
             });
@@ -117,7 +119,7 @@ describe("fs.ts", () => {
                 fix.dir("node_modules").addFile("test.ts");
                 fix.write();
                 equal(
-                    glob(createGlobString(cwd, `**/test.ts`), cwd).map((f) => basename(f)),
+                    glob(createGlobString(cwd, `**/test.ts`), cwd, fs).map((f) => basename(f)),
                     [],
                 );
             });
@@ -137,7 +139,7 @@ describe("fs.ts", () => {
                 .once("listening", () => {
                     let err: AssertionError | null = null;
                     try {
-                        equal(glob(createGlobString(cwd, `*.sock`), cwd), []);
+                        equal(glob(createGlobString(cwd, `*.sock`), cwd, fs), []);
                     } catch (e) {
                         err = e as AssertionError;
                     } finally {
@@ -155,7 +157,7 @@ describe("fs.ts", () => {
         const packagePath = (path: string) => normalizePath(join(fixture.cwd, path));
 
         const inferExports = () =>
-            inferPackageEntryPointPaths(fixture.cwd + "/package.json").map(
+            inferPackageEntryPointPaths(fixture.cwd + "/package.json", fs).map(
                 (s) => [s[0], normalizePath(s[1])],
             );
 

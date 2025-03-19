@@ -4,12 +4,15 @@ import { Logger, Options, TSConfigReader } from "../../index.js";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
 import { fileURLToPath } from "url";
+import { NodeFileSystem } from "#node-utils";
+
+const fs = new NodeFileSystem();
 
 describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
         const options = new Options();
         const tsconfigReader = new TSConfigReader();
-        tsconfigReader.read(options, new Logger(), process.cwd());
+        tsconfigReader.read(options, new Logger(), fs, process.cwd());
 
         const defaultLocaleTs = join(
             fileURLToPath(import.meta.url),
