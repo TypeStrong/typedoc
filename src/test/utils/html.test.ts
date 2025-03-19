@@ -292,7 +292,7 @@ describe("createNormalizedUrl", () => {
     it("Permits Emoji characters", () => {
         equal(createNormalizedUrl("🐌 Foo 🪐.md"), "🐌_Foo_🪐.md");
     });
-    
+
     it("Permits UTF8 characters", () => {
         equal(createNormalizedUrl("◉ bar⚐.md"), "◉_bar⚐.md");
     });
