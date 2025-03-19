@@ -72,7 +72,7 @@ export function createNormalizedUrl(url: string) {
         codePoints[i] = Chars.UNDERSCORE;
     }
 
-    return String.fromCharCode(...codePoints);
+    return String.fromCodePoint(...codePoints);
 }
 
 const enum Chars {
