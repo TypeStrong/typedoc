@@ -29,6 +29,9 @@ try {
 export const storage = {
     getItem: (key: string) => _storage.getItem(key),
     setItem: (key: string, value: string) => _storage.setItem(key, value),
+    disableWritingLocalStorage() {
+        _storage = noOpStorageImpl;
+    },
     disable() {
         localStorage.clear();
         _storage = noOpStorageImpl;

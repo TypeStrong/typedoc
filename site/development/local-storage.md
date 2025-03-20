@@ -17,3 +17,7 @@ To enable local storage, use:
 `window.TypeDoc.enableLocalStorage();`
 
 **Note:** Local storage is enabled by default.
+
+To disable local storage without clearing it, use:
+
+`window.TypeDoc.disableWritingLocalStorage();`
