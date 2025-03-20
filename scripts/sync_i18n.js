@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
+import { normalize as normalizePath } from "path";
 import ts from "typescript";
 
 function findDescendants(node, match) {
@@ -163,6 +164,50 @@ function organizeLocale(langId) {
 function listLocales() {
     return readdirSync("src/lib/internationalization/locales").map((n) => n.replace(/^(.+)\.\w+$/, "$1"));
 }
+
+function verifyTags() {
+    const tags = loadTags();
+    const { config, error } = ts.readConfigFile(normalizePath("tsdoc.json"), ts.sys.readFile);
+    if (error) {
+        throw error;
+    }
+    const tsdocJsonTags = {
+        block: [],
+        inline: [],
+        modifier: [],
+    };
+    for (const tagDefinition of config.tagDefinitions) {
+        const { tagName, syntaxKind } = tagDefinition;
+        tsdocJsonTags[syntaxKind].push(tagName);
+    }
+    for (const name of Object.keys(tsdocJsonTags)) {
+        const namePascal = `${name.slice(0, 1).toUpperCase()}${name.slice(1)}`;
+        const xTags = tags[`${name}Tags`];
+        const tsdocXTags = tags[`tsdoc${namePascal}Tags`];
+        const tsdocJsonXTags = tsdocJsonTags[name];
+        const allTags = [...new Set([...xTags, ...tsdocXTags, ...tsdocJsonXTags])];
+        for (const tag of allTags) {
+            const inTags = xTags.includes(tag);
+            const inTsdocTags = tsdocXTags.includes(tag);
+            const inTsdocJsonTags = tsdocJsonXTags.includes(tag);
+            if (tag === '@inheritDoc' && inTags && !inTsdocTags && !inTsdocJsonTags) continue;
+            if (!inTags) {
+                console.log(`${namePascal} tag ${tag} not found in ${name}Tags.`);
+            }
+            if (inTsdocTags) {
+                if (inTsdocJsonTags) {
+                    console.log(`Unexpected ${name} tag ${tag} in tsdoc.json.`);
+                }
+            } else {
+                if (!inTsdocJsonTags) {
+                    console.log(`${namePascal} tag ${tag} not found in tsdoc.json.`);
+                }
+            }
+        }
+    }
+}
+
+verifyTags();
 
 listLocales()
     .filter((lang) => lang !== "en")
