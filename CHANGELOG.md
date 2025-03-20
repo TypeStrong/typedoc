@@ -9,6 +9,7 @@ title: Changelog
 - The `TypeDocOptions` interface now marks options as optional so it no longer has to be wrapped in `Partial`
   for use in config files, #2901.
 - API: Expose control methods for deferred conversion for plugin use (typedoc-plugin-missing-exports)
+- API: Expose method to disable TypeDoc usage of `localStorage` without clearing it, #2908.
 
 ### Bug Fixes
 
@@ -20,6 +21,7 @@ title: Changelog
 
 ### Thanks!
 
+- @jsmith2-coveo
 - @romainmnr
 
 ## v0.28.0 (2025-03-15)
