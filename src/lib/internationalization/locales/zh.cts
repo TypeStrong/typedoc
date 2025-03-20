@@ -24,6 +24,7 @@ export = localeUtils.buildIncompleteTranslation({
     no_entry_points_for_packages: "没有为包模式提供入口点，无法生成文档",
     failed_to_find_packages: "找不到任何软件包，请确保您至少提供了一个包含 package.json 的目录作为入口点",
     nested_packages_unsupported_0: "位于 {0} 的项目已将 entryPointStrategy 设置为包，但不支持嵌套包",
+    package_option_0_should_be_specified_at_root: "由 packageOptions 设置的选项 {0} 仅在根级别有效",
     previous_error_occurred_when_reading_options_for_0: "读取 {0} 处的包的选项时发生上一个错误",
     converting_project_at_0: "正在转换 {0} 处的项目",
     failed_to_convert_packages: "无法转换一个或多个包，结果将不会合并在一起",
@@ -518,6 +519,10 @@ export = localeUtils.buildIncompleteTranslation({
     tag_type: "类型",
     tag_typedef: "类型定义",
     tag_summary: "概述",
+    tag_preventInline: "取消内联",
+    tag_inlineType: "内联类型",
+    tag_preventExpand: "取消扩展",
+    tag_expandType: "扩展类型",
 
     // Inline tags
     tag_link: "链接",
@@ -552,6 +557,7 @@ export = localeUtils.buildIncompleteTranslation({
     tag_inline: "内联",
     tag_interface: "接口",
     tag_namespace: "命名空间",
+    tag_function: "函数",
     tag_overload: "重载",
     tag_private: "私有成员",
     tag_protected: "受保护成员",
