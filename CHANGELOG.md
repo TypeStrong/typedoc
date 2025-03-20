@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.1 (2025-03-20)
+
 ### Features
 
 - The `TypeDocOptions` interface now marks options as optional so it no longer has to be wrapped in `Partial`
