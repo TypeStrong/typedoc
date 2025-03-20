@@ -190,7 +190,7 @@ function verifyTags() {
             const inTags = xTags.includes(tag);
             const inTsdocTags = tsdocXTags.includes(tag);
             const inTsdocJsonTags = tsdocJsonXTags.includes(tag);
-            if (tag === '@inheritDoc' && inTags && !inTsdocTags && !inTsdocJsonTags) continue;
+            if (tag === "@inheritDoc" && inTags && !inTsdocTags && !inTsdocJsonTags) continue;
             if (!inTags) {
                 console.log(`${namePascal} tag ${tag} not found in ${name}Tags.`);
             }
