@@ -1098,19 +1098,19 @@ export class ReflectionType extends Type {
 
     protected override getTypeString() {
         const parts: string[] = [];
-        const sigs = this.declaration.getAllSignatures();
+        const sigs = this.declaration.getNonIndexSignatures();
         for (const sig of sigs) {
             parts.push(sigStr(sig, ": "));
         }
 
-        if (this.declaration.children) {
-            for (const p of this.declaration.children) {
-                parts.push(`${p.name}${propertySep(p)} ${typeStr(p.type)}`);
-            }
-            return `{ ${parts.join("; ")} }`;
+        for (const p of this.declaration.children || []) {
+            parts.push(`${p.name}${propertySep(p)} ${typeStr(p.type)}`);
+        }
+        for (const s of this.declaration.indexSignatures || []) {
+            parts.push(sigStr(s, ": ", "[]"));
         }
 
-        if (sigs.length === 1) {
+        if (sigs.length === 1 && parts.length === 1) {
             return sigStr(sigs[0], " => ");
         }
 
@@ -1486,11 +1486,11 @@ function typeStr(type: Type | undefined) {
     return type?.toString() ?? "any";
 }
 
-function sigStr(sig: SignatureReflection, sep: string) {
+function sigStr(sig: SignatureReflection, sep: string, brackets = "()") {
     const params = joinArray(
         sig.parameters,
         ", ",
         (p) => `${p.name}${propertySep(p)} ${typeStr(p.type)}`,
     );
-    return `(${params})${sep}${typeStr(sig.type)}`;
+    return `${brackets[0]}${params}${brackets[1]}${sep}${typeStr(sig.type)}`;
 }

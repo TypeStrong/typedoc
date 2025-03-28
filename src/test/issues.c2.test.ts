@@ -2042,4 +2042,12 @@ describe("Issue Tests", () => {
         const exp = query(project, "export=");
         equal(exp.type?.toString(), "never[]");
     });
+
+    it("#2917 stringifies index signatures", () => {
+        const project = convert();
+        const data = query(project, "Foo.data");
+        equal(data.type?.toString(), "{ [key: string]: any }");
+        const mixed = query(project, "Foo.mixed");
+        equal(mixed.type?.toString(), "{ (): string; a: string; [key: string]: any }");
+    });
 });

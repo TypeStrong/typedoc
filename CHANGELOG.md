@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- API: `toString` on types containing index signatures now behave correctly, #2917.
+
 ## v0.28.1 (2025-03-20)
 
 ### Features
