@@ -2050,4 +2050,16 @@ describe("Issue Tests", () => {
         const mixed = query(project, "Foo.mixed");
         equal(mixed.type?.toString(), "{ (): string; a: string; [key: string]: any }");
     });
+
+    it("#2920 handles inlining union types", () => {
+        const project = convert();
+        const test = querySig(project, "test");
+        equal(test.parameters?.[0].type?.toString(), '"main" | "test"');
+
+        const test2 = query(project, "NotInlined");
+        equal(test2.type?.toString(), "InlinedConditional<string>");
+
+        const test3 = query(project, "InlineArray");
+        equal(test3.type?.toString(), "string[]");
+    });
 });

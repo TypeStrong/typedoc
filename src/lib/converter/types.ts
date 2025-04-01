@@ -653,6 +653,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
+        // Don't use the third parameter here or you break convertTypeInline
         const symbol = type.getSymbol();
         const reflection = new DeclarationReflection(
             "__type",
@@ -764,16 +765,7 @@ const referenceConverter: TypeConverter<
             !node.typeArguments &&
             context.shouldInline(symbol, name)
         ) {
-            // typeLiteralConverter doesn't use the node, so we can get away with lying here.
-            // This might not actually be safe, it appears that it is in the relatively small
-            // amount of testing I've done with it, but I wouldn't be surprised if someone manages
-            // to find a crash.
-            return typeLiteralConverter.convertType(
-                context,
-                type,
-                null!,
-                undefined,
-            );
+            return convertTypeInlined(context, type);
         }
 
         const ref = context.createSymbolReference(
@@ -808,16 +800,7 @@ const referenceConverter: TypeConverter<
         }
 
         if (context.shouldInline(symbol, name)) {
-            // typeLiteralConverter doesn't use the node, so we can get away with lying here.
-            // This might not actually be safe, it appears that it is in the relatively small
-            // amount of testing I've done with it, but I wouldn't be surprised if someone manages
-            // to find a crash.
-            return typeLiteralConverter.convertType(
-                context,
-                type,
-                null!,
-                undefined,
-            );
+            return convertTypeInlined(context, type);
         }
 
         const ref = context.createSymbolReference(
@@ -1258,4 +1241,37 @@ function normalizeUnion(types: SomeType[]) {
             new IntrinsicType("boolean"),
         );
     }
+}
+
+function convertTypeInlined(context: Context, type: ts.Type): SomeType {
+    if (type.isUnion()) {
+        const types = type.types.map(type => convertType(context, type));
+        return new UnionType(types);
+    }
+
+    if (type.isIntersection()) {
+        const types = type.types.map(type => convertType(context, type));
+        return new IntersectionType(types);
+    }
+
+    if (type.isLiteral()) {
+        return new LiteralType(
+            typeof type.value === "object"
+                ? BigInt(type.value.base10Value) * (type.value.negative ? -1n : 1n)
+                : type.value,
+        );
+    }
+
+    if (context.checker.isArrayType(type)) {
+        const elementType = convertType(context, context.checker.getTypeArguments(type as ts.TypeReference)[0]);
+        return new ArrayType(elementType);
+    }
+
+    // typeLiteralConverter doesn't use the node, so we can get away with lying here.
+    return typeLiteralConverter.convertType(
+        context,
+        type,
+        null!,
+        undefined,
+    );
 }

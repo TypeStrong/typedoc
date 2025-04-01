@@ -13,7 +13,10 @@ TypeDoc converts references to type aliases and interfaces.
 
 The `@inline` tag may be placed on type aliases and interfaces. When a type is
 annotated with `@inline` and the type is referenced, TypeDoc will attempt to inline
-the referenced type within the other type.
+the referenced type within the other type. TypeDoc is unable to inline some types,
+notably type references with type parameters in some cases, and may make incorrect
+guesses about the shape of types which aren't object literals, unions, intersections,
+or literals. Please report a bug if `@inline` incorrectly converts a type.
 
 > [!note]
 > Use of this tag can _significantly_ increase the size of your generated

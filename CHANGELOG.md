@@ -6,6 +6,7 @@ title: Changelog
 
 ### Bug Fixes
 
+- Inlining types can now handle more type variants, #2920.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
 
 ## v0.28.1 (2025-03-20)
