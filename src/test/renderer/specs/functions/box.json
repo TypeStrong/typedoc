@@ -105,7 +105,7 @@
                                 {
                                     "div.tsd-description": [
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Signature comment</p>\n"
+                                            "div.tsd-comment.tsd-typography": "<p>Signature comment\n#2921 !Promise</p>\n"
                                         },
                                         {
                                             "section.tsd-panel": [
@@ -197,7 +197,7 @@
                                                             "props": {
                                                                 "href": "index.ts"
                                                             },
-                                                            "children": "index.ts:109"
+                                                            "children": "index.ts:110"
                                                         }
                                                     ]
                                                 }

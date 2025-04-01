@@ -104,6 +104,7 @@ export type UnionComments =
 
 /**
  * Signature comment
+ * #2921 {@link !Promise}
  * @param item Item comment
  */
 export function box<T>(item: T) {

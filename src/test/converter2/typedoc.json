@@ -10,5 +10,11 @@
             "name": "json",
             "path": "../../../docs/docs.json"
         }
-    ]
+    ],
+    "externalSymbolLinkMappings": {
+        // used by {@link !Promise}
+        "global": {
+            "Promise": "#"
+        }
+    }
 }
