@@ -2043,6 +2043,43 @@ describe("Issue Tests", () => {
         equal(exp.type?.toString(), "never[]");
     });
 
+    it("#2914 does not categorize @class constructor if class is categorized", () => {
+        app.options.setValue("categorizeByGroup", false);
+        const project = convert();
+        const Bug1 = query(project, "Bug1");
+        equal(Bug1.children?.map(c => c.name), ["constructor", "x"]);
+        equal(Bug1.categories === undefined, true, "Should not have categories");
+
+        equal(project.categories?.length, 2);
+        equal(project.categories[0].title, "Bug");
+        equal(project.categories[1].title, "Other");
+    });
+
+    it("#2914 includes constructor parameters", () => {
+        app.options.setValue("categorizeByGroup", false);
+        const project = convert();
+        const ctor = querySig(project, "Bug2.constructor");
+        equal(ctor.parameters?.length, 1);
+        equal(ctor.parameters[0].name, "x");
+        equal(ctor.parameters[0].type?.toString(), "string");
+    });
+
+    it("#2914 converts constructor type parameters as class type parameters", () => {
+        const project = convert();
+        const Bug3 = query(project, "Bug3");
+        equal(Bug3.typeParameters?.length, 1);
+        equal(Bug3.typeParameters[0].type?.toString(), "string");
+        const ctor = querySig(project, "Bug3.constructor");
+        equal(ctor.typeParameters, undefined);
+    });
+
+    it("#2914 includes call signatures on the class type", () => {
+        const project = convert();
+        const Bug4 = query(project, "Bug4");
+        equal(Bug4.signatures?.length, 1);
+        equal(Bug4.signatures[0].type?.toString(), "U");
+    });
+
     it("#2917 stringifies index signatures", () => {
         const project = convert();
         const data = query(project, "Foo.data");

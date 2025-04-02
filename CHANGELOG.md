@@ -6,6 +6,10 @@ title: Changelog
 
 ### Bug Fixes
 
+- Variables using `@class` now correctly handle `@category`, #2914.
+- Variables using `@class` now include constructor parameters, #2914.
+- Variables using `@class` with a generic first constructor function now adopt
+  that function's type parameters as the class type parameters, #2914.
 - Inlining types can now handle more type variants, #2920.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
 

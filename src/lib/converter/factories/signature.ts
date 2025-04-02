@@ -159,13 +159,31 @@ export function createConstructSignatureWithType(
 
     if (declaration) {
         sigRef.comment = context.getSignatureComment(declaration);
+        if (sigRef.comment?.discoveryId === context.scope.parent?.comment?.discoveryId) {
+            delete sigRef.comment;
+        }
     }
 
-    sigRef.typeParameters = convertTypeParameters(
+    const parameterSymbols: Array<ts.Symbol & { type?: ts.Type }> = signature.thisParameter
+        ? [signature.thisParameter, ...signature.parameters]
+        : [...signature.parameters];
+
+    // Prevent a `this` parameter from appearing on constructor signature
+    // as TS disallows them on regular classes.
+    if (parameterSymbols[0]?.name === "this") {
+        parameterSymbols.shift();
+    }
+
+    sigRef.parameters = convertParameters(
         sigRefCtx,
         sigRef,
-        signature.typeParameters,
+        parameterSymbols,
+        declaration?.parameters,
     );
+    sigRef.parameters = convertParameters(sigRefCtx, sigRef, parameterSymbols, undefined);
+
+    // Do NOT convert type parameters here, they go on the class itself in the @class case
+    // See #2914.
 
     sigRef.type = ReferenceType.createResolvedReference(
         context.scope.parent!.name,
@@ -368,7 +386,7 @@ function checkForDestructuredParameterDefaults(
     }
 }
 
-function convertTypeParameters(
+export function convertTypeParameters(
     context: Context,
     parent: Reflection,
     parameters: readonly ts.TypeParameter[] | undefined,

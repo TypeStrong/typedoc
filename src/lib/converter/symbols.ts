@@ -14,7 +14,12 @@ import { getEnumFlags, hasAllFlags, hasAnyFlag, i18n, removeFlag } from "#utils"
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
-import { createConstructSignatureWithType, createSignature, createTypeParamReflection } from "./factories/signature.js";
+import {
+    convertTypeParameters,
+    createConstructSignatureWithType,
+    createSignature,
+    createTypeParamReflection,
+} from "./factories/signature.js";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc.js";
 import { getHeritageTypes } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
@@ -1276,6 +1281,10 @@ function convertSymbolAsClass(
         for (const sig of ctors) {
             createConstructSignatureWithType(constructContext, sig, reflection);
         }
+
+        // Take the type parameters from the first constructor signature and use
+        // them as the type parameters for the class, #2914
+        reflection.typeParameters = convertTypeParameters(rc, reflection, ctors[0].getTypeParameters());
 
         const instType = ctors[0].getReturnType();
         convertSymbols(rc, instType.getProperties());
