@@ -61,6 +61,7 @@ export interface Icons extends Record<ReflectionKind, () => JSX.Element> {
     checkbox(): JSX.Element;
     menu(): JSX.Element;
     search(): JSX.Element;
+    /** @deprecated */
     chevronSmall(): JSX.Element;
     anchor(): JSX.Element;
     folder(): JSX.Element;

@@ -56,7 +56,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                 <section class="tsd-panel tsd-index-panel">
                     <details class="tsd-index-content tsd-accordion" open={true}>
                         <summary class="tsd-accordion-summary tsd-index-summary">
-                            {context.icons.chevronSmall()}
+                            {context.icons.chevronDown()}
                             <h5 class="tsd-index-heading uppercase">
                                 {i18n.theme_index()}
                             </h5>
