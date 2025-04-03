@@ -10,6 +10,7 @@ title: Changelog
 - Variables using `@class` now include constructor parameters, #2914.
 - Variables using `@class` with a generic first constructor function now adopt
   that function's type parameters as the class type parameters, #2914.
+- When printing entry point globs which fail to match any paths, TypeDoc will no longer normalize the glob, #2918.
 - Inlining types can now handle more type variants, #2920.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
 

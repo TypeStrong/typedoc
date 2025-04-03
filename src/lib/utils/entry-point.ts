@@ -367,8 +367,10 @@ function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger)
         );
 
         if (result.length === 0) {
+            // #2918 - do not pass entry through nicePath here in case it contains
+            // windows path separators which should cause additional warnings.
             logger.warn(
-                i18n.glob_0_did_not_match_any_files(nicePath(entry)),
+                i18n.glob_0_did_not_match_any_files(entry),
             );
             if (entry.includes("\\") && !entry.includes("/")) {
                 logger.info(i18n.glob_should_use_posix_slash());
@@ -376,12 +378,12 @@ function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger)
         } else if (filtered.length === 0) {
             logger.warn(
                 i18n.entry_point_0_did_not_match_any_files_after_exclude(
-                    nicePath(entry),
+                    entry,
                 ),
             );
         } else if (filtered.length !== 1) {
             logger.verbose(
-                `Expanded ${nicePath(entry)} to:\n\t${
+                `Expanded ${entry} to:\n\t${
                     filtered
                         .map(nicePath)
                         .join("\n\t")

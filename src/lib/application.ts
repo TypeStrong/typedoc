@@ -890,12 +890,14 @@ export class Application extends AbstractComponent<
             const result = glob(entry, rootDir);
 
             if (result.length === 0) {
+                // #2918 - do not pass entry through nicePath here in case it contains
+                // windows path separators which should cause additional warnings.
                 this.logger.warn(
-                    i18n.entrypoint_did_not_match_files_0(nicePath(entry)),
+                    i18n.entrypoint_did_not_match_files_0(entry),
                 );
             } else if (result.length !== 1) {
                 this.logger.verbose(
-                    `Expanded ${nicePath(entry)} to:\n\t${
+                    `Expanded ${entry} to:\n\t${
                         result
                             .map(nicePath)
                             .join("\n\t")
