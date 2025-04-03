@@ -4,15 +4,14 @@
 Error.stackTraceLimit = 50;
 import ts from "typescript";
 import fs from "fs";
-import { rm } from "fs/promises";
 import path, { basename, join } from "path";
 import * as td from "../dist/index.js";
 import { getExpandedEntryPointsForPaths } from "../dist/lib/utils/index.js";
 import { ok } from "assert";
 import { fileURLToPath } from "url";
 import { diagnostics } from "../dist/lib/utils/loggers.js";
-import { getConverter2App, getConverter2Project, getConverterApp } from "../dist/test/programs.js";
-import { TestRouter, TestTheme } from "../dist/test/renderer/testRendererUtils.js";
+import { getConverterApp } from "../dist/test/programs.js";
+import { buildRendererSpecs } from "../dist/test/renderer/testRendererUtils.js";
 
 const base = path.join(
     fileURLToPath(import.meta.url),
@@ -20,10 +19,6 @@ const base = path.join(
 );
 
 const app = getConverterApp();
-const app2 = getConverter2App();
-
-app2.renderer.defineTheme("test-theme", TestTheme);
-app2.renderer.defineRouter("test-router", TestRouter);
 
 app.serializer.addSerializer({
     priority: -1,
@@ -128,19 +123,7 @@ function rebuildConverterTests(dirs) {
 /** @param {string} specPath */
 async function rebuildRendererTest(specPath) {
     console.log(specPath);
-    await rm(specPath, { recursive: true, force: true });
-
-    app2.options.setValue("theme", "test-theme");
-    app2.options.setValue("router", "test-router");
-    app2.options.setValue("disableGit", true);
-    app2.options.setValue("sourceLinkTemplate", "{path}");
-
-    td.resetReflectionID();
-    const project = getConverter2Project(["renderer"], ".");
-    project.readme = [{ kind: "text", text: "Readme text" }];
-    await app2.generateDocs(project, specPath);
-    await rm(`${specPath}/assets`, { recursive: true });
-    await rm(`${specPath}/.nojekyll`);
+    await buildRendererSpecs(specPath);
 }
 
 async function main() {

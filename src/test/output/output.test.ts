@@ -24,6 +24,9 @@ describe("Output", () => {
     });
 
     beforeEach(() => {
+        // Throw away output configuration for debug rendering of c2 projects
+        app.options.reset();
+
         outputs = new Outputs(app);
         outputs.addOutput("html", () => {
             htmlWritten = true;

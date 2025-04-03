@@ -1,8 +1,10 @@
-import type { Reflection } from "#models";
+import { type Reflection, resetReflectionID } from "#models";
 import { loadTestHighlighter } from "#node-utils";
+import { rm } from "node:fs/promises";
 import { DefaultTheme, KindRouter, PageEvent, PageKind, type RenderTemplate } from "../../lib/output/index.js";
 import { type JsxChildren, type JsxElement, JsxFragment } from "../../lib/utils-common/jsx.elements.js";
 import { Raw } from "../../lib/utils-common/jsx.js";
+import { getConverter2App, getConverter2Project } from "../programs.js";
 
 function shouldIgnoreElement(el: JsxElement) {
     switch (el.tag) {
@@ -134,4 +136,31 @@ export class TestTheme extends DefaultTheme {
 
 export class TestRouter extends KindRouter {
     override extension = ".json";
+}
+
+export async function buildRendererSpecs(specPath: string) {
+    await rm(specPath, { recursive: true, force: true });
+
+    const app2 = getConverter2App();
+    app2.renderer.defineTheme("test-theme", TestTheme);
+    app2.renderer.defineRouter("test-router", TestRouter);
+
+    const snap = app2.options.snapshot();
+
+    app2.options.setValue("options", "src/test/converter2/typedoc.json");
+    await app2.options.read(app2.logger);
+
+    app2.options.setValue("theme", "test-theme");
+    app2.options.setValue("router", "test-router");
+
+    resetReflectionID();
+    const project = getConverter2Project(["renderer"], ".");
+    project.readme = [{ kind: "text", text: "Readme text" }];
+    await app2.generateDocs(project, specPath);
+    await rm(`${specPath}/assets`, { recursive: true });
+    await rm(`${specPath}/.nojekyll`);
+
+    app2.renderer.removeTheme("test-theme");
+    app2.renderer.removeRouter("test-router");
+    app2.options.restore(snap);
 }

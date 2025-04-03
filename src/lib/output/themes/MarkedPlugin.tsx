@@ -159,7 +159,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                 let url: string | undefined;
                                 let kindClass: string | undefined;
                                 if (typeof part.target === "string") {
-                                    url = part.target;
+                                    url = part.target === "#" ? undefined : part.target;
                                 } else if ("id" in part.target) {
                                     // No point in trying to resolve a ReflectionSymbolId at this point, we've already
                                     // tried and failed during the resolution step. Warnings related to those broken links

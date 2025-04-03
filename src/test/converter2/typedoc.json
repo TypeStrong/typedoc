@@ -11,6 +11,12 @@
             "path": "../../../docs/docs.json"
         }
     ],
+    "disableGit": true,
+    "sourceLinkTemplate": "{path}",
+    "excludeExternals": true,
+    "tsconfig": "tsconfig.json",
+    "validation": true,
+    "skipErrorChecking": true,
     "externalSymbolLinkMappings": {
         // used by {@link !Promise}
         "global": {

@@ -15,6 +15,7 @@ import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { diagnostics } from "../lib/utils/loggers.js";
+import { readFile } from "#node-utils";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -112,18 +113,14 @@ export function getConverter2Base() {
 export function getConverter2App() {
     if (!converter2App) {
         converter2App = createAppForTesting();
-        for (
-            const [name, value] of Object.entries(
-                {
-                    excludeExternals: true,
-                    tsconfig: join(getConverter2Base(), "tsconfig.json"),
-                    validation: true,
-                    skipErrorChecking: true,
-                } satisfies TypeDocOptions,
-            )
-        ) {
-            converter2App.options.setValue(name as never, value as never);
+
+        // This is a base-bones version of the TypeDocReader's read method
+        // which doesn't handle a JS config, so can be done synchronously
+        const result = ts.readConfigFile(join(getConverter2Base(), "typedoc.json"), readFile);
+        for (const [name, value] of Object.entries(result.config)) {
+            converter2App.options.setValue(name as never, value as never, getConverter2Base());
         }
+
         new TSConfigReader().read(
             converter2App.options,
             converter2App.logger,

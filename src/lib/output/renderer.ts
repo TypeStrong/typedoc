@@ -288,6 +288,11 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.themes.set(name, theme);
     }
 
+    /** @internal intended for test usage only */
+    removeTheme(name: string) {
+        this.themes.delete(name);
+    }
+
     /**
      * Define a new router that can be used to determine the output structure.
      * @param name
@@ -298,6 +303,11 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             throw new Error(`The router "${name}" has already been defined.`);
         }
         this.routers.set(name, router);
+    }
+
+    /** @internal intended for test usage only */
+    removeRouter(name: string) {
+        this.routers.delete(name);
     }
 
     /**
