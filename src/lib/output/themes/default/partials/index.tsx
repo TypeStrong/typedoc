@@ -1,16 +1,15 @@
-import { classNames, renderName } from "../../lib.js";
+import { classNames, getMemberSections, isNoneSection, type MemberSection, renderName } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { i18n, JSX } from "#utils";
-import type { ContainerReflection, ReflectionCategory, ReflectionGroup } from "../../../../models/index.js";
+import type { ContainerReflection } from "../../../../models/index.js";
 
-function renderCategory(
+function renderSection(
     { urlTo, reflectionIcon, getReflectionClasses, markdown }: DefaultThemeRenderContext,
-    item: ReflectionCategory | ReflectionGroup,
-    prependName = "",
+    item: MemberSection,
 ) {
     return (
         <section class="tsd-index-section">
-            <h3 class="tsd-index-heading">{prependName ? `${prependName} - ${item.title}` : item.title}</h3>
+            {!isNoneSection(item) && <h3 class="tsd-index-heading">{item.title}</h3>}
             {item.description && (
                 <div class="tsd-comment tsd-typography">
                     <JSX.Raw html={markdown(item.description)} />
@@ -38,17 +37,7 @@ function renderCategory(
 }
 
 export function index(context: DefaultThemeRenderContext, props: ContainerReflection) {
-    let content: JSX.Element | JSX.Element[] = [];
-
-    if (props.categories?.length) {
-        content = props.categories.map((item) => renderCategory(context, item));
-    } else if (props.groups?.length) {
-        content = props.groups.flatMap((item) =>
-            item.categories
-                ? item.categories.map((item2) => renderCategory(context, item2, item.title))
-                : renderCategory(context, item)
-        );
-    }
+    const sections = getMemberSections(props);
 
     return (
         <>
@@ -61,7 +50,7 @@ export function index(context: DefaultThemeRenderContext, props: ContainerReflec
                                 {i18n.theme_index()}
                             </h5>
                         </summary>
-                        <div class="tsd-accordion-details">{content}</div>
+                        <div class="tsd-accordion-details">{sections.map(s => renderSection(context, s))}</div>
                     </details>
                 </section>
             </section>

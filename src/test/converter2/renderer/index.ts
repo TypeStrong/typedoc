@@ -111,4 +111,24 @@ export function box<T>(item: T) {
     return { box: item };
 }
 
+export interface NoneCategory {
+    /** @category none */
+    a: 1;
+    b: 2;
+    /** @group none @category none */
+    c: 3;
+}
+
+export interface NoneGroup {
+    /** @group none */
+    a: 1;
+    b: 2;
+}
+
+/** @disableGroups */
+export interface DisabledGroups {
+    a: 1;
+    b(): void;
+}
+
 export * as ExpandType from "./expandType";

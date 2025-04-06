@@ -4,6 +4,13 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- `@group none` and `@category none` will now render their children without a section
+  heading in the default theme, #2922.
+- Added `@disableGroups` tag to completely disable the grouping mechanism for a
+  given reflection, #2922.
+
 ### Bug Fixes
 
 - Variables using `@class` now correctly handle `@category`, #2914.

@@ -152,6 +152,9 @@ export async function buildRendererSpecs(specPath: string) {
 
     app2.options.setValue("theme", "test-theme");
     app2.options.setValue("router", "test-router");
+    // Unfortunate not to set this in typedoc.json for converter2, but plenty
+    // of tests expect to test the default option, not this.
+    app2.options.setValue("categorizeByGroup", true);
 
     resetReflectionID();
     const project = getConverter2Project(["renderer"], ".");

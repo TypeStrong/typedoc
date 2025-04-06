@@ -42,9 +42,15 @@ Defaults to 'Other'
 }
 ```
 
-Array option which allows overriding the order categories display in. A string of `*` indicates where categories that are not in the list should appear.
+Array option which allows overriding the order categories display in. A string
+of `*` indicates where categories that are not in the list should appear.
 
-Categories whose order is not specified will be sorted alphabetically. If `*` is not specified and unknown categories are found, they will be listed at the end by default.
+Categories whose order is not specified will be sorted alphabetically. If `*` is
+not specified and unknown categories are found, they will be listed at the end
+by default.
+
+A category called `none` (case-insensitive) is reserved and treated specially by
+the default theme to be displayed without a category before other categories.
 
 ## groupOrder
 
@@ -55,9 +61,15 @@ Categories whose order is not specified will be sorted alphabetically. If `*` is
 }
 ```
 
-Array option which allows overriding the order groups display in. A string of `*` indicates where groups that are not in the list should appear.
+Array option which allows overriding the order groups display in. A string of
+`*` indicates where groups that are not in the list should appear.
 
-Groups whose order is not specified will be sorted alphabetically. If `*` is not specified and unknown groups are found, they will be listed at the end by default.
+Groups whose order is not specified will be sorted alphabetically. If `*` is not
+specified and unknown groups are found, they will be listed at the end by
+default.
+
+A group called `none` (case-insensitive) is reserved and treated specially by
+the default theme to be displayed without a group heading before list of groups.
 
 ## sort
 

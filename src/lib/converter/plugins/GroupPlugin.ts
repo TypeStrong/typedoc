@@ -130,6 +130,9 @@ export class GroupPlugin extends ConverterComponent {
                 this.sortFunction(reflection.childrenIncludingDocuments);
             }
 
+            if (reflection.comment?.hasModifier("@disableGroups")) {
+                return;
+            }
             reflection.groups = this.getReflectionGroups(
                 reflection,
                 reflection.childrenIncludingDocuments,

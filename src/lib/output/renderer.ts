@@ -163,7 +163,7 @@ export interface RendererEvents {
  *    an instance of {@link IndexEvent}.
  *
  * @summary Writes HTML output from TypeDoc's models
- * @group Common
+ * @group None
  */
 export class Renderer extends AbstractComponent<Application, RendererEvents> {
     private routers = new Map<string, new (app: Application) => Router>([

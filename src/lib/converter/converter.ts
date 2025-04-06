@@ -92,7 +92,7 @@ export interface ConverterEvents {
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  *
- * @group Common
+ * @group None
  * @summary Responsible for converting TypeScript symbols into {@link Reflection}s and {@link Type}s.
  */
 export class Converter extends AbstractComponent<Application, ConverterEvents> {

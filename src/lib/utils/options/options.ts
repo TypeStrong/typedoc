@@ -92,7 +92,7 @@ const optionSnapshots = new WeakMap<
  * 4. argv (300) - Read argv again since any options set there should override those set in config
  *    files.
  *
- * @group Common
+ * @group None
  * @summary Contains all of TypeDoc's option declarations & values
  */
 export class Options {

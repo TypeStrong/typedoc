@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // @ts-check
 // Helper script to download recently updated plugins
 // Used to review code changes for breaking changes.
@@ -95,7 +96,7 @@ async function main(args) {
     );
     console.log(`Inflating...`);
     await Promise.all(tarballFiles.map(inflate));
-    console.log(`Done.`);
+    console.log(`Done, plugins are in ../typedoc_plugins`);
 }
 
 main(process.argv.slice(2)).catch(console.error);

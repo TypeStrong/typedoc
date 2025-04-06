@@ -115,7 +115,7 @@ examples for how to use the export ([`@example`](./tags/example.md)).
 - [`@document`](./tags/document.md)
 - [`@example`](./tags/example.md)
 - [`@expandType`](./tags/expand.md#expandtype)
-- [`@group`, `@groupDescription`, `@showGroups`, `@hideGroups`](./tags/group.md)
+- [`@group`, `@groupDescription`, `@showGroups`, `@hideGroups`, `@disableGroups`](./tags/group.md)
 - [`@import`](./tags/import.md)
 - [`@inlineType`](./tags/inline.md#inlinetype)
 - [`@license`](./tags/license.md)

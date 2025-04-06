@@ -100,7 +100,7 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     private categorize(obj: ContainerReflection) {
-        if (this.categorizeByGroup) {
+        if (this.categorizeByGroup && obj.groups) {
             this.groupCategorize(obj);
         } else {
             this.lumpCategorize(obj);

@@ -99,7 +99,7 @@ export interface ApplicationEvents {
  * Access to an Application instance can be retrieved with {@link Application.bootstrap} or
  * {@link Application.bootstrapWithPlugins}. It can not be constructed manually.
  *
- * @group Common
+ * @group None
  * @summary Root level class which contains most useful behavior.
  */
 export class Application extends AbstractComponent<
@@ -243,7 +243,7 @@ export class Application extends AbstractComponent<
      * @example
      * Initialize the application with pretty-printing output disabled.
      * ```ts
-     * const app = Application.bootstrap({ pretty: false });
+     * const app = await Application.bootstrap({ pretty: false });
      * ```
      *
      * @param options Options to set during initialization

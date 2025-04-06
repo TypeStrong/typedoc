@@ -309,6 +309,75 @@
                                 },
                                 {
                                     "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#disabledgroups": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "interfaces/DisabledGroups.json"
+                                                },
+                                                "children": "DisabledGroups"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#disabledgroups",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#nonecategory": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "interfaces/NoneCategory.json"
+                                                },
+                                                "children": "NoneCategory"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#nonecategory",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#nonegroup": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "interfaces/NoneGroup.json"
+                                                },
+                                                "children": "NoneGroup"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#nonegroup",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
                                 }
                             ]
                         }
@@ -619,21 +688,68 @@
                                             "children": "Interfaces"
                                         },
                                         {
-                                            "div": {
-                                                "tag": "a",
-                                                "props": {
-                                                    "href": "#baseinterface"
+                                            "div": [
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#baseinterface"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "Base",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Interface"
+                                                        ]
+                                                    }
                                                 },
-                                                "children": {
-                                                    "span": [
-                                                        "Base",
-                                                        {
-                                                            "wbr": []
-                                                        },
-                                                        "Interface"
-                                                    ]
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#disabledgroups"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "Disabled",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Groups"
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#nonecategory"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "None",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Category"
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#nonegroup"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "None",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Group"
+                                                        ]
+                                                    }
                                                 }
-                                            }
+                                            ]
                                         }
                                     ]
                                 },

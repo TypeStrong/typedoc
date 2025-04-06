@@ -51,7 +51,7 @@ const supportedSchemaVersions = [JSONOutput.SCHEMA_VERSION];
 /**
  * Deserializes TypeDoc's JSON output back to {@link Reflection} instances.
  *
- * @group Common
+ * @group None
  * @summary Deserializes TypeDoc's JSON output
  */
 export class Deserializer {

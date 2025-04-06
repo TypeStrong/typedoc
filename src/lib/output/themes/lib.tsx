@@ -101,29 +101,6 @@ export function renderTypeParametersSignature(
     typeParameters: readonly TypeParameterReflection[] | undefined,
 ): JSX.Element {
     if (!typeParameters || typeParameters.length === 0) return <></>;
-    const hideParamTypes = false; // context.options.getValue("hideTypesInSignatureTitle");
-
-    if (hideParamTypes) {
-        return (
-            <>
-                <span class="tsd-signature-symbol">{"<"}</span>
-                {join(<span class="tsd-signature-symbol">{", "}</span>, typeParameters, (item) => (
-                    <>
-                        {(item.flags.isConst || item.varianceModifier) && (
-                            <span class="tsd-signature-keyword">
-                                {item.flags.isConst && "const "}
-                                {item.varianceModifier && `${item.varianceModifier} `}
-                            </span>
-                        )}
-                        <a class="tsd-signature-type tsd-kind-type-parameter" href={context.urlTo(item)}>
-                            {item.name}
-                        </a>
-                    </>
-                ))}
-                <span class="tsd-signature-symbol">{">"}</span>
-            </>
-        );
-    }
 
     return (
         <>
@@ -199,7 +176,21 @@ export function getHierarchyRoots(project: ProjectReflection): DeclarationReflec
     return result;
 }
 
-export interface MemberSections {
+export function isNoneSection(section: MemberSection) {
+    return section.title.toLocaleLowerCase() === "none";
+}
+
+function sortNoneSectionFirst(a: MemberSection, b: MemberSection) {
+    if (isNoneSection(a)) {
+        return -1;
+    }
+    if (isNoneSection(b)) {
+        return 1;
+    }
+    return 0;
+}
+
+export interface MemberSection {
     title: string;
     description?: CommentDisplayPart[];
     children: Array<DocumentReflection | DeclarationReflection>;
@@ -208,7 +199,7 @@ export interface MemberSections {
 export function getMemberSections(
     parent: ContainerReflection,
     childFilter: (refl: Reflection) => boolean = () => true,
-): MemberSections[] {
+): MemberSection[] {
     if (parent.categories?.length) {
         return filterMap(parent.categories, (cat) => {
             const children = cat.children.filter(childFilter);
@@ -218,17 +209,17 @@ export function getMemberSections(
                 description: cat.description,
                 children,
             };
-        });
+        }).sort(sortNoneSectionFirst);
     }
 
     if (parent.groups?.length) {
         return parent.groups.flatMap((group) => {
             if (group.categories?.length) {
-                return filterMap(group.categories, (cat) => {
+                return filterMap(group.categories.slice().sort(sortNoneSectionFirst), (cat) => {
                     const children = cat.children.filter(childFilter);
                     if (!children.length) return;
                     return {
-                        title: `${group.title} - ${cat.title}`,
+                        title: isNoneSection(cat) ? group.title : `${group.title} - ${cat.title}`,
                         description: cat.description,
                         children,
                     };
@@ -242,7 +233,14 @@ export function getMemberSections(
                 description: group.description,
                 children,
             };
-        });
+        }).sort(sortNoneSectionFirst);
+    }
+
+    if (parent.children?.length) {
+        return [{
+            title: "none",
+            children: parent.children || [],
+        }];
     }
 
     return [];

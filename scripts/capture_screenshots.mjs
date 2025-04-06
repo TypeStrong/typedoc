@@ -7,7 +7,7 @@ import puppeteer from "puppeteer";
 
 const viewport = { width: 1024, height: 768 };
 
-class PQueue {
+export class PQueue {
     /** @private @type {Array<() => Promise<void>>} */
     _queued = [];
     /** @param {number} concurrency */

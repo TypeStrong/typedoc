@@ -7,7 +7,7 @@ import {
     ReflectionKind,
 } from "../../../../models/index.js";
 import { JSX } from "#utils";
-import { classNames, getDisplayName, getMemberSections, getUniquePath, join } from "../../lib.js";
+import { classNames, getDisplayName, getMemberSections, getUniquePath, isNoneSection, join } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorIcon } from "./anchor-icon.js";
 
@@ -29,25 +29,41 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                 </section>
             )}
 
-            {sections.map(({ title, children, description }) => {
-                context.page.startNewSection(title);
+            {sections.map((section) => {
+                if (!isNoneSection(section)) {
+                    context.page.startNewSection(section.title);
+                }
 
-                return (
-                    <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
-                        <summary class="tsd-accordion-summary" data-key={"section-" + title}>
-                            {context.icons.chevronDown()}
-                            <h2>
-                                {title}
-                            </h2>
-                        </summary>
-                        {description && (
+                const content = (
+                    <>
+                        {section.description && (
                             <div class="tsd-comment tsd-typography">
-                                <JSX.Raw html={context.markdown(description)} />
+                                <JSX.Raw html={context.markdown(section.description)} />
                             </div>
                         )}
                         <dl class="tsd-member-summaries">
-                            {children.map((item) => context.moduleMemberSummary(item))}
+                            {section.children.map((item) => context.moduleMemberSummary(item))}
                         </dl>
+                    </>
+                );
+
+                if (isNoneSection(section)) {
+                    return (
+                        <section class="tsd-panel-group tsd-member-group">
+                            {content}
+                        </section>
+                    );
+                }
+
+                return (
+                    <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
+                        <summary class="tsd-accordion-summary" data-key={"section-" + section.title}>
+                            {context.icons.chevronDown()}
+                            <h2>
+                                {section.title}
+                            </h2>
+                        </summary>
+                        {content}
                     </details>
                 );
             })}

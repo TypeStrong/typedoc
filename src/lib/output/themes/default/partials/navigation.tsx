@@ -164,12 +164,22 @@ function buildSectionNavigation(context: DefaultThemeRenderContext, headings: Pa
         levels[levels.length - 1].push(built);
     }
 
+    function getInferredHeadingLevel(heading: PageHeading) {
+        if (heading.level) {
+            // Regular heading
+            return heading.level + 2;
+        }
+        if (heading.kind) {
+            // Reflection
+            return 2;
+        }
+
+        // Group/category
+        return 1;
+    }
+
     for (const heading of headings) {
-        const inferredLevel = heading.level
-            ? heading.level + 2 // regular heading
-            : heading.kind
-            ? 2 // reflection
-            : 1; // group/category
+        const inferredLevel = getInferredHeadingLevel(heading);
         while (inferredLevel < levels.length) {
             finalizeLevel(false);
         }

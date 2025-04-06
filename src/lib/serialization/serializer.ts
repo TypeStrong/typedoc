@@ -13,7 +13,7 @@ export interface SerializerEvents {
 /**
  * Serializes TypeDoc's models to JSON
  *
- * @group Common
+ * @group None
  * @summary Serializes TypeDoc's models to JSON
  */
 export class Serializer extends EventDispatcher<SerializerEvents> {

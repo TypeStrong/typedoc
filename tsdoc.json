@@ -50,6 +50,11 @@
             "allowMultiple": true
         },
         {
+            "tagName": "@disableGroups",
+            "syntaxKind": "modifier",
+            "allowMultiple": false
+        },
+        {
             "tagName": "@category",
             "syntaxKind": "block",
             "allowMultiple": true
