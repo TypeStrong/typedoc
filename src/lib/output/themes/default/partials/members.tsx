@@ -10,9 +10,11 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
         <>
             {sections.map((section) => {
                 if (isNoneSection(section)) {
-                    <section class="tsd-panel-group tsd-member-group">
-                        {section.children.map((item) => context.member(item))}
-                    </section>;
+                    return (
+                        <section class="tsd-panel-group tsd-member-group">
+                            {section.children.map((item) => context.member(item))}
+                        </section>
+                    );
                 }
 
                 context.page.startNewSection(section.title);
