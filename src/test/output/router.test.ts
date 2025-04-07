@@ -330,6 +330,16 @@ describe("StructureDirRouter", () => {
             ),
             "../../Foo/#codegeneration",
         );
+
+        equal(
+            router.relativeUrl(
+                query(project, "Nested"),
+                query(project, "Nested.refl"),
+            ),
+            "refl/",
+        );
+
+        equal(router.relativeUrl(query(project, "Nested.refl"), query(project, "Nested")), "../");
     });
 });
 

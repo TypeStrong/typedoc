@@ -20,6 +20,7 @@ title: Changelog
 - When printing entry point globs which fail to match any paths, TypeDoc will no longer normalize the glob, #2918.
 - Inlining types can now handle more type variants, #2920.
 - Fixed behavior of `externalSymbolLinkMappings` option when URL is set to `#`, #2921.
+- Fixed broken links within module pages when structure-dir router was used, #2928.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
 
 ## v0.28.1 (2025-03-20)

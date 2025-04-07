@@ -221,6 +221,19 @@ export abstract class BaseRouter implements Router {
             // an own document.
             from = from.parent as RouterTarget;
         }
+
+        let toPage = to;
+        while (!this.hasOwnDocument(toPage)) {
+            toPage = toPage.parent as RouterTarget;
+        }
+
+        // We unfortunately have to special case ProjectReflection as it is
+        // the model used twice for rendering. This should be changed in a
+        // future version to remove this hackery.
+        if (from === toPage && !(to instanceof ProjectReflection)) {
+            return to === toPage ? "" : `#${this.getAnchor(to)}`;
+        }
+
         const fromUrl = this.getFullUrl(from);
         const toUrl = this.getFullUrl(to);
         let equal = true;
@@ -237,13 +250,15 @@ export abstract class BaseRouter implements Router {
             }
         }
 
-        if (equal && !(to instanceof ProjectReflection)) {
-            if (fromUrl === toUrl) {
-                return "";
-            }
-            return `#${this.getAnchor(to)}`;
+        // If equal is still set, we're going to a page either in
+        // the same directory as this page, or a lower directory,
+        // don't bother going up directories just to come back down.
+        if (equal) {
+            return toUrl.substring(start);
         }
 
+        // Otherwise, go up until we get to the common directory
+        // and then back down to the target path.
         return "../".repeat(slashes) + toUrl.substring(start);
     }
 
