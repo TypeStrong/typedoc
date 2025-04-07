@@ -205,74 +205,57 @@
                     }
                 },
                 {
-                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
-                    "props": {
-                        "open": true
-                    },
-                    "children": [
-                        {
-                            "tag": "summary.tsd-accordion-summary",
-                            "props": {
-                                "data-key": "section-none"
-                            },
-                            "children": {
-                                "h2": "none"
-                            }
-                        },
-                        {
-                            "section": {
-                                "section.tsd-panel.tsd-member": [
+                    "section.tsd-panel-group.tsd-member-group": {
+                        "section.tsd-panel.tsd-member": [
+                            {
+                                "h3.tsd-anchor-link#c": [
                                     {
-                                        "h3.tsd-anchor-link#c": [
-                                            {
-                                                "span": "c"
-                                            },
-                                            {
-                                                "tag": "a.tsd-anchor-icon",
-                                                "props": {
-                                                    "href": "#c",
-                                                    "aria-label": "Permalink"
-                                                }
-                                            }
-                                        ]
+                                        "span": "c"
                                     },
                                     {
-                                        "div.tsd-signature": [
-                                            {
-                                                "span.tsd-kind-property": "c"
-                                            },
-                                            {
-                                                "span.tsd-signature-symbol": ":"
-                                            },
-                                            " ",
-                                            {
-                                                "span.tsd-signature-type": "3"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "div.tsd-comment.tsd-typography": []
-                                    },
-                                    {
-                                        "aside.tsd-sources": {
-                                            "ul": {
-                                                "li": [
-                                                    "Defined in ",
-                                                    {
-                                                        "tag": "a",
-                                                        "props": {
-                                                            "href": "index.ts"
-                                                        },
-                                                        "children": "index.ts:119"
-                                                    }
-                                                ]
-                                            }
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#c",
+                                            "aria-label": "Permalink"
                                         }
                                     }
                                 ]
+                            },
+                            {
+                                "div.tsd-signature": [
+                                    {
+                                        "span.tsd-kind-property": "c"
+                                    },
+                                    {
+                                        "span.tsd-signature-symbol": ":"
+                                    },
+                                    " ",
+                                    {
+                                        "span.tsd-signature-type": "3"
+                                    }
+                                ]
+                            },
+                            {
+                                "div.tsd-comment.tsd-typography": []
+                            },
+                            {
+                                "aside.tsd-sources": {
+                                    "ul": {
+                                        "li": [
+                                            "Defined in ",
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "index.ts"
+                                                },
+                                                "children": "index.ts:119"
+                                            }
+                                        ]
+                                    }
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    }
                 },
                 {
                     "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
@@ -436,32 +419,6 @@
                                     "children": {
                                         "span": "c"
                                     }
-                                },
-                                {
-                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
-                                    "props": {
-                                        "open": true
-                                    },
-                                    "children": [
-                                        {
-                                            "tag": "summary.tsd-accordion-summary",
-                                            "props": {
-                                                "data-key": "section-none"
-                                            },
-                                            "children": "none"
-                                        },
-                                        {
-                                            "div": {
-                                                "tag": "a",
-                                                "props": {
-                                                    "href": "#c"
-                                                },
-                                                "children": {
-                                                    "span": "c"
-                                                }
-                                            }
-                                        }
-                                    ]
                                 },
                                 {
                                     "tag": "details.tsd-accordion.tsd-page-navigation-section",

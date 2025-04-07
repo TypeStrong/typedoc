@@ -153,145 +153,128 @@
                     }
                 },
                 {
-                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
-                    "props": {
-                        "open": true
-                    },
-                    "children": [
+                    "section.tsd-panel-group.tsd-member-group": [
                         {
-                            "tag": "summary.tsd-accordion-summary",
-                            "props": {
-                                "data-key": "section-none"
-                            },
-                            "children": {
-                                "h2": "none"
-                            }
-                        },
-                        {
-                            "section": [
+                            "section.tsd-panel.tsd-member": [
                                 {
-                                    "section.tsd-panel.tsd-member": [
+                                    "h3.tsd-anchor-link#a": [
                                         {
-                                            "h3.tsd-anchor-link#a": [
-                                                {
-                                                    "span": "a"
-                                                },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#a",
-                                                        "aria-label": "Permalink"
-                                                    }
-                                                }
-                                            ]
+                                            "span": "a"
                                         },
                                         {
-                                            "div.tsd-signature": [
-                                                {
-                                                    "span.tsd-kind-property": "a"
-                                                },
-                                                {
-                                                    "span.tsd-signature-symbol": ":"
-                                                },
-                                                " ",
-                                                {
-                                                    "span.tsd-signature-type": "1"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "aside.tsd-sources": {
-                                                "ul": {
-                                                    "li": [
-                                                        "Defined in ",
-                                                        {
-                                                            "tag": "a",
-                                                            "props": {
-                                                                "href": "index.ts"
-                                                            },
-                                                            "children": "index.ts:130"
-                                                        }
-                                                    ]
-                                                }
+                                            "tag": "a.tsd-anchor-icon",
+                                            "props": {
+                                                "href": "#a",
+                                                "aria-label": "Permalink"
                                             }
                                         }
                                     ]
                                 },
                                 {
-                                    "section.tsd-panel.tsd-member": [
+                                    "div.tsd-signature": [
                                         {
-                                            "h3.tsd-anchor-link#b": [
-                                                {
-                                                    "span": "b"
-                                                },
-                                                {
-                                                    "tag": "a.tsd-anchor-icon",
-                                                    "props": {
-                                                        "href": "#b",
-                                                        "aria-label": "Permalink"
-                                                    }
-                                                }
-                                            ]
+                                            "span.tsd-kind-property": "a"
                                         },
                                         {
-                                            "ul.tsd-signatures": {
-                                                "li.": [
+                                            "span.tsd-signature-symbol": ":"
+                                        },
+                                        " ",
+                                        {
+                                            "span.tsd-signature-type": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "aside.tsd-sources": {
+                                        "ul": {
+                                            "li": [
+                                                "Defined in ",
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "index.ts"
+                                                    },
+                                                    "children": "index.ts:130"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "section.tsd-panel.tsd-member": [
+                                {
+                                    "h3.tsd-anchor-link#b": [
+                                        {
+                                            "span": "b"
+                                        },
+                                        {
+                                            "tag": "a.tsd-anchor-icon",
+                                            "props": {
+                                                "href": "#b",
+                                                "aria-label": "Permalink"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "ul.tsd-signatures": {
+                                        "li.": [
+                                            {
+                                                "div.tsd-signature.tsd-anchor-link#b-1": [
                                                     {
-                                                        "div.tsd-signature.tsd-anchor-link#b-1": [
-                                                            {
-                                                                "span.tsd-kind-call-signature": "b"
-                                                            },
-                                                            {
-                                                                "span.tsd-signature-symbol": "()"
-                                                            },
-                                                            {
-                                                                "span.tsd-signature-symbol": ":"
-                                                            },
-                                                            " ",
+                                                        "span.tsd-kind-call-signature": "b"
+                                                    },
+                                                    {
+                                                        "span.tsd-signature-symbol": "()"
+                                                    },
+                                                    {
+                                                        "span.tsd-signature-symbol": ":"
+                                                    },
+                                                    " ",
+                                                    {
+                                                        "span.tsd-signature-type": "void"
+                                                    },
+                                                    {
+                                                        "tag": "a.tsd-anchor-icon",
+                                                        "props": {
+                                                            "href": "#b-1",
+                                                            "aria-label": "Permalink"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "div.tsd-description": [
+                                                    {
+                                                        "h4.tsd-returns-title": [
+                                                            "Returns ",
                                                             {
                                                                 "span.tsd-signature-type": "void"
-                                                            },
-                                                            {
-                                                                "tag": "a.tsd-anchor-icon",
-                                                                "props": {
-                                                                    "href": "#b-1",
-                                                                    "aria-label": "Permalink"
-                                                                }
                                                             }
                                                         ]
                                                     },
                                                     {
-                                                        "div.tsd-description": [
-                                                            {
-                                                                "h4.tsd-returns-title": [
-                                                                    "Returns ",
+                                                        "aside.tsd-sources": {
+                                                            "ul": {
+                                                                "li": [
+                                                                    "Defined in ",
                                                                     {
-                                                                        "span.tsd-signature-type": "void"
+                                                                        "tag": "a",
+                                                                        "props": {
+                                                                            "href": "index.ts"
+                                                                        },
+                                                                        "children": "index.ts:131"
                                                                     }
                                                                 ]
-                                                            },
-                                                            {
-                                                                "aside.tsd-sources": {
-                                                                    "ul": {
-                                                                        "li": [
-                                                                            "Defined in ",
-                                                                            {
-                                                                                "tag": "a",
-                                                                                "props": {
-                                                                                    "href": "index.ts"
-                                                                                },
-                                                                                "children": "index.ts:131"
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                }
                                                             }
-                                                        ]
+                                                        }
                                                     }
                                                 ]
                                             }
-                                        }
-                                    ]
+                                        ]
+                                    }
                                 }
                             ]
                         }
@@ -331,43 +314,6 @@
                                     "children": {
                                         "span": "b"
                                     }
-                                },
-                                {
-                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
-                                    "props": {
-                                        "open": true
-                                    },
-                                    "children": [
-                                        {
-                                            "tag": "summary.tsd-accordion-summary",
-                                            "props": {
-                                                "data-key": "section-none"
-                                            },
-                                            "children": "none"
-                                        },
-                                        {
-                                            "div": [
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "#a"
-                                                    },
-                                                    "children": {
-                                                        "span": "a"
-                                                    }
-                                                },
-                                                {
-                                                    "tag": "a",
-                                                    "props": {
-                                                        "href": "#b"
-                                                    },
-                                                    "children": {
-                                                        "span": "b"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         }
