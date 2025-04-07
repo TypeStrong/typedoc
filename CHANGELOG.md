@@ -23,6 +23,7 @@ title: Changelog
 - Fixed broken links within module pages when structure-dir router was used, #2928.
 - Type parameters on JS classes defined with `@typedef` now correctly handle the constraint, #2929.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
+- Added `@inlineType` to the list of tags excluded by default.
 
 ## v0.28.1 (2025-03-20)
 

@@ -2080,6 +2080,12 @@ describe("Issue Tests", () => {
         equal(Bug4.signatures[0].type?.toString(), "U");
     });
 
+    it("#2916 handles @inlineType on @typedef declared types", () => {
+        const project = convert();
+        const hello = querySig(project, "hello");
+        equal(hello.parameters?.[0].type?.toString(), "{ name: string }");
+    });
+
     it("#2917 stringifies index signatures", () => {
         const project = convert();
         const data = query(project, "Foo.data");

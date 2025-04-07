@@ -604,7 +604,7 @@ const predicateConverter: TypeConverter<ts.TypePredicateNode, ts.Type> = {
 
 // This is a horrible thing... we're going to want to split this into converters
 // for different types at some point.
-const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
+const typeLiteralConverter = {
     kind: [ts.SyntaxKind.TypeLiteral],
     convert(context, node) {
         const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
@@ -653,7 +653,6 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
         return new ReflectionType(reflection);
     },
     convertType(context, type) {
-        // Don't use the third parameter here or you break convertTypeInline
         const symbol = type.getSymbol();
         const reflection = new DeclarationReflection(
             "__type",
@@ -693,7 +692,7 @@ const typeLiteralConverter: TypeConverter<ts.TypeLiteralNode> = {
 
         return new ReflectionType(reflection);
     },
-};
+} satisfies TypeConverter<ts.TypeLiteralNode>;
 
 const queryConverter: TypeConverter<ts.TypeQueryNode> = {
     kind: [ts.SyntaxKind.TypeQuery],
@@ -1267,11 +1266,8 @@ function convertTypeInlined(context: Context, type: ts.Type): SomeType {
         return new ArrayType(elementType);
     }
 
-    // typeLiteralConverter doesn't use the node, so we can get away with lying here.
     return typeLiteralConverter.convertType(
         context,
         type,
-        null!,
-        undefined,
     );
 }

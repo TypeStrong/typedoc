@@ -38,6 +38,7 @@ export const excludeTags: readonly `@${string}`[] = [
     "@satisfies",
     "@overload",
     "@inline",
+    "@inlineType",
 ];
 
 export const blockTags: readonly `@${string}`[] = TagDefaults.blockTags;
