@@ -2099,4 +2099,14 @@ describe("Issue Tests", () => {
         const test3 = query(project, "InlineArray");
         equal(test3.type?.toString(), "string[]");
     });
+
+    it("#2929 handles type parameters on JS classes", () => {
+        const project = convert();
+        const NumberManager = query(project, "NumberManager");
+        equal(NumberManager.typeParameters?.map(t => t.type?.toString()), ["number"]);
+        equal(NumberManager.typeParameters?.map(t => t.default?.toString()), ["1"]);
+
+        const EdgeCases = query(project, "EdgeCases");
+        equal(EdgeCases.typeParameters?.map(t => t.type?.toString()), ["number", undefined]);
+    });
 });

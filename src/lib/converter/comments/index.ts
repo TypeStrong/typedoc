@@ -374,10 +374,15 @@ export function getJsDocComment(
     const tag = comment.getIdentifiedTag(name, `@${declaration.tagName.text}`);
 
     if (!tag) {
-        logger.error(
-            i18n.failed_to_find_jsdoc_tag_for_name_0(name),
-            declaration,
-        );
+        // If this is a template tag with multiple declarations, we warned already if there
+        // was a comment attached. If there wasn't, then don't error about failing to find
+        // a tag because this is unsupported.
+        if (!ts.isJSDocTemplateTag(declaration)) {
+            logger.error(
+                i18n.failed_to_find_jsdoc_tag_for_name_0(name),
+                declaration,
+            );
+        }
     } else {
         const result = new Comment(Comment.cloneDisplayParts(tag.content));
         result.sourcePath = comment.sourcePath;

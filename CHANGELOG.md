@@ -21,6 +21,7 @@ title: Changelog
 - Inlining types can now handle more type variants, #2920.
 - Fixed behavior of `externalSymbolLinkMappings` option when URL is set to `#`, #2921.
 - Fixed broken links within module pages when structure-dir router was used, #2928.
+- Type parameters on JS classes defined with `@typedef` now correctly handle the constraint, #2929.
 - API: `toString` on types containing index signatures now behave correctly, #2917.
 
 ## v0.28.1 (2025-03-20)

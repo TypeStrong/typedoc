@@ -453,12 +453,23 @@ export function createTypeParamReflection(
         getVariance(param.modifiers),
     );
     const paramScope = context.withScope(paramRefl);
-    paramRefl.type = param.constraint
-        ? context.converter.convertType(paramScope, param.constraint)
-        : void 0;
+
+    if (ts.isJSDocTemplateTag(param.parent)) {
+        // With a @template tag, the constraint applies only to the
+        // first type parameter declared.
+        if (param.parent.typeParameters[0].name.text === param.name.text && param.parent.constraint) {
+            paramRefl.type = context.converter.convertType(paramScope, param.parent.constraint);
+        }
+    } else {
+        paramRefl.type = param.constraint
+            ? context.converter.convertType(paramScope, param.constraint)
+            : void 0;
+    }
+
     paramRefl.default = param.default
         ? context.converter.convertType(paramScope, param.default)
         : void 0;
+
     if (param.modifiers?.some((m) => m.kind === ts.SyntaxKind.ConstKeyword)) {
         paramRefl.flags.setFlag(ReflectionFlag.Const, true);
     }
