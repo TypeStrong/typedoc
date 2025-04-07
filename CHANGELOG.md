@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.2 (2025-04-07)
+
 ### Features
 
 - `@group none` and `@category none` will now render their children without a section
