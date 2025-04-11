@@ -1009,7 +1009,7 @@ const thisConverter: TypeConverter<ts.ThisTypeNode> = {
     },
 };
 
-const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
+const tupleConverter = {
     kind: [ts.SyntaxKind.TupleType],
     convert(context, node) {
         const elements = node.elements.map((node) => convertType(context, node));
@@ -1061,7 +1061,7 @@ const tupleConverter: TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference> = {
 
         return new TupleType(elements ?? []);
     },
-};
+} satisfies TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference>;
 
 const supportedOperatorNames = {
     [ts.SyntaxKind.KeyOfKeyword]: "keyof",
@@ -1264,6 +1264,12 @@ function convertTypeInlined(context: Context, type: ts.Type): SomeType {
     if (context.checker.isArrayType(type)) {
         const elementType = convertType(context, context.checker.getTypeArguments(type as ts.TypeReference)[0]);
         return new ArrayType(elementType);
+    }
+    if (isTypeReference(type) && context.checker.isTupleType(type)) {
+        const tupleNode = context.checker.typeToTypeNode(type.target, void 0, ts.NodeBuilderFlags.IgnoreErrors)!;
+        if (ts.isTupleTypeNode(tupleNode)) {
+            return tupleConverter.convertType(context, type as ts.TupleTypeReference, tupleNode);
+        }
     }
 
     return typeLiteralConverter.convertType(

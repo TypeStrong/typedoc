@@ -22,6 +22,7 @@ export class EventDispatcher<T extends Record<keyof T, unknown[]>> {
      * @param event the event to listen to.
      * @param listener function to be called when an this event is emitted.
      * @param priority optional priority to insert this hook with.
+     *  Higher priority is placed earlier in the listener array.
      */
     on<K extends keyof T>(
         event: K,

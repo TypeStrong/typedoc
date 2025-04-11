@@ -2115,4 +2115,10 @@ describe("Issue Tests", () => {
         const EdgeCases = query(project, "EdgeCases");
         equal(EdgeCases.typeParameters?.map(t => t.type?.toString()), ["number", undefined]);
     });
+
+    it("#2932 handles @inline on tuple types", () => {
+        const project = convert();
+        const sig = querySig(project, "doStuff");
+        equal(sig.parameters?.[0].type?.toString(), "[start: number, end: number]");
+    });
 });

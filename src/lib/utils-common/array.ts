@@ -3,6 +3,7 @@ export const emptyArray: readonly [] = [];
 /**
  * Inserts an item into an array sorted by priority. If two items have the same priority,
  * the item will be inserted later will be placed later in the array.
+ * Higher priority is placed earlier in the array.
  * @param arr modified by inserting item.
  * @param item
  */
