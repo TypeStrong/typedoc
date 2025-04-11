@@ -2115,4 +2115,19 @@ describe("Issue Tests", () => {
         const EdgeCases = query(project, "EdgeCases");
         equal(EdgeCases.typeParameters?.map(t => t.type?.toString()), ["number", undefined]);
     });
+
+    it('#2933 support elementSummaries for inlined union members', () => {
+        const project = convert();
+        const test = query(project, "test");
+        const sig = test.signatures?.[0];
+
+        equal(sig?.type?.type, "union");
+        equal(sig.type.types.length, 2);
+
+        equal(sig.type.elementSummaries?.length, 2);
+        equal(sig.type.elementSummaries.map(Comment.combineDisplayParts), [
+            "An apple a day keeps the doctor away.",
+            "A donut a day keeps the doctor not away."
+        ])
+    })
 });
