@@ -6,7 +6,7 @@ import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { DeclarationReference } from "#utils";
 import { ReflectionKind } from "./kind.js";
 import { Comment, type CommentDisplayPart } from "./Comment.js";
-import { i18n, joinArray } from "#utils";
+import { i18n, joinArray, NonEnumerable } from "#utils";
 import type { SignatureReflection } from "./SignatureReflection.js";
 
 /**
@@ -917,6 +917,7 @@ export class ReferenceType extends Type {
     preferValues = false;
 
     private _target: ReflectionSymbolId | number;
+    @NonEnumerable
     private _project: ProjectReflection | null;
 
     private constructor(

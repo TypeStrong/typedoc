@@ -553,6 +553,7 @@ describe("Issue Tests", () => {
     });
 
     it("#1898", () => {
+        app.options.setValue("validation", true);
         const project = convert();
         app.validate(project);
         logger.expectMessage(
