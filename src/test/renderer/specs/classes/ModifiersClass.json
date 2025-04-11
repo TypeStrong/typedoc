@@ -202,18 +202,42 @@
                                                     ]
                                                 },
                                                 {
-                                                    "div.tsd-description": {
-                                                        "h4.tsd-returns-title": [
-                                                            "Returns ",
-                                                            {
-                                                                "tag": "a.tsd-signature-type.tsd-kind-class",
-                                                                "props": {
-                                                                    "href": ""
-                                                                },
-                                                                "children": "ModifiersClass"
+                                                    "div.tsd-description": [
+                                                        {
+                                                            "div.tsd-comment.tsd-typography": "<p>#2934 same page link <a href=\"#\" class=\"tsd-kind-class\"><code>ModifiersClass</code></a></p>\n"
+                                                        },
+                                                        {
+                                                            "h4.tsd-returns-title": [
+                                                                "Returns ",
+                                                                {
+                                                                    "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                                    "props": {
+                                                                        "href": ""
+                                                                    },
+                                                                    "children": "ModifiersClass"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "div.tsd-comment.tsd-typography": []
+                                                        },
+                                                        {
+                                                            "aside.tsd-sources": {
+                                                                "ul": {
+                                                                    "li": [
+                                                                        "Defined in ",
+                                                                        {
+                                                                            "tag": "a",
+                                                                            "props": {
+                                                                                "href": "index.ts"
+                                                                            },
+                                                                            "children": "index.ts:73"
+                                                                        }
+                                                                    ]
+                                                                }
                                                             }
-                                                        ]
-                                                    }
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

@@ -68,6 +68,9 @@ export class ModifiersClass {
     readonly read = 4;
     /** @deprecated */
     dep = 5;
+
+    /** #2934 same page link {@linkcode ModifiersClass} */
+    constructor() {}
 }
 
 /**

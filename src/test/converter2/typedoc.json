@@ -15,7 +15,13 @@
     "sourceLinkTemplate": "{path}",
     "excludeExternals": true,
     "tsconfig": "tsconfig.json",
-    "validation": true,
+    "validation": {
+        "invalidLink": true,
+        "notDocumented": false,
+        "notExported": true,
+        "rewrittenLink": true,
+        "unusedMergeModuleWith": true
+    },
     "skipErrorChecking": true,
     "externalSymbolLinkMappings": {
         // used by {@link !Promise}

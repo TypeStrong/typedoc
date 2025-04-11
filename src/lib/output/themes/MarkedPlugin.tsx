@@ -195,6 +195,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                                             );
                                         }
                                     }
+
+                                    // If the url goes to this page, render as `#`
+                                    // to go to the top of the page.
+                                    if (url == "") {
+                                        url = "#";
+                                    }
                                 }
 
                                 if (useHtml) {

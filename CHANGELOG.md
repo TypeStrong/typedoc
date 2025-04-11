@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - `@inline` now functions when referencing tuple types, #2932.
+- `@link` links to the current page are now rendered, #2934.
 
 ## v0.28.2 (2025-04-07)
 
