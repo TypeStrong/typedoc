@@ -2,7 +2,8 @@ import * as shiki from "@gerrit0/mini-shiki";
 import { JSX, unique } from "#utils";
 import assert from "assert";
 
-const aliases = new Map<string, string>([['mts', 'typescript'], ['cts', 'typescript']]);
+const tsAliases: [string, string][] = [["mts", "typescript"], ["cts", "typescript"]];
+const aliases = new Map<string, string>(tsAliases);
 for (const lang of shiki.bundledLanguagesInfo) {
     for (const alias of lang.aliases || []) {
         aliases.set(alias, lang.id);
