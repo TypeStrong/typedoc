@@ -2,7 +2,8 @@ import * as shiki from "@gerrit0/mini-shiki";
 import { JSX, unique } from "#utils";
 import assert from "assert";
 
-const aliases = new Map<string, string>();
+const tsAliases: [string, string][] = [["mts", "typescript"], ["cts", "typescript"]];
+const aliases = new Map<string, string>(tsAliases);
 for (const lang of shiki.bundledLanguagesInfo) {
     for (const alias of lang.aliases || []) {
         aliases.set(alias, lang.id);
@@ -175,7 +176,7 @@ export function getSupportedThemes(): string[] {
 
 export function isLoadedLanguage(lang: string): boolean {
     return (
-        plaintextLanguages.includes(lang) || ignoredLanguages?.includes(lang) || highlighter?.supports(lang) || false
+        isSupportedLanguage(lang) || highlighter?.supports(lang) || false
     );
 }
 
