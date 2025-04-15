@@ -428,3 +428,5 @@ regionTagREsByExt["php"] = regionTagREsByExt["cs"];
 regionTagREsByExt["ps1"] = regionTagREsByExt["cs"];
 regionTagREsByExt["py"] = regionTagREsByExt["cs"];
 regionTagREsByExt["js"] = regionTagREsByExt["ts"];
+regionTagREsByExt["mts"] = regionTagREsByExt["ts"];
+regionTagREsByExt["cts"] = regionTagREsByExt["ts"];
