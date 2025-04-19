@@ -8,7 +8,8 @@ title: Changelog
 
 - `@inline` now functions when referencing tuple types, #2932.
 - `@link` links to the current page are now rendered, #2934.
-- `@includeCode` does not allow regions in typescript files with `.mts` file extension, #2935.
+- `@includeCode` now supports regions in TypeScript files with `.mts` and `.cts` file extensions, #2935.
+- Aliased symbols (re-exports) are now resolved before checking if they are excluded/external, #2937.
 
 ## v0.28.2 (2025-04-07)
 

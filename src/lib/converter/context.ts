@@ -209,7 +209,7 @@ export class Context {
             this.addChild(reflection);
         }
 
-        if (symbol && this.converter.isExternal(symbol)) {
+        if (symbol && this.converter.isExternal(symbol, this.checker)) {
             reflection.setFlag(ReflectionFlag.External);
         }
         if (exportSymbol) {
@@ -276,7 +276,7 @@ export class Context {
     }
 
     shouldIgnore(symbol: ts.Symbol) {
-        return this.converter.shouldIgnore(symbol);
+        return this.converter.shouldIgnore(symbol, this.checker);
     }
 
     /**

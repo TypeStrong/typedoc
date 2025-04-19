@@ -23,6 +23,7 @@ import {
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc.js";
 import { getHeritageTypes } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
+import { resolveAliasedSymbol } from "./utils/symbols.js";
 
 const symbolConverters: {
     [K in ts.SymbolFlags]?: (
@@ -105,7 +106,7 @@ assert(
 );
 
 function _convertSymbolNow(context: Context, symbol: ts.Symbol, exportSymbol: ts.Symbol | undefined) {
-    if (context.shouldIgnore(symbol)) {
+    if (context.shouldIgnore(resolveAliasedSymbol(symbol, context.checker))) {
         return;
     }
 
