@@ -61,6 +61,7 @@ import { SourcePlugin } from "./plugins/SourcePlugin.js";
 import { TypePlugin } from "./plugins/TypePlugin.js";
 import { IncludePlugin } from "./plugins/IncludePlugin.js";
 import { MergeModuleWithPlugin } from "./plugins/MergeModuleWithPlugin.js";
+import { resolveAliasedSymbol } from "./utils/symbols.js";
 
 export interface ConverterEvents {
     begin: [Context];
@@ -330,7 +331,13 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         this.resolve(context);
 
         this.trigger(Converter.EVENT_END, context);
-        this._config = undefined;
+
+        // Delete caches of options so that test usage which changes options
+        // doesn't have confusing behavior where tests run in isolation work
+        // but break when run as a batch.
+        delete this._config;
+        delete this.excludeCache;
+        delete this.externalPatternCache;
 
         return project;
     }
@@ -613,12 +620,13 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * information at this point since comment discovery hasn't happened.
      * @internal
      */
-    shouldIgnore(symbol: ts.Symbol) {
+    shouldIgnore(symbol: ts.Symbol, checker: ts.TypeChecker) {
+        symbol = resolveAliasedSymbol(symbol, checker);
         if (this.isExcluded(symbol)) {
             return true;
         }
 
-        return this.excludeExternals && this.isExternal(symbol);
+        return this.excludeExternals && this.isExternal(symbol, checker);
     }
 
     private isExcluded(symbol: ts.Symbol) {
@@ -631,11 +639,11 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     }
 
     /** @internal */
-    isExternal(symbol: ts.Symbol) {
+    isExternal(symbol: ts.Symbol, checker: ts.TypeChecker) {
         this.externalPatternCache ??= new MinimatchSet(this.externalPattern);
         const cache = this.externalPatternCache;
 
-        const declarations = symbol.getDeclarations();
+        const declarations = resolveAliasedSymbol(symbol, checker).getDeclarations();
 
         // `undefined` has no declarations, if someone does `export default undefined`
         // the symbol ends up as having no declarations (the export symbol does, but

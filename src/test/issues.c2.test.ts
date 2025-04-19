@@ -2122,4 +2122,10 @@ describe("Issue Tests", () => {
         const sig = querySig(project, "doStuff");
         equal(sig.parameters?.[0].type?.toString(), "[start: number, end: number]");
     });
+
+    it("#2937 resolves symbols before checking if they are excluded/external", () => {
+        app.options.setValue("exclude", ["!**/not-excluded.ts"]);
+        const project = convert();
+        equal(project.children?.map(c => c.name), ["notExcluded"]);
+    });
 });
