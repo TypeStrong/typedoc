@@ -18,10 +18,16 @@ export class ArgumentsReader implements OptionsReader {
     readonly order: number;
     readonly supportsPackages = false;
     private args: string[];
+    private skipErrorReporting = false;
 
     constructor(priority: number, args = process.argv.slice(2)) {
         this.order = priority;
         this.args = args;
+    }
+
+    ignoreErrors() {
+        this.skipErrorReporting = true;
+        return this;
     }
 
     read(container: Options, logger: Logger): void {
@@ -38,7 +44,9 @@ export class ArgumentsReader implements OptionsReader {
                 options.setValue(name, value);
             } catch (err) {
                 ok(err instanceof Error);
-                logger.error(err.message as TranslatedString);
+                if (!this.skipErrorReporting) {
+                    logger.error(err.message as TranslatedString);
+                }
             }
         };
 
@@ -50,11 +58,13 @@ export class ArgumentsReader implements OptionsReader {
 
             if (decl) {
                 if (decl.configFileOnly) {
-                    logger.error(
-                        i18n.option_0_can_only_be_specified_by_config_file(
-                            decl.name,
-                        ),
-                    );
+                    if (!this.skipErrorReporting) {
+                        logger.error(
+                            i18n.option_0_can_only_be_specified_by_config_file(
+                                decl.name,
+                            ),
+                        );
+                    }
                     continue;
                 }
 
@@ -81,11 +91,13 @@ export class ArgumentsReader implements OptionsReader {
                 } else {
                     if (index === this.args.length) {
                         // Only boolean values have optional values.
-                        logger.warn(
-                            i18n.option_0_expected_a_value_but_none_provided(
-                                decl.name,
-                            ),
-                        );
+                        if (!this.skipErrorReporting) {
+                            logger.warn(
+                                i18n.option_0_expected_a_value_but_none_provided(
+                                    decl.name,
+                                ),
+                            );
+                        }
                     }
                     trySet(decl.name, this.args[index]);
                 }
@@ -115,12 +127,14 @@ export class ArgumentsReader implements OptionsReader {
                 }
             }
 
-            logger.error(
-                i18n.unknown_option_0_may_have_meant_1(
-                    name,
-                    options.getSimilarOptions(name).join("\n\t"),
-                ),
-            );
+            if (!this.skipErrorReporting) {
+                logger.error(
+                    i18n.unknown_option_0_may_have_meant_1(
+                        name,
+                        options.getSimilarOptions(name).join("\n\t"),
+                    ),
+                );
+            }
             index++;
         }
     }

@@ -372,9 +372,6 @@ function expandGlobs(globs: GlobString[], exclude: GlobString[], logger: Logger)
             logger.warn(
                 i18n.glob_0_did_not_match_any_files(entry),
             );
-            if (entry.includes("\\") && !entry.includes("/")) {
-                logger.info(i18n.glob_should_use_posix_slash());
-            }
         } else if (filtered.length === 0) {
             logger.warn(
                 i18n.entry_point_0_did_not_match_any_files_after_exclude(

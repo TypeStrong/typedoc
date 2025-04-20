@@ -769,7 +769,19 @@ const converters: {
         return resolved;
     },
     [ParameterType.GlobArray](value, option, configPath) {
-        const toGlobString = (v: unknown) => createGlobString(configPath, String(v));
+        const toGlobString = (v: unknown) => {
+            const s = String(v);
+
+            // If the string tries to escape a character which isn't a special
+            // glob character, the user probably provided a Windows style path
+            // by accident due to shell completion, tell them to either remove
+            // the useless escape or switch to Unix path separators.
+            if (/\\[^?*()[\]\\{}]/.test(s)) {
+                throw new Error(i18n.glob_0_should_use_posix_slash(s));
+            }
+
+            return createGlobString(configPath, s);
+        };
         const globs = Array.isArray(value) ? value.map(toGlobString) : [toGlobString(value)];
         option.validate?.(globs);
         return globs;

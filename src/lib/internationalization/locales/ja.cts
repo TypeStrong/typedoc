@@ -138,7 +138,6 @@ export = localeUtils.buildIncompleteTranslation({
     use_expand_or_glob_for_files_in_dir:
         "このディレクトリ内のファイルを含める場合は、--entryPointStrategyを設定して展開するか、globを指定します。",
     glob_0_did_not_match_any_files: "グロブ {0} はどのファイルにも一致しませんでした",
-    // glob_should_use_posix_slash
     entry_point_0_did_not_match_any_files_after_exclude:
         "除外パターンを適用した後、グロブ {0} はどのファイルにも一致しませんでした",
     entry_point_0_did_not_exist: "指定されたエントリ ポイント {0} は存在しません",

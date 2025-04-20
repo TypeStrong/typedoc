@@ -200,7 +200,6 @@ export = {
     use_expand_or_glob_for_files_in_dir:
         `If you wanted to include files inside this directory, set --entryPointStrategy to expand or specify a glob`,
     glob_0_did_not_match_any_files: `The glob {0} did not match any files`,
-    glob_should_use_posix_slash: `Try replacing Windows path separators (\\) with posix path separators (/)`,
     entry_point_0_did_not_match_any_files_after_exclude:
         `The glob {0} did not match any files after applying exclude patterns`,
     entry_point_0_did_not_exist: `Provided entry point {0} does not exist`,
@@ -218,6 +217,8 @@ export = {
     circular_reference_extends_0: `Circular reference encountered for "extends" field of {0}`,
     failed_resolve_0_to_file_in_1: `Failed to resolve {0} to a file in {1}`,
 
+    glob_0_should_use_posix_slash:
+        `The glob "{0}" escapes a non-special character. Glob inputs to TypeDoc may not use Windows path separators (\\), try replacing with posix path separators (/)`,
     option_0_can_only_be_specified_by_config_file: `The '{0}' option can only be specified via a config file`,
     option_0_expected_a_value_but_none_provided: `--{0} expected a value, but none was given as an argument`,
     unknown_option_0_may_have_meant_1: `Unknown option: {0}, you may have meant:\n\t{1}`,

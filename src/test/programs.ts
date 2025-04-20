@@ -15,7 +15,7 @@ import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { diagnostics } from "../lib/utils/loggers.js";
-import { readFile } from "#node-utils";
+import { normalizePath, readFile } from "#node-utils";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -163,7 +163,8 @@ export function getConverter2Project(entries: string[], folder: string) {
                 join(base, folder, entry),
             ].find(existsSync)
         )
-        .filter((x) => x !== undefined);
+        .filter((x) => x !== undefined)
+        .map(normalizePath);
 
     const files = entryPoints.map((e) => program.getSourceFile(e));
     for (const [index, file] of files.entries()) {

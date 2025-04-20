@@ -26,7 +26,7 @@ async function main() {
             new td.TypeDocReader(),
             new td.PackageJsonReader(),
             new td.TSConfigReader(),
-            new td.ArgumentsReader(300),
+            new td.ArgumentsReader(300).ignoreErrors(),
         ]);
 
         const exitCode = await run(app);
