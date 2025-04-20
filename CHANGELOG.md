@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.3 (2025-04-20)
+
 ### Bug Fixes
 
 - `@inline` now functions when referencing tuple types, #2932.
