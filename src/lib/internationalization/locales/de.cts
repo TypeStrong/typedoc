@@ -16,7 +16,8 @@ export = localeUtils.buildIncompleteTranslation({
 
     solution_not_supported_in_watch_mode:
         "Die angegebene tsconfig-Datei sieht nach einer Solution-Style-tsconfig aus, die nicht im Watch-Modus unterstützt wird",
-    strategy_not_supported_in_watch_mode: "entryPointStrategy muss für den Watch-Modus entweder auf resolve oder expand gesetzt werden",
+    strategy_not_supported_in_watch_mode:
+        "entryPointStrategy muss für den Watch-Modus entweder auf resolve oder expand gesetzt werden",
     file_0_changed_restarting: "Konfigurationsdatei {0} wurde verändert: Kompletter Neustart erforderlich...",
     file_0_changed_rebuilding: "Datei {0} wurde verändert: Baue Ausgabe neu...",
     found_0_errors_and_1_warnings: "{0} Fehler und {1} Warnungen gefunden",
@@ -24,7 +25,8 @@ export = localeUtils.buildIncompleteTranslation({
     output_0_could_not_be_generated: "{0}-Ausgabe konnte aufgrund obiger Fehler nicht erstellt werden",
     output_0_generated_at_1: "{0} wurde generiert in {1}",
 
-    no_entry_points_for_packages: "Keine Einstiegspunkte für den packages-Modus angegeben, Dokumentation kann nicht generiert werden",
+    no_entry_points_for_packages:
+        "Keine Einstiegspunkte für den packages-Modus angegeben, Dokumentation kann nicht generiert werden",
     failed_to_find_packages:
         "Konnte keine Packages finden, stellen Sie sicher, dass mindestens ein Verzeichnis mit einer package.json als Einstiegspunkt angegeben wurde",
     nested_packages_unsupported_0:
@@ -34,7 +36,8 @@ export = localeUtils.buildIncompleteTranslation({
     previous_error_occurred_when_reading_options_for_0:
         "Der vorangegangene Fehler trat auf, als die Optionen für das Package unter {0} gelesen wurden",
     converting_project_at_0: "Konvertiere Projekt unter {0}",
-    failed_to_convert_packages: "Konnte ein oder mehrere Packages nicht konvertieren, Ergebnisse werden nicht zusammengeführt",
+    failed_to_convert_packages:
+        "Konnte ein oder mehrere Packages nicht konvertieren, Ergebnisse werden nicht zusammengeführt",
     merging_converted_projects: "Führe konvertierte Projekte zusammen",
 
     no_entry_points_to_merge: "Keine Einstiegspunkte zum Zusammenführen angegeben",
@@ -43,7 +46,8 @@ export = localeUtils.buildIncompleteTranslation({
 
     failed_to_read_0_when_processing_document_tag_in_1:
         "Fehler beim Einlesen der Datei {0} während der Verarbeitung des @document-Tags vom Kommentar in {1}",
-    failed_to_read_0_when_processing_project_document: "Fehler beim Einlesen der Datei {0} während des Hinzufügens des Projekt-Dokuments",
+    failed_to_read_0_when_processing_project_document:
+        "Fehler beim Einlesen der Datei {0} während des Hinzufügens des Projekt-Dokuments",
     failed_to_read_0_when_processing_document_child_in_1:
         "Fehler beim Einlesen der Datei {0} während der Verarbeitung der Dokument-Kindelemente in {1}",
     frontmatter_children_0_should_be_an_array_of_strings_or_object_with_string_values:
@@ -90,7 +94,8 @@ export = localeUtils.buildIncompleteTranslation({
     unescaped_open_brace_without_inline_tag: "Unmaskierte öffnende Klammer ohne Inline-Tag vorgefunden",
     unknown_block_tag_0: "Unbekannter Block-Tag {0} vorgefunden",
     unknown_inline_tag_0: "Unbekannter Inline-Tag {0} vorgefunden",
-    open_brace_within_inline_tag: "Öffnende Klammer innerhalb eines Inline-Tags vorgefunden, das ist wahrscheinlich ein Fehler",
+    open_brace_within_inline_tag:
+        "Öffnende Klammer innerhalb eines Inline-Tags vorgefunden, das ist wahrscheinlich ein Fehler",
     inline_tag_not_closed: "Inline-Tag wurde nicht geschlossen",
 
     // validation
@@ -111,7 +116,8 @@ export = localeUtils.buildIncompleteTranslation({
         "Die folgenden qualifizierten Reflection-Namen wurden absichtlich als undokumentiert markiert, wurden aber entweder in der Dokumentation nicht referenziert oder werden dokumentiert:\n\t{0}",
     invalid_intentionally_not_exported_symbols_0:
         "Die folgenden Symbole wurden absichtlich als nicht exportiert markiert, wurden aber entweder in der Dokumentation nicht referenziert oder werden dokumentiert:\n\t{0}",
-    reflection_0_has_unused_mergeModuleWith_tag: "{0} hat einen @mergeModuleWith-Tag, der nicht aufgelöst werden konnte",
+    reflection_0_has_unused_mergeModuleWith_tag:
+        "{0} hat einen @mergeModuleWith-Tag, der nicht aufgelöst werden konnte",
     reflection_0_links_to_1_with_text_2_but_resolved_to_3:
         `"{0}" verlinkt auf "{1}" mit Text "{2}", welcher zwar existiert, aber keinen Link in der Dokumentation hat. Verlinke stattdessen auf "{3}"`,
 
@@ -128,7 +134,8 @@ export = localeUtils.buildIncompleteTranslation({
         `Das Label "{0}" für {1} kann nicht mit einer Deklarationsreferenz referenziert werden. Labels dürfen nur A-Z, 0-9 sowie _ enthalten und dürfen nicht mit einer Ziffer beginnen`,
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2:
         "Der Modifier-Tag {0} darf nicht gleichzeitig mit {1} verwendet werden im Kommentar für {2}",
-    signature_0_has_unused_param_with_name_1: `Die Signatur {0} enthält einen @param mit Namen "{1}", der nicht verwendet wird`,
+    signature_0_has_unused_param_with_name_1:
+        `Die Signatur {0} enthält einen @param mit Namen "{1}", der nicht verwendet wird`,
     declaration_reference_in_inheritdoc_for_0_not_fully_parsed:
         "Deklarationsreferenz in @inheritDoc für {0} wurde nicht vollständig geparst und wird möglicherweise falsch aufgelöst werden",
     failed_to_find_0_to_inherit_comment_from_in_1:
@@ -143,7 +150,8 @@ export = localeUtils.buildIncompleteTranslation({
         "disableGit wurde gesetzt, aber sourceLinkTemplate nicht, sodass Links auf die Quellcode-Dateien nicht erstellt werden können. Setzen Sie sourceLinkTemplate oder disableSources, um das Ermitteln der Quellcode-Dateien zu deaktivieren",
     disable_git_set_and_git_revision_used:
         "disableGit wurde gesetzt und sourceLinkTemplate enthält {gitRevision}, was mit dem Leerstring ersetzt wird, da keine Revision angegeben wurde",
-    git_remote_0_not_valid: `Das angegebene Git-Remote "{0}" war nicht gültig. Links auf Quellcode-Dateien werden nicht funktionieren`,
+    git_remote_0_not_valid:
+        `Das angegebene Git-Remote "{0}" war nicht gültig. Links auf Quellcode-Dateien werden nicht funktionieren`,
     reflection_0_tried_to_merge_into_child_1:
         "Die Reflection {0} versuchte mittels @mergeModuleWith, sich in eines ihrer Kinder einzufügen: {1}",
 
@@ -201,7 +209,7 @@ export = localeUtils.buildIncompleteTranslation({
     failed_to_resolve_0_to_ts_path:
         "Konnte den Einstiegspunktpfad {0} der package.json nicht zu einer TypeScript-Quellcode-Datei auflösen",
     use_expand_or_glob_for_files_in_dir:
-        "Falls Sie Dateien aus diesem Verzeichnis einbinden wollten, setzen Sie die --entryPointStrategy auf \"expand\" oder geben Sie einen Glob an",
+        'Falls Sie Dateien aus diesem Verzeichnis einbinden wollten, setzen Sie die --entryPointStrategy auf "expand" oder geben Sie einen Glob an',
     glob_0_did_not_match_any_files: "Der Glob {0} passte auf keine Dateien",
     entry_point_0_did_not_match_any_files_after_exclude:
         "Der Glob {0} passte auf keine Dateien mehr, nachdem die Exclude-Patterns angewandt wurden",
@@ -222,25 +230,28 @@ export = localeUtils.buildIncompleteTranslation({
 
     glob_0_should_use_posix_slash:
         `Der Glob "{0}" maskiert nichtspezielle Zeichen. Glob-Eingaben für TypeDoc dürfen keine Windows-Pfadtrennzeichen (\\) verwenden, nutzen Sie stattdessen Posix-Pfadtrennzeichen (/)`,
-    option_0_can_only_be_specified_by_config_file: `Die Option '{0}' darf nur in einer Konfigurationsdatei angegeben werden`,
+    option_0_can_only_be_specified_by_config_file:
+        `Die Option '{0}' darf nur in einer Konfigurationsdatei angegeben werden`,
     option_0_expected_a_value_but_none_provided: "--{0} erwartet einen Wert, aber keiner wurde als Argument übergeben",
     unknown_option_0_may_have_meant_1: "Unbekannte Option: {0}, meinten Sie vielleicht:\n\t{1}",
 
     typedoc_key_in_0_ignored:
-        `Das Feld 'typedoc' in {0} wurde von der entryPointStrategy \"legacy-packages\" verwendet und wird ignoriert`,
+        `Das Feld 'typedoc' in {0} wurde von der entryPointStrategy "legacy-packages" verwendet und wird ignoriert`,
     typedoc_options_must_be_object_in_0:
         `Konnte das Feld "typedocOptions" in {0} nicht parsen, stellen Sie sicher, dass es existiert und ein Objekt enthält`,
     tsconfig_file_0_does_not_exist: "Die tsconfig-Datei {0} existiert nicht",
     tsconfig_file_specifies_options_file:
         `"typedocOptions" in der tsconfig-Datei gibt eine einzulesende Datei mit Optionen an, aber die Optionsdatei wurde schon eingelesen. Das ist wahrscheinlich ein Konfigurationsfehler`,
-    tsconfig_file_specifies_tsconfig_file: `"typedocOptions" in der tsconfig-Datei darf keine tsconfig-Datei zum Einlesen angeben`,
+    tsconfig_file_specifies_tsconfig_file:
+        `"typedocOptions" in der tsconfig-Datei darf keine tsconfig-Datei zum Einlesen angeben`,
     tags_0_defined_in_typedoc_json_overwritten_by_tsdoc_json:
         "Die {0} aus der typedoc.json werden durch die Konfiguration in der tsdoc.json überschrieben",
     failed_read_tsdoc_json_0: "Konnte tsdoc.json-Datei unter {0} nicht lesen",
     invalid_tsdoc_json_0: "Die Datei {0} ist keine gültige tsdoc.json-Datei",
 
     options_file_0_does_not_exist: "Die Optionsdatei {0} existiert nicht",
-    failed_read_options_file_0: "Konnte {0} nicht parsen, stellen Sie sicher, dass die Datei existiert und ein Objekt exportiert",
+    failed_read_options_file_0:
+        "Konnte {0} nicht parsen, stellen Sie sicher, dass die Datei existiert und ein Objekt exportiert",
 
     // plugins
     invalid_plugin_0_missing_load_function: "Ungültige Struktur im Plugin {0}, keine load-Funktion gefunden",
@@ -255,7 +266,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_lang: "Setzt die Sprache für die generierte Dokumentation und für die von TypeDoc ausgegebenen Meldungen",
     help_locales:
         "Fügt Übersetzungen für eine bestimmte Sprache hinzu. Die Option ist hauptsächlich als Überbrückung gedacht, bis TypeDoc die Sprache offiziell unterstützt",
-    help_packageOptions: "Setzt Optionen, die innerhalb jedes Packages verwendet werden, falls die entryPointStrategy auf packages gesetzt ist",
+    help_packageOptions:
+        "Setzt Optionen, die innerhalb jedes Packages verwendet werden, falls die entryPointStrategy auf packages gesetzt ist",
 
     help_entryPoints: "Die Einstiegspunkte der Dokumentation",
     help_entryPointStrategy: "Die zu nutzende Strategie, um die Einstiegspunkte in Dokumentationsmodule umzuwandeln",
@@ -263,21 +275,25 @@ export = localeUtils.buildIncompleteTranslation({
         "Falls gesetzt, erstellt TypeDoc immer ein `Modul` für Einstiegspunkte, selbst wenn nur eins angegeben wurde",
     help_projectDocuments:
         "Dokumente, die als Kinder zur Root-Ebene der generierten Dokumentation hinzugefügt werden sollen. Unterstützt Globs, um mehrere Dateien zu selektieren",
-    help_exclude: "Patterns zum Ausschließen von Dateien, wenn nach Dateien in einem Verzeichnis gesucht wird, das als Einstiegspunkt angegeben wurde",
+    help_exclude:
+        "Patterns zum Ausschließen von Dateien, wenn nach Dateien in einem Verzeichnis gesucht wird, das als Einstiegspunkt angegeben wurde",
     help_externalPattern: "Patterns für Dateien, die als extern betrachtet werden sollen",
     help_excludeExternals: "Verhindert die Dokumentation von als extern aufgelösten Symbolen",
-    help_excludeNotDocumented: "Verhindert, dass Symbole in der Dokumentation erscheinen, die nicht explizit dokumentiert wurden",
+    help_excludeNotDocumented:
+        "Verhindert, dass Symbole in der Dokumentation erscheinen, die nicht explizit dokumentiert wurden",
     help_excludeNotDocumentedKinds: "Arten von Reflections, die von excludeNotDocumented entfernt werden können",
     help_excludeInternal: "Verhindert, dass Symbole in der Dokumentation erscheinen, die mit @internal markiert sind",
     help_excludeCategories: "Schließt Symbole aus dieser Kategorie von der Dokumentation aus",
     help_excludePrivate: "Ignoriert private Variablen und Methoden, Standardwert ist true.",
     help_excludeProtected: "Ignoriert geschützte Variablen und Methoden",
     help_excludeReferences: "Wird ein Symbol mehrfach exportiert, ignoriere alle außer dem ersten Export",
-    help_externalSymbolLinkMappings: "Definiert eigene Links für Symbole, die nicht in der Dokumentation enthalten sind",
+    help_externalSymbolLinkMappings:
+        "Definiert eigene Links für Symbole, die nicht in der Dokumentation enthalten sind",
     help_out:
         "Gibt den Pfad an, wohin die Dokumentation für die Default-Ausgabe geschrieben werden soll. Der Standard-Ausgabetyp kann von Plugins geändert werden.",
     help_html: "Gibt den Pfad an, wohin die HTML-Dokumentation geschrieben werden soll.",
-    help_json: "Gibt den Pfad und den Dateinamen an, wohin eine JSON-Datei mit einer Beschreibung des Projekts geschrieben werden soll",
+    help_json:
+        "Gibt den Pfad und den Dateinamen an, wohin eine JSON-Datei mit einer Beschreibung des Projekts geschrieben werden soll",
     help_pretty: "Gibt an, ob die JSON-Datei mit Tabs formatiert werden soll",
     help_emit: "Gibt an, was TypeDoc ausgeben soll, 'docs', 'both', oder 'none'",
     help_theme: "Gibt den Namen des Themes an, mit dem die Dokumentation erstellt werden soll",
@@ -290,7 +306,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_typePrintWidth: "Breite beim Rendern eines Typs, ab der Code in eine neue Zeile umgebrochen wird",
     help_customCss: "Pfad auf eine eigene CSS-Datei, die zusätzlich zum Theme importiert wird",
     help_customJs: "Pfade auf eine eigene einzubindende JavaScript-Datei",
-    help_markdownItOptions: "Gibt Optionen an, die zu markdown-it weitergereicht werden, dem von TypeDoc verwendeten Markdown-Parser",
+    help_markdownItOptions:
+        "Gibt Optionen an, die zu markdown-it weitergereicht werden, dem von TypeDoc verwendeten Markdown-Parser",
     help_markdownItLoader:
         "Gibt ein Callback an, das beim Laden der markdown-it-Instanz gerufen wird. Dem Callback wird die Instanz des Parsers übergeben, den TypeDoc verwenden wird",
     help_maxTypeConversionDepth: "Setzt die maximale Tiefe von Typen, bis zu der diese konvertiert werden",
@@ -307,7 +324,8 @@ export = localeUtils.buildIncompleteTranslation({
         "Gehe davon aus, dass auf alles mit dem sourceLinkTemplate verlinkt werden kann, sourceLinkTemplate muss gesetzt sein, falls die Option aktiviert ist. Der Platzhalter {path} ist dann relativ zum basePath",
     help_basePath: "Gibt den Basispfad an, der beim Anzeigen von Dateipfaden verwendet wird",
     help_excludeTags: "Entfernt die angegebenen Block- und Modifier-Tags von den Doc-Kommentaren",
-    help_notRenderedTags: "Tags, die in den Doc-Kommentaren bewahrt werden, aber in der Dokumentation nicht angezeigt werden sollen",
+    help_notRenderedTags:
+        "Tags, die in den Doc-Kommentaren bewahrt werden, aber in der Dokumentation nicht angezeigt werden sollen",
     help_cascadedModifierTags: "Modifier-Tags, die in alle Kinder einer Eltern-Reflection kopiert werden sollen",
     help_readme:
         "Pfad auf die Readme-Datei, die auf der Indexseite angezeigt werden soll. `none`, um die Indexseite zu deaktivieren und die Dokumentation auf der Seite mit den globalen Variablen beginnen zu lassen",
@@ -317,7 +335,8 @@ export = localeUtils.buildIncompleteTranslation({
         "Gibt an, dass Quelldatei-Links als externe Links behandelt und in einem neuen Tab geöffnet werden sollen",
     help_markdownLinkExternal:
         "Gibt an, dass http[s]://-Links in Kommentaren und Markdown-Dateien als externe Links behandelt und in einem neuen Tab geöffnet werden sollen",
-    help_githubPages: "Erzeugt eine .nojekyll-Datei, um 404-Fehler bei GitHub-Pages zu vermeiden. Standardwert ist `true`",
+    help_githubPages:
+        "Erzeugt eine .nojekyll-Datei, um 404-Fehler bei GitHub-Pages zu vermeiden. Standardwert ist `true`",
     help_hostedBaseUrl:
         "Gibt die Basis-URL an, die beim Erzeugen einer sitemap.xml im Ausgabeverzeichnis und für kanonische Links verwendet wird. Wenn nicht angegeben, wird keine Sitemap erzeugt",
     help_useHostedBaseUrlForAbsoluteLinks:
@@ -331,7 +350,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_searchInDocuments:
         "Wenn gesetzt, wird der Suchindex auch Dokumente enthalten. Dies wird die Größe des Suchindex stark erhöhen",
     help_cleanOutputDir: "Wenn gesetzt, löscht TypeDoc das Ausgabeverzeichnis vor dem Schreiben der Dokumentation",
-    help_titleLink: "Setzt den Link des Titels im Header. Standardmäßig wird auf die Startseite der Dokumentation verlinkt",
+    help_titleLink:
+        "Setzt den Link des Titels im Header. Standardmäßig wird auf die Startseite der Dokumentation verlinkt",
     help_navigationLinks: "Gibt Links an, die mit in den Header geschrieben werden",
     help_sidebarLinks: "Gibt Links an, die mit in die Seitenleiste geschrieben werden",
     help_navigationLeaves: "Zweige des Navigationsbaums, die nicht ausgeklappt sein sollen",
@@ -343,7 +363,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_visibilityFilters:
         "Gibt die standardmäßige Sichtbarkeit für eingebaute Filter sowie zusätzliche Filter anhand eines Modifier-Tags an.",
     help_searchCategoryBoosts: "Konfiguriert die Suche so, dass ausgewählte Kategorien als relevanter bewertet werden",
-    help_searchGroupBoosts: 'Konfiguriert die Suche so, dass ausgewählte Symbolarten (z.B. "Klasse") als relevanter bewertet werden',
+    help_searchGroupBoosts:
+        'Konfiguriert die Suche so, dass ausgewählte Symbolarten (z.B. "Klasse") als relevanter bewertet werden',
     help_useFirstParagraphOfCommentAsSummary:
         "Wenn gesetzt und kein @summary-Tag vorhanden ist, verwendet TypeDoc den ersten Absatz eines Kommentars als die Kurzzusammenfassung in der Modul- oder Namensraum-Ansicht",
     help_jsDocCompatibility:
@@ -367,7 +388,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_groupOrder:
         "Gibt die Reihenfolge an, in der Gruppen erscheinen. * legt die relative Reihenfolge für Gruppen fest, die nicht in der Liste sind",
     help_sort: "Gibt die Sortierstrategie für dokumentierte Werte an",
-    help_sortEntryPoints: "Wenn gesetzt, werden auf Einstiegspunkte die gleichen Sortierregeln angewandt, die auch für andere Reflections gelten",
+    help_sortEntryPoints:
+        "Wenn gesetzt, werden auf Einstiegspunkte die gleichen Sortierregeln angewandt, die auch für andere Reflections gelten",
     help_kindSortOrder: "Gibt die Sortierreihenfolge für Reflections an, wenn ein 'kind' festgelegt ist",
     help_watch: "Überwache Dateien auf Änderungen und baue die Dokumentation bei Änderungen neu",
     help_preserveWatchOutput: "Wenn gesetzt, leert TypeDoc den Bildschirm nicht zwischen Kompilierungsschritten",
@@ -375,12 +397,14 @@ export = localeUtils.buildIncompleteTranslation({
     help_help: "Gibt diese Nachricht aus",
     help_version: "Gibt die Version von TypeDoc aus",
     help_showConfig: "Gibt die aufgelöste Konfiguration aus und stoppt",
-    help_plugin: "Gibt die NPM-Plugins an, die geladen werden sollen. Nicht angeben, um alle installierten Plugins zu laden",
+    help_plugin:
+        "Gibt die NPM-Plugins an, die geladen werden sollen. Nicht angeben, um alle installierten Plugins zu laden",
     help_logLevel: "Gibt an, welches Level für das Logging verwendet werden soll",
     help_treatWarningsAsErrors: "Wenn gesetzt, werden alle Warnungen als Fehler behandelt",
     help_treatValidationWarningsAsErrors:
         "Wenn gesetzt, werden alle Warnungen, die während der Validierung erzeugt wurden, als Fehler behandelt. Diese Option kann nicht zum Deaktivieren von treatWarningsAsErrors für Validierungswarnungen verwendet werden",
-    help_intentionallyNotExported: "Eine Liste von Typen, welche keine Warnungen der Art 'referenziert, aber nicht dokumentiert' erzeugen sollen",
+    help_intentionallyNotExported:
+        "Eine Liste von Typen, welche keine Warnungen der Art 'referenziert, aber nicht dokumentiert' erzeugen sollen",
     help_requiredToBeDocumented: "Eine Liste von Reflection-Arten, die dokumentiert werden müssen",
     help_packagesRequiringDocumentation: "Eine Liste von Packages, die dokumentiert werden müssen",
     help_intentionallyNotDocumented:
