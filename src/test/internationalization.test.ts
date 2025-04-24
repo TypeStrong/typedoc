@@ -26,6 +26,7 @@ describe("Internationalization", () => {
         ok(langs.includes("en"));
         ok(langs.includes("ko"));
         ok(langs.includes("ja"));
+        ok(langs.includes("de"));
     });
 
     it("Supports translating without placeholders", () => {
