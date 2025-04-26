@@ -332,7 +332,13 @@
                                                         "href": "#aexpanded"
                                                     },
                                                     "children": {
-                                                        "span": "AExpanded"
+                                                        "span": [
+                                                            "A",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Expanded"
+                                                        ]
                                                     }
                                                 },
                                                 {
@@ -341,7 +347,13 @@
                                                         "href": "#bexpanded"
                                                     },
                                                     "children": {
-                                                        "span": "BExpanded"
+                                                        "span": [
+                                                            "B",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Expanded"
+                                                        ]
                                                     }
                                                 },
                                                 {

@@ -145,7 +145,13 @@
                                                     "href": "#aexpanded"
                                                 },
                                                 "children": {
-                                                    "span": "AExpanded"
+                                                    "span": [
+                                                        "A",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Expanded"
+                                                    ]
                                                 }
                                             },
                                             {
