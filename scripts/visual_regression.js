@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // @ts-check
 import util from "util";
 import { cpSync, existsSync, mkdirSync, rmSync } from "fs";

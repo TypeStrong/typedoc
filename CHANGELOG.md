@@ -4,6 +4,20 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Added German (de) localization, #2941.
+
+### Bug Fixes
+
+- TypeDoc's default theme now uses the same chevron for all collapsible elements, #2924
+  The `chevronSmall` helper is now deprecated and will be removed with v0.29.0.
+
+### Thanks!
+
+- @blutorange
+- @bkeepers
+
 ## v0.28.3 (2025-04-20)
 
 ### Bug Fixes
