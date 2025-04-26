@@ -110,12 +110,30 @@ function addNavText(
                     el.icon || el.kind
                 }"></use></svg>`;
         }
-        a.appendChild(document.createElement("span")).textContent = el.text;
+        a.appendChild(wbr(el.text, document.createElement("span")));
     } else {
         const span = parent.appendChild(document.createElement("span"));
         const label = window.translations.folder.replaceAll('"', "&quot;");
         span.innerHTML =
             `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
-        span.appendChild(document.createElement("span")).textContent = el.text;
+        span.appendChild(wbr(el.text, document.createElement("span")));
     }
+}
+
+function wbr(str: string, element: HTMLElement) {
+    // Keep this in sync with the same helper in lib.tsx
+    // We use lookahead/lookbehind to indicate where the string should
+    // be split without consuming a character.
+    // (?<=[^A-Z])(?=[A-Z]) -- regular camel cased text
+    // (?<=[A-Z])(?=[A-Z][a-z]) -- acronym
+    // (?<=[_-])(?=[^_-]) -- snake
+    const parts = str.split(/(?<=[^A-Z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[_-])(?=[^_-])/);
+    for (let i = 0; i < parts.length; ++i) {
+        if (i !== 0) {
+            element.appendChild(document.createElement("wbr"));
+        }
+        element.appendChild(document.createTextNode(parts[i]));
+    }
+
+    return element;
 }

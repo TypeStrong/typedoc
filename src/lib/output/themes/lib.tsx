@@ -49,18 +49,14 @@ export function getKindClass(refl: Reflection): string {
  * @return The original string containing ``<wbr>`` tags where possible.
  */
 export function wbr(str: string): (string | JSX.Element)[] {
-    // TODO surely there is a better way to do this, but I'm tired.
-    const ret: (string | JSX.Element)[] = [];
-    const re = /[\s\S]*?(?:[^_-][_-](?=[^_-])|[^A-Z](?=[A-Z][^A-Z]))/g;
-    let match: RegExpExecArray | null;
-    let i = 0;
-    while ((match = re.exec(str))) {
-        ret.push(match[0], <wbr />);
-        i += match[0].length;
-    }
-    ret.push(str.slice(i));
-
-    return ret;
+    // Keep this in sync with the same helper in Navigation.ts
+    // We use lookahead/lookbehind to indicate where the string should
+    // be split without consuming a character.
+    // (?<=[^A-Z])(?=[A-Z]) -- regular camel cased text
+    // (?<=[A-Z])(?=[A-Z][a-z]) -- acronym
+    // (?<=[_-])(?=[^_-]) -- snake
+    const parts = str.split(/(?<=[^A-Z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[_-])(?=[^_-])/);
+    return parts.flatMap(p => [p, <wbr />]).slice(0, -1);
 }
 
 export function join<T>(joiner: JSX.Children, list: readonly T[], cb: (x: T) => JSX.Children) {

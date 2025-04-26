@@ -6,6 +6,7 @@ title: Changelog
 
 ### Features
 
+- The navigation in the default theme will now attempt to break long names onto multiple lines, #2940.
 - Added German (de) localization, #2941.
 
 ### Bug Fixes
