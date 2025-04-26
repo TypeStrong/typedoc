@@ -9,7 +9,7 @@ import {
     ReflectionKind,
     SignatureReflection,
 } from "../../models/index.js";
-import { ReferenceType, ReflectionType, type Type } from "../../models/types.js";
+import { ReferenceType, ReflectionType, type SomeType, type Type } from "../../models/types.js";
 import { filterMap, type TranslatedString, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
@@ -232,6 +232,18 @@ export class ImplementsPlugin extends ConverterComponent {
                     );
                 }
             });
+        }
+
+        // Remove hidden classes/interfaces which we inherit from
+        if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
+            const notHiddenType = (t: SomeType) =>
+                !(t instanceof ReferenceType) ||
+                !t.symbolId ||
+                !project.symbolIdHasBeenRemoved(t.symbolId);
+            reflection.implementedTypes = reflection.implementedTypes?.filter(notHiddenType);
+            if (!reflection.implementedTypes?.length) delete reflection.implementedTypes;
+            reflection.extendedTypes = reflection.extendedTypes?.filter(notHiddenType);
+            if (!reflection.extendedTypes?.length) delete reflection.extendedTypes;
         }
 
         if (

@@ -988,8 +988,23 @@ describe("Behavior Tests", () => {
         project.removeReflection(query(project, "nested"));
         equal(
             Object.values(project.reflections).map((r) => r.name),
-            ["typedoc"],
+            ["typedoc", "Base", "NotHidden", "NotHiddenImpl", "constructor", "NotHiddenImpl"],
         );
+    });
+
+    it("Removes heritage clause references to hidden classes.", () => {
+        const project = convert("removeReflection");
+        const Base = query(project, "Base");
+        equal(Base.extendedBy, undefined);
+        equal(Base.implementedBy, undefined);
+
+        const NotHidden = query(project, "NotHidden");
+        equal(NotHidden.extendedTypes, undefined);
+        equal(NotHidden.implementedTypes, undefined);
+
+        const NotHiddenImpl = query(project, "NotHiddenImpl");
+        equal(NotHiddenImpl.extendedTypes, undefined);
+        equal(NotHiddenImpl.implementedTypes, undefined);
     });
 
     it("Handles @see tags", () => {

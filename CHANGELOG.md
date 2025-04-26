@@ -13,6 +13,8 @@ title: Changelog
 
 - TypeDoc's default theme now uses the same chevron for all collapsible elements, #2924
   The `chevronSmall` helper is now deprecated and will be removed with v0.29.0.
+- Classes/interfaces marked with `@hidden` will no longer appear in the
+  "Hierarchy" section of the docs.
 
 ### Thanks!
 
