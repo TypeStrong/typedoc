@@ -27,6 +27,9 @@ TypeDoc supports code blocks in markdown and uses
 the syntax highlighting theme with the
 [`--lightHighlightTheme`](../options/output.md#lighthighlighttheme) and
 [`--darkHighlightTheme`](../options/output.md#darkhighlighttheme) options.
+TypeDoc only loads some of the languages supported by Shiki by default. If you
+want to load additional languages, use the
+[`highlightLanguages`](../options/output.md#highlightlanguages) option.
 
 ````ts
 /**
