@@ -62,7 +62,7 @@ const project = await app.convert();
 
 if (project) {
     // Generate configured outputs
-    await generateOutputs(project);
+    await app.generateOutputs(project);
 
     // Alternatively...
     const outputDir = "docs";
