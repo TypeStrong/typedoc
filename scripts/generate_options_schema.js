@@ -1,9 +1,13 @@
 // @ts-check
 
 import { writeFileSync } from "fs";
-import { Internationalization, ParameterType } from "../dist/index.js";
+import { ParameterType } from "../dist/index.js";
 import { addTypeDocOptions } from "../dist/lib/utils/options/sources/typedoc.js";
 import { SORT_STRATEGIES } from "../dist/lib/utils/sort.js";
+import { setTranslations } from "#utils";
+import { loadTranslations } from "../dist/lib/internationalization/internationalization.js";
+
+setTranslations(loadTranslations("en"));
 
 const IGNORED_OPTIONS = new Set(["help", "version"]);
 
