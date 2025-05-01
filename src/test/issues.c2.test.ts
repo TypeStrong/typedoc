@@ -2128,4 +2128,9 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(project.children?.map(c => c.name), ["notExcluded"]);
     });
+
+    it("#2949 handles JSDoc wildcard types", () => {
+        const project = convert();
+        equal(query(project, "Test").type?.toString(), "() => Promise<any>");
+    });
 });

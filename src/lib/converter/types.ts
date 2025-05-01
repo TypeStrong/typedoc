@@ -93,6 +93,7 @@ export function loadConverters() {
             // Only used if skipLibCheck: true
             jsDocNullableTypeConverter,
             jsDocNonNullableTypeConverter,
+            jsDocAllTypeConverter,
         ]
     ) {
         for (const key of actor.kind) {
@@ -1149,6 +1150,15 @@ const jsDocNonNullableTypeConverter: TypeConverter<ts.JSDocNonNullableType> = {
     kind: [ts.SyntaxKind.JSDocNonNullableType],
     convert(context, node) {
         return convertType(context, node.type);
+    },
+    // Should be a UnionType
+    convertType: requestBugReport,
+};
+
+const jsDocAllTypeConverter: TypeConverter<ts.JSDocAllType> = {
+    kind: [ts.SyntaxKind.JSDocAllType],
+    convert() {
+        return new IntrinsicType("any");
     },
     // Should be a UnionType
     convertType: requestBugReport,

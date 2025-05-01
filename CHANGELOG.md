@@ -15,6 +15,7 @@ title: Changelog
   The `chevronSmall` helper is now deprecated and will be removed with v0.29.0.
 - Classes/interfaces marked with `@hidden` will no longer appear in the
   "Hierarchy" section of the docs.
+- TypeDoc now handles wildcard JSDoc types, #2949.
 
 ### Thanks!
 
