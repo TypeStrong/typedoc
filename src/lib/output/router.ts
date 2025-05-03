@@ -1,7 +1,13 @@
 import type { Application } from "../application.js";
 import { CategoryPlugin } from "../converter/plugins/CategoryPlugin.js";
 import { GroupPlugin } from "../converter/plugins/GroupPlugin.js";
-import { type DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "../models/index.js";
+import {
+    type DeclarationReflection,
+    ProjectReflection,
+    Reflection,
+    ReflectionGroup,
+    ReflectionKind,
+} from "../models/index.js";
 import { createNormalizedUrl } from "#node-utils";
 import { Option, type TypeDocOptionMap } from "../utils/index.js";
 import { Slugger } from "./themes/default/Slugger.js";
@@ -19,6 +25,7 @@ export const PageKind = {
     Reflection: "reflection",
     Document: "document",
     Hierarchy: "hierarchy",
+    Group: "group",
 } as const;
 export type PageKind = (typeof PageKind)[keyof typeof PageKind] | string & {};
 
@@ -146,7 +153,7 @@ export abstract class BaseRouter implements Router {
      * and automatically introduce a unique identifier to the URL to resolve
      * them.
      */
-    protected abstract getIdealBaseName(reflection: RouterTarget): string;
+    protected abstract getIdealBaseName(target: RouterTarget): string;
 
     buildPages(project: ProjectReflection): PageDefinition[] {
         this.usedFileNames = new Set();
@@ -302,6 +309,10 @@ export abstract class BaseRouter implements Router {
      * that reflection will not have their own document.
      */
     protected getPageKind(target: RouterTarget): PageKind | undefined {
+        if (target instanceof ReflectionGroup) {
+            return PageKind.Group;
+        }
+
         if (!(target instanceof Reflection)) {
             return undefined;
         }
@@ -458,16 +469,20 @@ export class KindRouter extends BaseRouter {
         [ReflectionKind.Document, "documents"],
     ]);
 
-    protected override getIdealBaseName(reflection: Reflection): string {
-        const dir = this.directories.get(reflection.kind)!;
-        const parts = [createNormalizedUrl(reflection.name)];
-        while (reflection.parent && !reflection.parent.isProject()) {
-            reflection = reflection.parent;
-            parts.unshift(createNormalizedUrl(reflection.name));
+    protected override getIdealBaseName(target: RouterTarget): string {
+        if (target instanceof Reflection) {
+            const dir = this.directories.get(target.kind)!;
+            const parts = [createNormalizedUrl(target.name)];
+            while (target.parent && !target.parent.isProject()) {
+                target = target.parent;
+                parts.unshift(createNormalizedUrl(target.name));
+            }
+
+            const baseName = parts.join(".");
+            return `${dir}/${baseName}`;
         }
 
-        const baseName = parts.join(".");
-        return `${dir}/${baseName}`;
+        throw new Error("KindRouter does not support non-reflection URL targets");
     }
 }
 
@@ -482,7 +497,7 @@ export class KindDirRouter extends KindRouter {
     }
 
     protected override buildChildPages(
-        reflection: Reflection,
+        reflection: RouterTarget,
         outPages: PageDefinition[],
     ): void {
         this.extension = `/index.html`;
@@ -503,26 +518,30 @@ export class KindDirRouter extends KindRouter {
  * @group Routers
  */
 export class StructureRouter extends BaseRouter {
-    protected override getIdealBaseName(reflection: Reflection): string {
-        // Special case: Modules allow slashes in their name. We actually want
-        // to allow that here to mirror file structures.
-        const parts = [...reflection.name.split("/").map(createNormalizedUrl)];
-        while (reflection.parent && !reflection.parent.isProject()) {
-            reflection = reflection.parent;
-            parts.unshift(
-                ...reflection.name.split("/").map(createNormalizedUrl),
-            );
+    protected override getIdealBaseName(target: RouterTarget): string {
+        if (target instanceof Reflection) {
+            // Special case: Modules allow slashes in their name. We actually want
+            // to allow that here to mirror file structures.
+            const parts = [...target.name.split("/").map(createNormalizedUrl)];
+            while (target.parent && !target.parent.isProject()) {
+                target = target.parent;
+                parts.unshift(
+                    ...target.name.split("/").map(createNormalizedUrl),
+                );
+            }
+
+            // This should only happen if someone tries to break things with @module
+            // I don't think it will ever occur in normal usage.
+            if (parts.includes("..")) {
+                throw new Error(
+                    "structure router cannot be used with a project that has a name containing '..'",
+                );
+            }
+
+            return parts.join("/");
         }
 
-        // This should only happen if someone tries to break things with @module
-        // I don't think it will ever occur in normal usage.
-        if (parts.includes("..")) {
-            throw new Error(
-                "structure router cannot be used with a project that has a name containing '..'",
-            );
-        }
-
-        return parts.join("/");
+        throw new Error("StructureRouter does not support non-reflection URL targets");
     }
 }
 
@@ -537,11 +556,11 @@ export class StructureDirRouter extends StructureRouter {
     }
 
     protected override buildChildPages(
-        reflection: Reflection,
+        target: RouterTarget,
         outPages: PageDefinition[],
     ): void {
         this.extension = `/index.html`;
-        return super.buildChildPages(reflection, outPages);
+        return super.buildChildPages(target, outPages);
     }
 
     override getFullUrl(refl: Reflection): string {
@@ -576,19 +595,23 @@ export class GroupRouter extends BaseRouter {
         );
     }
 
-    protected override getIdealBaseName(reflection: Reflection): string {
-        const group = this.getGroup(reflection)
-            .split("/")
-            .map(createNormalizedUrl)
-            .join("/");
-        const parts = [createNormalizedUrl(reflection.name)];
-        while (reflection.parent && !reflection.parent.isProject()) {
-            reflection = reflection.parent;
-            parts.unshift(createNormalizedUrl(reflection.name));
+    protected override getIdealBaseName(target: RouterTarget): string {
+        if (target instanceof Reflection) {
+            const group = this.getGroup(target)
+                .split("/")
+                .map(createNormalizedUrl)
+                .join("/");
+            const parts = [createNormalizedUrl(target.name)];
+            while (target.parent && !target.parent.isProject()) {
+                target = target.parent;
+                parts.unshift(createNormalizedUrl(target.name));
+            }
+
+            const baseName = parts.join(".");
+            return `${group}/${baseName}`;
         }
 
-        const baseName = parts.join(".");
-        return `${group}/${baseName}`;
+        throw new Error("GroupRouter does not support non-Reflection router targets");
     }
 }
 
@@ -613,18 +636,88 @@ export class CategoryRouter extends BaseRouter {
         );
     }
 
-    protected override getIdealBaseName(reflection: Reflection): string {
-        const cat = this.getCategory(reflection)
-            .split("/")
-            .map(createNormalizedUrl)
-            .join("/");
-        const parts = [createNormalizedUrl(reflection.name)];
-        while (reflection.parent && !reflection.parent.isProject()) {
-            reflection = reflection.parent;
-            parts.unshift(createNormalizedUrl(reflection.name));
+    protected override getIdealBaseName(target: RouterTarget): string {
+        if (target instanceof Reflection) {
+            const cat = this.getCategory(target)
+                .split("/")
+                .map(createNormalizedUrl)
+                .join("/");
+            const parts = [createNormalizedUrl(target.name)];
+            while (target.parent && !target.parent.isProject()) {
+                target = target.parent;
+                parts.unshift(createNormalizedUrl(target.name));
+            }
+
+            const baseName = parts.join(".");
+            return `${cat}/${baseName}`;
         }
 
-        const baseName = parts.join(".");
-        return `${cat}/${baseName}`;
+        throw new Error(`CategoryRouter does not support non-reflection targets`);
+    }
+}
+
+/**
+ * Router which places reflections in folders according to their kind,
+ * and creates pages for groups within modules
+ * @group Routers
+ */
+export class KindRouterWithGroupPages extends KindRouter {
+    protected override buildChildPages(
+        target: RouterTarget,
+        outPages: PageDefinition[],
+    ): void {
+        const kind = this.getPageKind(target);
+        if (kind) {
+            const idealName = this.getIdealBaseName(target);
+            const actualName = this.getFileName(idealName);
+            this.fullUrls.set(target, actualName);
+            this.sluggers.set(
+                target,
+                new Slugger(this.sluggerConfiguration),
+            );
+
+            outPages.push({
+                kind,
+                model: target,
+                url: actualName,
+            });
+
+            if (target instanceof ReflectionGroup) {
+                for (const child of target.children) {
+                    this.buildChildPages(child, outPages);
+                }
+            } else if (target instanceof Reflection) {
+                if (
+                    target.kindOf(ReflectionKind.SomeModule | ReflectionKind.Project) &&
+                    (target as DeclarationReflection).groups
+                ) {
+                    for (const group of (target as DeclarationReflection).groups!) {
+                        this.buildChildPages(group, outPages);
+                    }
+                } else {
+                    target.traverse((child) => {
+                        this.buildChildPages(child, outPages);
+                        return true;
+                    });
+                }
+            }
+        } else {
+            this.buildAnchors(target, target.parent!);
+        }
+    }
+
+    protected override getIdealBaseName(target: RouterTarget): string {
+        if (target instanceof ReflectionGroup) {
+            const parts = [createNormalizedUrl(target.name)];
+            while (target.parent && target.parent.parent) {
+                target = target.parent;
+                parts.unshift(createNormalizedUrl(target.name));
+            }
+
+            const baseName = parts.join(".");
+            return `groups/${baseName}`;
+        }
+
+        return super.getIdealBaseName(target);
     }
 }

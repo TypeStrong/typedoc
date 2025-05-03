@@ -91,6 +91,9 @@ export class DefaultTheme extends Theme {
     hierarchyTemplate = (pageEvent: PageEvent<ProjectReflection>) => {
         return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
     };
+    groupTemplate = (pageEvent: PageEvent<ReflectionGroup>) => {
+        return this.getRenderContext(pageEvent).hierarchyTemplate(pageEvent);
+    };
     defaultLayoutTemplate = (pageEvent: PageEvent<Reflection>, template: RenderTemplate<PageEvent<Reflection>>) => {
         return this.getRenderContext(pageEvent).defaultLayout(template, pageEvent);
     };
@@ -108,6 +111,17 @@ export class DefaultTheme extends Theme {
     }
 
     /**
+     * This mechanism is somewhat likely to change in the future
+     */
+    templateMapping: Record<PageKind, (_: PageEvent<never>) => JSX.Element> = {
+        [PageKind.Index]: this.indexTemplate,
+        [PageKind.Document]: this.documentTemplate,
+        [PageKind.Hierarchy]: this.hierarchyTemplate,
+        [PageKind.Reflection]: this.reflectionTemplate,
+        [PageKind.Group]: this.groupTemplate,
+    };
+
+    /**
      * Create a new DefaultTheme instance.
      *
      * @param renderer  The renderer this theme is attached to.
@@ -120,14 +134,7 @@ export class DefaultTheme extends Theme {
     }
 
     render(page: PageEvent): string {
-        const templateMapping: Record<string, (_: PageEvent<never>) => JSX.Element> = {
-            [PageKind.Index]: this.indexTemplate,
-            [PageKind.Document]: this.documentTemplate,
-            [PageKind.Hierarchy]: this.hierarchyTemplate,
-            [PageKind.Reflection]: this.reflectionTemplate,
-        };
-
-        const template = templateMapping[page.pageKind];
+        const template = this.templateMapping[page.pageKind];
 
         if (!template) {
             throw new Error(`TypeDoc's DefaultTheme does not support the page kind ${page.pageKind}`);
@@ -223,7 +230,7 @@ export class DefaultTheme extends Theme {
             }
 
             if (parent instanceof ReflectionGroup) {
-                if (shouldShowCategories(parent.owningReflection, opts) && parent.categories) {
+                if (shouldShowCategories(parent.parent, opts) && parent.categories) {
                     return filterMap(parent.categories, toNavigation);
                 }
                 return filterMap(parent.children, toNavigation);

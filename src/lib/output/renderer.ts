@@ -34,6 +34,7 @@ import {
     GroupRouter,
     KindDirRouter,
     KindRouter,
+    KindRouterWithGroupPages,
     type PageDefinition,
     type Router,
     StructureDirRouter,
@@ -173,6 +174,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         ["structure-dir", StructureDirRouter],
         ["group", GroupRouter],
         ["category", CategoryRouter],
+        ["kind-with-groups", KindRouterWithGroupPages],
     ]);
 
     private themes = new Map<string, new (renderer: Renderer) => Theme>([

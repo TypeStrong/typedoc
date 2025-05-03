@@ -17,6 +17,13 @@ export class ReflectionGroup {
     title: string;
 
     /**
+     * Alias of {@link title} to make `ReflectionGroup` compatible with the {@link RouterTarget} type.
+     */
+    get name() {
+        return this.title;
+    }
+
+    /**
      * User specified description via `@groupDescription`, if specified.
      */
     description?: CommentDisplayPart[];
@@ -31,15 +38,20 @@ export class ReflectionGroup {
      */
     categories?: ReflectionCategory[];
 
+    /** @deprecated to be removed in 0.29 */
+    get owningReflection() {
+        return this.parent;
+    }
+
     /**
      * Create a new ReflectionGroup instance.
      *
      * @param title The title of this group.
-     * @param owningReflection The reflection containing this group, useful for changing rendering based on a comment on a reflection.
+     * @param parent The reflection containing this group, useful for changing rendering based on a comment on a reflection.
      */
     constructor(
         title: string,
-        readonly owningReflection: Reflection,
+        readonly parent: Reflection,
     ) {
         this.title = title;
     }
