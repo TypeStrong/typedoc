@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.4 (2025-05-04)
+
 ### Features
 
 - The navigation in the default theme will now attempt to break long names onto multiple lines, #2940.
