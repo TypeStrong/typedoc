@@ -1,5 +1,6 @@
-import { splitUnquotedString } from "../index.js";
+import { JSONOutput, splitUnquotedString } from "../index.js";
 import Assert from "assert";
+import { JSON_SCHEMA_VERSION } from "../lib/models/ProjectReflection.js";
 
 describe("Project", function () {
     describe("splitUnquotedString", () => {
@@ -31,5 +32,9 @@ describe("Project", function () {
             Assert.strictEqual(result[0], '"foo', "Wrong split");
             Assert.strictEqual(result[1], "d", "Wrong split");
         });
+    });
+
+    describe("JSON schema version", () => {
+        Assert.strictEqual(JSON_SCHEMA_VERSION, JSONOutput.SCHEMA_VERSION);
     });
 });

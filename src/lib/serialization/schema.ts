@@ -32,6 +32,7 @@
 import type * as M from "#models";
 import type { IfInternal, NormalizedPath } from "#utils";
 
+// Keep this in sync with JSON_SCHEMA_VERSION in ProjectReflection.ts
 export const SCHEMA_VERSION = "2.0";
 
 /**

@@ -5,7 +5,7 @@ export * from "./DocumentReflection.js";
 export * from "./FileRegistry.js";
 export * from "./kind.js";
 export * from "./ParameterReflection.js";
-export * from "./ProjectReflection.js";
+export { ProjectReflection } from "./ProjectReflection.js";
 export * from "./ReferenceReflection.js";
 export * from "./Reflection.js";
 export * from "./ReflectionCategory.js";

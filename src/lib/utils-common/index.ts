@@ -8,7 +8,6 @@ export * from "./events.js";
 export * from "./general.js";
 export * from "./hooks.js";
 export * from "./i18n.js";
-export * from "./index.js";
 export * as JSX from "./jsx.js";
 export * from "./logger.js";
 export * from "./map.js";

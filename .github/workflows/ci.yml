@@ -31,7 +31,10 @@ jobs:
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v2.0.2
               with:
-                  entry: dist/index.js
+                  entry: >
+                    dist/index.js
+                    dist/lib/models/index.js
+                    dist/browser-utils.js
     build-release:
         runs-on: ubuntu-latest
         name: Node 22 Release

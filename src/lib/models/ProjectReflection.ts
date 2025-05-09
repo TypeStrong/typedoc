@@ -9,10 +9,13 @@ import type { TypeParameterReflection } from "./TypeParameterReflection.js";
 import { ReflectionKind } from "./kind.js";
 import { Comment, type CommentDisplayPart } from "./Comment.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
-import { type Deserializer, JSONOutput, type Serializer } from "#serialization";
+import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import { assertNever, DefaultMap, i18n, type NormalizedPath, removeIfPresent, StableKeyMap } from "#utils";
 import type { DocumentReflection } from "./DocumentReflection.js";
 import type { FileRegistry } from "./FileRegistry.js";
+
+// Keep this in sync with JSONOutput.SCHEMA_VERSION
+export const JSON_SCHEMA_VERSION = "2.0";
 
 /**
  * A reflection that represents the root of the project.
@@ -391,7 +394,7 @@ export class ProjectReflection extends ContainerReflection {
         });
 
         return {
-            schemaVersion: JSONOutput.SCHEMA_VERSION,
+            schemaVersion: JSON_SCHEMA_VERSION,
             ...super.toObject(serializer),
             variant: this.variant,
             packageName: this.packageName,
