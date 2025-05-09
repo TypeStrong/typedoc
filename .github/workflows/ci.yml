@@ -31,7 +31,7 @@ jobs:
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v2.0.2
               with:
-                  entry: >
+                  entry: |
                     dist/index.js
                     dist/lib/models/index.js
                     dist/browser-utils.js
