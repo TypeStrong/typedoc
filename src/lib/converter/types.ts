@@ -792,6 +792,17 @@ const referenceConverter: TypeConverter<
             return ref;
         }
 
+        // #2954 mapped type aliases are special! The type that we have here will
+        // not point at the type alias which names it like we want, but instead at
+        // the mapped type instantiation. Fall back to converting via the original
+        // type node to avoid creating a reference which points to the mapped type.
+        if (
+            originalNode && ts.isTypeReferenceNode(originalNode) && isObjectType(type) &&
+            type.objectFlags & ts.ObjectFlags.Mapped
+        ) {
+            return referenceConverter.convert(context, originalNode);
+        }
+
         let name: string;
         if (ts.isIdentifier(node.typeName)) {
             name = node.typeName.text;

@@ -2133,4 +2133,11 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(query(project, "Test").type?.toString(), "() => Promise<any>");
     });
+
+    it("#2954 handles Readonly with Record type", () => {
+        const project = convert();
+        equal(query(project, "InterfaceA.propertyA").type?.toString(), "AliasA");
+        equal(query(project, "InterfaceA.propertyB").type?.toString(), "AliasB<string>");
+        equal(query(project, "InterfaceA.propertyC").type?.toString(), "AliasC");
+    });
 });

@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- References to type aliases defined as mapped types will now correctly create a reference to the type alias, #2954.
+
 ## v0.28.4 (2025-05-04)
 
 ### Features
