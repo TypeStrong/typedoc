@@ -1500,6 +1500,26 @@ describe("Comment Parser", () => {
         );
     });
 
+    it("Recognizes markdown links which contain escapes in the label", () => {
+        const comment = getComment(String.raw`/**
+            * [\[brackets\]](./relative.md)
+            */`);
+
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: String.raw`[\[brackets\]](` },
+                {
+                    kind: "relative-link",
+                    text: "./relative.md",
+                    target: 1,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: ")" },
+            ] satisfies CommentDisplayPart[],
+        );
+    });
+
     it("Recognizes markdown reference definition blocks", () => {
         const comment = getComment(`/**
             * [1]: ./example.md
