@@ -162,7 +162,6 @@ function checkMarkdownLink(
     let searchStart: number;
     if (reentry.withinLinkLabel) {
         searchStart = data.pos;
-        reentry.withinLinkLabel = false;
     } else if (token.text[data.pos] === "[") {
         searchStart = data.pos + 1;
     } else {
@@ -170,15 +169,15 @@ function checkMarkdownLink(
     }
 
     const labelEnd = findLabelEnd(token.text, searchStart);
-    if (labelEnd === -1) {
-        // This markdown link might be split across multiple display parts
-        // [ `text` ](link)
-        // ^^ text
-        //   ^^^^^^ code
-        //         ^^^^^^^^ text
-        reentry.withinLinkLabel = true;
+    if (labelEnd === -1 || token.text[labelEnd] === "\n") {
+        // This markdown link might be split across multiple lines or input tokens
+        //     [prefix `code` suffix](target)
+        //     ........^^^^^^................
+        // Unless we encounter two consecutive line feeds, expect it to keep going.
+        reentry.withinLinkLabel = labelEnd !== data.pos || !data.atNewLine;
         return;
     }
+    reentry.withinLinkLabel = false;
 
     if (token.text[labelEnd] === "]" && token.text[labelEnd + 1] === "(") {
         const link = MdHelpers.parseLinkDestination(
