@@ -1565,18 +1565,27 @@ describe("Comment Parser", () => {
     it("Recognizes markdown links which contain escapes in the label", () => {
         const comment = getComment(String.raw`/**
             * [\[brackets\]](./relative.md)
+            *
+            * [
+            *  multi-line
+            *  \[brackets\]
+            * ](./relative.md)
             */`);
+
+        const link = {
+            kind: "relative-link",
+            text: "./relative.md",
+            target: 1,
+            targetAnchor: undefined,
+        } as const;
 
         equal(
             comment.summary,
             [
                 { kind: "text", text: String.raw`[\[brackets\]](` },
-                {
-                    kind: "relative-link",
-                    text: "./relative.md",
-                    target: 1,
-                    targetAnchor: undefined,
-                },
+                link,
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](` },
+                link,
                 { kind: "text", text: ")" },
             ] satisfies CommentDisplayPart[],
         );
@@ -1808,18 +1817,29 @@ describe("Raw Comment Parser", () => {
     });
 
     it("Recognizes markdown links which contain escapes in the label", () => {
-        const comment = getComment(String.raw`[\[brackets\]](./relative.md)`);
+        const comment = getComment(dedent(String.raw`
+            [\[brackets\]](./relative.md)
+
+            [
+             multi-line
+             \[brackets\]
+            ](./relative.md)
+            `));
+
+        const link = {
+            kind: "relative-link",
+            text: "./relative.md",
+            target: 1,
+            targetAnchor: undefined,
+        } as const;
 
         equal(
             comment.content,
             [
                 { kind: "text", text: String.raw`[\[brackets\]](` },
-                {
-                    kind: "relative-link",
-                    text: "./relative.md",
-                    target: 1,
-                    targetAnchor: undefined,
-                },
+                link,
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](` },
+                link,
                 { kind: "text", text: ")" },
             ] satisfies CommentDisplayPart[],
         );
