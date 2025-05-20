@@ -328,6 +328,10 @@ function isRelativePath(link: string) {
 function findLabelEnd(text: string, pos: number) {
     while (pos < text.length) {
         switch (text[pos]) {
+            case "\\":
+                ++pos;
+                if (pos < text.length && text[pos] === "\n") return pos;
+                break;
             case "\n":
             case "]":
             case "[":
