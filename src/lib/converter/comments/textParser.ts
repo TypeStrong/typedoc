@@ -76,6 +76,7 @@ export function textContent(
     reentry: TextParserReentryState,
 ) {
     let lastPartEnd = 0;
+    let canEndMarkdownLink = true;
     const data: TextParserData = {
         sourcePath,
         token,
@@ -87,6 +88,7 @@ export function textContent(
     };
 
     function addRef(ref: RelativeLink) {
+        canEndMarkdownLink = true;
         outContent.push({
             kind: "text",
             text: token.text.slice(lastPartEnd, ref.pos),
@@ -116,10 +118,15 @@ export function textContent(
     }
 
     while (data.pos < token.text.length) {
-        const link = checkMarkdownLink(data, reentry);
-        if (link) {
-            addRef(link);
-            continue;
+        if (canEndMarkdownLink) {
+            const link = checkMarkdownLink(data, reentry);
+            if (link) {
+                addRef(link);
+                continue;
+            }
+            // If we're within Markdown link text, then `checkMarkdownLink`
+            // already scanned `token` up to a line feed (if any).
+            canEndMarkdownLink = !reentry.withinLinkLabel;
         }
 
         const reference = checkReference(data);
@@ -134,7 +141,9 @@ export function textContent(
             continue;
         }
 
-        data.atNewLine = token.text[data.pos] === "\n";
+        const atNewLine = token.text[data.pos] === "\n";
+        data.atNewLine = atNewLine;
+        if (atNewLine) canEndMarkdownLink = true;
         ++data.pos;
     }
 
