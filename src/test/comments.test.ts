@@ -1569,7 +1569,9 @@ describe("Comment Parser", () => {
             * [
             *  multi-line
             *  \[brackets\]
-            * ](./relative.md)
+            * ](
+            *   ./relative.md
+            *   )
             */`);
 
         const link = {
@@ -1584,9 +1586,9 @@ describe("Comment Parser", () => {
             [
                 { kind: "text", text: String.raw`[\[brackets\]](` },
                 link,
-                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](` },
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](\n  ` },
                 link,
-                { kind: "text", text: ")" },
+                { kind: "text", text: "\n  )" },
             ] satisfies CommentDisplayPart[],
         );
     });
@@ -1823,7 +1825,9 @@ describe("Raw Comment Parser", () => {
             [
              multi-line
              \[brackets\]
-            ](./relative.md)
+            ](
+              ./relative.md
+              )
             `));
 
         const link = {
@@ -1838,9 +1842,9 @@ describe("Raw Comment Parser", () => {
             [
                 { kind: "text", text: String.raw`[\[brackets\]](` },
                 link,
-                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](` },
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](\n  ` },
                 link,
-                { kind: "text", text: ")" },
+                { kind: "text", text: "\n  )" },
             ] satisfies CommentDisplayPart[],
         );
     });
