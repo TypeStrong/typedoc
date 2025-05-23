@@ -235,7 +235,7 @@ loads the following languages.
 ## ignoredHighlightLanguages
 
 Specifies languages used in code blocks which should be silently ignored by TypeDoc.
-By default, TypeDoc will produce an error if a code block specifies a language which
+By default, TypeDoc will produce a warning if a code block specifies a language which
 is not present in the highlightLanguages array.
 
 ```json
