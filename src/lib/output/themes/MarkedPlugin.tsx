@@ -88,21 +88,21 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         lang = lang || "typescript";
         lang = lang.toLowerCase();
         if (!isSupportedLanguage(lang)) {
-            this.application.logger.warn(
-                i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
-                    lang,
-                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
-                ),
-            );
-            return text;
-        }
-        if (!isLoadedLanguage(lang)) {
-            this.application.logger.warn(
-                i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
-                    lang,
-                    getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
-                ),
-            );
+            if (isLoadedLanguage(lang)) {
+                this.application.logger.warn(
+                    i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
+                        lang,
+                        getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
+                    ),
+                );
+            } else {
+                this.application.logger.warn(
+                    i18n.unsupported_highlight_language_0_not_highlighted_in_comment_for_1(
+                        lang,
+                        getFriendlyFullName(this.page?.model || { name: "(unknown)" }),
+                    ),
+                );
+            }
             return text;
         }
 

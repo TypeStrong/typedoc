@@ -7,6 +7,8 @@ title: Changelog
 ### Bug Fixes
 
 - References to type aliases defined as mapped types will now correctly create a reference to the type alias, #2954.
+- `ignoredHighlightLanguages` can now be used to prevent warnings for codeblocks containing languages
+  which are supported by Shiki but are not loaded, #2956.
 
 ## v0.28.4 (2025-05-04)
 

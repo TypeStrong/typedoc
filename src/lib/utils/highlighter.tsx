@@ -162,8 +162,12 @@ export async function loadHighlighter(
     highlighter = new ShikiHighlighter(hl, lightTheme, darkTheme);
 }
 
+function isPlainLanguage(lang: string) {
+    return ignoredLanguages?.includes(lang) || plaintextLanguages.includes(lang);
+}
+
 export function isSupportedLanguage(lang: string) {
-    return ignoredLanguages?.includes(lang) || getSupportedLanguages().includes(lang);
+    return isPlainLanguage(lang) || supportedLanguages.includes(lang);
 }
 
 export function getSupportedLanguages(): string[] {
@@ -175,9 +179,7 @@ export function getSupportedThemes(): string[] {
 }
 
 export function isLoadedLanguage(lang: string): boolean {
-    return (
-        isSupportedLanguage(lang) || highlighter?.supports(lang) || false
-    );
+    return isPlainLanguage(lang) || highlighter?.supports(lang) || false;
 }
 
 export function highlight(code: string, lang: string): string {
