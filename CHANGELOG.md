@@ -4,11 +4,11 @@ title: Changelog
 
 ## Unreleased
 
-## v0.28.5 (2025-05-26)
-
 ### Bug Fixes
 
 - Attempting to highlight a supported language which is not enabled is now a warning, not an error, #2956.
+
+## v0.28.5 (2025-05-26)
 
 ### Bug Fixes
 
