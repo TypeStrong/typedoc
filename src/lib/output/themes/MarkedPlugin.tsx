@@ -87,8 +87,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     public getHighlighted(text: string, lang?: string): string {
         lang = lang || "typescript";
         lang = lang.toLowerCase();
-        if (!isSupportedLanguage(lang)) {
-            if (isLoadedLanguage(lang)) {
+        if (!isLoadedLanguage(lang)) {
+            if (isSupportedLanguage(lang)) {
                 this.application.logger.warn(
                     i18n.unloaded_language_0_not_highlighted_in_comment_for_1(
                         lang,

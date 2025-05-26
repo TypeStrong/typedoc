@@ -8,6 +8,10 @@ title: Changelog
 
 ### Bug Fixes
 
+- Attempting to highlight a supported language which is not enabled is now a warning, not an error, #2956.
+
+### Bug Fixes
+
 - References to type aliases defined as mapped types will now correctly create a reference to the type alias, #2954.
 - `ignoredHighlightLanguages` can now be used to prevent warnings for codeblocks containing languages
   which are supported by Shiki but are not loaded, #2956.
