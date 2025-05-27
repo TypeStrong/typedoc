@@ -1562,13 +1562,14 @@ describe("Comment Parser", () => {
         );
     });
 
-    it("Recognizes markdown links which contain escapes in the label", () => {
+    it("Recognizes markdown links which contain parentheses and escapes in the label", () => {
         const comment = getComment(String.raw`/**
-            * [\[brackets\]](./relative.md)
+            * [(parens) \[brackets\]](./relative.md)
             *
             * [
             *  multi-line
             *  \[brackets\]
+            *  (parens)
             * ](
             *   ./relative.md
             *   )
@@ -1584,9 +1585,9 @@ describe("Comment Parser", () => {
         equal(
             comment.summary,
             [
-                { kind: "text", text: String.raw`[\[brackets\]](` },
+                { kind: "text", text: String.raw`[(parens) \[brackets\]](` },
                 link,
-                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](\n  ` },
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n (parens)\n](\n  ` },
                 link,
                 { kind: "text", text: "\n  )" },
             ] satisfies CommentDisplayPart[],
@@ -1818,13 +1819,14 @@ describe("Raw Comment Parser", () => {
         files = undefined!;
     });
 
-    it("Recognizes markdown links which contain escapes in the label", () => {
+    it("Recognizes markdown links which contain parentheses and escapes in the label", () => {
         const comment = getComment(dedent(String.raw`
-            [\[brackets\]](./relative.md)
+            [(parens) \[brackets\]](./relative.md)
 
             [
              multi-line
              \[brackets\]
+             (parens)
             ](
               ./relative.md
               )
@@ -1840,9 +1842,9 @@ describe("Raw Comment Parser", () => {
         equal(
             comment.content,
             [
-                { kind: "text", text: String.raw`[\[brackets\]](` },
+                { kind: "text", text: String.raw`[(parens) \[brackets\]](` },
                 link,
-                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n](\n  ` },
+                { kind: "text", text: `)\n\n[\n multi-line\n ${String.raw`\[brackets\]`}\n (parens)\n](\n  ` },
                 link,
                 { kind: "text", text: "\n  )" },
             ] satisfies CommentDisplayPart[],
