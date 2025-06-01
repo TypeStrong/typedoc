@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Attempting to highlight a supported language which is not enabled is now a warning, not an error, #2956.
+- Improved compatibility with CommonMark's link parsing, #2959.
 
 ## v0.28.5 (2025-05-26)
 
