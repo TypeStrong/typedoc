@@ -77,6 +77,9 @@ type S<T, K extends keyof T> = {
     -readonly [K2 in K]: ToSerialized<T[K2]>;
 };
 
+export type ReflectionId = M.ReflectionId;
+export type FileId = M.FileId;
+
 export interface ReflectionSymbolId {
     packageName: string;
     packagePath: NormalizedPath;
@@ -126,7 +129,7 @@ export interface ReferenceReflection
      * -1 if the reference refers to a symbol that does not exist in the documentation.
      * Otherwise, the reflection ID.
      */
-    target: number;
+    target: ReflectionId;
 }
 
 /** @category Reflections */
@@ -203,7 +206,7 @@ export interface ProjectReflection extends
      */
     schemaVersion: string;
     symbolIdMap:
-        | Record<number, ReflectionSymbolId>
+        | Record<ReflectionId, ReflectionSymbolId>
         | IfInternal<undefined, never>;
     files: FileRegistry;
 }
@@ -216,7 +219,7 @@ export interface ContainerReflection extends
         "children" | "documents" | "groups" | "categories"
     >
 {
-    childrenIncludingDocuments?: number[];
+    childrenIncludingDocuments?: ReflectionId[];
 }
 
 /** @category Reflections */
@@ -294,7 +297,7 @@ export interface ReferenceType extends
         "type" | "name" | "typeArguments" | "package" | "externalUrl"
     >
 {
-    target: number | ReflectionSymbolId;
+    target: ReflectionId | ReflectionSymbolId;
     qualifiedName?: string;
     refersToTypeParameter?: boolean;
     preferValues?: boolean;
@@ -388,7 +391,7 @@ export interface InlineTagDisplayPart {
     kind: "inline-tag";
     tag: `@${string}`;
     text: string;
-    target?: string | number | ReflectionSymbolId;
+    target?: string | ReflectionId | ReflectionSymbolId;
     tsLinkText?: string;
 }
 
@@ -406,7 +409,7 @@ export interface RelativeLinkDisplayPart {
     /**
      * File ID, if present
      */
-    target?: number;
+    target?: FileId;
     /**
      * Anchor within the target file, if present
      */
@@ -417,7 +420,7 @@ export interface SourceReference extends S<M.SourceReference, "fileName" | "line
 
 export interface FileRegistry {
     /** Relative path according to the serialization root */
-    entries: Record<number, NormalizedPath>;
+    entries: Record<FileId, NormalizedPath>;
     /** File ID to reflection ID */
-    reflections: Record<number, number>;
+    reflections: Record<FileId, ReflectionId>;
 }

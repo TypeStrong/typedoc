@@ -6,7 +6,7 @@ import type { ProjectReflection } from "../../models/index.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath } from "#utils";
+import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath, NormalizedPathUtils } from "#utils";
 import {
     discoverPackageJson,
     type EntryPointStrategy,
@@ -139,6 +139,10 @@ export class PackagePlugin extends ConverterComponent {
             );
 
             project.readme = content;
+            project.files.registerReflectionPath(this.readmeFile, project);
+            // In packages mode, this probably won't do anything unless someone uses the readme
+            // option to select a different file.
+            project.files.registerReflectionPath(NormalizedPathUtils.dirname(this.readmeFile), project);
 
             // This isn't ideal, but seems better than figuring out the readme
             // path over in the include plugin...

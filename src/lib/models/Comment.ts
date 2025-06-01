@@ -1,8 +1,9 @@
 import { assertNever, i18n, NonEnumerable, type NormalizedPath, removeIf } from "#utils";
-import type { Reflection } from "./Reflection.js";
+import type { Reflection, ReflectionId } from "./Reflection.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
+import type { FileId } from "./FileRegistry.js";
 
 /**
  * Represents a parsed piece of a comment.
@@ -62,7 +63,7 @@ export interface RelativeLinkDisplayPart {
      * A link to either some document outside of the project or a reflection.
      * This may be `undefined` if the relative path does not exist.
      */
-    target: number | undefined;
+    target: FileId | undefined;
     /**
      * Anchor within the target page, validated after rendering if possible
      */
@@ -238,10 +239,10 @@ export class Comment {
         parts: JSONOutput.CommentDisplayPart[],
     ): CommentDisplayPart[] {
         const links: [
-            number,
+            ReflectionId,
             InlineTagDisplayPart | RelativeLinkDisplayPart,
         ][] = [];
-        const files: [number, RelativeLinkDisplayPart][] = [];
+        const files: [FileId, RelativeLinkDisplayPart][] = [];
 
         const result = parts.map((part): CommentDisplayPart => {
             switch (part.kind) {

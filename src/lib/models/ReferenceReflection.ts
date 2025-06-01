@@ -1,7 +1,7 @@
 import { DeclarationReflection } from "./DeclarationReflection.js";
 import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import type { Reflection } from "./Reflection.js";
+import type { Reflection, ReflectionId } from "./Reflection.js";
 
 /**
  * Describes a reflection which does not exist at this location, but is referenced. Used for imported reflections.
@@ -83,7 +83,7 @@ export class ReferenceReflection extends DeclarationReflection {
         return {
             ...super.toObject(serializer),
             variant: this.variant,
-            target: this.tryGetTargetReflection()?.id ?? -1,
+            target: this.tryGetTargetReflection()?.id ?? -1 as ReflectionId,
         };
     }
 

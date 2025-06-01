@@ -265,6 +265,10 @@ export type ReflectionVisitor = {
     [K in keyof ReflectionVariant]?: (refl: ReflectionVariant[K]) => void;
 };
 
+/**
+ * Alias for a `number` which references a reflection.
+ * `-1` may be used for an invalid reflection ID.
+ */
 export type ReflectionId = number & { __reflectionIdBrand: never };
 
 /**

@@ -7,7 +7,7 @@
  */
 import type { TranslationProxy } from "../../internationalization/index.js";
 import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
-import type { FileRegistry } from "../../models/FileRegistry.js";
+import type { FileId, FileRegistry } from "../../models/FileRegistry.js";
 import { HtmlAttributeParser, ParserState } from "#node-utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
@@ -28,7 +28,7 @@ interface RelativeLink {
     pos: number;
     end: number;
     /** May be undefined if the registry can't find this file */
-    target: number | undefined;
+    target: FileId | undefined;
     targetAnchor: string | undefined;
 }
 

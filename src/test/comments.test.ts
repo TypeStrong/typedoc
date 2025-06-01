@@ -10,7 +10,7 @@ import { lexCommentString } from "../lib/converter/comments/rawLexer.js";
 import { Comment, type CommentDisplayPart, CommentTag } from "../lib/models/index.js";
 import { TestLogger } from "./TestLogger.js";
 import { extractTagName } from "../lib/converter/comments/tagName.js";
-import { FileRegistry } from "../lib/models/FileRegistry.js";
+import { type FileId, FileRegistry } from "../lib/models/FileRegistry.js";
 import { dedent, MinimalSourceFile, type NormalizedPath } from "#utils";
 
 const CONTENT_PARTS = ["text", "`code`"];
@@ -32,7 +32,7 @@ function* generateLinkTitleCases() {
                 {
                     kind: "relative-link",
                     text: "./relative.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: ")" },
@@ -47,7 +47,7 @@ function* generateLinkTitleCases() {
             {
                 kind: "relative-link",
                 text: "./relative.md",
-                target: 1,
+                target: 1 as FileId,
                 targetAnchor: undefined,
             },
             { kind: "text", text: ")" },
@@ -1480,14 +1480,14 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./relative.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: ") ![](" },
                 {
                     kind: "relative-link",
                     text: "image.png",
-                    target: 2,
+                    target: 2 as FileId,
                     targetAnchor: undefined,
                 },
                 {
@@ -1519,7 +1519,7 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./relative.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 // Labels can also include single newlines
@@ -1529,7 +1529,7 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./relative.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 // But not double!
@@ -1554,7 +1554,7 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./relative.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: ")" },
@@ -1578,7 +1578,7 @@ describe("Comment Parser", () => {
         const link = {
             kind: "relative-link",
             text: "./relative.md",
-            target: 1,
+            target: 1 as FileId,
             targetAnchor: undefined,
         } as const;
 
@@ -1622,14 +1622,14 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./example.md",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: "\n[2]:" },
                 {
                     kind: "relative-link",
                     text: "<./example with space>",
-                    target: 2,
+                    target: 2 as FileId,
                     targetAnchor: undefined,
                 },
                 {
@@ -1667,14 +1667,14 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./test.png",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: '" >\n<img src="' },
                 {
                     kind: "relative-link",
                     text: "./test space.png",
-                    target: 2,
+                    target: 2 as FileId,
                     targetAnchor: undefined,
                 },
                 {
@@ -1700,14 +1700,14 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./test.png",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: '" >\n<a href="' },
                 {
                     kind: "relative-link",
                     text: "./test space.png",
-                    target: 2,
+                    target: 2 as FileId,
                     targetAnchor: undefined,
                 },
                 {
@@ -1731,14 +1731,14 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./path.md#foo",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: "foo",
                 },
                 { kind: "text", text: '" >\n[test](' },
                 {
                     kind: "relative-link",
                     text: "./test.txt#bar",
-                    target: 2,
+                    target: 2 as FileId,
                     targetAnchor: "bar",
                 },
                 { kind: "text", text: ")" },
@@ -1758,15 +1758,15 @@ describe("Comment Parser", () => {
                 {
                     kind: "relative-link",
                     text: "./&amp;&#97;.png",
-                    target: 1,
+                    target: 1 as FileId,
                     targetAnchor: undefined,
                 },
                 { kind: "text", text: '" >' },
             ] satisfies CommentDisplayPart[],
         );
 
-        equal(files.getName(1), "&a.png");
-        equal(files.getName(1), "&a.png");
+        equal(files.getName(1 as FileId), "&a.png");
+        equal(files.getName(1 as FileId), "&a.png");
     });
 });
 
@@ -1831,7 +1831,7 @@ describe("Raw Comment Parser", () => {
         const link = {
             kind: "relative-link",
             text: "./relative.md",
-            target: 1,
+            target: 1 as FileId,
             targetAnchor: undefined,
         } as const;
 

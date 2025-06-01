@@ -1,4 +1,4 @@
-import { type Reflection, TraverseProperty } from "./Reflection.js";
+import { type Reflection, type ReflectionId, TraverseProperty } from "./Reflection.js";
 import { ContainerReflection } from "./ContainerReflection.js";
 import { ReferenceReflection } from "./ReferenceReflection.js";
 import type { DeclarationReflection } from "./DeclarationReflection.js";
@@ -49,7 +49,7 @@ export class ProjectReflection extends ContainerReflection {
      *
      * This may be replaced with a `Map<number, Reflection>` someday.
      */
-    reflections: { [id: number]: Reflection } = { [this.id]: this };
+    reflections: { [id: number]: Reflection } = {};
 
     /**
      * The name of the package that this reflection documents according to package.json.
@@ -421,7 +421,7 @@ export class ProjectReflection extends ContainerReflection {
         de.defer(() => {
             // Unnecessary conditional in release
             for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
-                const refl = this.getReflectionById(de.oldIdToNewId[+id] ?? -1);
+                const refl = this.getReflectionById(de.oldIdToNewId[+id as ReflectionId] ?? -1);
                 if (refl) {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {

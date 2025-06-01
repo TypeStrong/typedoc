@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- TypeDoc now supports resolving relative paths in links to the package directory as belonging to the project, #2961.
+
 ### Bug Fixes
 
 - Attempting to highlight a supported language which is not enabled is now a warning, not an error, #2956.

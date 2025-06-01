@@ -181,7 +181,7 @@ export = localeUtils.buildIncompleteTranslation({
 
     // deserialization
     serialized_project_referenced_0_not_part_of_project: "序列化项目引用了反射 {0}，但它不是项目的一部分",
-    saved_relative_path_0_resolved_from_1_is_not_a_file: "序列化项目引用的 {0} 不存在或无法在 {1} 下找到",
+    saved_relative_path_0_resolved_from_1_does_not_exist: "序列化项目引用的 {0} 不存在或无法在 {1} 下找到",
 
     // options
     circular_reference_extends_0: "{0} 的“extends”字段出现循环引用",

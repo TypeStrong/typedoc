@@ -1,6 +1,6 @@
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { copySync, readFile, writeFileSync } from "../../utils/fs.js";
+import { copySync, isFile, readFile, writeFileSync } from "../../utils/fs.js";
 import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getStyles } from "../../utils/highlighter.js";
 import { type EnumKeys, getEnumKeys, i18n, type NormalizedPath } from "#utils";
@@ -123,7 +123,13 @@ export class AssetsPlugin extends RendererComponent {
             const media = join(event.outputDirectory, "media");
             const toCopy = event.project.files.getNameToAbsoluteMap();
             for (const [fileName, absolute] of toCopy.entries()) {
-                copySync(absolute, join(media, fileName));
+                if (isFile(absolute)) {
+                    copySync(absolute, join(media, fileName));
+                } else {
+                    this.application.logger.warn(
+                        i18n.relative_path_0_is_not_a_file_and_will_not_be_copied_to_output(absolute),
+                    );
+                }
             }
         }
     }

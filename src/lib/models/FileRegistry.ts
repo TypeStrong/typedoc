@@ -3,22 +3,24 @@ import type { ProjectReflection, Reflection } from "./index.js";
 import type { ReflectionId } from "./Reflection.js";
 import { type NormalizedPath, NormalizedPathUtils } from "#utils";
 
+export type FileId = number & { __mediaIdBrand: never };
+
 export class FileRegistry {
     protected nextId = 1;
 
     // The combination of these two make up the registry
-    protected mediaToReflection = new Map<number, ReflectionId>();
-    protected mediaToPath = new Map<number, NormalizedPath>();
+    protected mediaToReflection = new Map<FileId, ReflectionId>();
+    protected mediaToPath = new Map<FileId, NormalizedPath>();
 
     protected reflectionToPath = new Map<ReflectionId, NormalizedPath>();
-    protected pathToMedia = new Map<NormalizedPath, number>();
+    protected pathToMedia = new Map<NormalizedPath, FileId>();
 
     // Lazily created as we get names for rendering
-    protected names = new Map<number, string>();
+    protected names = new Map<FileId, string>();
     protected nameUsage = new Map<string, number>();
 
     registerAbsolute(absolute: NormalizedPath): {
-        target: number;
+        target: FileId;
         anchor: string | undefined;
     } {
         const anchorIndex = absolute.indexOf("#");
@@ -27,21 +29,33 @@ export class FileRegistry {
             anchor = absolute.substring(anchorIndex + 1);
             absolute = absolute.substring(0, anchorIndex) as NormalizedPath;
         }
-        absolute = absolute.replace(/#.*/, "") as NormalizedPath;
+
         const existing = this.pathToMedia.get(absolute);
         if (existing) {
             return { target: existing, anchor };
         }
 
-        this.mediaToPath.set(this.nextId, absolute);
-        this.pathToMedia.set(absolute, this.nextId);
+        this.mediaToPath.set(this.nextId as FileId, absolute);
+        this.pathToMedia.set(absolute, this.nextId as FileId);
 
-        return { target: this.nextId++, anchor };
+        return { target: this.nextId++ as FileId, anchor };
     }
 
+    /**
+     * Registers the specified path as the canonical file for this reflection
+     */
     registerReflection(absolute: NormalizedPath, reflection: Reflection) {
         const { target } = this.registerAbsolute(absolute);
         this.reflectionToPath.set(reflection.id, absolute);
+        this.mediaToReflection.set(target, reflection.id);
+    }
+
+    /**
+     * Registers the specified path as a path which should be resolved to the specified
+     * reflection. A reflection *may* be associated with multiple paths.
+     */
+    registerReflectionPath(absolute: NormalizedPath, reflection: Reflection) {
+        const { target } = this.registerAbsolute(absolute);
         this.mediaToReflection.set(target, reflection.id);
     }
 
@@ -52,7 +66,7 @@ export class FileRegistry {
     register(
         sourcePath: NormalizedPath,
         relativePath: NormalizedPath,
-    ): { target: number; anchor: string | undefined } | undefined {
+    ): { target: FileId; anchor: string | undefined } | undefined {
         return this.registerAbsolute(
             NormalizedPathUtils.resolve(NormalizedPathUtils.dirname(sourcePath), relativePath),
         );
@@ -67,7 +81,7 @@ export class FileRegistry {
     }
 
     resolve(
-        id: number,
+        id: FileId,
         project: ProjectReflection,
     ): string | Reflection | undefined {
         const reflId = this.mediaToReflection.get(id);
@@ -77,7 +91,11 @@ export class FileRegistry {
         return this.mediaToPath.get(id);
     }
 
-    getName(id: number): string | undefined {
+    resolvePath(id: FileId): string | undefined {
+        return this.mediaToPath.get(id);
+    }
+
+    getName(id: FileId): string | undefined {
         const absolute = this.mediaToPath.get(id);
         if (!absolute) return;
 
@@ -137,19 +155,19 @@ export class FileRegistry {
      * a single object, and should merge in files from the other registries.
      */
     fromObject(de: Deserializer, obj: JSONOutput.FileRegistry): void {
-        for (const [key, val] of Object.entries(obj.entries)) {
-            const absolute = NormalizedPathUtils.resolve(de.projectRoot, val);
-            de.oldFileIdToNewFileId[+key] = this.registerAbsolute(absolute).target;
+        for (const [fileId, path] of Object.entries(obj.entries)) {
+            const absolute = NormalizedPathUtils.resolve(de.projectRoot, path);
+            de.oldFileIdToNewFileId[+fileId as FileId] = this.registerAbsolute(absolute).target;
         }
 
         de.defer((project) => {
-            for (const [media, reflId] of Object.entries(obj.reflections)) {
+            for (const [fileId, reflId] of Object.entries(obj.reflections)) {
                 const refl = project.getReflectionById(
                     de.oldIdToNewId[reflId]!,
                 );
                 if (refl) {
                     this.mediaToReflection.set(
-                        de.oldFileIdToNewFileId[+media]!,
+                        de.oldFileIdToNewFileId[+fileId as FileId]!,
                         refl.id,
                     );
                 }

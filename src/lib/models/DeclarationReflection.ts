@@ -1,5 +1,5 @@
 import { type ReferenceType, ReflectionType, type SomeType } from "./types.js";
-import { type TraverseCallback, TraverseProperty } from "./Reflection.js";
+import { type ReflectionId, type TraverseCallback, TraverseProperty } from "./Reflection.js";
 import { ContainerReflection } from "./ContainerReflection.js";
 import type { SignatureReflection } from "./SignatureReflection.js";
 import type { TypeParameterReflection } from "./TypeParameterReflection.js";
@@ -346,7 +346,7 @@ export class DeclarationReflection extends ContainerReflection {
             de.defer(() => {
                 for (const [id, sid] of Object.entries(obj.symbolIdMap || {})) {
                     const refl = this.project.getReflectionById(
-                        de.oldIdToNewId[+id] ?? -1,
+                        de.oldIdToNewId[+id as ReflectionId] ?? -1,
                     );
                     if (refl) {
                         this.project.registerSymbolId(

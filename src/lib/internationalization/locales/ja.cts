@@ -146,7 +146,7 @@ export = localeUtils.buildIncompleteTranslation({
     file_0_not_an_object: "ファイル {0} はオブジェクトではありません",
     serialized_project_referenced_0_not_part_of_project:
         "シリアル化されたプロジェクトは、プロジェクトの一部ではないリフレクション {0} を参照しました",
-    // saved_relative_path_0_resolved_from_1_is_not_a_file
+    // saved_relative_path_0_resolved_from_1_does_not_exist
     circular_reference_extends_0: '{0} の "extends" フィールドで循環参照が検出されました',
     failed_resolve_0_to_file_in_1: "{0} を {1} 内のファイルに解決できませんでした",
     option_0_can_only_be_specified_by_config_file: "'{0}' オプションは設定ファイル経由でのみ指定できます",

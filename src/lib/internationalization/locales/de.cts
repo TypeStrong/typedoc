@@ -221,7 +221,7 @@ export = localeUtils.buildIncompleteTranslation({
     // deserialization
     serialized_project_referenced_0_not_part_of_project:
         "Serialisiertes Projekt referenziert Reflection {0}, welche kein Teil des Projekts ist",
-    saved_relative_path_0_resolved_from_1_is_not_a_file:
+    saved_relative_path_0_resolved_from_1_does_not_exist:
         "Serialisiertes Projekt referenziert {0}, was relativ zu {1} nicht existiert",
 
     // options

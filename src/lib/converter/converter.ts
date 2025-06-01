@@ -322,6 +322,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
             this.application.options.getValue("name"),
             this.application.files,
         );
+        if (this.owner.options.packageDir) {
+            project.files.registerReflectionPath(normalizePath(this.owner.options.packageDir), project);
+        }
+
         const context = new Context(this, programs, project);
 
         this.trigger(Converter.EVENT_BEGIN, context);

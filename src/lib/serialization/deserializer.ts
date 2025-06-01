@@ -3,6 +3,7 @@ import {
     ConditionalType,
     DeclarationReflection,
     DocumentReflection,
+    type FileId,
     type FileRegistry,
     IndexedAccessType,
     InferredType,
@@ -19,6 +20,7 @@ import {
     ReferenceReflection,
     ReferenceType,
     Reflection,
+    type ReflectionId,
     ReflectionKind,
     ReflectionType,
     type ReflectionVariant,
@@ -166,7 +168,7 @@ export class Deserializer {
         },
         reference(obj) {
             // Correct reference will be restored in fromObject
-            return ReferenceType.createResolvedReference(obj.name, -2, null);
+            return ReferenceType.createResolvedReference(obj.name, -2 as ReflectionId, null);
         },
         reflection(obj, de) {
             return new ReflectionType(
@@ -213,8 +215,8 @@ export class Deserializer {
      */
     projectRoot!: NormalizedPath;
 
-    oldIdToNewId: Record<number, number | undefined> = {};
-    oldFileIdToNewFileId: Record<number, number | undefined> = {};
+    oldIdToNewId: Record<ReflectionId, ReflectionId | undefined> = {};
+    oldFileIdToNewFileId: Record<FileId, FileId | undefined> = {};
     project: ProjectReflection | undefined;
 
     constructor(public logger: Logger) {}

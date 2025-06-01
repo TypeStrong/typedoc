@@ -1,4 +1,4 @@
-import type { Reflection } from "./Reflection.js";
+import type { Reflection, ReflectionId } from "./Reflection.js";
 import type { DeclarationReflection } from "./DeclarationReflection.js";
 import type { ProjectReflection } from "./ProjectReflection.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
@@ -916,13 +916,13 @@ export class ReferenceType extends Type {
      */
     preferValues = false;
 
-    private _target: ReflectionSymbolId | number;
+    private _target: ReflectionSymbolId | ReflectionId;
     @NonEnumerable
     private _project: ProjectReflection | null;
 
     private constructor(
         name: string,
-        target: ReflectionSymbolId | Reflection | number,
+        target: ReflectionSymbolId | Reflection | ReflectionId,
         project: ProjectReflection | null,
         qualifiedName: string,
     ) {
@@ -948,7 +948,7 @@ export class ReferenceType extends Type {
 
     static createResolvedReference(
         name: string,
-        target: Reflection | number,
+        target: Reflection | ReflectionId,
         project: ProjectReflection | null,
     ) {
         return new ReferenceType(name, target, project, name);
@@ -961,7 +961,7 @@ export class ReferenceType extends Type {
      * @internal
      */
     static createBrokenReference(name: string, project: ProjectReflection) {
-        return new ReferenceType(name, -1, project, name);
+        return new ReferenceType(name, -1 as ReflectionId, project, name);
     }
 
     protected override getTypeString() {
@@ -988,7 +988,7 @@ export class ReferenceType extends Type {
         if (typeof this._target === "number") {
             target = this._target;
         } else if (this._project?.symbolIdHasBeenRemoved(this._target)) {
-            target = -1;
+            target = -1 as ReflectionId;
         } else if (this.reflection) {
             target = this.reflection.id;
         } else {
@@ -1035,24 +1035,26 @@ export class ReferenceType extends Type {
 
     override fromObject(de: Deserializer, obj: JSONOutput.ReferenceType): void {
         this.typeArguments = de.reviveMany(obj.typeArguments, (t) => de.constructType(t));
-        if (typeof obj.target === "number" && obj.target !== -1) {
-            de.defer((project) => {
-                const target = project.getReflectionById(
-                    de.oldIdToNewId[obj.target as number] ?? -1,
-                );
-                if (target) {
-                    this._project = project;
-                    this._target = target.id;
-                } else {
-                    de.logger.warn(
-                        i18n.serialized_project_referenced_0_not_part_of_project(
-                            JSON.stringify(obj.target),
-                        ),
+        if (typeof obj.target === "number") {
+            if (obj.target === -1) {
+                this._target = -1 as ReflectionId;
+            } else {
+                de.defer((project) => {
+                    const target = project.getReflectionById(
+                        de.oldIdToNewId[obj.target as ReflectionId] ?? -1,
                     );
-                }
-            });
-        } else if (obj.target === -1) {
-            this._target = -1;
+                    if (target) {
+                        this._project = project;
+                        this._target = target.id;
+                    } else {
+                        de.logger.warn(
+                            i18n.serialized_project_referenced_0_not_part_of_project(
+                                JSON.stringify(obj.target),
+                            ),
+                        );
+                    }
+                });
+            }
         } else {
             this._project = de.project!;
             this._target = new ReflectionSymbolId(obj.target);
