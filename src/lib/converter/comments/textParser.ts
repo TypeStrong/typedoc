@@ -19,7 +19,6 @@ interface TextParserData {
     sourcePath: NormalizedPath;
     token: Token;
     pos: number;
-    i18n: TranslationProxy;
     warning: (msg: TranslatedString, token: Token) => void;
     files: FileRegistry;
     atNewLine: boolean;
@@ -41,6 +40,7 @@ interface RelativeLink {
  */
 export class TextParserReentryState {
     withinLinkLabel = false;
+    withinLinkDest = false;
     private lastPartWasNewline = false;
 
     checkState(token: Token) {
@@ -48,11 +48,13 @@ export class TextParserReentryState {
             case TokenSyntaxKind.Code:
                 if (/\n\s*\n/.test(token.text)) {
                     this.withinLinkLabel = false;
+                    this.withinLinkDest = false;
                 }
                 break;
             case TokenSyntaxKind.NewLine:
                 if (this.lastPartWasNewline) {
                     this.withinLinkLabel = false;
+                    this.withinLinkDest = false;
                 }
                 break;
         }
@@ -76,17 +78,18 @@ export function textContent(
     reentry: TextParserReentryState,
 ) {
     let lastPartEnd = 0;
+    let canEndMarkdownLink = true;
     const data: TextParserData = {
         sourcePath,
         token,
         pos: 0, // relative to the token
-        i18n,
         warning,
         files: files,
         atNewLine,
     };
 
     function addRef(ref: RelativeLink) {
+        canEndMarkdownLink = true;
         outContent.push({
             kind: "text",
             text: token.text.slice(lastPartEnd, ref.pos),
@@ -116,10 +119,15 @@ export function textContent(
     }
 
     while (data.pos < token.text.length) {
-        const link = checkMarkdownLink(data, reentry);
-        if (link) {
-            addRef(link);
-            continue;
+        if (canEndMarkdownLink) {
+            const link = checkMarkdownLink(data, reentry);
+            if (link) {
+                addRef(link);
+                continue;
+            }
+            // If we're within a Markdown link, then `checkMarkdownLink`
+            // already scanned `token` up to a line feed (if any).
+            canEndMarkdownLink = !reentry.withinLinkLabel && !reentry.withinLinkDest;
         }
 
         const reference = checkReference(data);
@@ -134,7 +142,9 @@ export function textContent(
             continue;
         }
 
-        data.atNewLine = token.text[data.pos] === "\n";
+        const atNewLine = token.text[data.pos] === "\n";
+        data.atNewLine = atNewLine;
+        if (atNewLine && !reentry.withinLinkDest) canEndMarkdownLink = true;
         ++data.pos;
     }
 
@@ -160,53 +170,73 @@ function checkMarkdownLink(
     const { token, sourcePath, files } = data;
 
     let searchStart: number;
-    if (reentry.withinLinkLabel) {
+    if (reentry.withinLinkLabel || reentry.withinLinkDest) {
         searchStart = data.pos;
-        reentry.withinLinkLabel = false;
     } else if (token.text[data.pos] === "[") {
         searchStart = data.pos + 1;
     } else {
         return;
     }
 
-    const labelEnd = findLabelEnd(token.text, searchStart);
-    if (labelEnd === -1) {
-        // This markdown link might be split across multiple display parts
-        // [ `text` ](link)
-        // ^^ text
-        //   ^^^^^^ code
-        //         ^^^^^^^^ text
-        reentry.withinLinkLabel = true;
-        return;
+    if (!reentry.withinLinkDest) {
+        const labelEnd = findLabelEnd(token.text, searchStart);
+        if (labelEnd === -1 || token.text[labelEnd] === "\n") {
+            // This markdown link might be split across multiple lines or input tokens
+            //     [prefix `code` suffix](target)
+            //     ........^^^^^^................
+            // Unless we encounter two consecutive line feeds, expect it to keep going.
+            reentry.withinLinkLabel = labelEnd !== data.pos || !data.atNewLine;
+            return;
+        }
+        reentry.withinLinkLabel = false;
+        if (!token.text.startsWith("](", labelEnd)) return;
+        searchStart = labelEnd + 2;
     }
 
-    if (token.text[labelEnd] === "]" && token.text[labelEnd + 1] === "(") {
-        const link = MdHelpers.parseLinkDestination(
-            token.text,
-            labelEnd + 2,
-            token.text.length,
-        );
-
-        if (link.ok) {
-            // Only make a relative-link display part if it's actually a relative link.
-            // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
-            if (isRelativePath(link.str)) {
-                const { target, anchor } = files.register(
-                    sourcePath,
-                    link.str as NormalizedPath,
-                ) || { target: undefined, anchor: undefined };
-                return {
-                    pos: labelEnd + 2,
-                    end: link.pos,
-                    target,
-                    targetAnchor: anchor,
-                };
-            }
-
-            // This was a link, skip ahead to ensure we don't happen to parse
-            // something else as a link within the link.
-            data.pos = link.pos - 1;
+    // Skip whitespace (including line breaks) between "](" and the link destination.
+    // https://spec.commonmark.org/0.31.2/#links
+    const end = token.text.length;
+    let lookahead = searchStart;
+    for (let newlines = 0;; ++lookahead) {
+        if (lookahead === end) {
+            reentry.withinLinkDest = true;
+            return;
         }
+        switch (token.text[lookahead]) {
+            case "\n":
+                if (++newlines === 2) {
+                    reentry.withinLinkDest = false;
+                    return;
+                }
+                continue;
+            case " ":
+            case "\t":
+                continue;
+        }
+        break;
+    }
+    reentry.withinLinkDest = false;
+
+    const link = MdHelpers.parseLinkDestination(token.text, lookahead, end);
+    if (link.ok) {
+        // Only make a relative-link display part if it's actually a relative link.
+        // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
+        if (isRelativePath(link.str)) {
+            const { target, anchor } = files.register(
+                sourcePath,
+                link.str as NormalizedPath,
+            ) || { target: undefined, anchor: undefined };
+            return {
+                pos: lookahead,
+                end: link.pos,
+                target,
+                targetAnchor: anchor,
+            };
+        }
+
+        // This was a link, skip ahead to ensure we don't happen to parse
+        // something else as a link within the link.
+        data.pos = link.pos - 1;
     }
 }
 
@@ -328,6 +358,10 @@ function isRelativePath(link: string) {
 function findLabelEnd(text: string, pos: number) {
     while (pos < text.length) {
         switch (text[pos]) {
+            case "\\":
+                ++pos;
+                if (pos < text.length && text[pos] === "\n") return pos;
+                break;
             case "\n":
             case "]":
             case "[":
