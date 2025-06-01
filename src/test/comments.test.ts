@@ -1600,6 +1600,7 @@ describe("Comment Parser", () => {
             const embedded = `/**\n${lines.map(line => " * " + line).join("\n")}\n */`;
             return getComment(embedded);
         };
+
         for (const { input, expect } of generateLinkTitleCases()) {
             const comment = embedInComment(input);
             equal(comment.summary, expect, `input: ${JSON.stringify(input)}`);
@@ -1799,9 +1800,8 @@ describe("Raw Comment Parser", () => {
         commentStyle: "jsdoc",
     };
 
-    let files: FileRegistry;
     function getComment(text: string) {
-        files = new FileRegistry();
+        const files = new FileRegistry();
         const logger = new TestLogger();
         const content = lexCommentString(text);
         const comment = parseCommentString(
@@ -1814,10 +1814,6 @@ describe("Raw Comment Parser", () => {
         logger.expectNoOtherMessages();
         return comment;
     }
-
-    afterEach(() => {
-        files = undefined!;
-    });
 
     it("Recognizes markdown links which contain parentheses and escapes in the label", () => {
         const comment = getComment(dedent(String.raw`
@@ -1860,7 +1856,7 @@ describe("Raw Comment Parser", () => {
 });
 
 describe("Markdown Link Title Generation", () => {
-    const inputs = [] as string[];
+    const inputs: string[] = [];
     for (const { input } of generateLinkTitleCases()) {
         inputs.push(input);
     }

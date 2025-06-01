@@ -19,7 +19,6 @@ interface TextParserData {
     sourcePath: NormalizedPath;
     token: Token;
     pos: number;
-    i18n: TranslationProxy;
     warning: (msg: TranslatedString, token: Token) => void;
     files: FileRegistry;
     atNewLine: boolean;
@@ -84,7 +83,6 @@ export function textContent(
         sourcePath,
         token,
         pos: 0, // relative to the token
-        i18n,
         warning,
         files: files,
         atNewLine,
