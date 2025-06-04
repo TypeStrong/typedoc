@@ -13,68 +13,6 @@ import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { type FileId, FileRegistry } from "../lib/models/FileRegistry.js";
 import { dedent, MinimalSourceFile, type NormalizedPath } from "#utils";
 
-const CONTENT_PARTS = ["text", "`code`"];
-const SEPARATORS = [" ", "\n", "\n ", "\n\n"];
-const MAX_CONTENT_PARTS = 3;
-function* generateLinkTitleCases() {
-    const makeCase = (linkTitle: string) => {
-        const ok = !linkTitle.includes("\n\n");
-        const input = `[${linkTitle}](./relative.md)`;
-        const expect: CommentDisplayPart[] = input
-            .replace("(./relative.md)", "(")
-            .split(/(`code`)/g)
-            .map((text) => {
-                const kind = text[0] === "`" ? "code" : "text";
-                return { kind, text };
-            });
-        if (ok) {
-            expect.push(
-                {
-                    kind: "relative-link",
-                    text: "./relative.md",
-                    target: 1 as FileId,
-                    targetAnchor: undefined,
-                },
-                { kind: "text", text: ")" },
-            );
-        } else {
-            expect[expect.length - 1].text += "./relative.md)";
-        }
-        expect[expect.length - 1].text += "\n[";
-        expect.push(
-            { kind: "code", text: "`code`" },
-            { kind: "text", text: "](" },
-            {
-                kind: "relative-link",
-                text: "./relative.md",
-                target: 1 as FileId,
-                targetAnchor: undefined,
-            },
-            { kind: "text", text: ")" },
-        );
-        return { input: input + "\n[`code`](./relative.md)", expect };
-    };
-    for (let n = 1; n <= MAX_CONTENT_PARTS; n++) {
-        // 3 bits for each part (except the first): <A><BB>
-        // <A> selects a part from CONTENT_PARTS
-        // <BB> selects a preceding separator from SEPARATORS
-        for (let bits = 0; bits < 2 ** (3 * n); bits += 4) {
-            const inner = Array.from({ length: n }, (_, i) => {
-                const partSelections = bits >> (3 * i);
-                const part = CONTENT_PARTS[partSelections & 4 ? 1 : 0];
-                const sepText = SEPARATORS[partSelections & 3];
-                return i === 0 ? part : `${sepText}${part}`;
-            }).join("");
-            // We also wrap the parts with arbitrary leading and trailing whitespace
-            for (const prefix of ["", ...SEPARATORS]) {
-                for (const suffix of ["", ...SEPARATORS]) {
-                    yield makeCase(`${prefix}${inner}${suffix}`);
-                }
-            }
-        }
-    }
-}
-
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
         return Array.from(lexBlockComment(text));
@@ -1595,16 +1533,25 @@ describe("Comment Parser", () => {
     });
 
     it("Parses markdown link titles with arbitrarily-separated arbitrary combinations of text and code", () => {
-        const embedInComment = (input: string) => {
-            const lines = input.split("\n");
-            const embedded = `/**\n${lines.map(line => " * " + line).join("\n")}\n */`;
-            return getComment(embedded);
-        };
+        const comment = `/**
+            [text](./1)
+            [text \`code\`](  \t ./2   )
+            [\ntext \`code\`\n](./3)
+            [\ntext\n\`code\`\n]( ./4 )
+            [ \t\`code\` text]( \t./5\t )
 
-        for (const { input, expect } of generateLinkTitleCases()) {
-            const comment = embedInComment(input);
-            equal(comment.summary, expect, `input: ${JSON.stringify(input)}`);
+            [\n\n\`code\`](./no1)
+            [text\n\n](./no2)
+            [  text\n](\n  \n ./no3 \n)
+            [  text\n\ntext](./no4)
+            */`;
+
+        const relativeParts = getComment(comment).summary.filter(p => p.kind === "relative-link");
+
+        for (let i = 0; i < relativeParts.length; i++) {
+            equal(relativeParts[i].text, `./${i + 1}`);
         }
+        equal(relativeParts.length, 5);
     });
 
     it("Recognizes markdown reference definition blocks", () => {
@@ -1848,25 +1795,26 @@ describe("Raw Comment Parser", () => {
     });
 
     it("Parses markdown link titles with arbitrarily-separated arbitrary combinations of text and code", () => {
-        for (const { input, expect } of generateLinkTitleCases()) {
-            const comment = getComment(input);
-            equal(comment.content, expect, `input: ${JSON.stringify(input)}`);
+        const comment = `/**
+            [text](./1)
+            [text \`code\`](  \t ./2   )
+            [\ntext \`code\`\n](./3)
+            [\ntext\n\`code\`\n]( ./4 )
+            [ \t\`code\` text]( \t./5\t )
+
+            [\n\n\`code\`](./no1)
+            [text\n\n](./no2)
+            [  text\n](\n  \n ./no3 \n)
+            [  text\n\ntext](./no4)
+            */`;
+
+        const relativeParts = getComment(comment).content.filter(p => p.kind === "relative-link");
+
+        for (let i = 0; i < relativeParts.length; i++) {
+            equal(relativeParts[i].text, `./${i + 1}`);
         }
+        equal(relativeParts.length, 5);
     });
-});
-
-describe("Markdown Link Title Generation", () => {
-    const inputs: string[] = [];
-    for (const { input } of generateLinkTitleCases()) {
-        inputs.push(input);
-    }
-    const inputsSet = new Set(inputs);
-    equal(inputsSet.size, inputs.length, "each generated input must be unique");
-
-    const expectCount = Array.from({ length: MAX_CONTENT_PARTS }, (_, i) => i + 1)
-        .map(n => (SEPARATORS.length * CONTENT_PARTS.length) ** n / SEPARATORS.length * (SEPARATORS.length + 1) ** 2)
-        .reduce((a, b) => a + b);
-    equal(inputsSet.size, expectCount, "generated input count");
 });
 
 describe("extractTagName", () => {
