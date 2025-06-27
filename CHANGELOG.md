@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.6 (2025-06-27)
+
 ### Features
 
 - TypeDoc now supports resolving relative paths in links to the package directory as belonging to the project, #2961.
