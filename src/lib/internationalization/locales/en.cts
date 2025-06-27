@@ -91,6 +91,8 @@ export = {
     inline_tag_not_closed: `Inline tag is not closed`,
 
     // validation
+    comment_for_0_links_to_1_not_included_in_docs_use_external_link_2:
+        `The comment for {0} links to "{1}" which was resolved but is not included in the documentation. To fix this warning export it or add {2} to the externalSymbolLinkMappings option`,
     failed_to_resolve_link_to_0_in_comment_for_1: `Failed to resolve link to "{0}" in comment for {1}`,
     failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2:
         `Failed to resolve link to "{0}" in comment for {1}. You may have wanted "{2}"`,

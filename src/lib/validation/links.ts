@@ -2,6 +2,7 @@ import { i18n, type Logger } from "#utils";
 import {
     type Comment,
     type CommentDisplayPart,
+    type InlineTagDisplayPart,
     type ProjectReflection,
     type Reflection,
     ReflectionKind,
@@ -11,7 +12,7 @@ import {
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 
 function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
-    const links: string[] = [];
+    const links: InlineTagDisplayPart[] = [];
 
     for (const part of parts) {
         if (
@@ -19,7 +20,7 @@ function getBrokenPartLinks(parts: readonly CommentDisplayPart[]) {
             linkTags.includes(part.tag) &&
             (!part.target || part.target instanceof ReflectionSymbolId)
         ) {
-            links.push(part.text.trim());
+            links.push(part);
         }
     }
 
@@ -53,21 +54,22 @@ export function validateLinks(
 function checkReflection(reflection: Reflection, logger: Logger) {
     if (reflection.isProject() || reflection.isDeclaration()) {
         for (const broken of getBrokenPartLinks(reflection.readme || [])) {
+            const linkText = broken.text.trim();
             // #2360, "@" is a future reserved character in TSDoc component paths
             // If a link starts with it, and doesn't include a module source indicator "!"
             // then the user probably is trying to link to a package containing "@" with an absolute link.
-            if (broken.startsWith("@") && !broken.includes("!")) {
+            if (linkText.startsWith("@") && !linkText.includes("!")) {
                 logger.warn(
                     i18n.failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2(
-                        broken,
+                        linkText,
                         reflection.getFriendlyFullName(),
-                        broken.replace(/[.#~]/, "!"),
+                        linkText.replace(/[.#~]/, "!"),
                     ),
                 );
             } else {
                 logger.warn(
                     i18n.failed_to_resolve_link_to_0_in_readme_for_1(
-                        broken,
+                        linkText,
                         reflection.getFriendlyFullName(),
                     ),
                 );
@@ -77,21 +79,19 @@ function checkReflection(reflection: Reflection, logger: Logger) {
 
     if (reflection.isDocument()) {
         for (const broken of getBrokenPartLinks(reflection.content)) {
-            // #2360, "@" is a future reserved character in TSDoc component paths
-            // If a link starts with it, and doesn't include a module source indicator "!"
-            // then the user probably is trying to link to a package containing "@" with an absolute link.
-            if (broken.startsWith("@") && !broken.includes("!")) {
+            const linkText = broken.text.trim();
+            if (linkText.startsWith("@") && !linkText.includes("!")) {
                 logger.warn(
                     i18n.failed_to_resolve_link_to_0_in_document_1_may_have_meant_2(
-                        broken,
+                        linkText,
                         reflection.getFriendlyFullName(),
-                        broken.replace(/[.#~]/, "!"),
+                        linkText.replace(/[.#~]/, "!"),
                     ),
                 );
             } else {
                 logger.warn(
                     i18n.failed_to_resolve_link_to_0_in_document_1(
-                        broken,
+                        linkText,
                         reflection.getFriendlyFullName(),
                     ),
                 );
@@ -100,25 +100,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
     }
 
     for (const broken of getBrokenLinks(reflection.comment)) {
-        // #2360, "@" is a future reserved character in TSDoc component paths
-        // If a link starts with it, and doesn't include a module source indicator "!"
-        // then the user probably is trying to link to a package containing "@" with an absolute link.
-        if (broken.startsWith("@") && !broken.includes("!")) {
-            logger.warn(
-                i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
-                    broken,
-                    reflection.getFriendlyFullName(),
-                    broken.replace(/[.#~]/, "!"),
-                ),
-            );
-        } else {
-            logger.warn(
-                i18n.failed_to_resolve_link_to_0_in_comment_for_1(
-                    broken,
-                    reflection.getFriendlyFullName(),
-                ),
-            );
-        }
+        reportBrokenCommentLink(broken, reflection, logger);
     }
 
     if (
@@ -132,22 +114,35 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                 getBrokenPartLinks,
             )
         ) {
-            if (broken.startsWith("@") && !broken.includes("!")) {
-                logger.warn(
-                    i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
-                        broken,
-                        reflection.getFriendlyFullName(),
-                        broken.replace(/[.#~]/, "!"),
-                    ),
-                );
-            } else {
-                logger.warn(
-                    i18n.failed_to_resolve_link_to_0_in_comment_for_1(
-                        broken,
-                        reflection.getFriendlyFullName(),
-                    ),
-                );
-            }
+            reportBrokenCommentLink(broken, reflection, logger);
         }
+    }
+}
+
+function reportBrokenCommentLink(broken: InlineTagDisplayPart, reflection: Reflection, logger: Logger) {
+    const linkText = broken.text.trim();
+    if (broken.target instanceof ReflectionSymbolId) {
+        logger.warn(
+            i18n.comment_for_0_links_to_1_not_included_in_docs_use_external_link_2(
+                reflection.getFriendlyFullName(),
+                linkText,
+                `{ "${broken.target.packageName}": { "${broken.target.qualifiedName}": "#" }}`,
+            ),
+        );
+    } else if (linkText.startsWith("@") && !linkText.includes("!")) {
+        logger.warn(
+            i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
+                linkText,
+                reflection.getFriendlyFullName(),
+                linkText.replace(/[.#~]/, "!"),
+            ),
+        );
+    } else {
+        logger.warn(
+            i18n.failed_to_resolve_link_to_0_in_comment_for_1(
+                linkText,
+                reflection.getFriendlyFullName(),
+            ),
+        );
     }
 }

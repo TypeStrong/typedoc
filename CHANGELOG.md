@@ -13,6 +13,7 @@ title: Changelog
 - Attempting to highlight a supported language which is not enabled is now a warning, not an error, #2956.
 - Improved compatibility with CommonMark's link parsing, #2959.
 - Classes, variables, and functions exported with `export { type X }` are now detected and converted as interfaces/type aliases, #2962.
+- Improved warning messaging for links to symbols which were resolved, but the symbols were not included in the documentation, #2967.
 
 ## v0.28.5 (2025-05-26)
 

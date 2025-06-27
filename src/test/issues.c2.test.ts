@@ -9,7 +9,6 @@ import {
     QueryType,
     ReferenceReflection,
     ReflectionKind,
-    ReflectionSymbolId,
     ReflectionType,
     SignatureReflection,
     UnionType,
@@ -1671,16 +1670,6 @@ describe("Issue Tests", () => {
         logger.expectNoOtherMessages();
     });
 
-    it("#2681 reports warnings on @link tags which resolve to a type not included in the documentation", () => {
-        const project = convert();
-        app.options.setValue("validation", false);
-        app.options.setValue("validation", { invalidLink: true });
-        app.validate(project);
-        logger.expectMessage(
-            'warn: Failed to resolve link to "Generator" in comment for bug',
-        );
-    });
-
     it("#2683 supports @param on parameters with functions", () => {
         const project = convert();
         const action = querySig(project, "action");
@@ -1733,31 +1722,7 @@ describe("Issue Tests", () => {
         );
     });
 
-    it("#2700a correctly parses links to global properties", () => {
-        const project = convert();
-        app.options.setValue("validation", {
-            invalidLink: true,
-            notDocumented: false,
-            notExported: false,
-        });
-
-        app.validate(project);
-        logger.expectMessage(
-            'warn: Failed to resolve link to "Map.size | size user specified" in comment for abc',
-        );
-        logger.expectMessage(
-            'warn: Failed to resolve link to "Map.size user specified" in comment for abc',
-        );
-        logger.expectMessage(
-            'warn: Failed to resolve link to "Map.size" in comment for abc',
-        );
-
-        const abc = query(project, "abc");
-        const link = abc.comment?.summary.find((c) => c.kind === "inline-tag");
-        ok(link?.target instanceof ReflectionSymbolId);
-    });
-
-    it("#2700b respects user specified link text when resolving external links", () => {
+    it("#2700 respects user specified link text when resolving external links", () => {
         const project = convert();
 
         const abc = query(project, "abc");

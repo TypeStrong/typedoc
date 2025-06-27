@@ -887,6 +887,26 @@ describe("Behavior Tests", () => {
         ]);
     });
 
+    it("Handles links which do not resolve correctly", () => {
+        const project = convert("linkResolutionErrors");
+        app.options.setValue("validation", {
+            invalidLink: true,
+            notDocumented: false,
+            notExported: false,
+        });
+
+        app.validate(project);
+        logger.expectMessage(
+            'warn: The comment for abc links to "Map.size" which was resolved but is not included in the documentation. To fix this warning export it or add { "typescript": { "Map.size": "#" }} to the externalSymbolLinkMappings option',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "DoesNotExist" in comment for abc',
+        );
+        logger.expectMessage(
+            'warn: Failed to resolve link to "@typedoc/foo.DoesNotExist" in comment for abc. You may have wanted "@typedoc/foo!DoesNotExist"',
+        );
+    });
+
     it("Handles merged declarations", () => {
         const project = convert("mergedDeclarations");
         const a = query(project, "SingleCommentMultiDeclaration");
