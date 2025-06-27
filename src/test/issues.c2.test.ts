@@ -2140,4 +2140,20 @@ describe("Issue Tests", () => {
         equal(query(project, "InterfaceA.propertyB").type?.toString(), "AliasB<string>");
         equal(query(project, "InterfaceA.propertyC").type?.toString(), "AliasC");
     });
+
+    it("#2962 handles type-only exports", () => {
+        const project = convert();
+        equal(project.children?.map(c => [c.name, ReflectionKind[c.kind]]), [
+            ["Class", "Interface"],
+            ["Class2", "Interface"],
+            ["Func", "TypeAlias"],
+            ["Func2", "TypeAlias"],
+            ["Var", "TypeAlias"],
+            ["Var2", "TypeAlias"],
+        ]);
+
+        equal(query(project, "Class").children?.map(c => c.name), ["msg"]);
+        equal(query(project, "Func").type?.toString(), "(a: T) => void");
+        equal(query(project, "Var").type?.toString(), "123");
+    });
 });

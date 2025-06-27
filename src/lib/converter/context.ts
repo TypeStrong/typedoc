@@ -190,6 +190,7 @@ export class Context {
         exportSymbol: ts.Symbol | undefined,
     ) {
         if (
+            !reflection.comment &&
             exportSymbol &&
             reflection.kind &
                 (ReflectionKind.SomeModule | ReflectionKind.Reference)

@@ -409,6 +409,42 @@ function convertTypeAlias(
     }
 }
 
+function convertTypeAliasFromValueDeclaration(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol: ts.Symbol | undefined,
+    valueKind: ReflectionKind,
+): undefined {
+    const comment = context.getComment(symbol, valueKind);
+
+    const reflection = new DeclarationReflection(
+        exportSymbol?.name || symbol.name,
+        ReflectionKind.TypeAlias,
+        context.scope,
+    );
+    reflection.comment = comment;
+    context.postReflectionCreation(reflection, symbol, exportSymbol);
+    context.finalizeDeclarationReflection(reflection);
+
+    reflection.type = context.converter.convertType(
+        context.withScope(reflection),
+        context.checker.getTypeOfSymbol(symbol),
+    );
+
+    if (reflection.type.type === "reflection" && reflection.type.declaration.children) {
+        // #2817 lift properties of object literal types up to the reflection level.
+        const typeDecl = reflection.type.declaration;
+        reflection.project.mergeReflections(typeDecl, reflection);
+        delete reflection.type;
+
+        // When created any signatures will be created with __type as their
+        // name, rename them so that they have the alias's name as their name
+        for (const sig of reflection.signatures || []) {
+            sig.name = reflection.name;
+        }
+    }
+}
+
 function attachUnionComments(
     context: Context,
     declaration: ts.TypeAliasDeclaration,
@@ -495,6 +531,10 @@ function convertFunctionOrMethod(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ): undefined | ts.SymbolFlags {
+    if (isTypeOnlyExport(exportSymbol)) {
+        return convertTypeAliasFromValueDeclaration(context, symbol, exportSymbol, ReflectionKind.Function);
+    }
+
     // Can't just check method flag because this might be called for properties as well
     // This will *NOT* be called for variables that look like functions, they need a special case.
     const isMethod = !!(
@@ -573,7 +613,7 @@ function convertClassOrInterface(
     exportSymbol?: ts.Symbol,
 ) {
     const reflection = context.createDeclarationReflection(
-        ts.SymbolFlags.Class & symbol.flags
+        (ts.SymbolFlags.Class & symbol.flags) && !isTypeOnlyExport(exportSymbol)
             ? ReflectionKind.Class
             : ReflectionKind.Interface,
         symbol,
@@ -618,7 +658,7 @@ function convertClassOrInterface(
 
     context.finalizeDeclarationReflection(reflection);
 
-    if (classDeclaration) {
+    if (classDeclaration && reflection.kind === ReflectionKind.Class) {
         // Classes can have static props
         const staticType = context.checker.getTypeOfSymbolAtLocation(
             symbol,
@@ -984,6 +1024,10 @@ function convertVariable(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ): undefined | ts.SymbolFlags {
+    if (isTypeOnlyExport(exportSymbol)) {
+        return convertTypeAliasFromValueDeclaration(context, symbol, exportSymbol, ReflectionKind.Variable);
+    }
+
     const declaration = symbol.getDeclarations()?.[0];
 
     const comment = context.getComment(symbol, ReflectionKind.Variable);
@@ -1484,4 +1528,14 @@ function isFunctionLikeInitializer(node: ts.Expression): boolean {
     }
 
     return false;
+}
+
+function isTypeOnlyExport(symbol: ts.Symbol | undefined): boolean {
+    if (!symbol) return false;
+
+    const declaration = symbol.declarations?.[0];
+    if (!declaration) return false;
+    if (!ts.isExportSpecifier(declaration)) return false;
+
+    return declaration.isTypeOnly || declaration.parent.parent.isTypeOnly;
 }
