@@ -7,6 +7,7 @@ title: Changelog
 ### Features
 
 - TypeDoc now supports resolving relative paths in links to the package directory as belonging to the project, #2961.
+- Declarations without comments will now check for comments on their export specifier, #2964.
 
 ### Bug Fixes
 

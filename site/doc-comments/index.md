@@ -79,6 +79,54 @@ Will be rendered as:
 > function example(): void;
 > ```
 
+## Comment Discovery
+
+In most cases, TypeDoc's comment discovery closely mirrors TypeScript's discovery. If a comment is placed
+directly before a declaration or typically belongs to a declaration but lives on a parent node, TypeDoc
+will include it in the documentation.
+
+```ts
+/**
+ * This works
+ * @param x this works
+ */
+function example(x: string, /** This too */ y: number) {}
+/** This also works */
+class Example2 {}
+```
+
+TypeDoc also supports discovering comments in some locations which TypeScript does not.
+
+1. Comments on type aliases directly containing unions may have comments before each union branch
+   to document the union.
+
+   ```ts
+   type Choices =
+       /** Comment for option 1 */
+       | "option_1"
+       /** Comment for option 2 */
+       | { option_1: number };
+   ```
+
+2. Comments on export specifiers which export (or re-export) a member.
+
+   ```ts
+   /** A comment here will take precedence over a module comment in Lib */
+   export * as Lib from "lib";
+   ```
+
+   Comments on export specifiers only have higher priority than the module comment for modules
+   and references where the symbol appears in the documentation multiple times.
+
+   ```ts
+   export * as Lib from "lib"; // Use the @module comment
+   /** Preserved for backwards compatibility, prefer {@link Lib} */
+   export * as Library from "lib";
+
+   /** This comment will be used for someFunction only if someFunction does not have a comment directly on it */
+   export { someFunction } from "lib";
+   ```
+
 ## See Also
 
 - The [Tags overview](../tags.md)

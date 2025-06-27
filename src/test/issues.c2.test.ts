@@ -2121,4 +2121,9 @@ describe("Issue Tests", () => {
         equal(query(project, "Func").type?.toString(), "(a: T) => void");
         equal(query(project, "Var").type?.toString(), "123");
     });
+
+    it("#2964 handles ignored instances of wildcard declared modules", () => {
+        const project = convert();
+        equal(project.children?.map(c => c.name), ["third"]);
+    });
 });

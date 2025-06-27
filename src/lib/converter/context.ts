@@ -189,16 +189,28 @@ export class Context {
         symbol: ts.Symbol | undefined,
         exportSymbol: ts.Symbol | undefined,
     ) {
+        // Allow comments on export declarations to take priority over comments directly
+        // on the symbol to enable overriding comments on modules/references, #1504
         if (
             !reflection.comment &&
             exportSymbol &&
-            reflection.kind &
-                (ReflectionKind.SomeModule | ReflectionKind.Reference)
+            (reflection.kind &
+                (ReflectionKind.SomeModule | ReflectionKind.Reference))
         ) {
             reflection.comment = this.getComment(exportSymbol, reflection.kind);
         }
+
+        // If that didn't get us a comment (the normal case), then get the comment from
+        // the source declarations, this is the common case.
         if (symbol && !reflection.comment) {
             reflection.comment = this.getComment(symbol, reflection.kind);
+        }
+
+        // If we still don't have a comment, check for any comments on the export declaration,
+        // we don't have to worry about functions being weird in this case as the regular declaration
+        // doesn't have any comment.
+        if (exportSymbol && !reflection.comment) {
+            reflection.comment = this.getComment(exportSymbol, ReflectionKind.Reference);
         }
 
         if (this.shouldBeStatic) {
