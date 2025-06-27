@@ -80,6 +80,7 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Interface]: [
         ts.SyntaxKind.InterfaceDeclaration,
         ts.SyntaxKind.TypeAliasDeclaration,
+        ts.SyntaxKind.ClassDeclaration, // type only exports
     ],
     [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
     [ReflectionKind.Property]: variablePropertyKinds,
@@ -104,7 +105,12 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Accessor]: [ts.SyntaxKind.PropertyDeclaration],
     [ReflectionKind.GetSignature]: [ts.SyntaxKind.GetAccessor],
     [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
-    [ReflectionKind.TypeAlias]: [ts.SyntaxKind.TypeAliasDeclaration],
+    [ReflectionKind.TypeAlias]: [
+        ts.SyntaxKind.TypeAliasDeclaration,
+        ts.SyntaxKind.FunctionDeclaration, // type only exports
+        // Intentionally not included to avoid comments being copied for variable/alias combos
+        // ts.SyntaxKind.VariableDeclaration,
+    ],
     [ReflectionKind.Reference]: [
         ts.SyntaxKind.NamespaceExport,
         ts.SyntaxKind.ExportSpecifier,

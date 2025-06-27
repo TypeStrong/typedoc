@@ -2126,4 +2126,13 @@ describe("Issue Tests", () => {
         const project = convert();
         equal(project.children?.map(c => c.name), ["third"]);
     });
+
+    it("#2970 includes comments on type only exports", () => {
+        const project = convert();
+        equal(project.children?.map(c => [c.name, Comment.combineDisplayParts(c.comment?.summary)]), [
+            ["Class", "Comment"],
+            ["Func", "Comment"],
+            ["Var", "Comment"],
+        ]);
+    });
 });

@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Classes and functions exported with `export { type X }` are no longer missing comments, #2970.
+
 ## v0.28.6 (2025-06-27)
 
 ### Features
