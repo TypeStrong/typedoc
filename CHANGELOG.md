@@ -14,6 +14,11 @@ title: Changelog
 - Improved compatibility with CommonMark's link parsing, #2959.
 - Classes, variables, and functions exported with `export { type X }` are now detected and converted as interfaces/type aliases, #2962.
 - Improved warning messaging for links to symbols which were resolved, but the symbols were not included in the documentation, #2967.
+- Fixed an issue preventing nested documents from being deserialized from TypeDoc's JSON output or used in packages mode, #2969.
+
+### Thanks!
+
+- @yGuy
 
 ## v0.28.5 (2025-05-26)
 
