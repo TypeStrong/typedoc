@@ -45,10 +45,6 @@ export function validateLinks(
     for (const id in project.reflections) {
         checkReflection(project.reflections[id], logger);
     }
-
-    if (!(project.id in project.reflections)) {
-        checkReflection(project, logger);
-    }
 }
 
 function checkReflection(reflection: Reflection, logger: Logger) {

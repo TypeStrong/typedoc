@@ -685,6 +685,16 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> = T exten
     T extends FlagsDeclarationOption<infer U> ? U :
     ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
 
+function toStringArray(value: unknown, option: DeclarationOption) {
+    if (Array.isArray(value) && value.every(v => typeof v === "string")) {
+        return value;
+    } else if (typeof value === "string") {
+        return [value];
+    }
+
+    throw new Error(i18n.option_0_must_be_an_array_of_string(option.name));
+}
+
 const converters: {
     [K in ParameterType]: (
         value: unknown,
@@ -737,33 +747,18 @@ const converters: {
         return !!value;
     },
     [ParameterType.Array](value, option) {
-        let strArrValue: string[] = [];
-        if (Array.isArray(value)) {
-            strArrValue = value.map(String);
-        } else if (typeof value === "string") {
-            strArrValue = [value];
-        }
+        const strArrValue = toStringArray(value, option);
         option.validate?.(strArrValue);
         return strArrValue;
     },
     [ParameterType.PathArray](value, option, configPath) {
-        let strArrValue: string[] = [];
-        if (Array.isArray(value)) {
-            strArrValue = value.map(String);
-        } else if (typeof value === "string") {
-            strArrValue = [value];
-        }
+        const strArrValue = toStringArray(value, option);
         const normalized = strArrValue.map((path) => normalizePath(resolve(configPath, path)));
         option.validate?.(normalized);
         return normalized;
     },
     [ParameterType.ModuleArray](value, option, configPath) {
-        let strArrValue: string[] = [];
-        if (Array.isArray(value)) {
-            strArrValue = value.map(String);
-        } else if (typeof value === "string") {
-            strArrValue = [value];
-        }
+        const strArrValue = toStringArray(value, option);
         const resolved = resolveModulePaths(strArrValue, configPath);
         option.validate?.(resolved);
         return resolved;
@@ -782,7 +777,8 @@ const converters: {
 
             return createGlobString(configPath, s);
         };
-        const globs = Array.isArray(value) ? value.map(toGlobString) : [toGlobString(value)];
+        const strArrValue = toStringArray(value, option);
+        const globs = strArrValue.map(toGlobString);
         option.validate?.(globs);
         return globs;
     },

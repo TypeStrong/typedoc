@@ -16,7 +16,22 @@
                 "summary": [
                     {
                         "kind": "text",
-                        "text": "Module doc comment with document."
+                        "text": "Module doc comment with document and link to [self]("
+                    },
+                    {
+                        "kind": "relative-link",
+                        "text": "./comment.ts",
+                        "target": 1
+                    },
+                    {
+                        "kind": "text",
+                        "text": ") and "
+                    },
+                    {
+                        "kind": "inline-tag",
+                        "tag": "@link",
+                        "text": "https://example.com",
+                        "target": "https://example.com"
                     }
                 ]
             },

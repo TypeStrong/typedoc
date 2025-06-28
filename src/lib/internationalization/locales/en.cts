@@ -411,6 +411,7 @@ export = {
         "The useHostedBaseUrlForAbsoluteLinks option requires that hostedBaseUrl be set",
     favicon_must_have_one_of_the_following_extensions_0: "Favicon must have one of the following extensions: {0}",
     option_0_must_be_an_object: "The '{0}' option must be a non-array object",
+    option_0_must_be_an_array_of_string: "The '{0}' option must be set to an array of strings",
     option_0_must_be_a_function: "The '{0}' option must be a function",
     option_0_must_be_object_with_urls: `{0} must be an object with string labels as keys and URL values`,
     visibility_filters_only_include_0: `visibilityFilters can only include the following non-@ keys: {0}`,

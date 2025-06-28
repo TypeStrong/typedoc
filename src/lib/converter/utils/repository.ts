@@ -126,7 +126,7 @@ export class GitRepository implements Repository {
         logger: Logger,
     ): GitRepository | undefined {
         gitRevision ||= git("-C", path, "rev-parse", "HEAD").stdout.trim();
-        if (!gitRevision) return; // Will only happen in a repo with no commits.
+        if (gitRevision == "HEAD") return; // Will only happen in a repo with no commits.
 
         let urlTemplate: string | undefined;
         if (sourceLinkTemplate) {

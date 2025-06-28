@@ -1,6 +1,38 @@
 import { deepStrictEqual as equal } from "assert";
 import { Comment, type CommentDisplayPart, CommentTag } from "../../index.js";
 
+describe("Comment.similarTo", () => {
+    it("Checks for similar summaries", () => {
+        const a = new Comment([{ kind: "text", text: "a" }]);
+        const b = new Comment([{ kind: "text", text: "a" }]);
+        const c = new Comment([{ kind: "text", text: "c" }]);
+
+        equal(a.similarTo(b), true);
+        equal(a.similarTo(c), false);
+    });
+
+    it("Ignores modifier tags", () => {
+        const a = new Comment([{ kind: "text", text: "a" }]);
+        a.modifierTags.add("@test");
+        const b = new Comment([{ kind: "text", text: "a" }]);
+
+        equal(a.similarTo(b), true);
+    });
+
+    it("Checks block tags", () => {
+        const a = new Comment([], [new CommentTag("@test", [{ kind: "text", text: "a" }])]);
+        const b = new Comment([], [new CommentTag("@test", [{ kind: "text", text: "a" }])]);
+        const c = new Comment([], [new CommentTag("@test", [{ kind: "text", text: "c" }])]);
+        const d = new Comment([], [new CommentTag("@test2", [{ kind: "text", text: "c" }])]);
+        const e = new Comment();
+
+        equal(a.similarTo(b), true);
+        equal(a.similarTo(c), false);
+        equal(a.similarTo(d), false);
+        equal(a.similarTo(e), false);
+    });
+});
+
 describe("Comment.combineDisplayParts", () => {
     it("Handles text and code", () => {
         const parts: CommentDisplayPart[] = [

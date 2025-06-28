@@ -18,7 +18,10 @@ allValidTranslationKeys.push(
 allValidTranslationKeys.push(...inlineTags.map((s) => "tag_" + s.substring(1)));
 
 describe("Internationalization", () => {
-    const inter = new Internationalization();
+    let inter: Internationalization;
+    beforeEach(() => {
+        inter = new Internationalization();
+    });
     afterEach(() => inter.setLocale("en"));
 
     it("Supports getting the list of supported languages", () => {
@@ -42,6 +45,31 @@ describe("Internationalization", () => {
         equal(i18n.loaded_plugin_0("X"), "Loaded plugin X");
         inter.setLocale("zh");
         equal(i18n.loaded_plugin_0("X"), "已加载插件 X");
+    });
+
+    it("Handles locales which do not exist", () => {
+        equal(i18n.loaded_plugin_0("X"), "Loaded plugin X");
+        inter.setLocale("fakeLocale");
+        equal(i18n.loaded_plugin_0("X"), "Loaded plugin X");
+    });
+
+    it("Supports adding translations for loaded locale", () => {
+        inter.addTranslations("en", { testTranslation: "Test translation" });
+        // @ts-expect-error testTranslation isn't a defined translation
+        equal(i18n.testTranslation(), "Test translation");
+    });
+
+    it("Supports adding translations for not-loaded locale", () => {
+        inter.addTranslations("fake", { testTranslation: "Fake translation" });
+        inter.setLocale("fake");
+        // @ts-expect-error testTranslation isn't a defined translation
+        equal(i18n.testTranslation(), "Fake translation");
+    });
+
+    it("Considers translations which have only been added by plugins to be real", () => {
+        inter.addTranslations("fake", { testTranslation: "Fake translation" });
+        const supported = inter.getSupportedLanguages();
+        ok(supported.includes("fake"));
     });
 });
 

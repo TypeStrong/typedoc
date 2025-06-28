@@ -2,73 +2,58 @@ import { ok } from "assert";
 import { join } from "path";
 import { validateDocumentation } from "../lib/validation/documentation.js";
 import { validateExports } from "../lib/validation/exports.js";
-import { getConverter2App, getConverter2Program } from "./programs.js";
+import { getConverter2App, getConverter2Program, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { fileURLToPath } from "url";
+import { validateMergeModuleWith } from "../lib/validation/unusedMergeModuleWith.js";
 
-function convertValidationFile(file: string) {
-    const app = getConverter2App();
-    const program = getConverter2Program();
-    const sourceFile = program.getSourceFile(
-        join(fileURLToPath(import.meta.url), "../converter2/validation", file),
-    );
-
-    ok(sourceFile, "Specified source file does not exist.");
-
-    const project = app.converter.convert([
-        {
-            displayName: "validation",
-            program,
-            sourceFile,
-        },
-    ]);
-
-    return project;
-}
-
-function expectWarning(
-    typeName: string,
-    file: string,
-    referencingName: string,
-    intentionallyNotExported: readonly string[] = [],
-) {
-    const project = convertValidationFile(file);
-
-    const logger = new TestLogger();
-    validateExports(project, logger, intentionallyNotExported);
-
-    logger.expectMessage(
-        `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation`,
-    );
-}
-
-function expectNoWarning(
-    file: string,
-    intentionallyNotExported: readonly string[] = [],
-) {
-    const app = getConverter2App();
-    const program = getConverter2Program();
-    const sourceFile = program.getSourceFile(
-        join(fileURLToPath(import.meta.url), "../converter2/validation", file),
-    );
-
-    ok(sourceFile, "Specified source file does not exist.");
-
-    const project = app.converter.convert([
-        {
-            displayName: "validation",
-            program,
-            sourceFile,
-        },
-    ]);
-
-    const logger = new TestLogger();
-
-    validateExports(project, logger, intentionallyNotExported);
-    logger.expectNoOtherMessages();
+function convertValidationFile(...files: [string, ...string[]]) {
+    return getConverter2Project(files, "validation");
 }
 
 describe("validateExports", () => {
+    function expectWarning(
+        typeName: string,
+        file: string,
+        referencingName: string,
+        intentionallyNotExported: readonly string[] = [],
+    ) {
+        const project = convertValidationFile(file);
+
+        const logger = new TestLogger();
+        validateExports(project, logger, intentionallyNotExported);
+
+        logger.expectMessage(
+            `warn: ${typeName}, defined in */${file}, is referenced by ${referencingName} but not included in the documentation`,
+        );
+    }
+
+    function expectNoWarning(
+        file: string,
+        intentionallyNotExported: readonly string[] = [],
+    ) {
+        const app = getConverter2App();
+        const program = getConverter2Program();
+        const sourceFile = program.getSourceFile(
+            join(fileURLToPath(import.meta.url), "../converter2/validation", file),
+        );
+
+        ok(sourceFile, "Specified source file does not exist.");
+
+        const project = app.converter.convert([
+            {
+                displayName: "validation",
+                program,
+                sourceFile,
+            },
+        ]);
+
+        const logger = new TestLogger();
+
+        validateExports(project, logger, intentionallyNotExported);
+        logger.expectNoOtherMessages();
+    }
+
     it("Should warn if a variable type is missing", () => {
         expectWarning("Foo", "variable.ts", "foo");
     });
@@ -222,5 +207,29 @@ describe("validateDocumentation", () => {
         );
         logger.expectMessage("warn: The following qualified*Foo.doesNotExist");
         logger.expectNoOtherMessages();
+    });
+});
+
+describe("validateMergeModuleWith", () => {
+    it("Should warn if the project has a @mergeModuleWith tag", () => {
+        const project = convertValidationFile("unusedMergeModuleWith.ts");
+
+        const logger = new TestLogger();
+        validateMergeModuleWith(project, logger);
+
+        logger.expectMessage(
+            `warn: <project> has a @mergeModuleWith tag which could not be resolved`,
+        );
+    });
+
+    it("Should warn if the project's module has a @mergeModuleWith tag", () => {
+        const project = convertValidationFile("unusedMergeModuleWith.ts", "return.ts");
+
+        const logger = new TestLogger();
+        validateMergeModuleWith(project, logger);
+
+        logger.expectMessage(
+            `warn: unusedMergeModuleWith has a @mergeModuleWith tag which could not be resolved`,
+        );
     });
 });

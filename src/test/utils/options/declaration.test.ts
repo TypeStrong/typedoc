@@ -200,7 +200,10 @@ describe("Options - conversions", () => {
             convert(["12,3"], optionWithType(ParameterType.Array), ""),
             ["12,3"],
         );
-        equal(convert(true, optionWithType(ParameterType.Array), ""), []);
+        throws(
+            () => convert(true, optionWithType(ParameterType.Array), ""),
+            new Error("The 'test' option must be set to an array of strings"),
+        );
 
         equal(
             convert("/,a", optionWithType(ParameterType.PathArray), ""),
@@ -214,9 +217,9 @@ describe("Options - conversions", () => {
             ),
             [normalizePath(resolve("/foo"))],
         );
-        equal(
-            convert(true, optionWithType(ParameterType.PathArray), ""),
-            [],
+        throws(
+            () => convert(true, optionWithType(ParameterType.PathArray), ""),
+            new Error("The 'test' option must be set to an array of strings"),
         );
 
         equal(
@@ -231,9 +234,14 @@ describe("Options - conversions", () => {
             ),
             ["a,b"],
         );
-        equal(
-            convert(true, optionWithType(ParameterType.ModuleArray), ""),
-            [],
+        throws(
+            () => convert(true, optionWithType(ParameterType.ModuleArray), ""),
+            new Error("The 'test' option must be set to an array of strings"),
+        );
+
+        throws(
+            () => convert(true, optionWithType(ParameterType.GlobArray), ""),
+            new Error("The 'test' option must be set to an array of strings"),
         );
     });
 

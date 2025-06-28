@@ -66,7 +66,7 @@ export function loadTranslations(lang: string): Record<string, string> {
     try {
         return req(`./locales/${lang}.cjs`);
     } catch {
-        return {};
+        return loadTranslations("en");
     }
 }
 

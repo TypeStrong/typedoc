@@ -116,7 +116,7 @@ export class CommentTag {
     similarTo(other: CommentTag) {
         return (
             this.tag === other.tag &&
-            this.name === other.tag &&
+            this.name === other.name &&
             Comment.combineDisplayParts(this.content) ===
                 Comment.combineDisplayParts(other.content)
         );

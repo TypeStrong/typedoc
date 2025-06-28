@@ -314,3 +314,51 @@ describe("RepositoryManager - git enabled", () => {
         equal(repo.getURL(ign, 1), undefined);
     });
 });
+
+describe("RepositoryManager - edge cases", () => {
+    let fix: Project;
+    const logger = new TestLogger();
+    const manager = new RepositoryManager(
+        "",
+        "",
+        "remote",
+        "",
+        false, // disable git
+        logger,
+    );
+
+    beforeEach(() => {
+        fix = tempdirProject();
+    });
+
+    afterEach(() => {
+        fix.rm();
+        logger.expectNoOtherMessages();
+    });
+
+    it("Handles repositories without any commit", () => {
+        fix.write();
+        git(fix.cwd, "init", "-b", "test");
+        equal(manager.getRepository(fix.cwd + "/test.txt"), undefined);
+    });
+
+    it("Handles a remote which does not exist", () => {
+        fix.addFile("test.txt");
+        fix.write();
+        git(fix.cwd, "init", "-b", "test");
+        git(fix.cwd, "add", ".");
+        git(fix.cwd, "commit", "-m", "test", "--no-gpg-sign");
+        equal(manager.getRepository(fix.cwd + "/test.txt"), undefined);
+        logger.expectMessage('warn: The provided git remote "remote" was not valid. Source links will be broken');
+    });
+
+    it("Handles a remote which does not match a known domain", () => {
+        fix.addFile("test.txt");
+        fix.write();
+        git(fix.cwd, "init", "-b", "test");
+        git(fix.cwd, "add", ".");
+        git(fix.cwd, "commit", "-m", "test", "--no-gpg-sign");
+        git(fix.cwd, "remote", "add", "remote", "https://example.com/fake.git");
+        equal(manager.getRepository(fix.cwd + "/test.txt"), undefined);
+    });
+});

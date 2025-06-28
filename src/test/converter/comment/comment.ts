@@ -1,5 +1,5 @@
 /**
- * Module doc comment with document.
+ * Module doc comment with document and link to [self](./comment.ts) and {@link https://example.com}
  *
  * @document document.md
  * @packageDocumentation

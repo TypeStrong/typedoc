@@ -7,6 +7,8 @@ title: Changelog
 ### Bug Fixes
 
 - Classes and functions exported with `export { type X }` are no longer missing comments, #2970.
+- Setting `locale` to an unknown value will now cause TypeDoc to operate in English instead of a debug locale.
+- Array options will now report an error if set to a non-array/non-string value.
 
 ## v0.28.6 (2025-06-27)
 
