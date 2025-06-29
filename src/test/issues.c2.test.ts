@@ -1735,7 +1735,7 @@ describe("Issue Tests", () => {
                 caption: "resolver caption",
             };
         });
-        app.converter.resolveLinks(abc.comment, abc);
+        app.converter.resolveLinks(abc);
         app.converter["_externalSymbolResolvers"] = resolvers;
 
         equal(getLinks(abc), [
