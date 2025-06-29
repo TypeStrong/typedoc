@@ -113,6 +113,10 @@ export abstract class ContainerReflection extends Reflection {
         }
     }
 
+    override isContainer(): this is ContainerReflection {
+        return true;
+    }
+
     override traverse(callback: TraverseCallback) {
         for (const child of this.children?.slice() || []) {
             if (callback(child, TraverseProperty.Children) === false) {

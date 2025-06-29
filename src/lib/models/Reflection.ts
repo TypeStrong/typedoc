@@ -11,6 +11,7 @@ import type { ParameterReflection } from "./ParameterReflection.js";
 import type { ReferenceReflection } from "./ReferenceReflection.js";
 import type { SignatureReflection } from "./SignatureReflection.js";
 import type { TypeParameterReflection } from "./TypeParameterReflection.js";
+import type { ContainerReflection } from "./ContainerReflection.js";
 
 /**
  * Current reflection id.
@@ -454,6 +455,9 @@ export abstract class Reflection {
     }
     isReference(): this is ReferenceReflection {
         return this.variant === "reference";
+    }
+    isContainer(): this is ContainerReflection {
+        return false;
     }
 
     /**

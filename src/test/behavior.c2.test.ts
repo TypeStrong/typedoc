@@ -1466,17 +1466,24 @@ describe("Behavior Tests", () => {
     });
 
     it("Supports @document tags", () => {
-        const project = convert("documentTag");
+        const project = convert("documents/docs");
 
         equal(reflToTree(project), {
-            HasDescriptor: "Interface",
+            hasDocs: "Variable",
         });
 
-        const refl = query(project, "HasDescriptor");
-        equal(refl.documents?.length, 1);
+        equal(project.documents?.length, 1);
 
-        equal(refl.documents[0].content, [
-            { kind: "text", text: "External doc!" },
+        equal(project.documents[0].content, [
+            { kind: "text", text: "Link to [project](" },
+            { kind: "relative-link", target: 1, targetAnchor: undefined, text: "./docs.ts" },
+            { kind: "text", text: ")" },
+        ]);
+
+        equal(project.readme, [
+            { kind: "text", text: "Doc projects readme: [docs](" },
+            { kind: "relative-link", target: 2, targetAnchor: undefined, text: "./doc.md" },
+            { kind: "text", text: ")" },
         ]);
     });
 });

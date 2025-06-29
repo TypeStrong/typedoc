@@ -98,7 +98,7 @@ export function setRenderSettings(options: { pretty: boolean }) {
 }
 
 export function renderElement(element: JsxElement | null | undefined): string {
-    if (!element || typeof element === "boolean") {
+    if (!element) {
         return "";
     }
 
@@ -161,11 +161,11 @@ export function renderElement(element: JsxElement | null | undefined): string {
 
     function renderChildren(children: JsxChildren[]) {
         for (const child of children) {
-            if (!child) continue;
+            if (typeof child === "boolean") continue;
 
             if (Array.isArray(child)) {
                 renderChildren(child);
-            } else if (typeof child === "string" || typeof child === "number") {
+            } else if (typeof child === "string" || typeof child === "number" || typeof child === "bigint") {
                 html += escapeHtml(child.toString());
             } else {
                 html += renderElement(child);
@@ -180,7 +180,7 @@ export function renderElement(element: JsxElement | null | undefined): string {
  * @internal
  */
 export function renderElementToText(element: JsxElement | null | undefined) {
-    if (!element || typeof element === "boolean") {
+    if (!element) {
         return "";
     }
 
@@ -205,11 +205,12 @@ export function renderElementToText(element: JsxElement | null | undefined) {
 
     function renderChildren(children: JsxChildren[]) {
         for (const child of children) {
-            if (!child) continue;
+            if (typeof child === "boolean") continue;
 
             if (Array.isArray(child)) {
                 renderChildren(child);
-            } else if (typeof child === "string" || typeof child === "number") {
+            } else if (typeof child === "string" || typeof child === "number" || typeof child === "bigint") {
+                // Turn non-breaking spaces into regular spaces
                 html += child.toString().replaceAll("\u00A0", " ");
             } else {
                 html += renderElementToText(child);

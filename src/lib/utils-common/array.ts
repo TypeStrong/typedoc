@@ -149,13 +149,9 @@ export function filterMap<T, U>(
 }
 
 export function firstDefined<T, U>(
-    array: readonly T[] | undefined,
+    array: readonly T[],
     callback: (element: T, index: number) => U | undefined,
 ): U | undefined {
-    if (array === undefined) {
-        return undefined;
-    }
-
     for (let i = 0; i < array.length; i++) {
         const result = callback(array[i], i);
         if (result !== undefined) {
@@ -174,17 +170,6 @@ export function filter<T>(
 
 export function aggregate<T>(arr: T[], fn: (item: T) => number) {
     return arr.reduce((sum, it) => sum + fn(it), 0);
-}
-
-export function aggregateWithJoiner<T>(
-    arr: T[],
-    fn: (item: T) => number,
-    joiner: string,
-) {
-    return (
-        arr.reduce((sum, it) => sum + fn(it), 0) +
-        (arr.length - 1) * joiner.length
-    );
 }
 
 export function joinArray<T>(

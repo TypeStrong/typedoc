@@ -47,12 +47,12 @@ function collapseStrings(data: any[]): unknown {
 }
 
 function renderElementToSnapshot(element: JsxChildren): unknown {
-    if (!element || typeof element === "boolean") {
-        return "";
+    if (typeof element === "string" || typeof element === "number" || typeof element === "bigint") {
+        return element.toString();
     }
 
-    if (typeof element === "string" || typeof element === "number") {
-        return element.toString();
+    if (!element || typeof element === "boolean") {
+        return "";
     }
 
     if (Array.isArray(element)) {

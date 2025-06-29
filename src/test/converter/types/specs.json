@@ -1340,6 +1340,24 @@
             "flags": {},
             "children": [
                 {
+                    "id": 68,
+                    "name": "Empty",
+                    "variant": "declaration",
+                    "kind": 2097152,
+                    "flags": {},
+                    "sources": [
+                        {
+                            "fileName": "tuple.ts",
+                            "line": 18,
+                            "character": 12,
+                            "url": "typedoc://tuple.ts#L18"
+                        }
+                    ],
+                    "type": {
+                        "type": "tuple"
+                    }
+                },
+                {
                     "id": 66,
                     "name": "LeadingRest",
                     "variant": "declaration",
@@ -1732,6 +1750,7 @@
                 {
                     "title": "Type Aliases",
                     "children": [
+                        68,
                         66,
                         58,
                         64,
@@ -1760,14 +1779,14 @@
             ]
         },
         {
-            "id": 68,
+            "id": 69,
             "name": "type-operator",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 70,
+                    "id": 71,
                     "name": "B",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -1793,14 +1812,14 @@
                     }
                 },
                 {
-                    "id": 71,
+                    "id": 72,
                     "name": "C",
                     "variant": "declaration",
                     "kind": 2097152,
                     "flags": {},
                     "children": [
                         {
-                            "id": 73,
+                            "id": 74,
                             "name": "prop1",
                             "variant": "declaration",
                             "kind": 1024,
@@ -1819,7 +1838,7 @@
                             }
                         },
                         {
-                            "id": 74,
+                            "id": 75,
                             "name": "prop2",
                             "variant": "declaration",
                             "kind": 1024,
@@ -1842,8 +1861,8 @@
                         {
                             "title": "Properties",
                             "children": [
-                                73,
-                                74
+                                74,
+                                75
                             ]
                         }
                     ],
@@ -1857,7 +1876,7 @@
                     ]
                 },
                 {
-                    "id": 75,
+                    "id": 76,
                     "name": "D",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -1875,14 +1894,14 @@
                         "operator": "keyof",
                         "target": {
                             "type": "reference",
-                            "target": 71,
+                            "target": 72,
                             "name": "C",
                             "package": "typedoc"
                         }
                     }
                 },
                 {
-                    "id": 69,
+                    "id": 70,
                     "name": "a",
                     "variant": "declaration",
                     "kind": 32,
@@ -1912,15 +1931,15 @@
                 {
                     "title": "Type Aliases",
                     "children": [
-                        70,
                         71,
-                        75
+                        72,
+                        76
                     ]
                 },
                 {
                     "title": "Variables",
                     "children": [
-                        69
+                        70
                     ]
                 }
             ],
@@ -1934,14 +1953,14 @@
             ]
         },
         {
-            "id": 76,
+            "id": 77,
             "name": "union-or-intersection",
             "variant": "declaration",
             "kind": 2,
             "flags": {},
             "children": [
                 {
-                    "id": 77,
+                    "id": 78,
                     "name": "FirstType",
                     "variant": "declaration",
                     "kind": 256,
@@ -1956,7 +1975,7 @@
                     },
                     "children": [
                         {
-                            "id": 78,
+                            "id": 79,
                             "name": "firstProperty",
                             "variant": "declaration",
                             "kind": 1024,
@@ -1987,7 +2006,7 @@
                         {
                             "title": "Properties",
                             "children": [
-                                78
+                                79
                             ]
                         }
                     ],
@@ -2001,7 +2020,7 @@
                     ]
                 },
                 {
-                    "id": 79,
+                    "id": 80,
                     "name": "SecondType",
                     "variant": "declaration",
                     "kind": 256,
@@ -2016,7 +2035,7 @@
                     },
                     "children": [
                         {
-                            "id": 80,
+                            "id": 81,
                             "name": "secondProperty",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2047,7 +2066,7 @@
                         {
                             "title": "Properties",
                             "children": [
-                                80
+                                81
                             ]
                         }
                     ],
@@ -2061,7 +2080,7 @@
                     ]
                 },
                 {
-                    "id": 81,
+                    "id": 82,
                     "name": "ThirdType",
                     "variant": "declaration",
                     "kind": 256,
@@ -2076,7 +2095,7 @@
                     },
                     "children": [
                         {
-                            "id": 84,
+                            "id": 85,
                             "name": "thirdComplexProperty",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2113,13 +2132,13 @@
                                                 "types": [
                                                     {
                                                         "type": "reference",
-                                                        "target": 77,
+                                                        "target": 78,
                                                         "name": "FirstType",
                                                         "package": "typedoc"
                                                     },
                                                     {
                                                         "type": "reference",
-                                                        "target": 79,
+                                                        "target": 80,
                                                         "name": "SecondType",
                                                         "package": "typedoc"
                                                     }
@@ -2131,7 +2150,7 @@
                             }
                         },
                         {
-                            "id": 83,
+                            "id": 84,
                             "name": "thirdIntersectionProperty",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2157,13 +2176,13 @@
                                 "types": [
                                     {
                                         "type": "reference",
-                                        "target": 77,
+                                        "target": 78,
                                         "name": "FirstType",
                                         "package": "typedoc"
                                     },
                                     {
                                         "type": "reference",
-                                        "target": 81,
+                                        "target": 82,
                                         "name": "ThirdType",
                                         "package": "typedoc"
                                     }
@@ -2171,7 +2190,7 @@
                             }
                         },
                         {
-                            "id": 82,
+                            "id": 83,
                             "name": "thirdUnionProperty",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2197,13 +2216,13 @@
                                 "types": [
                                     {
                                         "type": "reference",
-                                        "target": 77,
+                                        "target": 78,
                                         "name": "FirstType",
                                         "package": "typedoc"
                                     },
                                     {
                                         "type": "reference",
-                                        "target": 79,
+                                        "target": 80,
                                         "name": "SecondType",
                                         "package": "typedoc"
                                     }
@@ -2215,9 +2234,9 @@
                         {
                             "title": "Properties",
                             "children": [
+                                85,
                                 84,
-                                83,
-                                82
+                                83
                             ]
                         }
                     ],
@@ -2235,9 +2254,9 @@
                 {
                     "title": "Interfaces",
                     "children": [
-                        77,
-                        79,
-                        81
+                        78,
+                        80,
+                        82
                     ]
                 }
             ],
@@ -2261,8 +2280,8 @@
                 50,
                 54,
                 57,
-                68,
-                76
+                69,
+                77
             ]
         }
     ],
@@ -2560,80 +2579,85 @@
         },
         "68": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": ""
+            "packagePath": "src/test/converter/types/tuple.ts",
+            "qualifiedName": "Empty"
         },
         "69": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "a"
+            "qualifiedName": ""
         },
         "70": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "B"
+            "qualifiedName": "a"
         },
         "71": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "C"
+            "qualifiedName": "B"
         },
-        "73": {
+        "72": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "__type.prop1"
+            "qualifiedName": "C"
         },
         "74": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "__type.prop2"
+            "qualifiedName": "__type.prop1"
         },
         "75": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/type-operator.ts",
-            "qualifiedName": "D"
+            "qualifiedName": "__type.prop2"
         },
         "76": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": ""
+            "packagePath": "src/test/converter/types/type-operator.ts",
+            "qualifiedName": "D"
         },
         "77": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "FirstType"
+            "qualifiedName": ""
         },
         "78": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "FirstType.firstProperty"
+            "qualifiedName": "FirstType"
         },
         "79": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "SecondType"
+            "qualifiedName": "FirstType.firstProperty"
         },
         "80": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "SecondType.secondProperty"
+            "qualifiedName": "SecondType"
         },
         "81": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "ThirdType"
+            "qualifiedName": "SecondType.secondProperty"
         },
         "82": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "ThirdType.thirdUnionProperty"
+            "qualifiedName": "ThirdType"
         },
         "83": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
-            "qualifiedName": "ThirdType.thirdIntersectionProperty"
+            "qualifiedName": "ThirdType.thirdUnionProperty"
         },
         "84": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/types/union-or-intersection.ts",
+            "qualifiedName": "ThirdType.thirdIntersectionProperty"
+        },
+        "85": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/union-or-intersection.ts",
             "qualifiedName": "ThirdType.thirdComplexProperty"
@@ -2657,8 +2681,8 @@
             "4": 50,
             "5": 54,
             "6": 57,
-            "7": 68,
-            "8": 76
+            "7": 69,
+            "8": 77
         }
     }
 }

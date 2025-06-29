@@ -37,7 +37,7 @@ function fullHierarchy(
                 {context.reflectionIcon(root)}
                 {root.name}
             </a>
-            {children.length && <ul>{children}</ul>}
+            {children.length ? <ul>{children}</ul> : null}
         </li>
     );
 }

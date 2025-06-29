@@ -1,9 +1,8 @@
 import ts from "typescript";
 import {
-    type Comment,
     type CommentDisplayPart,
-    DeclarationReflection,
     type InlineTagDisplayPart,
+    makeRecursiveVisitor,
     Reflection,
     ReflectionKind,
     ReflectionSymbolId,
@@ -35,32 +34,45 @@ export type LinkResolverOptions = {
 };
 
 export function resolveLinks(
-    comment: Comment,
     reflection: Reflection,
     externalResolver: ExternalSymbolResolver,
     options: LinkResolverOptions,
 ) {
-    comment.summary = resolvePartLinks(
-        reflection,
-        comment.summary,
-        externalResolver,
-        options,
-    );
-    for (const tag of comment.blockTags) {
-        tag.content = resolvePartLinks(
+    if (reflection.comment) {
+        reflection.comment.summary = resolvePartLinks(
             reflection,
-            tag.content,
+            reflection.comment.summary,
             externalResolver,
             options,
         );
+        for (const tag of reflection.comment.blockTags) {
+            tag.content = resolvePartLinks(
+                reflection,
+                tag.content,
+                externalResolver,
+                options,
+            );
+        }
     }
 
-    if (reflection instanceof DeclarationReflection && reflection.readme) {
+    if ((reflection.isDeclaration() || reflection.isProject()) && reflection.readme) {
         reflection.readme = resolvePartLinks(
             reflection,
             reflection.readme,
             externalResolver,
             options,
+        );
+    }
+
+    if (reflection.isDeclaration()) {
+        reflection.type?.visit(
+            makeRecursiveVisitor({
+                union: (type) => {
+                    type.elementSummaries = type.elementSummaries?.map(
+                        (parts) => resolvePartLinks(reflection, parts, externalResolver, options),
+                    );
+                },
+            }),
         );
     }
 
@@ -71,6 +83,57 @@ export function resolveLinks(
             externalResolver,
             options,
         );
+    }
+
+    if (
+        reflection.isParameter() &&
+        reflection.type?.type === "reference" &&
+        reflection.type.highlightedProperties
+    ) {
+        const resolved = new Map(
+            Array.from(
+                reflection.type.highlightedProperties,
+                ([name, parts]) => {
+                    return [
+                        name,
+                        resolvePartLinks(reflection, parts, externalResolver, options),
+                    ];
+                },
+            ),
+        );
+
+        reflection.type.highlightedProperties = resolved;
+    }
+
+    if (reflection.isContainer()) {
+        if (reflection.groups) {
+            for (const group of reflection.groups) {
+                if (group.description) {
+                    group.description = resolvePartLinks(
+                        reflection,
+                        group.description,
+                        externalResolver,
+                        options,
+                    );
+                }
+
+                if (group.categories) {
+                    for (const cat of group.categories) {
+                        if (cat.description) {
+                            cat.description = resolvePartLinks(reflection, cat.description, externalResolver, options);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (reflection.categories) {
+            for (const cat of reflection.categories) {
+                if (cat.description) {
+                    cat.description = resolvePartLinks(reflection, cat.description, externalResolver, options);
+                }
+            }
+        }
     }
 }
 
@@ -133,10 +196,10 @@ function resolveLinkTag(
 
         if (tsTargets.length) {
             // Find the target most likely to have a real url in the generated documentation
-            // 1. A direct export (class, interface, variable)
-            // 2. A property of a direct export (class/interface property)
-            // 3. A property of a type of an export (property on type alias)
-            // 4. Whatever the first symbol found was
+            // 4. A direct export (class, interface, variable)
+            // 3. A property of a direct export (class/interface property)
+            // 2. A property of a type of an export (property on type alias)
+            // 1. Whatever the first symbol found was
             target = maxElementByScore(tsTargets, (r) => {
                 if (r.kindOf(ReflectionKind.SomeExport)) {
                     return 4;

@@ -10,7 +10,7 @@ import {
     DocumentReflection,
     type ParameterReflection,
     ProjectReflection,
-    type Reflection,
+    Reflection,
     ReflectionKind,
     type ReflectionSymbolId,
     type SignatureReflection,
@@ -436,25 +436,32 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         }
     }
 
+    resolveLinks(reflection: Reflection): void;
+    /** @deprecated just pass the reflection */
     resolveLinks(comment: Comment, owner: Reflection): void;
     resolveLinks(
         parts: readonly CommentDisplayPart[],
         owner: Reflection,
     ): CommentDisplayPart[];
     resolveLinks(
-        comment: Comment | readonly CommentDisplayPart[],
-        owner: Reflection,
+        comment: Reflection | Comment | readonly CommentDisplayPart[],
+        owner?: Reflection,
     ): CommentDisplayPart[] | undefined {
-        if (comment instanceof Comment) {
+        if (comment instanceof Reflection) {
             resolveLinks(
                 comment,
-                owner,
+                (ref, part, refl, id) => this.resolveExternalLink(ref, part, refl, id),
+                { preserveLinkText: this.preserveLinkText },
+            );
+        } else if (comment instanceof Comment) {
+            resolveLinks(
+                owner!,
                 (ref, part, refl, id) => this.resolveExternalLink(ref, part, refl, id),
                 { preserveLinkText: this.preserveLinkText },
             );
         } else {
             return resolvePartLinks(
-                owner,
+                owner!,
                 comment,
                 (ref, part, refl, id) => this.resolveExternalLink(ref, part, refl, id),
                 { preserveLinkText: this.preserveLinkText },

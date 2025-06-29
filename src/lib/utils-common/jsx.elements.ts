@@ -144,6 +144,8 @@ export type JsxChildren =
     | JsxElement
     | string
     | number
+    | boolean
+    | bigint
     | null
     | undefined
     | JsxChildren[];

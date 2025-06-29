@@ -2,13 +2,7 @@ import { ConverterComponent } from "../components.js";
 import type { Context, Converter } from "../../converter/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import { Option, type ValidationOptions } from "../../utils/index.js";
-import {
-    ContainerReflection,
-    makeRecursiveVisitor,
-    type ProjectReflection,
-    type Reflection,
-    type ReflectionCategory,
-} from "../../models/index.js";
+import type { ProjectReflection } from "../../models/index.js";
 import { discoverAllReferenceTypes } from "../../utils/reflections.js";
 import { ApplicationEvents } from "../../application-events.js";
 
@@ -40,84 +34,7 @@ export class LinkResolverPlugin extends ConverterComponent {
     resolveLinks(project: ProjectReflection) {
         for (const id in project.reflections) {
             const reflection = project.reflections[id];
-            if (reflection.comment) {
-                this.owner.resolveLinks(reflection.comment, reflection);
-            }
-
-            if (reflection.isDeclaration()) {
-                reflection.type?.visit(
-                    makeRecursiveVisitor({
-                        union: (type) => {
-                            type.elementSummaries = type.elementSummaries?.map(
-                                (parts) => this.owner.resolveLinks(parts, reflection),
-                            );
-                        },
-                    }),
-                );
-
-                if (reflection.readme) {
-                    reflection.readme = this.owner.resolveLinks(
-                        reflection.readme,
-                        reflection,
-                    );
-                }
-            }
-
-            if (reflection.isDocument()) {
-                reflection.content = this.owner.resolveLinks(
-                    reflection.content,
-                    reflection,
-                );
-            }
-
-            if (
-                reflection.isParameter() &&
-                reflection.type?.type === "reference" &&
-                reflection.type.highlightedProperties
-            ) {
-                const resolved = new Map(
-                    Array.from(
-                        reflection.type.highlightedProperties,
-                        ([name, parts]) => {
-                            return [
-                                name,
-                                this.owner.resolveLinks(parts, reflection),
-                            ];
-                        },
-                    ),
-                );
-
-                reflection.type.highlightedProperties = resolved;
-            }
-
-            if (reflection instanceof ContainerReflection) {
-                if (reflection.groups) {
-                    for (const group of reflection.groups) {
-                        if (group.description) {
-                            group.description = this.owner.resolveLinks(
-                                group.description,
-                                reflection,
-                            );
-                        }
-
-                        if (group.categories) {
-                            for (const cat of group.categories) {
-                                this.resolveCategoryLinks(cat, reflection);
-                            }
-                        }
-                    }
-                }
-
-                if (reflection.categories) {
-                    for (const cat of reflection.categories) {
-                        this.resolveCategoryLinks(cat, reflection);
-                    }
-                }
-            }
-        }
-
-        if (project.readme) {
-            project.readme = this.owner.resolveLinks(project.readme, project);
+            this.owner.resolveLinks(reflection);
         }
 
         for (
@@ -142,18 +59,6 @@ export class LinkResolverPlugin extends ConverterComponent {
                         break;
                 }
             }
-        }
-    }
-
-    private resolveCategoryLinks(
-        category: ReflectionCategory,
-        owner: Reflection,
-    ) {
-        if (category.description) {
-            category.description = this.owner.resolveLinks(
-                category.description,
-                owner,
-            );
         }
     }
 }

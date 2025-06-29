@@ -15,7 +15,7 @@ import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { diagnostics } from "../lib/utils/loggers.js";
-import { normalizePath, readFile } from "#node-utils";
+import { normalizePath, readFile, ValidatingFileRegistry } from "#node-utils";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -174,6 +174,7 @@ export function getConverter2Project(entries: string[], folder: string) {
     ok(entryPoints.length > 0, "Expected at least one entry point");
 
     app.options.setValue("entryPoints", entryPoints);
+    app.files = new ValidatingFileRegistry();
     clearCommentCache();
     return app.converter.convert(
         files.map((file, index) => {

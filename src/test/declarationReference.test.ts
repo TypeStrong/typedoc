@@ -1,5 +1,6 @@
 import { deepStrictEqual as equal } from "assert";
 import {
+    meaningToString,
     parseComponent,
     parseComponentPath,
     parseDeclarationReference,
@@ -224,6 +225,15 @@ describe("Declaration References", () => {
                     meaning: undefined,
                 },
             });
+        });
+    });
+
+    describe("meaningToString", () => {
+        it("Converts to string", () => {
+            equal(meaningToString({ keyword: "class" }), "class");
+            equal(meaningToString({ keyword: "class", index: 1 }), "class(1)");
+            equal(meaningToString({ label: "X" }), "X");
+            equal(meaningToString({}), "");
         });
     });
 });

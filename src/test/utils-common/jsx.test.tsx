@@ -1,9 +1,13 @@
 import { deepStrictEqual as equal } from "assert";
 import { JSX } from "#utils";
-
-const renderElement = JSX.renderElement;
+import { renderElement, renderElementToText } from "../../lib/utils-common/jsx.js";
 
 describe("JSX", () => {
+    it("Handles null/undefined", () => {
+        equal(renderElement(null), ``);
+        equal(renderElement(undefined), ``);
+    });
+
     it("Works with basic case", () => {
         const element = (
             <details data-a="foo" open>
@@ -70,6 +74,9 @@ describe("JSX", () => {
 
     it("Supports <Raw /> for injecting HTML", () => {
         equal(renderElement(<JSX.Raw html="<strong>foo</strong>" />), "<strong>foo</strong>");
+
+        // This is should never be used in common usage, but it shouldn't break
+        equal(JSX.Raw({ html: "" }), null);
     });
 
     it("Supports SVG elements", () => {
@@ -88,5 +95,47 @@ describe("JSX", () => {
     it("Properly escapes quotes in html attributes", () => {
         const quot = `test"quote`;
         equal(renderElement(<div data-foo={quot} />), `<div data-foo="test&quot;quote"></div>`);
+    });
+
+    it("Handles non-string attributes", () => {
+        equal(renderElement(<div data-foo={123} />), `<div data-foo="123"></div>`);
+    });
+
+    it("Handles void elements", () => {
+        equal(renderElement(<br />), `<br/>`);
+    });
+
+    it("Handles boolean children", () => {
+        equal(renderElement(<span>{true}{false}</span>), `<span></span>`);
+    });
+
+    it("Handles zero", () => {
+        equal(renderElement(<span>{0}</span>), `<span>0</span>`);
+    });
+});
+
+describe("JSX.renderElementToText", () => {
+    it("Handles null/undefined", () => {
+        equal(renderElementToText(null), ``);
+        equal(renderElementToText(undefined), ``);
+    });
+
+    it("Handles zero", () => {
+        equal(renderElementToText(<span>{0}</span>), `0`);
+    });
+
+    it("Handles boolean children", () => {
+        equal(renderElementToText(<span>{true}{false}</span>), ``);
+    });
+
+    it("Handles Raw elements", () => {
+        equal(renderElementToText(<JSX.Raw html="<span>" />), `<span>`);
+    });
+
+    it("Handles components", () => {
+        function Component() {
+            return <span>hi</span>;
+        }
+        equal(renderElementToText(<Component />), `hi`);
     });
 });

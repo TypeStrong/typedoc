@@ -49,7 +49,7 @@ export class StableKeyMap<K extends { getStableKey(): string }, V> {
     }
 
     forEach(
-        callbackfn: (value: V, key: K, map: Map<K, V>) => void,
+        callbackfn: (value: V, key: K, map: StableKeyMap<K, V>) => void,
         thisArg?: any,
     ): void {
         for (const [k, v] of this.entries()) {
