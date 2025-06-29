@@ -37,7 +37,7 @@ importers:
         specifier: ^10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: ^18.19.113
+        specifier: '18'
         version: 18.19.113
       '@typestrong/fs-fixture-builder':
         specifier: github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe
