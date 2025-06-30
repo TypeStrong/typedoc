@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.7 (2025-06-30)
+
 ### Features
 
 - Introduced the `@sortStrategy` tag to override the `sort` option on a specific reflection, #2965.
