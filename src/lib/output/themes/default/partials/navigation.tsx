@@ -97,7 +97,7 @@ export function settings(context: DefaultThemeRenderContext) {
                     </h3>
                 </summary>
                 <div class="tsd-accordion-details">
-                    {visibilityOptions.length && (
+                    {!!visibilityOptions.length && (
                         <div class="tsd-filter-visibility">
                             <span class="settings-label">{i18n.theme_member_visibility()}</span>
                             <ul id="tsd-filter-options">{...visibilityOptions}</ul>

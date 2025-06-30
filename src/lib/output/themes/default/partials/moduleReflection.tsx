@@ -23,7 +23,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                 </section>
             )}
 
-            {mod.isDeclaration() && mod.kind === ReflectionKind.Module && mod.readme?.length && (
+            {mod.isDeclaration() && mod.kind === ReflectionKind.Module && !!mod.readme?.length && (
                 <section class="tsd-panel tsd-typography">
                     <JSX.Raw html={context.markdown(mod.readme)} />
                 </section>
