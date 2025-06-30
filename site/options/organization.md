@@ -81,6 +81,9 @@ Specifies the sort order for members. Sorting strategies will be applied in orde
 If an earlier sorting strategy determines the relative ordering of two reflections, later
 ordering strategies will not be applied.
 
+This option defines the default sort strategy, the [`@sortStrategy`](../tags/sortStrategy.md)
+tag may be used to override it for individual reflections.
+
 For example, with the setting `["static-first", "visibility"]`, TypeDoc will first compare two
 reflections by if they are static or not, and if that comparison returns equal, will check the
 visibility of each reflection. On the other hand, if `["visibility", "static-first"]` is specified,
@@ -103,6 +106,18 @@ The available sorting strategies are:
 - `documents-first`
 - `documents-last`
 - `alphabetical-ignoring-documents`
+
+The default sort order is:
+
+```json
+{
+    "sort": [
+        "kind",
+        "instance-first",
+        "alphabetical-ignoring-documents"
+    ]
+}
+```
 
 ## sortEntryPoints
 

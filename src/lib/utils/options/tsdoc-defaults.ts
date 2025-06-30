@@ -37,6 +37,7 @@ export const blockTags = [
     "@return",
     "@satisfies",
     "@since",
+    "@sortStrategy",
     "@template", // Alias for @typeParam
     "@type",
     "@typedef",

@@ -47,8 +47,9 @@ children:
     - tags/remarks.md
     - tags/returns.md
     - tags/sealed.md
-    - tags/since.md
     - tags/see.md
+    - tags/since.md
+    - tags/sortStrategy.md
     - tags/summary.md
     - tags/template.md
     - tags/throws.md
@@ -130,6 +131,7 @@ examples for how to use the export ([`@example`](./tags/example.md)).
 - [`@returns`, `@return`](./tags/returns.md)
 - [`@see`](./tags/see.md)
 - [`@since`](./tags/since.md)
+- [`@sortStrategy`](./tags/sortStrategy.md)
 - [`@summary`](./tags/summary.md)
 - [`@template`](./tags/template.md)
 - [`@throws`](./tags/throws.md)

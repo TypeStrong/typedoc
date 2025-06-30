@@ -163,7 +163,11 @@ const sorts: Record<
     },
 };
 
-export function getSortFunction(opts: Options) {
+export function isValidSortStrategy(strategy: string): strategy is SortStrategy {
+    return SORT_STRATEGIES.includes(strategy as never);
+}
+
+export function getSortFunction(opts: Options, strategies: readonly SortStrategy[] = opts.getValue("sort")) {
     const kindSortOrder = opts
         .getValue("kindSortOrder")
         .map((k) => ReflectionKind[k]);
@@ -174,7 +178,6 @@ export function getSortFunction(opts: Options) {
         }
     }
 
-    const strategies = opts.getValue("sort");
     const data = { kindSortOrder };
 
     return function sortReflections(

@@ -845,10 +845,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Array,
         defaultValue: OptionDefaults.sort,
         validate(value) {
-            const invalid = new Set(value);
-            for (const v of SORT_STRATEGIES) {
-                invalid.delete(v);
-            }
+            const invalid = setDifference(value, SORT_STRATEGIES);
 
             if (invalid.size !== 0) {
                 throw new Error(

@@ -1486,4 +1486,46 @@ describe("Behavior Tests", () => {
             { kind: "text", text: ")" },
         ]);
     });
+
+    it("Supports the @sortStrategy tag #2965", () => {
+        const project = convert("sortStrategyTag");
+
+        const getOrder = (name: string) => query(project, name).children?.map(c => c.name);
+
+        equal(getOrder("A"), ["b", "c", "a"]);
+        equal(getOrder("B"), ["a", "b", "c"]);
+        equal(getOrder("C"), ["b", "c", "a"]);
+
+        const getGroupOrders = (name: string) =>
+            query(project, name).groups?.map(g => [g.title, g.children.map(c => c.name)]);
+
+        equal(getGroupOrders("A"), [
+            ["Variables", ["b", "a"]],
+            ["Functions", ["c"]],
+        ]);
+
+        equal(getGroupOrders("B"), [
+            ["Variables", ["a", "b"]],
+            ["Functions", ["c"]],
+        ]);
+
+        equal(getGroupOrders("C"), [
+            ["Variables", ["b", "c"]],
+            ["Functions", ["a"]],
+        ]);
+
+        const getCategoryOrders = (name: string) =>
+            query(project, name).categories?.map(g => [g.title, g.children.map(c => c.name)]);
+
+        equal(getCategoryOrders("D"), [
+            ["Cat", ["b", "a", "c"]],
+        ]);
+
+        logger.expectMessage(
+            `warn: Comment for E specifies @sortStrategy with "invalid", which is an invalid sort strategy*`,
+        );
+        logger.expectMessage(
+            `warn: Comment for E specifies @sortStrategy with "invalid2", which is an invalid sort strategy*`,
+        );
+    });
 });

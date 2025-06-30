@@ -237,6 +237,10 @@
         {
             "tagName": "@useDeclaredType",
             "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@sortStrategy",
+            "syntaxKind": "block"
         }
     ]
 }

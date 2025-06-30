@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Introduced the `@sortStrategy` tag to override the `sort` option on a specific reflection, #2965.
+
 ### Bug Fixes
 
 - Classes and functions exported with `export { type X }` are no longer missing comments, #2970.

@@ -123,6 +123,8 @@ export = {
         `Comment for {0} includes @categoryDescription for "{1}", but no child is placed in that category`,
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
         `Comment for {0} includes @groupDescription for "{1}", but no child is placed in that group`,
+    comment_for_0_specifies_1_as_sort_strategy_but_only_2_is_valid:
+        `Comment for {0} specifies @sortStrategy with "{1}", which is an invalid sort strategy, the following are valid:\n\t{2}`,
     label_0_for_1_cannot_be_referenced:
         `The label "{0}" for {1} cannot be referenced with a declaration reference. Labels may only contain A-Z, 0-9, and _, and may not start with a number`,
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2:
@@ -419,7 +421,7 @@ export = {
     option_0_values_must_be_numbers: "All values of {0} must be numbers",
     option_0_values_must_be_array_of_tags: "{0} must be an array of valid tag names",
     option_0_specified_1_but_only_2_is_valid:
-        `{0} may only specify known values, and invalid values were provided ({1}). The valid sort strategies are:\n{2}`,
+        `{0} may only specify known values, and invalid values were provided ({1}). The valid options are:\n{2}`,
     option_outputs_must_be_array:
         `"outputs" option must be an array of { name: string, path: string, options?: TypeDocOptions } values.`,
     specified_output_0_has_not_been_defined: `Specified output "{0}" has not been defined.`,

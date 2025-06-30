@@ -15,6 +15,7 @@ import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { i18n } from "#utils";
+import { isValidSortStrategy } from "../../utils/sort.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -22,7 +23,7 @@ import { i18n } from "#utils";
  * The handler sets the ´category´ property of all reflections.
  */
 export class CategoryPlugin extends ConverterComponent {
-    sortFunction!: (
+    defaultSortFunction!: (
         reflections: Array<DeclarationReflection | DocumentReflection>,
     ) => void;
 
@@ -71,7 +72,7 @@ export class CategoryPlugin extends ConverterComponent {
      * Triggered when the converter begins converting a project.
      */
     private setup() {
-        this.sortFunction = getSortFunction(this.application.options);
+        this.defaultSortFunction = getSortFunction(this.application.options);
 
         // Set up static properties
         if (this.defaultCategory) {
@@ -203,10 +204,23 @@ export class CategoryPlugin extends ConverterComponent {
         }
 
         for (const cat of categories.values()) {
-            this.sortFunction(cat.children);
+            this.getSortFunction(parent)(cat.children);
         }
 
         return Array.from(categories.values());
+    }
+
+    getSortFunction(reflection: ContainerReflection) {
+        const tag = reflection.comment?.getTag("@sortStrategy");
+        if (tag) {
+            const text = Comment.combineDisplayParts(tag.content);
+            // We don't need to warn about invalid strategies here because the group plugin
+            // runs first and will have already warned.
+            const strategies = text.split(/[,\s]+/).filter(isValidSortStrategy);
+            return getSortFunction(this.application.options, strategies);
+        }
+
+        return this.defaultSortFunction;
     }
 
     /**

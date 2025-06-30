@@ -9,14 +9,14 @@ import {
 import { ReflectionGroup } from "../../models/ReflectionGroup.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { getSortFunction } from "../../utils/sort.js";
-import { Option } from "../../utils/index.js";
+import { getSortFunction, isValidSortStrategy, SORT_STRATEGIES } from "../../utils/sort.js";
+import { Option, type SortStrategy } from "../../utils/index.js";
 import { Comment } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { ApplicationEvents } from "../../application-events.js";
 import assert from "assert";
-import { i18n } from "#utils";
+import { i18n, partition } from "#utils";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [
@@ -47,7 +47,7 @@ const defaultGroupOrder = [
  * The handler sets the `groups` property of all container reflections.
  */
 export class GroupPlugin extends ConverterComponent {
-    sortFunction!: (
+    defaultSortFunction!: (
         reflections: Array<DeclarationReflection | DocumentReflection>,
     ) => void;
 
@@ -107,7 +107,7 @@ export class GroupPlugin extends ConverterComponent {
     }
 
     private setup() {
-        this.sortFunction = getSortFunction(this.application.options);
+        this.defaultSortFunction = getSortFunction(this.application.options);
         GroupPlugin.WEIGHTS = this.groupOrder;
         if (GroupPlugin.WEIGHTS.length === 0) {
             GroupPlugin.WEIGHTS = defaultGroupOrder.map((kind) => ReflectionKind.pluralString(kind));
@@ -115,19 +115,21 @@ export class GroupPlugin extends ConverterComponent {
     }
 
     private group(reflection: ContainerReflection) {
+        const sortFunction = this.getSortFunction(reflection);
+
         if (reflection.childrenIncludingDocuments && !reflection.groups) {
             if (reflection.children) {
                 if (
                     this.sortEntryPoints ||
                     !reflection.children.some((c) => c.kindOf(ReflectionKind.Module))
                 ) {
-                    this.sortFunction(reflection.children);
-                    this.sortFunction(reflection.documents || []);
-                    this.sortFunction(reflection.childrenIncludingDocuments);
+                    sortFunction(reflection.children);
+                    sortFunction(reflection.documents || []);
+                    sortFunction(reflection.childrenIncludingDocuments);
                 }
             } else if (reflection.documents) {
-                this.sortFunction(reflection.documents);
-                this.sortFunction(reflection.childrenIncludingDocuments);
+                sortFunction(reflection.documents);
+                sortFunction(reflection.childrenIncludingDocuments);
             }
 
             if (reflection.comment?.hasModifier("@disableGroups")) {
@@ -254,6 +256,25 @@ export class GroupPlugin extends ConverterComponent {
         }
 
         return Array.from(groups.values()).sort(GroupPlugin.sortGroupCallback);
+    }
+
+    getSortFunction(reflection: ContainerReflection) {
+        const tag = reflection.comment?.getTag("@sortStrategy");
+        if (tag) {
+            const text = Comment.combineDisplayParts(tag.content);
+            const strategies = text.split(/[,\s]+/);
+            const [valid, invalid] = partition(strategies, isValidSortStrategy);
+            for (const inv of invalid) {
+                this.application.logger.warn(i18n.comment_for_0_specifies_1_as_sort_strategy_but_only_2_is_valid(
+                    reflection.getFriendlyFullName(),
+                    inv,
+                    SORT_STRATEGIES.join("\n\t"),
+                ));
+            }
+            return getSortFunction(this.application.options, valid as SortStrategy[]);
+        }
+
+        return this.defaultSortFunction;
     }
 
     /**
