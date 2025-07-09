@@ -4,6 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Permit `-` within tag names to support `typescript-json-schema`'s `@TJS-type` tag, #2972.
+
+### Thanks!
+
+- @jonathanhefner
+
 ## v0.28.7 (2025-06-30)
 
 ### Features
