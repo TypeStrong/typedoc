@@ -161,11 +161,15 @@ describe("Default Options", () => {
 
     describe("blockTags", () => {
         it("Should disallow non-tags", () => {
-            throws(() => opts.setValue("blockTags", ["@bad-non-tag"]));
+            throws(() => opts.setValue("blockTags", ["@bad_tag"]));
+            throws(() => opts.setValue("blockTags", ["@2bad"]));
         });
 
         it("Should allow tags", () => {
             doesNotThrow(() => opts.setValue("blockTags", ["@good"]));
+            doesNotThrow(() => opts.setValue("blockTags", ["@good2"]));
+            doesNotThrow(() => opts.setValue("blockTags", ["@Good"]));
+            doesNotThrow(() => opts.setValue("blockTags", ["@good-tag"]));
         });
     });
 

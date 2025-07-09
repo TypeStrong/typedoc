@@ -186,7 +186,7 @@ describe("Block Comment Lexer", () => {
     });
 
     it("Should recognize tags", () => {
-        const tokens = lex("/* @tag @a @abc234 */");
+        const tokens = lex("/* @tag @a @abc234 @abc-234 */");
 
         equal(tokens, [
             { kind: TokenSyntaxKind.Tag, text: "@tag", pos: 3 },
@@ -194,6 +194,8 @@ describe("Block Comment Lexer", () => {
             { kind: TokenSyntaxKind.Tag, text: "@a", pos: 8 },
             { kind: TokenSyntaxKind.Text, text: " ", pos: 10 },
             { kind: TokenSyntaxKind.Tag, text: "@abc234", pos: 11 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 18 },
+            { kind: TokenSyntaxKind.Tag, text: "@abc-234", pos: 19 },
         ]);
     });
 
@@ -641,7 +643,7 @@ describe("Line Comment Lexer", () => {
     });
 
     it("Should recognize tags", () => {
-        const tokens = lex("// @tag @a @abc234");
+        const tokens = lex("// @tag @a @abc234 @abc-234");
 
         equal(tokens, [
             { kind: TokenSyntaxKind.Tag, text: "@tag", pos: 3 },
@@ -649,6 +651,8 @@ describe("Line Comment Lexer", () => {
             { kind: TokenSyntaxKind.Tag, text: "@a", pos: 8 },
             { kind: TokenSyntaxKind.Text, text: " ", pos: 10 },
             { kind: TokenSyntaxKind.Tag, text: "@abc234", pos: 11 },
+            { kind: TokenSyntaxKind.Text, text: " ", pos: 18 },
+            { kind: TokenSyntaxKind.Tag, text: "@abc-234", pos: 19 },
         ]);
     });
 
@@ -993,12 +997,12 @@ describe("Raw Lexer", () => {
     });
 
     it("Should not recognize tags", () => {
-        const tokens = lex("@123 @@ @ @tag @a @abc234");
+        const tokens = lex("@123 @@ @ @tag @a @abc234 @abc-234");
 
         equal(tokens, [
             {
                 kind: TokenSyntaxKind.Text,
-                text: "@123 @@ @ @tag @a @abc234",
+                text: "@123 @@ @ @tag @a @abc234 @abc-234",
                 pos: 0,
             },
         ]);

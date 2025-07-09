@@ -263,7 +263,7 @@ function* lexBlockComment2(
                 if (lookahead !== pos + 1) {
                     while (
                         lookahead < end &&
-                        /[a-z0-9]/i.test(file[lookahead])
+                        /[a-z0-9-]/i.test(file[lookahead])
                     ) {
                         lookahead++;
                     }
