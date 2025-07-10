@@ -297,7 +297,7 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
 }
 
 /**
- * Looks for `<a href="./relative">` and `<img src="./relative">`
+ * Looks for `<a href="./relative">`, `<img src="./relative">`, and `<source srcset="./relative">`
  */
 function checkTagLink(data: TextParserData): RelativeLink | undefined {
     const { pos, token } = data;
@@ -310,6 +310,11 @@ function checkTagLink(data: TextParserData): RelativeLink | undefined {
     if (token.text.startsWith("<a ", pos)) {
         data.pos += 3;
         return checkAttribute(data, "href");
+    }
+
+    if (token.text.startsWith("<source ", pos)) {
+        data.pos += 8;
+        return checkAttribute(data, "srcset");
     }
 }
 

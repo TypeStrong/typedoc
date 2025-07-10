@@ -1636,6 +1636,38 @@ describe("Comment Parser", () => {
         );
     });
 
+    it("Recognizes HTML picture source srcset links", () => {
+        const comment = getComment(`/**
+        * <source media="(prefers-color-scheme: light)"  srcset="./test.png" >
+        * <source media="(prefers-color-scheme: dark)"  srcset="./test space.png"/>
+        * <source srcset="https://example.com/favicon.ico">
+        */`);
+
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<source media="(prefers-color-scheme: light)"  srcset="' },
+                {
+                    kind: "relative-link",
+                    text: "./test.png",
+                    target: 1 as FileId,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: '" >\n<source media="(prefers-color-scheme: dark)"  srcset="' },
+                {
+                    kind: "relative-link",
+                    text: "./test space.png",
+                    target: 2 as FileId,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: '"/>\n<source srcset="https://example.com/favicon.ico">',
+                },
+            ] satisfies CommentDisplayPart[],
+        );
+    });
+
     it("Recognizes HTML anchor links", () => {
         const comment = getComment(`/**
         * <a data-foo="./path.txt" href="./test.png" >
