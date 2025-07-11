@@ -923,7 +923,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "plugin",
         help: () => i18n.help_plugin(),
-        type: ParameterType.ModuleArray,
+        type: ParameterType.PluginArray,
     });
     options.addDeclaration({
         name: "logLevel",

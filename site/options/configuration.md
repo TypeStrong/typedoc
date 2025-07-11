@@ -106,3 +106,6 @@ typedoc --plugin ./custom-plugin.js
 
 Specifies the plugins that should be loaded. By default, no plugins are loaded.
 See [Plugins](../plugins.md) for a list of available plugins.
+
+If using a JavaScript configuration file, the `plugin` option may be given
+a function which will be called to load a plugin.

@@ -1,5 +1,9 @@
 import { assert } from "./general.js";
 
+// Type only import is permitted
+// eslint-disable-next-line no-restricted-importsgn
+import type { Application } from "../application.js";
+
 /**
  * Represents a normalized path with path separators being `/`
  * On Windows, drives are represented like `C:/Users` for consistency
@@ -14,6 +18,12 @@ export type NormalizedPath = "" | "/" | string & { readonly __normPath: unique s
  * (e.g. `typedoc-plugin-mdn-links` or `@gerrit0/typedoc-plugin`)
  */
 export type NormalizedPathOrModule = NormalizedPath | string & { readonly __normPathOrModule: unique symbol };
+
+/**
+ * Represents either a {@link NormalizedPath} or a Node module name
+ * (e.g. `typedoc-plugin-mdn-links` or `@gerrit0/typedoc-plugin`)
+ */
+export type NormalizedPathOrModuleOrFunction = NormalizedPathOrModule | ((app: Application) => Promise<void> | void);
 
 /**
  * Represents a glob path configured by a user.

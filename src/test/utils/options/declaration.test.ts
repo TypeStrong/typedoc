@@ -239,6 +239,32 @@ describe("Options - conversions", () => {
             new Error("The 'test' option must be set to an array of strings"),
         );
 
+        equal(
+            convert("a,b", optionWithType(ParameterType.PluginArray), ""),
+            ["a,b"],
+        );
+        equal(
+            convert(
+                ["a,b"],
+                optionWithType(ParameterType.PluginArray),
+                "",
+            ),
+            ["a,b"],
+        );
+        const fn = () => {};
+        equal(
+            convert(
+                ["a", fn],
+                optionWithType(ParameterType.PluginArray),
+                "",
+            ),
+            ["a", fn],
+        );
+        throws(
+            () => convert(true, optionWithType(ParameterType.PluginArray), ""),
+            new Error("The 'test' option must be set to an array of strings/functions"),
+        );
+
         throws(
             () => convert(true, optionWithType(ParameterType.GlobArray), ""),
             new Error("The 'test' option must be set to an array of strings"),
@@ -250,6 +276,17 @@ describe("Options - conversions", () => {
             convert(
                 ["./foo"],
                 optionWithType(ParameterType.ModuleArray),
+                "",
+            ),
+            [normalizePath(join(process.cwd(), "foo"))],
+        );
+    });
+
+    it("PluginArray is resolved if relative", () => {
+        equal(
+            convert(
+                ["./foo"],
+                optionWithType(ParameterType.PluginArray),
                 "",
             ),
             [normalizePath(join(process.cwd(), "foo"))],
@@ -515,6 +552,21 @@ describe("Options - default values", () => {
         );
         equal(
             getDefaultValue(getDeclaration(ParameterType.ModuleArray, ["./a"])),
+            [normalizePath(resolve("./a"))],
+        );
+    });
+
+    it("PluginArray", () => {
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.PluginArray, void 0)),
+            [],
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.PluginArray, ["a"])),
+            ["a"],
+        );
+        equal(
+            getDefaultValue(getDeclaration(ParameterType.PluginArray, ["./a"])),
             [normalizePath(resolve("./a"))],
         );
     });

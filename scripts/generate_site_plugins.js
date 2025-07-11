@@ -8,7 +8,6 @@ const NEXT_BREAKING_TYPEDOC_VERSION = semver.parse(TYPEDOC_VERSION)?.inc("minor"
 if (!NEXT_BREAKING_TYPEDOC_VERSION) {
     throw new Error("Failed to determine next TypeDoc version");
 }
-console.log(NEXT_BREAKING_TYPEDOC_VERSION);
 
 const CACHE_ROOT = "tmp/site-cache";
 mkdirSync(CACHE_ROOT, { recursive: true });

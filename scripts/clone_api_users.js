@@ -93,6 +93,7 @@ if (import.meta.url.endsWith(process.argv[1])) {
     }
 
     console.log(`Cloning/updating took ${(Date.now() - start) / 1000} seconds`);
+    console.log(`Output is in ${args.values.output}`);
 
     // Check for repos listed in the wrong list
     const currentMinor = semver.parse(JSON.parse(readFileSync("package.json", "utf-8")).version)?.minor;

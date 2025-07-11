@@ -7,6 +7,7 @@ const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
     ParameterType.Array,
     ParameterType.PathArray,
     ParameterType.ModuleArray,
+    ParameterType.PluginArray,
     ParameterType.GlobArray,
 ]);
 

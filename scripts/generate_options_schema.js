@@ -36,6 +36,7 @@ addTypeDocOptions({
             case ParameterType.GlobArray:
             case ParameterType.PathArray:
             case ParameterType.ModuleArray:
+            case ParameterType.PluginArray:
                 data.type = "array";
                 data.items = { type: "string" };
                 data.default = /** @type {import("../dist/index.js").ArrayDeclarationOption} */ (

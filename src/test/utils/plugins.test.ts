@@ -1,8 +1,9 @@
 import { tempdirProject } from "@typestrong/fs-fixture-builder";
-import type { Application } from "../../index.js";
+import { type Application, normalizePath } from "../../index.js";
 import { loadPlugins } from "../../lib/utils/plugins.js";
 import { TestLogger } from "../TestLogger.js";
 import { join, resolve } from "path";
+import { deepStrictEqual as equal } from "assert/strict";
 
 describe("loadPlugins", () => {
     let logger: TestLogger;
@@ -20,7 +21,7 @@ describe("loadPlugins", () => {
         project.addFile("index.js", "exports.load = function load() {}");
         project.write();
 
-        const plugin = resolve(project.cwd, "index.js");
+        const plugin = normalizePath(resolve(project.cwd, "index.js"));
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`info: Loaded plugin ${plugin}`);
     });
@@ -31,10 +32,12 @@ describe("loadPlugins", () => {
             type: "commonjs",
             main: "index.js",
         });
-        const plugin = project.addFile(
-            "index.js",
-            "exports.load = function load() {}",
-        ).path;
+        const plugin = normalizePath(
+            project.addFile(
+                "index.js",
+                "exports.load = function load() {}",
+            ).path,
+        );
         project.write();
 
         await loadPlugins(fakeApp, [plugin]);
@@ -50,9 +53,19 @@ describe("loadPlugins", () => {
         project.addFile("index.js", "export function load() {}");
         project.write();
 
-        const plugin = join(resolve(project.cwd), "index.js");
+        const plugin = normalizePath(join(resolve(project.cwd), "index.js"));
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`info: Loaded plugin ${plugin}`);
+    });
+
+    it("Should support loading a function plugin", async () => {
+        let called = false as boolean;
+        function testFn() {
+            called = true;
+        }
+        await loadPlugins(fakeApp, [testFn]);
+        logger.expectMessage(`info: Loaded plugin testFn`);
+        equal(called, true);
     });
 
     it("Should handle errors when requiring plugins", async () => {
@@ -64,7 +77,7 @@ describe("loadPlugins", () => {
         project.addFile("index.js", "throw Error('bad')");
         project.write();
 
-        const plugin = join(resolve(project.cwd), "index.js");
+        const plugin = normalizePath(join(resolve(project.cwd), "index.js"));
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`error: The plugin ${plugin} could not be loaded`);
     });
@@ -81,7 +94,7 @@ describe("loadPlugins", () => {
         );
         project.write();
 
-        const plugin = join(resolve(project.cwd), "index.js");
+        const plugin = normalizePath(join(resolve(project.cwd), "index.js"));
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(`error: The plugin ${plugin} could not be loaded`);
     });
@@ -95,7 +108,7 @@ describe("loadPlugins", () => {
         project.addFile("index.js", "");
         project.write();
 
-        const plugin = join(resolve(project.cwd), "index.js");
+        const plugin = normalizePath(join(resolve(project.cwd), "index.js"));
         await loadPlugins(fakeApp, [plugin]);
         logger.expectMessage(
             `error: Invalid structure in plugin ${plugin}, no load function found`,

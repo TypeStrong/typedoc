@@ -4,7 +4,7 @@ title: "@sortStrategy"
 
 # @sortStrategy
 
-**Tag Kind:** [Block](../tags.md#Block-tags) <br>
+**Tag Kind:** [Block](../tags.md#block-tags) <br>
 
 This tag can be used to override the [sort](../options/organization.md#sort) locally
 for a module, namespace, class, or interface. The override will be applied to direct

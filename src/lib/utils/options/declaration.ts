@@ -10,10 +10,12 @@ import {
     type NeverIfInternal,
     type NormalizedPath,
     type NormalizedPathOrModule,
+    type NormalizedPathOrModuleOrFunction,
     type TranslatedString,
 } from "#utils";
 import type { TranslationProxy } from "../../internationalization/internationalization.js";
 import { createGlobString, normalizePath } from "../paths.js";
+import type { Application } from "../../application.js";
 
 /** @enum */
 export const EmitStrategy = {
@@ -122,7 +124,8 @@ export type TypeDocOptions = {
         TypeDocOptionMap[K] extends ManuallyValidatedOption<
             infer ManuallyValidated
         > ? ManuallyValidated :
-        TypeDocOptionMap[K] extends NormalizedPath[] | NormalizedPathOrModule[] | GlobString[] ? string[] :
+        TypeDocOptionMap[K] extends
+            NormalizedPath[] | NormalizedPathOrModule[] | NormalizedPathOrModuleOrFunction[] | GlobString[] ? string[] :
         TypeDocOptionMap[K] extends NormalizedPath ? string :
         TypeDocOptionMap[K] extends
             | string
@@ -150,6 +153,8 @@ export type TypeDocOptionValues = {
             | string
             | string[]
             | GlobString[]
+            | NormalizedPathOrModule[]
+            | NormalizedPathOrModuleOrFunction[]
             | number
             | boolean
             | Record<string, boolean> ? TypeDocOptionMap[K] :
@@ -183,7 +188,7 @@ export interface TypeDocOptionMap {
     options: NormalizedPath;
     tsconfig: NormalizedPath;
     compilerOptions: unknown;
-    plugin: NormalizedPathOrModule[];
+    plugin: NormalizedPathOrModuleOrFunction[];
     lang: string;
     locales: ManuallyValidatedOption<Record<string, Record<string, string>>>;
     packageOptions: ManuallyValidatedOption<
@@ -404,7 +409,9 @@ export type KeyToDeclaration<K extends keyof TypeDocOptionMap> = TypeDocOptionMa
     TypeDocOptionMap[K] extends string | NormalizedPath ? StringDeclarationOption :
     TypeDocOptionMap[K] extends number ? NumberDeclarationOption :
     TypeDocOptionMap[K] extends GlobString[] ? GlobArrayDeclarationOption :
-    TypeDocOptionMap[K] extends string[] | NormalizedPath[] | NormalizedPathOrModule[] ? ArrayDeclarationOption :
+    TypeDocOptionMap[K] extends
+        string[] | NormalizedPath[] | NormalizedPathOrModule[] | NormalizedPathOrModuleOrFunction[] ?
+        ArrayDeclarationOption :
     unknown extends TypeDocOptionMap[K] ? MixedDeclarationOption | ObjectDeclarationOption :
     TypeDocOptionMap[K] extends ManuallyValidatedOption<unknown> ?
             | (MixedDeclarationOption & {
@@ -452,8 +459,14 @@ export enum ParameterType {
     PathArray,
     /**
      * Resolved according to the config directory if it starts with `.`
+     * @deprecated since 0.28.8, will be removed in 0.29
      */
     ModuleArray,
+    /**
+     * Resolved according to the config directory if it starts with `.`
+     * @internal - only intended for use with the plugin option
+     */
+    PluginArray,
     /**
      * Relative to the config directory.
      */
@@ -567,7 +580,8 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     type:
         | ParameterType.Array
         | ParameterType.PathArray
-        | ParameterType.ModuleArray;
+        | ParameterType.ModuleArray
+        | ParameterType.PluginArray;
 
     /**
      * If not specified defaults to an empty array.
@@ -674,6 +688,7 @@ export interface ParameterTypeToOptionTypeMap {
     [ParameterType.Array]: string[];
     [ParameterType.PathArray]: NormalizedPath[];
     [ParameterType.ModuleArray]: NormalizedPathOrModule[];
+    [ParameterType.PluginArray]: Array<NormalizedPathOrModule | ((app: Application) => void | Promise<void>)>;
     [ParameterType.GlobArray]: GlobString[];
     [ParameterType.Flags]: Record<string, boolean>;
 
@@ -685,7 +700,7 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> = T exten
     T extends FlagsDeclarationOption<infer U> ? U :
     ParameterTypeToOptionTypeMap[Exclude<T["type"], undefined>];
 
-function toStringArray(value: unknown, option: DeclarationOption) {
+function toStringArray(value: unknown, option: DeclarationOption): string[] {
     if (Array.isArray(value) && value.every(v => typeof v === "string")) {
         return value;
     } else if (typeof value === "string") {
@@ -693,6 +708,19 @@ function toStringArray(value: unknown, option: DeclarationOption) {
     }
 
     throw new Error(i18n.option_0_must_be_an_array_of_string(option.name));
+}
+
+function toStringOrFunctionArray(
+    value: unknown,
+    option: DeclarationOption,
+): Array<string | ((app: Application) => void | Promise<void>)> {
+    if (Array.isArray(value) && value.every(v => typeof v === "string" || typeof v === "function")) {
+        return value;
+    } else if (typeof value === "string") {
+        return [value];
+    }
+
+    throw new Error(i18n.option_0_must_be_an_array_of_string_or_functions(option.name));
 }
 
 const converters: {
@@ -761,6 +789,13 @@ const converters: {
         const strArrValue = toStringArray(value, option);
         const resolved = resolveModulePaths(strArrValue, configPath);
         option.validate?.(resolved);
+        return resolved;
+    },
+    [ParameterType.PluginArray](value, option, configPath) {
+        const arrayValue = toStringOrFunctionArray(value, option);
+        const resolved = arrayValue.map(plugin =>
+            typeof plugin === "function" ? plugin : resolveModulePath(plugin, configPath)
+        );
         return resolved;
     },
     [ParameterType.GlobArray](value, option, configPath) {
@@ -942,6 +977,12 @@ const defaultGetters: {
         }
         return [];
     },
+    [ParameterType.PluginArray](option) {
+        if (option.defaultValue) {
+            return resolveModulePaths(option.defaultValue, process.cwd());
+        }
+        return [];
+    },
     [ParameterType.GlobArray](option) {
         return (option.defaultValue ?? []).map(g => createGlobString(normalizePath(process.cwd()), g));
     },
@@ -959,12 +1000,14 @@ export function getDefaultValue(option: DeclarationOption) {
 }
 
 function resolveModulePaths(modules: readonly string[], configPath: string): NormalizedPathOrModule[] {
-    return modules.map((path) => {
-        if (path.startsWith(".")) {
-            return normalizePath(resolve(configPath, path));
-        }
-        return normalizePath(path);
-    });
+    return modules.map(path => resolveModulePath(path, configPath));
+}
+
+function resolveModulePath(path: string, configPath: string): NormalizedPathOrModule {
+    if (path.startsWith(".")) {
+        return normalizePath(resolve(configPath, path));
+    }
+    return normalizePath(path);
 }
 
 function isTsNumericEnum(map: Record<string, any>) {

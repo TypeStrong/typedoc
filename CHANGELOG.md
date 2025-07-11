@@ -6,6 +6,7 @@ title: Changelog
 
 ### Features
 
+- If using JS config files, the `plugin` function can now be given plugin functions to load.
 - Permit `-` within tag names to support `typescript-json-schema`'s `@TJS-type` tag, #2972.
 
 ### Thanks!
