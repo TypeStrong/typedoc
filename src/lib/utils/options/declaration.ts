@@ -580,6 +580,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
     type:
         | ParameterType.Array
         | ParameterType.PathArray
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         | ParameterType.ModuleArray
         | ParameterType.PluginArray;
 
@@ -687,6 +688,7 @@ export interface ParameterTypeToOptionTypeMap {
     [ParameterType.Object]: unknown;
     [ParameterType.Array]: string[];
     [ParameterType.PathArray]: NormalizedPath[];
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     [ParameterType.ModuleArray]: NormalizedPathOrModule[];
     [ParameterType.PluginArray]: Array<NormalizedPathOrModule | ((app: Application) => void | Promise<void>)>;
     [ParameterType.GlobArray]: GlobString[];
@@ -785,6 +787,7 @@ const converters: {
         option.validate?.(normalized);
         return normalized;
     },
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     [ParameterType.ModuleArray](value, option, configPath) {
         const strArrValue = toStringArray(value, option);
         const resolved = resolveModulePaths(strArrValue, configPath);
@@ -971,6 +974,7 @@ const defaultGetters: {
             option.defaultValue?.map((value) => normalizePath(resolve(process.cwd(), value))) ?? []
         );
     },
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     [ParameterType.ModuleArray](option) {
         if (option.defaultValue) {
             return resolveModulePaths(option.defaultValue, process.cwd());

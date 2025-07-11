@@ -245,6 +245,12 @@ export default tslint.config(
     ...tslint.configs.strictTypeChecked,
     config,
     {
+        files: ["src/test/**/*"],
+        rules: {
+            "@typescript-eslint/no-deprecated": "off",
+        },
+    },
+    {
         ignores: [
             "eslint.config.mjs",
             "src/test/renderer/specs",

@@ -6,6 +6,7 @@ import { i18n, type Logger, type TranslatedString } from "#utils";
 const ARRAY_OPTION_TYPES = new Set<ParameterType | undefined>([
     ParameterType.Array,
     ParameterType.PathArray,
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     ParameterType.ModuleArray,
     ParameterType.PluginArray,
     ParameterType.GlobArray,

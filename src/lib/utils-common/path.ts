@@ -1,7 +1,7 @@
 import { assert } from "./general.js";
 
 // Type only import is permitted
-// eslint-disable-next-line no-restricted-importsgn
+// eslint-disable-next-line no-restricted-imports
 import type { Application } from "../application.js";
 
 /**
