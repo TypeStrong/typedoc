@@ -347,7 +347,7 @@ function checkAttributes(
     while (parser.state !== ParserState.END) {
         if (
             parser.state === ParserState.BeforeAttributeValue &&
-            attributes.hasOwnProperty(parser.currentAttributeName)
+            Object.prototype.hasOwnProperty.call(attributes, parser.currentAttributeName)
         ) {
             parser.step();
 
