@@ -8,9 +8,14 @@ title: Changelog
 
 - Permit `-` within tag names to support `typescript-json-schema`'s `@TJS-type` tag, #2972.
 
+### Bug Fixes
+
+- Relative links in `<source src=x>` and `<source srcset=x>` elements will now be discovered by TypeDoc, #2975.
+
 ### Thanks!
 
 - @jonathanhefner
+- @laymonage
 
 ## v0.28.7 (2025-06-30)
 

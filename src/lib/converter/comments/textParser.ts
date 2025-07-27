@@ -314,7 +314,13 @@ function checkTagLink(data: TextParserData): RelativeLink | undefined {
 
     if (token.text.startsWith("<source ", pos)) {
         data.pos += 8;
-        return checkAttribute(data, "srcset");
+        const saveData = { ...data };
+        const attr = checkAttribute(data, "srcset");
+        if (!attr) {
+            Object.assign(data, saveData);
+            return checkAttribute(data, "src");
+        }
+        return attr;
     }
 }
 
