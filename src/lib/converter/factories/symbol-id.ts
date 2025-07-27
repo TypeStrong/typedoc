@@ -10,7 +10,8 @@ const declarationMapCache = new Map<string, string>();
 let transientCount = 0;
 const transientIds = new WeakMap<ts.Symbol, number>();
 
-export function createSymbolId(symbol: ts.Symbol, declaration?: ts.Declaration) {
+// Don't use this directly, use Context.createSymbolId instead.
+export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declaration) {
     declaration ??= symbol.declarations?.[0];
     const tsSource = declaration?.getSourceFile().fileName ?? "";
     const sourceFileName = resolveDeclarationMaps(tsSource);

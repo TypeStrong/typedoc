@@ -13,6 +13,7 @@ import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
 import { assertNever, i18n, type Logger } from "#utils";
+import type { Context } from "../context.js";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;
@@ -22,6 +23,22 @@ export interface CommentParserConfig {
     suppressCommentWarningsInDeclarationFiles: boolean;
     useTsLinkResolution: boolean;
     commentStyle: CommentStyle;
+}
+
+export interface CommentContext {
+    config: CommentParserConfig;
+    logger: Logger;
+    checker: ts.TypeChecker;
+    files: FileRegistry;
+    createSymbolId: Context["createSymbolId"];
+}
+
+export interface CommentContextOptionalChecker {
+    config: CommentParserConfig;
+    logger: Logger;
+    checker?: ts.TypeChecker | undefined;
+    files: FileRegistry;
+    createSymbolId: Context["createSymbolId"];
 }
 
 const jsDocCommentKinds = [
@@ -45,10 +62,7 @@ export function clearCommentCache() {
 
 function getCommentWithCache(
     discovered: DiscoveredComment | undefined,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker | undefined,
-    files: FileRegistry,
+    context: CommentContextOptionalChecker,
 ) {
     if (!discovered) return;
 
@@ -68,22 +82,19 @@ function getCommentWithCache(
                     file.text,
                     ranges[0].pos,
                     ranges[0].end,
+                    context.createSymbolId,
                     jsDoc,
-                    checker,
+                    context.checker,
                 ),
-                config,
                 file,
-                logger,
-                files,
+                context,
             );
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
             comment = parseComment(
                 lexLineComments(file.text, ranges),
-                config,
                 file,
-                logger,
-                files,
+                context,
             );
             break;
         default:
@@ -100,18 +111,15 @@ function getCommentWithCache(
 
 function getCommentImpl(
     commentSource: DiscoveredComment | undefined,
-    config: CommentParserConfig,
-    logger: Logger,
     moduleComment: boolean,
-    checker: ts.TypeChecker | undefined,
-    files: FileRegistry,
+    context: CommentContext,
 ) {
     const comment = getCommentWithCache(
         commentSource,
-        config,
-        logger,
-        config.useTsLinkResolution ? checker : undefined,
-        files,
+        {
+            ...context,
+            checker: context.config.useTsLinkResolution ? context.checker : undefined,
+        },
     );
 
     if (comment?.getTag("@import") || comment?.getTag("@license")) {
@@ -145,10 +153,7 @@ function getCommentImpl(
 export function getComment(
     symbol: ts.Symbol,
     kind: ReflectionKind,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker,
-    files: FileRegistry,
+    context: CommentContext,
 ): Comment | undefined {
     const declarations = symbol.declarations || [];
 
@@ -158,16 +163,13 @@ export function getComment(
     ) {
         return getJsDocComment(
             declarations[0] as ts.JSDocPropertyLikeTag,
-            config,
-            logger,
-            checker,
-            files,
+            context,
         );
     }
 
     const sf = declarations.find(ts.isSourceFile);
     if (sf) {
-        return getFileComment(sf, config, logger, checker, files);
+        return getFileComment(sf, context);
     }
 
     const isModule = declarations.some((decl) => {
@@ -181,25 +183,19 @@ export function getComment(
         discoverComment(
             symbol,
             kind,
-            logger,
-            config.commentStyle,
-            checker,
-            !config.suppressCommentWarningsInDeclarationFiles,
+            context.logger,
+            context.config.commentStyle,
+            context.checker,
+            !context.config.suppressCommentWarningsInDeclarationFiles,
         ),
-        config,
-        logger,
         isModule,
-        checker,
-        files,
+        context,
     );
 
     if (!comment && kind === ReflectionKind.Property) {
         return getConstructorParamPropertyComment(
             symbol,
-            config,
-            logger,
-            checker,
-            files,
+            context,
         );
     }
 
@@ -209,40 +205,28 @@ export function getComment(
 export function getNodeComment(
     node: ts.Node,
     moduleComment: boolean,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker | undefined,
-    files: FileRegistry,
+    context: CommentContext,
 ) {
     return getCommentImpl(
-        discoverNodeComment(node, config.commentStyle),
-        config,
-        logger,
+        discoverNodeComment(node, context.config.commentStyle),
         moduleComment,
-        checker,
-        files,
+        context,
     );
 }
 
 export function getFileComment(
     file: ts.SourceFile,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker | undefined,
-    files: FileRegistry,
+    context: CommentContext,
 ): Comment | undefined {
     for (
         const commentSource of discoverFileComments(
             file,
-            config.commentStyle,
+            context.config.commentStyle,
         )
     ) {
         const comment = getCommentWithCache(
             commentSource,
-            config,
-            logger,
-            config.useTsLinkResolution ? checker : undefined,
-            files,
+            context,
         );
 
         if (comment?.getTag("@license") || comment?.getTag("@import")) {
@@ -261,16 +245,13 @@ export function getFileComment(
 
 function getConstructorParamPropertyComment(
     symbol: ts.Symbol,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker,
-    files: FileRegistry,
+    context: CommentContext,
 ): Comment | undefined {
     const decl = symbol.declarations?.find(ts.isParameter);
     if (!decl) return;
 
     const ctor = decl.parent;
-    const comment = getSignatureComment(ctor, config, logger, checker, files);
+    const comment = getSignatureComment(ctor, context);
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
     if (paramTag) {
@@ -282,18 +263,12 @@ function getConstructorParamPropertyComment(
 
 export function getSignatureComment(
     declaration: ts.SignatureDeclaration | ts.JSDocSignature,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker,
-    files: FileRegistry,
+    context: CommentContext,
 ): Comment | undefined {
     return getCommentImpl(
-        discoverSignatureComment(declaration, checker, config.commentStyle),
-        config,
-        logger,
+        discoverSignatureComment(declaration, context.checker, context.config.commentStyle),
         false,
-        checker,
-        files,
+        context,
     );
 }
 
@@ -304,10 +279,7 @@ export function getJsDocComment(
         | ts.JSDocTypedefTag
         | ts.JSDocTemplateTag
         | ts.JSDocEnumTag,
-    config: CommentParserConfig,
-    logger: Logger,
-    checker: ts.TypeChecker | undefined,
-    files: FileRegistry,
+    context: CommentContext,
 ): Comment | undefined {
     const file = declaration.getSourceFile();
 
@@ -331,10 +303,7 @@ export function getJsDocComment(
             jsDoc: parent,
             inheritedFromParentDeclaration: false,
         },
-        config,
-        logger,
-        config.useTsLinkResolution ? checker : undefined,
-        files,
+        context,
     )!;
 
     // And pull out the tag we actually care about.
@@ -352,7 +321,7 @@ export function getJsDocComment(
         // We could just put the same comment on everything, but due to how comment parsing works,
         // we'd have to search for any @template with a name starting with the first type parameter's name
         // which feels horribly hacky.
-        logger.warn(
+        context.logger.warn(
             i18n.multiple_type_parameters_on_template_tag_unsupported(),
             declaration,
         );
@@ -378,7 +347,7 @@ export function getJsDocComment(
         // was a comment attached. If there wasn't, then don't error about failing to find
         // a tag because this is unsupported.
         if (!ts.isJSDocTemplateTag(declaration)) {
-            logger.error(
+            context.logger.error(
                 i18n.failed_to_find_jsdoc_tag_for_name_0(name),
                 declaration,
             );

@@ -1,6 +1,6 @@
 import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
-import type { CommentParserConfig } from "./index.js";
+import type { CommentContextOptionalChecker, CommentParserConfig } from "./index.js";
 import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
 import type { MinimalSourceFile } from "#utils";
 import { nicePath } from "../../utils/paths.js";
@@ -62,10 +62,8 @@ function makeLookaheadGenerator<T>(
 
 export function parseComment(
     tokens: Generator<Token, undefined, undefined>,
-    config: CommentParserConfig,
     file: MinimalSourceFile,
-    logger: Logger,
-    files: FileRegistry,
+    context: CommentContextOptionalChecker,
 ): Comment {
     const lexer = makeLookaheadGenerator(tokens);
     const tok = lexer.done() || lexer.peek();
@@ -75,15 +73,15 @@ export function parseComment(
     comment.summary = blockContent(
         comment,
         lexer,
-        config,
+        context.config,
         i18n,
         warningImpl,
-        files,
+        context.files,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, config, i18n, warningImpl, files),
+            blockTag(comment, lexer, context.config, i18n, warningImpl, context.files),
         );
     }
 
@@ -93,19 +91,19 @@ export function parseComment(
         comment,
         i18n,
         () => `${nicePath(file.fileName)}:${file.getLineAndCharacterOfPosition(tok2.pos).line + 1}`,
-        (message) => logger.warn(message),
+        (message) => context.logger.warn(message),
     );
 
     return comment;
 
     function warningImpl(message: TranslatedString, token: Token) {
         if (
-            config.suppressCommentWarningsInDeclarationFiles &&
+            context.config.suppressCommentWarningsInDeclarationFiles &&
             hasDeclarationFileExtension(file.fileName)
         ) {
             return;
         }
-        logger.warn(message, token.pos, file);
+        context.logger.warn(message, token.pos, file);
     }
 }
 

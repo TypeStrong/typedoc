@@ -35,7 +35,6 @@ import { convertParameterNodes, convertTypeParameterNodes, createSignature } fro
 import { convertSymbol } from "./symbols.js";
 import { isObjectType, isTypeReference } from "./utils/nodes.js";
 import { removeUndefined } from "./utils/reflections.js";
-import { createSymbolId } from "./factories/symbol-id.js";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -277,7 +276,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
         }
         context.project.registerSymbolId(
             signature,
-            createSymbolId(symbol, node),
+            context.createSymbolId(symbol, node),
         );
         context.registerReflection(signature, void 0);
         const signatureCtx = rc.withScope(signature);
@@ -380,7 +379,7 @@ const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
         );
         context.project.registerSymbolId(
             signature,
-            createSymbolId(symbol, node),
+            context.createSymbolId(symbol, node),
         );
         context.registerReflection(signature, undefined);
         const signatureCtx = rc.withScope(signature);

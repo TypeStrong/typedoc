@@ -13,6 +13,10 @@ import { extractTagName } from "../lib/converter/comments/tagName.js";
 import { type FileId, FileRegistry } from "../lib/models/FileRegistry.js";
 import { dedent, MinimalSourceFile, type NormalizedPath } from "#utils";
 
+const neverCalled = () => {
+    throw new Error("Should not be called");
+};
+
 describe("Block Comment Lexer", () => {
     function lex(text: string): Token[] {
         return Array.from(lexBlockComment(text));
@@ -1159,10 +1163,8 @@ describe("Comment Parser", () => {
         const content = lexBlockComment(file);
         const comment = parseComment(
             content,
-            config,
             new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
-            logger,
-            files,
+            { logger, files, config, createSymbolId: neverCalled },
         );
 
         equal(
@@ -1186,10 +1188,8 @@ describe("Comment Parser", () => {
         const content = lexBlockComment(file);
         const comment = parseComment(
             content,
-            config,
             new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
-            logger,
-            files,
+            { logger, files, config, createSymbolId: neverCalled },
         );
 
         equal(
@@ -1214,10 +1214,8 @@ describe("Comment Parser", () => {
         const content = lexBlockComment(file);
         const comment = parseComment(
             content,
-            config,
             new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
-            logger,
-            files,
+            { logger, files, config, createSymbolId: neverCalled },
         );
 
         equal(
@@ -1242,10 +1240,8 @@ describe("Comment Parser", () => {
         const content = lexBlockComment(file);
         const comment = parseComment(
             content,
-            config,
             new MinimalSourceFile(file, "/dev/zero" as NormalizedPath),
-            logger,
-            files,
+            { logger, files, config, createSymbolId: neverCalled },
         );
 
         logger.expectMessage(
@@ -1262,10 +1258,8 @@ describe("Comment Parser", () => {
         const content = lexBlockComment(text);
         const comment = parseComment(
             content,
-            config,
             new MinimalSourceFile(text, "/dev/zero" as NormalizedPath),
-            logger,
-            files,
+            { logger, files, config, createSymbolId: neverCalled },
         );
         logger.expectNoOtherMessages();
         return comment;

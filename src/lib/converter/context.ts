@@ -17,10 +17,17 @@ import type { Converter } from "./converter.js";
 import { isNamedNode } from "./utils/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
 import { resolveAliasedSymbol } from "./utils/symbols.js";
-import { getComment, getFileComment, getJsDocComment, getNodeComment, getSignatureComment } from "./comments/index.js";
+import {
+    type CommentContext,
+    getComment,
+    getFileComment,
+    getJsDocComment,
+    getNodeComment,
+    getSignatureComment,
+} from "./comments/index.js";
 import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
 import { findPackageForPath, normalizePath } from "#node-utils";
-import { createSymbolId } from "./factories/symbol-id.js";
+import { createSymbolIdImpl } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";
 
 /**
@@ -267,7 +274,7 @@ export class Context {
     ): ReferenceType {
         const ref = ReferenceType.createUnresolvedReference(
             name ?? symbol.name,
-            createSymbolId(symbol),
+            this.createSymbolId(symbol),
             context.project,
             getQualifiedName(symbol, name ?? symbol.name),
         );
@@ -280,6 +287,18 @@ export class Context {
 
         ref.package = findPackageForPath(symbolPath)?.[0];
         return ref;
+    }
+
+    /**
+     * Create a stable {@link ReflectionSymbolId} for the provided symbol,
+     * optionally targeting a specific declaration.
+     *
+     * @privateRemarks
+     * This is available on Context so that it can be monkey-patched by typedoc-plugin-missing-exports
+     * It might also turn out to be generally useful for other plugin users.
+     */
+    createSymbolId(symbol: ts.Symbol, declaration?: ts.Declaration) {
+        return createSymbolIdImpl(symbol, declaration);
     }
 
     addChild(reflection: DeclarationReflection | DocumentReflection) {
@@ -302,7 +321,7 @@ export class Context {
     registerReflection(reflection: Reflection, symbol: ts.Symbol | undefined, filePath?: NormalizedPath) {
         if (symbol) {
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
-            const id = createSymbolId(symbol);
+            const id = this.createSymbolId(symbol);
 
             // #2466
             // If we just registered a member of a class or interface, then we need to check if
@@ -339,7 +358,7 @@ export class Context {
     }
 
     getReflectionFromSymbol(symbol: ts.Symbol) {
-        return this.project.getReflectionFromSymbolId(createSymbolId(symbol));
+        return this.project.getReflectionFromSymbolId(this.createSymbolId(symbol));
     }
 
     getSymbolFromReflection(reflection: Reflection) {
@@ -351,14 +370,21 @@ export class Context {
         this._program = program;
     }
 
+    private createCommentContext(): CommentContext {
+        return {
+            config: this.converter.config,
+            logger: this.logger,
+            checker: this.checker,
+            files: this.project.files,
+            createSymbolId: (s, d) => this.createSymbolId(s, d),
+        };
+    }
+
     getComment(symbol: ts.Symbol, kind: ReflectionKind) {
         return getComment(
             symbol,
             kind,
-            this.converter.config,
-            this.logger,
-            this.checker,
-            this.project.files,
+            this.createCommentContext(),
         );
     }
 
@@ -366,20 +392,14 @@ export class Context {
         return getNodeComment(
             node,
             moduleComment,
-            this.converter.config,
-            this.logger,
-            this.checker,
-            this.project.files,
+            this.createCommentContext(),
         );
     }
 
     getFileComment(node: ts.SourceFile) {
         return getFileComment(
             node,
-            this.converter.config,
-            this.logger,
-            this.checker,
-            this.project.files,
+            this.createCommentContext(),
         );
     }
 
@@ -393,10 +413,7 @@ export class Context {
     ) {
         return getJsDocComment(
             declaration,
-            this.converter.config,
-            this.logger,
-            this.checker,
-            this.project.files,
+            this.createCommentContext(),
         );
     }
 
@@ -405,10 +422,7 @@ export class Context {
     ) {
         return getSignatureComment(
             declaration,
-            this.converter.config,
-            this.logger,
-            this.checker,
-            this.project.files,
+            this.createCommentContext(),
         );
     }
 

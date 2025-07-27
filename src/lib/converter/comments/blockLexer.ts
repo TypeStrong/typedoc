@@ -1,12 +1,15 @@
 import ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { resolveAliasedSymbol } from "../utils/symbols.js";
-import { createSymbolId } from "../factories/symbol-id.js";
+import type { Context } from "../context.js";
 
 export function* lexBlockComment(
     file: string,
     pos = 0,
     end = file.length,
+    createSymbolId: Context["createSymbolId"] = () => {
+        throw new Error("unreachable");
+    },
     jsDoc: ts.JSDoc | undefined = undefined,
     checker: ts.TypeChecker | undefined = undefined,
 ): Generator<Token, undefined, undefined> {
@@ -19,6 +22,7 @@ export function* lexBlockComment(
             end,
             getLinkTags(jsDoc),
             checker,
+            createSymbolId,
         )
     ) {
         if (token.kind === TokenSyntaxKind.Text) {
@@ -82,6 +86,7 @@ function* lexBlockComment2(
         ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain
     >,
     checker: ts.TypeChecker | undefined,
+    createSymbolId: Context["createSymbolId"],
 ): Generator<Token, undefined, undefined> {
     pos += 2; // Leading '/*'
     end -= 2; // Trailing '*/'
