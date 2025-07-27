@@ -136,9 +136,11 @@ export function textContent(
             continue;
         }
 
-        const tagLink = checkTagLink(data);
-        if (tagLink) {
-            addRef(tagLink);
+        const tagLinks = checkTagLink(data);
+        if (tagLinks.length) {
+            for (const tagLink of tagLinks) {
+                addRef(tagLink);
+            }
             continue;
         }
 
@@ -299,60 +301,149 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
 /**
  * Looks for `<a href="./relative">`, `<img src="./relative">`, and `<source srcset="./relative">`
  */
-function checkTagLink(data: TextParserData): RelativeLink | undefined {
+function checkTagLink(data: TextParserData): RelativeLink[] {
     const { pos, token } = data;
 
     if (token.text.startsWith("<img ", pos)) {
         data.pos += 4;
-        return checkAttribute(data, "src");
+        return checkAttributes(data, {
+            src: checkAttributeDirectPath,
+            srcset: checkAttributeSrcSet,
+        });
+    }
+
+    if (token.text.startsWith("<link ", pos)) {
+        data.pos += 4;
+        return checkAttributes(data, {
+            imagesrcset: checkAttributeSrcSet,
+        });
     }
 
     if (token.text.startsWith("<a ", pos)) {
         data.pos += 3;
-        return checkAttribute(data, "href");
+        return checkAttributes(data, { href: checkAttributeDirectPath });
     }
 
     if (token.text.startsWith("<source ", pos)) {
         data.pos += 8;
-        const saveData = { ...data };
-        const attr = checkAttribute(data, "srcset");
-        if (!attr) {
-            Object.assign(data, saveData);
-            return checkAttribute(data, "src");
-        }
-        return attr;
+        return checkAttributes(data, {
+            src: checkAttributeDirectPath,
+            srcset: checkAttributeSrcSet,
+        });
     }
+
+    return [];
 }
 
-function checkAttribute(
+function checkAttributes(
     data: TextParserData,
-    attr: string,
-): RelativeLink | undefined {
+    attributes: Record<
+        string,
+        (data: TextParserData, text: string, pos: number, end: number) => RelativeLink[]
+    >,
+): RelativeLink[] {
+    const links: RelativeLink[] = [];
     const parser = new HtmlAttributeParser(data.token.text, data.pos);
     while (parser.state !== ParserState.END) {
         if (
             parser.state === ParserState.BeforeAttributeValue &&
-            parser.currentAttributeName === attr
+            attributes.hasOwnProperty(parser.currentAttributeName)
         ) {
             parser.step();
 
-            if (isRelativePath(parser.currentAttributeValue)) {
-                data.pos = parser.pos;
-                const { target, anchor } = data.files.register(
-                    data.sourcePath,
-                    parser.currentAttributeValue as NormalizedPath,
-                ) || { target: undefined, anchor: undefined };
-                return {
-                    pos: parser.currentAttributeValueStart,
-                    end: parser.currentAttributeValueEnd,
-                    target,
-                    targetAnchor: anchor,
-                };
-            }
-            return;
+            links.push(...attributes[parser.currentAttributeName](
+                data,
+                parser.currentAttributeValue,
+                parser.currentAttributeValueStart,
+                parser.currentAttributeValueEnd,
+            ));
         }
 
         parser.step();
+    }
+
+    return links;
+}
+
+function checkAttributeDirectPath(
+    data: TextParserData,
+    text: string,
+    pos: number,
+    end: number,
+): RelativeLink[] {
+    if (isRelativePath(text.trim())) {
+        const { target, anchor } = data.files.register(
+            data.sourcePath,
+            text.trim() as NormalizedPath,
+        ) || { target: undefined, anchor: undefined };
+        return [{
+            pos,
+            end,
+            target,
+            targetAnchor: anchor,
+        }];
+    }
+
+    return [];
+}
+
+// See https://html.spec.whatwg.org/multipage/images.html#srcset-attribute
+function checkAttributeSrcSet(data: TextParserData, text: string, pos: number, _end: number): RelativeLink[] {
+    const result: RelativeLink[] = [];
+
+    let textPos = 0;
+    parseImageCandidate();
+    while (textPos < text.length && text[textPos] == ",") {
+        ++textPos;
+        parseImageCandidate();
+    }
+
+    return result;
+
+    function parseImageCandidate() {
+        // 1. Zero or more ASCII whitespace
+        while (textPos < text.length && /[\t\r\f\n ]/.test(text[textPos])) ++textPos;
+        // 2. A valid non-empty URL that does not start or end with a comma
+        // TypeDoc: We don't exactly match this, PR welcome! For now, just permit anything
+        // that's not whitespace or a comma
+        const url = text.slice(textPos).match(/^[^\t\r\f\n ,]+/);
+
+        if (url && isRelativePath(url[0])) {
+            const { target, anchor } = data.files.register(
+                data.sourcePath,
+                url[0] as NormalizedPath,
+            ) || { target: undefined, anchor: undefined };
+            result.push({
+                pos: pos + textPos,
+                end: pos + textPos + url[0].length,
+                target,
+                targetAnchor: anchor,
+            });
+        }
+        textPos += url ? url[0].length : 0;
+
+        // 3. Zero or more ASCII whitespace
+        while (textPos < text.length && /[\t\r\f\n ]/.test(text[textPos])) ++textPos;
+
+        // 4. Zero or one of the following:
+        {
+            // A width descriptor, consisting of: ASCII whitespace, a valid non-negative integer giving
+            // a number greater than zero representing the width descriptor value, and a U+0077 LATIN
+            // SMALL LETTER W character.
+            const w = text.slice(textPos).match(/^\+?\d+\s*w/);
+            textPos += w ? w[0].length : 0;
+
+            // A pixel density descriptor, consisting of: ASCII whitespace, a valid floating-point number
+            // giving a number greater than zero representing the pixel density descriptor value, and a
+            // U+0078 LATIN SMALL LETTER X character.
+            if (!w) {
+                const x = text.slice(textPos).match(/^\+?\d+(\.\d+)?([eE][+-]\d+)?\s*x/);
+                textPos += x ? x[0].length : 0;
+            }
+        }
+
+        // 5. Zero or more ASCII whitespace
+        while (textPos < text.length && /[\t\r\f\n ]/.test(text[textPos])) ++textPos;
     }
 }
 

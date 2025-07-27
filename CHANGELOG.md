@@ -10,7 +10,8 @@ title: Changelog
 
 ### Bug Fixes
 
-- Relative links in `<source src=x>` and `<source srcset=x>` elements will now be discovered by TypeDoc, #2975.
+- Relative links in `<img srcset>` will now be discovered by TypeDoc, #2975.
+- Relative links in `<source src>` and `<source srcset>` elements will now be discovered by TypeDoc, #2975.
 
 ### Thanks!
 

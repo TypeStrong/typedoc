@@ -1639,7 +1639,8 @@ describe("Comment Parser", () => {
     it("Recognizes HTML picture source srcset links", () => {
         const comment = getComment(`/**
         * <source media="(prefers-color-scheme: light)"  srcset="./test.png" >
-        * <source media="(prefers-color-scheme: dark)"  srcset="./test space.png"/>
+        * <source srcset="./test2.png 100w, ./test3.png 2x" >
+        * <source media="(prefers-color-scheme: dark)"  srcset="./test%20space.png, ./test5.png"/>
         * <source srcset="https://example.com/favicon.ico">
         */`);
 
@@ -1653,11 +1654,38 @@ describe("Comment Parser", () => {
                     target: 1 as FileId,
                     targetAnchor: undefined,
                 },
-                { kind: "text", text: '" >\n<source media="(prefers-color-scheme: dark)"  srcset="' },
+                { kind: "text", text: '" >\n<source srcset="' },
                 {
                     kind: "relative-link",
-                    text: "./test space.png",
+                    text: "./test2.png",
                     target: 2 as FileId,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: " 100w, " },
+                {
+                    kind: "relative-link",
+                    text: "./test3.png",
+                    target: 3 as FileId,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: ' 2x" >\n<source media="(prefers-color-scheme: dark)"  srcset="',
+                },
+                {
+                    kind: "relative-link",
+                    text: "./test%20space.png",
+                    target: 4 as FileId,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: ", ",
+                },
+                {
+                    kind: "relative-link",
+                    text: "./test5.png",
+                    target: 5 as FileId,
                     targetAnchor: undefined,
                 },
                 {
@@ -1668,11 +1696,31 @@ describe("Comment Parser", () => {
         );
     });
 
-    it("Recognizes HTML picture source src links", () => {
+    it("Recognizes <link imagesrcset> links", () => {
+        const comment = getComment(`/**
+        * <link imagesrcset="./test.png 100w" >
+        */`);
+
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<link imagesrcset="' },
+                {
+                    kind: "relative-link",
+                    text: "./test.png",
+                    target: 1 as FileId,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: ' 100w" >' },
+            ] satisfies CommentDisplayPart[],
+        );
+    });
+
+    it("Recognizes HTML audio and video src links", () => {
         const comment = getComment(`/**
         * <source src="./test.wav" >
         * <source media="(prefers-color-scheme: dark)" src="./test_dark.mp4"/>
-        * <source src="https://example.com/favicon.ico">
+        * <source src="https://example.com/test.wav">
         */`);
 
         equal(
@@ -1694,7 +1742,37 @@ describe("Comment Parser", () => {
                 },
                 {
                     kind: "text",
-                    text: '"/>\n<source src="https://example.com/favicon.ico">',
+                    text: '"/>\n<source src="https://example.com/test.wav">',
+                },
+            ] satisfies CommentDisplayPart[],
+        );
+    });
+
+    it("Recognizes img tag with both src and srcset", () => {
+        const comment = getComment(`/**
+        * <img src="./test.png" srcset="./test2.png">
+        */`);
+
+        equal(
+            comment.summary,
+            [
+                { kind: "text", text: '<img src="' },
+                {
+                    kind: "relative-link",
+                    text: "./test.png",
+                    target: 1 as FileId,
+                    targetAnchor: undefined,
+                },
+                { kind: "text", text: '" srcset="' },
+                {
+                    kind: "relative-link",
+                    text: "./test2.png",
+                    target: 2 as FileId,
+                    targetAnchor: undefined,
+                },
+                {
+                    kind: "text",
+                    text: '">',
                 },
             ] satisfies CommentDisplayPart[],
         );
