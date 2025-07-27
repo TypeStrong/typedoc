@@ -10,9 +10,15 @@ title: Changelog
 - Permit `-` within tag names to support `typescript-json-schema`'s `@TJS-type` tag, #2972.
 - Exposed `Context.createSymbolId` for use by plugins.
 
+### Bug Fixes
+
+- Relative links in `<img srcset>` will now be discovered by TypeDoc, #2975.
+- Relative links in `<source src>` and `<source srcset>` elements will now be discovered by TypeDoc, #2975.
+
 ### Thanks!
 
 - @jonathanhefner
+- @laymonage
 
 ## v0.28.7 (2025-06-30)
 
