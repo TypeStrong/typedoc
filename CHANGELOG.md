@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.8 (2025-07-28)
+
 ### Features
 
 - If using JS config files, the `plugin` function can now be given plugin functions to load.
