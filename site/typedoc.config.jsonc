@@ -1,6 +1,7 @@
 {
     "$schema": "https://typedoc.org/schema.json",
     "logLevel": "Verbose",
+    "treatWarningsAsErrors": true,
 
     "entryPointStrategy": "merge",
     "entryPoints": [],

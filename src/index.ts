@@ -139,6 +139,7 @@ export {
     MinimalSourceFile,
     type NormalizedPath,
     type NormalizedPathOrModule,
+    type NormalizedPathOrModuleOrFunction,
     type SymbolReference,
     type TranslatedString,
     translateTagName,

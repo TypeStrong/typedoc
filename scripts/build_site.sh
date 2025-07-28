@@ -14,6 +14,10 @@ fi
 if [[ -n "$CI" || ! -d example/docs ]]; then
     cd example
     pnpm i
+    # Ignoring warnings here because we inherit from Array, which results in
+    # a few warnings because the docs in the .d.ts have bad @param comments
+    # We might want to change TypeDoc's validation logic to make this not a
+    # warning at some point if the relevant comments show up on both signatures.
     pnpm run typedoc --logLevel Error
     cd ..
 fi
@@ -22,7 +26,7 @@ fi
 git show $(git describe --tags --abbrev=0):CHANGELOG.md | sed 's/#* Unreleased//' > site/generated/CHANGELOG.md
 
 # Build the actual site, references the API docs
-node bin/typedoc --options site/typedoc.config.jsonc
+node bin/typedoc --options site/typedoc.config.jsonc --treatWarningsAsErrors
 
 # Create/copy static files
 node scripts/generate_options_schema.js docs-site/schema.json
