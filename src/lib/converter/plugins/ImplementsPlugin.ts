@@ -110,8 +110,10 @@ export class ImplementsPlugin extends ConverterComponent {
         project: ProjectReflection,
         reflection: DeclarationReflection,
     ) {
+        if (!reflection.extendedTypes) return;
+
         const extendedTypes = filterMap(
-            reflection.extendedTypes ?? [],
+            reflection.extendedTypes,
             (type) => {
                 return type instanceof ReferenceType &&
                         type.reflection instanceof DeclarationReflection
@@ -139,20 +141,51 @@ export class ImplementsPlugin extends ConverterComponent {
                             parentMember.signatures ?? [],
                         )
                     ) {
-                        childSig[key] = ReferenceType.createResolvedReference(
+                        // If we're already pointing at something because TS said we should reference
+                        // it, then don't overwrite the reference.
+                        if (!childSig[key]?.reflection) {
+                            childSig[key] = ReferenceType.createResolvedReference(
+                                `${parent.name}.${parentMember.name}`,
+                                parentSig,
+                                project,
+                            );
+                        }
+                    }
+
+                    if (!child[key]?.reflection) {
+                        child[key] = ReferenceType.createResolvedReference(
                             `${parent.name}.${parentMember.name}`,
-                            parentSig,
+                            parentMember,
                             project,
                         );
                     }
 
-                    child[key] = ReferenceType.createResolvedReference(
-                        `${parent.name}.${parentMember.name}`,
-                        parentMember,
-                        project,
-                    );
-
                     this.handleInheritedComments(child, parentMember);
+                }
+            }
+        }
+
+        // #2978, this is very unfortunate. If a child's parent links are broken at this point,
+        // we replace them with an intentionally broken link so that they won't ever be resolved.
+        // This is done because if we don't do it then we run into issues where we have a link which
+        // points to some ReflectionSymbolId which might not exist now, but once we've gone through
+        // serialization/deserialization, might point to an unexpected location. (See the mixin
+        // converter tests, I suspect this might actually be an indication of something else slightly
+        // broken there, but don't want to spend more time with this right now.)
+        for (const child of reflection.children || []) {
+            if (child.inheritedFrom && !child.inheritedFrom.reflection) {
+                child.inheritedFrom = ReferenceType.createBrokenReference(child.inheritedFrom.name, project);
+            }
+            if (child.overwrites && !child.overwrites.reflection) {
+                child.overwrites = ReferenceType.createBrokenReference(child.overwrites.name, project);
+            }
+
+            for (const childSig of child.getAllSignatures()) {
+                if (childSig.inheritedFrom && !childSig.inheritedFrom.reflection) {
+                    childSig.inheritedFrom = ReferenceType.createBrokenReference(childSig.inheritedFrom.name, project);
+                }
+                if (childSig.overwrites && !childSig.overwrites.reflection) {
+                    childSig.overwrites = ReferenceType.createBrokenReference(childSig.overwrites.name, project);
                 }
             }
         }
@@ -522,8 +555,20 @@ function createLink(
     symbol: ts.Symbol,
     isInherit: boolean,
 ) {
-    const project = context.project;
     const name = `${expr.expression.getText()}.${getHumanName(symbol.name)}`;
+
+    // We should always have rootSymbols, but check just in case. We use the first
+    // symbol here as TypeDoc's models don't have multiple symbols for the parent
+    // reference. This is technically wrong because symbols might be declared in
+    // multiple locations (interface declaration merging), but that's an uncommon
+    // enough use case that it doesn't seem worthwhile to complicate the rest of the
+    // world to deal with it.
+    // Note that we also need to check that the root symbol isn't this symbol.
+    // This seems to happen sometimes when dealing with interface inheritance.
+    const rootSymbols = context.checker.getRootSymbols(symbol);
+    const ref = rootSymbols.length && rootSymbols[0] != symbol
+        ? context.createSymbolReference(rootSymbols[0], context, name)
+        : ReferenceType.createBrokenReference(name, context.project);
 
     link(reflection);
     link(reflection.getSignature);
@@ -535,34 +580,21 @@ function createLink(
         link(sig);
     }
 
-    // Intentionally create broken links here. These will be replaced with real links during
-    // resolution if we can do so. We create broken links rather than real links because in the
-    // case of an inherited symbol, we'll end up referencing a single symbol ID rather than one
-    // for each class.
     function link(
         target: DeclarationReflection | SignatureReflection | undefined,
     ) {
         if (!target) return;
 
         if (clause.token === ts.SyntaxKind.ImplementsKeyword) {
-            target.implementationOf ??= ReferenceType.createBrokenReference(
-                name,
-                project,
-            );
+            target.implementationOf ??= ref;
             return;
         }
 
         if (isInherit) {
             target.setFlag(ReflectionFlag.Inherited);
-            target.inheritedFrom ??= ReferenceType.createBrokenReference(
-                name,
-                project,
-            );
+            target.inheritedFrom ??= ref;
         } else {
-            target.overwrites ??= ReferenceType.createBrokenReference(
-                name,
-                project,
-            );
+            target.overwrites ??= ref;
         }
     }
 }

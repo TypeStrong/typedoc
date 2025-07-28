@@ -58,6 +58,7 @@ type _ModelToObject<T> =
         T extends M.CommentDisplayPart ? CommentDisplayPart :
         T extends M.SourceReference ? SourceReference :
         T extends M.FileRegistry ? FileRegistry :
+        T extends M.ReflectionSymbolId ? ReflectionSymbolId :
         never;
 
 type Primitive = string | number | undefined | null | boolean;

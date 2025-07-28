@@ -2135,4 +2135,13 @@ describe("Issue Tests", () => {
             ["Var", "Comment"],
         ]);
     });
+
+    it("#2978 handles parent properties through mapped types", () => {
+        const project = convert();
+        const prop = query(project, "Child.prop");
+        equal(prop.inheritedFrom?.reflection?.getFullName(), "Parent.prop");
+        const x = query(project, "InheritsX.x");
+        equal(x.inheritedFrom?.reflection?.getFullName(), undefined);
+        equal(x.inheritedFrom?.name, "Tricky.x");
+    });
 });

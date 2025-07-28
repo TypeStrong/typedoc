@@ -2546,8 +2546,8 @@
                             },
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 106,
-                                "name": "Base.base"
+                                "target": 112,
+                                "name": "Child.base"
                             }
                         },
                         {

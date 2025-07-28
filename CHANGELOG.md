@@ -14,6 +14,7 @@ title: Changelog
 
 - Relative links in `<img srcset>` will now be discovered by TypeDoc, #2975.
 - Relative links in `<source src>` and `<source srcset>` elements will now be discovered by TypeDoc, #2975.
+- Improved inherited from/overwrites link discovery to point to parent properties in more cases, #2978
 
 ### Thanks!
 

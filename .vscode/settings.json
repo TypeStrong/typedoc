@@ -5,6 +5,7 @@
     },
 
     "typescript.tsdk": "./node_modules/typescript/lib",
+    "dprint.path": "./node_modules/dprint/dprint",
 
     // Automatically run the formatter when certain files are saved.
     "[javascript]": {

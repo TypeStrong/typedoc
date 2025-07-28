@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // @ts-check
 import md from "markdown-it";
 import cp from "child_process";
