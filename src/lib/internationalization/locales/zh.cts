@@ -79,6 +79,8 @@ export = localeUtils.buildIncompleteTranslation({
     inline_tag_not_closed: "内联标签未关闭",
 
     // validation
+    comment_for_0_links_to_1_not_included_in_docs_use_external_link_2:
+        `{0} 注释中指向 “{1}” 的已解析的链接不会被包含在文档中。请将 {2} 导出或添加至 externalSymbolLinkMappings 选项以修复该警告`,
     failed_to_resolve_link_to_0_in_comment_for_1: "无法解析 {1} 注释中指向 “{0}” 的链接",
     failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2:
         "无法解析 {1} 的注释中指向 “{0}” 的链接。您可能想要 “{2}”",
@@ -103,9 +105,11 @@ export = localeUtils.buildIncompleteTranslation({
         "文档中并未使用 searchCategoryBoosts 中指定的所有类别。未使用的类别包括：\n{0}",
     not_all_search_group_boosts_used_0: "文档中并未使用 searchGroupBoosts 中指定的所有组。未使用的组为：\n{0}",
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group:
-        "{0} 的评论包含“{1}”的 @categoryDescription，但该类别中没有子项",
+        "{0} 的注释中包含了 “{1}” 的 @categoryDescription，但该类别中没有子项",
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
-        "{0} 的注释包含“{1}”的 @groupDescription，但该组中没有子项",
+        "{0} 的注释中包含了 “{1}” 的 @groupDescription，但该分组中没有子项",
+    comment_for_0_specifies_1_as_sort_strategy_but_only_2_is_valid:
+        `{0} 的注释中指定的 “{1}” 的 @sortStrategy 无效，以下是有效的选项：\n\t{2}`,
     label_0_for_1_cannot_be_referenced:
         "无法使用声明引用来引用 {1} 的标签“{0}”。标签只能包含 A-Z、0-9 和 _，并且不能以数字开头",
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2: "修饰符标签 {0} 与 {2} 注释中的 {1} 互斥",
@@ -187,6 +191,8 @@ export = localeUtils.buildIncompleteTranslation({
     circular_reference_extends_0: "{0} 的“extends”字段出现循环引用",
     failed_resolve_0_to_file_in_1: "无法将 {0} 解析为 {1} 中的文件",
 
+    glob_0_should_use_posix_slash:
+        `该 glob “{0}” 中转义了不是特殊字符的字符。输入 TypeDoc 的 glob 可能不会使用 Windows 路径分隔符（\\），请尝试将其替换为 POSIX 路径分隔符（/）`,
     option_0_can_only_be_specified_by_config_file: "“{0}”选项只能通过配置文件指定",
     option_0_expected_a_value_but_none_provided: "--{0} 需要一个值，但没有给出任何参数",
     unknown_option_0_may_have_meant_1: "未知选项：{0}，你可能指的是：\n\t{1}",
@@ -348,6 +354,8 @@ export = localeUtils.buildIncompleteTranslation({
         "useHostedBaseUrlForAbsoluteLinks 选项要求设置 hostingBaseUrl",
     favicon_must_have_one_of_the_following_extensions_0: "favicon 的后缀名必须是下列之一：{0}",
     option_0_must_be_an_object: "“{0}”选项必须是非数组对象",
+    option_0_must_be_an_array_of_string: "“{0}”选项必须是字符串数组",
+    option_0_must_be_an_array_of_string_or_functions: "“{0}”选项必须是由字符串或函数构成的数组",
     option_0_must_be_a_function: "‘{0}’ 选项必须是一个函数",
     option_0_must_be_object_with_urls: "{0} 必须是具有字符串标签作为键和 URL 值的对象",
     visibility_filters_only_include_0: "visibilityFilters 只能包含以下非@键：{0}",
@@ -514,6 +522,7 @@ export = localeUtils.buildIncompleteTranslation({
     tag_return: "返回",
     tag_satisfies: "满足",
     tag_since: "添加于",
+    tag_sortStrategy: "排序策略",
     tag_template: "类型参数",
     tag_type: "类型",
     tag_typedef: "类型定义",
@@ -545,6 +554,7 @@ export = localeUtils.buildIncompleteTranslation({
     tag_virtual: "虚函数",
     tag_abstract: "抽象类",
     tag_class: "类",
+    tag_disableGroups: "禁用分组",
     tag_enum: "枚举",
     tag_event: "事件",
     tag_expand: "展开",
