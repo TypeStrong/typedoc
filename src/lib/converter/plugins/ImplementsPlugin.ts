@@ -172,19 +172,24 @@ export class ImplementsPlugin extends ConverterComponent {
         // serialization/deserialization, might point to an unexpected location. (See the mixin
         // converter tests, I suspect this might actually be an indication of something else slightly
         // broken there, but don't want to spend more time with this right now.)
+        // #2982, even more unfortunately, we only want to keep the link if it is pointing to a reflection
+        // which will receive a link during rendering.
+        const isValidRef = (ref: ReferenceType) =>
+            ref.reflection && !ref.reflection.parent?.kindOf(ReflectionKind.TypeLiteral);
+
         for (const child of reflection.children || []) {
-            if (child.inheritedFrom && !child.inheritedFrom.reflection) {
+            if (child.inheritedFrom && !isValidRef(child.inheritedFrom)) {
                 child.inheritedFrom = ReferenceType.createBrokenReference(child.inheritedFrom.name, project);
             }
-            if (child.overwrites && !child.overwrites.reflection) {
+            if (child.overwrites && !isValidRef(child.overwrites)) {
                 child.overwrites = ReferenceType.createBrokenReference(child.overwrites.name, project);
             }
 
             for (const childSig of child.getAllSignatures()) {
-                if (childSig.inheritedFrom && !childSig.inheritedFrom.reflection) {
+                if (childSig.inheritedFrom && !isValidRef(childSig.inheritedFrom)) {
                     childSig.inheritedFrom = ReferenceType.createBrokenReference(childSig.inheritedFrom.name, project);
                 }
-                if (childSig.overwrites && !childSig.overwrites.reflection) {
+                if (childSig.overwrites && !isValidRef(childSig.overwrites)) {
                     childSig.overwrites = ReferenceType.createBrokenReference(childSig.overwrites.name, project);
                 }
             }

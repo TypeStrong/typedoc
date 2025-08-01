@@ -135,3 +135,4 @@ export interface DisabledGroups {
 }
 
 export * as ExpandType from "./expandType";
+export * as GH2982 from "./gh2982";

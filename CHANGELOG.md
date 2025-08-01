@@ -10,6 +10,7 @@ title: Changelog
 
 ### Bug Fixes
 
+- Fixed bug introduced in 0.28.8 where TypeDoc could not render docs when members inherited from a complex type alias, #2982.
 - Fixed automatic discovery of entry points when not running in packages mode, #2988.
 - Fixed discovery of package.json file when running with entry points containing a glob, #2985.
 

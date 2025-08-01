@@ -108,6 +108,29 @@
                                 },
                                 {
                                     "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#gh2982": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "modules/GH2982.json"
+                                                },
+                                                "children": "GH2982"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#gh2982",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
                                 }
                             ]
                         }
@@ -551,21 +574,32 @@
                                             "children": "Namespaces"
                                         },
                                         {
-                                            "div": {
-                                                "tag": "a",
-                                                "props": {
-                                                    "href": "#expandtype"
+                                            "div": [
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#expandtype"
+                                                    },
+                                                    "children": {
+                                                        "span": [
+                                                            "Expand",
+                                                            {
+                                                                "wbr": []
+                                                            },
+                                                            "Type"
+                                                        ]
+                                                    }
                                                 },
-                                                "children": {
-                                                    "span": [
-                                                        "Expand",
-                                                        {
-                                                            "wbr": []
-                                                        },
-                                                        "Type"
-                                                    ]
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#gh2982"
+                                                    },
+                                                    "children": {
+                                                        "span": "GH2982"
+                                                    }
                                                 }
-                                            }
+                                            ]
                                         }
                                     ]
                                 },
