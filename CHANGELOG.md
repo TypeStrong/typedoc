@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.9 (2025-08-01)
+
 ### Features
 
 - Add support for TypeScript 5.9, #2989.
