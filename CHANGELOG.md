@@ -11,6 +11,7 @@ title: Changelog
 ### Bug Fixes
 
 - Fixed automatic discovery of entry points when not running in packages mode, #2988.
+- Fixed discovery of package.json file when running with entry points containing a glob, #2985.
 
 ## v0.28.8 (2025-07-28)
 

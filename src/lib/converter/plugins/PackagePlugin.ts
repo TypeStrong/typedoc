@@ -8,9 +8,9 @@ import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 import { type GlobString, i18n, MinimalSourceFile, type NormalizedPath, NormalizedPathUtils } from "#utils";
 import {
+    deriveRootDir,
     discoverPackageJson,
     type EntryPointStrategy,
-    getCommonDirectory,
     nicePath,
     normalizePath,
     Option,
@@ -79,7 +79,7 @@ export class PackagePlugin extends ConverterComponent {
         this.packageJson = undefined;
 
         const dirName = this.application.options.packageDir ??
-            Path.resolve(getCommonDirectory(this.entryPoints.map(g => `${g}/`)));
+            Path.resolve(deriveRootDir(this.entryPoints));
 
         this.application.logger.verbose(
             `Begin package.json search at ${nicePath(dirName)}`,
