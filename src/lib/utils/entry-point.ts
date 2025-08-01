@@ -6,6 +6,7 @@ import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePat
 import type { Options } from "./options/index.js";
 import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
 import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
+import { addInferredDeclarationMapPaths, resolveDeclarationMaps } from "./declaration-maps.js";
 
 /**
  * Defines how entry points are interpreted.
@@ -65,7 +66,7 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
         options,
     );
 
-    // See also: addInferredDeclarationMapPaths in ReflectionSymbolId
+    // See also: addInferredDeclarationMapPaths in symbol-id factory
     const jsToTsSource = new Map<string, string>();
     for (const program of programs) {
         const opts = program.getCompilerOptions();
@@ -86,7 +87,7 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
     for (const [name, path] of pathEntries) {
         // Strip leading ./ from the display name
         const displayName = name.replace(/^\.\/?/, "");
-        const targetPath = jsToTsSource.get(path) || path;
+        const targetPath = jsToTsSource.get(path) || resolveDeclarationMaps(path) || path;
 
         const program = programs.find((p) => p.getSourceFile(targetPath));
         if (program) {
@@ -106,6 +107,10 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
         logger.warn(i18n.no_entry_points_provided());
         return [];
     }
+
+    logger.verbose(
+        `Inferred entry points to be:\n\t${entryPoints.map(e => nicePath(e.sourceFile.fileName)).join("\n\t")}`,
+    );
 
     return entryPoints;
 }
@@ -413,6 +418,11 @@ function getEntryPrograms(
             projectReferences: options.getProjectReferences(),
         });
 
+    addInferredDeclarationMapPaths(
+        options.getCompilerOptions(),
+        options.getFileNames(),
+    );
+
     const programs = [rootProgram];
     // This might be a solution style tsconfig, in which case we need to add a program for each
     // reference so that the converter can look through each of these.
@@ -432,6 +442,11 @@ function getEntryPrograms(
                     rootNames: ref.commandLine.fileNames,
                     projectReferences: ref.commandLine.projectReferences,
                 }),
+            );
+
+            addInferredDeclarationMapPaths(
+                ref.commandLine.options,
+                ref.commandLine.fileNames,
             );
         }
     }

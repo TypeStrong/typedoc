@@ -43,7 +43,6 @@ import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
 import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
-import { addInferredDeclarationMapPaths } from "./converter/factories/symbol-id.js";
 import { Internationalization } from "./internationalization/internationalization.js";
 
 const packageInfo = JSON.parse(
@@ -821,11 +820,6 @@ export class Application extends AbstractComponent<
                 );
                 continue;
             }
-
-            addInferredDeclarationMapPaths(
-                opts.getCompilerOptions(),
-                opts.getFileNames(),
-            );
 
             projectsToConvert.push({ dir, options: opts });
         }

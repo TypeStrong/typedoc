@@ -4,6 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Add support for TypeScript 5.9, #2989.
+
+### Bug Fixes
+
+- Fixed automatic discovery of entry points when not running in packages mode, #2988.
+
 ## v0.28.8 (2025-07-28)
 
 ### Features
