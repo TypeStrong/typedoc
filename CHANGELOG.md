@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Fixed inconsistent anchors on module pages for re-exports, #2990.
+- Markdown references which appear to be footnotes will no longer be checked for links, #2991.
 
 ## v0.28.9 (2025-08-01)
 

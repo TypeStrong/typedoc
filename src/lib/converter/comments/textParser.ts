@@ -258,7 +258,13 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
         while (/[ \t]/.test(token.text[lookahead])) {
             ++lookahead;
         }
-        if (token.text[lookahead] === "[") {
+        // #2991, we check that this reference also doesn't look like a footnote reference
+        // as it is unlikely that someone uses that syntax without intending for footnote behavior.
+        // This introduces a problem if someone has an [^ref] and doesn't intend for that to
+        // be interpreted as a footnote, but as a reference, but we can't have it both ways,
+        // and having people rename their reference to not be confused with a footnote isn't a
+        // horrible workaround.
+        if (token.text[lookahead] === "[" && token.text[lookahead + 1] !== "^") {
             while (
                 lookahead < token.text.length &&
                 /[^\n\]]/.test(token.text[lookahead])

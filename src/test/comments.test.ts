@@ -1558,6 +1558,7 @@ describe("Comment Parser", () => {
             * [2]:<./example with space>
             * [3]: https://example.com
             * [4]: #hash
+            * [^footnote]: ./example.md
             */`);
 
         equal(
@@ -1579,7 +1580,7 @@ describe("Comment Parser", () => {
                 },
                 {
                     kind: "text",
-                    text: "\n[3]: https://example.com\n[4]: #hash",
+                    text: "\n[3]: https://example.com\n[4]: #hash\n[^footnote]: ./example.md",
                 },
             ] satisfies CommentDisplayPart[],
         );
