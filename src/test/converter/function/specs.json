@@ -169,7 +169,7 @@
                         {
                             "fileName": "function.ts",
                             "line": 164,
-                            "character": 14,
+                            "character": 17,
                             "url": "typedoc://function.ts#L164"
                         }
                     ]
@@ -1680,7 +1680,7 @@
                         {
                             "fileName": "function.ts",
                             "line": 164,
-                            "character": 14,
+                            "character": 17,
                             "url": "typedoc://function.ts#L164"
                         }
                     ],

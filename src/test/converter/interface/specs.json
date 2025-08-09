@@ -2235,7 +2235,7 @@
                         {
                             "fileName": "interface-implementation.ts",
                             "line": 1,
-                            "character": 14,
+                            "character": 17,
                             "url": "typedoc://interface-implementation.ts#L1"
                         }
                     ]

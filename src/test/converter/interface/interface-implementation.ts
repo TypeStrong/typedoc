@@ -1,4 +1,4 @@
-export module Forms {
+export namespace Forms {
     /**
      * Function signature of an event listener callback
      */

@@ -117,7 +117,7 @@
                 {
                     "fileName": "enum.ts",
                     "line": 44,
-                    "character": 14,
+                    "character": 17,
                     "url": "typedoc://enum.ts#L44"
                 }
             ]
@@ -313,7 +313,7 @@
                 {
                     "fileName": "enum.ts",
                     "line": 44,
-                    "character": 14,
+                    "character": 17,
                     "url": "typedoc://enum.ts#L44"
                 }
             ]

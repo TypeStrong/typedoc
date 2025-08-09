@@ -565,7 +565,7 @@
                         {
                             "fileName": "class.ts",
                             "line": 109,
-                            "character": 14,
+                            "character": 17,
                             "url": "typedoc://class.ts#L109"
                         }
                     ]
@@ -2239,7 +2239,7 @@
                         {
                             "fileName": "class.ts",
                             "line": 109,
-                            "character": 14,
+                            "character": 17,
                             "url": "typedoc://class.ts#L109"
                         }
                     ],

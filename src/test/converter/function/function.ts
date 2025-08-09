@@ -161,7 +161,7 @@ export function isNonNull<T>(arg: T | null | undefined): arg is T {
 /**
  * This is the module extending the function moduleFunction().
  */
-export module moduleFunction {
+export namespace moduleFunction {
     /**
      * This variable is appended to a function.
      */
