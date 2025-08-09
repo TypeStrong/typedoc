@@ -48,7 +48,7 @@ function collapseStrings(data: any[]): unknown {
 
 function renderElementToSnapshot(element: JsxChildren): unknown {
     if (typeof element === "string" || typeof element === "number" || typeof element === "bigint") {
-        return element.toString();
+        return element.toString().replaceAll("\u00a0", " ");
     }
 
     if (!element || typeof element === "boolean") {

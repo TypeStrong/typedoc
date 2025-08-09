@@ -55,7 +55,7 @@
                         {
                             "br": []
                         },
-                        "    ",
+                        "    ",
                         {
                             "tag": "a.tsd-kind-property",
                             "props": {
@@ -73,7 +73,7 @@
                         {
                             "br": []
                         },
-                        "        ",
+                        "        ",
                         {
                             "span.tsd-kind-property": "anotherValue"
                         },
@@ -90,7 +90,7 @@
                         {
                             "br": []
                         },
-                        "        ",
+                        "        ",
                         {
                             "span.tsd-kind-property": "emptyObject"
                         },
@@ -107,7 +107,7 @@
                         {
                             "br": []
                         },
-                        "        ",
+                        "        ",
                         {
                             "span.tsd-kind-property": "moreOptions"
                         },
@@ -139,7 +139,7 @@
                         {
                             "br": []
                         },
-                        "        ",
+                        "        ",
                         {
                             "span.tsd-kind-property": "value"
                         },
@@ -156,7 +156,7 @@
                         {
                             "br": []
                         },
-                        "    ",
+                        "    ",
                         {
                             "span.tsd-signature-symbol": "}"
                         },
@@ -274,7 +274,7 @@
                                             {
                                                 "br": []
                                             },
-                                            "    ",
+                                            "    ",
                                             {
                                                 "span.tsd-kind-property": "anotherValue"
                                             },
@@ -291,7 +291,7 @@
                                             {
                                                 "br": []
                                             },
-                                            "    ",
+                                            "    ",
                                             {
                                                 "span.tsd-kind-property": "emptyObject"
                                             },
@@ -308,7 +308,7 @@
                                             {
                                                 "br": []
                                             },
-                                            "    ",
+                                            "    ",
                                             {
                                                 "span.tsd-kind-property": "moreOptions"
                                             },
@@ -340,7 +340,7 @@
                                             {
                                                 "br": []
                                             },
-                                            "    ",
+                                            "    ",
                                             {
                                                 "span.tsd-kind-property": "value"
                                             },
