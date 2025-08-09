@@ -516,6 +516,56 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-References"
+                            },
+                            "children": {
+                                "h2": "References"
+                            }
+                        },
+                        {
+                            "dl.tsd-member-summaries": [
+                                {
+                                    "dt.tsd-member-summary#boxalias": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "span": "boxAlias"
+                                            },
+                                            {
+                                                "span": " → "
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "functions/box.json"
+                                                },
+                                                "children": "box"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#boxalias",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -851,6 +901,38 @@
                                                 },
                                                 "children": {
                                                     "span": "box"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                    "props": {
+                                        "open": true
+                                    },
+                                    "children": [
+                                        {
+                                            "tag": "summary.tsd-accordion-summary",
+                                            "props": {
+                                                "data-key": "section-References"
+                                            },
+                                            "children": "References"
+                                        },
+                                        {
+                                            "div": {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "#boxalias"
+                                                },
+                                                "children": {
+                                                    "span": [
+                                                        "box",
+                                                        {
+                                                            "wbr": []
+                                                        },
+                                                        "Alias"
+                                                    ]
                                                 }
                                             }
                                         }

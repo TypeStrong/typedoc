@@ -75,7 +75,7 @@ export function moduleMemberSummary(
     context: DefaultThemeRenderContext,
     member: DeclarationReflection | DocumentReflection,
 ) {
-    const id = context.slugger.slug(member.name);
+    const id = member.isReference() ? context.getAnchor(member)! : context.slugger.slug(member.name);
     context.page.pageHeadings.push({
         link: `#${id}`,
         text: getDisplayName(member),

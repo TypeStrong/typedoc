@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Fixed inconsistent anchors on module pages for re-exports, #2990.
+
 ## v0.28.9 (2025-08-01)
 
 ### Features
