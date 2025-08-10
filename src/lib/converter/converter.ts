@@ -36,7 +36,7 @@ import {
     unique,
 } from "#utils";
 import type { DocumentationEntryPoint } from "../utils/entry-point.js";
-import type { CommentParserConfig } from "./comments/index.js";
+import { clearCommentCache, type CommentParserConfig } from "./comments/index.js";
 import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
 import { parseCommentString } from "./comments/parser.js";
 import { lexCommentString } from "./comments/rawLexer.js";
@@ -342,6 +342,10 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         delete this._config;
         delete this.excludeCache;
         delete this.externalPatternCache;
+
+        // Also clear the comment cache so if we convert this ts.Program again
+        // later we will re-parse comments.
+        clearCommentCache();
 
         return project;
     }

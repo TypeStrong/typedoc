@@ -10,7 +10,15 @@ import { ReflectionKind } from "./kind.js";
 import { Comment, type CommentDisplayPart } from "./Comment.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
-import { assertNever, DefaultMap, i18n, type NormalizedPath, removeIfPresent, StableKeyMap } from "#utils";
+import {
+    assertNever,
+    DefaultMap,
+    i18n,
+    NonEnumerable,
+    type NormalizedPath,
+    removeIfPresent,
+    StableKeyMap,
+} from "#utils";
 import type { DocumentReflection } from "./DocumentReflection.js";
 import type { FileRegistry } from "./FileRegistry.js";
 
@@ -28,18 +36,24 @@ export class ProjectReflection extends ContainerReflection {
     readonly variant = "project";
 
     // Used to resolve references.
+    @NonEnumerable
     private symbolToReflectionIdMap: Map<
         ReflectionSymbolId,
         number | number[]
     > = new StableKeyMap();
 
+    @NonEnumerable
     private reflectionIdToSymbolIdMap = new Map<number, ReflectionSymbolId>();
 
+    @NonEnumerable
     private removedSymbolIds = new StableKeyMap<ReflectionSymbolId, true>();
 
     // Maps a reflection ID to all references eventually referring to it.
+    @NonEnumerable
     private referenceGraph?: Map<number, number[]>;
+
     // Maps a reflection ID to all reflections with it as their parent.
+    @NonEnumerable
     private reflectionChildren = new DefaultMap<number, number[]>(() => []);
 
     /**
@@ -49,6 +63,7 @@ export class ProjectReflection extends ContainerReflection {
      *
      * This may be replaced with a `Map<number, Reflection>` someday.
      */
+    @NonEnumerable
     reflections: { [id: number]: Reflection } = {};
 
     /**

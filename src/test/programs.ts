@@ -13,7 +13,6 @@ import {
 import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
-import { clearCommentCache } from "../lib/converter/comments/index.js";
 import { diagnostics } from "../lib/utils/loggers.js";
 import { normalizePath, readFile, ValidatingFileRegistry } from "#node-utils";
 
@@ -175,7 +174,6 @@ export function getConverter2Project(entries: string[], folder: string) {
 
     app.options.setValue("entryPoints", entryPoints);
     app.files = new ValidatingFileRegistry();
-    clearCommentCache();
     return app.converter.convert(
         files.map((file, index) => {
             return {
