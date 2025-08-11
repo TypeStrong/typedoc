@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Fixed link resolution not working correctly in first comment on the file in some cases, #2994.
+
 ## v0.28.10 (2025-08-10)
 
 ### Bug Fixes

@@ -23,21 +23,7 @@ declare module "typescript" {
     // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
     export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
-    // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L4171
-    export function getJSDocCommentsAndTags(
-        hostNode: Node,
-        noCache?: boolean,
-    ): readonly (JSDoc | JSDocTag)[];
-
-    export function getInterfaceBaseTypeNodes(
-        node: InterfaceDeclaration,
-    ): NodeArray<ExpressionWithTypeArguments> | undefined;
-
     export function getAllSuperTypeNodes(node: ts.Node): readonly ts.TypeNode[];
-
-    export interface Signature {
-        thisParameter?: ts.Symbol;
-    }
 
     // https://github.com/microsoft/TypeScript/blob/e213b2af3430bdc9cf5fbc76a8634d832e7aaaaa/src/compiler/types.ts#L5298-L5299
     export interface UnionType {

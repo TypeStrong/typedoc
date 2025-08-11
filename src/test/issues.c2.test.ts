@@ -17,7 +17,7 @@ import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { equalKind, getComment, getLinks, getSigComment, query, querySig, reflToTree } from "./utils.js";
-import { DefaultTheme, KindRouter, PageEvent } from "../index.js";
+import { DefaultTheme, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
 
 const app = getConverter2App();
 
@@ -2143,5 +2143,11 @@ describe("Issue Tests", () => {
         const x = query(project, "InheritsX.x");
         equal(x.inheritedFrom?.reflection?.getFullName(), undefined);
         equal(x.inheritedFrom?.name, "Tricky.x");
+    });
+
+    it("#2994 uses TS link resolution in first comment of file", () => {
+        const project = convert();
+        const link = project.comment?.summary.find(part => part.kind === "inline-tag");
+        ok(link?.target instanceof ReflectionSymbolId);
     });
 });

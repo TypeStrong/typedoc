@@ -357,15 +357,11 @@ function findJsDocForComment(
     if (ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia) {
         const jsDocs = ts
             .getJSDocCommentsAndTags(node)
-            .map((doc) => ts.findAncestor(doc, ts.isJSDoc)) as ts.JSDoc[];
+            .map((doc) => ts.findAncestor(doc, ts.isJSDoc)!);
 
         if (ts.isSourceFile(node)) {
             if (node.statements.length) {
-                jsDocs.push(
-                    ...(ts
-                        .getJSDocCommentsAndTags(node.statements[0])
-                        .map((doc) => ts.findAncestor(doc, ts.isJSDoc)) as ts.JSDoc[]),
-                );
+                jsDocs.push(...node.statements[0].getChildren().filter(ts.isJSDoc));
             }
         }
 
