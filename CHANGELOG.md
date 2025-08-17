@@ -7,6 +7,8 @@ title: Changelog
 ### Bug Fixes
 
 - Fixed link resolution not working correctly in first comment on the file in some cases, #2994.
+- The `compilerOptions` option now functions properly with non-boolean options, #3000.
+- Configuration errors within the `compilerOptions` option are now handled gracefully, #3000.
 
 ## v0.28.10 (2025-08-10)
 

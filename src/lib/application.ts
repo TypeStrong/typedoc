@@ -496,7 +496,7 @@ export class Application extends AbstractComponent<
             );
         }
 
-        if (Object.keys(this.options.getCompilerOptions()).length === 0) {
+        if (Object.keys(this.options.getCompilerOptions(this.logger)).length === 0) {
             this.logger.warn(i18n.no_compiler_options_set());
         }
 
@@ -525,7 +525,7 @@ export class Application extends AbstractComponent<
 
         const host = ts.createWatchCompilerHost(
             tsconfigFile,
-            this.options.fixCompilerOptions({}),
+            this.options.fixCompilerOptions({}, this.logger),
             ts.sys,
             ts.createEmitAndSemanticDiagnosticsBuilderProgram,
             (d) => diagnostic(this.logger, d),

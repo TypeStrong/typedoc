@@ -9,7 +9,8 @@ describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
         const options = new Options();
         const tsconfigReader = new TSConfigReader();
-        tsconfigReader.read(options, new Logger(), process.cwd());
+        const logger = new Logger();
+        tsconfigReader.read(options, logger, process.cwd());
 
         const defaultLocaleTs = join(
             fileURLToPath(import.meta.url),
@@ -26,7 +27,7 @@ describe("Internationalization", () => {
                 );
             },
             getCurrentDirectory: () => process.cwd(),
-            getCompilationSettings: () => options.getCompilerOptions(),
+            getCompilationSettings: () => options.getCompilerOptions(logger),
             getDefaultLibFileName: (opts) => ts.getDefaultLibFilePath(opts),
             fileExists: ts.sys.fileExists,
             readFile: ts.sys.readFile,

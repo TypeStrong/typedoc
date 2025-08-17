@@ -242,6 +242,7 @@ export = {
 
     options_file_0_does_not_exist: `The options file {0} does not exist`,
     failed_read_options_file_0: `Failed to parse {0}, ensure it exists and exports an object`,
+    failed_to_apply_compilerOptions_overrides_0: "Failed to apply compilerOptions overrides: {0}",
 
     // plugins
     invalid_plugin_0_missing_load_function: `Invalid structure in plugin {0}, no load function found`,

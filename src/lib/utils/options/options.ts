@@ -1,4 +1,4 @@
-import type ts from "typescript";
+import ts from "typescript";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
 import type { OutputSpecification } from "../index.js";
@@ -361,19 +361,34 @@ export class Options {
     /**
      * Gets the set compiler options.
      */
-    getCompilerOptions(): ts.CompilerOptions {
-        return this.fixCompilerOptions(this._compilerOptions);
+    getCompilerOptions(logger: Logger): ts.CompilerOptions {
+        return this.fixCompilerOptions(this._compilerOptions, logger);
     }
 
     /** @internal */
     fixCompilerOptions(
         options: Readonly<ts.CompilerOptions>,
+        logger: Logger,
     ): ts.CompilerOptions {
         const overrides = this.getValue("compilerOptions");
         const result = { ...options };
 
         if (overrides) {
-            Object.assign(result, overrides);
+            const tsOptions = ts.convertCompilerOptionsFromJson(overrides, ".", "typedoc-overrides.json");
+
+            if (tsOptions.errors.length) {
+                for (const error of tsOptions.errors) {
+                    logger.error(
+                        i18n.failed_to_apply_compilerOptions_overrides_0(
+                            ts.flattenDiagnosticMessageText(error.messageText, "\n"),
+                        ),
+                    );
+                }
+            } else {
+                for (const key in overrides) {
+                    result[key] = tsOptions.options[key];
+                }
+            }
         }
 
         if (this.getValue("emit") !== "both") {

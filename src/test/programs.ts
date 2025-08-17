@@ -96,7 +96,7 @@ export function getConverterProgram() {
         const app = getConverterApp();
         converterProgram = ts.createProgram(
             app.options.getFileNames(),
-            app.options.getCompilerOptions(),
+            app.options.getCompilerOptions(app.logger),
         );
 
         const errors = ts.getPreEmitDiagnostics(converterProgram);
@@ -134,7 +134,7 @@ export function getConverter2Program() {
         const app = getConverter2App();
         converter2Program = ts.createProgram(
             app.options.getFileNames(),
-            app.options.getCompilerOptions(),
+            app.options.getCompilerOptions(app.logger),
         );
 
         const errors = ts.getPreEmitDiagnostics(converter2Program);

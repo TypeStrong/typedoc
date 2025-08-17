@@ -344,7 +344,7 @@ export function getExpandedEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
-    const compilerOptions = options.getCompilerOptions();
+    const compilerOptions = options.getCompilerOptions(logger);
     const supportedFileRegex = compilerOptions.allowJs || compilerOptions.checkJs
         ? /\.([cm][tj]s|[tj]sx?)$/
         : /\.([cm]ts|tsx?)$/;
@@ -410,16 +410,16 @@ function getEntryPrograms(
     const rootProgram = noTsConfigFound
         ? ts.createProgram({
             rootNames: inputFiles,
-            options: options.getCompilerOptions(),
+            options: options.getCompilerOptions(logger),
         })
         : ts.createProgram({
             rootNames: options.getFileNames(),
-            options: options.getCompilerOptions(),
+            options: options.getCompilerOptions(logger),
             projectReferences: options.getProjectReferences(),
         });
 
     addInferredDeclarationMapPaths(
-        options.getCompilerOptions(),
+        options.getCompilerOptions(logger),
         options.getFileNames(),
     );
 
@@ -438,6 +438,7 @@ function getEntryPrograms(
                 ts.createProgram({
                     options: options.fixCompilerOptions(
                         ref.commandLine.options,
+                        logger,
                     ),
                     rootNames: ref.commandLine.fileNames,
                     projectReferences: ref.commandLine.projectReferences,

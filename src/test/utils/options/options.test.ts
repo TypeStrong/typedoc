@@ -3,6 +3,8 @@ import { type MapDeclarationOption, type NumberDeclarationOption, Option } from 
 import { deepStrictEqual as equal, throws } from "assert";
 import type { DeclarationOption, EmitStrategy } from "../../../lib/utils/options/index.js";
 import { LogLevel } from "#utils";
+import { TestLogger } from "../../TestLogger.js";
+import ts from "typescript";
 
 describe("Options", () => {
     let options: Options & {
@@ -179,6 +181,32 @@ describe("Options", () => {
         const options = new Options();
 
         throws(() => options.reset("thisOptionDoesNotExist" as never));
+    });
+
+    it("Handles tsconfig overrides which aren't strings, #3000", () => {
+        const logger = new TestLogger();
+        const options = new Options();
+
+        options.setValue("compilerOptions", {
+            moduleResolution: "bundler",
+        });
+
+        const compilerOptions = options.getCompilerOptions(logger);
+        equal(compilerOptions.moduleResolution, ts.ModuleResolutionKind.Bundler);
+    });
+
+    it("Handles tsconfig overrides which are invalid, #3000", () => {
+        const logger = new TestLogger();
+        const options = new Options();
+
+        options.setValue("compilerOptions", {
+            moduleResolution: "bad",
+        });
+
+        const compilerOptions = options.getCompilerOptions(logger);
+        equal(compilerOptions.moduleResolution, undefined);
+
+        logger.expectMessage("error: Failed to apply compilerOptions overrides: *");
     });
 });
 

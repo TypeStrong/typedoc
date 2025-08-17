@@ -162,7 +162,7 @@ describe("Options - TSConfigReader", () => {
             compilerOptions: { strict: true },
         });
         await readWithProject(project);
-        equal(options.getCompilerOptions().strict, true);
+        equal(options.getCompilerOptions(logger).strict, true);
     });
 
     async function testTsdoc(tsdoc: object, cb?: () => void, reset = true) {

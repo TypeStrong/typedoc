@@ -66,6 +66,7 @@
         "Msys",
         "nodoc",
         "shiki",
+        "srcset",
         "tsbuildinfo",
         "tsdoc",
         "typedoc",
