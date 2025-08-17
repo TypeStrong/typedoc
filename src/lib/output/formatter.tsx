@@ -961,6 +961,7 @@ export class FormattedCodeBuilder {
         const id = this.newId();
         return group(id, [
             name,
+            sig.parent.flags.isOptional ? simpleElement(<span class="tsd-signature-symbol">?</span>) : emptyNode,
             this.typeParameters(sig),
             ...this.parameters(sig, id),
             nodes(

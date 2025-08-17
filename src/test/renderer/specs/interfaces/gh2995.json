@@ -1,0 +1,399 @@
+{
+    "div.container.container-main": [
+        {
+            "div.col-content": [
+                {
+                    "div.tsd-page-title": [
+                        {
+                            "tag": "ul.tsd-breadcrumb",
+                            "props": {
+                                "aria-label": "Breadcrumb"
+                            },
+                            "children": {
+                                "li": {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "",
+                                        "aria-current": "page"
+                                    },
+                                    "children": "gh2995"
+                                }
+                            }
+                        },
+                        {
+                            "h1": "Interface gh2995"
+                        }
+                    ]
+                },
+                {
+                    "div.tsd-signature": [
+                        {
+                            "span.tsd-signature-keyword": "interface"
+                        },
+                        " ",
+                        {
+                            "span.tsd-kind-interface": "gh2995"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-symbol": "{"
+                        },
+                        {
+                            "br": []
+                        },
+                        "    ",
+                        {
+                            "tag": "a.tsd-kind-call-signature",
+                            "props": {
+                                "href": "#optionalmethod-1"
+                            },
+                            "children": "optionalMethod"
+                        },
+                        {
+                            "span.tsd-signature-symbol": "?"
+                        },
+                        {
+                            "span.tsd-signature-symbol": "("
+                        },
+                        {
+                            "span.tsd-kind-parameter": "filter"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "string"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ","
+                        },
+                        " ",
+                        {
+                            "span.tsd-kind-parameter": "args"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "string"
+                        },
+                        {
+                            "span.tsd-signature-symbol": "[]"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ")"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ":"
+                        },
+                        " ",
+                        {
+                            "span.tsd-signature-type": "any"
+                        },
+                        {
+                            "span.tsd-signature-symbol": ";"
+                        },
+                        {
+                            "br": []
+                        },
+                        {
+                            "span.tsd-signature-symbol": "}"
+                        }
+                    ]
+                },
+                {
+                    "aside.tsd-sources": {
+                        "ul": {
+                            "li": [
+                                "Defined in ",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": "gh2995.ts"
+                                    },
+                                    "children": "gh2995.ts:1"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "section.tsd-panel-group.tsd-index-group": {
+                        "section.tsd-panel.tsd-index-panel": {
+                            "tag": "details.tsd-index-content.tsd-accordion",
+                            "props": {
+                                "open": true
+                            },
+                            "children": [
+                                {
+                                    "summary.tsd-accordion-summary.tsd-index-summary": {
+                                        "h5.tsd-index-heading.uppercase": "Index"
+                                    }
+                                },
+                                {
+                                    "div.tsd-accordion-details": {
+                                        "section.tsd-index-section": [
+                                            {
+                                                "h3.tsd-index-heading": "Methods"
+                                            },
+                                            {
+                                                "div.tsd-index-list": [
+                                                    {
+                                                        "tag": "a.tsd-index-link",
+                                                        "props": {
+                                                            "href": "#optionalmethod"
+                                                        },
+                                                        "children": {
+                                                            "span": [
+                                                                "optional",
+                                                                {
+                                                                    "wbr": []
+                                                                },
+                                                                "Method?"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "\n"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "tag": "summary.tsd-accordion-summary",
+                            "props": {
+                                "data-key": "section-Methods"
+                            },
+                            "children": {
+                                "h2": "Methods"
+                            }
+                        },
+                        {
+                            "section": {
+                                "section.tsd-panel.tsd-member": [
+                                    {
+                                        "h3.tsd-anchor-link#optionalmethod": [
+                                            {
+                                                "code.tsd-tag": "Optional"
+                                            },
+                                            {
+                                                "span": [
+                                                    "optional",
+                                                    {
+                                                        "wbr": []
+                                                    },
+                                                    "Method"
+                                                ]
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#optionalmethod",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "ul.tsd-signatures": {
+                                            "li.": [
+                                                {
+                                                    "div.tsd-signature.tsd-anchor-link#optionalmethod-1": [
+                                                        {
+                                                            "span.tsd-kind-call-signature": "optionalMethod"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "?"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "("
+                                                        },
+                                                        {
+                                                            "span.tsd-kind-parameter": "filter"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "string"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ","
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-kind-parameter": "args"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "string"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": "[]"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ")"
+                                                        },
+                                                        {
+                                                            "span.tsd-signature-symbol": ":"
+                                                        },
+                                                        " ",
+                                                        {
+                                                            "span.tsd-signature-type": "any"
+                                                        },
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#optionalmethod-1",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "div.tsd-description": [
+                                                        {
+                                                            "div.tsd-parameters": [
+                                                                {
+                                                                    "h4.tsd-parameters-title": "Parameters"
+                                                                },
+                                                                {
+                                                                    "ul.tsd-parameter-list": [
+                                                                        {
+                                                                            "li": {
+                                                                                "span": [
+                                                                                    {
+                                                                                        "span.tsd-kind-parameter": "filter"
+                                                                                    },
+                                                                                    ": ",
+                                                                                    {
+                                                                                        "span.tsd-signature-type": "string"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            "li": {
+                                                                                "span": [
+                                                                                    {
+                                                                                        "span.tsd-kind-parameter": "args"
+                                                                                    },
+                                                                                    ": ",
+                                                                                    {
+                                                                                        "span.tsd-signature-type": "string"
+                                                                                    },
+                                                                                    {
+                                                                                        "span.tsd-signature-symbol": "[]"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "h4.tsd-returns-title": [
+                                                                "Returns ",
+                                                                {
+                                                                    "span.tsd-signature-type": "any"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "aside.tsd-sources": {
+                                                                "ul": {
+                                                                    "li": [
+                                                                        "Defined in ",
+                                                                        {
+                                                                            "tag": "a",
+                                                                            "props": {
+                                                                                "href": "gh2995.ts"
+                                                                            },
+                                                                            "children": "gh2995.ts:2"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "div.col-sidebar": {
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": {
+                                "tag": "details.tsd-accordion.tsd-page-navigation-section",
+                                "props": {
+                                    "open": true
+                                },
+                                "children": [
+                                    {
+                                        "tag": "summary.tsd-accordion-summary",
+                                        "props": {
+                                            "data-key": "section-Methods"
+                                        },
+                                        "children": "Methods"
+                                    },
+                                    {
+                                        "div": {
+                                            "tag": "a",
+                                            "props": {
+                                                "href": "#optionalmethod"
+                                            },
+                                            "children": {
+                                                "span": [
+                                                    "optional",
+                                                    {
+                                                        "wbr": []
+                                                    },
+                                                    "Method"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

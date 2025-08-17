@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Fixed link resolution not working correctly in first comment on the file in some cases, #2994.
+- Optional methods are now rendered with a trailing `?` in the reflection preview and signature, #2995.
 - The `compilerOptions` option now functions properly with non-boolean options, #3000.
 - Configuration errors within the `compilerOptions` option are now handled gracefully, #3000.
 

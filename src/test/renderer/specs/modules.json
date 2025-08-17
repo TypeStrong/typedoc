@@ -357,6 +357,29 @@
                                     "dd.tsd-member-summary": []
                                 },
                                 {
+                                    "dt.tsd-member-summary#gh2995": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "interfaces/gh2995.json"
+                                                },
+                                                "children": "gh2995"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#gh2995",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
+                                },
+                                {
                                     "dt.tsd-member-summary#nonecategory": {
                                         "span.tsd-member-summary-name": [
                                             {
@@ -801,6 +824,15 @@
                                                             },
                                                             "Groups"
                                                         ]
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#gh2995"
+                                                    },
+                                                    "children": {
+                                                        "span": "gh2995"
                                                     }
                                                 },
                                                 {
