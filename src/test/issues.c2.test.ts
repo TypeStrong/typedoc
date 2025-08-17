@@ -2150,4 +2150,12 @@ describe("Issue Tests", () => {
         const link = project.comment?.summary.find(part => part.kind === "inline-tag");
         ok(link?.target instanceof ReflectionSymbolId);
     });
+
+    it("#2999 picks up parent comments from shorthand property assignments", () => {
+        const project = convert();
+        const opts = query(project, "Options");
+        equal(opts.type?.type, "reflection");
+        const local = opts.type.declaration.getChildByName("LocalObject");
+        equal(Comment.combineDisplayParts(local?.comment?.summary), "A test object with property a.");
+    });
 });

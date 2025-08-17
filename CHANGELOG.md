@@ -4,6 +4,11 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Object properties declared with shorthand property assignment will now use the variable's comment
+  if they do not have their own comment, #2999.
+
 ### Bug Fixes
 
 - Fixed link resolution not working correctly in first comment on the file in some cases, #2994.

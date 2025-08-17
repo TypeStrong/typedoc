@@ -525,6 +525,22 @@ function declarationToCommentNodes(
         });
     }
 
+    // #2999 automatically pick up comments from the value symbol for shorthand assignments
+    if (ts.isShorthandPropertyAssignment(node)) {
+        const sourceSymbol = checker.getShorthandAssignmentValueSymbol(node);
+        if (sourceSymbol?.valueDeclaration) {
+            const commentNode = declarationToCommentNodeIgnoringParents(sourceSymbol.valueDeclaration);
+            if (commentNode) {
+                result.push(
+                    {
+                        node: commentNode,
+                        inheritedFromParentDeclaration: true,
+                    },
+                );
+            }
+        }
+    }
+
     // With overloaded functions/methods, TypeScript will use the comment on the first signature
     // declaration
     if (
