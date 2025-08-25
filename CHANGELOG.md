@@ -15,6 +15,7 @@ title: Changelog
 - Optional methods are now rendered with a trailing `?` in the reflection preview and signature, #2995.
 - The `compilerOptions` option now functions properly with non-boolean options, #3000.
 - Configuration errors within the `compilerOptions` option are now handled gracefully, #3000.
+- Fixed improper casing of "Type Declaration" header, #3002.
 
 ## v0.28.10 (2025-08-10)
 

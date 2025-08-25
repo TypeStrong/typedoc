@@ -506,7 +506,7 @@ export = {
     // Page headings/labels
     theme_implements: "Implements",
     theme_indexable: "Indexable",
-    theme_type_declaration: "Type declaration",
+    theme_type_declaration: "Type Declaration",
     theme_index: "Index",
     theme_hierarchy: "Hierarchy",
     theme_hierarchy_summary: "Hierarchy Summary",

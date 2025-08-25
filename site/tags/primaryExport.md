@@ -1,8 +1,8 @@
 ---
-title: "@primaryModifier"
+title: "@primaryExport"
 ---
 
-# @primaryModifier
+# @primaryExport
 
 **Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
