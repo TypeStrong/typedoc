@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.11 (2025-08-25)
+
 ### Features
 
 - Object properties declared with shorthand property assignment will now use the variable's comment
