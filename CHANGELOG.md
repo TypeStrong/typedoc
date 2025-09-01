@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.12 (2025-09-01)
+
 ### Bug Fixes
 
 - Variables marked with `@enum` now work for symbols imported from another module, #3003.
