@@ -4,6 +4,7 @@ import { CommentStyle } from "../../utils/options/declaration.js";
 import { nicePath } from "../../utils/paths.js";
 import { ok } from "assert";
 import { assertNever, filter, firstDefined, i18n, type Logger } from "#utils";
+import { resolveAliasedSymbol } from "../utils/symbols.js";
 
 const variablePropertyKinds = [
     ts.SyntaxKind.PropertyDeclaration,
@@ -530,6 +531,20 @@ function declarationToCommentNodes(
         const sourceSymbol = checker.getShorthandAssignmentValueSymbol(node);
         if (sourceSymbol?.valueDeclaration) {
             const commentNode = declarationToCommentNodeIgnoringParents(sourceSymbol.valueDeclaration);
+            if (commentNode) {
+                result.push(
+                    {
+                        node: commentNode,
+                        inheritedFromParentDeclaration: true,
+                    },
+                );
+            }
+        }
+
+        // #3003 even more magic for handling an imported symbol which appears in a shorthand property assignment
+        const originalSymbol = sourceSymbol && resolveAliasedSymbol(sourceSymbol, checker);
+        if (originalSymbol !== sourceSymbol && originalSymbol?.valueDeclaration) {
+            const commentNode = declarationToCommentNodeIgnoringParents(originalSymbol?.valueDeclaration);
             if (commentNode) {
                 result.push(
                     {

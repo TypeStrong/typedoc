@@ -1133,7 +1133,17 @@ function convertVariableAsEnum(
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
-    const declaration = symbol.declarations!.find(ts.isVariableDeclaration)!;
+    const declaration = symbol.valueDeclaration;
+    if (!declaration) {
+        context.logger.error(
+            i18n.converting_0_as_enum_requires_value_declaration(
+                symbol.name,
+            ),
+            symbol.declarations?.[0],
+        );
+        return;
+    }
+
     const type = context.checker.getTypeAtLocation(declaration);
 
     for (const prop of type.getProperties()) {

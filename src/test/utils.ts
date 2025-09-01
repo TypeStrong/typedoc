@@ -108,7 +108,7 @@ export function equalKind(refl: Reflection, kind: ReflectionKind) {
     equal(
         refl.kind,
         kind,
-        `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]}`,
+        `Expected ${ReflectionKind[kind]} but got ${ReflectionKind[refl.kind]} for ${refl.getFullName()}`,
     );
 }
 

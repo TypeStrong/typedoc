@@ -2158,4 +2158,17 @@ describe("Issue Tests", () => {
         const local = opts.type.declaration.getChildByName("LocalObject");
         equal(Comment.combineDisplayParts(local?.comment?.summary), "A test object with property a.");
     });
+
+    it("#3003 handles @enum on properties within @namespace", () => {
+        const project = convert();
+
+        const a = query(project, "ExportedObject.CustomEnum");
+        equalKind(a, ReflectionKind.Enum);
+        equal(a.children?.map(c => c.name), ["A"]);
+        equal(a.children?.map(c => c.type?.toString()), ['"A"']);
+        const b = query(project, "ExportedObject.CustomEnum2");
+        equalKind(b, ReflectionKind.Enum);
+        equal(b.children?.map(c => c.name), ["A", "D"]);
+        equal(b.children?.map(c => c.type?.toString()), ['"A"', '"D"']);
+    });
 });
