@@ -8,6 +8,7 @@ title: Changelog
 
 - Variables marked with `@enum` now work for symbols imported from another module, #3003.
 - Improved magic introduced with #2999 to work with imported symbols, #3003.
+- Fixed relative link resolution to file names containing percent encoded URLs, #3006.
 
 ## v0.28.11 (2025-08-25)
 

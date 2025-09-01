@@ -2171,4 +2171,15 @@ describe("Issue Tests", () => {
         equal(b.children?.map(c => c.name), ["A", "D"]);
         equal(b.children?.map(c => c.type?.toString()), ['"A"', '"D"']);
     });
+
+    it("#3006 handles documents containing spaces in their names", () => {
+        const project = convert();
+        equal(["two words"], project.documents?.map(doc => doc.name));
+        const doc = project.documents?.[0];
+        const x = query(project, "x");
+
+        ok(x.comment?.summary[1].kind === "relative-link");
+        ok(x.comment.summary[1].target);
+        ok(project.files.resolve(x.comment.summary[1].target, project) === doc);
+    });
 });

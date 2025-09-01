@@ -223,10 +223,11 @@ function checkMarkdownLink(
     if (link.ok) {
         // Only make a relative-link display part if it's actually a relative link.
         // Discard protocol:// links, unix style absolute paths, and windows style absolute paths.
-        if (isRelativePath(link.str)) {
+        const decoded = decodeURI(link.str);
+        if (isRelativePath(decoded)) {
             const { target, anchor } = files.register(
                 sourcePath,
-                link.str as NormalizedPath,
+                decoded as NormalizedPath,
             ) || { target: undefined, anchor: undefined };
             return {
                 pos: lookahead,
@@ -284,10 +285,11 @@ function checkReference(data: TextParserData): RelativeLink | undefined {
                 );
 
                 if (link.ok) {
-                    if (isRelativePath(link.str)) {
+                    const decoded = decodeURI(link.str);
+                    if (isRelativePath(decoded)) {
                         const { target, anchor } = files.register(
                             sourcePath,
-                            link.str as NormalizedPath,
+                            decoded as NormalizedPath,
                         ) || { target: undefined, anchor: undefined };
                         return {
                             pos: lookahead,
@@ -377,10 +379,11 @@ function checkAttributeDirectPath(
     pos: number,
     end: number,
 ): RelativeLink[] {
-    if (isRelativePath(text.trim())) {
+    const decoded = decodeURI(text.trim());
+    if (isRelativePath(decoded)) {
         const { target, anchor } = data.files.register(
             data.sourcePath,
-            text.trim() as NormalizedPath,
+            decoded as NormalizedPath,
         ) || { target: undefined, anchor: undefined };
         return [{
             pos,
@@ -413,11 +416,12 @@ function checkAttributeSrcSet(data: TextParserData, text: string, pos: number, _
         // TypeDoc: We don't exactly match this, PR welcome! For now, just permit anything
         // that's not whitespace or a comma
         const url = text.slice(textPos).match(/^[^\t\r\f\n ,]+/);
+        const decoded = url && decodeURI(url[0]);
 
-        if (url && isRelativePath(url[0])) {
+        if (decoded && isRelativePath(decoded)) {
             const { target, anchor } = data.files.register(
                 data.sourcePath,
-                url[0] as NormalizedPath,
+                decoded as NormalizedPath,
             ) || { target: undefined, anchor: undefined };
             result.push({
                 pos: pos + textPos,
