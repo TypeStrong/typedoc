@@ -60,7 +60,7 @@ export function querySig(
 ): SignatureReflection {
     const decl = query(project, name);
     ok(
-        decl.signatures?.length ?? 0 > index,
+        (decl.signatures?.length ?? 0) > index,
         `Reflection "${name}" does not contain signature`,
     );
     return decl.signatures![index];

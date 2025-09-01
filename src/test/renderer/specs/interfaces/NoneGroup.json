@@ -194,9 +194,6 @@
                                 ]
                             },
                             {
-                                "div.tsd-comment.tsd-typography": []
-                            },
-                            {
                                 "aside.tsd-sources": {
                                     "ul": {
                                         "li": [

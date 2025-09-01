@@ -26,14 +26,9 @@
                     ]
                 },
                 {
-                    "section.tsd-panel.tsd-comment": [
-                        {
-                            "div.tsd-comment.tsd-typography": "<p>Renderer class</p>\n"
-                        },
-                        {
-                            "div.tsd-comment.tsd-typography": []
-                        }
-                    ]
+                    "section.tsd-panel.tsd-comment": {
+                        "div.tsd-comment.tsd-typography": "<p>Renderer class</p>\n"
+                    }
                 },
                 {
                     "tag": "section.tsd-panel.tsd-hierarchy",
@@ -107,9 +102,6 @@
                                     },
                                     {
                                         "div.tsd-comment.tsd-typography": "<p>Index signature</p>\n"
-                                    },
-                                    {
-                                        "div.tsd-comment.tsd-typography": []
                                     }
                                 ]
                             }
@@ -393,9 +385,6 @@
                                                             ]
                                                         },
                                                         {
-                                                            "div.tsd-comment.tsd-typography": []
-                                                        },
-                                                        {
                                                             "aside.tsd-sources": [
                                                                 {
                                                                     "p": [
@@ -494,9 +483,6 @@
                                     },
                                     {
                                         "div.tsd-comment.tsd-typography": "<p>Property</p>\n"
-                                    },
-                                    {
-                                        "div.tsd-comment.tsd-typography": []
                                     },
                                     {
                                         "aside.tsd-sources": {
@@ -989,9 +975,6 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "div.tsd-comment.tsd-typography": []
-                                                            },
-                                                            {
                                                                 "aside.tsd-sources": [
                                                                     {
                                                                         "p": [
@@ -1094,9 +1077,6 @@
                                                                     ]
                                                                 },
                                                                 {
-                                                                    "div.tsd-comment.tsd-typography": []
-                                                                },
-                                                                {
                                                                     "aside.tsd-sources": {
                                                                         "ul": {
                                                                             "li": [
@@ -1189,9 +1169,6 @@
                                                                             "span.tsd-signature-type": "number"
                                                                         }
                                                                     ]
-                                                                },
-                                                                {
-                                                                    "div.tsd-comment.tsd-typography": []
                                                                 },
                                                                 {
                                                                     "aside.tsd-sources": {

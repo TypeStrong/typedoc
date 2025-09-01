@@ -134,7 +134,7 @@ export class Deserializer {
             return new IntrinsicType(obj.name);
         },
         literal(obj) {
-            if (obj.value && typeof obj.value === "object") {
+            if (typeof obj.value === "object" && obj.value != null) {
                 return new LiteralType(
                     BigInt(
                         `${obj.value.negative ? "-" : ""}${obj.value.value}`,
@@ -352,15 +352,15 @@ export class Deserializer {
         return project;
     }
 
-    revive<T, U extends Deserializable<T>>(
+    revive<T extends object, U extends Deserializable<T>>(
         source: NonNullable<T>,
         creator: (obj: T) => U,
     ): U;
-    revive<T, U extends Deserializable<T>>(
+    revive<T extends object, U extends Deserializable<T>>(
         source: T | undefined,
         creator: (obj: T) => U,
     ): U | undefined;
-    revive<T, U extends Deserializable<T>>(
+    revive<T extends object, U extends Deserializable<T>>(
         source: T | undefined,
         creator: (obj: T) => U,
     ): U | undefined {

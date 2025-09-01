@@ -248,6 +248,9 @@
                                             {
                                                 "div.tsd-description": [
                                                     {
+                                                        "div.tsd-comment.tsd-typography": "<p><a href=\"../\">link to readme #3006</a></p>\n"
+                                                    },
+                                                    {
                                                         "h4.tsd-returns-title": [
                                                             "Returns ",
                                                             {
@@ -265,7 +268,7 @@
                                                                         "props": {
                                                                             "href": "index.ts"
                                                                         },
-                                                                        "children": "index.ts:134"
+                                                                        "children": "index.ts:135"
                                                                     }
                                                                 ]
                                                             }

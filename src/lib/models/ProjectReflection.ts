@@ -368,7 +368,7 @@ export class ProjectReflection extends ContainerReflection {
         this.reflectionIdToSymbolIdMap.set(reflection.id, id);
 
         const previous = this.symbolToReflectionIdMap.get(id);
-        if (previous) {
+        if (typeof previous !== "undefined") {
             if (typeof previous === "number") {
                 this.symbolToReflectionIdMap.set(id, [previous, reflection.id]);
             } else {
@@ -440,11 +440,7 @@ export class ProjectReflection extends ContainerReflection {
                 if (refl) {
                     this.registerSymbolId(refl, new ReflectionSymbolId(sid));
                 } else {
-                    de.logger.warn(
-                        i18n.serialized_project_referenced_0_not_part_of_project(
-                            id.toString(),
-                        ),
-                    );
+                    de.logger.warn(i18n.serialized_project_referenced_0_not_part_of_project(id));
                 }
             }
         });

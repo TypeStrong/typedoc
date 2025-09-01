@@ -15,7 +15,7 @@ function shouldRenderDefaultValue(props: DeclarationReflection) {
     if (props.type && props.type.type === "literal") {
         const reflectionTypeString = props.type.toString();
 
-        if (reflectionTypeString === defaultValue.toString()) {
+        if (reflectionTypeString === defaultValue) {
             return false;
         }
     }

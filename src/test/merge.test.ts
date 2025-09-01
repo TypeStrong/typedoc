@@ -1,8 +1,9 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, type DeclarationReflection, EntryPointStrategy, normalizePath, ReferenceType } from "../index.js";
+import { Application, EntryPointStrategy, normalizePath, ReferenceType } from "../index.js";
 import { getConverterBase } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
+import { query } from "./utils.js";
 
 const base = getConverterBase();
 
@@ -29,12 +30,8 @@ describe("Merging projects", () => {
             ["alias", "class"],
         );
 
-        const crossRef = project.getChildByName(
-            "alias.MergedCrossReference",
-        ) as DeclarationReflection;
-        const testClass = project.getChildByName("class.class.TestClass");
-        ok(testClass, "Missing test class");
-        ok(crossRef, "Missing MergedCrossReference");
+        const crossRef = query(project, "alias.MergedCrossReference");
+        const testClass = query(project, "class.class.TestClass");
         ok(crossRef.type instanceof ReferenceType);
 
         ok(

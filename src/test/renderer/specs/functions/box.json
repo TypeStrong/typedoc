@@ -148,9 +148,6 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": "<p>Item comment</p>\n"
-                                                            },
-                                                            {
-                                                                "div.tsd-comment.tsd-typography": []
                                                             }
                                                         ]
                                                     }
@@ -183,9 +180,6 @@
                                                     "span.tsd-signature-symbol": "}"
                                                 }
                                             ]
-                                        },
-                                        {
-                                            "div.tsd-comment.tsd-typography": []
                                         },
                                         {
                                             "aside.tsd-sources": {

@@ -1,4 +1,4 @@
-import { assertNever, i18n, NonEnumerable, type NormalizedPath, removeIf } from "#utils";
+import { assertNever, i18n, NonEnumerable, type NormalizedPath, removeIf, type TagString } from "#utils";
 import type { Reflection, ReflectionId } from "./Reflection.js";
 import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 
@@ -35,7 +35,7 @@ export type CommentDisplayPart =
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";
-    tag: `@${string}`;
+    tag: TagString;
     text: string;
     target?: Reflection | string | ReflectionSymbolId;
     tsLinkText?: string;
@@ -80,7 +80,7 @@ export class CommentTag {
     /**
      * The name of this tag, e.g. `@returns`, `@example`
      */
-    tag: `@${string}`;
+    tag: TagString;
 
     /**
      * Some tags, (`@typedef`, `@param`, `@property`, etc.) may have a user defined identifier associated with them.
@@ -103,7 +103,7 @@ export class CommentTag {
     /**
      * Create a new CommentTag instance.
      */
-    constructor(tag: `@${string}`, text: CommentDisplayPart[]) {
+    constructor(tag: TagString, text: CommentDisplayPart[]) {
         this.tag = tag;
         this.content = text;
     }
@@ -396,7 +396,7 @@ export class Comment {
     /**
      * All modifier tags present on the comment, e.g. `@alpha`, `@beta`.
      */
-    modifierTags: Set<`@${string}`> = new Set();
+    modifierTags: Set<TagString> = new Set();
 
     /**
      * Label associated with this reflection, if any (https://tsdoc.org/pages/tags/label/)
@@ -436,7 +436,7 @@ export class Comment {
     constructor(
         summary: CommentDisplayPart[] = [],
         blockTags: CommentTag[] = [],
-        modifierTags: Set<`@${string}`> = new Set(),
+        modifierTags: Set<TagString> = new Set(),
     ) {
         this.summary = summary;
         this.blockTags = blockTags;
@@ -542,15 +542,20 @@ export class Comment {
     }
 
     /**
-     * Has this comment a visible component?
+     * Checks if this comment contains any visible text.
      *
-     * @returns TRUE when this comment has a visible component.
+     * @returns TRUE when this reflection has a visible comment.
      */
-    hasVisibleComponent(): boolean {
-        return (
-            this.summary.some((x) => x.kind !== "text" || x.text !== "") ||
-            this.blockTags.length > 0
-        );
+    hasVisibleComponent(notRenderedTags?: readonly TagString[]): boolean {
+        if (this.summary.some((x) => x.kind !== "text" || x.text !== "")) {
+            return true;
+        }
+
+        if (notRenderedTags) {
+            return this.blockTags.some(tag => !notRenderedTags.includes(tag.tag));
+        } else {
+            return this.blockTags.length > 0;
+        }
     }
 
     /**
@@ -559,11 +564,11 @@ export class Comment {
      * @param tagName  The name of the tag to look for.
      * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
      */
-    hasModifier(tagName: `@${string}`): boolean {
+    hasModifier(tagName: TagString): boolean {
         return this.modifierTags.has(tagName);
     }
 
-    removeModifier(tagName: `@${string}`) {
+    removeModifier(tagName: TagString) {
         this.modifierTags.delete(tagName);
     }
 
@@ -573,18 +578,18 @@ export class Comment {
      * @param tagName  The name of the tag to look for.
      * @returns The found tag or undefined.
      */
-    getTag(tagName: `@${string}`): CommentTag | undefined {
+    getTag(tagName: TagString): CommentTag | undefined {
         return this.blockTags.find((tag) => tag.tag === tagName);
     }
 
     /**
      * Get all tags with the given tag name.
      */
-    getTags(tagName: `@${string}`): CommentTag[] {
+    getTags(tagName: TagString): CommentTag[] {
         return this.blockTags.filter((tag) => tag.tag === tagName);
     }
 
-    getIdentifiedTag(identifier: string, tagName: `@${string}`) {
+    getIdentifiedTag(identifier: string, tagName: TagString) {
         return this.blockTags.find(
             (tag) => tag.tag === tagName && tag.name === identifier,
         );
@@ -594,7 +599,7 @@ export class Comment {
      * Removes all block tags with the given tag name from the comment.
      * @param tagName
      */
-    removeTags(tagName: `@${string}`) {
+    removeTags(tagName: TagString) {
         removeIf(this.blockTags, (tag) => tag.tag === tagName);
     }
 

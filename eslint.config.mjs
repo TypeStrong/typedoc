@@ -53,6 +53,13 @@ const config = {
         // This is sometimes useful for clarity
         "@typescript-eslint/no-unnecessary-type-arguments": "off",
 
+        // It'd be kind of nice to be able to turn this on, but it doesn't seem to be worth the additional
+        // pain at this point. Turning it on adds ~300 lint errors, of which manual review found 1 bug, and
+        // whose suggestions would have introduced 3 bugs that I noticed, and potentially more... and it
+        // also didn't catch the bug which I originally turned it on for! Ideally, I'd like a version of
+        // this which ONLY checks for boolean comparisons of type number.
+        "@typescript-eslint/strict-boolean-expressions": "off",
+
         // We still use `any` fairly frequently...
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/no-explicit-any": "off",

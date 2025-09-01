@@ -358,7 +358,7 @@ type RegionTagRETuple = [
     (regionName: string) => RegExp,
     (regionName: string) => RegExp,
 ];
-const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
+const regionTagREsByExt: Record<string, RegionTagRETuple[] | undefined> = {
     bat: [
         [
             (regionName) => new RegExp(`:: *#region  *${regionName} *\n`, "g"),
@@ -407,14 +407,14 @@ const regionTagREsByExt: Record<string, RegionTagRETuple[]> = {
     ],
 };
 regionTagREsByExt["fs"] = [
-    ...regionTagREsByExt["ts"],
+    ...regionTagREsByExt["ts"]!,
     [
         (regionName) => new RegExp(`(#_region)  *${regionName} *\n`, "g"),
         (regionName) => new RegExp(`(#_endregion)  *${regionName} *\n`, "g"),
     ],
 ];
 regionTagREsByExt["java"] = [
-    ...regionTagREsByExt["ts"],
+    ...regionTagREsByExt["ts"]!,
     [
         (regionName) => new RegExp(`// *<editor-fold>  *${regionName} *\n`, "g"),
         (regionName) => new RegExp(`// *</editor-fold>  *${regionName} *\n`, "g"),

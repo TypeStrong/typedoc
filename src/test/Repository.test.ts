@@ -260,7 +260,7 @@ describe("RepositoryManager - git enabled", () => {
 
     it("Handles a nested repository", () => {
         const sub = normalizePath(join(fix.cwd, "sub_repo/repo.txt"));
-        const repo = manager.getRepository(sub) as GitRepository;
+        const repo = manager.getRepository(sub) as GitRepository | undefined;
         ok(repo);
         equal(repo.path, normalizePath(join(fix.cwd, "sub_repo")));
         equal(repo.getURL(sub, 1), "link:repo.txt");

@@ -16,14 +16,9 @@
                     ]
                 },
                 {
-                    "section.tsd-panel.tsd-comment": [
-                        {
-                            "div.tsd-comment.tsd-typography": "<p>Module comment</p>\n"
-                        },
-                        {
-                            "div.tsd-comment.tsd-typography": []
-                        }
-                    ]
+                    "section.tsd-panel.tsd-comment": {
+                        "div.tsd-comment.tsd-typography": "<p>Module comment</p>\n"
+                    }
                 },
                 {
                     "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",

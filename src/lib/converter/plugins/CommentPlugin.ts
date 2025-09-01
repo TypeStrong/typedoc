@@ -22,6 +22,7 @@ import {
     removeIf,
     removeIfPresent,
     setIntersection,
+    type TagString,
     unique,
 } from "#utils";
 import { ConverterComponent } from "../components.js";
@@ -56,7 +57,7 @@ const NEVER_RENDERED = [
 // We might make this user configurable at some point, but for now,
 // this set is configured here.
 const MUTUALLY_EXCLUSIVE_MODIFIERS = [
-    new Set<`@${string}`>([
+    new Set<TagString>([
         "@alpha",
         "@beta",
         "@experimental",
@@ -122,10 +123,10 @@ const MUTUALLY_EXCLUSIVE_MODIFIERS = [
  */
 export class CommentPlugin extends ConverterComponent {
     @Option("excludeTags")
-    accessor excludeTags!: `@${string}`[];
+    accessor excludeTags!: TagString[];
 
     @Option("cascadedModifierTags")
-    accessor cascadedModifierTags!: `@${string}`[];
+    accessor cascadedModifierTags!: TagString[];
 
     @Option("excludeInternal")
     accessor excludeInternal!: boolean;

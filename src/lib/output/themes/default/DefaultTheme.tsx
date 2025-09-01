@@ -15,7 +15,7 @@ import type { PageEvent, RendererEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";
 import { getIcons, type Icons } from "./partials/icon.js";
-import { filterMap, JSX } from "#utils";
+import { filterMap, JSX, type TagString } from "#utils";
 import { classNames, getDisplayName, toStyleClass } from "../lib.js";
 import { PageKind, type Router } from "../../router.js";
 import { loadHighlighter, Option } from "#node-utils";
@@ -365,8 +365,8 @@ function getReflectionClasses(reflection: Reflection, filters: Record<string, bo
                     classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
                 }
             } else if (
-                reflection.comment?.hasModifier(key as `@${string}`) ||
-                reflection.comment?.getTag(key as `@${string}`)
+                reflection.comment?.hasModifier(key as TagString) ||
+                reflection.comment?.getTag(key as TagString)
             ) {
                 classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));
             } else if (reflection.isDeclaration()) {
@@ -375,8 +375,7 @@ function getReflectionClasses(reflection: Reflection, filters: Record<string, bo
                 if (
                     ownSignatures.length &&
                     ownSignatures.every(
-                        (refl) =>
-                            refl.comment?.hasModifier(key as `@${string}`) || refl.comment?.getTag(key as `@${string}`),
+                        (refl) => refl.comment?.hasModifier(key as TagString) || refl.comment?.getTag(key as TagString),
                     )
                 ) {
                     classes.add(toStyleClass(`tsd-is-${key.substring(1)}`));

@@ -2,7 +2,7 @@ import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentContextOptionalChecker, CommentParserConfig } from "./index.js";
 import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
-import type { MinimalSourceFile } from "#utils";
+import type { MinimalSourceFile, TagString } from "#utils";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";
@@ -235,7 +235,7 @@ export function parseCommentString(
     return { content, frontmatter: frontmatterData };
 }
 
-const HAS_USER_IDENTIFIER: `@${string}`[] = [
+const HAS_USER_IDENTIFIER: TagString[] = [
     "@callback",
     "@param",
     "@prop",
@@ -389,7 +389,7 @@ function blockTag(
         content = blockContent(comment, lexer, config, i18n, warning, files);
     }
 
-    return new CommentTag(tagName as `@${string}`, content);
+    return new CommentTag(tagName as TagString, content);
 }
 
 /**
@@ -613,11 +613,11 @@ function blockContent(
                     next.text = "@inheritDoc";
                 }
                 if (config.modifierTags.has(next.text)) {
-                    comment.modifierTags.add(next.text as `@${string}`);
+                    comment.modifierTags.add(next.text as TagString);
                     break;
                 } else if (!atNewLine && !config.blockTags.has(next.text)) {
                     // Treat unknown tag as a modifier, but warn about it.
-                    comment.modifierTags.add(next.text as `@${string}`);
+                    comment.modifierTags.add(next.text as TagString);
                     warning(
                         i18n.treating_unrecognized_tag_0_as_modifier(next.text),
                         next,
@@ -751,7 +751,7 @@ function inlineTag(
 
     const inlineTag: InlineTagDisplayPart = {
         kind: "inline-tag",
-        tag: tagName.text as `@${string}`,
+        tag: tagName.text as TagString,
         text: content.join(""),
     };
     if (tagName.tsLinkTarget) {

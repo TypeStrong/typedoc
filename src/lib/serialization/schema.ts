@@ -30,7 +30,7 @@
  */
 
 import type * as M from "#models";
-import type { IfInternal, NormalizedPath } from "#utils";
+import type { IfInternal, NormalizedPath, TagString } from "#utils";
 
 // Keep this in sync with JSON_SCHEMA_VERSION in ProjectReflection.ts
 export const SCHEMA_VERSION = "2.0";
@@ -365,7 +365,7 @@ export interface ReflectionFlags extends Partial<S<M.ReflectionFlags, BoolKeys<M
 /** @category Comments */
 export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
     summary: CommentDisplayPart[];
-    modifierTags?: `@${string}`[];
+    modifierTags?: TagString[];
 }
 
 /** @category Comments */
@@ -390,7 +390,7 @@ export type CommentDisplayPart =
  */
 export interface InlineTagDisplayPart {
     kind: "inline-tag";
-    tag: `@${string}`;
+    tag: TagString;
     text: string;
     target?: string | ReflectionId | ReflectionSymbolId;
     tsLinkText?: string;

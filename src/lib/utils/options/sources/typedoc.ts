@@ -650,7 +650,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
         validate(value) {
             const knownKeys = ["protected", "private", "inherited", "external"];
-            if (!value || typeof value !== "object") {
+            if (typeof value !== "object" || !value) {
                 throw new Error(
                     i18n.option_0_must_be_an_object("visibilityFilters"),
                 );

@@ -4,7 +4,7 @@
  */
 import type { BundledLanguage } from "@gerrit0/mini-shiki";
 import * as TagDefaults from "./tsdoc-defaults.js";
-import type { EnumKeys } from "#utils";
+import type { EnumKeys, TagString } from "#utils";
 import type { ReflectionKind } from "../../models/index.js";
 
 export const excludeNotDocumentedKinds: readonly EnumKeys<
@@ -31,7 +31,7 @@ export const excludeNotDocumentedKinds: readonly EnumKeys<
     "Reference",
 ];
 
-export const excludeTags: readonly `@${string}`[] = [
+export const excludeTags: readonly TagString[] = [
     "@override",
     "@virtual",
     "@privateRemarks",
@@ -41,17 +41,17 @@ export const excludeTags: readonly `@${string}`[] = [
     "@inlineType",
 ];
 
-export const blockTags: readonly `@${string}`[] = TagDefaults.blockTags;
-export const inlineTags: readonly `@${string}`[] = TagDefaults.inlineTags;
-export const modifierTags: readonly `@${string}`[] = TagDefaults.modifierTags;
+export const blockTags: readonly TagString[] = TagDefaults.blockTags;
+export const inlineTags: readonly TagString[] = TagDefaults.inlineTags;
+export const modifierTags: readonly TagString[] = TagDefaults.modifierTags;
 
-export const cascadedModifierTags: readonly `@${string}`[] = [
+export const cascadedModifierTags: readonly TagString[] = [
     "@alpha",
     "@beta",
     "@experimental",
 ];
 
-export const notRenderedTags: readonly `@${string}`[] = [
+export const notRenderedTags: readonly TagString[] = [
     "@showCategories",
     "@showGroups",
     "@hideCategories",

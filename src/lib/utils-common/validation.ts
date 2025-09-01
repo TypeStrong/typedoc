@@ -119,6 +119,8 @@ export function optional<T extends Schema>(x: T): Optional<T> {
     return { [opt]: x };
 }
 
-export function isTagString(x: unknown): x is `@${string}` {
+export type TagString = `@${string}`;
+
+export function isTagString(x: unknown): x is TagString {
     return typeof x === "string" && /^@[a-z][a-z0-9-]*$/i.test(x);
 }

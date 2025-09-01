@@ -141,6 +141,7 @@ export {
     type NormalizedPathOrModule,
     type NormalizedPathOrModuleOrFunction,
     type SymbolReference,
+    type TagString,
     type TranslatedString,
     translateTagName,
 } from "#utils";

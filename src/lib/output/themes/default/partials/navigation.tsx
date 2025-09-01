@@ -1,5 +1,5 @@
 import { type Reflection, ReflectionFlag, ReflectionFlags } from "../../../../models/index.js";
-import { i18n, JSX, translateTagName } from "#utils";
+import { i18n, JSX, type TagString, translateTagName } from "#utils";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
@@ -65,7 +65,7 @@ export function settings(context: DefaultThemeRenderContext) {
                 buildFilterItem(
                     context,
                     filterName,
-                    translateTagName(key as `@${string}`),
+                    translateTagName(key as TagString),
                     defaultFilters[key],
                 ),
             );

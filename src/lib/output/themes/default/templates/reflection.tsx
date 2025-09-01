@@ -27,7 +27,7 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
 
     return (
         <>
-            {props.model.hasComment() && (
+            {props.model.hasComment(context.options.getValue("notRenderedTags")) && (
                 <section class="tsd-panel tsd-comment">
                     {context.commentSummary(props.model)}
                     {context.commentTags(props.model)}

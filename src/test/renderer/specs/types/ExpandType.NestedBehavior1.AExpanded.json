@@ -46,11 +46,6 @@
                     ]
                 },
                 {
-                    "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": []
-                    }
-                },
-                {
                     "div.tsd-signature": [
                         {
                             "span.tsd-signature-keyword": "type"
@@ -352,9 +347,6 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": "<p>B</p>\n"
-                                                            },
-                                                            {
-                                                                "div.tsd-comment.tsd-typography": []
                                                             }
                                                         ]
                                                     }

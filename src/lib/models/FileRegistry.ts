@@ -85,7 +85,7 @@ export class FileRegistry {
         project: ProjectReflection,
     ): string | Reflection | undefined {
         const reflId = this.mediaToReflection.get(id);
-        if (reflId) {
+        if (typeof reflId === "number") {
             return project.getReflectionById(reflId);
         }
         return this.mediaToPath.get(id);

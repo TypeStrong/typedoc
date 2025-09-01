@@ -37,11 +37,6 @@
                     ]
                 },
                 {
-                    "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": []
-                    }
-                },
-                {
                     "tag": "details.tsd-panel-group.tsd-member-group.tsd-accordion",
                     "props": {
                         "open": true

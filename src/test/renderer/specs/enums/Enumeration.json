@@ -168,9 +168,6 @@
                                             "div.tsd-comment.tsd-typography": "<p>Value1 comment</p>\n"
                                         },
                                         {
-                                            "div.tsd-comment.tsd-typography": []
-                                        },
-                                        {
                                             "aside.tsd-sources": {
                                                 "ul": {
                                                     "li": [
@@ -220,9 +217,6 @@
                                         },
                                         {
                                             "div.tsd-comment.tsd-typography": "<p>Value2 comment</p>\n"
-                                        },
-                                        {
-                                            "div.tsd-comment.tsd-typography": []
                                         },
                                         {
                                             "aside.tsd-sources": {

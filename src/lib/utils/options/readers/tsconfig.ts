@@ -5,14 +5,14 @@ import ts from "typescript";
 import type { Options, OptionsReader } from "../options.js";
 import { isFile } from "../../fs.js";
 import { ok } from "assert";
-import { i18n, type Logger, type TranslatedString, unique, Validation } from "#utils";
+import { i18n, type Logger, type TagString, type TranslatedString, unique, Validation } from "#utils";
 import { nicePath, normalizePath } from "../../paths.js";
 import { createRequire } from "module";
 import { tsdocBlockTags, tsdocInlineTags, tsdocModifierTags } from "../tsdoc-defaults.js";
 import { findTsConfigFile, getTypeDocOptionsFromTsConfig, readTsConfig } from "../../tsconfig.js";
 import { diagnostics } from "../../loggers.js";
 
-function isSupportForTags(obj: unknown): obj is Record<`@${string}`, boolean> {
+function isSupportForTags(obj: unknown): obj is Record<TagString, boolean | undefined> {
     return (
         Validation.validate({}, obj) &&
         Object.entries(obj).every(([key, val]) => {
@@ -148,15 +148,15 @@ export class TSConfigReader implements OptionsReader {
         const config = this.readTsDoc(logger, tsdoc);
         if (!config) return;
 
-        const supported = (tag: { tagName: `@${string}` }) => {
+        const supported = (tag: { tagName: TagString }) => {
             return config.supportForTags
                 ? !!config.supportForTags[tag.tagName]
                 : true;
         };
 
-        const blockTags: `@${string}`[] = [];
-        const inlineTags: `@${string}`[] = [];
-        const modifierTags: `@${string}`[] = [];
+        const blockTags: TagString[] = [];
+        const inlineTags: TagString[] = [];
+        const modifierTags: TagString[] = [];
 
         if (!config.noStandardTags) {
             blockTags.push(...tsdocBlockTags);

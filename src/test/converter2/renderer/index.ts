@@ -131,6 +131,7 @@ export interface NoneGroup {
 /** @disableGroups */
 export interface DisabledGroups {
     a: 1;
+    /** [link to readme #3006](./index.ts) */
     b(): void;
 }
 

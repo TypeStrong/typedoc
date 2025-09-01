@@ -7,24 +7,29 @@ import {
     type SignatureReflection,
 } from "../../../../models/index.js";
 import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
-import { assert, i18n, JSX } from "#utils";
+import { assert, i18n, JSX, type TagString } from "#utils";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { anchorTargetIfPresent } from "./anchor-icon.js";
 
-function renderingTypeDetailsIsUseful(container: Reflection, type: SomeType): boolean {
+function renderingTypeDetailsIsUseful(
+    container: Reflection,
+    type: SomeType,
+    notRenderedTags: readonly TagString[],
+): boolean {
     const isUsefulVisitor: Partial<TypeVisitor<boolean>> = {
         array(type) {
-            return renderingTypeDetailsIsUseful(container, type.elementType);
+            return renderingTypeDetailsIsUseful(container, type.elementType, notRenderedTags);
         },
         intersection(type) {
-            return type.types.some(t => renderingTypeDetailsIsUseful(container, t));
+            return type.types.some(t => renderingTypeDetailsIsUseful(container, t, notRenderedTags));
         },
         union(type) {
-            return !!type.elementSummaries || type.types.some(t => renderingTypeDetailsIsUseful(container, t));
+            return !!type.elementSummaries ||
+                type.types.some(t => renderingTypeDetailsIsUseful(container, t, notRenderedTags));
         },
         reflection(type) {
-            return renderingChildIsUseful(type.declaration);
+            return renderingChildIsUseful(type.declaration, notRenderedTags);
         },
         reference(type) {
             return shouldExpandReference(container, type);
@@ -44,7 +49,7 @@ export function typeDeclaration(
         "typeDeclaration(reflectionOwningType, type) called incorrectly",
     );
 
-    if (renderingTypeDetailsIsUseful(reflectionOwningType, type)) {
+    if (renderingTypeDetailsIsUseful(reflectionOwningType, type, context.options.getValue("notRenderedTags"))) {
         return (
             <div class="tsd-type-declaration">
                 <h4>{i18n.theme_type_declaration()}</h4>
@@ -194,7 +199,7 @@ export function typeDetailsIfUseful(
         "typeDetailsIfUseful(reflectionOwningType, type) called incorrectly",
     );
 
-    if (type && renderingTypeDetailsIsUseful(reflectionOwningType, type)) {
+    if (type && renderingTypeDetailsIsUseful(reflectionOwningType, type, context.options.getValue("notRenderedTags"))) {
         return context.typeDetails(reflectionOwningType, type, false);
     }
 }
@@ -314,6 +319,8 @@ function renderChild(
 
     // standard type
     if (child.type) {
+        const notRenderedTags = context.options.getValue("notRenderedTags");
+
         return (
             <li class="tsd-parameter">
                 <h5 id={anchorTargetIfPresent(context, child)}>
@@ -327,7 +334,7 @@ function renderChild(
                     {context.type(child.type)}
                 </h5>
                 {highlightOrComment(child)}
-                {child.getProperties().some(renderingChildIsUseful) && (
+                {child.getProperties().some(prop => renderingChildIsUseful(prop, notRenderedTags)) && (
                     <ul class="tsd-parameters">
                         {child.getProperties().map((c) => renderChild(context, c, renderAnchors))}
                     </ul>
@@ -401,7 +408,7 @@ function renderIndexSignature(context: DefaultThemeRenderContext, index: Signatu
     );
 }
 
-function renderingChildIsUseful(refl: DeclarationReflection) {
+function renderingChildIsUseful(refl: DeclarationReflection, notRenderedTags: readonly TagString[]) {
     // Object types directly under a variable/type alias will always be considered useful.
     // This probably isn't ideal, but it is an easy thing to check when assigning URLs
     // in the default theme, so we'll make the assumption that those properties ought to always
@@ -415,20 +422,20 @@ function renderingChildIsUseful(refl: DeclarationReflection) {
         return true;
     }
 
-    if (renderingThisChildIsUseful(refl)) {
+    if (renderingThisChildIsUseful(refl, notRenderedTags)) {
         return true;
     }
 
-    return refl.getProperties().some(renderingThisChildIsUseful);
+    return refl.getProperties().some(prop => renderingThisChildIsUseful(prop, notRenderedTags));
 }
 
-function renderingThisChildIsUseful(refl: DeclarationReflection) {
-    if (refl.hasComment()) return true;
+function renderingThisChildIsUseful(refl: DeclarationReflection, notRenderedTags: readonly TagString[]) {
+    if (refl.hasComment(notRenderedTags)) return true;
 
     const declaration = refl.type?.type === "reflection" ? refl.type.declaration : refl;
-    if (declaration.hasComment()) return true;
+    if (declaration.hasComment(notRenderedTags)) return true;
 
     return declaration.getAllSignatures().some((sig) => {
-        return sig.hasComment() || sig.parameters?.some((p) => p.hasComment());
+        return sig.hasComment(notRenderedTags) || sig.parameters?.some((p) => p.hasComment(notRenderedTags));
     });
 }

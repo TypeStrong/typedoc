@@ -9,6 +9,9 @@ title: Changelog
 - Variables marked with `@enum` now work for symbols imported from another module, #3003.
 - Improved magic introduced with #2999 to work with imported symbols, #3003.
 - Fixed relative link resolution to file names containing percent encoded URLs, #3006.
+- Linking to the project's README file with a relative link will now behave as expected, #3006.
+- Reduced unnecessary HTML element rendering in default theme.
+  API: `Reflection.hasComment` and `Comment.hasVisibleComponent` now accepts an optional `notRenderedTags` parameter.
 
 ## v0.28.11 (2025-08-25)
 

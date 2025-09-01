@@ -1,5 +1,6 @@
 // Type only import to non-bundled file
 // eslint-disable-next-line no-restricted-imports
+import type { TagString } from "#utils";
 import type { TranslationProxy } from "../internationalization/internationalization.js";
 
 let translations: Record<PropertyKey, string> = {};
@@ -36,7 +37,7 @@ export const i18n = new Proxy({}, {
     },
 }) as TranslationProxy;
 
-export function translateTagName(tag: `@${string}`): TranslatedString {
+export function translateTagName(tag: TagString): TranslatedString {
     const tagName = tag.substring(1);
     if (Object.prototype.hasOwnProperty.call(translations, `tag_${tagName}`)) {
         return translations[`tag_${tagName}`] as TranslatedString;

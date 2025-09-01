@@ -354,11 +354,7 @@ export class DeclarationReflection extends ContainerReflection {
                             new ReflectionSymbolId(sid),
                         );
                     } else {
-                        de.logger.warn(
-                            i18n.serialized_project_referenced_0_not_part_of_project(
-                                id.toString(),
-                            ),
-                        );
+                        de.logger.warn(i18n.serialized_project_referenced_0_not_part_of_project(id));
                     }
                 }
             });

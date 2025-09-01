@@ -1,7 +1,7 @@
 import { Comment } from "./Comment.js";
 import { splitUnquotedString } from "./utils.js";
 import type { ProjectReflection } from "./ProjectReflection.js";
-import { i18n, type NeverIfInternal, NonEnumerable, type TranslatedString } from "#utils";
+import { i18n, type NeverIfInternal, NonEnumerable, type TagString, type TranslatedString } from "#utils";
 import { ReflectionKind } from "./kind.js";
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { ReflectionVariant } from "./variant.js";
@@ -392,12 +392,12 @@ export abstract class Reflection {
     }
 
     /**
-     * Has this reflection a visible comment?
+     * Checks if this reflection has a comment which contains any visible text.
      *
      * @returns TRUE when this reflection has a visible comment.
      */
-    hasComment(): boolean {
-        return this.comment ? this.comment.hasVisibleComponent() : false;
+    hasComment(notRenderedTags?: readonly TagString[]): boolean {
+        return this.comment ? this.comment.hasVisibleComponent(notRenderedTags) : false;
     }
 
     hasGetterOrSetter(): boolean {

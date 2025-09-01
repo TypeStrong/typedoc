@@ -232,7 +232,16 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                             const refl = page.project.files.resolve(part.target, page.model.project);
                             let url: string | undefined;
                             if (typeof refl === "object") {
-                                url = context.urlTo(refl);
+                                // #3006, this is an unfortunate heuristic. If there is a relative link to the project
+                                // the user probably created it by linking to the directory of the project or to
+                                // the project's readme. Since the readme doesn't get its own reflection, we can't
+                                // reliably disambiguate this and instead will arbitrarily decide to reference the
+                                // root index page in this case.
+                                if (refl.isProject()) {
+                                    url = context.relativeURL("./");
+                                } else {
+                                    url = context.urlTo(refl);
+                                }
                             } else {
                                 const fileName = page.project.files.getName(part.target);
                                 if (fileName) {

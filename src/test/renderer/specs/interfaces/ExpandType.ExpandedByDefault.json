@@ -184,9 +184,6 @@
                                         "div.tsd-comment.tsd-typography": "<p>B</p>\n"
                                     },
                                     {
-                                        "div.tsd-comment.tsd-typography": []
-                                    },
-                                    {
                                         "aside.tsd-sources": {
                                             "ul": {
                                                 "li": [

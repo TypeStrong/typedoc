@@ -16,7 +16,7 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
 
     return (
         <>
-            {mod.hasComment() && (
+            {mod.hasComment(context.options.getValue("notRenderedTags")) && (
                 <section class="tsd-panel tsd-comment">
                     {context.commentSummary(mod)}
                     {context.commentTags(mod)}

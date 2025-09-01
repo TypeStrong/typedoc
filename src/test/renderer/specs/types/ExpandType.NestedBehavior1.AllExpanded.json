@@ -295,9 +295,6 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": "<p>A</p>\n"
-                                                            },
-                                                            {
-                                                                "div.tsd-comment.tsd-typography": []
                                                             }
                                                         ]
                                                     }
@@ -379,9 +376,6 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": "<p>B</p>\n"
-                                                            },
-                                                            {
-                                                                "div.tsd-comment.tsd-typography": []
                                                             }
                                                         ]
                                                     }
@@ -463,9 +457,6 @@
                                                             },
                                                             {
                                                                 "div.tsd-comment.tsd-typography": "<p>C</p>\n"
-                                                            },
-                                                            {
-                                                                "div.tsd-comment.tsd-typography": []
                                                             }
                                                         ]
                                                     }

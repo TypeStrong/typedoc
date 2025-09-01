@@ -69,30 +69,34 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
 
     skipSave.forEach((skip, i) => (props.comment!.blockTags[i].skipRendering = skip));
 
+    const tagsContents = tags.map((item) => {
+        const name = item.name
+            ? `${translateTagName(item.tag)}: ${item.name}`
+            : translateTagName(item.tag);
+
+        const anchor = context.slugger.slug(name);
+
+        return (
+            <>
+                <div class={`tsd-tag-${item.tag.substring(1)}`}>
+                    <h4 class="tsd-anchor-link" id={anchor}>
+                        {name}
+                        {anchorIcon(context, anchor)}
+                    </h4>
+                    <JSX.Raw html={context.markdown(item.content)} />
+                </div>
+            </>
+        );
+    });
+
     return (
         <>
             {beforeTags}
-            <div class="tsd-comment tsd-typography">
-                {tags.map((item) => {
-                    const name = item.name
-                        ? `${translateTagName(item.tag)}: ${item.name}`
-                        : translateTagName(item.tag);
-
-                    const anchor = context.slugger.slug(name);
-
-                    return (
-                        <>
-                            <div class={`tsd-tag-${item.tag.substring(1)}`}>
-                                <h4 class="tsd-anchor-link" id={anchor}>
-                                    {name}
-                                    {anchorIcon(context, anchor)}
-                                </h4>
-                                <JSX.Raw html={context.markdown(item.content)} />
-                            </div>
-                        </>
-                    );
-                })}
-            </div>
+            {tagsContents.length > 0 && (
+                <div class="tsd-comment tsd-typography">
+                    {tagsContents}
+                </div>
+            )}
             {afterTags}
         </>
     );

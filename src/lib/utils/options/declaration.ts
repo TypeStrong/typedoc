@@ -11,6 +11,7 @@ import {
     type NormalizedPath,
     type NormalizedPathOrModule,
     type NormalizedPathOrModuleOrFunction,
+    type TagString,
     type TranslatedString,
 } from "#utils";
 import type { TranslationProxy } from "../../internationalization/internationalization.js";
@@ -297,7 +298,7 @@ export interface TypeDocOptionMap {
         private?: boolean;
         inherited?: boolean;
         external?: boolean;
-        [tag: `@${string}`]: boolean;
+        [tag: TagString]: boolean;
     }>;
     searchCategoryBoosts: ManuallyValidatedOption<Record<string, number>>;
     searchGroupBoosts: ManuallyValidatedOption<Record<string, number>>;
@@ -309,15 +310,15 @@ export interface TypeDocOptionMap {
     preserveLinkText: boolean;
     jsDocCompatibility: JsDocCompatibility;
     suppressCommentWarningsInDeclarationFiles: boolean;
-    blockTags: `@${string}`[];
-    inlineTags: `@${string}`[];
-    modifierTags: `@${string}`[];
-    excludeTags: `@${string}`[];
-    notRenderedTags: `@${string}`[];
+    blockTags: TagString[];
+    inlineTags: TagString[];
+    modifierTags: TagString[];
+    excludeTags: TagString[];
+    notRenderedTags: TagString[];
     externalSymbolLinkMappings: ManuallyValidatedOption<
         Record<string, Record<string, string>>
     >;
-    cascadedModifierTags: `@${string}`[];
+    cascadedModifierTags: TagString[];
 
     // Organization
     categorizeByGroup: boolean;

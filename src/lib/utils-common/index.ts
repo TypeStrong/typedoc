@@ -16,3 +16,4 @@ export * from "./path.js";
 export * from "./set.js";
 export * from "./string.js";
 export * as Validation from "./validation.js";
+export type { TagString } from "./validation.js";

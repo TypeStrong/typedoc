@@ -236,9 +236,6 @@
                                 ]
                             },
                             {
-                                "div.tsd-comment.tsd-typography": []
-                            },
-                            {
                                 "aside.tsd-sources": {
                                     "ul": {
                                         "li": [
@@ -302,9 +299,6 @@
                                                 "span.tsd-signature-type": "1"
                                             }
                                         ]
-                                    },
-                                    {
-                                        "div.tsd-comment.tsd-typography": []
                                     },
                                     {
                                         "aside.tsd-sources": {
