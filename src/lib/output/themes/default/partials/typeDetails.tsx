@@ -295,9 +295,9 @@ function renderChild(
         return (
             <li class="tsd-parameter">
                 <h5 id={anchorTargetIfPresent(context, child)}>
-                    {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
+                    {child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
-                    <span class="tsd-signature-symbol">{!!child.flags.isOptional && "?"}:</span> function
+                    <span class="tsd-signature-symbol">{child.flags.isOptional && "?"}:</span> function
                 </h5>
 
                 {context.memberSignatures(child)}
@@ -325,10 +325,10 @@ function renderChild(
             <li class="tsd-parameter">
                 <h5 id={anchorTargetIfPresent(context, child)}>
                     {context.reflectionFlags(child)}
-                    {!!child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
+                    {child.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                     <span class={getKindClass(child)}>{child.name}</span>
                     <span class="tsd-signature-symbol">
-                        {!!child.flags.isOptional && "?"}
+                        {child.flags.isOptional && "?"}
                         {": "}
                     </span>
                     {context.type(child.type)}

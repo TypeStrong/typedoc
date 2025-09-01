@@ -81,7 +81,7 @@ export class ArgumentsReader implements OptionsReader {
                     decl.type === ParameterType.Boolean ||
                     decl.type === ParameterType.Flags
                 ) {
-                    const value = String(this.args[index]).toLowerCase();
+                    const value = String(this.args.at(index)).toLowerCase();
 
                     if (value === "true" || value === "false") {
                         trySet(decl.name, value === "true");
@@ -114,7 +114,7 @@ export class ArgumentsReader implements OptionsReader {
 
                 if (decl && decl.type === ParameterType.Flags) {
                     const flagName = name.split(".", 2)[1];
-                    const value = String(this.args[index]).toLowerCase();
+                    const value = String(this.args.at(index)).toLowerCase();
 
                     if (value === "true" || value === "false") {
                         trySet(decl.name, { [flagName]: value === "true" });

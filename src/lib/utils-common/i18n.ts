@@ -1,7 +1,7 @@
 // Type only import to non-bundled file
 // eslint-disable-next-line no-restricted-imports
-import type { TagString } from "#utils";
 import type { TranslationProxy } from "../internationalization/internationalization.js";
+import type { TagString } from "./validation.js";
 
 let translations: Record<PropertyKey, string> = {};
 

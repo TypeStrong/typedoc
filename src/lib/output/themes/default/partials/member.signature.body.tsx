@@ -25,7 +25,7 @@ export function memberSignatureBody(
                             <li>
                                 <span>
                                     {context.reflectionFlags(item)}
-                                    {!!item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
+                                    {item.flags.isRest && <span class="tsd-signature-symbol">...</span>}
                                     <span class="tsd-kind-parameter">{item.name}</span>
                                     {": "}
                                     {context.type(item.type)}
