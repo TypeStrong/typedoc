@@ -66,7 +66,8 @@ async function main() {
     const ext = process.argv[3] ? `.${process.argv[3]}` : guessExtension(code);
     const file = `src/test/converter2/issues/gh${issue}${ext}`;
     await writeFile(file, code.content);
-    await exec(`code ${file} src/test/issues.c2.test.ts`);
+    console.log(file);
+    console.log("src/test/issues.c2.test.ts");
 }
 
 void main();

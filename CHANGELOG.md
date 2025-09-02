@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Fixed bug introduced in 0.28.8 where TypeDoc could not render docs with some mixin classes, #3007.
+
 ## v0.28.12 (2025-09-01)
 
 ### Bug Fixes

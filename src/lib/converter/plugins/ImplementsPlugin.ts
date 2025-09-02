@@ -172,10 +172,13 @@ export class ImplementsPlugin extends ConverterComponent {
         // serialization/deserialization, might point to an unexpected location. (See the mixin
         // converter tests, I suspect this might actually be an indication of something else slightly
         // broken there, but don't want to spend more time with this right now.)
-        // #2982, even more unfortunately, we only want to keep the link if it is pointing to a reflection
-        // which will receive a link during rendering.
+        // #2982/#3007, even more unfortunately, we only want to keep the link if it is pointing
+        // to a reflection which will receive a link during rendering, we pick this based on it being
+        // the type of member we expect to point to.
         const isValidRef = (ref: ReferenceType) =>
-            ref.reflection && !ref.reflection.parent?.kindOf(ReflectionKind.TypeLiteral);
+            !!ref.reflection?.parent?.kindOf(
+                ReflectionKind.ClassOrInterface | ReflectionKind.Method | ReflectionKind.Constructor,
+            );
 
         for (const child of reflection.children || []) {
             if (child.inheritedFrom && !isValidRef(child.inheritedFrom)) {
