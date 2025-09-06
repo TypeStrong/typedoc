@@ -5,7 +5,7 @@ title: "@packageDocumentation"
 # @packageDocumentation
 
 **Tag Kind:** [Modifier](../tags.md#modifier-tags) <br>
-**TSDoc Reference:** [@packageDocumentation](https://tsdoc.org/pages/tags/packageDocumentation/)
+**TSDoc Reference:** [@packageDocumentation](https://tsdoc.org/pages/tags/packagedocumentation/)
 
 The `@packageDocumentation` tag is used to mark a comment as referring to a file rather than the declaration following it.
 The TypeDoc specific [`@module`](module.md) tag can be used for the same purpose when semantically clearer.
