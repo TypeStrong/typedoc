@@ -150,6 +150,8 @@ export class InheritDocPlugin extends ConverterComponent {
         }
 
         target.comment.removeTags("@inheritDoc");
+        target.comment.removeTags("@remarks");
+        target.comment.removeTags("@returns");
         target.comment.summary = Comment.cloneDisplayParts(
             source.comment.summary,
         );

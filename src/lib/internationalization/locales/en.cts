@@ -81,6 +81,8 @@ export = {
         "Content in the summary section will be overwritten by the @inheritDoc tag in comment at {0}",
     content_in_remarks_block_overwritten_by_inheritdoc_in_comment_at_0:
         "Content in the @remarks block will be overwritten by the @inheritDoc tag in comment at {0}",
+    content_in_returns_block_overwritten_by_inheritdoc_in_comment_at_0:
+        "Content in the @returns block will be overwritten by the @inheritDoc tag in comment at {0}",
     example_tag_literal_name:
         "The first line of an example tag will be taken literally as the example name, and should only contain text",
     inheritdoc_tag_properly_capitalized: "The @inheritDoc tag should be properly capitalized",

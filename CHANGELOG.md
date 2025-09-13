@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Fixed bug introduced in 0.28.8 where TypeDoc could not render docs with some mixin classes, #3007.
+- `@inheritDoc` will now correctly overwrite `@remarks` and `@returns` blocks on the target comment, #3012.
 
 ## v0.28.12 (2025-09-01)
 

@@ -2182,4 +2182,13 @@ describe("Issue Tests", () => {
         ok(x.comment.summary[1].target);
         ok(project.files.resolve(x.comment.summary[1].target, project) === doc);
     });
+
+    it("#3012 removes @remarks from inheriting comment", () => {
+        const project = convert();
+        const nullProto = query(project, "NullProtoObjectSchema");
+        equal(nullProto.comment?.blockTags.map(t => t.tag), ["@remarks"]);
+        equal(nullProto.comment?.blockTags.map(t => Comment.combineDisplayParts(t.content)), ["DictRemarks"]);
+
+        logger.expectMessage("warn: Content in the @remarks block will be overwritten*");
+    });
 });

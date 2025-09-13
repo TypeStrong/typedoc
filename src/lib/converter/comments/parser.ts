@@ -346,6 +346,13 @@ function postProcessComment(
             ),
         );
     }
+    if ((inlineInheritDoc.length || inheritDoc.length) && returns.length) {
+        warning(
+            i18n.content_in_returns_block_overwritten_by_inheritdoc_in_comment_at_0(
+                getPosition(),
+            ),
+        );
+    }
 }
 
 const aliasedTags = new Map([["@return", "@returns"]]);
