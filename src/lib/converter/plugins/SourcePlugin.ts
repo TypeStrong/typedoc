@@ -10,7 +10,7 @@ import { SourceReference } from "../../models/index.js";
 import { gitIsInstalled, RepositoryManager } from "../utils/repository.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { i18n, type NormalizedPath } from "#utils";
+import { i18n } from "#utils";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -31,8 +31,9 @@ export class SourcePlugin extends ConverterComponent {
     @Option("sourceLinkTemplate")
     accessor sourceLinkTemplate!: string;
 
-    @Option("basePath")
-    accessor basePath!: NormalizedPath;
+    get displayBasePath() {
+        return this.application.options.getValue("displayBasePath") || this.application.options.getValue("basePath");
+    }
 
     /**
      * All file names to find the base path from.
@@ -157,7 +158,7 @@ export class SourcePlugin extends ConverterComponent {
             );
         }
 
-        const basePath = this.basePath || getCommonDirectory([...this.fileNames]);
+        const basePath = this.displayBasePath || getCommonDirectory([...this.fileNames]);
         this.repositories ||= new RepositoryManager(
             basePath,
             this.gitRevision,

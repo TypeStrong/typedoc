@@ -222,6 +222,7 @@ export interface TypeDocOptionMap {
     gitRevision: string;
     gitRemote: string;
     readme: string;
+    basePath: NormalizedPath;
 
     // Output
     outputs: ManuallyValidatedOption<Array<OutputSpecification>>;
@@ -261,7 +262,7 @@ export interface TypeDocOptionMap {
      * strictly typed here.
      */
     markdownItLoader: ManuallyValidatedOption<(parser: any) => void>;
-    basePath: NormalizedPath;
+    displayBasePath: NormalizedPath;
     cname: string;
     favicon: NormalizedPath;
     githubPages: boolean;

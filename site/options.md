@@ -35,7 +35,7 @@ Options which control TypeDoc's HTML output.
 
 ## Comment Options
 
-Options which control how TypeDoc parses comments.
+Options which control how TypeDoc parses comments and documents.
 
 {@listOptions options/comments.md}
 

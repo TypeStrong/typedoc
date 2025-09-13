@@ -53,6 +53,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`gitRemote`](input.md#gitremote)                                       | Package  |                                                                                                           |
 | [`disableGit`](input.md#disablegit)                                     | Package  |                                                                                                           |
 | [`readme`](input.md#readme)                                             | Both     | Root: Site readme, Package: Package readme                                                                |
+| [`basePath`](input.md#basepath)                                         | Both     | Root: Site readme, documents, Package: Package readme, documentation comments, documents                  |
 
 ## Output Options
 
@@ -77,7 +78,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`customFooterHtmlDisableWrapper`](output.md#customfooterhtmldisablewrapper)           | Root     |                                                            |
 | [`markdownItOptions`](output.md#markdownitoptions)                                     | Root     |                                                            |
 | [`markdownItLoader`](output.md#markdownitloader)                                       | Root     |                                                            |
-| [`basePath`](output.md#basepath)                                                       | Both     | Used to determine file names of entry points and documents |
+| [`displayBasePath`](output.md#displaybasepath)                                         | Both     | Used to determine file names of entry points and documents |
 | [`cname`](output.md#cname)                                                             | Root     |                                                            |
 | [`favicon`](output.md#favicon)                                                         | Root     |                                                            |
 | [`sourceLinkExternal`](output.md#sourcelinkexternal)                                   | Root     |                                                            |

@@ -4,17 +4,33 @@ import { i18n, type NormalizedPath, NormalizedPathUtils } from "#utils";
 import { existsSync } from "fs";
 
 export class ValidatingFileRegistry extends FileRegistry {
+    basePath: NormalizedPath;
+
+    constructor(basePath: NormalizedPath = "") {
+        super();
+        this.basePath = basePath;
+    }
+
     override register(
         sourcePath: NormalizedPath,
         relativePath: NormalizedPath,
     ): { target: FileId; anchor: string | undefined } | undefined {
-        const absolute = NormalizedPathUtils.resolve(NormalizedPathUtils.dirname(sourcePath), relativePath);
-        const absoluteWithoutAnchor = absolute.replace(/#.*/, "");
+        let absolute = NormalizedPathUtils.resolve(NormalizedPathUtils.dirname(sourcePath), relativePath);
+        let absoluteWithoutAnchor = absolute.replace(/#.*/, "");
         // Note: We allow paths to directories to be registered here, but the AssetsPlugin will not
         // copy them to the output path. This is so that we can link to directories and associate them
         // with reflections in packages mode.
         if (!existsSync(absoluteWithoutAnchor)) {
-            return;
+            // If the relative path didn't exist normally, also check the path relative to the assetBasePath option
+            if (this.basePath != "") {
+                absolute = NormalizedPathUtils.resolve(this.basePath, relativePath);
+                absoluteWithoutAnchor = absolute.replace(/#.*/, "");
+                if (!existsSync(absoluteWithoutAnchor)) {
+                    return;
+                }
+            } else {
+                return;
+            }
         }
         return this.registerAbsolute(absolute);
     }

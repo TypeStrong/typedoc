@@ -173,7 +173,7 @@ export function getConverter2Project(entries: string[], folder: string) {
     ok(entryPoints.length > 0, "Expected at least one entry point");
 
     app.options.setValue("entryPoints", entryPoints);
-    app.files = new ValidatingFileRegistry();
+    app.files = new ValidatingFileRegistry(app.options.getValue("basePath"));
     return app.converter.convert(
         files.map((file, index) => {
             return {

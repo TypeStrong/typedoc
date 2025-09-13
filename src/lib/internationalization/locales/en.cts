@@ -311,12 +311,14 @@ export = {
         "Use the specified remote for linking to GitHub/Bitbucket source files. Has no effect if disableGit or disableSources is set",
     help_disableGit:
         "Assume that all can be linked to with the sourceLinkTemplate, sourceLinkTemplate must be set if this is enabled. {path} will be rooted at basePath",
-    help_basePath: "Specifies the base path to be used when displaying file paths",
+    help_displayBasePath:
+        "Specifies the base path to be used when displaying file paths. If not specified, basePath is used.",
     help_excludeTags: "Remove the listed block/modifier tags from doc comments",
     help_notRenderedTags: "Tags which will be preserved in doc comments, but not rendered when creating output",
     help_cascadedModifierTags: "Modifier tags which should be copied to all children of the parent reflection",
     help_readme:
         "Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page",
+    help_basePath: "Specifies a path which links may be resolved relative to.",
     help_cname: "Set the CNAME file text, it's useful for custom domains on GitHub Pages",
     help_favicon: "Path to favicon to include as the site icon",
     help_sourceLinkExternal:

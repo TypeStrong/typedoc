@@ -35,7 +35,7 @@ If a `"typedoc"` [conditional export](https://nodejs.org/api/packages.html#condi
 TypeDoc will use it instead of the `"import"` export condition.
 
 The set of entry points provided to TypeDoc determines the names displayed in the documentation.
-By default, TypeDoc will derive a [basePath](output.md#basepath) based on your entry point
+By default, TypeDoc will derive a [displayBasePath](output.md#displaybasepath) based on your entry point
 paths to determine the displayed module name, but it can be also be set with the [`@module`](../tags/module.md) tag.
 
 ## entryPointStrategy
@@ -311,7 +311,8 @@ If you are updating documentation for a forked package, you probably want to pas
 typedoc --disableGit
 ```
 
-Prevents TypeDoc from using Git to try to determine if sources can be linked, with this enabled, sources will always be linked, even if not part of a git repo.
+Prevents TypeDoc from using Git to try to determine if sources can be linked, with this enabled, sources will always be
+linked, even if not part of a git repo.
 
 ## readme
 
@@ -319,6 +320,15 @@ Prevents TypeDoc from using Git to try to determine if sources can be linked, wi
 typedoc --readme <path/to/readme|none>
 ```
 
-Path to the readme file that should be displayed on the index page. If set to
-`none`, or no readme file is automatically discovered, the index page will be
-disabled.
+Path to the readme file that should be displayed on the index page. If set to `none`, or no readme file is automatically
+discovered, the index page will be disabled.
+
+## basePath
+
+```bash
+typedoc --basePath ./
+```
+
+Path to a directory containing asset files which will be checked when resolving relative paths of links and images
+within documentation comments and external documents. If specified, this will also be used for the default value of
+the [displayBasePath](output.md#displaybasepath) option.

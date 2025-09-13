@@ -20,9 +20,7 @@ function makeTagArrayValidator(name: keyof TypeDocOptionMap) {
 
 // For convenience, added in the same order as they are documented on the website.
 export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
-    ///////////////////////////
-    // Configuration Options //
-    ///////////////////////////
+    // MARK: Configuration Options
 
     options.addDeclaration({
         type: ParameterType.Path,
@@ -96,9 +94,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
 
-    ///////////////////////////
-    ////// Input Options //////
-    ///////////////////////////
+    // MARK: Input Options
 
     options.addDeclaration({
         name: "entryPoints",
@@ -232,10 +228,18 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
             }
         },
     });
+    options.addDeclaration({
+        name: "readme",
+        help: () => i18n.help_readme(),
+        type: ParameterType.Path,
+    });
+    options.addDeclaration({
+        name: "basePath",
+        help: () => i18n.help_basePath(),
+        type: ParameterType.Path,
+    });
 
-    ///////////////////////////
-    ///// Output Options //////
-    ///////////////////////////
+    // MARK: Output Options
 
     options.addDeclaration({
         name: "outputs",
@@ -454,13 +458,8 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "basePath",
-        help: () => i18n.help_basePath(),
-        type: ParameterType.Path,
-    });
-    options.addDeclaration({
-        name: "readme",
-        help: () => i18n.help_readme(),
+        name: "displayBasePath",
+        help: () => i18n.help_displayBasePath(),
         type: ParameterType.Path,
     });
     options.addDeclaration({
@@ -720,9 +719,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         type: ParameterType.Boolean,
     });
 
-    ///////////////////////////
-    ///// Comment Options /////
-    ///////////////////////////
+    // MARK: Comment Options
 
     options.addDeclaration({
         name: "jsDocCompatibility",
@@ -807,9 +804,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         validate: makeTagArrayValidator("cascadedModifierTags"),
     });
 
-    ///////////////////////////
-    // Organization Options ///
-    ///////////////////////////
+    // MARK: Organization Options
 
     options.addDeclaration({
         name: "categorizeByGroup",
@@ -884,9 +879,7 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         },
     });
 
-    ///////////////////////////
-    ///// General Options /////
-    ///////////////////////////
+    // MARK: General Options
 
     options.addDeclaration({
         name: "watch",

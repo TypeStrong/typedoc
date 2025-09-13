@@ -4,6 +4,12 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- The `basePath` option now also affects relative link resolution, TypeDoc will also check for
+  paths relative to the provided base path. If you instead want TypeDoc to only change the rendered
+  base path for sources, use the `displayBasePath` option, #3009.
+
 ### Bug Fixes
 
 - Fixed bug introduced in 0.28.8 where TypeDoc could not render docs with some mixin classes, #3007.

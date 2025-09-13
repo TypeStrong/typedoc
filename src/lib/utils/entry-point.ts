@@ -196,7 +196,7 @@ export function getDocumentEntryPoints(
         options,
         supportedFileRegex,
     );
-    const baseDir = options.getValue("basePath") || getCommonDirectory(expanded);
+    const baseDir = options.getValue("displayBasePath") || options.getValue("basePath") || getCommonDirectory(expanded);
     return expanded.map((path) => {
         return {
             displayName: relative(baseDir, path).replace(/\.[^.]+$/, ""),
@@ -293,7 +293,8 @@ function getEntryPointsForPaths(
     options: Options,
     programs = getEntryPrograms(inputFiles, logger, options),
 ): DocumentationEntryPoint[] {
-    const baseDir = options.getValue("basePath") || getCommonDirectory(inputFiles);
+    const baseDir = options.getValue("displayBasePath") || options.getValue("basePath") ||
+        getCommonDirectory(inputFiles);
     const entryPoints: DocumentationEntryPoint[] = [];
     let expandSuggestion = true;
 

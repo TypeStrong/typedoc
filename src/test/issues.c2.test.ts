@@ -17,7 +17,9 @@ import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { equalKind, getComment, getLinks, getSigComment, query, querySig, reflToTree } from "./utils.js";
-import { DefaultTheme, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
+import { DefaultTheme, type FileId, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
+import { normalizePath, TYPEDOC_ROOT } from "#node-utils";
+import { NormalizedPathUtils } from "#utils";
 
 const app = getConverter2App();
 
@@ -2181,6 +2183,22 @@ describe("Issue Tests", () => {
         ok(x.comment?.summary[1].kind === "relative-link");
         ok(x.comment.summary[1].target);
         ok(project.files.resolve(x.comment.summary[1].target, project) === doc);
+    });
+
+    it("#3009 supports a base path for resolving relative links", () => {
+        app.options.setValue("basePath", TYPEDOC_ROOT);
+        const project = convert();
+        const x = query(project, "x");
+        const links = x.comment?.summary.filter(part => part.kind === "relative-link");
+        equal(links?.length, 3);
+        equal(links[0].target, 1);
+        equal(links[1].target, 1);
+        equal(links[2].target, 2);
+        ok(app.files.resolve(1 as FileId, project) == project);
+        equal(
+            app.files.resolve(2 as FileId, project),
+            NormalizedPathUtils.resolve(normalizePath(TYPEDOC_ROOT), normalizePath("CHANGELOG.md")),
+        );
     });
 
     it("#3012 removes @remarks from inheriting comment", () => {

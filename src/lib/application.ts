@@ -148,6 +148,10 @@ export class Application extends AbstractComponent<
 
     options = new Options();
 
+    /**
+     * Due for deprecation in 0.29, use the reference to this on {@link ProjectReflection},
+     * this was the wrong place for this member to live.
+     */
     files: FileRegistry = new ValidatingFileRegistry();
 
     /** @internal */
@@ -271,6 +275,10 @@ export class Application extends AbstractComponent<
             this.logger.level = LogLevel.Verbose;
         } else {
             this.logger.level = this.options.getValue("logLevel");
+        }
+
+        if (this.files instanceof ValidatingFileRegistry) {
+            this.files.basePath = this.options.getValue("basePath");
         }
 
         for (
@@ -827,7 +835,7 @@ export class Application extends AbstractComponent<
         for (const { dir, options } of projectsToConvert) {
             this.logger.info(i18n.converting_project_at_0(nicePath(dir)));
             this.options = options;
-            this.files = new ValidatingFileRegistry();
+            this.files = new ValidatingFileRegistry(options.getValue("basePath"));
             let project = await this.convert();
             if (project) {
                 this.validate(project);
