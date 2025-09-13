@@ -466,9 +466,9 @@
                     "sources": [
                         {
                             "fileName": "inherit-doc.ts",
-                            "line": 76,
+                            "line": 75,
                             "character": 16,
-                            "url": "typedoc://inherit-doc.ts#L76"
+                            "url": "typedoc://inherit-doc.ts#L75"
                         }
                     ],
                     "signatures": [
@@ -509,15 +509,6 @@
                                         "content": [
                                             {
                                                 "kind": "text",
-                                                "text": "This will be inherited"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "tag": "@returns",
-                                        "content": [
-                                            {
-                                                "kind": "text",
                                                 "text": "Stringified sum or concatenation of numeric arguments"
                                             }
                                         ]
@@ -527,9 +518,9 @@
                             "sources": [
                                 {
                                     "fileName": "inherit-doc.ts",
-                                    "line": 76,
+                                    "line": 75,
                                     "character": 16,
-                                    "url": "typedoc://inherit-doc.ts#L76"
+                                    "url": "typedoc://inherit-doc.ts#L75"
                                 }
                             ],
                             "typeParameters": [
