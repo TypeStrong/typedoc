@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.13 (2025-09-14)
+
 ### Features
 
 - The `basePath` option now also affects relative link resolution, TypeDoc will also check for
