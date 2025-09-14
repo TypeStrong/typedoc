@@ -705,6 +705,7 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
                 ReferenceType.createBrokenReference(
                     node.exprName.getText(),
                     context.project,
+                    undefined,
                 ),
             );
         }
@@ -786,6 +787,7 @@ const referenceConverter: TypeConverter<
             const ref = ReferenceType.createBrokenReference(
                 context.checker.typeToString(type),
                 context.project,
+                undefined,
             );
             ref.refersToTypeParameter = true;
             return ref;

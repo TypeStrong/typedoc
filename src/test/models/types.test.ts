@@ -266,7 +266,7 @@ describe("Type.toString", () => {
             const project = new ProjectReflection("test", new FileRegistry());
             const type = new T.OptionalType(
                 new T.QueryType(
-                    T.ReferenceType.createBrokenReference("X", project),
+                    T.ReferenceType.createBrokenReference("X", project, undefined),
                 ),
             );
             equal(type.toString(), "typeof X?");
@@ -287,7 +287,7 @@ describe("Type.toString", () => {
             const project = new ProjectReflection("test", new FileRegistry());
             const type = new T.TypeOperatorType(
                 new T.QueryType(
-                    T.ReferenceType.createBrokenReference("X", project),
+                    T.ReferenceType.createBrokenReference("X", project, undefined),
                 ),
                 "keyof",
             );

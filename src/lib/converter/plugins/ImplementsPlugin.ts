@@ -13,7 +13,7 @@ import { ReferenceType, ReflectionType, type SomeType, type Type } from "../../m
 import { filterMap, type TranslatedString, zip } from "#utils";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { getHumanName } from "../../utils/index.js";
+import { findPackageForPath, getHumanName } from "../../utils/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 
@@ -182,18 +182,34 @@ export class ImplementsPlugin extends ConverterComponent {
 
         for (const child of reflection.children || []) {
             if (child.inheritedFrom && !isValidRef(child.inheritedFrom)) {
-                child.inheritedFrom = ReferenceType.createBrokenReference(child.inheritedFrom.name, project);
+                child.inheritedFrom = ReferenceType.createBrokenReference(
+                    child.inheritedFrom.name,
+                    project,
+                    child.inheritedFrom.package,
+                );
             }
             if (child.overwrites && !isValidRef(child.overwrites)) {
-                child.overwrites = ReferenceType.createBrokenReference(child.overwrites.name, project);
+                child.overwrites = ReferenceType.createBrokenReference(
+                    child.overwrites.name,
+                    project,
+                    child.overwrites.package,
+                );
             }
 
             for (const childSig of child.getAllSignatures()) {
                 if (childSig.inheritedFrom && !isValidRef(childSig.inheritedFrom)) {
-                    childSig.inheritedFrom = ReferenceType.createBrokenReference(childSig.inheritedFrom.name, project);
+                    childSig.inheritedFrom = ReferenceType.createBrokenReference(
+                        childSig.inheritedFrom.name,
+                        project,
+                        childSig.inheritedFrom.package,
+                    );
                 }
                 if (childSig.overwrites && !isValidRef(childSig.overwrites)) {
-                    childSig.overwrites = ReferenceType.createBrokenReference(childSig.overwrites.name, project);
+                    childSig.overwrites = ReferenceType.createBrokenReference(
+                        childSig.overwrites.name,
+                        project,
+                        childSig.overwrites.package,
+                    );
                 }
             }
         }
@@ -522,6 +538,18 @@ export class ImplementsPlugin extends ConverterComponent {
     }
 }
 
+function getConstructorPackagePath(context: Context, clause: ts.ExpressionWithTypeArguments): string | undefined {
+    const symbol = context.getSymbolAtLocation(clause.expression);
+    if (!symbol) return undefined;
+
+    const resolvedSymbol = context.resolveAliasedSymbol(symbol);
+
+    const symbolPath = resolvedSymbol?.declarations?.[0]?.getSourceFile().fileName;
+    if (!symbolPath) return undefined;
+
+    return findPackageForPath(symbolPath)?.[0];
+}
+
 function constructorInheritance(
     context: Context,
     reflection: DeclarationReflection,
@@ -533,17 +561,21 @@ function constructorInheritance(
     );
 
     if (!extendsClause) return;
-    const name = `${extendsClause.types[0].getText()}.constructor`;
+    const extendsType = extendsClause.types[0];
+    const refPackage = getConstructorPackagePath(context, extendsType);
+
+    const name = `${extendsType.getText()}.constructor`;
 
     const key = constructorDecl ? "overwrites" : "inheritedFrom";
 
     reflection[key] ??= ReferenceType.createBrokenReference(
         name,
         context.project,
+        refPackage,
     );
 
     for (const sig of reflection.signatures ?? []) {
-        sig[key] ??= ReferenceType.createBrokenReference(name, context.project);
+        sig[key] ??= ReferenceType.createBrokenReference(name, context.project, refPackage);
     }
 }
 
@@ -576,7 +608,7 @@ function createLink(
     const rootSymbols = context.checker.getRootSymbols(symbol);
     const ref = rootSymbols.length && rootSymbols[0] != symbol
         ? context.createSymbolReference(rootSymbols[0], context, name)
-        : ReferenceType.createBrokenReference(name, context.project);
+        : ReferenceType.createBrokenReference(name, context.project, undefined);
 
     link(reflection);
     link(reflection.getSignature);

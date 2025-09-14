@@ -14,6 +14,7 @@ title: Changelog
 
 - Fixed bug introduced in 0.28.8 where TypeDoc could not render docs with some mixin classes, #3007.
 - `@inheritDoc` will now correctly overwrite `@remarks` and `@returns` blocks on the target comment, #3012.
+- The `externalSymbolLinkMappings` option now works properly on links pointing to inherited/overwritten signatures, #3014.
 
 ## v0.28.12 (2025-09-01)
 

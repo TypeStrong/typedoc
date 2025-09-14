@@ -671,14 +671,16 @@
                                     "inheritedFrom": {
                                         "type": "reference",
                                         "target": -1,
-                                        "name": "My.constructor"
+                                        "name": "My.constructor",
+                                        "package": "typedoc"
                                     }
                                 }
                             ],
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "My.constructor"
+                                "name": "My.constructor",
+                                "package": "typedoc"
                             }
                         },
                         {

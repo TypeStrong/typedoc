@@ -960,8 +960,10 @@ export class ReferenceType extends Type {
      * later during conversion.
      * @internal
      */
-    static createBrokenReference(name: string, project: ProjectReflection) {
-        return new ReferenceType(name, -1 as ReflectionId, project, name);
+    static createBrokenReference(name: string, project: ProjectReflection, packageName: string | undefined) {
+        const ref = new ReferenceType(name, -1 as ReflectionId, project, name);
+        ref.package = packageName;
+        return ref;
     }
 
     protected override getTypeString() {

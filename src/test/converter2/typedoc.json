@@ -27,6 +27,10 @@
         // used by {@link !Promise}
         "global": {
             "Promise": "#"
+        },
+        "@typedoc/gh3014": {
+            "GH3014Base": "typedoc://GH3014Base",
+            "GH3014Base.constructor": "typedoc://GH3014Base.constructor"
         }
     }
 }

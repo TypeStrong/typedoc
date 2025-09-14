@@ -426,14 +426,16 @@
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "Mixin2(Mixin1Func(Base)).method1"
+                                "name": "Mixin2(Mixin1Func(Base)).method1",
+                                "package": "typedoc"
                             }
                         }
                     ],
                     "inheritedFrom": {
                         "type": "reference",
                         "target": -1,
-                        "name": "Mixin2(Mixin1Func(Base)).method1"
+                        "name": "Mixin2(Mixin1Func(Base)).method1",
+                        "package": "typedoc"
                     }
                 },
                 {
@@ -493,14 +495,16 @@
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "Mixin2(Mixin1Func(Base)).method2"
+                                "name": "Mixin2(Mixin1Func(Base)).method2",
+                                "package": "typedoc"
                             }
                         }
                     ],
                     "inheritedFrom": {
                         "type": "reference",
                         "target": -1,
-                        "name": "Mixin2(Mixin1Func(Base)).method2"
+                        "name": "Mixin2(Mixin1Func(Base)).method2",
+                        "package": "typedoc"
                     }
                 }
             ],
@@ -875,14 +879,16 @@
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "Mixin.method1"
+                                "name": "Mixin.method1",
+                                "package": "typedoc"
                             }
                         }
                     ],
                     "inheritedFrom": {
                         "type": "reference",
                         "target": -1,
-                        "name": "Mixin.method1"
+                        "name": "Mixin.method1",
+                        "package": "typedoc"
                     }
                 }
             ],
@@ -1139,14 +1145,16 @@
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "Mixin.method1"
+                                "name": "Mixin.method1",
+                                "package": "typedoc"
                             }
                         }
                     ],
                     "inheritedFrom": {
                         "type": "reference",
                         "target": -1,
-                        "name": "Mixin.method1"
+                        "name": "Mixin.method1",
+                        "package": "typedoc"
                     }
                 },
                 {
@@ -1206,14 +1214,16 @@
                             "inheritedFrom": {
                                 "type": "reference",
                                 "target": -1,
-                                "name": "Mixin.method2"
+                                "name": "Mixin.method2",
+                                "package": "typedoc"
                             }
                         }
                     ],
                     "inheritedFrom": {
                         "type": "reference",
                         "target": -1,
-                        "name": "Mixin.method2"
+                        "name": "Mixin.method2",
+                        "package": "typedoc"
                     }
                 }
             ],

@@ -228,7 +228,7 @@ describe("Formatter", () => {
     it("Handles query types", () => {
         const project = new ProjectReflection("", new FileRegistry());
         const type = new QueryType(
-            ReferenceType.createBrokenReference("x", project),
+            ReferenceType.createBrokenReference("x", project, undefined),
         );
         const text = renderElementToText(renderType(type));
         equal(text, `typeof x`);
@@ -236,7 +236,7 @@ describe("Formatter", () => {
 
     it("Handles a simple reference type", () => {
         const project = new ProjectReflection("", new FileRegistry());
-        const type = ReferenceType.createBrokenReference("x", project);
+        const type = ReferenceType.createBrokenReference("x", project, undefined);
         const text = renderElementToText(renderType(type));
         equal(text, `x`);
     });
@@ -277,7 +277,7 @@ describe("Formatter", () => {
 
     it("Handles a reference type pointing to an external url", () => {
         const project = new ProjectReflection("", new FileRegistry());
-        const type = ReferenceType.createBrokenReference("x", project);
+        const type = ReferenceType.createBrokenReference("x", project, undefined);
         type.externalUrl = "https://example.com";
         const text = renderElementToText(renderType(type));
         equal(text, `x`);
@@ -285,7 +285,7 @@ describe("Formatter", () => {
 
     it("Handles a reference type targeting a type parameter", () => {
         const project = new ProjectReflection("", new FileRegistry());
-        const type = ReferenceType.createBrokenReference("x", project);
+        const type = ReferenceType.createBrokenReference("x", project, undefined);
         type.refersToTypeParameter = true;
         const text = renderElementToText(renderType(type));
         equal(text, `x`);
@@ -293,7 +293,7 @@ describe("Formatter", () => {
 
     it("Handles a reference type with type arguments", () => {
         const project = new ProjectReflection("", new FileRegistry());
-        const type = ReferenceType.createBrokenReference("x", project);
+        const type = ReferenceType.createBrokenReference("x", project, undefined);
         type.typeArguments = [
             new LiteralType(123),
             new LiteralType(456),
