@@ -38,7 +38,7 @@ If this is not possible, include at least:
 
 ## Environment
 
-- Typedoc version:
+- TypeDoc version:
 - TypeScript version:
 - Node.js version:
 - OS:
