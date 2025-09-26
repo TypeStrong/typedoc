@@ -1,0 +1,810 @@
+{
+	"schemaVersion": "2.0",
+	"id": 0,
+	"name": "TypeDoc API",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 14,
+			"name": "AdvancedPrivateTest",
+			"variant": "declaration",
+			"kind": 128,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "Another test class with various privacy levels"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 15,
+					"name": "constructor",
+					"variant": "declaration",
+					"kind": 512,
+					"flags": {},
+					"signatures": [
+						{
+							"id": 16,
+							"name": "AdvancedPrivateTest",
+							"variant": "signature",
+							"kind": 16384,
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"target": 14,
+								"name": "AdvancedPrivateTest",
+								"package": "typedoc"
+							}
+						}
+					]
+				},
+				{
+					"id": 17,
+					"name": "_conventionalPrivate",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 40,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"defaultValue": "1"
+				},
+				{
+					"id": 21,
+					"name": "#get",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true,
+						"isPrivateClassField": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 47,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "any"
+					}
+				},
+				{
+					"id": 18,
+					"name": "#realPrivate",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true,
+						"isPrivateClassField": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 41,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					},
+					"defaultValue": "2"
+				},
+				{
+					"id": 27,
+					"name": "#set",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true,
+						"isPrivateClassField": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 55,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "any"
+					}
+				},
+				{
+					"id": 19,
+					"name": "privateGetter",
+					"variant": "declaration",
+					"kind": 262144,
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 43,
+							"character": 16
+						}
+					],
+					"getSignature": {
+						"id": 20,
+						"name": "privateGetter",
+						"variant": "signature",
+						"kind": 524288,
+						"flags": {},
+						"sources": [
+							{
+								"fileName": "gh3017.ts",
+								"line": 43,
+								"character": 16
+							}
+						],
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					}
+				},
+				{
+					"id": 24,
+					"name": "privateSetter",
+					"variant": "declaration",
+					"kind": 262144,
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 51,
+							"character": 16
+						}
+					],
+					"setSignature": {
+						"id": 25,
+						"name": "privateSetter",
+						"variant": "signature",
+						"kind": 1048576,
+						"flags": {},
+						"sources": [
+							{
+								"fileName": "gh3017.ts",
+								"line": 51,
+								"character": 16
+							}
+						],
+						"parameters": [
+							{
+								"id": 26,
+								"name": "value",
+								"variant": "param",
+								"kind": 32768,
+								"flags": {},
+								"type": {
+									"type": "intrinsic",
+									"name": "number"
+								}
+							}
+						],
+						"type": {
+							"type": "intrinsic",
+							"name": "void"
+						}
+					}
+				},
+				{
+					"id": 22,
+					"name": "realPrivateGetter",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 47,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 23,
+							"name": "realPrivateGetter",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 47,
+									"character": 9
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					]
+				},
+				{
+					"id": 28,
+					"name": "realPrivateSetter",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 55,
+							"character": 9
+						}
+					],
+					"signatures": [
+						{
+							"id": 29,
+							"name": "realPrivateSetter",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 55,
+									"character": 9
+								}
+							],
+							"parameters": [
+								{
+									"id": 30,
+									"name": "value",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Accessors",
+					"children": [
+						19,
+						24
+					]
+				},
+				{
+					"title": "Constructors",
+					"children": [
+						15
+					]
+				},
+				{
+					"title": "Methods",
+					"children": [
+						22,
+						28
+					]
+				},
+				{
+					"title": "Properties",
+					"children": [
+						17,
+						21,
+						18,
+						27
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "gh3017.ts",
+					"line": 39,
+					"character": 13
+				}
+			]
+		},
+		{
+			"id": 1,
+			"name": "TestPrivateExclusion",
+			"variant": "declaration",
+			"kind": 128,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "Test class for issue #3017 - separate exclusion options for TS private and JS #private"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2,
+					"name": "constructor",
+					"variant": "declaration",
+					"kind": 512,
+					"flags": {},
+					"signatures": [
+						{
+							"id": 3,
+							"name": "TestPrivateExclusion",
+							"variant": "signature",
+							"kind": 16384,
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"target": 1,
+								"name": "TestPrivateExclusion",
+								"package": "typedoc"
+							}
+						}
+					]
+				},
+				{
+					"id": 6,
+					"name": "#jsPrivateField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true,
+						"isPrivateClassField": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "JavaScript private class field"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 12,
+							"character": 4
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"js-private\""
+				},
+				{
+					"id": 11,
+					"name": "protectedField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isProtected": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Protected field for comparison"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 25,
+							"character": 14
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"protected\""
+				},
+				{
+					"id": 4,
+					"name": "publicField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPublic": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Public field for reference"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 6,
+							"character": 11
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"public\""
+				},
+				{
+					"id": 5,
+					"name": "tsPrivateField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPrivate": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "TypeScript private field"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 9,
+							"character": 12
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"ts-private\""
+				},
+				{
+					"id": 9,
+					"name": "#jsPrivateMethod",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {
+						"isPrivate": true,
+						"isPrivateClassField": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 20,
+							"character": 4
+						}
+					],
+					"signatures": [
+						{
+							"id": 10,
+							"name": "#jsPrivateMethod",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Private method using JavaScript syntax"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 20,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 7,
+					"name": "tsPrivateMethod",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {
+						"isPrivate": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 15,
+							"character": 12
+						}
+					],
+					"signatures": [
+						{
+							"id": 8,
+							"name": "tsPrivateMethod",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Private method using TypeScript syntax"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 15,
+									"character": 12
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				},
+				{
+					"id": 12,
+					"name": "usePrivateFields",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 28,
+							"character": 11
+						}
+					],
+					"signatures": [
+						{
+							"id": 13,
+							"name": "usePrivateFields",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Public method that uses private fields"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 28,
+									"character": 11
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"children": [
+						2
+					]
+				},
+				{
+					"title": "Methods",
+					"children": [
+						9,
+						7,
+						12
+					]
+				},
+				{
+					"title": "Properties",
+					"children": [
+						6,
+						11,
+						4,
+						5
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "gh3017.ts",
+					"line": 4,
+					"character": 13
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Classes",
+			"children": [
+				14,
+				1
+			]
+		}
+	],
+	"packageName": "typedoc",
+	"symbolIdMap": {
+		"0": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": ""
+		},
+		"1": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion"
+		},
+		"4": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.publicField"
+		},
+		"5": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.tsPrivateField"
+		},
+		"6": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.#jsPrivateField"
+		},
+		"7": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.tsPrivateMethod"
+		},
+		"8": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.tsPrivateMethod"
+		},
+		"9": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.#jsPrivateMethod"
+		},
+		"10": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.#jsPrivateMethod"
+		},
+		"11": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.protectedField"
+		},
+		"12": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.usePrivateFields"
+		},
+		"13": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.usePrivateFields"
+		},
+		"14": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest"
+		},
+		"17": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest._conventionalPrivate"
+		},
+		"18": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.#realPrivate"
+		},
+		"19": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.privateGetter"
+		},
+		"20": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.privateGetter"
+		},
+		"21": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.#get"
+		},
+		"22": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.realPrivateGetter"
+		},
+		"23": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.realPrivateGetter"
+		},
+		"24": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.privateSetter"
+		},
+		"25": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.privateSetter"
+		},
+		"26": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "value"
+		},
+		"27": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.#set"
+		},
+		"28": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.realPrivateSetter"
+		},
+		"29": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest.realPrivateSetter"
+		},
+		"30": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "value"
+		}
+	},
+	"files": {
+		"entries": {
+			"1": "src/test/converter2/issues/gh3017.ts"
+		},
+		"reflections": {
+			"1": 0
+		}
+	}
+}

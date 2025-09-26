@@ -134,6 +134,9 @@ export class CommentPlugin extends ConverterComponent {
     @Option("excludePrivate")
     accessor excludePrivate!: boolean;
 
+    @Option("excludePrivateClassFields")
+    accessor excludePrivateClassFields!: boolean;
+
     @Option("excludeProtected")
     accessor excludeProtected!: boolean;
 
@@ -560,11 +563,21 @@ export class CommentPlugin extends ConverterComponent {
     private isHidden(reflection: Reflection): boolean {
         const comment = reflection.comment;
 
-        if (
-            reflection.flags.hasFlag(ReflectionFlag.Private) &&
-            this.excludePrivate
-        ) {
-            return true;
+        if (reflection.flags.hasFlag(ReflectionFlag.Private)) {
+            // Handle JavaScript private class fields (#private syntax)
+            if (
+                reflection.flags.hasFlag(ReflectionFlag.PrivateClassField) &&
+                this.excludePrivateClassFields
+            ) {
+                return true;
+            }
+            // Handle TypeScript private modifier (when not a class field)
+            if (
+                !reflection.flags.hasFlag(ReflectionFlag.PrivateClassField) &&
+                this.excludePrivate
+            ) {
+                return true;
+            }
         }
 
         if (

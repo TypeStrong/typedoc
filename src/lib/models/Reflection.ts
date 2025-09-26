@@ -40,6 +40,7 @@ export enum ReflectionFlag {
     Const = 1 << 8,
     Readonly = 1 << 9,
     Inherited = 1 << 10,
+    PrivateClassField = 1 << 11,
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -50,6 +51,7 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Abstract,
     ReflectionFlag.Const,
     ReflectionFlag.Readonly,
+    ReflectionFlag.PrivateClassField,
 ];
 
 /**
@@ -129,6 +131,13 @@ export class ReflectionFlags {
         return this.hasFlag(ReflectionFlag.Inherited);
     }
 
+    /**
+     * Is this a JavaScript private class field (using # syntax)?
+     */
+    get isPrivateClassField(): boolean {
+        return this.hasFlag(ReflectionFlag.PrivateClassField);
+    }
+
     setFlag(flag: ReflectionFlag, set: boolean) {
         switch (flag) {
             case ReflectionFlag.Private:
@@ -183,6 +192,8 @@ export class ReflectionFlags {
                 return i18n.flag_readonly();
             case ReflectionFlag.Inherited:
                 return i18n.flag_inherited();
+            case ReflectionFlag.PrivateClassField:
+                return i18n.flag_private_class_field();
         }
     }
 
@@ -216,6 +227,7 @@ export class ReflectionFlags {
         "isConst",
         "isReadonly",
         "isInherited",
+        "isPrivateClassField",
     ] as const;
 
     toObject(): JSONOutput.ReflectionFlags {

@@ -1,0 +1,288 @@
+{
+	"schemaVersion": "2.0",
+	"id": 0,
+	"name": "TypeDoc API",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 14,
+			"name": "AdvancedPrivateTest",
+			"variant": "declaration",
+			"kind": 128,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "Another test class with various privacy levels"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 15,
+					"name": "constructor",
+					"variant": "declaration",
+					"kind": 512,
+					"flags": {},
+					"signatures": [
+						{
+							"id": 16,
+							"name": "AdvancedPrivateTest",
+							"variant": "signature",
+							"kind": 16384,
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"target": 14,
+								"name": "AdvancedPrivateTest",
+								"package": "typedoc"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"children": [
+						15
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "gh3017.ts",
+					"line": 39,
+					"character": 13
+				}
+			]
+		},
+		{
+			"id": 1,
+			"name": "TestPrivateExclusion",
+			"variant": "declaration",
+			"kind": 128,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "Test class for issue #3017 - separate exclusion options for TS private and JS #private"
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 2,
+					"name": "constructor",
+					"variant": "declaration",
+					"kind": 512,
+					"flags": {},
+					"signatures": [
+						{
+							"id": 3,
+							"name": "TestPrivateExclusion",
+							"variant": "signature",
+							"kind": 16384,
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"target": 1,
+								"name": "TestPrivateExclusion",
+								"package": "typedoc"
+							}
+						}
+					]
+				},
+				{
+					"id": 11,
+					"name": "protectedField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isProtected": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Protected field for comparison"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 25,
+							"character": 14
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"protected\""
+				},
+				{
+					"id": 4,
+					"name": "publicField",
+					"variant": "declaration",
+					"kind": 1024,
+					"flags": {
+						"isPublic": true
+					},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Public field for reference"
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 6,
+							"character": 11
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "string"
+					},
+					"defaultValue": "\"public\""
+				},
+				{
+					"id": 12,
+					"name": "usePrivateFields",
+					"variant": "declaration",
+					"kind": 2048,
+					"flags": {
+						"isPublic": true
+					},
+					"sources": [
+						{
+							"fileName": "gh3017.ts",
+							"line": 28,
+							"character": 11
+						}
+					],
+					"signatures": [
+						{
+							"id": 13,
+							"name": "usePrivateFields",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Public method that uses private fields"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "gh3017.ts",
+									"line": 28,
+									"character": 11
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "void"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Constructors",
+					"children": [
+						2
+					]
+				},
+				{
+					"title": "Methods",
+					"children": [
+						12
+					]
+				},
+				{
+					"title": "Properties",
+					"children": [
+						11,
+						4
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "gh3017.ts",
+					"line": 4,
+					"character": 13
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Classes",
+			"children": [
+				14,
+				1
+			]
+		}
+	],
+	"packageName": "typedoc",
+	"symbolIdMap": {
+		"0": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": ""
+		},
+		"1": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion"
+		},
+		"4": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.publicField"
+		},
+		"11": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.protectedField"
+		},
+		"12": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.usePrivateFields"
+		},
+		"13": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "TestPrivateExclusion.usePrivateFields"
+		},
+		"14": {
+			"packageName": "typedoc",
+			"packagePath": "issues/gh3017.ts",
+			"qualifiedName": "AdvancedPrivateTest"
+		}
+	},
+	"files": {
+		"entries": {
+			"1": "src/test/converter2/issues/gh3017.ts"
+		},
+		"reflections": {
+			"1": 0
+		}
+	}
+}

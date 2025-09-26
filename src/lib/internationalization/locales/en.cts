@@ -277,6 +277,7 @@ export = {
     help_excludeInternal: "Prevent symbols that are marked with @internal from being documented",
     help_excludeCategories: "Exclude symbols within this category from the documentation",
     help_excludePrivate: "Ignore private variables and methods, defaults to true.",
+    help_excludePrivateClassFields: "Ignore JavaScript private class fields (using # syntax), defaults to true.",
     help_excludeProtected: "Ignore protected variables and methods",
     help_excludeReferences: "If a symbol is exported multiple times, ignore all but the first export",
     help_externalSymbolLinkMappings: "Define custom links for symbols not included in the documentation",
@@ -505,6 +506,7 @@ export = {
     flag_const: "Const",
     flag_readonly: "Readonly",
     flag_inherited: "Inherited",
+    flag_private_class_field: "Private class field",
 
     // ==================================================================
     // Strings that show up in the default theme

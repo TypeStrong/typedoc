@@ -1449,6 +1449,7 @@ function setModifiers(
     ) {
         if (ts.isPrivateIdentifier(declaration.name)) {
             reflection.setFlag(ReflectionFlag.Private);
+            reflection.setFlag(ReflectionFlag.PrivateClassField, true);
         }
     }
     if (hasAllFlags(modifiers, ts.ModifierFlags.Private)) {
