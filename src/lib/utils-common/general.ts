@@ -45,6 +45,7 @@ export function assertNever(x: never): never {
 
 export function assert(x: unknown, message = "Assertion failed"): asserts x {
     if (!x) {
+        // eslint-disable-next-line no-debugger
         debugger;
         throw new Error(message);
     }
