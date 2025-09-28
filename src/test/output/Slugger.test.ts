@@ -13,4 +13,15 @@ describe("Slugger", () => {
         equal(slugger.slug("model"), "model");
         equal(slugger.slug("Model"), "Model-1");
     });
+
+    it("Handles embedded html characters", () => {
+        const slugger = new Slugger({ lowercase: true });
+        equal(slugger.slug("test <T>"), "test-t");
+        equal(slugger.slug("test <T>"), "test-t-1");
+    });
+
+    it("Handles adjacent whitespace", () => {
+        const slugger = new Slugger({ lowercase: true });
+        equal(slugger.slug("test    test2"), "test-test2");
+    });
 });

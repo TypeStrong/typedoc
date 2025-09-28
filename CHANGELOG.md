@@ -13,6 +13,7 @@ title: Changelog
 ## Bug Fixes
 
 - Fixed conversion of auto-accessor types on properties with the `accessor` keyword, #3019.
+- Improved handling of HTML tags within headers for anchor generation, #3023.
 
 ## v0.28.13 (2025-09-14)
 

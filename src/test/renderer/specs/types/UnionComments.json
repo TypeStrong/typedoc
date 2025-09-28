@@ -60,7 +60,9 @@
                                             "span.tsd-signature-type": "\"abc\""
                                         },
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Commentary on abc</p>\n"
+                                            "div.tsd-comment.tsd-typography": {
+                                                "p": "Commentary on abc"
+                                            }
                                         }
                                     ]
                                 },
@@ -70,7 +72,9 @@
                                             "span.tsd-signature-type": "\"def\""
                                         },
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Commentary on def</p>\n"
+                                            "div.tsd-comment.tsd-typography": {
+                                                "p": "Commentary on def"
+                                            }
                                         }
                                     ]
                                 }

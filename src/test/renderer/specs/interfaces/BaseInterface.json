@@ -325,7 +325,9 @@
                                                     {
                                                         "div.tsd-description": [
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Interface method</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Interface method"
+                                                                }
                                                             },
                                                             {
                                                                 "div.tsd-parameters": [

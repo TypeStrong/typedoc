@@ -17,8 +17,8 @@ yarn-error.log
 /coverage/
 /dist/
 /docs
-/docs-site
 /docs2
+/docs-*
 /td*.json
 
 typedoc*.tgz

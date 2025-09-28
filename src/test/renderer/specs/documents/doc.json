@@ -21,7 +21,49 @@
                     }
                 },
                 {
-                    "div.tsd-panel.tsd-typography": "<p>Rendered document</p>\n<p>Link to this doc: <a href=\"\">link</a></p>\n<pre><code class=\"ts\">test();\n</code><button type=\"button\">Copy</button></pre>\n\n<div class=\"tsd-alert tsd-alert-note\"><div class=\"tsd-alert-title\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use href=\"../assets/icons.svg#icon-alertNote\"></use></svg><span>Note</span></div><p>\nThis is an alert</p>\n</div>\n"
+                    "div.tsd-panel.tsd-typography": [
+                        {
+                            "p": "Rendered document"
+                        },
+                        {
+                            "p": [
+                                "Link to this doc:",
+                                {
+                                    "tag": "a",
+                                    "props": {
+                                        "href": ""
+                                    },
+                                    "children": "link"
+                                }
+                            ]
+                        },
+                        {
+                            "pre": [
+                                {
+                                    "code.ts": "test();"
+                                },
+                                {
+                                    "tag": "button",
+                                    "props": {
+                                        "type": "button"
+                                    },
+                                    "children": "Copy"
+                                }
+                            ]
+                        },
+                        {
+                            "div.tsd-alert.tsd-alert-note": [
+                                {
+                                    "div.tsd-alert-title": {
+                                        "span": "Note"
+                                    }
+                                },
+                                {
+                                    "p": "This is an alert"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },

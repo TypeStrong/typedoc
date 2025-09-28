@@ -401,7 +401,9 @@
                                                     {
                                                         "div.tsd-description": [
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Base class method</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Base class method"
+                                                                }
                                                             },
                                                             {
                                                                 "div.tsd-parameters": [

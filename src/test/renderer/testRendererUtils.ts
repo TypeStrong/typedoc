@@ -1,10 +1,11 @@
 import { type Reflection, resetReflectionID } from "#models";
-import { loadTestHighlighter } from "#node-utils";
+import { HtmlAttributeParser, loadTestHighlighter, ParserState } from "#node-utils";
 import { rm } from "node:fs/promises";
 import { DefaultTheme, KindRouter, PageEvent, PageKind, type RenderTemplate } from "../../lib/output/index.js";
 import { type JsxChildren, type JsxElement, JsxFragment } from "../../lib/utils-common/jsx.elements.js";
 import { Raw } from "../../lib/utils-common/jsx.js";
 import { getConverter2App, getConverter2Project } from "../programs.js";
+import { assert } from "#utils";
 
 function shouldIgnoreElement(el: JsxElement) {
     switch (el.tag) {
@@ -46,6 +47,120 @@ function collapseStrings(data: any[]): unknown {
     return data;
 }
 
+// This is a very hacky html parser only intended to handle output from markdown-it
+// for inclusion in the renderer specs. Don't use it for anything that requires actual
+// security.
+function parseHtmlToJsxElement(html: string): JsxChildren[] {
+    const stack: JsxElement[] = [];
+    const output: JsxChildren[] = [];
+    let pos = 0;
+    let last = 0;
+
+    function currentChildList() {
+        if (stack.length) {
+            return stack[stack.length - 1].children;
+        }
+        return output;
+    }
+
+    function skipWs() {
+        while (pos < html.length && /\s/.test(html[pos])) ++pos;
+    }
+
+    function takeWord() {
+        const start = pos;
+        while (pos < html.length && /[a-z0-9-]/i.test(html[pos])) ++pos;
+        return html.slice(start, pos);
+    }
+
+    function startTag() {
+        assert(html[pos] === "<");
+
+        ++pos;
+        skipWs();
+
+        const tag = takeWord();
+
+        const parser = new HtmlAttributeParser(html, pos);
+        const props: Record<string, string> = {};
+
+        while (parser.state !== ParserState.END) {
+            if (parser.state === ParserState.BeforeAttributeValue) {
+                parser.step();
+                props[parser.currentAttributeName] = parser.currentAttributeValue;
+            } else {
+                parser.step();
+            }
+        }
+
+        pos = parser.pos - 1;
+
+        const element = {
+            tag,
+            props,
+            children: [],
+        };
+
+        if (html[pos] === "/") {
+            // self closing tag
+            currentChildList().push(element);
+            ++pos;
+            skipWs();
+        } else {
+            currentChildList().push(element);
+            stack.push(element);
+        }
+
+        assert(html[pos] === ">");
+        ++pos;
+        last = pos;
+    }
+
+    function endTag() {
+        assert(html[pos] === "<" && html[pos + 1] === "/");
+        pos += 2;
+        skipWs();
+
+        const tag = takeWord();
+        if (stack.length === 0 || stack[stack.length - 1].tag !== tag) {
+            throw new Error(`Invalid HTML, failed to match end tag: ${tag}`);
+        }
+        stack.pop();
+
+        skipWs();
+        assert(html[pos] === ">");
+        ++pos;
+        last = pos;
+    }
+
+    function saveContent() {
+        if (pos !== last) {
+            const content = html.slice(last, pos);
+            currentChildList().push(content.trim());
+        }
+        last = pos;
+    }
+
+    while (pos < html.length) {
+        switch (html[pos]) {
+            case "<":
+                saveContent();
+                if (html[pos + 1] == "/") {
+                    endTag();
+                } else {
+                    startTag();
+                }
+                break;
+            default:
+                ++pos;
+                break;
+        }
+    }
+
+    saveContent();
+    return output;
+}
+
 function renderElementToSnapshot(element: JsxChildren): unknown {
     if (typeof element === "string" || typeof element === "number" || typeof element === "bigint") {
         return element.toString().replaceAll("\u00a0", " ");
@@ -67,7 +182,7 @@ function renderElementToSnapshot(element: JsxChildren): unknown {
 
     if (typeof tag === "function") {
         if (tag === Raw) {
-            return String((props as any).html);
+            return renderElementToSnapshot(parseHtmlToJsxElement(String((props as any).html)));
         }
         if (tag === JsxFragment) {
             return collapseStrings(children.flatMap(renderElementToSnapshot).filter(Boolean));
@@ -155,10 +270,10 @@ export async function buildRendererSpecs(specPath: string) {
     // Unfortunate not to set this in typedoc.json for converter2, but plenty
     // of tests expect to test the default option, not this.
     app2.options.setValue("categorizeByGroup", true);
+    app2.options.setValue("readme", "src/test/converter2/renderer/renderer-readme.md");
 
     resetReflectionID();
     const project = getConverter2Project(["renderer"], ".");
-    project.readme = [{ kind: "text", text: "Readme text" }];
     await app2.generateDocs(project, specPath);
     await rm(`${specPath}/assets`, { recursive: true });
     await rm(`${specPath}/.nojekyll`);

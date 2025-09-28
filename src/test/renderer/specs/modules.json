@@ -17,7 +17,9 @@
                 },
                 {
                     "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": "<p>Module comment</p>\n"
+                        "div.tsd-comment.tsd-typography": {
+                            "p": "Module comment"
+                        }
                     }
                 },
                 {

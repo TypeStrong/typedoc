@@ -185,7 +185,9 @@
                                         ]
                                     },
                                     {
-                                        "div.tsd-comment.tsd-typography": "<p>C</p>\n"
+                                        "div.tsd-comment.tsd-typography": {
+                                            "p": "C"
+                                        }
                                     },
                                     {
                                         "aside.tsd-sources": {

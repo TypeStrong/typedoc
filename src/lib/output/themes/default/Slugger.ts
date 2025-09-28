@@ -1,5 +1,5 @@
 import { getSimilarValues } from "#utils";
-import type { TypeDocOptionMap } from "../../../utils/index.js";
+import type { TypeDocOptionMap } from "#node-utils";
 
 /**
  * Responsible for getting a unique anchor for elements within a page.
@@ -8,20 +8,28 @@ export class Slugger {
     private seen = new Map<string, number>();
 
     private serialize(value: string) {
-        // Notes:
-        // There are quite a few trade-offs here.
+        // There are quite a few trade-offs here. We used to remove HTML tags here,
+        // but TypeDoc now removes the HTML tags before passing text into the slug
+        // method, which allows us to skip doing that here. This improves the slugger
+        // generation for headers which look like the following:
+        // (html allowed in markdown)
+        // # test &lt;t&gt;
+        // (html disallowed in markdown)
+        // # test <t>
+        // both of the above should slug to test-t
 
         return (
             value
                 .trim()
-                // remove html tags
-                .replace(/<[!/a-z].*?>/gi, "")
                 // remove unwanted chars
                 .replace(
                     /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g,
                     "",
                 )
+                // change whitespace to dash
                 .replace(/\s/g, "-")
+                // combine adjacent dashes
+                .replace(/--+/, "-")
         );
     }
 

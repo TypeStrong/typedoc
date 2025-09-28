@@ -27,7 +27,9 @@
                 },
                 {
                     "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": "<p>Renderer class</p>\n"
+                        "div.tsd-comment.tsd-typography": {
+                            "p": "Renderer class"
+                        }
                     }
                 },
                 {
@@ -101,7 +103,9 @@
                                         ]
                                     },
                                     {
-                                        "div.tsd-comment.tsd-typography": "<p>Index signature</p>\n"
+                                        "div.tsd-comment.tsd-typography": {
+                                            "p": "Index signature"
+                                        }
                                     }
                                 ]
                             }
@@ -348,7 +352,9 @@
                                                 {
                                                     "div.tsd-description": [
                                                         {
-                                                            "div.tsd-comment.tsd-typography": "<p>Ctor comment</p>\n"
+                                                            "div.tsd-comment.tsd-typography": {
+                                                                "p": "Ctor comment"
+                                                            }
                                                         },
                                                         {
                                                             "div.tsd-parameters": [
@@ -482,7 +488,9 @@
                                         ]
                                     },
                                     {
-                                        "div.tsd-comment.tsd-typography": "<p>Property</p>\n"
+                                        "div.tsd-comment.tsd-typography": {
+                                            "p": "Property"
+                                        }
                                     },
                                     {
                                         "aside.tsd-sources": {
@@ -942,7 +950,9 @@
                                                     {
                                                         "div.tsd-description": [
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Method comment</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Method comment"
+                                                                }
                                                             },
                                                             {
                                                                 "div.tsd-parameters": [
@@ -1066,7 +1076,9 @@
                                                         {
                                                             "div.tsd-description": [
                                                                 {
-                                                                    "div.tsd-comment.tsd-typography": "<p>Sig 1 comment</p>\n"
+                                                                    "div.tsd-comment.tsd-typography": {
+                                                                        "p": "Sig 1 comment"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "h4.tsd-returns-title": [
@@ -1138,7 +1150,9 @@
                                                         {
                                                             "div.tsd-description": [
                                                                 {
-                                                                    "div.tsd-comment.tsd-typography": "<p>Sig 2 comment</p>\n"
+                                                                    "div.tsd-comment.tsd-typography": {
+                                                                        "p": "Sig 2 comment"
+                                                                    }
                                                                 },
                                                                 {
                                                                     "div.tsd-parameters": [

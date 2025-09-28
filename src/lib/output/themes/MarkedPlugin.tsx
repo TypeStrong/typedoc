@@ -409,10 +409,19 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 }
 
 function getTokenTextContent(token: md.Token): string {
+    // If there are children, we want their text content, not the full text content
     if (token.children) {
         return token.children.map(getTokenTextContent).join("");
     }
-    return token.content;
+
+    // If this is a simple text fragment, use its content
+    if (token.type === "text") {
+        return token.content;
+    }
+
+    // Otherwise this is some type of metadata token (e.g. header_open)
+    // or a HTML tag token. Don't include it in the text content.
+    return "";
 }
 
 const kindNames = ["note", "tip", "important", "warning", "caution"];

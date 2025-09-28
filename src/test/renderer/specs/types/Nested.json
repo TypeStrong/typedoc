@@ -27,7 +27,9 @@
                 },
                 {
                     "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": "<p>Type alias with nested properties</p>\n"
+                        "div.tsd-comment.tsd-typography": {
+                            "p": "Type alias with nested properties"
+                        }
                     }
                 },
                 {
@@ -383,7 +385,9 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Another value</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Another value"
+                                                                }
                                                             }
                                                         ]
                                                     },
@@ -436,7 +440,9 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>More options</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "More options"
+                                                                }
                                                             }
                                                         ]
                                                     },
@@ -459,7 +465,9 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Value</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Value"
+                                                                }
                                                             }
                                                         ]
                                                     }

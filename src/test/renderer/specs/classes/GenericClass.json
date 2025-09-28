@@ -27,7 +27,9 @@
                 },
                 {
                     "section.tsd-panel.tsd-comment": {
-                        "div.tsd-comment.tsd-typography": "<p>Generic class</p>\n"
+                        "div.tsd-comment.tsd-typography": {
+                            "p": "Generic class"
+                        }
                     }
                 },
                 {

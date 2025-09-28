@@ -16,13 +16,57 @@
                     ]
                 },
                 {
-                    "div.tsd-panel.tsd-typography": "<p>Readme text</p>\n"
+                    "div.tsd-panel.tsd-typography": [
+                        {
+                            "h1#gh3023-test.tsd-anchor-link": [
+                                "gh3023 &lt;test&gt;",
+                                {
+                                    "tag": "a.tsd-anchor-icon",
+                                    "props": {
+                                        "href": "#gh3023-test",
+                                        "aria-label": "Permalink"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "p": [
+                                "Anchor for above heading should be",
+                                {
+                                    "code": "gh3023-test"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
         {
             "div.col-sidebar": {
-                "div.page-menu": []
+                "div.page-menu": {
+                    "tag": "details.tsd-accordion.tsd-page-navigation",
+                    "props": {
+                        "open": true
+                    },
+                    "children": [
+                        {
+                            "summary.tsd-accordion-summary": {
+                                "h3": "On This Page"
+                            }
+                        },
+                        {
+                            "div.tsd-accordion-details": {
+                                "tag": "a",
+                                "props": {
+                                    "href": "#gh3023-test"
+                                },
+                                "children": {
+                                    "span": "gh3023 <test>"
+                                }
+                            }
+                        }
+                    ]
+                }
             }
         }
     ]

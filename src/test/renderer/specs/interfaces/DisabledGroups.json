@@ -248,7 +248,15 @@
                                             {
                                                 "div.tsd-description": [
                                                     {
-                                                        "div.tsd-comment.tsd-typography": "<p><a href=\"../\">link to readme #3006</a></p>\n"
+                                                        "div.tsd-comment.tsd-typography": {
+                                                            "p": {
+                                                                "tag": "a",
+                                                                "props": {
+                                                                    "href": "../"
+                                                                },
+                                                                "children": "link to readme #3006"
+                                                            }
+                                                        }
                                                     },
                                                     {
                                                         "h4.tsd-returns-title": [

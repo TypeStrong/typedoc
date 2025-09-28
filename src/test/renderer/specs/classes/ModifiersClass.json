@@ -204,7 +204,20 @@
                                                 {
                                                     "div.tsd-description": [
                                                         {
-                                                            "div.tsd-comment.tsd-typography": "<p>#2934 same page link <a href=\"#\" class=\"tsd-kind-class\"><code>ModifiersClass</code></a></p>\n"
+                                                            "div.tsd-comment.tsd-typography": {
+                                                                "p": [
+                                                                    "#2934 same page link",
+                                                                    {
+                                                                        "tag": "a.tsd-kind-class",
+                                                                        "props": {
+                                                                            "href": "#"
+                                                                        },
+                                                                        "children": {
+                                                                            "code": "ModifiersClass"
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
                                                         },
                                                         {
                                                             "h4.tsd-returns-title": [

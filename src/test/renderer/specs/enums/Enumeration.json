@@ -28,7 +28,18 @@
                 {
                     "section.tsd-panel.tsd-comment": [
                         {
-                            "div.tsd-comment.tsd-typography": "<p>Enum comment <a href=\"#value1\" class=\"tsd-kind-enum-member\">Value1</a></p>\n"
+                            "div.tsd-comment.tsd-typography": {
+                                "p": [
+                                    "Enum comment",
+                                    {
+                                        "tag": "a.tsd-kind-enum-member",
+                                        "props": {
+                                            "href": "#value1"
+                                        },
+                                        "children": "Value1"
+                                    }
+                                ]
+                            }
                         },
                         {
                             "div.tsd-comment.tsd-typography": {
@@ -45,7 +56,9 @@
                                             }
                                         ]
                                     },
-                                    "<p>Block tag</p>\n"
+                                    {
+                                        "p": "Block tag"
+                                    }
                                 ]
                             }
                         }
@@ -165,7 +178,9 @@
                                             ]
                                         },
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Value1 comment</p>\n"
+                                            "div.tsd-comment.tsd-typography": {
+                                                "p": "Value1 comment"
+                                            }
                                         },
                                         {
                                             "aside.tsd-sources": {
@@ -216,7 +231,9 @@
                                             ]
                                         },
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Value2 comment</p>\n"
+                                            "div.tsd-comment.tsd-typography": {
+                                                "p": "Value2 comment"
+                                            }
                                         },
                                         {
                                             "aside.tsd-sources": {

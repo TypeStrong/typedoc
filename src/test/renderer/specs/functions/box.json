@@ -105,7 +105,9 @@
                                 {
                                     "div.tsd-description": [
                                         {
-                                            "div.tsd-comment.tsd-typography": "<p>Signature comment\n#2921 !Promise</p>\n"
+                                            "div.tsd-comment.tsd-typography": {
+                                                "p": "Signature comment\n#2921 !Promise"
+                                            }
                                         },
                                         {
                                             "section.tsd-panel": [
@@ -147,7 +149,9 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "div.tsd-comment.tsd-typography": "<p>Item comment</p>\n"
+                                                                "div.tsd-comment.tsd-typography": {
+                                                                    "p": "Item comment"
+                                                                }
                                                             }
                                                         ]
                                                     }
