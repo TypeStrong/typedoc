@@ -320,6 +320,7 @@ export interface TypeDocOptionMap {
         Record<string, Record<string, string>>
     >;
     cascadedModifierTags: TagString[];
+    preservedTypeAnnotationTags: TagString[];
 
     // Organization
     categorizeByGroup: boolean;

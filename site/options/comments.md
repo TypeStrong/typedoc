@@ -190,7 +190,7 @@ Note that `@deprecated` is a block tag, not a modifier tag, so should not be spe
 ## excludeTags
 
 ```bash
-$ typedoc --excludeTags apidefine
+$ typedoc --excludeTags @apidefine
 ```
 
 Specify tags that should be removed from doc comments when parsing.
@@ -199,13 +199,25 @@ Useful if your project uses [apiDoc](https://apidocjs.com/) for documenting REST
 ## notRenderedTags
 
 ```bash
-$ typedoc --notRenderedTags beta
+$ typedoc --notRenderedTags @beta
 ```
 
 Specify tags which should be preserved in the doc comments, but not rendered
 when creating output. This is intended to support tags which carry some meaning
 about how to render a member or instructions for TypeDoc to do something after a
 package has been deserialized from JSON in packages mode.
+
+## preservedTypeAnnotationTags
+
+```json
+// typedoc.json
+{
+    "preservedTypeAnnotationTags": ["@fires"]
+}
+```
+
+Specify block tags whose type annotations should be preserved by TypeDoc's parser,
+leading to their content being included in the rendered documentation.
 
 ## externalSymbolLinkMappings
 

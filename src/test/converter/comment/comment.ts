@@ -32,6 +32,8 @@ import "./comment2";
  *
  * @groupDescription Methods
  * Methods description!
+ *
+ * @gh3020 {type annotation}
  */
 export class CommentedClass {
     /**

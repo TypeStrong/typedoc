@@ -803,6 +803,13 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: OptionDefaults.cascadedModifierTags,
         validate: makeTagArrayValidator("cascadedModifierTags"),
     });
+    options.addDeclaration({
+        name: "preservedTypeAnnotationTags",
+        help: () => i18n.help_preservedTypeAnnotationTags(),
+        type: ParameterType.Array,
+        defaultValue: OptionDefaults.preservedTypeAnnotationTags,
+        validate: makeTagArrayValidator("preservedTypeAnnotationTags"),
+    });
 
     // MARK: Organization Options
 

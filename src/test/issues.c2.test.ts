@@ -2209,4 +2209,15 @@ describe("Issue Tests", () => {
 
         logger.expectMessage("warn: Content in the @remarks block will be overwritten*");
     });
+
+    it("#3020 permits preserving type annotations", () => {
+        app.options.setValue("blockTags", ["@fires"]);
+        app.options.setValue("preservedTypeAnnotationTags", ["@fires"]);
+        const project = convert();
+        const btn = query(project, "ButtonControlElement");
+
+        equal(btn.comment?.blockTags.length, 1);
+        equal(btn.comment.blockTags[0].tag, "@fires");
+        equal(btn.comment.blockTags[0].typeAnnotation, "{CustomEvent<{id: string, source: Element}>}");
+    });
 });

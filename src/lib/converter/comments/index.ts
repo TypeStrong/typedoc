@@ -19,6 +19,7 @@ export interface CommentParserConfig {
     blockTags: Set<string>;
     inlineTags: Set<string>;
     modifierTags: Set<string>;
+    preservedTypeAnnotationTags: Set<string>;
     jsDocCompatibility: JsDocCompatibility;
     suppressCommentWarningsInDeclarationFiles: boolean;
     useTsLinkResolution: boolean;

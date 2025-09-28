@@ -1145,6 +1145,7 @@ describe("Comment Parser", () => {
             "@event",
             "@packageDocumentation",
         ]),
+        preservedTypeAnnotationTags: new Set(["@fires"]),
         jsDocCompatibility: {
             defaultTag: true,
             exampleTag: true,
@@ -1877,6 +1878,7 @@ describe("Raw Comment Parser", () => {
             "@event",
             "@packageDocumentation",
         ]),
+        preservedTypeAnnotationTags: new Set(["@fires"]),
         jsDocCompatibility: {
             defaultTag: true,
             exampleTag: true,

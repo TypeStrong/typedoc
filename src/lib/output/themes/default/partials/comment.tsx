@@ -83,6 +83,7 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                         {name}
                         {anchorIcon(context, anchor)}
                     </h4>
+                    {item.typeAnnotation && <span class="tsd-type-annotation">{item.typeAnnotation}</span>}
                     <JSX.Raw html={context.markdown(item.content)} />
                 </div>
             </>

@@ -380,7 +380,22 @@ function blockTag(
     let content: CommentDisplayPart[];
     if (tagName === "@example") {
         return exampleBlock(comment, lexer, config, i18n, warning, files);
-    } else if (
+    }
+
+    let typeAnnotation: string | undefined;
+    if (
+        !lexer.done() &&
+        config.preservedTypeAnnotationTags.has(tagName)
+    ) {
+        if (lexer.peek().kind === TokenSyntaxKind.Text && /^\s+$/.test(lexer.peek().text)) {
+            lexer.take();
+        }
+        if (lexer.peek().kind === TokenSyntaxKind.TypeAnnotation) {
+            typeAnnotation = lexer.take().text;
+        }
+    }
+
+    if (
         ["@default", "@defaultValue"].includes(tagName) &&
         config.jsDocCompatibility.defaultTag
     ) {
@@ -396,7 +411,11 @@ function blockTag(
         content = blockContent(comment, lexer, config, i18n, warning, files);
     }
 
-    return new CommentTag(tagName as TagString, content);
+    const tag = new CommentTag(tagName as TagString, content);
+    if (typeAnnotation) {
+        tag.typeAnnotation = typeAnnotation;
+    }
+    return tag;
 }
 
 /**

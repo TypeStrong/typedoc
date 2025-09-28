@@ -89,6 +89,12 @@ export class CommentTag {
     name?: string;
 
     /**
+     * Optional type annotation associated with this tag. TypeDoc will remove type annotations unless explicitly
+     * requested by the user with the `preservedTypeAnnotationTags` option.
+     */
+    typeAnnotation?: string;
+
+    /**
      * The actual body text of this tag.
      */
     content: CommentDisplayPart[];
@@ -130,6 +136,9 @@ export class CommentTag {
         if (this.name) {
             tag.name = this.name;
         }
+        if (this.typeAnnotation) {
+            tag.typeAnnotation = this.typeAnnotation;
+        }
         return tag;
     }
 
@@ -138,12 +147,14 @@ export class CommentTag {
             tag: this.tag,
             name: this.name,
             content: Comment.serializeDisplayParts(this.content),
+            typeAnnotation: this.typeAnnotation,
         };
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.CommentTag) {
         // tag already set by Comment.fromObject
         this.name = obj.name;
+        this.typeAnnotation = obj.typeAnnotation;
         this.content = Comment.deserializeDisplayParts(de, obj.content);
     }
 }

@@ -66,6 +66,11 @@
                                         "text": "Methods\nMethods description!"
                                     }
                                 ]
+                            },
+                            {
+                                "tag": "@gh3020",
+                                "content": [],
+                                "typeAnnotation": "{type annotation}"
                             }
                         ]
                     },
@@ -109,9 +114,9 @@
                             "sources": [
                                 {
                                     "fileName": "comment.ts",
-                                    "line": 40,
+                                    "line": 42,
                                     "character": 4,
-                                    "url": "typedoc://comment.ts#L40"
+                                    "url": "typedoc://comment.ts#L42"
                                 }
                             ],
                             "type": {
@@ -128,9 +133,9 @@
                             "sources": [
                                 {
                                     "fileName": "comment.ts",
-                                    "line": 80,
+                                    "line": 82,
                                     "character": 4,
-                                    "url": "typedoc://comment.ts#L80"
+                                    "url": "typedoc://comment.ts#L82"
                                 }
                             ],
                             "signatures": [
@@ -151,9 +156,9 @@
                                     "sources": [
                                         {
                                             "fileName": "comment.ts",
-                                            "line": 80,
+                                            "line": 82,
                                             "character": 4,
-                                            "url": "typedoc://comment.ts#L80"
+                                            "url": "typedoc://comment.ts#L82"
                                         }
                                     ],
                                     "parameters": [
@@ -217,9 +222,9 @@
                     "sources": [
                         {
                             "fileName": "comment.ts",
-                            "line": 36,
+                            "line": 38,
                             "character": 13,
-                            "url": "typedoc://comment.ts#L36"
+                            "url": "typedoc://comment.ts#L38"
                         }
                     ]
                 },
@@ -232,9 +237,9 @@
                     "sources": [
                         {
                             "fileName": "comment.ts",
-                            "line": 89,
+                            "line": 91,
                             "character": 12,
-                            "url": "typedoc://comment.ts#L89"
+                            "url": "typedoc://comment.ts#L91"
                         }
                     ],
                     "type": {

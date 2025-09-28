@@ -121,6 +121,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`cascadedModifierTags`](comments.md#cascadedmodifiertags)                                           | Package  |                                                                             |
 | [`excludeTags`](comments.md#excludetags)                                                             | Package  |                                                                             |
 | [`notRenderedTags`](comments.md#notrenderedtags)                                                     | Root     |                                                                             |
+| [`preservedTypeAnnotationTags`](comments.md#preservedtypeannotationtags)                             | Package  |                                                                             |
 | [`externalSymbolLinkMappings`](comments.md#externalsymbollinkmappings)                               | Both     | Unresolved links are checked both when converting and when merging projects |
 
 ## Organization Options

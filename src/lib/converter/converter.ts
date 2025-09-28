@@ -785,12 +785,9 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     private _buildCommentParserConfig() {
         this._config = {
             blockTags: new Set(this.application.options.getValue("blockTags")),
-            inlineTags: new Set(
-                this.application.options.getValue("inlineTags"),
-            ),
-            modifierTags: new Set(
-                this.application.options.getValue("modifierTags"),
-            ),
+            inlineTags: new Set(this.application.options.getValue("inlineTags")),
+            modifierTags: new Set(this.application.options.getValue("modifierTags")),
+            preservedTypeAnnotationTags: new Set(this.application.options.getValue("preservedTypeAnnotationTags")),
             jsDocCompatibility: this.application.options.getValue("jsDocCompatibility"),
             suppressCommentWarningsInDeclarationFiles: this.application.options.getValue(
                 "suppressCommentWarningsInDeclarationFiles",

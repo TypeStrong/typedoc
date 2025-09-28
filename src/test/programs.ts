@@ -14,7 +14,7 @@ import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { diagnostics } from "../lib/utils/loggers.js";
-import { normalizePath, readFile, ValidatingFileRegistry } from "#node-utils";
+import { normalizePath, OptionDefaults, readFile, ValidatingFileRegistry } from "#node-utils";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -42,6 +42,8 @@ export function getConverterApp() {
                     gitRevision: "fake",
                     readme: "none",
                     skipErrorChecking: true,
+                    preservedTypeAnnotationTags: ["@gh3020"],
+                    blockTags: [...OptionDefaults.blockTags, "@gh3020"],
                 } satisfies TypeDocOptions,
             )
         ) {

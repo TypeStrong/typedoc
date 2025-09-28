@@ -4,6 +4,12 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Introduced the `preservedTypeAnnotationTags` option to specify tags whose type annotations should
+  be copied to the output documentation, #3020.
+  API: Introduced `typeAnnotation` on `CommentTag`
+
 ## v0.28.13 (2025-09-14)
 
 ### Features
