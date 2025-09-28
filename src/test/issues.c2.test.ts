@@ -2210,6 +2210,12 @@ describe("Issue Tests", () => {
         logger.expectMessage("warn: Content in the @remarks block will be overwritten*");
     });
 
+    it("#3019 correctly parses accessor types", () => {
+        const project = convert();
+        equal(query(project, "GH3019.x").type?.toString(), "string");
+        equal(query(project, "GH3019.y").type?.toString(), "number");
+    });
+
     it("#3020 permits preserving type annotations", () => {
         app.options.setValue("blockTags", ["@fires"]);
         app.options.setValue("preservedTypeAnnotationTags", ["@fires"]);

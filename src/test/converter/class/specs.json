@@ -4824,7 +4824,11 @@
                                     "character": 13,
                                     "url": "typedoc://getter-setter.ts#L22"
                                 }
-                            ]
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                            }
                         },
                         {
                             "id": 190,

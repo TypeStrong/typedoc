@@ -1378,6 +1378,20 @@ function convertAccessor(
     const declaration = symbol.getDeclarations()?.[0];
     if (declaration) {
         setModifiers(symbol, declaration, reflection);
+
+        // #3019, auto accessors `accessor x: string` get the symbol flag for
+        // an accessor, but they don't have get/set accessors, so the need a type
+        // set on the accessor reflection structure.
+        if (
+            ts.isPropertyDeclaration(declaration) &&
+            declaration.modifiers?.some(n => n.kind === ts.SyntaxKind.AccessorKeyword)
+        ) {
+            reflection.type = context.converter.convertType(
+                context.withScope(reflection),
+                context.checker.getTypeOfSymbol(symbol),
+                declaration.type,
+            );
+        }
     }
 
     context.finalizeDeclarationReflection(reflection);

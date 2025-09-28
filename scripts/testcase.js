@@ -56,16 +56,18 @@ async function main() {
             ["ts", "tsx", "js", "jsx"].includes(tok.info || ""),
     ) || tokens.find((tok) => tok.tag === "code");
 
+    /** @type {string} */
+    let file;
     if (!code) {
         console.log("No codeblock found");
-        const file = `src/test/converter2/issues/gh${issue}.ts`;
-        await exec(`code ${file} src/test/issues.c2.test.ts`);
-        return;
+        file = `src/test/converter2/issues/gh${issue}.ts`;
+        await writeFile(file, "");
+    } else {
+        const ext = process.argv[3] ? `.${process.argv[3]}` : guessExtension(code);
+        file = `src/test/converter2/issues/gh${issue}${ext}`;
+        await writeFile(file, code.content);
     }
 
-    const ext = process.argv[3] ? `.${process.argv[3]}` : guessExtension(code);
-    const file = `src/test/converter2/issues/gh${issue}${ext}`;
-    await writeFile(file, code.content);
     console.log(file);
     console.log("src/test/issues.c2.test.ts");
 }

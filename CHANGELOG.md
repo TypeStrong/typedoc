@@ -10,6 +10,10 @@ title: Changelog
   be copied to the output documentation, #3020.
   API: Introduced `typeAnnotation` on `CommentTag`
 
+## Bug Fixes
+
+- Fixed conversion of auto-accessor types on properties with the `accessor` keyword, #3019.
+
 ## v0.28.13 (2025-09-14)
 
 ### Features
