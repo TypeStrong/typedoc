@@ -1132,7 +1132,7 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
     convertType(context, type) {
         const types = type.types.map((type) => convertType(context, type));
         normalizeUnion(types);
-        sortLiteralUnion(types);
+        sortUnion(types);
 
         return new UnionType(types);
     },
@@ -1220,18 +1220,30 @@ function kindToModifier(
     }
 }
 
-function sortLiteralUnion(types: SomeType[]) {
-    if (
-        types.some((t) => t.type !== "literal" || typeof t.value !== "number")
-    ) {
+function sortUnion(types: SomeType[]) {
+    // If every member of the union is a literal numeric type, sort in ascending order
+    if (types.every(t => t.type === "literal" && typeof t.value === "number")) {
+        types.sort((a, b) => {
+            const aLit = a as LiteralType;
+            const bLit = b as LiteralType;
+
+            return (aLit.value as number) - (bLit.value as number);
+        });
         return;
     }
 
+    // #3024 Otherwise, leave the union in the converted order with the exception of null
+    // and undefined, which should be sorted last, with null before undefined.
     types.sort((a, b) => {
-        const aLit = a as LiteralType;
-        const bLit = b as LiteralType;
+        const aIsNull = a.type === "literal" && a.value === null;
+        const aIsUndef = a.type === "intrinsic" && a.name === "undefined";
+        const bIsNull = b.type === "literal" && b.value === null;
+        const bIsUndef = b.type === "intrinsic" && b.name === "undefined";
 
-        return (aLit.value as number) - (bLit.value as number);
+        const aWeight = aIsNull ? 1 : aIsUndef ? 2 : 0;
+        const bWeight = bIsNull ? 1 : bIsUndef ? 2 : 0;
+
+        return aWeight - bWeight;
     });
 }
 

@@ -841,19 +841,19 @@
                                         "type": "union",
                                         "types": [
                                             {
-                                                "type": "intrinsic",
-                                                "name": "undefined"
+                                                "type": "reference",
+                                                "target": 47,
+                                                "name": "T",
+                                                "package": "typedoc",
+                                                "refersToTypeParameter": true
                                             },
                                             {
                                                 "type": "literal",
                                                 "value": null
                                             },
                                             {
-                                                "type": "reference",
-                                                "target": 47,
-                                                "name": "T",
-                                                "package": "typedoc",
-                                                "refersToTypeParameter": true
+                                                "type": "intrinsic",
+                                                "name": "undefined"
                                             }
                                         ]
                                     }
@@ -921,11 +921,11 @@
                                 "types": [
                                     {
                                         "type": "intrinsic",
-                                        "name": "undefined"
+                                        "name": "boolean"
                                     },
                                     {
                                         "type": "intrinsic",
-                                        "name": "boolean"
+                                        "name": "undefined"
                                     }
                                 ]
                             }
@@ -1543,19 +1543,19 @@
                                         "type": "union",
                                         "types": [
                                             {
-                                                "type": "intrinsic",
-                                                "name": "undefined"
+                                                "type": "reference",
+                                                "target": 51,
+                                                "name": "T",
+                                                "package": "typedoc",
+                                                "refersToTypeParameter": true
                                             },
                                             {
                                                 "type": "literal",
                                                 "value": null
                                             },
                                             {
-                                                "type": "reference",
-                                                "target": 51,
-                                                "name": "T",
-                                                "package": "typedoc",
-                                                "refersToTypeParameter": true
+                                                "type": "intrinsic",
+                                                "name": "undefined"
                                             }
                                         ]
                                     }

@@ -282,7 +282,7 @@ describe("Issue Tests", () => {
         const project = convert();
         const nullableParam = query(project, "nullable").signatures?.[0]
             ?.parameters?.[0];
-        equal(nullableParam?.type?.toString(), "null | string");
+        equal(nullableParam?.type?.toString(), "string | null");
 
         const nonNullableParam = query(project, "nonNullable").signatures?.[0]
             ?.parameters?.[0];
@@ -2225,5 +2225,17 @@ describe("Issue Tests", () => {
         equal(btn.comment?.blockTags.length, 1);
         equal(btn.comment.blockTags[0].tag, "@fires");
         equal(btn.comment.blockTags[0].typeAnnotation, "{CustomEvent<{id: string, source: Element}>}");
+    });
+
+    it("#3024 places null and undefined last in unions converted from types", () => {
+        const project = convert();
+        const method = querySig(project, "GH3024.method");
+        equal(method.parameters?.[0].type?.toString(), "string | undefined");
+
+        const method2 = querySig(project, "GH3024.method2");
+        equal(method2.parameters?.[0].type?.toString(), "string | null");
+
+        const method3 = querySig(project, "GH3024.method3");
+        equal(method3.parameters?.[0].type?.toString(), "string | null | undefined");
     });
 });
