@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.14 (2025-10-11)
+
 ### Features
 
 - Introduced the `preservedTypeAnnotationTags` option to specify tags whose type annotations should
