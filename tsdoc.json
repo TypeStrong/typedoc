@@ -147,6 +147,11 @@
             "allowMultiple": true
         },
         {
+            "tagName": "@this",
+            "syntaxKind": "block",
+            "allowMultiple": false
+        },
+        {
             "tagName": "@linkcode",
             "syntaxKind": "inline",
             "allowMultiple": true

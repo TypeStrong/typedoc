@@ -41,10 +41,8 @@ export class TestLogger extends Logger {
         }
     }
 
-    expectNoOtherMessages({ ignoreDebug } = { ignoreDebug: true }) {
-        const messages = ignoreDebug
-            ? this.messages.filter((msg) => !msg.startsWith("debug"))
-            : this.messages;
+    expectNoOtherMessages() {
+        const messages = this.messages.filter((msg) => !msg.startsWith("debug"));
 
         ok(
             messages.length === 0,

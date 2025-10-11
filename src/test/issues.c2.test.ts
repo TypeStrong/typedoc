@@ -2260,4 +2260,16 @@ describe("Issue Tests", () => {
         const method3 = querySig(project, "GH3024.method3");
         equal(method3.parameters?.[0].type?.toString(), "string | null | undefined");
     });
+
+    it("#3026 handles @this parameter comments and destructured parameter renames with this parameters", () => {
+        const project = convert();
+        const sig = querySig(project, "extendedResponse");
+        equal(sig.parameters?.map(p => p.name), ["this", "params"]);
+
+        const comments = sig.parameters.map(p => Comment.combineDisplayParts(p.comment?.summary));
+        equal(comments, ["this param", "params"]);
+
+        const types = sig.parameters.map(p => p.type?.toString());
+        equal(types, ["{ x: string }", "{ y: string }"]);
+    });
 });

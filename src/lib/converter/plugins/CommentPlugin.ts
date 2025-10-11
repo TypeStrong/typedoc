@@ -37,9 +37,9 @@ import { CategoryPlugin } from "./CategoryPlugin.js";
  * (for JS users) will be consumed by TypeScript and need not be preserved
  * in the comment.
  *
- * Note that param/arg/argument/return/returns are not present.
+ * Note that param/arg/argument/return/returns/this are not present.
  * These tags will have their type information stripped when parsing, but still
- * provide useful information for documentation.
+ * may provide useful information for documentation.
  */
 const NEVER_RENDERED = [
     "@augments",
@@ -48,7 +48,6 @@ const NEVER_RENDERED = [
     "@constructor",
     "@enum",
     "@extends",
-    "@this",
     "@type",
     "@typedef",
     "@jsx",
@@ -479,26 +478,29 @@ export class CommentPlugin extends ConverterComponent {
     ) {
         if (!comment) return;
 
-        signature.parameters?.forEach((parameter, index) => {
-            if (parameter.name === "__namedParameters") {
-                const commentParams = comment.blockTags.filter(
-                    (tag) => tag.tag === "@param" && !tag.name?.includes("."),
-                );
-                if (
-                    signature.parameters?.length === commentParams.length &&
-                    commentParams[index].name
-                ) {
-                    parameter.name = commentParams[index].name!;
-                }
+        const unusedCommentParams = comment.blockTags.filter(
+            (tag) =>
+                tag.tag === "@param" && tag.name && !tag.name.includes(".") &&
+                !signature.parameters?.some(p => p.name === tag.name),
+        );
+
+        signature.parameters?.forEach((parameter) => {
+            if (parameter.name === "__namedParameters" && unusedCommentParams.length) {
+                parameter.name = unusedCommentParams[0].name!;
+                unusedCommentParams.splice(0, 1);
             }
 
             const tag = comment.getIdentifiedTag(parameter.name, "@param");
 
             if (tag) {
-                parameter.comment = new Comment(
-                    Comment.cloneDisplayParts(tag.content),
-                );
+                parameter.comment = new Comment(Comment.cloneDisplayParts(tag.content));
                 parameter.comment.sourcePath = comment.sourcePath;
+            } else if (parameter.name === "this") {
+                const thisTag = comment.getTag("@this");
+                if (thisTag) {
+                    parameter.comment = new Comment(Comment.cloneDisplayParts(thisTag.content));
+                    parameter.comment.sourcePath = comment.sourcePath;
+                }
             }
         });
 
@@ -516,6 +518,7 @@ export class CommentPlugin extends ConverterComponent {
 
         this.validateParamTags(signature, comment, signature.parameters || []);
 
+        comment.removeTags("@this");
         comment.removeTags("@param");
         comment.removeTags("@typeParam");
         comment.removeTags("@template");

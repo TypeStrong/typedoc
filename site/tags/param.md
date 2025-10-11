@@ -2,7 +2,7 @@
 title: "@param"
 ---
 
-# @param
+# @param and @this
 
 **Tag Kind:** [Block](../tags.md#block-tags) <br>
 **TSDoc Reference:** [@param](https://tsdoc.org/pages/tags/param/)
@@ -52,6 +52,21 @@ export function configure({ value }: { value: string }) {}
 
 // will be documented as if written as
 export function configure(options: { value: string }) {}
+```
+
+## `this` Parameters
+
+Functions which use `this` in JavaScript files may use TypeScript's `@this` tag to define the type of their `this`
+parameter. TypeDoc will check for `@this` tags and use their content in the description of the `this` parameter.
+
+```js
+/**
+ * @this {Request} parameter description for `this`
+ * @param {Response} response parameter description for `response`
+ */
+export function hello(response) {
+    response.write(`Hello ${this.query.name || "world!"}`);
+}
 ```
 
 ## TSDoc Compatibility

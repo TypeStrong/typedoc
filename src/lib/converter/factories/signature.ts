@@ -163,7 +163,7 @@ export function createConstructSignatureWithType(
         }
     }
 
-    const parameterSymbols: Array<ts.Symbol & { type?: ts.Type }> = signature.thisParameter
+    const parameterSymbols = signature.thisParameter
         ? [signature.thisParameter, ...signature.parameters]
         : [...signature.parameters];
 
@@ -207,7 +207,7 @@ export function createConstructSignatureWithType(
 function convertParameters(
     context: Context,
     sigRef: SignatureReflection,
-    parameters: readonly (ts.Symbol & { type?: ts.Type })[],
+    parameters: readonly ts.Symbol[],
     parameterNodes:
         | readonly ts.ParameterDeclaration[]
         | readonly ts.JSDocParameterTag[]
@@ -226,7 +226,7 @@ function convertParameters(
                 ts.isJSDocParameterTag(declaration),
         );
         const paramRefl = new ParameterReflection(
-            /__\d+/.test(param.name) ? "__namedParameters" : param.name,
+            /^__\d+$/.test(param.name) ? "__namedParameters" : param.name,
             ReflectionKind.Parameter,
             sigRef,
         );
@@ -256,7 +256,7 @@ function convertParameters(
                 typeNode = declaration.typeExpression?.type;
             }
         } else {
-            type = param.type;
+            type = context.checker.getTypeOfSymbol(param);
         }
 
         if (
@@ -295,8 +295,9 @@ function convertParameters(
         paramRefl.setFlag(ReflectionFlag.Optional, isOptional);
 
         // If we have no declaration, then this is an implicitly defined parameter in JS land
-        // because the method body uses `arguments`... which is always a rest argument
-        let isRest = true;
+        // because the method body uses `arguments`... which is always a rest argument,
+        // unless it is a this parameter defined with @this in JSDoc.
+        let isRest = param.name !== "this";
         if (declaration) {
             isRest = ts.isParameter(declaration)
                 ? !!declaration.dotDotDotToken

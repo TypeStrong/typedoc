@@ -122,7 +122,7 @@ examples for how to use the export ([`@example`](./tags/example.md)).
 - [`@license`](./tags/license.md)
 - [`@mergeModuleWith`](./tags/mergeModuleWith.md)
 - [`@module`](./tags/module.md)
-- [`@param`](./tags/param.md)
+- [`@param`, `@this`](./tags/param.md)
 - [`@preventExpand`](./tags/expand.md#preventexpand)
 - [`@preventInline`](./tags/inline.md#preventinline)
 - [`@privateRemarks`](./tags/privateRemarks.md)

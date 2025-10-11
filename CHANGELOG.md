@@ -10,11 +10,13 @@ title: Changelog
   be copied to the output documentation, #3020.
   API: Introduced `typeAnnotation` on `CommentTag`
 - Added `excludePrivateClassFields` option to hide `#private` members while allowing `private` members, #3017.
+- Added support for TypeScript's `@this` tag for JS files which describe `this` parameters, #3026.
 
 ## Bug Fixes
 
 - Fixed conversion of auto-accessor types on properties with the `accessor` keyword, #3019.
 - Improved handling of HTML tags within headers for anchor generation, #3023.
+- Improved support for detecting destructured parameters and renaming them to the name used in the doc comment, #3026.
 
 ## v0.28.13 (2025-09-14)
 
