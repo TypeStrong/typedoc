@@ -41,6 +41,7 @@ at the root level. The following tables indicate where an option should be set.
 | [`excludeNotDocumentedKinds`](input.md#excludenotdocumentedkinds)       | Package  |                                                                                                           |
 | [`excludeInternal`](input.md#excludeinternal)                           | Package  |                                                                                                           |
 | [`excludePrivate`](input.md#excludeprivate)                             | Package  |                                                                                                           |
+| [`excludePrivateClassFields`](input.md#excludeprivateclassfields)       | Package  |                                                                                                           |
 | [`excludeProtected`](input.md#excludeprotected)                         | Package  |                                                                                                           |
 | [`excludeReferences`](input.md#excludereferences)                       | Package  |                                                                                                           |
 | [`excludeCategories`](input.md#excludecategories)                       | Package  |                                                                                                           |

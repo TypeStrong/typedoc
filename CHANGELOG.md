@@ -9,6 +9,7 @@ title: Changelog
 - Introduced the `preservedTypeAnnotationTags` option to specify tags whose type annotations should
   be copied to the output documentation, #3020.
   API: Introduced `typeAnnotation` on `CommentTag`
+- Added `excludePrivateClassFields` option to hide `#private` members while allowing `private` members, #3017.
 
 ## Bug Fixes
 

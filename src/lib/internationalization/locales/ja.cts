@@ -194,7 +194,6 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeNotDocumentedKinds: "excludeNotDocumented によって削除できる反射の種類を指定します",
     help_excludeInternal: "@internal でマークされたシンボルがドキュメント化されないようにする",
     help_excludeCategories: "このカテゴリ内のシンボルをドキュメントから除外する",
-    help_excludePrivate: "プライベート変数とメソッドを無視します。デフォルトは true です。",
     help_excludeProtected: "保護された変数とメソッドを無視する",
     help_excludeReferences: "シンボルが複数回エクスポートされた場合、最初のエクスポート以外はすべて無視されます。",
     help_externalSymbolLinkMappings: "ドキュメントに含まれていないシンボルのカスタムリンクを定義する",

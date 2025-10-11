@@ -215,7 +215,16 @@ Removes symbols annotated with the `@internal` doc tag. Defaults to true if the 
 typedoc --excludePrivate
 ```
 
-Removes private class members from the generated documentation. Defaults to true.
+Removes members marked with `private` and `#private` class fields from the generated documentation. Defaults to true.
+To include `#private` class fields both this option and [excludePrivateClassFields](#excludeprivateclassfields) must be set to `false`.
+
+## excludePrivateClassFields
+
+```bash
+typedoc --excludePrivateClassFields
+```
+
+Removes `#private` class fields from the generated documentation. Defaults to true.
 
 ## excludeProtected
 

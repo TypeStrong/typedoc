@@ -233,7 +233,6 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeNotDocumentedKinds: "指定可以通过 excludeNotDocumented 删除的反射类型",
     help_excludeInternal: "防止标有 @internal 的符号被记录",
     help_excludeCategories: "从文档中排除此类别中的符号",
-    help_excludePrivate: "忽略私有变量和方法，默认为 true。",
     help_excludeProtected: "忽略受保护的变量和方法",
     help_excludeReferences: "如果一个符号被导出多次，则忽略除第一次导出之外的所有导出",
     help_externalSymbolLinkMappings: "为文档中未包含的符号定义自定义链接",

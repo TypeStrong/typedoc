@@ -2210,6 +2210,28 @@ describe("Issue Tests", () => {
         logger.expectMessage("warn: Content in the @remarks block will be overwritten*");
     });
 
+    it("#3017 supports excluding #private fields only", () => {
+        app.options.setValue("excludePrivate", false);
+        app.options.setValue("excludePrivateClassFields", false);
+        let project = convert();
+        equal(query(project, "GH3017").children?.map(c => c.name), ["#hashPriv", "priv", "prot", "pub"]);
+
+        app.options.setValue("excludePrivate", false);
+        app.options.setValue("excludePrivateClassFields", true);
+        project = convert();
+        equal(query(project, "GH3017").children?.map(c => c.name), ["priv", "prot", "pub"]);
+
+        app.options.setValue("excludePrivate", true);
+        app.options.setValue("excludePrivateClassFields", false);
+        project = convert();
+        equal(query(project, "GH3017").children?.map(c => c.name), ["prot", "pub"]);
+
+        app.options.setValue("excludePrivate", true);
+        app.options.setValue("excludePrivateClassFields", true);
+        project = convert();
+        equal(query(project, "GH3017").children?.map(c => c.name), ["prot", "pub"]);
+    });
+
     it("#3019 correctly parses accessor types", () => {
         const project = convert();
         equal(query(project, "GH3019.x").type?.toString(), "string");

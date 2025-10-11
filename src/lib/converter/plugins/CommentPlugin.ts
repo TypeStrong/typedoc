@@ -134,6 +134,9 @@ export class CommentPlugin extends ConverterComponent {
     @Option("excludePrivate")
     accessor excludePrivate!: boolean;
 
+    @Option("excludePrivateClassFields")
+    accessor excludePrivateClassFields!: boolean;
+
     @Option("excludeProtected")
     accessor excludeProtected!: boolean;
 
@@ -563,6 +566,19 @@ export class CommentPlugin extends ConverterComponent {
         if (
             reflection.flags.hasFlag(ReflectionFlag.Private) &&
             this.excludePrivate
+        ) {
+            return true;
+        }
+
+        // #3017 this isn't quite right as it may incorrectly detect
+        // private members named with a hash which aren't actually private
+        // class fields (e.g. class Foo { "#hash" = 1 })
+        // We can't fix this without storing more information about the name,
+        // which I'm going to put off until #3015 is done.
+        if (
+            reflection.flags.hasFlag(ReflectionFlag.Private) &&
+            reflection.name.startsWith("#") &&
+            this.excludePrivateClassFields
         ) {
             return true;
         }

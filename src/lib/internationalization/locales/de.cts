@@ -284,7 +284,6 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeNotDocumentedKinds: "Arten von Reflections, die von excludeNotDocumented entfernt werden können",
     help_excludeInternal: "Verhindert, dass Symbole in der Dokumentation erscheinen, die mit @internal markiert sind",
     help_excludeCategories: "Schließt Symbole aus dieser Kategorie von der Dokumentation aus",
-    help_excludePrivate: "Ignoriert private Variablen und Methoden, Standardwert ist true.",
     help_excludeProtected: "Ignoriert geschützte Variablen und Methoden",
     help_excludeReferences: "Wird ein Symbol mehrfach exportiert, ignoriere alle außer dem ersten Export",
     help_externalSymbolLinkMappings:

@@ -207,6 +207,7 @@ export interface TypeDocOptionMap {
     excludeNotDocumented: boolean;
     excludeNotDocumentedKinds: ReflectionKind.KindString[];
     excludeInternal: boolean;
+    excludePrivateClassFields: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
     excludeReferences: boolean;

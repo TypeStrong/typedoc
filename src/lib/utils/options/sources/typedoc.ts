@@ -190,6 +190,12 @@ export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
         defaultValue: true,
     });
     options.addDeclaration({
+        name: "excludePrivateClassFields",
+        help: () => i18n.help_excludePrivateClassFields(),
+        type: ParameterType.Boolean,
+        defaultValue: true,
+    });
+    options.addDeclaration({
         name: "excludeProtected",
         help: () => i18n.help_excludeProtected(),
         type: ParameterType.Boolean,

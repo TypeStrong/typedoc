@@ -62,7 +62,6 @@ export = localeUtils.buildIncompleteTranslation({
     help_excludeNotDocumentedKinds: "excludeNotDocumented로 제거될 리플렉션 유형을 지정합니다",
     help_excludeInternal: "@internal로 표시된 심볼이 문서화되지 않도록 방지합니다",
     help_excludeCategories: "문서에서 제외할 카테고리 내의 심볼을 제외합니다",
-    help_excludePrivate: "비공개 변수와 메서드를 무시합니다. 기본값은 true입니다.",
     help_excludeProtected: "보호된 변수와 메서드를 무시합니다",
     help_excludeReferences: "심볼이 여러 번 내보내진 경우 첫 번째 내보내기를 제외하고 모두 무시합니다",
     help_externalSymbolLinkMappings: "문서에 포함되지 않은 심볼에 대한 사용자 정의 링크를 정의합니다",

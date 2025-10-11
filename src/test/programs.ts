@@ -35,6 +35,7 @@ export function getConverterApp() {
                     excludeExternals: true,
                     disableSources: false,
                     excludePrivate: false,
+                    excludePrivateClassFields: false,
                     tsconfig: join(getConverterBase(), "tsconfig.json"),
                     externalPattern: ["**/node_modules/**"],
                     plugin: [],
