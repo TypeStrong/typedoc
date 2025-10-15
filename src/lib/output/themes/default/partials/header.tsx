@@ -46,6 +46,7 @@ export const header = (context: DefaultThemeRenderContext, props: PageEvent<Refl
                     {context.reflectionFlags(props.model)}
                 </h1>
             )}
+            {renderTitle && context.declarationImport(props.model)}
         </div>
     );
 };

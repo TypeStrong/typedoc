@@ -36,6 +36,7 @@ import { hierarchyTemplate } from "./templates/hierarchy.js";
 import { reflectionTemplate } from "./templates/reflection.js";
 import { typeDeclaration, typeDetails, typeDetailsIfUseful } from "./partials/typeDetails.js";
 import { moduleMemberSummary, moduleReflection } from "./partials/moduleReflection.js";
+import { declarationImport } from "./partials/declarationImport.js";
 import type { Router } from "../../router.js";
 import type { JSX, NeverIfInternal } from "#utils";
 
@@ -159,6 +160,7 @@ export class DefaultThemeRenderContext {
     reflectionFlags = bind(reflectionFlags, this);
     footer = bind(footer, this);
     header = bind(header, this);
+    declarationImport = bind(declarationImport, this);
     hierarchy = bind(hierarchy, this);
     index = bind(index, this);
     member = bind(member, this);
