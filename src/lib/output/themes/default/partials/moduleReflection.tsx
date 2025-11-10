@@ -81,6 +81,7 @@ export function moduleMemberSummary(
         text: getDisplayName(member),
         kind: member instanceof ReferenceReflection ? member.getTargetReflectionDeep().kind : member.kind,
         classes: context.getReflectionClasses(member),
+        icon: context.theme.getReflectionIcon(member),
     });
 
     let name: JSX.Element;
