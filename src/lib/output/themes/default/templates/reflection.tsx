@@ -58,7 +58,39 @@ export function reflectionTemplate(context: DefaultThemeRenderContext, props: Pa
                         </section>
                     )}
                     {!!props.model.signatures?.length && (
-                        <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
+                        <>
+                            {props.model.signatures.length > 1 && (
+                                <section class="tsd-panel tsd-overloads-summary">
+                                    <h4>Overloads</h4>
+                                    <ul class="tsd-overloads-list">
+                                        {props.model.signatures.map((sig) => {
+                                            const anchor = context.getAnchor(sig);
+                                            const shortSummary = sig.comment?.getShortSummary(
+                                                context.options.getValue("useFirstParagraphOfCommentAsSummary"),
+                                            );
+                                            return (
+                                                <li>
+                                                    <a
+                                                        href={anchor ? `#${anchor}` : undefined}
+                                                        class="tsd-overload-summary-link"
+                                                    >
+                                                        <code class="tsd-overload-signature">
+                                                            {context.memberSignatureTitle(sig, { hideName: false })}
+                                                        </code>
+                                                    </a>
+                                                    {shortSummary?.some((part) => part.text) && (
+                                                        <div class="tsd-overload-summary-description">
+                                                            {context.displayParts(shortSummary)}
+                                                        </div>
+                                                    )}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </section>
+                            )}
+                            <section class="tsd-panel">{context.memberSignatures(props.model)}</section>
+                        </>
                     )}
                     {!!props.model.indexSignatures?.length && (
                         <section class="tsd-panel">

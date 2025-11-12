@@ -108,13 +108,47 @@ export function moduleMemberSummary(
         );
     }
 
+    // Render overload information for functions with multiple signatures
+    let signatureInfo: JSX.Element | undefined;
+    if (member.isDeclaration() && member.signatures && member.signatures.length > 1) {
+        const memberUrl = context.urlTo(member);
+        signatureInfo = (
+            <ul class="tsd-signatures">
+                {member.signatures.map((sig) => {
+                    const anchor = context.getAnchor(sig);
+                    const signatureUrl = anchor ? `${memberUrl}#${anchor}` : memberUrl;
+                    return (
+                        <li class="tsd-signature">
+                            <a href={signatureUrl} class="tsd-signature-link">
+                                <span class="tsd-signature-keyword">function</span>
+                                <span class="tsd-signature-symbol">{member.name}</span>
+                                {context.memberSignatureTitle(sig, { hideName: true })}
+                            </a>
+                            {sig.comment?.getShortSummary(
+                                context.options.getValue("useFirstParagraphOfCommentAsSummary"),
+                            )?.some((part) => part.text) && (
+                                <div class="tsd-comment">
+                                    {context.displayParts(
+                                        sig.comment.getShortSummary(
+                                            context.options.getValue("useFirstParagraphOfCommentAsSummary"),
+                                        ),
+                                    )}
+                                </div>
+                            )}
+                        </li>
+                    );
+                })}
+            </ul>
+        );
+    }
+
     return (
         <>
             <dt class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))} id={id}>
                 {name}
             </dt>
             <dd class={classNames({ "tsd-member-summary": true }, context.getReflectionClasses(member))}>
-                {context.commentShortSummary(member)}
+                {signatureInfo || context.commentShortSummary(member)}
             </dd>
         </>
     );
