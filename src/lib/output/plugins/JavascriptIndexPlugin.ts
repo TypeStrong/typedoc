@@ -177,7 +177,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
     }
 
     private getBoost(refl: DeclarationReflection | DocumentReflection): number {
-        let boost = 1;
+        let boost = refl.relevanceBoost ?? 1;
 
         for (
             const group of GroupPlugin.getGroups(
