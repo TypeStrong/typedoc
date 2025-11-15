@@ -24,6 +24,11 @@ title: Changelog
 - Fixed compatibility with `@microsoft/tsdoc-config` version 0.18.0, #3035.
 - Custom theme icons will now be used in the "On This Page" sidebar, #3039.
 
+### Thanks!
+
+- @iclanton
+- @jonchardy
+
 ## v0.28.13 (2025-09-14)
 
 ### Features
