@@ -6,6 +6,7 @@ import {
     type ReflectionKind,
 } from "../models/index.js";
 import type { PageDefinition, PageKind, RouterTarget } from "./router.js";
+import { type Icons } from "./themes/default/partials/icon.js";
 
 /**
  * An event emitted by the {@link Renderer} class at the very beginning and
@@ -59,6 +60,7 @@ export interface PageHeading {
     level?: number;
     kind?: ReflectionKind;
     classes?: string;
+    icon?: keyof Icons & (string | number);
 }
 
 /**

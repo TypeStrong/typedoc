@@ -12,6 +12,7 @@ export function member(context: DefaultThemeRenderContext, props: DeclarationRef
         text: getDisplayName(props),
         kind: props.kind,
         classes: context.getReflectionClasses(props),
+        icon: context.theme.getReflectionIcon(props),
     });
 
     // With the default url derivation, we'll never hit this case as documents are always placed into their
