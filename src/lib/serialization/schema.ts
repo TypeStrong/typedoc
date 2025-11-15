@@ -165,6 +165,7 @@ export interface DeclarationReflection extends
         | "variant"
         | "packageVersion"
         | "sources"
+        | "relevanceBoost"
         | "type"
         | "signatures"
         | "indexSignatures"

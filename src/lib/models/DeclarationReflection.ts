@@ -48,6 +48,12 @@ export class DeclarationReflection extends ContainerReflection {
     sources?: SourceReference[];
 
     /**
+     * Precomputed boost for search results, may be less than 1 to de-emphasize this member in search results.
+     * Does NOT include group/category values as they are computed when building the JS index.
+     */
+    relevanceBoost?: number;
+
+    /**
      * The escaped name of this declaration assigned by the TS compiler if there is an associated symbol.
      * This is used to retrieve properties for analyzing inherited members.
      *
@@ -306,6 +312,7 @@ export class DeclarationReflection extends ContainerReflection {
             variant: this.variant,
             packageVersion: this.packageVersion,
             sources: serializer.toObjectsOptional(this.sources),
+            relevanceBoost: this.relevanceBoost === 1 ? undefined : this.relevanceBoost,
             typeParameters: serializer.toObjectsOptional(this.typeParameters),
             type: serializer.toObject(this.type),
             signatures: serializer.toObjectsOptional(this.signatures),
@@ -366,6 +373,7 @@ export class DeclarationReflection extends ContainerReflection {
             obj.sources,
             (src) => new SourceReference(src.fileName, src.line, src.character),
         );
+        this.relevanceBoost = obj.relevanceBoost;
 
         this.typeParameters = de.reviveMany(obj.typeParameters, (tp) => de.constructReflection(tp));
         this.type = de.revive(obj.type, (t) => de.constructType(t));
