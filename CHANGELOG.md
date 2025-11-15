@@ -13,6 +13,7 @@ title: Changelog
   API: Introduced `typeAnnotation` on `CommentTag`
 - Added `excludePrivateClassFields` option to hide `#private` members while allowing `private` members, #3017.
 - Added support for TypeScript's `@this` tag for JS files which describe `this` parameters, #3026.
+- Remove the `@jsx` tag from the list of additional block tags. TSDoc now directly supports this tag, #3035.
 
 ## Bug Fixes
 
