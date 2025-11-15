@@ -762,21 +762,21 @@
                             },
                             "children": [
                                 {
-                                    "id": 84,
+                                    "id": 85,
                                     "name": "constructor",
                                     "variant": "declaration",
                                     "kind": 512,
                                     "flags": {},
                                     "signatures": [
                                         {
-                                            "id": 85,
+                                            "id": 86,
                                             "name": "EventDispatcher",
                                             "variant": "signature",
                                             "kind": 16384,
                                             "flags": {},
                                             "typeParameters": [
                                                 {
-                                                    "id": 86,
+                                                    "id": 87,
                                                     "name": "T",
                                                     "variant": "typeParam",
                                                     "kind": 131072,
@@ -789,7 +789,7 @@
                                                 "typeArguments": [
                                                     {
                                                         "type": "reference",
-                                                        "target": 86,
+                                                        "target": 84,
                                                         "name": "T",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.EventDispatcher.T",
@@ -804,7 +804,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 87,
+                                    "id": 88,
                                     "name": "subscriptions",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -827,7 +827,7 @@
                                             "typeArguments": [
                                                 {
                                                     "type": "reference",
-                                                    "target": 86,
+                                                    "target": 84,
                                                     "name": "T",
                                                     "package": "typedoc",
                                                     "qualifiedName": "Forms.EventDispatcher.T",
@@ -841,7 +841,7 @@
                                     }
                                 },
                                 {
-                                    "id": 88,
+                                    "id": 89,
                                     "name": "add",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -856,7 +856,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 89,
+                                            "id": 90,
                                             "name": "add",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -871,7 +871,7 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 90,
+                                                    "id": 91,
                                                     "name": "listener",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -882,7 +882,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 86,
+                                                                "target": 84,
                                                                 "name": "T",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.EventDispatcher.T",
@@ -895,7 +895,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 91,
+                                                    "id": 92,
                                                     "name": "filter",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -907,7 +907,7 @@
                                                     "defaultValue": "null"
                                                 },
                                                 {
-                                                    "id": 92,
+                                                    "id": 93,
                                                     "name": "priority",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -925,7 +925,7 @@
                                                 "typeArguments": [
                                                     {
                                                         "type": "reference",
-                                                        "target": 86,
+                                                        "target": 84,
                                                         "name": "T",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.EventDispatcher.T",
@@ -938,19 +938,19 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 68,
+                                                "target": 69,
                                                 "name": "EventDispatcherInt.add"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 67,
+                                        "target": 68,
                                         "name": "EventDispatcherInt.add"
                                     }
                                 },
                                 {
-                                    "id": 99,
+                                    "id": 100,
                                     "name": "clear",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -965,7 +965,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 100,
+                                            "id": 101,
                                             "name": "clear",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -984,19 +984,19 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 79,
+                                                "target": 80,
                                                 "name": "EventDispatcherInt.clear"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 78,
+                                        "target": 79,
                                         "name": "EventDispatcherInt.clear"
                                     }
                                 },
                                 {
-                                    "id": 96,
+                                    "id": 97,
                                     "name": "dispatch",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1011,7 +1011,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 97,
+                                            "id": 98,
                                             "name": "dispatch",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1026,14 +1026,14 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 98,
+                                                    "id": 99,
                                                     "name": "event",
                                                     "variant": "param",
                                                     "kind": 32768,
                                                     "flags": {},
                                                     "type": {
                                                         "type": "reference",
-                                                        "target": 86,
+                                                        "target": 84,
                                                         "name": "T",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.EventDispatcher.T",
@@ -1047,19 +1047,19 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 76,
+                                                "target": 77,
                                                 "name": "EventDispatcherInt.dispatch"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 75,
+                                        "target": 76,
                                         "name": "EventDispatcherInt.dispatch"
                                     }
                                 },
                                 {
-                                    "id": 101,
+                                    "id": 102,
                                     "name": "hasListeners",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1074,7 +1074,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 102,
+                                            "id": 103,
                                             "name": "hasListeners",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1093,19 +1093,19 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 81,
+                                                "target": 82,
                                                 "name": "EventDispatcherInt.hasListeners"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 80,
+                                        "target": 81,
                                         "name": "EventDispatcherInt.hasListeners"
                                     }
                                 },
                                 {
-                                    "id": 93,
+                                    "id": 94,
                                     "name": "remove",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1120,7 +1120,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 94,
+                                            "id": 95,
                                             "name": "remove",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1135,7 +1135,7 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 95,
+                                                    "id": 96,
                                                     "name": "subscription",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1146,7 +1146,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 86,
+                                                                "target": 84,
                                                                 "name": "T",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.EventDispatcher.T",
@@ -1165,14 +1165,14 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 73,
+                                                "target": 74,
                                                 "name": "EventDispatcherInt.remove"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 72,
+                                        "target": 73,
                                         "name": "EventDispatcherInt.remove"
                                     }
                                 }
@@ -1181,23 +1181,23 @@
                                 {
                                     "title": "Constructors",
                                     "children": [
-                                        84
+                                        85
                                     ]
                                 },
                                 {
                                     "title": "Properties",
                                     "children": [
-                                        87
+                                        88
                                     ]
                                 },
                                 {
                                     "title": "Methods",
                                     "children": [
-                                        88,
-                                        99,
-                                        96,
-                                        101,
-                                        93
+                                        89,
+                                        100,
+                                        97,
+                                        102,
+                                        94
                                     ]
                                 }
                             ],
@@ -1211,7 +1211,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 103,
+                                    "id": 84,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -1225,7 +1225,7 @@
                                     "typeArguments": [
                                         {
                                             "type": "reference",
-                                            "target": 86,
+                                            "target": 84,
                                             "name": "T",
                                             "package": "typedoc",
                                             "qualifiedName": "Forms.EventDispatcher.T",
@@ -1254,7 +1254,7 @@
                             },
                             "children": [
                                 {
-                                    "id": 52,
+                                    "id": 53,
                                     "name": "constructor",
                                     "variant": "declaration",
                                     "kind": 512,
@@ -1269,7 +1269,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 53,
+                                            "id": 54,
                                             "name": "Subscription",
                                             "variant": "signature",
                                             "kind": 16384,
@@ -1284,7 +1284,7 @@
                                             ],
                                             "typeParameters": [
                                                 {
-                                                    "id": 54,
+                                                    "id": 55,
                                                     "name": "V",
                                                     "variant": "typeParam",
                                                     "kind": 131072,
@@ -1293,7 +1293,7 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 55,
+                                                    "id": 56,
                                                     "name": "listener",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1304,7 +1304,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 54,
+                                                                "target": 52,
                                                                 "name": "V",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.Subscription.V",
@@ -1317,7 +1317,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 56,
+                                                    "id": 57,
                                                     "name": "filter",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1328,7 +1328,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 57,
+                                                    "id": 58,
                                                     "name": "priority",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1339,7 +1339,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 58,
+                                                    "id": 59,
                                                     "name": "dispatcher",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1350,7 +1350,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 54,
+                                                                "target": 52,
                                                                 "name": "V",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.Subscription.V",
@@ -1369,7 +1369,7 @@
                                                 "typeArguments": [
                                                     {
                                                         "type": "reference",
-                                                        "target": 54,
+                                                        "target": 52,
                                                         "name": "V",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.Subscription.V",
@@ -1384,7 +1384,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 62,
+                                    "id": 63,
                                     "name": "dispatcher",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1405,7 +1405,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 54,
+                                                "target": 52,
                                                 "name": "V",
                                                 "package": "typedoc",
                                                 "qualifiedName": "Forms.Subscription.V",
@@ -1418,7 +1418,7 @@
                                     }
                                 },
                                 {
-                                    "id": 60,
+                                    "id": 61,
                                     "name": "filter",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1439,12 +1439,12 @@
                                     },
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 47,
+                                        "target": 48,
                                         "name": "SubscriptionInt.filter"
                                     }
                                 },
                                 {
-                                    "id": 59,
+                                    "id": 60,
                                     "name": "listener",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1465,7 +1465,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 54,
+                                                "target": 52,
                                                 "name": "V",
                                                 "package": "typedoc",
                                                 "qualifiedName": "Forms.Subscription.V",
@@ -1478,12 +1478,12 @@
                                     },
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 45,
+                                        "target": 46,
                                         "name": "SubscriptionInt.listener"
                                     }
                                 },
                                 {
-                                    "id": 61,
+                                    "id": 62,
                                     "name": "priority",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -1504,12 +1504,12 @@
                                     },
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 46,
+                                        "target": 47,
                                         "name": "SubscriptionInt.priority"
                                     }
                                 },
                                 {
-                                    "id": 63,
+                                    "id": 64,
                                     "name": "unsubscribe",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1524,7 +1524,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 64,
+                                            "id": 65,
                                             "name": "unsubscribe",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1551,14 +1551,14 @@
                                             },
                                             "implementationOf": {
                                                 "type": "reference",
-                                                "target": 49,
+                                                "target": 50,
                                                 "name": "SubscriptionInt.unsubscribe"
                                             }
                                         }
                                     ],
                                     "implementationOf": {
                                         "type": "reference",
-                                        "target": 48,
+                                        "target": 49,
                                         "name": "SubscriptionInt.unsubscribe"
                                     }
                                 }
@@ -1567,22 +1567,22 @@
                                 {
                                     "title": "Constructors",
                                     "children": [
-                                        52
+                                        53
                                     ]
                                 },
                                 {
                                     "title": "Properties",
                                     "children": [
-                                        62,
+                                        63,
+                                        61,
                                         60,
-                                        59,
-                                        61
+                                        62
                                     ]
                                 },
                                 {
                                     "title": "Methods",
                                     "children": [
-                                        63
+                                        64
                                     ]
                                 }
                             ],
@@ -1596,7 +1596,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 65,
+                                    "id": 52,
                                     "name": "V",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -1610,7 +1610,7 @@
                                     "typeArguments": [
                                         {
                                             "type": "reference",
-                                            "target": 54,
+                                            "target": 52,
                                             "name": "V",
                                             "package": "typedoc",
                                             "qualifiedName": "Forms.Subscription.V",
@@ -1639,7 +1639,7 @@
                             },
                             "children": [
                                 {
-                                    "id": 67,
+                                    "id": 68,
                                     "name": "add",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1654,7 +1654,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 68,
+                                            "id": 69,
                                             "name": "add",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1669,7 +1669,7 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 69,
+                                                    "id": 70,
                                                     "name": "listener",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1680,7 +1680,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 82,
+                                                                "target": 67,
                                                                 "name": "U",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1693,7 +1693,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 70,
+                                                    "id": 71,
                                                     "name": "filter",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1706,7 +1706,7 @@
                                                     }
                                                 },
                                                 {
-                                                    "id": 71,
+                                                    "id": 72,
                                                     "name": "priority",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1725,7 +1725,7 @@
                                                 "typeArguments": [
                                                     {
                                                         "type": "reference",
-                                                        "target": 82,
+                                                        "target": 67,
                                                         "name": "U",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1740,7 +1740,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 78,
+                                    "id": 79,
                                     "name": "clear",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1755,7 +1755,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 79,
+                                            "id": 80,
                                             "name": "clear",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1776,7 +1776,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 75,
+                                    "id": 76,
                                     "name": "dispatch",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1791,7 +1791,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 76,
+                                            "id": 77,
                                             "name": "dispatch",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1806,14 +1806,14 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 77,
+                                                    "id": 78,
                                                     "name": "parameter",
                                                     "variant": "param",
                                                     "kind": 32768,
                                                     "flags": {},
                                                     "type": {
                                                         "type": "reference",
-                                                        "target": 82,
+                                                        "target": 67,
                                                         "name": "U",
                                                         "package": "typedoc",
                                                         "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1829,7 +1829,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 80,
+                                    "id": 81,
                                     "name": "hasListeners",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1844,7 +1844,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 81,
+                                            "id": 82,
                                             "name": "hasListeners",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1865,7 +1865,7 @@
                                     ]
                                 },
                                 {
-                                    "id": 72,
+                                    "id": 73,
                                     "name": "remove",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -1880,7 +1880,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 73,
+                                            "id": 74,
                                             "name": "remove",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -1895,7 +1895,7 @@
                                             ],
                                             "parameters": [
                                                 {
-                                                    "id": 74,
+                                                    "id": 75,
                                                     "name": "subscription",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -1906,7 +1906,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 82,
+                                                                "target": 67,
                                                                 "name": "U",
                                                                 "package": "typedoc",
                                                                 "qualifiedName": "Forms.EventDispatcherInt.U",
@@ -1931,11 +1931,11 @@
                                 {
                                     "title": "Methods",
                                     "children": [
-                                        67,
-                                        78,
-                                        75,
-                                        80,
-                                        72
+                                        68,
+                                        79,
+                                        76,
+                                        81,
+                                        73
                                     ]
                                 }
                             ],
@@ -1949,7 +1949,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 82,
+                                    "id": 67,
                                     "name": "U",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -2058,7 +2058,7 @@
                             },
                             "children": [
                                 {
-                                    "id": 47,
+                                    "id": 48,
                                     "name": "filter",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -2077,7 +2077,7 @@
                                     }
                                 },
                                 {
-                                    "id": 45,
+                                    "id": 46,
                                     "name": "listener",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -2096,7 +2096,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 50,
+                                                "target": 45,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "qualifiedName": "Forms.SubscriptionInt.T",
@@ -2109,7 +2109,7 @@
                                     }
                                 },
                                 {
-                                    "id": 46,
+                                    "id": 47,
                                     "name": "priority",
                                     "variant": "declaration",
                                     "kind": 1024,
@@ -2128,7 +2128,7 @@
                                     }
                                 },
                                 {
-                                    "id": 48,
+                                    "id": 49,
                                     "name": "unsubscribe",
                                     "variant": "declaration",
                                     "kind": 2048,
@@ -2143,7 +2143,7 @@
                                     ],
                                     "signatures": [
                                         {
-                                            "id": 49,
+                                            "id": 50,
                                             "name": "unsubscribe",
                                             "variant": "signature",
                                             "kind": 4096,
@@ -2176,15 +2176,15 @@
                                 {
                                     "title": "Properties",
                                     "children": [
-                                        47,
-                                        45,
-                                        46
+                                        48,
+                                        46,
+                                        47
                                     ]
                                 },
                                 {
                                     "title": "Methods",
                                     "children": [
-                                        48
+                                        49
                                     ]
                                 }
                             ],
@@ -2198,7 +2198,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 50,
+                                    "id": 45,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -2907,22 +2907,22 @@
         "45": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.SubscriptionInt.listener"
+            "qualifiedName": "Forms.SubscriptionInt.T"
         },
         "46": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.SubscriptionInt.priority"
+            "qualifiedName": "Forms.SubscriptionInt.listener"
         },
         "47": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.SubscriptionInt.filter"
+            "qualifiedName": "Forms.SubscriptionInt.priority"
         },
         "48": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
+            "qualifiedName": "Forms.SubscriptionInt.filter"
         },
         "49": {
             "packageName": "typedoc",
@@ -2932,7 +2932,7 @@
         "50": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.SubscriptionInt.T"
+            "qualifiedName": "Forms.SubscriptionInt.unsubscribe"
         },
         "51": {
             "packageName": "typedoc",
@@ -2942,62 +2942,62 @@
         "52": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.__constructor"
+            "qualifiedName": "Forms.Subscription.V"
         },
         "53": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription"
+            "qualifiedName": "Forms.Subscription.__constructor"
         },
         "54": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.V"
+            "qualifiedName": "Forms.Subscription"
         },
         "55": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "listener"
+            "qualifiedName": "Forms.Subscription.V"
         },
         "56": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "filter"
+            "qualifiedName": "listener"
         },
         "57": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "priority"
+            "qualifiedName": "filter"
         },
         "58": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "dispatcher"
+            "qualifiedName": "priority"
         },
         "59": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.listener"
+            "qualifiedName": "dispatcher"
         },
         "60": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.filter"
+            "qualifiedName": "Forms.Subscription.listener"
         },
         "61": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.priority"
+            "qualifiedName": "Forms.Subscription.filter"
         },
         "62": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.dispatcher"
+            "qualifiedName": "Forms.Subscription.priority"
         },
         "63": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.unsubscribe"
+            "qualifiedName": "Forms.Subscription.dispatcher"
         },
         "64": {
             "packageName": "typedoc",
@@ -3007,7 +3007,7 @@
         "65": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.Subscription.V"
+            "qualifiedName": "Forms.Subscription.unsubscribe"
         },
         "66": {
             "packageName": "typedoc",
@@ -3017,7 +3017,7 @@
         "67": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.add"
+            "qualifiedName": "Forms.EventDispatcherInt.U"
         },
         "68": {
             "packageName": "typedoc",
@@ -3027,22 +3027,22 @@
         "69": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "listener"
+            "qualifiedName": "Forms.EventDispatcherInt.add"
         },
         "70": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "filter"
+            "qualifiedName": "listener"
         },
         "71": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "priority"
+            "qualifiedName": "filter"
         },
         "72": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.remove"
+            "qualifiedName": "priority"
         },
         "73": {
             "packageName": "typedoc",
@@ -3052,12 +3052,12 @@
         "74": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "subscription"
+            "qualifiedName": "Forms.EventDispatcherInt.remove"
         },
         "75": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.dispatch"
+            "qualifiedName": "subscription"
         },
         "76": {
             "packageName": "typedoc",
@@ -3067,12 +3067,12 @@
         "77": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "parameter"
+            "qualifiedName": "Forms.EventDispatcherInt.dispatch"
         },
         "78": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.clear"
+            "qualifiedName": "parameter"
         },
         "79": {
             "packageName": "typedoc",
@@ -3082,7 +3082,7 @@
         "80": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
+            "qualifiedName": "Forms.EventDispatcherInt.clear"
         },
         "81": {
             "packageName": "typedoc",
@@ -3092,14 +3092,14 @@
         "82": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcherInt.U"
+            "qualifiedName": "Forms.EventDispatcherInt.hasListeners"
         },
         "83": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher"
         },
-        "86": {
+        "84": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
             "qualifiedName": "Forms.EventDispatcher.T"
@@ -3107,12 +3107,12 @@
         "87": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.subscriptions"
+            "qualifiedName": "Forms.EventDispatcher.T"
         },
         "88": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.add"
+            "qualifiedName": "Forms.EventDispatcher.subscriptions"
         },
         "89": {
             "packageName": "typedoc",
@@ -3122,22 +3122,22 @@
         "90": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "listener"
+            "qualifiedName": "Forms.EventDispatcher.add"
         },
         "91": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "filter"
+            "qualifiedName": "listener"
         },
         "92": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "priority"
+            "qualifiedName": "filter"
         },
         "93": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.remove"
+            "qualifiedName": "priority"
         },
         "94": {
             "packageName": "typedoc",
@@ -3147,12 +3147,12 @@
         "95": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "subscription"
+            "qualifiedName": "Forms.EventDispatcher.remove"
         },
         "96": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.dispatch"
+            "qualifiedName": "subscription"
         },
         "97": {
             "packageName": "typedoc",
@@ -3162,12 +3162,12 @@
         "98": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "event"
+            "qualifiedName": "Forms.EventDispatcher.dispatch"
         },
         "99": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.clear"
+            "qualifiedName": "event"
         },
         "100": {
             "packageName": "typedoc",
@@ -3177,7 +3177,7 @@
         "101": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.hasListeners"
+            "qualifiedName": "Forms.EventDispatcher.clear"
         },
         "102": {
             "packageName": "typedoc",
@@ -3187,7 +3187,7 @@
         "103": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/interface-implementation.ts",
-            "qualifiedName": "Forms.EventDispatcher.T"
+            "qualifiedName": "Forms.EventDispatcher.hasListeners"
         },
         "104": {
             "packageName": "typedoc",

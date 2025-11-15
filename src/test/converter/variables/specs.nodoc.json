@@ -37,7 +37,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 6,
+                            "id": 3,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -1294,7 +1294,7 @@
             "packagePath": "src/test/converter/variables/array.ts",
             "qualifiedName": "Array"
         },
-        "6": {
+        "3": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/array.ts",
             "qualifiedName": "Array.T"

@@ -267,6 +267,8 @@ export class CommentPlugin extends ConverterComponent {
         _context: Context,
         reflection: TypeParameterReflection,
     ) {
+        if (reflection.comment) return;
+
         const comment = reflection.parent?.comment;
         if (comment) {
             let tag = comment.getIdentifiedTag(reflection.name, "@typeParam");
@@ -286,6 +288,20 @@ export class CommentPlugin extends ConverterComponent {
                 reflection.comment = new Comment(tag.content);
                 reflection.comment.sourcePath = comment.sourcePath;
                 removeIfPresent(comment.blockTags, tag);
+                return;
+            }
+        }
+
+        // #3031 if this is a class constructor, also check for type parameters
+        // that live on the class itself and potentially copy their comment.
+        if (
+            reflection.parent?.kindOf(ReflectionKind.ConstructorSignature) &&
+            reflection.parent.parent?.kindOf(ReflectionKind.Constructor)
+        ) {
+            const cls = reflection.parent.parent.parent as DeclarationReflection;
+            const typeParam = cls.typeParameters?.find(param => param.name === reflection.name);
+            if (typeParam?.comment) {
+                reflection.comment = typeParam.comment.clone();
             }
         }
     }

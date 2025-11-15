@@ -29,21 +29,21 @@
                     },
                     "children": [
                         {
-                            "id": 3,
+                            "id": 4,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 4,
+                                    "id": 5,
                                     "name": "Array",
                                     "variant": "signature",
                                     "kind": 16384,
                                     "flags": {},
                                     "typeParameters": [
                                         {
-                                            "id": 5,
+                                            "id": 6,
                                             "name": "T",
                                             "variant": "typeParam",
                                             "kind": 131072,
@@ -56,7 +56,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 5,
+                                                "target": 3,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "qualifiedName": "Array.T",
@@ -74,7 +74,7 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                3
+                                4
                             ]
                         }
                     ],
@@ -88,7 +88,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 6,
+                            "id": 3,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -194,14 +194,14 @@
                                     },
                                     "inheritedFrom": {
                                         "type": "reference",
-                                        "target": 4,
+                                        "target": 5,
                                         "name": "Array.constructor"
                                     }
                                 }
                             ],
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 3,
+                                "target": 4,
                                 "name": "Array.constructor"
                             }
                         }
@@ -2292,7 +2292,7 @@
             "packagePath": "src/test/converter/variables/array.ts",
             "qualifiedName": "Array"
         },
-        "5": {
+        "3": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/array.ts",
             "qualifiedName": "Array.T"

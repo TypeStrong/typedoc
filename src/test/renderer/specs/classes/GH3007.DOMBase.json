@@ -226,7 +226,7 @@
                                                         {
                                                             "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                             "props": {
-                                                                "href": "#constructordombaset"
+                                                                "href": "#t"
                                                             },
                                                             "children": "T"
                                                         },
@@ -286,7 +286,7 @@
                                                                 {
                                                                     "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                                     "props": {
-                                                                        "href": "#constructordombaset"
+                                                                        "href": "#t"
                                                                     },
                                                                     "children": "T"
                                                                 },
@@ -361,7 +361,7 @@
                                                         {
                                                             "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                             "props": {
-                                                                "href": "#constructordombaset"
+                                                                "href": "#t"
                                                             },
                                                             "children": "T"
                                                         },
@@ -391,7 +391,7 @@
                                                                 {
                                                                     "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                                     "props": {
-                                                                        "href": "#constructordombaset"
+                                                                        "href": "#t"
                                                                     },
                                                                     "children": "T"
                                                                 },

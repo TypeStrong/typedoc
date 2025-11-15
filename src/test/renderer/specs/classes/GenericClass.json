@@ -248,7 +248,7 @@
                                                         {
                                                             "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                             "props": {
-                                                                "href": "#constructorgenericclasst"
+                                                                "href": "#t"
                                                             },
                                                             "children": "T"
                                                         },
@@ -316,7 +316,7 @@
                                                                 {
                                                                     "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
                                                                     "props": {
-                                                                        "href": "#constructorgenericclasst"
+                                                                        "href": "#t"
                                                                     },
                                                                     "children": "T"
                                                                 },

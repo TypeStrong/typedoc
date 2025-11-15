@@ -50,6 +50,8 @@ export class DeclarationReflection extends ContainerReflection {
     /**
      * Precomputed boost for search results, may be less than 1 to de-emphasize this member in search results.
      * Does NOT include group/category values as they are computed when building the JS index.
+     *
+     * This is exposed purely for plugin use, see #3036 for details.
      */
     relevanceBoost?: number;
 

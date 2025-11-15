@@ -1509,4 +1509,21 @@ describe("Behavior Tests", () => {
             `warn: Comment for E specifies @sortStrategy with "invalid2", which is an invalid sort strategy*`,
         );
     });
+
+    it("Handles different type parameter comments on class/constructor", () => {
+        const project = convert("ctorTypeParam");
+
+        const ctor = query(project, "Generic.constructor");
+        equal(ctor.signatures?.length, 2);
+
+        // @template on the class gets saved to class type parameters
+        equal(
+            Comment.combineDisplayParts(query(project, "Generic").typeParameters?.[0].comment?.summary),
+            "class docs",
+        );
+        // Custom @template tag for this constructor
+        equal(Comment.combineDisplayParts(ctor.signatures[0].typeParameters?.[0].comment?.summary), "ctor docs");
+        // Inherits description from class's @template
+        equal(Comment.combineDisplayParts(ctor.signatures[1].typeParameters?.[0].comment?.summary), "class docs");
+    });
 });

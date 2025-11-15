@@ -4176,7 +4176,7 @@
                     },
                     "children": [
                         {
-                            "id": 168,
+                            "id": 169,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
@@ -4191,7 +4191,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 169,
+                                    "id": 170,
                                     "name": "GenericClass",
                                     "variant": "signature",
                                     "kind": 16384,
@@ -4214,16 +4214,24 @@
                                     ],
                                     "typeParameters": [
                                         {
-                                            "id": 170,
+                                            "id": 171,
                                             "name": "T",
                                             "variant": "typeParam",
                                             "kind": 131072,
-                                            "flags": {}
+                                            "flags": {},
+                                            "comment": {
+                                                "summary": [
+                                                    {
+                                                        "kind": "text",
+                                                        "text": "Generic parameter."
+                                                    }
+                                                ]
+                                            }
                                         }
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 171,
+                                            "id": 172,
                                             "name": "value",
                                             "variant": "param",
                                             "kind": 32768,
@@ -4238,7 +4246,7 @@
                                             },
                                             "type": {
                                                 "type": "reference",
-                                                "target": 170,
+                                                "target": 168,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "qualifiedName": "GenericClass.T",
@@ -4252,7 +4260,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 170,
+                                                "target": 168,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "qualifiedName": "GenericClass.T",
@@ -4266,7 +4274,7 @@
                             ]
                         },
                         {
-                            "id": 172,
+                            "id": 173,
                             "name": "value",
                             "variant": "declaration",
                             "kind": 1024,
@@ -4291,7 +4299,7 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 170,
+                                "target": 168,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "GenericClass.T",
@@ -4299,7 +4307,7 @@
                             }
                         },
                         {
-                            "id": 173,
+                            "id": 174,
                             "name": "values",
                             "variant": "declaration",
                             "kind": 1024,
@@ -4326,7 +4334,7 @@
                                 "type": "array",
                                 "elementType": {
                                     "type": "reference",
-                                    "target": 170,
+                                    "target": 168,
                                     "name": "T",
                                     "package": "typedoc",
                                     "qualifiedName": "GenericClass.T",
@@ -4335,7 +4343,7 @@
                             }
                         },
                         {
-                            "id": 174,
+                            "id": 175,
                             "name": "getValue",
                             "variant": "declaration",
                             "kind": 2048,
@@ -4350,7 +4358,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 175,
+                                    "id": 176,
                                     "name": "getValue",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -4384,7 +4392,7 @@
                                     ],
                                     "type": {
                                         "type": "reference",
-                                        "target": 170,
+                                        "target": 168,
                                         "name": "T",
                                         "package": "typedoc",
                                         "qualifiedName": "GenericClass.T",
@@ -4398,20 +4406,20 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                168
+                                169
                             ]
                         },
                         {
                             "title": "Properties",
                             "children": [
-                                172,
-                                173
+                                173,
+                                174
                             ]
                         },
                         {
                             "title": "Methods",
                             "children": [
-                                174
+                                175
                             ]
                         }
                     ],
@@ -4425,7 +4433,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 176,
+                            "id": 168,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -4529,14 +4537,14 @@
                                     },
                                     "inheritedFrom": {
                                         "type": "reference",
-                                        "target": 169,
+                                        "target": 170,
                                         "name": "GenericClass.constructor"
                                     }
                                 }
                             ],
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 168,
+                                "target": 169,
                                 "name": "GenericClass.constructor"
                             }
                         },
@@ -4571,7 +4579,7 @@
                             },
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 172,
+                                "target": 173,
                                 "name": "GenericClass.value"
                             }
                         },
@@ -4609,7 +4617,7 @@
                             },
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 173,
+                                "target": 174,
                                 "name": "GenericClass.values"
                             }
                         },
@@ -4671,14 +4679,14 @@
                                     },
                                     "inheritedFrom": {
                                         "type": "reference",
-                                        "target": 175,
+                                        "target": 176,
                                         "name": "GenericClass.getValue"
                                     }
                                 }
                             ],
                             "inheritedFrom": {
                                 "type": "reference",
-                                "target": 174,
+                                "target": 175,
                                 "name": "GenericClass.getValue"
                             }
                         }
@@ -5152,21 +5160,21 @@
                     "flags": {},
                     "children": [
                         {
-                            "id": 212,
+                            "id": 213,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 213,
+                                    "id": 214,
                                     "name": "GenericClass",
                                     "variant": "signature",
                                     "kind": 16384,
                                     "flags": {},
                                     "typeParameters": [
                                         {
-                                            "id": 214,
+                                            "id": 215,
                                             "name": "T",
                                             "variant": "typeParam",
                                             "kind": 131072,
@@ -5189,7 +5197,7 @@
                                         "typeArguments": [
                                             {
                                                 "type": "reference",
-                                                "target": 214,
+                                                "target": 212,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "qualifiedName": "GenericClass.T",
@@ -5203,7 +5211,7 @@
                             ]
                         },
                         {
-                            "id": 215,
+                            "id": 216,
                             "name": "c",
                             "variant": "declaration",
                             "kind": 1024,
@@ -5218,7 +5226,7 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 214,
+                                "target": 212,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "GenericClass.T",
@@ -5230,13 +5238,13 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                212
+                                213
                             ]
                         },
                         {
                             "title": "Properties",
                             "children": [
-                                215
+                                216
                             ]
                         }
                     ],
@@ -5250,7 +5258,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 216,
+                            "id": 212,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -6181,37 +6189,37 @@
         "168": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.__constructor"
+            "qualifiedName": "GenericClass.T"
         },
         "169": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass"
+            "qualifiedName": "GenericClass.__constructor"
         },
         "170": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.T"
+            "qualifiedName": "GenericClass"
         },
         "171": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "value"
+            "qualifiedName": "GenericClass.T"
         },
         "172": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.value"
+            "qualifiedName": "value"
         },
         "173": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.values"
+            "qualifiedName": "GenericClass.value"
         },
         "174": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.getValue"
+            "qualifiedName": "GenericClass.values"
         },
         "175": {
             "packageName": "typedoc",
@@ -6221,7 +6229,7 @@
         "176": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/generic-class.ts",
-            "qualifiedName": "GenericClass.T"
+            "qualifiedName": "GenericClass.getValue"
         },
         "177": {
             "packageName": "typedoc",
@@ -6378,7 +6386,7 @@
             "packagePath": "src/test/converter/class/type-operator.ts",
             "qualifiedName": "GenericClass"
         },
-        "214": {
+        "212": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/type-operator.ts",
             "qualifiedName": "GenericClass.T"
@@ -6386,12 +6394,12 @@
         "215": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/type-operator.ts",
-            "qualifiedName": "GenericClass.c"
+            "qualifiedName": "GenericClass.T"
         },
         "216": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/type-operator.ts",
-            "qualifiedName": "GenericClass.T"
+            "qualifiedName": "GenericClass.c"
         }
     },
     "files": {

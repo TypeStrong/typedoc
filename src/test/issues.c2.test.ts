@@ -2272,4 +2272,14 @@ describe("Issue Tests", () => {
         const types = sig.parameters.map(p => p.type?.toString());
         equal(types, ["{ x: string }", "{ y: string }"]);
     });
+
+    it("#3031 handles @template type parameters on JS classes", () => {
+        app.options.setValue("validation", { notDocumented: true });
+        app.options.setValue("requiredToBeDocumented", ["Class", "TypeParameter"]);
+
+        const project = convert();
+        app.validate(project);
+
+        logger.expectNoOtherMessages();
+    });
 });
