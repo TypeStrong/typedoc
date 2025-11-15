@@ -13,6 +13,7 @@ will remove them from the generated documentation.
 - `@augments`
 - `@callback`
 - `@extends`
+- `@jsx`
 - `@type`
 - `@typedef`
 - `@yields`
