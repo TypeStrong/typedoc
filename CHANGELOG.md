@@ -6,6 +6,8 @@ title: Changelog
 
 ### Features
 
+- The `gitRevision` option now accepts the special value `{branch}`, which indicates source links should use
+  the current git branch for links, #3041.
 - Introduced `validation.invalidPath` for suppressing warnings caused by referencing relative paths which
   do not exist when building the documentation, #3033.
 - API: Introduced `Logger.validationWarning` for validation which occurs during conversion rather than

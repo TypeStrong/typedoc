@@ -125,6 +125,9 @@ export class GitRepository implements Repository {
         gitRemote: string,
         logger: Logger,
     ): GitRepository | undefined {
+        if (gitRevision === "{branch}") {
+            gitRevision = git("-C", path, "branch", "--show-current").stdout.trim();
+        }
         gitRevision ||= git("-C", path, "rev-parse", "HEAD").stdout.trim();
         if (gitRevision == "HEAD") return; // Will only happen in a repo with no commits.
 

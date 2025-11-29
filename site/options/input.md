@@ -297,11 +297,13 @@ placeholders.
 ## gitRevision
 
 ```bash
-typedoc --gitRevision <revision|branch>
+typedoc --gitRevision <revision|branch|"{branch}">
 ```
 
-Has no effect if `--disableSources` is set.
-Use specified revision or branch instead of the last revision for linking to source files. Defaults to the last commit.
+Has no effect if `--disableSources` is set. Use specified revision or branch instead of the last revision for linking to
+source files. Defaults to the last commit. Accepts the special value `{branch}` to indicate that `{gitRevision}` in
+`sourceLinkTemplate` should be set to the current commit branch. If `gitRevision` is set to `{branch}` and the current
+HEAD is not set to the tip of a branch, TypeDoc will use the last commit instead.
 
 ## gitRemote
 
