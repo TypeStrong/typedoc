@@ -16,7 +16,7 @@ typedoc --entryPoints src/index.ts --entryPoints src/alt.ts
 ```jsonc
 // typedoc.json
 {
-    "entryPoints": ["src/index.ts", "src/alt.ts", "src/multiple/*.ts"]
+    "entryPoints": ["src/index.ts", "src/alt.ts", "src/multiple/*.ts"],
 }
 ```
 

@@ -87,8 +87,8 @@ This option may only be set within a config file.
 {
     "compilerOptions": {
         "skipLibCheck": true,
-        "strictNullChecks": false
-    }
+        "strictNullChecks": false,
+    },
 }
 ```
 
