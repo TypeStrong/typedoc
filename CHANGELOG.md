@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.15 (2025-11-29)
+
 ### Features
 
 - The `gitRevision` option now accepts the special value `{branch}`, which indicates source links should use
