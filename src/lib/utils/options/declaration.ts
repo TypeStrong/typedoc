@@ -369,6 +369,10 @@ export type ValidationOptions = {
      */
     invalidLink: boolean;
     /**
+     * If set, TypeDoc will produce warnings about relative paths within the documentation which could not be resolved.
+     */
+    invalidPath: boolean;
+    /**
      * If set, TypeDoc will produce warnings about \{\@link\} tags which do not link directly to their target.
      */
     rewrittenLink: boolean;

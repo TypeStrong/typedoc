@@ -6,7 +6,6 @@ import type { MinimalSourceFile, TagString } from "#utils";
 import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";
-import type { TranslationProxy } from "../../internationalization/internationalization.js";
 import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
 import { hasDeclarationFileExtension } from "../../utils/fs.js";
@@ -74,14 +73,14 @@ export function parseComment(
         comment,
         lexer,
         context.config,
-        i18n,
         warningImpl,
+        validationWarningImpl,
         context.files,
     );
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, context.config, i18n, warningImpl, context.files),
+            blockTag(comment, lexer, context.config, warningImpl, validationWarningImpl, context.files),
         );
     }
 
@@ -89,7 +88,6 @@ export function parseComment(
 
     postProcessComment(
         comment,
-        i18n,
         () => `${nicePath(file.fileName)}:${file.getLineAndCharacterOfPosition(tok2.pos).line + 1}`,
         (message) => context.logger.warn(message),
     );
@@ -104,6 +102,16 @@ export function parseComment(
             return;
         }
         context.logger.warn(message, token.pos, file);
+    }
+
+    function validationWarningImpl(message: TranslatedString, token: Token) {
+        if (
+            context.config.suppressCommentWarningsInDeclarationFiles &&
+            hasDeclarationFileExtension(file.fileName)
+        ) {
+            return;
+        }
+        context.logger.validationWarning(message, token.pos, file);
     }
 }
 
@@ -152,13 +160,16 @@ export function parseCommentString(
             case TokenSyntaxKind.Tag:
             case TokenSyntaxKind.CloseBrace:
                 textContent(
-                    file.fileName as NormalizedPath,
-                    next,
-                    i18n,
-                    (msg, token) => logger.warn(msg, token.pos, file),
-                    content,
-                    files,
-                    atNewLine,
+                    {
+                        sourcePath: file.fileName as NormalizedPath,
+                        token: next,
+                        warning: (msg, token) => logger.warn(msg, token.pos, file),
+                        validationWarning: (msg, token) => logger.validationWarning(msg, token.pos, file),
+                        files,
+                        atNewLine,
+                        validationOptions: config.validationOptions,
+                    },
+                    /* out */ content,
                     reentry,
                 );
                 break;
@@ -172,7 +183,6 @@ export function parseCommentString(
                     lexer,
                     content,
                     suppressWarningsConfig,
-                    i18n,
                     (message, token) => logger.warn(message, token.pos, file),
                 );
                 consume = false;
@@ -256,7 +266,6 @@ function makeCodeBlock(text: string) {
  */
 function postProcessComment(
     comment: Comment,
-    i18n: TranslationProxy,
     getPosition: () => string,
     warning: (msg: TranslatedString) => void,
 ) {
@@ -361,8 +370,8 @@ function blockTag(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    validationWarning: (msg: TranslatedString, token: Token) => void,
     files: FileRegistry,
 ): CommentTag {
     const blockTag = lexer.take();
@@ -379,7 +388,7 @@ function blockTag(
 
     let content: CommentDisplayPart[];
     if (tagName === "@example") {
-        return exampleBlock(comment, lexer, config, i18n, warning, files);
+        return exampleBlock(comment, lexer, config, warning, validationWarning, files);
     }
 
     let typeAnnotation: string | undefined;
@@ -403,12 +412,12 @@ function blockTag(
             comment,
             lexer,
             config,
-            i18n,
             warning,
+            validationWarning,
             files,
         );
     } else {
-        content = blockContent(comment, lexer, config, i18n, warning, files);
+        content = blockContent(comment, lexer, config, warning, validationWarning, files);
     }
 
     const tag = new CommentTag(tagName as TagString, content);
@@ -426,8 +435,8 @@ function defaultBlockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    validationWarning: (msg: TranslatedString, token: Token) => void,
     files: FileRegistry,
 ): CommentDisplayPart[] {
     lexer.mark();
@@ -436,7 +445,7 @@ function defaultBlockContent(
         comment,
         lexer,
         config,
-        i18n,
+        () => {},
         () => {},
         tempRegistry,
     );
@@ -448,7 +457,7 @@ function defaultBlockContent(
             (part) => part.kind === "code" || part.kind === "inline-tag",
         )
     ) {
-        return blockContent(comment, lexer, config, i18n, warning, files);
+        return blockContent(comment, lexer, config, warning, validationWarning, files);
     }
 
     const tokens: Token[] = [];
@@ -479,8 +488,8 @@ function exampleBlock(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    validationWarning: (msg: TranslatedString, token: Token) => void,
     files: FileRegistry,
 ): CommentTag {
     lexer.mark();
@@ -489,7 +498,7 @@ function exampleBlock(
         comment,
         lexer,
         config,
-        i18n,
+        () => {},
         () => {},
         tempRegistry,
     );
@@ -543,8 +552,8 @@ function exampleBlock(
             comment,
             lexer,
             config,
-            i18n,
             warning,
+            validationWarning,
             files,
         );
         const tag = new CommentTag("@example", content);
@@ -593,8 +602,8 @@ function blockContent(
     comment: Comment,
     lexer: LookaheadGenerator<Token>,
     config: CommentParserConfig,
-    i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
+    validationWarning: (msg: TranslatedString, token: Token) => void,
     files: FileRegistry,
 ): CommentDisplayPart[] {
     const content: CommentDisplayPart[] = [];
@@ -613,13 +622,16 @@ function blockContent(
 
             case TokenSyntaxKind.Text:
                 textContent(
-                    comment.sourcePath as NormalizedPath,
-                    next,
-                    i18n,
-                    warning,
+                    {
+                        sourcePath: comment.sourcePath!,
+                        token: next,
+                        files,
+                        atNewLine,
+                        warning,
+                        validationWarning,
+                        validationOptions: config.validationOptions,
+                    },
                     /*out*/ content,
-                    files,
-                    atNewLine,
                     reentry,
                 );
                 break;
@@ -668,7 +680,7 @@ function blockContent(
                 break;
 
             case TokenSyntaxKind.OpenBrace:
-                inlineTag(lexer, content, config, i18n, warning);
+                inlineTag(lexer, content, config, warning);
                 consume = false;
                 break;
 
@@ -714,7 +726,6 @@ function inlineTag(
     lexer: LookaheadGenerator<Token>,
     block: CommentDisplayPart[],
     config: CommentParserConfig,
-    i18n: TranslationProxy,
     warning: (msg: TranslatedString, token: Token) => void,
 ) {
     const openBrace = lexer.take();

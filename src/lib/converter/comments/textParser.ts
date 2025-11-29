@@ -5,10 +5,10 @@
  * them into references.
  * @module
  */
-import type { TranslationProxy } from "../../internationalization/index.js";
+import { i18n } from "#utils";
 import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
 import type { FileId, FileRegistry } from "../../models/FileRegistry.js";
-import { HtmlAttributeParser, ParserState } from "#node-utils";
+import { HtmlAttributeParser, ParserState, type ValidationOptions } from "#node-utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
 import MarkdownIt from "markdown-it";
@@ -18,10 +18,13 @@ const MdHelpers = new MarkdownIt().helpers;
 interface TextParserData {
     sourcePath: NormalizedPath;
     token: Token;
-    pos: number;
+    pos: number; // relative to Token
     warning: (msg: TranslatedString, token: Token) => void;
+    validationWarning: (msg: TranslatedString, token: Token) => void;
     files: FileRegistry;
     atNewLine: boolean;
+
+    validationOptions: ValidationOptions;
 }
 
 interface RelativeLink {
@@ -68,57 +71,48 @@ export class TextParserReentryState {
  * so that they can be correctly resolved during rendering.
  */
 export function textContent(
-    sourcePath: NormalizedPath,
-    token: Token,
-    i18n: TranslationProxy,
-    warning: (msg: TranslatedString, token: Token) => void,
+    parserData: Omit<TextParserData, "pos">,
     outContent: CommentDisplayPart[],
-    files: FileRegistry,
-    atNewLine: boolean,
     reentry: TextParserReentryState,
 ) {
     let lastPartEnd = 0;
     let canEndMarkdownLink = true;
     const data: TextParserData = {
-        sourcePath,
-        token,
+        ...parserData,
         pos: 0, // relative to the token
-        warning,
-        files: files,
-        atNewLine,
     };
 
     function addRef(ref: RelativeLink) {
         canEndMarkdownLink = true;
         outContent.push({
             kind: "text",
-            text: token.text.slice(lastPartEnd, ref.pos),
+            text: data.token.text.slice(lastPartEnd, ref.pos),
         });
         const link: RelativeLinkDisplayPart = {
             kind: "relative-link",
-            text: token.text.slice(ref.pos, ref.end),
+            text: data.token.text.slice(ref.pos, ref.end),
             target: ref.target,
             targetAnchor: ref.targetAnchor,
         };
         outContent.push(link);
         lastPartEnd = ref.end;
         data.pos = ref.end;
-        if (!ref.target) {
-            warning(
+        if (!ref.target && data.validationOptions.invalidPath) {
+            data.validationWarning(
                 i18n.relative_path_0_is_not_a_file_and_will_not_be_copied_to_output(
-                    token.text.slice(ref.pos, ref.end),
+                    data.token.text.slice(ref.pos, ref.end),
                 ),
                 {
                     kind: TokenSyntaxKind.Text,
                     // ref.pos is relative to the token, but this pos is relative to the file.
-                    pos: token.pos + ref.pos,
-                    text: token.text.slice(ref.pos, ref.end),
+                    pos: data.token.pos + ref.pos,
+                    text: data.token.text.slice(ref.pos, ref.end),
                 },
             );
         }
     }
 
-    while (data.pos < token.text.length) {
+    while (data.pos < data.token.text.length) {
         if (canEndMarkdownLink) {
             const link = checkMarkdownLink(data, reentry);
             if (link) {
@@ -144,14 +138,14 @@ export function textContent(
             continue;
         }
 
-        const atNewLine = token.text[data.pos] === "\n";
+        const atNewLine = data.token.text[data.pos] === "\n";
         data.atNewLine = atNewLine;
         if (atNewLine && !reentry.withinLinkDest) canEndMarkdownLink = true;
         ++data.pos;
     }
 
-    if (lastPartEnd !== token.text.length) {
-        outContent.push({ kind: "text", text: token.text.slice(lastPartEnd) });
+    if (lastPartEnd !== data.token.text.length) {
+        outContent.push({ kind: "text", text: data.token.text.slice(lastPartEnd) });
     }
 }
 
@@ -323,6 +317,7 @@ function checkTagLink(data: TextParserData): RelativeLink[] {
     if (token.text.startsWith("<link ", pos)) {
         data.pos += 4;
         return checkAttributes(data, {
+            // cspell:words imagesrcset
             imagesrcset: checkAttributeSrcSet,
         });
     }

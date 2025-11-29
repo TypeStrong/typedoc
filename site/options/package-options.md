@@ -140,15 +140,15 @@ at the root level. The following tables indicate where an option should be set.
 
 ## Validation Options
 
-| Option                                                                             | Location | Notes                                                                                                                                  |
-| ---------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [`validation`](validation.md#validation)                                           | Both     | TypeDoc changes the default for packages to defer validation until projects have been merged. Should generally only be set in the root |
-| [`treatWarningsAsErrors`](validation.md#treatwarningsaserrors)                     | Root     |                                                                                                                                        |
-| [`treatValidationWarningsAsErrors`](validation.md#treatvalidationwarningsaserrors) | Root     |                                                                                                                                        |
-| [`intentionallyNotExported`](validation.md#intentionallynotexported)               | Both     |                                                                                                                                        |
-| [`requiredToBeDocumented`](validation.md#requiredtobedocumented)                   | Both     |                                                                                                                                        |
-| [`packagesRequiringDocumentation`](validation.md#packagesrequiringdocumentation)   | Both     |                                                                                                                                        |
-| [`intentionallyNotDocumented`](validation.md#intentionallynotdocumented)           | Both     |                                                                                                                                        |
+| Option                                                                             | Location | Notes                                                                                                                                        |
+| ---------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`validation`](validation.md#validation)                                           | Both     | TypeDoc modifies the default for packages to defer most validation until projects have been merged. Should generally only be set in the root |
+| [`treatWarningsAsErrors`](validation.md#treatwarningsaserrors)                     | Root     |                                                                                                                                              |
+| [`treatValidationWarningsAsErrors`](validation.md#treatvalidationwarningsaserrors) | Root     |                                                                                                                                              |
+| [`intentionallyNotExported`](validation.md#intentionallynotexported)               | Both     |                                                                                                                                              |
+| [`requiredToBeDocumented`](validation.md#requiredtobedocumented)                   | Both     |                                                                                                                                              |
+| [`packagesRequiringDocumentation`](validation.md#packagesrequiringdocumentation)   | Both     |                                                                                                                                              |
+| [`intentionallyNotDocumented`](validation.md#intentionallynotdocumented)           | Both     |                                                                                                                                              |
 
 ## Other Options
 

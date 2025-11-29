@@ -1155,6 +1155,14 @@ describe("Comment Parser", () => {
         suppressCommentWarningsInDeclarationFiles: false,
         useTsLinkResolution: false,
         commentStyle: "jsdoc",
+        validationOptions: {
+            notExported: false,
+            invalidLink: false,
+            invalidPath: true,
+            rewrittenLink: false,
+            notDocumented: false,
+            unusedMergeModuleWith: false,
+        },
     };
 
     it("Should recognize @defaultValue as code", () => {
@@ -1692,6 +1700,7 @@ describe("Comment Parser", () => {
         );
     });
 
+    // cspell:words imagesrcset
     it("Recognizes <link imagesrcset> links", () => {
         const comment = getComment(`/**
         * <link imagesrcset="./test.png 100w" >
@@ -1888,6 +1897,14 @@ describe("Raw Comment Parser", () => {
         suppressCommentWarningsInDeclarationFiles: false,
         useTsLinkResolution: false,
         commentStyle: "jsdoc",
+        validationOptions: {
+            notExported: false,
+            invalidLink: false,
+            invalidPath: true,
+            rewrittenLink: false,
+            notDocumented: false,
+            unusedMergeModuleWith: false,
+        },
     };
 
     function getComment(text: string) {

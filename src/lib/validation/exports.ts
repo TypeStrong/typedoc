@@ -84,7 +84,7 @@ export function validateExports(
         ) {
             warned.add(uniqueId!);
 
-            logger.warn(
+            logger.validationWarning(
                 i18n.type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs(
                     type.qualifiedName,
                     `${type.symbolId!.packageName}/${type.symbolId!.packagePath}`,
@@ -96,7 +96,7 @@ export function validateExports(
 
     const unusedIntentional = intentional.getUnused();
     if (unusedIntentional.length) {
-        logger.warn(
+        logger.validationWarning(
             i18n.invalid_intentionally_not_exported_symbols_0(
                 unusedIntentional.join("\n\t"),
             ),

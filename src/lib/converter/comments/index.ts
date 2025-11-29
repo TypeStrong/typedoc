@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { Comment, ReflectionKind } from "../../models/index.js";
-import type { CommentStyle, JsDocCompatibility } from "../../utils/options/declaration.js";
+import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "../../utils/options/declaration.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
     discoverComment,
@@ -24,6 +24,7 @@ export interface CommentParserConfig {
     suppressCommentWarningsInDeclarationFiles: boolean;
     useTsLinkResolution: boolean;
     commentStyle: CommentStyle;
+    validationOptions: ValidationOptions;
 }
 
 export interface CommentContext {

@@ -796,6 +796,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
                 "useTsLinkResolution",
             ),
             commentStyle: this.application.options.getValue("commentStyle"),
+            validationOptions: this.application.options.getValue("validation"),
         };
 
         // Can't be included in options because the TSDoc parser blows up if we do.

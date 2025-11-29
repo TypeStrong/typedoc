@@ -4,6 +4,13 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Introduced `validation.invalidPath` for suppressing warnings caused by referencing relative paths which
+  do not exist when building the documentation, #3033.
+- API: Introduced `Logger.validationWarning` for validation which occurs during conversion rather than
+  during TypeDoc's normal validation step, #3033.
+
 ## v0.28.14 (2025-10-11)
 
 ### Features

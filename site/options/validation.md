@@ -20,6 +20,7 @@ typedoc.json (defaults):
     "validation": {
         "notExported": true,
         "invalidLink": true,
+        "invalidPath": true,
         "rewrittenLink": true,
         "notDocumented": false,
         "unusedMergeModuleWith": true
@@ -36,6 +37,8 @@ begins.
   documentation but the type isn't exported and therefore included in the
   documentation.
 - **invalidLink** - Produce warnings for `@link` tags which cannot be resolved.
+- **invalidPath** - Produce warnings for links to relative paths which do not resolve
+  to a file and therefore cannot be copied to the documentation output folder.
 - **rewrittenLink** - Produce warnings for `@link` tags which are resolved,
   but whose target does not have a unique URL in the documentation. TypeDoc
   will rewrite these links to point to the first parent with a URL.

@@ -55,7 +55,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
             // If a link starts with it, and doesn't include a module source indicator "!"
             // then the user probably is trying to link to a package containing "@" with an absolute link.
             if (linkText.startsWith("@") && !linkText.includes("!")) {
-                logger.warn(
+                logger.validationWarning(
                     i18n.failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2(
                         linkText,
                         reflection.getFriendlyFullName(),
@@ -63,7 +63,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                     ),
                 );
             } else {
-                logger.warn(
+                logger.validationWarning(
                     i18n.failed_to_resolve_link_to_0_in_readme_for_1(
                         linkText,
                         reflection.getFriendlyFullName(),
@@ -77,7 +77,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
         for (const broken of getBrokenPartLinks(reflection.content)) {
             const linkText = broken.text.trim();
             if (linkText.startsWith("@") && !linkText.includes("!")) {
-                logger.warn(
+                logger.validationWarning(
                     i18n.failed_to_resolve_link_to_0_in_document_1_may_have_meant_2(
                         linkText,
                         reflection.getFriendlyFullName(),
@@ -85,7 +85,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
                     ),
                 );
             } else {
-                logger.warn(
+                logger.validationWarning(
                     i18n.failed_to_resolve_link_to_0_in_document_1(
                         linkText,
                         reflection.getFriendlyFullName(),
@@ -118,7 +118,7 @@ function checkReflection(reflection: Reflection, logger: Logger) {
 function reportBrokenCommentLink(broken: InlineTagDisplayPart, reflection: Reflection, logger: Logger) {
     const linkText = broken.text.trim();
     if (broken.target instanceof ReflectionSymbolId) {
-        logger.warn(
+        logger.validationWarning(
             i18n.comment_for_0_links_to_1_not_included_in_docs_use_external_link_2(
                 reflection.getFriendlyFullName(),
                 linkText,
@@ -126,7 +126,7 @@ function reportBrokenCommentLink(broken: InlineTagDisplayPart, reflection: Refle
             ),
         );
     } else if (linkText.startsWith("@") && !linkText.includes("!")) {
-        logger.warn(
+        logger.validationWarning(
             i18n.failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2(
                 linkText,
                 reflection.getFriendlyFullName(),
@@ -134,7 +134,7 @@ function reportBrokenCommentLink(broken: InlineTagDisplayPart, reflection: Refle
             ),
         );
     } else {
-        logger.warn(
+        logger.validationWarning(
             i18n.failed_to_resolve_link_to_0_in_comment_for_1(
                 linkText,
                 reflection.getFriendlyFullName(),

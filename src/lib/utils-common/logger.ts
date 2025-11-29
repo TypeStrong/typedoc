@@ -38,6 +38,11 @@ export class Logger {
     warningCount = 0;
 
     /**
+     * How many validation warning messages have been logged?
+     */
+    validationWarningCount = 0;
+
+    /**
      * The minimum logging level to print.
      */
     level = LogLevel.Info;
@@ -68,6 +73,7 @@ export class Logger {
      */
     resetWarnings() {
         this.warningCount = 0;
+        this.validationWarningCount = 0;
     }
 
     /**
@@ -87,7 +93,7 @@ export class Logger {
     /**
      * Log the given warning.
      *
-     * @param text  The warning that should be logged.
+     * @param text The warning that should be logged.
      */
     warn(text: IfInternal<TranslatedString, string>, node?: MinimalNode): void;
     warn(
@@ -98,6 +104,22 @@ export class Logger {
     warn(text: string, ...args: [MinimalNode?] | [number, MinimalSourceFile]): void {
         const text2 = this.addContext(text, LogLevel.Warn, ...args);
         this.log(text2, LogLevel.Warn);
+    }
+
+    /**
+     * Log the given warning and records that a validation warning has occurred.
+     *
+     * @param text The warning that should be logged.
+     */
+    validationWarning(text: IfInternal<TranslatedString, string>, node?: MinimalNode): void;
+    validationWarning(
+        text: IfInternal<TranslatedString, string>,
+        pos: number,
+        file: MinimalSourceFile,
+    ): void;
+    validationWarning(...args: [any, ...any[]]): void {
+        this.validationWarningCount += 1;
+        this.warn(...args);
     }
 
     /**

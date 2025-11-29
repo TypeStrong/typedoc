@@ -102,6 +102,7 @@ describe("Options", () => {
             notExported: true,
             notDocumented: true,
             invalidLink: true,
+            invalidPath: true,
             rewrittenLink: true,
             unusedMergeModuleWith: true,
         });
@@ -111,6 +112,7 @@ describe("Options", () => {
             notExported: false,
             notDocumented: false,
             invalidLink: false,
+            invalidPath: false,
             rewrittenLink: false,
             unusedMergeModuleWith: false,
         });

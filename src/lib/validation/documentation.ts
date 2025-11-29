@@ -118,7 +118,7 @@ export function validateDocumentation(
                 continue;
             }
 
-            logger.warn(
+            logger.validationWarning(
                 i18n.reflection_0_kind_1_defined_in_2_does_not_have_any_documentation(
                     ref.getFriendlyFullName(),
                     ReflectionKind[ref.kind],
@@ -132,7 +132,7 @@ export function validateDocumentation(
         (_, i) => !intentionalUsage.has(i),
     );
     if (unusedIntentional.length) {
-        logger.warn(
+        logger.validationWarning(
             i18n.invalid_intentionally_not_documented_names_0(
                 unusedIntentional.join("\n\t"),
             ),
