@@ -26,7 +26,7 @@ title: Changelog
 - Added support for TypeScript's `@this` tag for JS files which describe `this` parameters, #3026.
 - API: Re-introduced `relevanceBoost` on `DeclarationReflection` for plugin use, #3036.
 
-## Bug Fixes
+### Bug Fixes
 
 - Fixed conversion of auto-accessor types on properties with the `accessor` keyword, #3019.
 - Improved handling of HTML tags within headers for anchor generation, #3023.
