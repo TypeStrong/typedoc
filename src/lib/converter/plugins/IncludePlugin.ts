@@ -430,3 +430,4 @@ regionTagREsByExt["py"] = regionTagREsByExt["cs"];
 regionTagREsByExt["js"] = regionTagREsByExt["ts"];
 regionTagREsByExt["mts"] = regionTagREsByExt["ts"];
 regionTagREsByExt["cts"] = regionTagREsByExt["ts"];
+regionTagREsByExt["tsx"] = regionTagREsByExt["ts"];
