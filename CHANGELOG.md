@@ -4,6 +4,17 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Added support for regions for `@include` in `.tsx`, `.cjs`, and `.mjs` file references #3048.
+- Comments for TS-in-JS `@typedef` tags may now specify modifier tags with the inline tag syntax `{@mod}`.
+  This makes it possible to add modifier tags to these members, which previously was not possible as
+  TypeScript's parsing stops for these members at the next non-braced tag, #2916 and #3050.
+
+### Thanks!
+
+- @a10nik
+
 ## v0.28.15 (2025-11-29)
 
 ### Features

@@ -15,6 +15,7 @@ import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
 import {
+    convertConstructSignatures,
     convertTypeParameters,
     createConstructSignatureWithType,
     createSignature,
@@ -924,37 +925,6 @@ function convertConstructor(context: Context, symbol: ts.Symbol): undefined {
             ReflectionKind.ConstructorSignature,
             sig,
             symbol,
-        );
-    }
-}
-
-function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
-    const type = context.checker.getDeclaredTypeOfSymbol(symbol);
-
-    // These get added as a "constructor" member of this interface. This is a problem... but nobody
-    // has complained yet. We really ought to have a constructSignatures property on the reflection instead.
-    const constructSignatures = context.checker.getSignaturesOfType(
-        type,
-        ts.SignatureKind.Construct,
-    );
-    if (constructSignatures.length) {
-        const constructMember = new DeclarationReflection(
-            "constructor",
-            ReflectionKind.Constructor,
-            context.scope,
-        );
-        context.postReflectionCreation(constructMember, symbol, void 0);
-        context.finalizeDeclarationReflection(constructMember);
-
-        const constructContext = context.withScope(constructMember);
-
-        constructSignatures.forEach((sig) =>
-            createSignature(
-                constructContext,
-                ReflectionKind.ConstructorSignature,
-                sig,
-                symbol,
-            )
         );
     }
 }

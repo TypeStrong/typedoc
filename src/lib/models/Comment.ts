@@ -195,7 +195,7 @@ export class Comment {
     }
 
     /**
-     * Helper utility to clone {@link Comment.summary} or {@link CommentTag.content}
+     * Helper utility to clone {@link Comment#summary} or {@link CommentTag#content}
      */
     static cloneDisplayParts(
         parts: readonly CommentDisplayPart[],

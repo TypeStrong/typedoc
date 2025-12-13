@@ -13,7 +13,59 @@ import {
 } from "../models/index.js";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
-import { convertParameterNodes, convertTemplateParameterNodes } from "./factories/signature.js";
+import {
+    convertConstructSignatures,
+    convertParameterNodes,
+    convertTemplateParameterNodes,
+    createSignature,
+} from "./factories/signature.js";
+import { i18n } from "#utils";
+import { convertIndexSignatures } from "./factories/index-signature.js";
+
+// This is almost convertTypeAliasAsInterface, but unfortunately needs to be separate
+// due to type parameters being different in JSDoc comments
+function convertJsDocAliasAsInterface(
+    context: Context,
+    symbol: ts.Symbol,
+    exportSymbol: ts.Symbol | undefined,
+    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
+): undefined {
+    const reflection = context.createDeclarationReflection(
+        ReflectionKind.Interface,
+        symbol,
+        exportSymbol,
+    );
+    context.finalizeDeclarationReflection(reflection);
+    const rc = context.withScope(reflection);
+
+    const type = context.checker.getTypeAtLocation(declaration);
+
+    if (type.getFlags() & ts.TypeFlags.Union) {
+        context.logger.warn(
+            i18n.converting_union_as_interface(),
+            declaration,
+        );
+    }
+
+    // Interfaces have properties
+    for (const prop of type.getProperties()) {
+        context.converter.convertSymbol(rc, prop);
+    }
+
+    // And type parameters
+    convertTemplateParameters(rc, declaration.parent);
+
+    // And maybe call signatures
+    context.checker
+        .getSignaturesOfType(type, ts.SignatureKind.Call)
+        .forEach((sig) => createSignature(rc, ReflectionKind.CallSignature, sig, symbol));
+
+    // And maybe constructor signatures
+    convertConstructSignatures(rc, symbol);
+
+    // And finally, index signatures
+    convertIndexSignatures(rc, type);
+}
 
 export function convertJsDocAlias(
     context: Context,
@@ -27,6 +79,16 @@ export function convertJsDocAlias(
     ) {
         convertJsDocInterface(context, declaration, symbol, exportSymbol);
         return;
+    }
+
+    const comment = context.getJsDocComment(declaration);
+    if (comment?.hasModifier("@interface")) {
+        return convertJsDocAliasAsInterface(
+            context,
+            symbol,
+            exportSymbol,
+            declaration,
+        );
     }
 
     // If the typedef tag is just referring to another type-space symbol, with no type parameters
@@ -47,7 +109,7 @@ export function convertJsDocAlias(
         symbol,
         exportSymbol,
     );
-    reflection.comment = context.getJsDocComment(declaration);
+    reflection.comment = comment;
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),

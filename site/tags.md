@@ -148,6 +148,16 @@ as internal for use with
 [`--visibilityFilters`](./options/output.md#visibilityfilters) or
 [`--excludeInternal`](./options/input.md#excludeinternal).
 
+```ts
+/**
+ * Summary
+ *
+ * @alpha
+ * @interface
+ */
+export type Foo = { a: string };
+```
+
 - [`@abstract`](./tags/abstract.md)
 - [`@alpha`](./tags/alpha.md)
 - [`@beta`](./tags/beta.md)
@@ -182,6 +192,13 @@ as internal for use with
 Inline tags are used to mark text within a paragraph for processing by TypeDoc. The most important ones are the
 [`@link`](./tags/link.md) and [`@inheritDoc`](./tags/inheritDoc.md) tags.
 
+```ts
+/**
+ * Comment with a {@link Foo} to this type.
+ */
+export type Foo = { a: string };
+```
+
 - [`@include`, `@includeCode`](./tags/include.md)
 - [`@inheritDoc`](./tags/inheritDoc.md)
 - [`@label`](./tags/label.md)
@@ -193,6 +210,21 @@ If your project uses TypeScript to type check JavaScript, TypeDoc will pick up
 type aliases and interfaces defined with `@typedef` and `@callback`. See the
 [TypeScript handbook](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#typedef-callback-and-param)
 for details.
+
+In comments for `@typedef` and `@callback` block tags and modifier tags cannot be
+included due to TypeScript's decision to permit multiple `@typedef` declarations
+within a single comment resulting in the TypeScript defined comment content not including
+any additional non-braced tags. For this reason, TypeDoc will recognize modifier
+tags with inline tag syntax and no content as modifier tags as a special case.
+
+The following comment will be parsed as if Foo had a modifier `@interface` tag:
+
+```ts
+/**
+ * @typedef {{ x: string }} Foo Foo docs
+ * {@interface}
+ */
+```
 
 ## See Also
 

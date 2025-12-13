@@ -15,3 +15,11 @@ export function setDifference<T>(a: Iterable<T>, b: Iterable<T>): Set<T> {
     }
     return result;
 }
+
+export function setUnion<T>(a: Iterable<T>, b: Iterable<T>): Set<T> {
+    const result = new Set(a);
+    for (const elem of b) {
+        result.add(elem);
+    }
+    return result;
+}

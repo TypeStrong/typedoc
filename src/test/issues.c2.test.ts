@@ -17,7 +17,7 @@ import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { equalKind, getComment, getLinks, getSigComment, query, querySig, reflToTree } from "./utils.js";
-import { DefaultTheme, type FileId, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
+import { DefaultTheme, type FileId, i18n, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
 import { normalizePath, TYPEDOC_ROOT } from "#node-utils";
 import { NormalizedPathUtils } from "#utils";
 
@@ -2048,7 +2048,7 @@ describe("Issue Tests", () => {
         equal(Bug4.signatures[0].type?.toString(), "U");
     });
 
-    it("#2916 handles @inlineType on @typedef declared types", () => {
+    it("#2916 handles @inline on @typedef declared types", () => {
         const project = convert();
         const hello = querySig(project, "hello");
         equal(hello.parameters?.[0].type?.toString(), "{ name: string }");
@@ -2281,5 +2281,15 @@ describe("Issue Tests", () => {
         app.validate(project);
 
         logger.expectNoOtherMessages();
+    });
+
+    it("#3050 supports alternative inline tag syntax for modifiers when parsing JSDoc comments", () => {
+        const project = convert();
+
+        const bar = query(project, "Bar");
+        equalKind(bar, ReflectionKind.Interface);
+        // This happens twice, once for Foo and once for Bar
+        logger.expectMessage("warn: " + i18n.inline_tag_0_not_parsed_as_modifier_tag_1("@interface", "with text"));
+        logger.expectMessage("warn: " + i18n.inline_tag_0_not_parsed_as_modifier_tag_1("@interface", "with text"));
     });
 });

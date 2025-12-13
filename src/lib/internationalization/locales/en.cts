@@ -64,6 +64,8 @@ export = {
     // comments/parser.ts
     multiple_type_parameters_on_template_tag_unsupported:
         `TypeDoc does not support multiple type parameters defined in a single @template tag with a comment`,
+    inline_tag_0_not_parsed_as_modifier_tag_1:
+        `The inline tag {0} was likely intended to be a modifier tag but was not parsed as one due to including content "{1}"`,
     failed_to_find_jsdoc_tag_for_name_0:
         `Failed to find JSDoc tag for {0} after parsing comment, please file a bug report`,
     relative_path_0_is_not_a_file_and_will_not_be_copied_to_output:

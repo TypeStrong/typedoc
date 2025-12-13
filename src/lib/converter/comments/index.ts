@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Comment, ReflectionKind } from "../../models/index.js";
+import { Comment, type CommentDisplayPart, ReflectionKind } from "../../models/index.js";
 import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "../../utils/options/declaration.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
@@ -12,7 +12,7 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { assertNever, i18n, type Logger } from "#utils";
+import { assertNever, i18n, Logger, setUnion } from "#utils";
 import type { Context } from "../context.js";
 
 export interface CommentParserConfig {
@@ -62,19 +62,13 @@ export function clearCommentCache() {
     commentDiscoveryId = 0;
 }
 
-function getCommentWithCache(
+function getCommentIgnoringCacheNoDiscoveryId(
     discovered: DiscoveredComment | undefined,
     context: CommentContextOptionalChecker,
 ) {
     if (!discovered) return;
 
     const { file, ranges, jsDoc } = discovered;
-    const cache = commentCache.get(file) || new Map<number, Comment>();
-    if (cache.has(ranges[0].pos)) {
-        const clone = cache.get(ranges[0].pos)!.clone();
-        clone.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
-        return clone;
-    }
 
     let comment: Comment;
     switch (ranges[0].kind) {
@@ -103,8 +97,28 @@ function getCommentWithCache(
             assertNever(ranges[0].kind);
     }
 
-    comment.discoveryId = ++commentDiscoveryId;
     comment.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
+    return comment;
+}
+
+function getCommentWithCache(
+    discovered: DiscoveredComment | undefined,
+    context: CommentContextOptionalChecker,
+) {
+    if (!discovered) return;
+
+    const { file, ranges } = discovered;
+    const cache = commentCache.get(file) || new Map<number, Comment>();
+    if (cache.has(ranges[0].pos)) {
+        const clone = cache.get(ranges[0].pos)!.clone();
+        clone.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
+        return clone;
+    }
+
+    const comment = getCommentIgnoringCacheNoDiscoveryId(discovered, context);
+    if (!comment) return;
+
+    comment.discoveryId = ++commentDiscoveryId;
     cache.set(ranges[0].pos, comment);
     commentCache.set(file, cache);
 
@@ -220,15 +234,26 @@ export function getFileComment(
     file: ts.SourceFile,
     context: CommentContext,
 ): Comment | undefined {
+    const quietContext = {
+        ...context,
+        logger: new Logger(),
+    };
+
     for (
         const commentSource of discoverFileComments(
             file,
             context.config.commentStyle,
         )
     ) {
-        const comment = getCommentWithCache(
+        // First parse the comment without adding the parse to the cache
+        // and without logging any messages. If we end up not using this as
+        // a file comment we want to avoid parsing it with warnings here as
+        // it might be associated with a JSDoc parse which has special
+        // handling to allow modifier tags to be specified as {@mod}
+        // and if it gets added to the cache here we'll get unwanted warnings
+        const comment = getCommentIgnoringCacheNoDiscoveryId(
             commentSource,
-            context,
+            quietContext,
         );
 
         if (comment?.getTag("@license") || comment?.getTag("@import")) {
@@ -239,7 +264,7 @@ export function getFileComment(
             comment?.getTag("@module") ||
             comment?.hasModifier("@packageDocumentation")
         ) {
-            return comment;
+            return getCommentWithCache(commentSource, context);
         }
         return;
     }
@@ -274,6 +299,48 @@ export function getSignatureComment(
     );
 }
 
+function buildJsDocCommentFromParts(
+    declaration: ts.Node,
+    parts: readonly CommentDisplayPart[] | undefined,
+    sourceComment: Comment,
+    context: CommentContext,
+) {
+    if (!parts) {
+        return undefined;
+    }
+
+    const comment = new Comment(Comment.cloneDisplayParts(parts));
+    comment.sourcePath = sourceComment.sourcePath;
+
+    for (let i = 0; i < comment.summary.length;) {
+        const part = comment.summary[i];
+
+        if (
+            part.kind === "inline-tag" &&
+            !part.text.trim() &&
+            context.config.modifierTags.has(part.tag)
+        ) {
+            comment.modifierTags.add(part.tag);
+            comment.summary.splice(i, 1);
+        } else if (
+            part.kind === "inline-tag" &&
+            part.text.trim() &&
+            context.config.modifierTags.has(part.tag) &&
+            !context.config.inlineTags.has(part.tag)
+        ) {
+            context.logger.warn(
+                i18n.inline_tag_0_not_parsed_as_modifier_tag_1(part.tag, part.text.trim()),
+                declaration,
+            );
+            ++i;
+        } else {
+            ++i;
+        }
+    }
+
+    return comment;
+}
+
 export function getJsDocComment(
     declaration:
         | ts.JSDocPropertyLikeTag
@@ -291,6 +358,16 @@ export function getJsDocComment(
         parent = parent.parent;
     }
 
+    // Build a custom context to allow modifier tags to be written as inline
+    // tags as otherwise there's no way to specify them here #2916 #3050
+    const contextWithInline = {
+        ...context,
+        config: {
+            ...context.config,
+            inlineTags: setUnion(context.config.inlineTags, context.config.modifierTags),
+        },
+    };
+
     // Then parse it.
     const comment = getCommentWithCache(
         {
@@ -305,14 +382,12 @@ export function getJsDocComment(
             jsDoc: parent,
             inheritedFromParentDeclaration: false,
         },
-        context,
+        contextWithInline,
     )!;
 
     // And pull out the tag we actually care about.
     if (ts.isJSDocEnumTag(declaration)) {
-        const result = new Comment(comment.getTag("@enum")?.content);
-        result.sourcePath = comment.sourcePath;
-        return result;
+        return buildJsDocCommentFromParts(declaration, comment.getTag("@enum")?.content, comment, context);
     }
 
     if (
@@ -355,8 +430,6 @@ export function getJsDocComment(
             );
         }
     } else {
-        const result = new Comment(Comment.cloneDisplayParts(tag.content));
-        result.sourcePath = comment.sourcePath;
-        return result;
+        return buildJsDocCommentFromParts(declaration, tag.content, comment, context);
     }
 }
