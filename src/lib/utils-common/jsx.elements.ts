@@ -942,7 +942,6 @@ export interface JsxSvgPresentationProps {
     cursor?: string;
     direction?: "ltr" | "rtl";
     display?: string;
-    dy?: string;
     "dominant-baseline"?:
         | "auto"
         | "text-bottom"
@@ -953,6 +952,7 @@ export interface JsxSvgPresentationProps {
         | "mathematical"
         | "hanging"
         | "text-top";
+    dy?: string;        
     fill?: string;
     "fill-opacity"?: number;
     "fill-rule"?: "nonzero" | "evenodd";
