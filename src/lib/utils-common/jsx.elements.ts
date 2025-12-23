@@ -942,6 +942,7 @@ export interface JsxSvgPresentationProps {
     cursor?: string;
     direction?: "ltr" | "rtl";
     display?: string;
+    dy?: string;
     "dominant-baseline"?:
         | "auto"
         | "text-bottom"
