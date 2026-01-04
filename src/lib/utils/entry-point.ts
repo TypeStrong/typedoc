@@ -87,7 +87,7 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
     for (const [name, path] of pathEntries) {
         // Strip leading ./ from the display name
         const displayName = name.replace(/^\.\/?/, "");
-        const targetPath = jsToTsSource.get(path) || resolveDeclarationMaps(path) || path;
+        const targetPath = jsToTsSource.get(normalizePath(path)) || resolveDeclarationMaps(path) || path;
 
         const program = programs.find((p) => p.getSourceFile(targetPath));
         if (program) {
