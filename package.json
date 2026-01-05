@@ -132,7 +132,8 @@
         "onlyBuiltDependencies": [
             "dprint",
             "esbuild",
-            "puppeteer"
+            "puppeteer",
+            "@typestrong/fs-fixture-builder"
         ]
     }
 }
