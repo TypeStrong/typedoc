@@ -24,7 +24,7 @@ const kindIcon = (letterPath: JSX.Element, color: string, label: TranslatedStrin
 
 const textIcon = (letter: string, color: string, label: TranslatedString, circular = false) =>
     kindIcon(
-        <text fill="var(--color-icon-text)" x="50%" y="50%" dominant-baseline="central" text-anchor="middle">
+        <text fill="var(--color-icon-text)" x="50%" y="50%" dy="0.35em" text-anchor="middle">
             {letter}
         </text>,
         color,

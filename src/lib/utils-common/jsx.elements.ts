@@ -952,6 +952,7 @@ export interface JsxSvgPresentationProps {
         | "mathematical"
         | "hanging"
         | "text-top";
+    dy?: string;        
     fill?: string;
     "fill-opacity"?: number;
     "fill-rule"?: "nonzero" | "evenodd";
