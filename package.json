@@ -7,6 +7,7 @@
     "exports": {
         ".": "./dist/index.js",
         "./tsdoc.json": "./tsdoc.json",
+        "./typedoc-config.schema.json": "./typedoc-config.schema.json",
         "./package.json": "./package.json",
         "./models": "./dist/lib/models/index.js",
         "./browser": "./dist/browser-utils.js",
@@ -67,7 +68,8 @@
         "!/dist/test",
         "/LICENSE",
         "/static",
-        "/tsdoc.json"
+        "/tsdoc.json",
+        "/typedoc-config.schema.json"
     ],
     "scripts": {
         "test": "mocha --config .config/mocha.fast.json",
@@ -83,7 +85,7 @@
         "build:tsc": "tsc --project .",
         "build:themes": "node scripts/build_themes.js",
         "build:locales": "node scripts/build_browser_translations.js",
-        "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes",
+        "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes && node scripts/generate_options_schema.js typedoc-config.schema.json",
         "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
         "lint": "eslint . --max-warnings 0 && dprint check",
         "prepack": "node scripts/set_strict.js false && pnpm build:prod",

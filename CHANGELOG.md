@@ -18,6 +18,9 @@ title: Changelog
 - Comments for TS-in-JS `@typedef` tags may now specify modifier tags with the inline tag syntax `{@mod}`.
   This makes it possible to add modifier tags to these members, which previously was not possible as
   TypeScript's parsing stops for these members at the next non-braced tag, #2916 and #3050.
+- A `typedoc-config.schema.json` is now included in the root of the package with a JSON schema for TypeDoc's
+  configuration file. The schema for the latest version is also published at https://typedoc.org/schema.json
+  and will automatically be picked up when writing typedoc.json files if you are using VSCode, #3054.
 
 ### Thanks!
 

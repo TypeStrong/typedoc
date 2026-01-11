@@ -8,6 +8,7 @@
 yarn.lock
 .nyc_output
 yarn-error.log
+typedoc-config.schema.json
 
 /src/test/renderer/*/doc
 /src/test/renderer/testProject/json.json

@@ -33,10 +33,8 @@ jobs:
             - name: Publish
               if: steps.check.outputs.changed == 'true'
               # We need --no-git-checks because we swap a boolean to allow more lax types
-              # in the published package.
+              # in the published package and generate some files for publishing.
               run: pnpm publish --no-git-checks
-              env:
-                npm_config_//registry.npmjs.org/:_authToken: ${{ secrets.NPM_AUTH_TOKEN }}
             - name: Generate Release
               if: steps.check.outputs.changed == 'true'
               run: |
