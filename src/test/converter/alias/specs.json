@@ -209,14 +209,6 @@
                     "variant": "declaration",
                     "kind": 65536,
                     "flags": {},
-                    "sources": [
-                        {
-                            "fileName": "alias.ts",
-                            "line": 6,
-                            "character": 34,
-                            "url": "typedoc://alias.ts#L6"
-                        }
-                    ],
                     "signatures": [
                         {
                             "id": 3,

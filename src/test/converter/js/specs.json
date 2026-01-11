@@ -360,14 +360,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index.js",
-                                    "line": 49,
-                                    "character": 3,
-                                    "url": "typedoc://index.js#L49"
-                                }
-                            ],
                             "signatures": [
                                 {
                                     "id": 41,
@@ -432,14 +424,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index.js",
-                                    "line": 27,
-                                    "character": 3,
-                                    "url": "typedoc://index.js#L27"
-                                }
-                            ],
                             "signatures": [
                                 {
                                     "id": 27,
@@ -534,14 +518,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index.js",
-                                    "line": 33,
-                                    "character": 3,
-                                    "url": "typedoc://index.js#L33"
-                                }
-                            ],
                             "signatures": [
                                 {
                                     "id": 30,
@@ -638,14 +614,6 @@
                                                 19
                                             ]
                                         }
-                                    ],
-                                    "sources": [
-                                        {
-                                            "fileName": "index.js",
-                                            "line": 22,
-                                            "character": 13,
-                                            "url": "typedoc://index.js#L22"
-                                        }
                                     ]
                                 }
                             },
@@ -685,14 +653,6 @@
                                                 21
                                             ]
                                         }
-                                    ],
-                                    "sources": [
-                                        {
-                                            "fileName": "index.js",
-                                            "line": 22,
-                                            "character": 29,
-                                            "url": "typedoc://index.js#L22"
-                                        }
                                     ]
                                 }
                             }
@@ -729,14 +689,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index.js",
-                                    "line": 26,
-                                    "character": 3,
-                                    "url": "typedoc://index.js#L26"
-                                }
-                            ],
                             "signatures": [
                                 {
                                     "id": 24,
@@ -808,14 +760,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index.js",
-                                    "line": 39,
-                                    "character": 3,
-                                    "url": "typedoc://index.js#L39"
-                                }
-                            ],
                             "signatures": [
                                 {
                                     "id": 35,

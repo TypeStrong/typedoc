@@ -362,8 +362,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
         };
 
-        // Rewrite anchor links inline in a readme file to links targeting the `md:` prefixed anchors
-        // that TypeDoc creates.
         this.parser.renderer.rules["link_open"] = (tokens, idx, options, _env, self) => {
             const token = tokens[idx];
             const href = token.attrGet("href");

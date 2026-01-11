@@ -4,6 +4,14 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Fixed an issue causing TypeDoc to fail to generate documentation when implementing interfaces, #3052.
+- Fixed an issue preventing automatic entry point discovery on Windows, #3057.
+- Improved vertical positioning of text icons, #3056.
+- TypeDoc no longer includes source location information for type literal reflections. This could sometimes
+  cause TypeDoc to infer the wrong path when resolving base paths for display.
+
 ### Features
 
 - Added support for regions for `@include` in `.tsx`, `.cjs`, and `.mjs` file references #3048.
@@ -14,6 +22,8 @@ title: Changelog
 ### Thanks!
 
 - @a10nik
+- @kozi
+- @Lakuna
 
 ## v0.28.15 (2025-11-29)
 

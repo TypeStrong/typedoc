@@ -609,14 +609,6 @@
                                                             "variant": "declaration",
                                                             "kind": 65536,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "literal.ts",
-                                                                    "line": 12,
-                                                                    "character": 16,
-                                                                    "url": "typedoc://literal.ts#L12"
-                                                                }
-                                                            ],
                                                             "signatures": [
                                                                 {
                                                                     "id": 96,
@@ -624,14 +616,6 @@
                                                                     "variant": "signature",
                                                                     "kind": 4096,
                                                                     "flags": {},
-                                                                    "sources": [
-                                                                        {
-                                                                            "fileName": "literal.ts",
-                                                                            "line": 12,
-                                                                            "character": 16,
-                                                                            "url": "typedoc://literal.ts#L12"
-                                                                        }
-                                                                    ],
                                                                     "parameters": [
                                                                         {
                                                                             "id": 97,
@@ -703,14 +687,6 @@
                                                                                         100
                                                                                     ]
                                                                                 }
-                                                                            ],
-                                                                            "sources": [
-                                                                                {
-                                                                                    "fileName": "literal.ts",
-                                                                                    "line": 13,
-                                                                                    "character": 19,
-                                                                                    "url": "typedoc://literal.ts#L13"
-                                                                                }
                                                                             ]
                                                                         }
                                                                     }
@@ -750,14 +726,6 @@
                                                         93
                                                     ]
                                                 }
-                                            ],
-                                            "sources": [
-                                                {
-                                                    "fileName": "literal.ts",
-                                                    "line": 10,
-                                                    "character": 12,
-                                                    "url": "typedoc://literal.ts#L10"
-                                                }
                                             ]
                                         }
                                     },
@@ -785,14 +753,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "literal.ts",
-                                                    "line": 7,
-                                                    "character": 12,
-                                                    "url": "typedoc://literal.ts#L7"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 90,
@@ -800,14 +760,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "literal.ts",
-                                                            "line": 7,
-                                                            "character": 12,
-                                                            "url": "typedoc://literal.ts#L7"
-                                                        }
-                                                    ],
                                                     "type": {
                                                         "type": "intrinsic",
                                                         "name": "string"
@@ -852,14 +804,6 @@
                                         88,
                                         87
                                     ]
-                                }
-                            ],
-                            "sources": [
-                                {
-                                    "fileName": "literal.ts",
-                                    "line": 5,
-                                    "character": 22,
-                                    "url": "typedoc://literal.ts#L5"
                                 }
                             ]
                         }
@@ -1006,14 +950,6 @@
                                                             "variant": "declaration",
                                                             "kind": 65536,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "literal.ts",
-                                                                    "line": 32,
-                                                                    "character": 16,
-                                                                    "url": "typedoc://literal.ts#L32"
-                                                                }
-                                                            ],
                                                             "signatures": [
                                                                 {
                                                                     "id": 46,
@@ -1021,14 +957,6 @@
                                                                     "variant": "signature",
                                                                     "kind": 4096,
                                                                     "flags": {},
-                                                                    "sources": [
-                                                                        {
-                                                                            "fileName": "literal.ts",
-                                                                            "line": 32,
-                                                                            "character": 18,
-                                                                            "url": "typedoc://literal.ts#L32"
-                                                                        }
-                                                                    ],
                                                                     "parameters": [
                                                                         {
                                                                             "id": 47,
@@ -1098,14 +1026,6 @@
                                                                                         50
                                                                                     ]
                                                                                 }
-                                                                            ],
-                                                                            "sources": [
-                                                                                {
-                                                                                    "fileName": "literal.ts",
-                                                                                    "line": 32,
-                                                                                    "character": 31,
-                                                                                    "url": "typedoc://literal.ts#L32"
-                                                                                }
                                                                             ]
                                                                         }
                                                                     }
@@ -1143,14 +1063,6 @@
                                                         43
                                                     ]
                                                 }
-                                            ],
-                                            "sources": [
-                                                {
-                                                    "fileName": "literal.ts",
-                                                    "line": 30,
-                                                    "character": 12,
-                                                    "url": "typedoc://literal.ts#L30"
-                                                }
                                             ]
                                         }
                                     }
@@ -1177,14 +1089,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "literal.ts",
-                                                    "line": 29,
-                                                    "character": 12,
-                                                    "url": "typedoc://literal.ts#L29"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 40,
@@ -1192,14 +1096,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "literal.ts",
-                                                            "line": 29,
-                                                            "character": 14,
-                                                            "url": "typedoc://literal.ts#L29"
-                                                        }
-                                                    ],
                                                     "type": {
                                                         "type": "intrinsic",
                                                         "name": "string"
@@ -1239,14 +1135,6 @@
                                         38,
                                         37
                                     ]
-                                }
-                            ],
-                            "sources": [
-                                {
-                                    "fileName": "literal.ts",
-                                    "line": 27,
-                                    "character": 24,
-                                    "url": "typedoc://literal.ts#L27"
                                 }
                             ]
                         }

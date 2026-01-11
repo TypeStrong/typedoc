@@ -590,14 +590,6 @@
                                                         ]
                                                     }
                                                 ],
-                                                "sources": [
-                                                    {
-                                                        "fileName": "mixin.ts",
-                                                        "line": 34,
-                                                        "character": 10,
-                                                        "url": "typedoc://mixin.ts#L34"
-                                                    }
-                                                ],
                                                 "signatures": [
                                                     {
                                                         "id": 67,
@@ -605,14 +597,6 @@
                                                         "variant": "signature",
                                                         "kind": 16384,
                                                         "flags": {},
-                                                        "sources": [
-                                                            {
-                                                                "fileName": "mixin.ts",
-                                                                "line": 34,
-                                                                "character": 10,
-                                                                "url": "typedoc://mixin.ts#L34"
-                                                            }
-                                                        ],
                                                         "parameters": [
                                                             {
                                                                 "id": 68,
@@ -1404,14 +1388,6 @@
                     "variant": "declaration",
                     "kind": 65536,
                     "flags": {},
-                    "sources": [
-                        {
-                            "fileName": "mixin.ts",
-                            "line": 4,
-                            "character": 35,
-                            "url": "typedoc://mixin.ts#L4"
-                        }
-                    ],
                     "signatures": [
                         {
                             "id": 3,
@@ -1692,14 +1668,6 @@
                                             ]
                                         }
                                     ],
-                                    "sources": [
-                                        {
-                                            "fileName": "mixin.ts",
-                                            "line": 34,
-                                            "character": 10,
-                                            "url": "typedoc://mixin.ts#L34"
-                                        }
-                                    ],
                                     "signatures": [
                                         {
                                             "id": 25,
@@ -1707,14 +1675,6 @@
                                             "variant": "signature",
                                             "kind": 16384,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "mixin.ts",
-                                                    "line": 34,
-                                                    "character": 10,
-                                                    "url": "typedoc://mixin.ts#L34"
-                                                }
-                                            ],
                                             "parameters": [
                                                 {
                                                     "id": 26,
@@ -1882,14 +1842,6 @@
                                             ]
                                         }
                                     ],
-                                    "sources": [
-                                        {
-                                            "fileName": "mixin.ts",
-                                            "line": 54,
-                                            "character": 10,
-                                            "url": "typedoc://mixin.ts#L54"
-                                        }
-                                    ],
                                     "signatures": [
                                         {
                                             "id": 41,
@@ -1897,14 +1849,6 @@
                                             "variant": "signature",
                                             "kind": 16384,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "mixin.ts",
-                                                    "line": 54,
-                                                    "character": 10,
-                                                    "url": "typedoc://mixin.ts#L54"
-                                                }
-                                            ],
                                             "parameters": [
                                                 {
                                                     "id": 42,
@@ -2065,14 +2009,6 @@
                                             ]
                                         }
                                     ],
-                                    "sources": [
-                                        {
-                                            "fileName": "mixin.ts",
-                                            "line": 74,
-                                            "character": 10,
-                                            "url": "typedoc://mixin.ts#L74"
-                                        }
-                                    ],
                                     "signatures": [
                                         {
                                             "id": 61,
@@ -2080,14 +2016,6 @@
                                             "variant": "signature",
                                             "kind": 16384,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "mixin.ts",
-                                                    "line": 74,
-                                                    "character": 10,
-                                                    "url": "typedoc://mixin.ts#L74"
-                                                }
-                                            ],
                                             "parameters": [
                                                 {
                                                     "id": 62,

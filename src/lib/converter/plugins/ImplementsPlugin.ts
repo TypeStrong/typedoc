@@ -172,14 +172,6 @@ export class ImplementsPlugin extends ConverterComponent {
         // serialization/deserialization, might point to an unexpected location. (See the mixin
         // converter tests, I suspect this might actually be an indication of something else slightly
         // broken there, but don't want to spend more time with this right now.)
-        // #2982/#3007, even more unfortunately, we only want to keep the link if it is pointing
-        // to a reflection which will receive a link during rendering, we pick this based on it being
-        // the type of member we expect to point to.
-        const isValidRef = (ref: ReferenceType) =>
-            !!ref.reflection?.parent?.kindOf(
-                ReflectionKind.ClassOrInterface | ReflectionKind.Method | ReflectionKind.Constructor,
-            );
-
         for (const child of reflection.children || []) {
             if (child.inheritedFrom && !isValidRef(child.inheritedFrom)) {
                 child.inheritedFrom = ReferenceType.createBrokenReference(
@@ -209,6 +201,32 @@ export class ImplementsPlugin extends ConverterComponent {
                         childSig.overwrites.name,
                         project,
                         childSig.overwrites.package,
+                    );
+                }
+            }
+        }
+    }
+
+    private cleanUpImplements(
+        project: ProjectReflection,
+        reflection: DeclarationReflection,
+    ) {
+        // #3052, the same problem as #2978 applies for implements
+        for (const child of reflection.children || []) {
+            if (child.implementationOf && !isValidRef(child.implementationOf)) {
+                child.implementationOf = ReferenceType.createBrokenReference(
+                    child.implementationOf.name,
+                    project,
+                    child.implementationOf.package,
+                );
+            }
+
+            for (const childSig of child.getAllSignatures()) {
+                if (childSig.implementationOf && !isValidRef(childSig.implementationOf)) {
+                    childSig.implementationOf = ReferenceType.createBrokenReference(
+                        childSig.implementationOf.name,
+                        project,
+                        childSig.implementationOf.package,
                     );
                 }
             }
@@ -308,6 +326,13 @@ export class ImplementsPlugin extends ConverterComponent {
             reflection.extendedTypes
         ) {
             this.analyzeInheritance(project, reflection);
+        }
+
+        if (
+            reflection.kindOf(ReflectionKind.ClassOrInterface) &&
+            (reflection.extendedTypes || reflection.implementedTypes)
+        ) {
+            this.cleanUpImplements(project, reflection);
         }
     }
 
@@ -673,5 +698,14 @@ function findMatchingMember(
         (child) =>
             child.name == toMatch.name &&
             child.flags.isStatic === toMatch.flags.isStatic,
+    );
+}
+
+// #2982/#3007 unfortunately, we only want to keep the link if it is pointing
+// to a reflection which will receive a link during rendering, we pick this based on it being
+// the type of member we expect to point to.
+function isValidRef(ref: ReferenceType) {
+    return !!ref.reflection?.parent?.kindOf(
+        ReflectionKind.ClassOrInterface | ReflectionKind.Method | ReflectionKind.Constructor,
     );
 }

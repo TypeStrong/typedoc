@@ -455,14 +455,6 @@
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "index-signature.ts",
-                                    "line": 16,
-                                    "character": 24,
-                                    "url": "typedoc://index-signature.ts#L16"
-                                }
-                            ],
                             "indexSignatures": [
                                 {
                                     "id": 28,
@@ -470,14 +462,6 @@
                                     "variant": "signature",
                                     "kind": 8192,
                                     "flags": {},
-                                    "sources": [
-                                        {
-                                            "fileName": "index-signature.ts",
-                                            "line": 16,
-                                            "character": 26,
-                                            "url": "typedoc://index-signature.ts#L16"
-                                        }
-                                    ],
                                     "parameters": [
                                         {
                                             "id": 29,

@@ -141,3 +141,4 @@ export { gh2995 } from "./gh2995";
 export * as GH3007 from "./gh3007";
 export { GH3014 } from "./gh3014";
 export { box as boxAlias };
+export * as GH3052 from "./gh3052";

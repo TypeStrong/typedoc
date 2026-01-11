@@ -811,7 +811,7 @@ export class ReferenceType extends Type {
     /**
      * The resolved reflection.
      */
-    get reflection() {
+    get reflection(): Reflection | undefined {
         if (typeof this._target === "number") {
             return this._project?.getReflectionById(this._target);
         }

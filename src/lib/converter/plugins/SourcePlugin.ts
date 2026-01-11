@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { DeclarationReflection, SignatureReflection } from "../../models/index.js";
+import { DeclarationReflection, ReflectionKind, SignatureReflection } from "../../models/index.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js";
@@ -76,7 +76,7 @@ export class SourcePlugin extends ConverterComponent {
         context: Context,
         reflection: DeclarationReflection,
     ) {
-        if (this.disableSources) return;
+        if (this.disableSources || reflection.kindOf(ReflectionKind.TypeLiteral)) return;
 
         const symbol = context.getSymbolFromReflection(reflection);
         for (const node of symbol?.declarations || []) {
@@ -113,7 +113,7 @@ export class SourcePlugin extends ConverterComponent {
             | ts.IndexSignatureDeclaration
             | ts.JSDocSignature,
     ) {
-        if (this.disableSources || !sig) return;
+        if (this.disableSources || !sig || reflection.parent.kindOf(ReflectionKind.TypeLiteral)) return;
 
         const sourceFile = sig.getSourceFile();
         const fileName = normalizePath(sourceFile.fileName);

@@ -409,14 +409,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "index-signature.ts",
-                                                    "line": 22,
-                                                    "character": 4,
-                                                    "url": "typedoc://index-signature.ts#L22"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 34,
@@ -424,14 +416,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "index-signature.ts",
-                                                            "line": 22,
-                                                            "character": 4,
-                                                            "url": "typedoc://index-signature.ts#L22"
-                                                        }
-                                                    ],
                                                     "type": {
                                                         "type": "intrinsic",
                                                         "name": "number"
@@ -448,14 +432,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "index-signature.ts",
-                                                    "line": 25,
-                                                    "character": 4,
-                                                    "url": "typedoc://index-signature.ts#L25"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 36,
@@ -463,14 +439,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "index-signature.ts",
-                                                            "line": 25,
-                                                            "character": 4,
-                                                            "url": "typedoc://index-signature.ts#L25"
-                                                        }
-                                                    ],
                                                     "type": {
                                                         "type": "intrinsic",
                                                         "name": "string"
@@ -1222,14 +1190,6 @@
                                             "children": [
                                                 53
                                             ]
-                                        }
-                                    ],
-                                    "sources": [
-                                        {
-                                            "fileName": "parens.ts",
-                                            "line": 3,
-                                            "character": 22,
-                                            "url": "typedoc://parens.ts#L3"
                                         }
                                     ]
                                 }

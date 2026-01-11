@@ -151,6 +151,29 @@
                                 },
                                 {
                                     "dd.tsd-member-summary": []
+                                },
+                                {
+                                    "dt.tsd-member-summary#gh3052": {
+                                        "span.tsd-member-summary-name": [
+                                            {
+                                                "tag": "a",
+                                                "props": {
+                                                    "href": "modules/GH3052.json"
+                                                },
+                                                "children": "GH3052"
+                                            },
+                                            {
+                                                "tag": "a.tsd-anchor-icon",
+                                                "props": {
+                                                    "href": "#gh3052",
+                                                    "aria-label": "Permalink"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "dd.tsd-member-summary": []
                                 }
                             ]
                         }
@@ -722,6 +745,15 @@
                                                     },
                                                     "children": {
                                                         "span": "GH3007"
+                                                    }
+                                                },
+                                                {
+                                                    "tag": "a",
+                                                    "props": {
+                                                        "href": "#gh3052"
+                                                    },
+                                                    "children": {
+                                                        "span": "GH3052"
                                                     }
                                                 }
                                             ]

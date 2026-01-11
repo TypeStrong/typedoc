@@ -3303,14 +3303,6 @@
                                                         128
                                                     ]
                                                 }
-                                            ],
-                                            "sources": [
-                                                {
-                                                    "fileName": "decorators.ts",
-                                                    "line": 48,
-                                                    "character": 46,
-                                                    "url": "typedoc://decorators.ts#L48"
-                                                }
                                             ]
                                         }
                                     }
@@ -3686,14 +3678,6 @@
                                                     "variant": "declaration",
                                                     "kind": 65536,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "events-overloads.ts",
-                                                            "line": 14,
-                                                            "character": 31,
-                                                            "url": "typedoc://events-overloads.ts#L14"
-                                                        }
-                                                    ],
                                                     "signatures": [
                                                         {
                                                             "id": 141,
@@ -3701,14 +3685,6 @@
                                                             "variant": "signature",
                                                             "kind": 4096,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "events-overloads.ts",
-                                                                    "line": 14,
-                                                                    "character": 31,
-                                                                    "url": "typedoc://events-overloads.ts#L14"
-                                                                }
-                                                            ],
                                                             "parameters": [
                                                                 {
                                                                     "id": 142,
@@ -3812,14 +3788,6 @@
                                                     "variant": "declaration",
                                                     "kind": 65536,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "events-overloads.ts",
-                                                            "line": 23,
-                                                            "character": 32,
-                                                            "url": "typedoc://events-overloads.ts#L23"
-                                                        }
-                                                    ],
                                                     "signatures": [
                                                         {
                                                             "id": 147,
@@ -3827,14 +3795,6 @@
                                                             "variant": "signature",
                                                             "kind": 4096,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "events-overloads.ts",
-                                                                    "line": 23,
-                                                                    "character": 32,
-                                                                    "url": "typedoc://events-overloads.ts#L23"
-                                                                }
-                                                            ],
                                                             "parameters": [
                                                                 {
                                                                     "id": 148,
@@ -3938,14 +3898,6 @@
                                                     "variant": "declaration",
                                                     "kind": 65536,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "events-overloads.ts",
-                                                            "line": 32,
-                                                            "character": 35,
-                                                            "url": "typedoc://events-overloads.ts#L32"
-                                                        }
-                                                    ],
                                                     "signatures": [
                                                         {
                                                             "id": 153,
@@ -3953,14 +3905,6 @@
                                                             "variant": "signature",
                                                             "kind": 4096,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "events-overloads.ts",
-                                                                    "line": 32,
-                                                                    "character": 35,
-                                                                    "url": "typedoc://events-overloads.ts#L32"
-                                                                }
-                                                            ],
                                                             "parameters": [
                                                                 {
                                                                     "id": 154,
@@ -4064,14 +4008,6 @@
                                                     "variant": "declaration",
                                                     "kind": 65536,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "events-overloads.ts",
-                                                            "line": 41,
-                                                            "character": 35,
-                                                            "url": "typedoc://events-overloads.ts#L41"
-                                                        }
-                                                    ],
                                                     "signatures": [
                                                         {
                                                             "id": 159,
@@ -4079,14 +4015,6 @@
                                                             "variant": "signature",
                                                             "kind": 4096,
                                                             "flags": {},
-                                                            "sources": [
-                                                                {
-                                                                    "fileName": "events-overloads.ts",
-                                                                    "line": 41,
-                                                                    "character": 35,
-                                                                    "url": "typedoc://events-overloads.ts#L41"
-                                                                }
-                                                            ],
                                                             "parameters": [
                                                                 {
                                                                     "id": 160,

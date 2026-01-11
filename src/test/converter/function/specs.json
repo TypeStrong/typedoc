@@ -481,14 +481,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "function.ts",
-                                                    "line": 199,
-                                                    "character": 12,
-                                                    "url": "typedoc://function.ts#L199"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 81,
@@ -496,14 +488,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "function.ts",
-                                                            "line": 199,
-                                                            "character": 12,
-                                                            "url": "typedoc://function.ts#L199"
-                                                        }
-                                                    ],
                                                     "parameters": [
                                                         {
                                                             "id": 82,
@@ -599,14 +583,6 @@
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "function.ts",
-                                                    "line": 200,
-                                                    "character": 12,
-                                                    "url": "typedoc://function.ts#L200"
-                                                }
-                                            ],
                                             "signatures": [
                                                 {
                                                     "id": 88,
@@ -614,14 +590,6 @@
                                                     "variant": "signature",
                                                     "kind": 4096,
                                                     "flags": {},
-                                                    "sources": [
-                                                        {
-                                                            "fileName": "function.ts",
-                                                            "line": 200,
-                                                            "character": 12,
-                                                            "url": "typedoc://function.ts#L200"
-                                                        }
-                                                    ],
                                                     "parameters": [
                                                         {
                                                             "id": 89,
@@ -656,14 +624,6 @@
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
-                                    "sources": [
-                                        {
-                                            "fileName": "function.ts",
-                                            "line": 200,
-                                            "character": 35,
-                                            "url": "typedoc://function.ts#L200"
-                                        }
-                                    ],
                                     "signatures": [
                                         {
                                             "id": 91,
@@ -671,14 +631,6 @@
                                             "variant": "signature",
                                             "kind": 4096,
                                             "flags": {},
-                                            "sources": [
-                                                {
-                                                    "fileName": "function.ts",
-                                                    "line": 200,
-                                                    "character": 35,
-                                                    "url": "typedoc://function.ts#L200"
-                                                }
-                                            ],
                                             "parameters": [
                                                 {
                                                     "id": 92,
@@ -1915,14 +1867,6 @@
                                                         29
                                                     ]
                                                 }
-                                            ],
-                                            "sources": [
-                                                {
-                                                    "fileName": "function.ts",
-                                                    "line": 95,
-                                                    "character": 42,
-                                                    "url": "typedoc://function.ts#L95"
-                                                }
                                             ]
                                         }
                                     }
@@ -2615,14 +2559,6 @@
                                                 114,
                                                 115
                                             ]
-                                        }
-                                    ],
-                                    "sources": [
-                                        {
-                                            "fileName": "implicit-types.ts",
-                                            "line": 6,
-                                            "character": 18,
-                                            "url": "typedoc://implicit-types.ts#L6"
                                         }
                                     ]
                                 }
