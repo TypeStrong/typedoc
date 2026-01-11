@@ -341,8 +341,19 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         const loader = this.application.options.getValue("markdownItLoader");
         loader(this.parser);
 
+        function defaultRender(
+            tokens: md.Token[],
+            idx: number,
+            options: md.Options,
+            _env: any,
+            self: md.Renderer,
+        ): string {
+            return self.renderToken(tokens, idx, options);
+        }
+
         // Add anchor links for headings in readme, and add them to the "On this page" section
-        this.parser.renderer.rules["heading_open"] = (tokens, idx) => {
+        const headingOpenRenderer = this.parser.renderer.rules["heading_open"] || defaultRender;
+        this.parser.renderer.rules["heading_open"] = (tokens, idx, options, env, self) => {
             const token = tokens[idx];
             const content = getTokenTextContent(tokens[idx + 1]);
             const level = token.markup.length;
@@ -356,13 +367,21 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 level,
             });
 
-            return `<${token.tag} id="${slug}" class="tsd-anchor-link">`;
-        };
-        this.parser.renderer.rules["heading_close"] = (tokens, idx) => {
-            return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}</${tokens[idx].tag}>`;
+            token.attrSet("id", slug);
+            token.attrSet("class", "tsd-anchor-link");
+
+            return headingOpenRenderer(tokens, idx, options, env, self);
         };
 
-        this.parser.renderer.rules["link_open"] = (tokens, idx, options, _env, self) => {
+        const headingCloseRenderer = this.parser.renderer.rules["heading_close"] || defaultRender;
+        this.parser.renderer.rules["heading_close"] = (...args) => {
+            return `${JSX.renderElement(anchorIcon(this.renderContext, this.lastHeaderSlug))}${
+                headingCloseRenderer(...args)
+            }`;
+        };
+
+        const linkOpenRenderer = this.parser.renderer.rules["link_open"] || defaultRender;
+        this.parser.renderer.rules["link_open"] = (tokens, idx, options, env, self) => {
             const token = tokens[idx];
             const href = token.attrGet("href");
             if (href) {
@@ -383,9 +402,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
                 token.attrSet("href", href);
             }
-            return self.renderToken(tokens, idx, options);
+
+            return linkOpenRenderer(tokens, idx, options, env, self);
         };
 
+        // Don't need custom rendering here as this is a TypeDoc-provided rule name
         this.parser.renderer.rules["alert_open"] = (tokens, idx) => {
             const icon = this.renderContext.icons[tokens[idx].attrGet("icon") as AlertIconName];
             const iconHtml = JSX.renderElement(icon());

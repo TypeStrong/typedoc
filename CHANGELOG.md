@@ -11,6 +11,7 @@ title: Changelog
 - Improved vertical positioning of text icons, #3056.
 - TypeDoc no longer includes source location information for type literal reflections. This could sometimes
   cause TypeDoc to infer the wrong path when resolving base paths for display.
+- Adjusted markdown rendering to allow `markdownItLoader` to override more rendering #3055.
 
 ### Features
 
