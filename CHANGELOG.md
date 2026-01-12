@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.16 (2026-01-12)
+
 ### Bug Fixes
 
 - Fixed an issue causing TypeDoc to fail to generate documentation when implementing interfaces, #3052.
