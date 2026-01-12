@@ -3,6 +3,11 @@ on:
     push:
         branches:
             - master
+
+permissions:
+    id-token: write # Required for OIDC
+    contents: write # Required for git tag
+
 jobs:
     npm-publish:
         name: npm-publish
@@ -20,7 +25,7 @@ jobs:
               if: steps.check.outputs.changed == 'true'
               uses: actions/setup-node@v4
               with:
-                  node-version: "18"
+                  node-version: "24"
             - name: Set up pnpm
               if: steps.check.outputs.changed == 'true'
               run: npm i -g pnpm@10
