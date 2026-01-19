@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Fixed anchor link generation to members named `$`, #3065.
+
 ## v0.28.16 (2026-01-12)
 
 ### Bug Fixes

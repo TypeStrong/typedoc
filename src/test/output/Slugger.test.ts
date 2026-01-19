@@ -24,4 +24,10 @@ describe("Slugger", () => {
         const slugger = new Slugger({ lowercase: true });
         equal(slugger.slug("test    test2"), "test-test2");
     });
+
+    it("Handles empty slugs", () => {
+        const slugger = new Slugger({ lowercase: true });
+        equal(slugger.slug("$"), "_");
+        equal(slugger.slug("$"), "_-1");
+    });
 });

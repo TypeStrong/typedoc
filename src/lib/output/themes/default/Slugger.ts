@@ -18,19 +18,24 @@ export class Slugger {
         // # test <t>
         // both of the above should slug to test-t
 
-        return (
-            value
-                .trim()
-                // remove unwanted chars
-                .replace(
-                    /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g,
-                    "",
-                )
-                // change whitespace to dash
-                .replace(/\s/g, "-")
-                // combine adjacent dashes
-                .replace(/--+/, "-")
-        );
+        const slug = value
+            .trim()
+            // remove unwanted chars
+            .replace(
+                /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g,
+                "",
+            )
+            // change whitespace to dash
+            .replace(/\s/g, "-")
+            // combine adjacent dashes
+            .replace(/--+/, "-");
+
+        // #3065 unfortunately some headers might result in a desired slug which is
+        // completely empty. In that case, we still need to return *something* so that
+        // we don't end up generating an empty anchor, which is invalid according to the
+        // spec. GitHub's slugger rules don't handle this, so I've somewhat arbitrarily
+        // chosen "_" here. If GitHub ever fixes that issue, this might need to be adjusted.
+        return slug || "_";
     }
 
     constructor(private options: TypeDocOptionMap["sluggerConfiguration"]) {}

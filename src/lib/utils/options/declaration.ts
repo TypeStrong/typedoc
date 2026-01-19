@@ -125,8 +125,9 @@ export type TypeDocOptions = {
         TypeDocOptionMap[K] extends ManuallyValidatedOption<
             infer ManuallyValidated
         > ? ManuallyValidated :
-        TypeDocOptionMap[K] extends
-            NormalizedPath[] | NormalizedPathOrModule[] | NormalizedPathOrModuleOrFunction[] | GlobString[] ? string[] :
+        TypeDocOptionMap[K] extends NormalizedPathOrModuleOrFunction[] ?
+            Array<string | ((app: Application) => Promise<void> | void)> :
+        TypeDocOptionMap[K] extends NormalizedPath[] | NormalizedPathOrModule[] | GlobString[] ? string[] :
         TypeDocOptionMap[K] extends NormalizedPath ? string :
         TypeDocOptionMap[K] extends
             | string
