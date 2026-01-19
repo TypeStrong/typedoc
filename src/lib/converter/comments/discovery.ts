@@ -25,6 +25,8 @@ const variablePropertyKinds = [
 // Comments from @typedef and @callback tags are handled specially by
 // the JSDoc converter because we only want part of the comment when
 // getting them.
+// This also does NOT include kinds which should be checked after the
+// first kind/kinds have been checked for a comment.
 const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Project]: [
         ts.SyntaxKind.SourceFile,
@@ -40,24 +42,12 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
         ts.SyntaxKind.BindingElement,
         ts.SyntaxKind.ExportSpecifier,
         ts.SyntaxKind.NamespaceExport,
-        // @namespace support
-        ts.SyntaxKind.VariableDeclaration,
-        ts.SyntaxKind.BindingElement,
-        ts.SyntaxKind.ExportAssignment,
-        ts.SyntaxKind.PropertyAccessExpression,
-        ts.SyntaxKind.PropertyDeclaration,
-        ts.SyntaxKind.PropertyAssignment,
-        ts.SyntaxKind.ShorthandPropertyAssignment,
     ],
     [ReflectionKind.Enum]: [
         ts.SyntaxKind.EnumDeclaration,
-        ts.SyntaxKind.VariableDeclaration,
     ],
     [ReflectionKind.EnumMember]: [
         ts.SyntaxKind.EnumMember,
-        // These here so that @enum gets comments
-        ts.SyntaxKind.PropertyAssignment,
-        ts.SyntaxKind.PropertySignature,
     ],
     [ReflectionKind.Variable]: variablePropertyKinds,
     [ReflectionKind.Function]: [
@@ -73,15 +63,9 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.Class]: [
         ts.SyntaxKind.ClassDeclaration,
         ts.SyntaxKind.BindingElement,
-        // If marked with @class
-        ts.SyntaxKind.VariableDeclaration,
-        ts.SyntaxKind.ExportAssignment,
-        ts.SyntaxKind.FunctionDeclaration,
     ],
     [ReflectionKind.Interface]: [
         ts.SyntaxKind.InterfaceDeclaration,
-        ts.SyntaxKind.TypeAliasDeclaration,
-        ts.SyntaxKind.ClassDeclaration, // type only exports
     ],
     [ReflectionKind.Constructor]: [ts.SyntaxKind.Constructor],
     [ReflectionKind.Property]: variablePropertyKinds,
@@ -108,14 +92,78 @@ const wantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
     [ReflectionKind.SetSignature]: [ts.SyntaxKind.SetAccessor],
     [ReflectionKind.TypeAlias]: [
         ts.SyntaxKind.TypeAliasDeclaration,
-        ts.SyntaxKind.FunctionDeclaration, // type only exports
-        // Intentionally not included to avoid comments being copied for variable/alias combos
-        // ts.SyntaxKind.VariableDeclaration,
     ],
     [ReflectionKind.Reference]: [
         ts.SyntaxKind.NamespaceExport,
         ts.SyntaxKind.ExportSpecifier,
     ],
+    // Non-TS kind, will never have comments.
+    [ReflectionKind.Document]: [],
+};
+
+// These kinds are checked after wantedKinds if wantedKinds doesn't result in
+// discovering a comment. This is a rather unfortunate tradeoff between discovering
+// comments for values in unusual circumstances (#2970) and avoiding duplicate
+// comments being discovered for declaration merging nastiness (#3064)
+const backupWantedKinds: Record<ReflectionKind, ts.SyntaxKind[]> = {
+    [ReflectionKind.Project]: [],
+    [ReflectionKind.Module]: [],
+    [ReflectionKind.Namespace]: [
+        // @namespace support
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
+        ts.SyntaxKind.PropertyDeclaration,
+        ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.ShorthandPropertyAssignment,
+    ],
+    [ReflectionKind.Enum]: [
+        ts.SyntaxKind.VariableDeclaration,
+    ],
+    [ReflectionKind.EnumMember]: [
+        // These here so that @enum gets comments
+        ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.PropertySignature,
+    ],
+    [ReflectionKind.Variable]: [],
+    [ReflectionKind.Function]: [
+        ts.SyntaxKind.FunctionDeclaration,
+        ts.SyntaxKind.BindingElement,
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.PropertyAccessExpression,
+        ts.SyntaxKind.PropertyDeclaration,
+        ts.SyntaxKind.PropertyAssignment,
+        ts.SyntaxKind.ShorthandPropertyAssignment,
+    ],
+    [ReflectionKind.Class]: [
+        // If marked with @class
+        ts.SyntaxKind.VariableDeclaration,
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.FunctionDeclaration,
+    ],
+    [ReflectionKind.Interface]: [
+        ts.SyntaxKind.TypeAliasDeclaration,
+        ts.SyntaxKind.ClassDeclaration, // type only exports
+    ],
+    [ReflectionKind.Constructor]: [],
+    [ReflectionKind.Property]: [],
+    [ReflectionKind.Method]: [],
+    [ReflectionKind.CallSignature]: [],
+    [ReflectionKind.IndexSignature]: [],
+    [ReflectionKind.ConstructorSignature]: [],
+    [ReflectionKind.Parameter]: [],
+    [ReflectionKind.TypeLiteral]: [],
+    [ReflectionKind.TypeParameter]: [],
+    [ReflectionKind.Accessor]: [],
+    [ReflectionKind.GetSignature]: [],
+    [ReflectionKind.SetSignature]: [],
+    [ReflectionKind.TypeAlias]: [
+        ts.SyntaxKind.FunctionDeclaration, // type only exports
+        ts.SyntaxKind.VariableDeclaration, // type only exports
+    ],
+    [ReflectionKind.Reference]: [],
     // Non-TS kind, will never have comments.
     [ReflectionKind.Document]: [],
 };
@@ -215,11 +263,49 @@ export function discoverComment(
     checker: ts.TypeChecker,
     declarationWarnings: boolean,
 ): DiscoveredComment | undefined {
+    const discovered = discoverCommentWorker(
+        symbol,
+        kind,
+        logger,
+        commentStyle,
+        checker,
+        declarationWarnings,
+        wantedKinds[kind],
+    );
+
+    if (discovered) {
+        return discovered;
+    }
+
+    return discoverCommentWorker(
+        symbol,
+        kind,
+        logger,
+        commentStyle,
+        checker,
+        declarationWarnings,
+        backupWantedKinds[kind],
+    );
+}
+
+function discoverCommentWorker(
+    symbol: ts.Symbol,
+    kind: ReflectionKind,
+    logger: Logger,
+    commentStyle: CommentStyle,
+    checker: ts.TypeChecker,
+    declarationWarnings: boolean,
+    wanted: ts.SyntaxKind[],
+): DiscoveredComment | undefined {
+    if (wanted.length === 0) {
+        return;
+    }
+
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
     const reverse = !symbol.declarations?.some(ts.isSourceFile);
 
-    const wantedDeclarations = filter(symbol.declarations, (decl) => wantedKinds[kind].includes(decl.kind));
+    const wantedDeclarations = filter(symbol.declarations, (decl) => wanted.includes(decl.kind));
 
     const commentNodes = wantedDeclarations.flatMap((decl) => declarationToCommentNodes(decl, checker));
 

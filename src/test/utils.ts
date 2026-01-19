@@ -119,14 +119,24 @@ interface ReflectionTree {
 export function reflToTree(refl: Reflection) {
     const result: ReflectionTree = {};
 
+    const seen = new Map<string, ReflectionKind>();
+
     refl.traverse((refl, prop) => {
         if (prop == TraverseProperty.Children) {
             // Intentionally using `in` here rather than hasOwnProperty to avoid
             // accidentally conflicting with a builtin property.
-            if (refl.name in result) {
+            if (seen.has(refl.name) || refl.name in result) {
+                // If this name shows up twice, move the first instance from the name
+                // without a type to a name with the type.
+                if (seen.has(refl.name) && refl.name in result) {
+                    result[`${ReflectionKind[seen.get(refl.name)!]}:${refl.name}`] = result[refl.name];
+                    delete result[refl.name];
+                }
+
                 result[`${ReflectionKind[refl.kind]}:${refl.name}`] = reflToTree(refl);
             } else {
                 result[refl.name] = reflToTree(refl);
+                seen.set(refl.name, refl.kind);
             }
         }
         return true;

@@ -1984,7 +1984,7 @@ describe("Issue Tests", () => {
         const project = convert();
 
         equal(reflToTree(project), {
-            "MyComponent": {
+            "Namespace:MyComponent": {
                 "Props": {
                     "children": "Property",
                 },
@@ -2291,5 +2291,16 @@ describe("Issue Tests", () => {
         // This happens twice, once for Foo and once for Bar
         logger.expectMessage("warn: " + i18n.inline_tag_0_not_parsed_as_modifier_tag_1("@interface", "with text"));
         logger.expectMessage("warn: " + i18n.inline_tag_0_not_parsed_as_modifier_tag_1("@interface", "with text"));
+    });
+
+    it("#3064 does not produce warnings regarding duplicate comments for declaration merged types/functions", () => {
+        const project = convert();
+
+        equal(project.children?.length, 2);
+        equalKind(project.children[0], ReflectionKind.TypeAlias);
+        equalKind(project.children[1], ReflectionKind.Function);
+
+        equal(Comment.combineDisplayParts(project.children[0].comment?.summary), "A");
+        equal(Comment.combineDisplayParts(project.children[1].signatures?.[0].comment?.summary), "B");
     });
 });
