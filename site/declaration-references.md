@@ -270,3 +270,32 @@ project "My lib docs"
    to the first signature of the `baz` method: `{@link @my/lib!Foo.baz:0}`, but the `Bam` function
    is also merged with a type alias, so `{@link @my/lib!Bam:0}` could link to either the type alias
    or the first signature of the function.
+
+## Resolution Failures
+
+When TypeDoc fails to resolve a link (and the
+[validation.invalidLink option](options/validation.md#validation) is set), TypeDoc will print
+a warning like the following:
+
+> [warning] Failed to resolve link to "Foo" in comment for @me/lib2.Bop
+
+With the resolution strategy in mind, we can now manually apply TypeDoc's link resolution algorithm
+to determine where the resolution went wrong.
+
+1. The link doesn't contain `!`, so it will be resolved as a local link, starting from the function `@me/lib2.Bop`
+2. `@my/lib2.Bop` doesn't have any children named `Foo`
+3. `@my/lib2` doesn't have any children named `Foo`
+4. The project doesn't directly have any children named `Foo`
+
+Given that we wanted to link to the `Foo` class in `@my/lib`, we have a couple options:
+
+1. Change the link to `{@link @my/lib!Foo}`
+
+   This is the recommended change as it means TypeDoc doesn't need to walk up multiple scopes
+   to find the link, it can start at the project root, then go directly to the module and then
+   the class.
+
+2. Change the link to `{@link "@my/lib".Foo}`
+
+   With this change, TypeDoc would resolve the link, but still has to check `@my/lib2.Bop` and `@my/lib2`
+   for a child named `@my/lib` before reaching the root project.
