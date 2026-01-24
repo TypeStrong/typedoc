@@ -31,6 +31,10 @@ export function resolveDeclarationReference(
                 c.kindOf(ReflectionKind.SomeModule) &&
                 c.name === ref.moduleSource,
         ) || [];
+
+        if (!high.length && reflection.project.packageName === ref.moduleSource) {
+            high.push(reflection.project);
+        }
     } else if (ref.resolutionStart === "global") {
         high.push(reflection.project);
         if (reflection.project.children?.length === 1) {

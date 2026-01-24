@@ -5,9 +5,9 @@ title: Declaration References
 # Declaration References
 
 > [!note] If [--useTsLinkResolution](options/comments.md#usetslinkresolution) is turned on (the default) this page
-> likely **does not apply** for your links within comments (though it will be used for
-> [external documents](./external-documents.md) and for the readme file). Declaration references are used only if that option is
-> off or TypeScript fails to resolve a link.
+> **may not apply** for your links within comments as TypeDoc will use TypeScript's resolution if TypeScript resolved
+> the link. This resolution strategy will only be used if TypeScript fails to parse the link or does not parse the
+> source document (e.g. for [external documents](./external-documents.md) and for the readme file).
 
 Some tags like [`{@link}`](tags/link.md) and [`{@inheritDoc}`](tags/inheritDoc.md) can refer to other
 members of the documentation. These tags use declaration references to name another declaration.
@@ -17,6 +17,7 @@ the "new" [TSDoc](https://tsdoc.org/pages/spec/overview/) declaration references
 to make their resolution behavior more closely match the TypeScript language service (e.g. what VSCode does).
 
 Declaration references are comprised of an optional module source, a component path, and an optional meaning.
+Once parsed, they are resolved according to the [resolution strategy](#resolution-strategy) described below.
 
 ## Module Source
 
@@ -193,3 +194,79 @@ function foo(n: number): number;
  */
 function foo(s: string): string;
 ```
+
+# Resolution Strategy
+
+When resolving links TypeDoc resolves the module source, then the component path, and finally the meaning.
+
+Link resolution is most easily understood with an example, the following project structure will be used in
+examples below:
+
+```text
+project "My lib docs"
+    module "@me/lib"
+        class "Foo"
+            static property "bar"
+            property "bar"
+            method "baz"
+                signature 0 () => string
+                signature 1 (x: number) => number
+
+        type alias "Bam"
+        function "Bam"
+            signature 0 () => string
+            signature 1 (x: number) => number
+
+        namespace "Nested"
+            variable "Bam"
+
+    module "@me/lib2"
+        function "Bop"
+```
+
+1. Resolve the Module Source:
+
+    TypeDoc first checks if a module is specified before `!`. If a module source is specified, then TypeDoc
+    will get the root level reflection with the same name as the module. In the example above, `@me/lib!`
+    and `@me/lib2!` will be resolved to the expected module, but `@me/fake!` will fail to resolve.
+
+    If the declaration reference does not specify a module source but starts with `!` then the link is treated
+    as a globally specified link whose resolution starts at the project level. `!"@me/lib"` will also resolve
+    to that module.
+
+    Otherwise, the link is treated as a local link which should start resolution at the comment location.
+    TypeDoc will prioritize link resolution with fewer scope steps to the target, but will also check parents
+    of a reflection for the link target. That is, `{@link Bam}` within the `Nested` namespace will resolve
+    to `@me/lib.Nested.Bam`, but `{@link Bam}` in the `Foo` class's comment (or the property/method) will
+    resolve to `@me/lib.Bam`.
+
+2. Resolve the Component Path:
+
+    Component paths are resolved according to their delimiter. The first section of a component path
+    is resolved as if the delimiter is `.`.
+
+    If the delimiter is `.`, TypeDoc will look for children of the current reflection, prioritizing
+    exports and static attributes over member attributes. The link `{@link @my/lib!Foo.bar}` will link
+    to the static property rather than the instance property, but `{@link my/lib!Foo.baz}` will successfully
+    link to the method even though it isn't static.
+
+    If the delimiter is `#`, TypeDoc will look for class/interface instance members. The link
+    `{@link @my/lib!Foo.bar}` will link to the instance property.
+
+    If the delimiter is `~`, TypeDoc will only look for children of the current reflection if the
+    current reflection is a module. This delimiter isn't generally useful.
+
+3. Resolve the Meaning:
+
+    Meanings are used to disambiguate links which could be intended to go to multiple locations.
+    The keyword portion of the meaning is resolved first. `{@link @my/lib!Bam:type}` will link
+    to the type alias, while `{@link @my/lib!Bam:function}` will link to the function.
+
+    Meanings may also include an index which further disambiguates the link. If you wanted to link
+    to the second signature of the `Bam` function, `{@link @my/lib!Bam:function}` is insufficient
+    and `{@link @my/lib!Bam:function(1)}` must be used instead.
+
+    An index may be included in a meaning without the keyword. This would be sufficient for linking
+    to the first signature of the `baz` method: `{@link @my/lib!Foo.baz:0}`, but the `Bam` function
+    is also merged with a type alias, so `{@link @my/lib!Bam:0}` could link to either the type alias
+    or the first signature of the function.

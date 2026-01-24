@@ -8,6 +8,7 @@ title: Changelog
 
 - Improved handling of comments for type aliases which have been declaration merged with functions, #3064.
 - Fixed anchor link generation to members named `$`, #3065.
+- Corrected typing of the `plugin` option to permit functions, #3066.
 
 ## v0.28.16 (2026-01-12)
 
