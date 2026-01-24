@@ -226,47 +226,47 @@ project "My lib docs"
 
 1. Resolve the Module Source:
 
-    TypeDoc first checks if a module is specified before `!`. If a module source is specified, then TypeDoc
-    will get the root level reflection with the same name as the module. In the example above, `@me/lib!`
-    and `@me/lib2!` will be resolved to the expected module, but `@me/fake!` will fail to resolve.
+   TypeDoc first checks if a module is specified before `!`. If a module source is specified, then TypeDoc
+   will get the root level reflection with the same name as the module. In the example above, `@me/lib!`
+   and `@me/lib2!` will be resolved to the expected module, but `@me/fake!` will fail to resolve.
 
-    If the declaration reference does not specify a module source but starts with `!` then the link is treated
-    as a globally specified link whose resolution starts at the project level. `!"@me/lib"` will also resolve
-    to that module.
+   If the declaration reference does not specify a module source but starts with `!` then the link is treated
+   as a globally specified link whose resolution starts at the project level. `!"@me/lib"` will also resolve
+   to that module.
 
-    Otherwise, the link is treated as a local link which should start resolution at the comment location.
-    TypeDoc will prioritize link resolution with fewer scope steps to the target, but will also check parents
-    of a reflection for the link target. That is, `{@link Bam}` within the `Nested` namespace will resolve
-    to `@me/lib.Nested.Bam`, but `{@link Bam}` in the `Foo` class's comment (or the property/method) will
-    resolve to `@me/lib.Bam`.
+   Otherwise, the link is treated as a local link which should start resolution at the comment location.
+   TypeDoc will prioritize link resolution with fewer scope steps to the target, but will also check parents
+   of a reflection for the link target. That is, `{@link Bam}` within the `Nested` namespace will resolve
+   to `@me/lib.Nested.Bam`, but `{@link Bam}` in the `Foo` class's comment (or the property/method) will
+   resolve to `@me/lib.Bam`.
 
 2. Resolve the Component Path:
 
-    Component paths are resolved according to their delimiter. The first section of a component path
-    is resolved as if the delimiter is `.`.
+   Component paths are resolved according to their delimiter. The first section of a component path
+   is resolved as if the delimiter is `.`.
 
-    If the delimiter is `.`, TypeDoc will look for children of the current reflection, prioritizing
-    exports and static attributes over member attributes. The link `{@link @my/lib!Foo.bar}` will link
-    to the static property rather than the instance property, but `{@link my/lib!Foo.baz}` will successfully
-    link to the method even though it isn't static.
+   If the delimiter is `.`, TypeDoc will look for children of the current reflection, prioritizing
+   exports and static attributes over member attributes. The link `{@link @my/lib!Foo.bar}` will link
+   to the static property rather than the instance property, but `{@link my/lib!Foo.baz}` will successfully
+   link to the method even though it isn't static.
 
-    If the delimiter is `#`, TypeDoc will look for class/interface instance members. The link
-    `{@link @my/lib!Foo.bar}` will link to the instance property.
+   If the delimiter is `#`, TypeDoc will look for class/interface instance members. The link
+   `{@link @my/lib!Foo.bar}` will link to the instance property.
 
-    If the delimiter is `~`, TypeDoc will only look for children of the current reflection if the
-    current reflection is a module. This delimiter isn't generally useful.
+   If the delimiter is `~`, TypeDoc will only look for children of the current reflection if the
+   current reflection is a module. This delimiter isn't generally useful.
 
 3. Resolve the Meaning:
 
-    Meanings are used to disambiguate links which could be intended to go to multiple locations.
-    The keyword portion of the meaning is resolved first. `{@link @my/lib!Bam:type}` will link
-    to the type alias, while `{@link @my/lib!Bam:function}` will link to the function.
+   Meanings are used to disambiguate links which could be intended to go to multiple locations.
+   The keyword portion of the meaning is resolved first. `{@link @my/lib!Bam:type}` will link
+   to the type alias, while `{@link @my/lib!Bam:function}` will link to the function.
 
-    Meanings may also include an index which further disambiguates the link. If you wanted to link
-    to the second signature of the `Bam` function, `{@link @my/lib!Bam:function}` is insufficient
-    and `{@link @my/lib!Bam:function(1)}` must be used instead.
+   Meanings may also include an index which further disambiguates the link. If you wanted to link
+   to the second signature of the `Bam` function, `{@link @my/lib!Bam:function}` is insufficient
+   and `{@link @my/lib!Bam:function(1)}` must be used instead.
 
-    An index may be included in a meaning without the keyword. This would be sufficient for linking
-    to the first signature of the `baz` method: `{@link @my/lib!Foo.baz:0}`, but the `Bam` function
-    is also merged with a type alias, so `{@link @my/lib!Bam:0}` could link to either the type alias
-    or the first signature of the function.
+   An index may be included in a meaning without the keyword. This would be sufficient for linking
+   to the first signature of the `baz` method: `{@link @my/lib!Foo.baz:0}`, but the `Bam` function
+   is also merged with a type alias, so `{@link @my/lib!Bam:0}` could link to either the type alias
+   or the first signature of the function.
