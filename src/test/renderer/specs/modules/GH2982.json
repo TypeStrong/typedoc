@@ -37,7 +37,16 @@
                                 "data-key": "section-Interfaces"
                             },
                             "children": {
-                                "h2": "Interfaces"
+                                "h2#interfaces": [
+                                    "Interfaces",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#interfaces",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -81,7 +90,16 @@
                                 "data-key": "section-Type Aliases"
                             },
                             "children": {
-                                "h2": "Type Aliases"
+                                "h2#type-aliases": [
+                                    "Type Aliases",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#type-aliases",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {

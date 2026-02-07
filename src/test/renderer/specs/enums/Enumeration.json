@@ -97,7 +97,16 @@
                                     "div.tsd-accordion-details": {
                                         "section.tsd-index-section": [
                                             {
-                                                "h3.tsd-index-heading": "Enumeration Members"
+                                                "h3.tsd-index-heading#enumeration-members": [
+                                                    "Enumeration Members",
+                                                    {
+                                                        "tag": "a.tsd-anchor-icon",
+                                                        "props": {
+                                                            "href": "#enumeration-members",
+                                                            "aria-label": "Permalink"
+                                                        }
+                                                    }
+                                                ]
                                             },
                                             {
                                                 "div.tsd-index-list": [
@@ -142,7 +151,16 @@
                                 "data-key": "section-Enumeration Members"
                             },
                             "children": {
-                                "h2": "Enumeration Members"
+                                "h2#enumeration-members-1": [
+                                    "Enumeration Members",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#enumeration-members-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {

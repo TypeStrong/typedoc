@@ -2,14 +2,22 @@ import { classNames, getMemberSections, isNoneSection, type MemberSection, rende
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { i18n, JSX } from "#utils";
 import type { ContainerReflection } from "../../../../models/index.js";
+import { anchorIcon } from "./anchor-icon.js";
 
 function renderSection(
-    { urlTo, reflectionIcon, getReflectionClasses, markdown }: DefaultThemeRenderContext,
+    context: DefaultThemeRenderContext,
     item: MemberSection,
 ) {
+    const { urlTo, reflectionIcon, getReflectionClasses, markdown, slugger } = context;
+    const sectionId = !isNoneSection(item) ? slugger.slug(item.title) : undefined;
     return (
         <section class="tsd-index-section">
-            {!isNoneSection(item) && <h3 class="tsd-index-heading">{item.title}</h3>}
+            {!isNoneSection(item) && (
+                <h3 class="tsd-index-heading" id={sectionId}>
+                    {item.title}
+                    {anchorIcon(context, sectionId)}
+                </h3>
+            )}
             {item.description && (
                 <div class="tsd-comment tsd-typography">
                     <JSX.Raw html={markdown(item.description)} />

@@ -59,7 +59,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Constructors"
+                                                    "h3.tsd-index-heading#constructors": [
+                                                        "Constructors",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#constructors",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -80,7 +89,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Properties"
+                                                    "h3.tsd-index-heading#properties": [
+                                                        "Properties",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#properties",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -146,7 +164,16 @@
                                 "data-key": "section-Constructors"
                             },
                             "children": {
-                                "h2": "Constructors"
+                                "h2#constructors-1": [
+                                    "Constructors",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#constructors-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -269,7 +296,16 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties-1": [
+                                    "Properties",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#properties-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {

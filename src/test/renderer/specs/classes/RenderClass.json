@@ -146,7 +146,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Constructors"
+                                                    "h3.tsd-index-heading#constructors": [
+                                                        "Constructors",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#constructors",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -167,7 +176,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Properties"
+                                                    "h3.tsd-index-heading#properties": [
+                                                        "Properties",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#properties",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -188,7 +206,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Accessors"
+                                                    "h3.tsd-index-heading#accessors": [
+                                                        "Accessors",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#accessors",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -225,7 +252,16 @@
                                         {
                                             "section.tsd-index-section": [
                                                 {
-                                                    "h3.tsd-index-heading": "Methods"
+                                                    "h3.tsd-index-heading#methods": [
+                                                        "Methods",
+                                                        {
+                                                            "tag": "a.tsd-anchor-icon",
+                                                            "props": {
+                                                                "href": "#methods",
+                                                                "aria-label": "Permalink"
+                                                            }
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "div.tsd-index-list": [
@@ -281,7 +317,16 @@
                                 "data-key": "section-Constructors"
                             },
                             "children": {
-                                "h2": "Constructors"
+                                "h2#constructors-1": [
+                                    "Constructors",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#constructors-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -450,7 +495,16 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties-1": [
+                                    "Properties",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#properties-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -525,7 +579,16 @@
                                 "data-key": "section-Accessors"
                             },
                             "children": {
-                                "h2": "Accessors"
+                                "h2#accessors-1": [
+                                    "Accessors",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#accessors-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -788,7 +851,16 @@
                                 "data-key": "section-Methods"
                             },
                             "children": {
-                                "h2": "Methods"
+                                "h2#methods-1": [
+                                    "Methods",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#methods-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
