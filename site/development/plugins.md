@@ -18,12 +18,34 @@ generally published as ESM to avoid `require(esm)` experimental warnings.
 
 ```js
 // @ts-check
+// npx typedoc --plugin ./plugin.js
+
 import * as td from "typedoc";
 /** @param {td.Application} app */
 export function load(app) {
     // Add event listeners to app, app.converter, etc.
     // this function may be async
 }
+```
+
+Plugin load functions may also be referenced directly in JS config files:
+
+```js
+// typedoc.config.js
+import * as td from "typedoc";
+
+/** @param {td.Application} app */
+export function customPlugin(app) {
+    // Add event listeners to app, app.converter, etc.
+    // this function may be async
+}
+
+/** @type {td.TypeDocOptions} */
+const config = {
+    plugin: [customPlugin],
+};
+
+export default config;
 ```
 
 Plugins affect TypeDoc's execution by attaching event listeners to one or many
@@ -44,8 +66,8 @@ Plugins which are configurable can add custom options with
 `app.options.addDeclaration`. [typedoc-plugin-mdn-links] has an example of the
 recommended way of doing this.
 
-If you have specific questions regarding plugin development, please open an
-issue or ask in the [TypeScript Discord] #typedoc channel.
+If you have specific questions regarding plugin development, please create a
+discussion or ask in the [TypeScript Discord] #typedoc channel.
 
 [typedoc-plugin-mdn-links]: https://github.com/Gerrit0/typedoc-plugin-mdn-links/blob/main/src/index.ts
 [TypeScript Discord]: https://discord.gg/typescript
