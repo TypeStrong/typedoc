@@ -2303,4 +2303,10 @@ describe("Issue Tests", () => {
         equal(Comment.combineDisplayParts(project.children[0].comment?.summary), "A");
         equal(Comment.combineDisplayParts(project.children[1].signatures?.[0].comment?.summary), "B");
     });
+
+    it("#3071 correctly handles substitution types", () => {
+        const project = convert();
+        const m = querySig(project, "m");
+        equal(m.type?.toString(), "Content extends object ? Content : Other");
+    });
 });
