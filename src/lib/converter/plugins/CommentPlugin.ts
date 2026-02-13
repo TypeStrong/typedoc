@@ -148,6 +148,9 @@ export class CommentPlugin extends ConverterComponent {
     @Option("defaultCategory")
     accessor defaultCategory!: string;
 
+    @Option("suppressCommentWarningsInDeclarationFiles")
+    accessor suppressCommentWarningsInDeclarationFiles!: boolean;
+
     private _excludeKinds: number | undefined;
     private get excludeNotDocumentedKinds(): number {
         this._excludeKinds ??= this.application.options
@@ -406,7 +409,8 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.comment) {
             if (
                 reflection.comment.label &&
-                !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label)
+                !/[A-Z_][A-Z0-9_]/.test(reflection.comment.label) &&
+                !this.suppressCommentWarnings(reflection.comment)
             ) {
                 context.logger.warn(
                     i18n.label_0_for_1_cannot_be_referenced(
@@ -421,7 +425,7 @@ export class CommentPlugin extends ConverterComponent {
                     group,
                     reflection.comment.modifierTags,
                 );
-                if (intersect.size > 1) {
+                if (intersect.size > 1 && !this.suppressCommentWarnings(reflection.comment)) {
                     const [a, b] = intersect;
                     context.logger.warn(
                         i18n.modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2(
@@ -724,7 +728,7 @@ export class CommentPlugin extends ConverterComponent {
 
         moveNestedParamTags(/* in-out */ paramTags, params, comment.sourcePath);
 
-        if (!comment.inheritedFromParentDeclaration) {
+        if (!comment.inheritedFromParentDeclaration && !this.suppressCommentWarnings(comment)) {
             for (const tag of paramTags) {
                 this.application.logger.warn(
                     i18n.signature_0_has_unused_param_with_name_1(
@@ -734,6 +738,11 @@ export class CommentPlugin extends ConverterComponent {
                 );
             }
         }
+    }
+
+    private suppressCommentWarnings(comment: Comment) {
+        return this.suppressCommentWarningsInDeclarationFiles &&
+            /\.d\.(ts|mts|cts)$/.test(comment.sourcePath || "");
     }
 }
 

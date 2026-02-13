@@ -161,4 +161,8 @@ export namespace NormalizedPathUtils {
         }
         return { name: name.substring(0, lastDot), ext: name.substring(lastDot) };
     }
+
+    export function isDeclarationFilePath(path: NormalizedPath) {
+        return /\.d\.(ts|mts|cts)$/.test(path);
+    }
 }
