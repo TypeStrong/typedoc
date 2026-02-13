@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.17 (2026-02-13)
+
 ### Bug Fixes
 
 - Improved handling of comments for type aliases which have been declaration merged with functions, #3064.
