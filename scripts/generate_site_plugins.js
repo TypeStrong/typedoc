@@ -27,6 +27,9 @@ const EXCLUDED_PLUGINS = [
     "jsonforms-typedoc-theme",
     "typedoc-jsonforms-theme",
     "suika-docs-theme",
+
+    // Improperly tagged, not actually a TypeDoc plugin
+    "typedoc-toolbox",
 ];
 
 const EXCLUDED_PLUGIN_USERS = [
@@ -63,6 +66,7 @@ async function getSupportedVersions(npmPackage) {
  * @prop {string} version
  * @prop {string} description
  * @prop {{ username: string}} publisher
+ * @prop {Array<{ username: string }>} maintainers
  * @prop {string} license
  * @prop {string} date
  * @prop {NpmLinks} links
@@ -108,6 +112,7 @@ function getSupportingPlugins(typedocVersion, plugins) {
     for (const plugin of plugins) {
         if (EXCLUDED_PLUGINS.includes(plugin.name)) continue;
         if (EXCLUDED_PLUGIN_USERS.includes(plugin.publisher.username)) continue;
+        if (plugin.maintainers.some(n => EXCLUDED_PLUGIN_USERS.includes(n.username))) continue;
 
         let version = plugin.peer.trim();
         if (!version) continue;
@@ -185,6 +190,9 @@ function relativeDate(date) {
     }
 
     const deltaWeeks = Math.floor(deltaDays / 7);
+    if (deltaWeeks === 1) {
+        return `1 week ago`;
+    }
     if (deltaWeeks <= 3) {
         return `${deltaWeeks} weeks ago`;
     }
@@ -232,9 +240,15 @@ async function createInclude(plugins, checkVersions, path) {
                 `    <p class="box-title"><a href="${plugin.links.npm}" target="_blank">${plugin.name}</a></p>`,
             );
             out.push(`    <p>${miniMarkdown(plugin.description || "")}</p>`);
+            let owner = "";
+            if (plugin.publisher.username.toLowerCase() === "github actions") {
+                owner = plugin.maintainers[0].username;
+            } else {
+                owner = plugin.publisher.username;
+            }
             out.push(
                 `    <p>`,
-                `        <a href="https://www.npmjs.com/~${plugin.publisher.username}" target="_blank">${plugin.publisher.username}</a> •`,
+                `        <a href="https://www.npmjs.com/~${owner}" target="_blank">${owner}</a> •`,
                 `        ${plugin.version} •`,
                 `        ${relativeDate(plugin.date)} •`,
                 `        ${plugin.license || "no license"}`,
