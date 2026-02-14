@@ -13,7 +13,7 @@ function renderSection(
     return (
         <section class="tsd-index-section">
             {!isNoneSection(item) && (
-                <h3 class="tsd-index-heading" id={sectionId}>
+                <h3 class="tsd-index-heading tsd-anchor-link" id={sectionId}>
                     {item.title}
                     {anchorIcon(context, sectionId)}
                 </h3>
