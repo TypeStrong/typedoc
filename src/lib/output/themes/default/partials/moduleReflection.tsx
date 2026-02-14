@@ -55,12 +55,14 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                     );
                 }
 
+                const sectionId = context.slugger.slug(section.title);
                 return (
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + section.title}>
                             {context.icons.chevronDown()}
-                            <h2>
+                            <h2 class="tsd-anchor-link" id={sectionId}>
                                 {section.title}
+                                {anchorIcon(context, sectionId)}
                             </h2>
                         </summary>
                         {content}
