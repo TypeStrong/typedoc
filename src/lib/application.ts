@@ -41,6 +41,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { Outputs } from "./output/output.js";
 import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
+import { validateFilePaths } from "./validation/filePaths.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
 import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
 import { Internationalization } from "./internationalization/internationalization.js";
@@ -701,6 +702,10 @@ export class Application extends AbstractComponent<
 
         if (checks.unusedMergeModuleWith) {
             validateMergeModuleWith(project, this.logger);
+        }
+
+        if (checks.invalidPath) {
+            validateFilePaths(project, this.logger);
         }
 
         this.trigger(Application.EVENT_VALIDATE_PROJECT, project);

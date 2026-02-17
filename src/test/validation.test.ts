@@ -2,10 +2,12 @@ import { ok } from "assert";
 import { join } from "path";
 import { validateDocumentation } from "../lib/validation/documentation.js";
 import { validateExports } from "../lib/validation/exports.js";
+import { validateFilePaths } from "../lib/validation/filePaths.js";
 import { getConverter2App, getConverter2Program, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { fileURLToPath } from "url";
 import { validateMergeModuleWith } from "../lib/validation/unusedMergeModuleWith.js";
+import { normalizePath } from "#node-utils";
 
 function convertValidationFile(...files: [string, ...string[]]) {
     return getConverter2Project(files, "validation");
@@ -231,5 +233,49 @@ describe("validateMergeModuleWith", () => {
         logger.expectMessage(
             `warn: unusedMergeModuleWith has a @mergeModuleWith tag which could not be resolved`,
         );
+    });
+});
+
+describe("validateFilePaths", () => {
+    it("Should warn if a registered path is a directory", () => {
+        const project = convertValidationFile("variable.ts");
+        // Register a directory path (the converter2 directory itself) without a reflection association
+        const dirPath = normalizePath(
+            join(fileURLToPath(import.meta.url), "../converter2"),
+        );
+        project.files.registerAbsolute(dirPath);
+
+        const logger = new TestLogger();
+        validateFilePaths(project, logger);
+
+        logger.expectMessage(
+            `warn: The relative path ${dirPath} is not a file and will not be copied to the output directory`,
+        );
+    });
+
+    it("Should not warn for registered files", () => {
+        const project = convertValidationFile("variable.ts");
+        const filePath = normalizePath(
+            join(fileURLToPath(import.meta.url), "../converter2/validation/variable.ts"),
+        );
+        project.files.registerAbsolute(filePath);
+
+        const logger = new TestLogger();
+        validateFilePaths(project, logger);
+
+        logger.expectNoOtherMessages();
+    });
+
+    it("Should not warn for directories with a reflection association", () => {
+        const project = convertValidationFile("variable.ts");
+        const dirPath = normalizePath(
+            join(fileURLToPath(import.meta.url), "../converter2"),
+        );
+        project.files.registerReflectionPath(dirPath, project);
+
+        const logger = new TestLogger();
+        validateFilePaths(project, logger);
+
+        logger.expectNoOtherMessages();
     });
 });
