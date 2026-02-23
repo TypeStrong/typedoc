@@ -35,18 +35,18 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
 
     // Create a mapping of escaped patterns to preserve them
     const escapedBracketMap = new Map<string, string>();
-    
+
     // Find escaped bracket patterns and create placeholders
     const braceMatch = noModifierGlob.match(/{([^}]+)}/);
     if (braceMatch) {
         const braceContent = braceMatch[1];
-        const parts = braceContent.split(',');
-        
+        const parts = braceContent.split(",");
+
         parts.forEach(part => {
-            if (part.includes('\\[') || part.includes('\\]')) {
+            if (part.includes("\\[") || part.includes("\\]")) {
                 // Create a temporary pattern for Minimatch processing
                 // eslint-disable-next-line no-useless-escape
-                const tempPattern = part.replace(/\\[\[\]]/g, '.');
+                const tempPattern = part.replace(/\\[\[\]]/g, ".");
                 escapedBracketMap.set(tempPattern, part);
             }
         });
@@ -68,7 +68,7 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
     if (base) {
         const skipIndex = countMatches(base, "/") + 1;
         const globPart = mini.globParts.map(s => s.slice(skipIndex));
-        
+
         // Restore escaped bracket patterns in the glob parts
         const restoredGlobPart = globPart.map(parts => {
             return parts.map(part => {
@@ -81,7 +81,7 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
                 return part;
             });
         });
-        
+
         const resultingGlob = restoredGlobPart.length === 1
             ? restoredGlobPart[0].join("/")
             : `{${restoredGlobPart.map(s => s.join("/")).join(",")}}`;
