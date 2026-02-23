@@ -45,6 +45,7 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
         parts.forEach(part => {
             if (part.includes('\\[') || part.includes('\\]')) {
                 // Create a temporary pattern for Minimatch processing
+                // eslint-disable-next-line no-useless-escape
                 const tempPattern = part.replace(/\\[\[\]]/g, '.');
                 escapedBracketMap.set(tempPattern, part);
             }

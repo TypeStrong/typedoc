@@ -88,6 +88,7 @@
         "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes && node scripts/generate_options_schema.js typedoc-config.schema.json",
         "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
         "lint": "eslint . --max-warnings 0 && dprint check",
+        "lint:fix": "eslint . --fix",
         "prepack": "node scripts/set_strict.js false && pnpm build:prod",
         "prepare": "node scripts/prepare.mjs",
         "postpublish": "node scripts/set_strict.js true"
