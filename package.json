@@ -35,7 +35,7 @@
         "@gerrit0/mini-shiki": "^3.17.0",
         "lunr": "^2.3.9",
         "markdown-it": "^14.1.1",
-        "minimatch": "^9.0.5",
+        "minimatch": "^10.2.2",
         "yaml": "^2.8.1"
     },
     "peerDependencies": {

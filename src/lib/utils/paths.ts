@@ -33,6 +33,24 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
         return { modifiers, path: "", glob: noModifierGlob };
     }
 
+    // Create a mapping of escaped patterns to preserve them
+    const escapedBracketMap = new Map<string, string>();
+    
+    // Find escaped bracket patterns and create placeholders
+    const braceMatch = noModifierGlob.match(/{([^}]+)}/);
+    if (braceMatch) {
+        const braceContent = braceMatch[1];
+        const parts = braceContent.split(',');
+        
+        parts.forEach(part => {
+            if (part.includes('\\[') || part.includes('\\]')) {
+                // Create a temporary pattern for Minimatch processing
+                const tempPattern = part.replace(/\\[\[\]]/g, '.');
+                escapedBracketMap.set(tempPattern, part);
+            }
+        });
+    }
+
     const mini = new Minimatch(noModifierGlob, { dot: true });
 
     const basePaths = mini.set.map(set => {
@@ -49,12 +67,23 @@ export function splitGlobToPathAndSpecial(glob: string): { modifiers: string; pa
     if (base) {
         const skipIndex = countMatches(base, "/") + 1;
         const globPart = mini.globParts.map(s => s.slice(skipIndex));
-        // This isn't ideal, it will end up re-writing the glob if braces are used,
-        // but I don't want to write a glob minimizer at this point, and this should
-        // handle all the edge cases as we're just using Minimatch's glob parsing
-        const resultingGlob = globPart.length === 1
-            ? globPart[0].join("/")
-            : `{${globPart.map(s => s.join("/")).join(",")}}`;
+        
+        // Restore escaped bracket patterns in the glob parts
+        const restoredGlobPart = globPart.map(parts => {
+            return parts.map(part => {
+                // Check if this part should be restored to escaped brackets
+                for (const [tempPattern, originalPattern] of escapedBracketMap) {
+                    if (part === tempPattern) {
+                        return originalPattern;
+                    }
+                }
+                return part;
+            });
+        });
+        
+        const resultingGlob = restoredGlobPart.length === 1
+            ? restoredGlobPart[0].join("/")
+            : `{${restoredGlobPart.map(s => s.join("/")).join(",")}}`;
         return { modifiers, path: base, glob: resultingGlob };
     }
 
