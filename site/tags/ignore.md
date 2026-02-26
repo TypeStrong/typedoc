@@ -6,8 +6,8 @@ title: "@ignore"
 
 **Tag Kind:** [Modifier](../tags.md#modifier-tags)
 
-Reflections marked with the `@hidden` tag will be removed from the documentation.
-It is equivalent to the `@ignore` JSDoc tag.
+Reflections marked with the `@ignore` tag will be removed from the documentation.
+It is equivalent to the `@hidden` tag.
 
 ## Example
 
@@ -20,6 +20,6 @@ export class Visibility {
 
 ## See Also
 
-- The [`@ignore`](ignore.md) tag
+- The [`@hidden`](hidden.md) tag
 - The [`@internal`](internal.md) tag
 - The [JSDoc `@ignore`](https://jsdoc.app/tags-ignore.html) tag
