@@ -88,6 +88,33 @@ the file **must** be placed alongside `tsconfig.json`. See the
 }
 ```
 
+When defining tags in a TypeDoc configuration file, it is recommended to use a JavaScript
+config file so that TypeDoc's default tag list can be easily extended.
+
+```js
+// typedoc.config.mjs
+import { OptionDefaults } from "typedoc";
+/** @import { TypeDocOptions } from "typedoc" */
+
+/** @type {TypeDocOptions} */
+const config = {
+    blockTags: [
+        ...OptionDefaults.blockTags,
+        "@customBlock",
+    ],
+    modifierTags: [
+        ...OptionDefaults.modifierTags,
+        "@customModifier",
+    ],
+    inlineTags: [
+        ...OptionDefaults.inlineTags,
+        "@customInline",
+    ],
+};
+
+export default config;
+```
+
 ## Block Tags
 
 Block tags are tags that are associated with the following text. They can be
