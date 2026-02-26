@@ -67,7 +67,15 @@ compiler can infer the same information directly from code. Any tags which are n
 result in a warning being emitted. TypeDoc will still parse the documentation comment, using context
 clues to determine the likely intended tag type.
 
-## Defining Tags
+## Custom Tags
+
+TypeDoc's default list of tags primarily consists of tags which are defined by the [TSDoc](https://tsdoc.org/)
+standard or have custom behavior associated with them. It also includes some [JSDoc](https://jsdoc.app/) tags
+which are very widely used but have no associated behavior to reduce the need for custom configuration.
+
+If you previously used another documentation generator or want to introduce a tag for a standard heading
+in your documentation, TypeDoc supports defining custom tags which should not produce a warning. When a block
+tag with no special behavior is encountered, TypeDoc will simply render it in the documentation.
 
 TypeDoc supports defining what tags are supported through either a `tsdoc.json` file or via the
 `--blockTags`, `--inlineTags`, and `--modifierTags` options. If defined in a `tsdoc.json` file,
@@ -75,6 +83,7 @@ the file **must** be placed alongside `tsconfig.json`. See the
 [TSDoc documentation](https://tsdoc.org/pages/packages/tsdoc-config/) for details on the file format.
 
 ```json
+// tsdoc.json
 {
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/tsdoc/v0/tsdoc.schema.json",
     "extends": ["typedoc/tsdoc.json"],
