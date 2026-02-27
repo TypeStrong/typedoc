@@ -140,7 +140,16 @@
                                     "div.tsd-accordion-details": {
                                         "section.tsd-index-section": [
                                             {
-                                                "h3.tsd-index-heading": "Methods"
+                                                "h3.tsd-index-heading#methods": [
+                                                    "Methods",
+                                                    {
+                                                        "tag": "a.tsd-anchor-icon",
+                                                        "props": {
+                                                            "href": "#methods",
+                                                            "aria-label": "Permalink"
+                                                        }
+                                                    }
+                                                ]
                                             },
                                             {
                                                 "div.tsd-index-list": [
@@ -185,7 +194,16 @@
                                 "data-key": "section-Methods"
                             },
                             "children": {
-                                "h2": "Methods"
+                                "h2#methods-1": [
+                                    "Methods",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#methods-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
