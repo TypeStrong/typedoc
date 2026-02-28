@@ -10,8 +10,8 @@ export function* lexBlockComment(
     createSymbolId: Context["createSymbolId"] = () => {
         throw new Error("unreachable");
     },
-    jsDoc: ts.JSDoc | undefined = undefined,
-    checker: ts.TypeChecker | undefined = undefined,
+    jsDoc?: ts.JSDoc,
+    checker?: ts.TypeChecker,
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;

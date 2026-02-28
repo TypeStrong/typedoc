@@ -849,6 +849,7 @@ export class Application extends AbstractComponent<
             // When debugging memory issues, it's useful to set these
             // here so that a breakpoint on the continue statement below
             // gets the memory as it ought to be with all TS objects released.
+            // eslint-disable-next-line no-useless-assignment
             project = undefined;
             this.files = undefined!;
             // global.gc!();

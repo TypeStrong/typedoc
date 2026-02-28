@@ -66,31 +66,19 @@ function makeSerializer(router: Router) {
 
 export function debugRendererUrls(
     app: Application,
-    { json = false, logs = false } = { logs: true },
 ) {
-    app.renderer.postRenderAsyncJobs.push(async (evt) => {
+    app.renderer.postRenderAsyncJobs.push((evt) => {
         const router = app.renderer.router!;
-
-        if (json) {
-            const serializer = makeSerializer(router);
-            app.serializer.addSerializer(serializer);
-            await app.generateJson(
-                evt.project,
-                join(evt.outputDirectory, "url_debug.json"),
+        for (const id in evt.project.reflections) {
+            const refl = evt.project.reflections[id];
+            console.log(
+                refl.id,
+                refl.getFullName(),
+                router.hasUrl(refl) ? router.getFullUrl(refl) : undefined,
             );
-            app.serializer.removeSerializer(serializer);
         }
 
-        if (logs) {
-            for (const id in evt.project.reflections) {
-                const refl = evt.project.reflections[id];
-                console.log(
-                    refl.id,
-                    refl.getFullName(),
-                    router.hasUrl(refl) ? router.getFullUrl(refl) : undefined,
-                );
-            }
-        }
+        return Promise.resolve();
     });
 }
 
