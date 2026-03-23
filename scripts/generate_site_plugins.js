@@ -24,12 +24,17 @@ const EXCLUDED_PLUGINS = [
     "@initializer-utils/typedoc-theme",
     "@colony/typedoc-plugin-markdown",
     "@gobstones/typedoc-theme-gobstones",
+    "@signalk/typedoc-signalk-theme",
     "jsonforms-typedoc-theme",
     "typedoc-jsonforms-theme",
     "suika-docs-theme",
 
     // Improperly tagged, not actually a TypeDoc plugin
     "typedoc-toolbox",
+
+    // Duplicate of @to-skills/typedoc, incorrectly claims it is for auto-discovery
+    // which hasn't been supported in years at this point.
+    "typedoc-plugin-to-skills",
 ];
 
 const EXCLUDED_PLUGIN_USERS = [
