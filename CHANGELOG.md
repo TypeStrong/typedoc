@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.18 (2026-03-23)
+
 ### Features
 
 - Support TypeScript 6.0, #3084.
