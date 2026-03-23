@@ -31,8 +31,12 @@ export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declarati
         qualifiedName = getQualifiedName(symbol, symbol.name);
     }
     const pos = declaration?.getStart() ?? Infinity;
+
+    // Transient symbols may need to be tagged as such to disambiguate between references
+    // to generic classes/interfaces/aliases. However esModuleInterop can also introduce
+    // transient symbols for modules, which we don't want to catch here.
     let transientId = NaN;
-    if (symbol.flags & ts.SymbolFlags.Transient) {
+    if ((symbol.flags & ts.SymbolFlags.Transient) && declaration?.kind !== ts.SyntaxKind.SourceFile) {
         transientId = transientIds.get(symbol) ?? ++transientCount;
         transientIds.set(symbol, transientId);
     }

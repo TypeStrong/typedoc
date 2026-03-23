@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "types": ["node"],
         "target": "ESNext",
         "module": "CommonJS",
         "jsx": "react",
@@ -11,8 +12,8 @@
         "noEmit": true,
         "outDir": "dist",
 
-        // See #1524. We might force this to false eventually.
-        "skipLibCheck": true
+        "strictPropertyInitialization": false,
+        "noImplicitAny": false
     },
     "include": ["."]
 }

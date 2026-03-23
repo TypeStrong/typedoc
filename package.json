@@ -39,7 +39,7 @@
         "yaml": "^2.8.2"
     },
     "peerDependencies": {
-        "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x"
+        "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x || 6.0.x"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
@@ -55,8 +55,8 @@
         "mocha": "^11.7.5",
         "puppeteer": "^24.37.5",
         "semver": "^7.7.4",
-        "tsx": "^4.21.0",
-        "typescript": "5.9.3",
+        "tsx": "4.21.0",
+        "typescript": "6.0.1-rc",
         "typescript-eslint": "^8.56.1"
     },
     "files": [
@@ -72,7 +72,7 @@
         "/typedoc-config.schema.json"
     ],
     "scripts": {
-        "test": "mocha --config .config/mocha.fast.json",
+        "test": "node node_modules/mocha/bin/mocha.js --config .config/mocha.fast.json",
         "test:cov": "c8 -r lcov mocha --config .config/mocha.fast.json",
         "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
         "doc:cd": "node --inspect-brk dist/lib/cli.js --tsconfig src/test/converter/tsconfig.json",
@@ -134,7 +134,6 @@
         "onlyBuiltDependencies": [
             "dprint",
             "esbuild",
-            "puppeteer",
             "@typestrong/fs-fixture-builder"
         ]
     }

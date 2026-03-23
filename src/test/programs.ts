@@ -103,7 +103,8 @@ export function getConverterProgram() {
         );
 
         const errors = ts.getPreEmitDiagnostics(converterProgram);
-        equal(errors, []);
+        diagnostics(app.logger, errors);
+        equal(errors.length, 0);
     }
     return converterProgram;
 }

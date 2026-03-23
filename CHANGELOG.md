@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Support TypeScript 6.0, #3084.
+
 ## v0.28.17 (2026-02-13)
 
 ### Bug Fixes
