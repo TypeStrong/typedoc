@@ -159,7 +159,7 @@ if (import.meta.url.endsWith(process.argv[1])) {
             "seconds",
         );
     } catch (error) {
-        if (error.code == "ERR_PARSE_ARGS_UNKNOWN_OPTION") {
+        if (error && typeof error === "object" && "code" in error && error.code == "ERR_PARSE_ARGS_UNKNOWN_OPTION") {
             printHelp();
             process.exit(1);
         }

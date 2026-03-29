@@ -65,11 +65,7 @@ function buildNavElement(
         summary.dataset.key = fullPath.join("$");
         // Would be nice to not hardcode this here, if someone overwrites the chevronDown icon with an <img>
         // then this won't work... going to wait to worry about that until it actually breaks some custom theme.
-        // Also very annoying that we can't encode the svg in the cache, since that gets duplicated here...
-        // If that breaks someone, we probably have to get the svg element from the cached div (and include them..)
-        // and clone that into place...
-        summary.innerHTML =
-            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>`;
+        summary.innerHTML = `<svg width="20" height="20"><use href="#icon-chevronDown"></use></svg>`;
         addNavText(el, summary);
 
         const data = details.appendChild(document.createElement("div"));
@@ -105,17 +101,16 @@ function addNavText(
                 '"',
                 "&quot;",
             );
-            a.innerHTML =
-                `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${
-                    el.icon || el.kind
-                }"></use></svg>`;
+            a.innerHTML = `<svg width="20" height="20" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-${
+                el.icon || el.kind
+            }"></use></svg>`;
         }
         a.appendChild(wbr(el.text, document.createElement("span")));
     } else {
         const span = parent.appendChild(document.createElement("span"));
         const label = window.translations.folder.replaceAll('"', "&quot;");
         span.innerHTML =
-            `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
+            `<svg width="20" height="20" class="tsd-kind-icon" aria-label="${label}"><use href="#icon-folder"></use></svg>`;
         span.appendChild(wbr(el.text, document.createElement("span")));
     }
 }

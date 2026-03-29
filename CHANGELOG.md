@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Corrected handling of icon caching for custom themes which use SVGs with a larger view box than TypeDoc's default theme.
+
 ## v0.28.18 (2026-03-23)
 
 ### Features

@@ -26,6 +26,7 @@ export class PQueue {
         return new Promise((resolve, reject) => {
             /** @type {Promise<void>[]} */
             const queue = [];
+            /** @param {unknown} err */
             const doReject = (err) => {
                 this._queued.length = 0;
                 queue.length = 0;

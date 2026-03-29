@@ -50,10 +50,14 @@ export class IconsPlugin extends RendererComponent {
         const icons = (this.owner.theme as DefaultTheme).icons;
 
         for (const [name, icon] of Object.entries(icons)) {
+            const svg: JSX.Element = icon.call(icons);
+            const className = svg.props && "class" in svg.props
+                ? String(svg.props.class) + " tsd-no-select"
+                : "tsd-no-select";
             children.push(
-                <g id={`icon-${name}`} class="tsd-no-select">
-                    {icon.call(icons).children}
-                </g>,
+                <symbol {...(svg.props || {})} id={`icon-${name}`} class={className}>
+                    {svg.children}
+                </symbol>,
             );
         }
 

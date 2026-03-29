@@ -126,6 +126,7 @@ export interface IntrinsicElements {
     use: JsxUseElementProps;
     text: JsxTextElementProps;
     image: JsxImageElementProps;
+    symbol: JsxSymbolElementProps;
 }
 
 export function JsxFragment(): never {
@@ -1193,4 +1194,20 @@ export interface JsxImageElementProps extends JsxSvgCoreProps {
     preserveAspectRatio?: string;
     crossorigin?: "anonymous" | "use-credentials";
     decoding?: "async" | "sync" | "auto";
+}
+
+/**
+ * Properties permitted on the `<symbol>` element.
+ *
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/symbol
+ */
+export interface JsxSymbolElementProps extends JsxSvgCoreProps, JsxHtmlGlobalProps {
+    x?: string;
+    y?: string;
+    width?: string | number;
+    height?: string | number;
+    preserveAspectRatio?: string;
+    refX?: string;
+    refY?: string;
+    viewBox?: string;
 }
