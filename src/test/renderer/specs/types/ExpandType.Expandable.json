@@ -115,7 +115,16 @@
                                     "div.tsd-accordion-details": {
                                         "section.tsd-index-section": [
                                             {
-                                                "h3.tsd-index-heading": "Properties"
+                                                "h3.tsd-index-heading#properties": [
+                                                    "Properties",
+                                                    {
+                                                        "tag": "a.tsd-anchor-icon",
+                                                        "props": {
+                                                            "href": "#properties",
+                                                            "aria-label": "Permalink"
+                                                        }
+                                                    }
+                                                ]
                                             },
                                             {
                                                 "div.tsd-index-list": [
@@ -150,7 +159,16 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties-1": [
+                                    "Properties",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#properties-1",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
