@@ -35,6 +35,7 @@ export const CommentStyle = {
     JSDoc: "jsdoc",
     Block: "block",
     Line: "line",
+    TripleSlash: "triple-slash",
     All: "all",
 } as const;
 export type CommentStyle = (typeof CommentStyle)[keyof typeof CommentStyle];
