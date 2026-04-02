@@ -737,6 +737,12 @@ function permittedRange(
             return ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia;
         case CommentStyle.Line:
             return ranges[0].kind === ts.SyntaxKind.SingleLineCommentTrivia;
+        case CommentStyle.TripleSlash:
+            return (
+                ranges[0].kind === ts.SyntaxKind.SingleLineCommentTrivia &&
+                text[ranges[0].pos + 2] === "/" &&
+                text[ranges[0].pos + 3] !== "/"
+            );
         case CommentStyle.JSDoc:
             return (
                 ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia &&
