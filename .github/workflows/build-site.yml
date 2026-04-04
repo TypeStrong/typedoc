@@ -10,11 +10,11 @@ jobs:
         name: Build Site
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
               with:
                   fetch-depth: 0
             - name: Set up Node
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6.3.0
               with:
                   node-version: 20
             - name: Set up pnpm
@@ -27,9 +27,10 @@ jobs:
               run: ./scripts/build_site.sh
             - name: Upload static files as artifact
               id: deployment
-              uses: actions/upload-pages-artifact@v3
+              uses: actions/upload-pages-artifact@0ca16172ca884f0a37117fed41734f29784cc980
               with:
                   path: docs-site/
+                  include-hidden-files: true
     deploy:
         needs: build
         if: github.ref == 'refs/heads/master'
@@ -45,4 +46,4 @@ jobs:
         steps:
             - name: Deploy to GitHub Pages
               id: deployment
-              uses: actions/deploy-pages@v4
+              uses: actions/deploy-pages@v5.0.0
