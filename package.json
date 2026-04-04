@@ -35,8 +35,8 @@
         "@gerrit0/mini-shiki": "^3.23.0",
         "lunr": "^2.3.9",
         "markdown-it": "^14.1.1",
-        "minimatch": "^10.2.4",
-        "yaml": "^2.8.2"
+        "minimatch": "^10.2.5",
+        "yaml": "^2.8.3"
     },
     "peerDependencies": {
         "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x || 6.0.x"
@@ -49,15 +49,15 @@
         "@types/node": "18",
         "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe",
         "c8": "^11.0.0",
-        "dprint": "^0.52.0",
-        "esbuild": "^0.27.3",
-        "eslint": "^10.0.2",
+        "dprint": "^0.53.2",
+        "esbuild": "^0.28.0",
+        "eslint": "^10.2.0",
         "mocha": "^11.7.5",
-        "puppeteer": "^24.37.5",
+        "puppeteer": "^24.40.0",
         "semver": "^7.7.4",
         "tsx": "4.21.0",
-        "typescript": "6.0.1-rc",
-        "typescript-eslint": "^8.56.1"
+        "typescript": "6.0.2",
+        "typescript-eslint": "^8.58.0"
     },
     "files": [
         "/bin",
