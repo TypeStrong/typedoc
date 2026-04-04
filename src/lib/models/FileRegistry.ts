@@ -59,7 +59,7 @@ export class FileRegistry {
         this.mediaToReflection.set(target, reflection.id);
     }
 
-    getReflectionPath(reflection: Reflection): string | undefined {
+    getReflectionPath(reflection: Reflection): NormalizedPath | undefined {
         return this.reflectionToPath.get(reflection.id);
     }
 

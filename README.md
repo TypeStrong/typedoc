@@ -17,14 +17,15 @@ npm install typedoc --save-dev
 ## Usage
 
 To generate documentation TypeDoc needs to know your project entry point and TypeScript
-compiler options. It will automatically try to find your `tsconfig.json` file, so you can
-just specify the entry point of your library:
+compiler options. It will automatically try to find your `tsconfig.json` file and figure
+out your entry points from `package.json`, so you can probably run TypeDoc without any options:
 
 ```text
-typedoc src/index.ts
+typedoc
 ```
 
-If you have multiple entry points, specify each of them.
+If TypeDoc does not automatically choose the entry points you wanted, you can specify them
+manually:
 
 ```text
 typedoc package1/index.ts package2/index.ts
@@ -40,26 +41,24 @@ and merge the results together into a single site by setting `entryPointStrategy
 requires configuration to be present in each directory to specify the entry points. For an example setup, see
 https://github.com/Gerrit0/typedoc-packages-example
 
-### Arguments
+### Options
 
-For a complete list of the command line arguments run `typedoc --help` or visit
-[our website](https://typedoc.org/options/).
+TypeDoc can be configured with command line arguments or a configuration file.
+Visit [TypeDoc's site](https://typedoc.org/documents/Options.html) for a list
+of available options. Some commonly used options are:
 
 - `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to. Defaults to `./docs`
 - `--json <path/to/output.json>`<br>
   Specifies the location and file name a json file describing the project is
-  written to. When specified no documentation will be generated unless `--out` is also
+  written to. When specified no HTML documentation will be generated unless `--out` is also
   specified.
 - `--options`<br>
   Specify a json option file that should be loaded. If not specified TypeDoc
-  will look for 'typedoc.json' in the current directory.
+  will check for several common file names in the current directory.
 - `--tsconfig <path/to/tsconfig.json>`<br>
   Specify a typescript config file that should be loaded. If not
-  specified TypeDoc will look for 'tsconfig.json' in the current directory.
-- `--exclude <pattern>`<br>
-  Exclude files by the given pattern when a path is provided as source.
-  Supports standard minimatch patterns.
+  specified TypeDoc will look for `tsconfig.json` in the current directory.
 
 #### Theming
 

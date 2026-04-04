@@ -1,8 +1,8 @@
 // @ts-check
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { Application, Converter, OptionDefaults } from "typedoc";
-/** @import { CommentDisplayPart, FileRegistry, TranslatedString} from "typedoc" */
+import { Application, Converter, normalizePath, OptionDefaults } from "typedoc";
+/** @import { CommentDisplayPart, FileRegistry, TranslatedString, NormalizedPath} from "typedoc" */
 
 /** @param {Application} app */
 export function load(app) {
@@ -15,7 +15,7 @@ export function load(app) {
 
     app.converter.on(Converter.EVENT_CREATE_DOCUMENT, (_ctx, doc) => {
         // Known we have this as documents always have a file path
-        const fileName = /** @type {string} */ (
+        const fileName = /** @type {NormalizedPath} */ (
             doc.project.files.getReflectionPath(doc)
         );
 
@@ -23,7 +23,7 @@ export function load(app) {
     });
 
     /**
-     * @param {string} sourceFile
+     * @param {NormalizedPath} sourceFile
      * @param {CommentDisplayPart[]} parts
      * @param {FileRegistry} files
      */
@@ -41,7 +41,7 @@ export function load(app) {
     }
 
     /**
-     * @param {string} sourceFile
+     * @param {NormalizedPath} sourceFile
      * @param {string} userPath
      * @param {FileRegistry} files
      * @returns {CommentDisplayPart[]}
@@ -63,7 +63,7 @@ export function load(app) {
 
         for (const heading of headings) {
             result.push({ kind: "text", text: `- [${heading}](` });
-            const text = userPath + "#" + heading.toLowerCase();
+            const text = normalizePath(userPath + "#" + heading.toLowerCase());
             const relPath = files.register(sourceFile, text);
             if (!relPath) {
                 app.logger.warn(
