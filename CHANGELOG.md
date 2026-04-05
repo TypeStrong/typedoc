@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Added French translations for the TypeDoc interface and help descriptions.
+
 ### Bug Fixes
 
 - Corrected handling of icon caching for custom themes which use SVGs with a larger view box than TypeDoc's default theme.
