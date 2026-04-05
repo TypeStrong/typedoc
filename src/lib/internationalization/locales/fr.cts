@@ -83,7 +83,8 @@ export = localeUtils.buildIncompleteTranslation({
     example_tag_literal_name:
         "La première ligne d'une balise d'exemple sera prise littéralement comme nom de l'exemple, et ne doit contenir que du texte",
     inheritdoc_tag_properly_capitalized: "La balise @inheritDoc doit être correctement capitalisée",
-    treating_unrecognized_tag_0_as_modifier: "Traitement de la balise non reconnue {0} comme une balise de modificateur",
+    treating_unrecognized_tag_0_as_modifier:
+        "Traitement de la balise non reconnue {0} comme une balise de modificateur",
     unmatched_closing_brace: "Accolade fermante non correspondante",
     unescaped_open_brace_without_inline_tag: "Accolade ouvrante non échappée rencontrée sans balise en ligne",
     unknown_block_tag_0: "Balise de bloc inconnue {0} rencontrée",
@@ -92,15 +93,16 @@ export = localeUtils.buildIncompleteTranslation({
         "Accolade ouvrante rencontrée dans une balise en ligne, c'est probablement une erreur",
     inline_tag_not_closed: "La balise en ligne n'est pas fermée",
 
-    failed_to_resolve_link_to_0_in_comment_for_1: "Échec de la résolution du lien vers \"{0}\" dans le commentaire pour {1}",
+    failed_to_resolve_link_to_0_in_comment_for_1:
+        'Échec de la résolution du lien vers "{0}" dans le commentaire pour {1}',
     failed_to_resolve_link_to_0_in_comment_for_1_may_have_meant_2:
-        "Échec de la résolution du lien vers \"{0}\" dans le commentaire pour {1}. Vous vouliez peut-être \"{2}\"",
-    failed_to_resolve_link_to_0_in_readme_for_1: "Échec de la résolution du lien vers \"{0}\" dans le lisez-moi pour {1}",
+        'Échec de la résolution du lien vers "{0}" dans le commentaire pour {1}. Vous vouliez peut-être "{2}"',
+    failed_to_resolve_link_to_0_in_readme_for_1: 'Échec de la résolution du lien vers "{0}" dans le lisez-moi pour {1}',
     failed_to_resolve_link_to_0_in_readme_for_1_may_have_meant_2:
-        "Échec de la résolution du lien vers \"{0}\" dans le lisez-moi pour {1}. Vous vouliez peut-être \"{2}\"",
-    failed_to_resolve_link_to_0_in_document_1: "Échec de la résolution du lien vers \"{0}\" dans le document {1}",
+        'Échec de la résolution du lien vers "{0}" dans le lisez-moi pour {1}. Vous vouliez peut-être "{2}"',
+    failed_to_resolve_link_to_0_in_document_1: 'Échec de la résolution du lien vers "{0}" dans le document {1}',
     failed_to_resolve_link_to_0_in_document_1_may_have_meant_2:
-        "Échec de la résolution du lien vers \"{0}\" dans le document {1}. Vous vouliez peut-être \"{2}\"",
+        'Échec de la résolution du lien vers "{0}" dans le document {1}. Vous vouliez peut-être "{2}"',
     type_0_defined_in_1_is_referenced_by_2_but_not_included_in_docs:
         "{0}, défini dans {1}, est référencé par {2} mais n'est pas inclus dans la documentation",
     reflection_0_kind_1_defined_in_2_does_not_have_any_documentation:
@@ -111,25 +113,25 @@ export = localeUtils.buildIncompleteTranslation({
         "Les symboles suivants ont été marqués comme intentionnellement non exportés, mais n'ont pas été référencés dans la documentation, ou ont été exportés :\n\t{0}",
     reflection_0_has_unused_mergeModuleWith_tag: "{0} a une balise @mergeModuleWith qui n'a pas pu être résolue",
     reflection_0_links_to_1_with_text_2_but_resolved_to_3:
-        "\"{0}\" lie vers \"{1}\" avec le texte \"{2}\" qui existe mais n'a pas de lien dans la documentation, liera vers \"{3}\" à la place.",
+        '"{0}" lie vers "{1}" avec le texte "{2}" qui existe mais n\'a pas de lien dans la documentation, liera vers "{3}" à la place.',
 
     not_all_search_category_boosts_used_0:
         "Toutes les catégories spécifiées dans searchCategoryBoosts n'ont pas été utilisées dans la documentation. Les catégories inutilisées sont :\n\t{0}",
     not_all_search_group_boosts_used_0:
         "Tous les groupes spécifiés dans searchGroupBoosts n'ont pas été utilisés dans la documentation. Les groupes inutilisés sont :\n\t{0}",
     comment_for_0_includes_categoryDescription_for_1_but_no_child_in_group:
-        "Le commentaire pour {0} inclut @categoryDescription pour \"{1}\", mais aucun enfant n'est placé dans cette catégorie",
+        'Le commentaire pour {0} inclut @categoryDescription pour "{1}", mais aucun enfant n\'est placé dans cette catégorie',
     comment_for_0_includes_groupDescription_for_1_but_no_child_in_group:
-        "Le commentaire pour {0} inclut @groupDescription pour \"{1}\", mais aucun enfant n'est placé dans ce groupe",
+        'Le commentaire pour {0} inclut @groupDescription pour "{1}", mais aucun enfant n\'est placé dans ce groupe',
     label_0_for_1_cannot_be_referenced:
-        "Le label \"{0}\" pour {1} ne peut pas être référencé avec une référence de déclaration. Les labels ne peuvent contenir que A-Z, 0-9 et _, et ne peuvent pas commencer par un nombre",
+        'Le label "{0}" pour {1} ne peut pas être référencé avec une référence de déclaration. Les labels ne peuvent contenir que A-Z, 0-9 et _, et ne peuvent pas commencer par un nombre',
     modifier_tag_0_is_mutually_exclusive_with_1_in_comment_for_2:
         "La balise de modificateur {0} est mutuellement exclusive avec {1} dans le commentaire pour {2}",
-    signature_0_has_unused_param_with_name_1: "La signature {0} a un @param avec le nom \"{1}\", qui n'est pas utilisé",
+    signature_0_has_unused_param_with_name_1: 'La signature {0} a un @param avec le nom "{1}", qui n\'est pas utilisé',
     declaration_reference_in_inheritdoc_for_0_not_fully_parsed:
         "La référence de déclaration dans @inheritDoc pour {0} n'a pas été entièrement analysée et peut se résoudre incorrectement",
     failed_to_find_0_to_inherit_comment_from_in_1:
-        "Échec de la recherche de \"{0}\" pour hériter du commentaire dans le commentaire pour {1}",
+        'Échec de la recherche de "{0}" pour hériter du commentaire dans le commentaire pour {1}',
     reflection_0_tried_to_copy_comment_from_1_but_source_had_no_comment:
         "{0} a essayé de copier un commentaire de {1} avec @inheritDoc, mais la source n'a aucun commentaire associé",
     inheritdoc_circular_inheritance_chain_0: "@inheritDoc spécifie une chaîne d'héritage circulaire : {0}",
@@ -140,7 +142,7 @@ export = localeUtils.buildIncompleteTranslation({
         "disableGit est défini, mais sourceLinkTemplate ne l'est pas, donc les liens sources ne peuvent pas être produits. Définissez un sourceLinkTemplate ou disableSources pour empêcher le suivi des sources",
     disable_git_set_and_git_revision_used:
         "disableGit est défini et sourceLinkTemplate contient {gitRevision}, qui sera remplacé par une chaîne vide car aucune révision n'a été fournie",
-    git_remote_0_not_valid: "Le dépôt distant git fourni \"{0}\" n'est pas valide. Les liens sources seront cassés",
+    git_remote_0_not_valid: 'Le dépôt distant git fourni "{0}" n\'est pas valide. Les liens sources seront cassés',
     reflection_0_tried_to_merge_into_child_1:
         "La réflexion {0} a essayé d'utiliser @mergeModuleWith pour fusionner dans l'un de ses enfants : {1}",
 
@@ -184,12 +186,13 @@ export = localeUtils.buildIncompleteTranslation({
     saved_relative_path_0_resolved_from_1_does_not_exist:
         "Le projet sérialisé référence {0}, qui n'existe pas par rapport à {1}",
 
-    circular_reference_extends_0: "Référence circulaire rencontrée pour le champ \"extends\" de {0}",
+    circular_reference_extends_0: 'Référence circulaire rencontrée pour le champ "extends" de {0}',
     failed_resolve_0_to_file_in_1: "Échec de la résolution de {0} vers un fichier dans {1}",
 
     glob_0_should_use_posix_slash:
-        "Le glob \"{0}\" échappe un caractère non spécial. Les entrées glob pour TypeDoc ne peuvent pas utiliser les séparateurs de chemin Windows (\\), essayez de les remplacer par des séparateurs de chemin posix (/)",
-    option_0_can_only_be_specified_by_config_file: "L'option '{0}' ne peut être spécifiée que via un fichier de configuration",
+        'Le glob "{0}" échappe un caractère non spécial. Les entrées glob pour TypeDoc ne peuvent pas utiliser les séparateurs de chemin Windows (\\), essayez de les remplacer par des séparateurs de chemin posix (/)',
+    option_0_can_only_be_specified_by_config_file:
+        "L'option '{0}' ne peut être spécifiée que via un fichier de configuration",
     option_0_expected_a_value_but_none_provided: "--{0} attendait une valeur, mais aucune n'a été fournie en argument",
     unknown_option_0_may_have_meant_1: "Option inconnue : {0}, vous vouliez peut-être :\n\t{1}",
 
@@ -200,7 +203,8 @@ export = localeUtils.buildIncompleteTranslation({
     tsconfig_file_0_does_not_exist: "Le fichier tsconfig {0} n'existe pas",
     tsconfig_file_specifies_options_file:
         "\"typedocOptions\" dans le fichier tsconfig spécifie un fichier d'options à lire mais le fichier d'options a déjà été lu. C'est probablement une erreur de configuration",
-    tsconfig_file_specifies_tsconfig_file: "\"typedocOptions\" dans le fichier tsconfig ne peut pas spécifier un fichier tsconfig à lire",
+    tsconfig_file_specifies_tsconfig_file:
+        '"typedocOptions" dans le fichier tsconfig ne peut pas spécifier un fichier tsconfig à lire',
     tags_0_defined_in_typedoc_json_overwritten_by_tsdoc_json:
         "Les {0} définis dans typedoc.json seront écrasés par la configuration dans tsdoc.json",
     failed_read_tsdoc_json_0: "Échec de la lecture du fichier tsdoc.json à {0}",
@@ -220,7 +224,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_lang: "Définit la langue à utiliser dans la génération et dans les messages de TypeDoc",
     help_locales:
         "Ajoute des traductions pour une locale spécifiée. Cette option est principalement destinée à être utilisée comme solution temporaire en attendant le support officiel de la locale dans TypeDoc",
-    help_packageOptions: "Définit les options qui seront appliquées à chaque package lorsque entryPointStrategy est défini sur packages",
+    help_packageOptions:
+        "Définit les options qui seront appliquées à chaque package lorsque entryPointStrategy est défini sur packages",
 
     help_entryPoints: "Les points d'entrée de votre documentation",
     help_entryPointStrategy: "La stratégie à utiliser pour convertir les points d'entrée en modules de documentation",
@@ -231,13 +236,16 @@ export = localeUtils.buildIncompleteTranslation({
     help_exclude: "Définit les motifs à exclure lors de l'expansion d'un répertoire spécifié comme point d'entrée",
     help_externalPattern: "Définit les motifs pour les fichiers qui doivent être considérés comme externes",
     help_excludeExternals: "Empêche les symboles résolus de manière externe d'être documentés",
-    help_excludeNotDocumented: "Empêche les symboles qui ne sont pas explicitement documentés d'apparaître dans les résultats",
-    help_excludeNotDocumentedKinds: "Spécifie le type de réflexions qui peuvent être supprimées par excludeNotDocumented",
+    help_excludeNotDocumented:
+        "Empêche les symboles qui ne sont pas explicitement documentés d'apparaître dans les résultats",
+    help_excludeNotDocumentedKinds:
+        "Spécifie le type de réflexions qui peuvent être supprimées par excludeNotDocumented",
     help_excludeInternal: "Empêche les symboles marqués avec @internal d'être documentés",
     help_excludeCategories: "Exclut les symboles de cette catégorie de la documentation",
     help_excludeProtected: "Ignore les variables et méthodes protégées",
     help_excludeReferences: "Si un symbole est exporté plusieurs fois, ignore tout sauf le premier export",
-    help_externalSymbolLinkMappings: "Définit des liens personnalisés pour les symboles non inclus dans la documentation",
+    help_externalSymbolLinkMappings:
+        "Définit des liens personnalisés pour les symboles non inclus dans la documentation",
     help_out:
         "Spécifie l'emplacement où la documentation pour la sortie par défaut doit être écrite. Le type de sortie par défaut peut être modifié par des plugins.",
     help_html: "Spécifie l'emplacement où la documentation HTML doit être écrite.",
@@ -271,8 +279,10 @@ export = localeUtils.buildIncompleteTranslation({
         "Suppose que tout peut être lié avec sourceLinkTemplate, sourceLinkTemplate doit être défini si activé. {path} sera relatif à basePath",
     help_basePath: "Spécifie le chemin de base à utiliser lors de l'affichage des chemins de fichiers",
     help_excludeTags: "Supprime les balises de bloc/modificateur listées des commentaires de documentation",
-    help_notRenderedTags: "Balises qui seront conservées dans les commentaires, mais non rendues lors de la création de la sortie",
-    help_cascadedModifierTags: "Balises de modificateur qui doivent être copiées vers tous les enfants de la réflexion parente",
+    help_notRenderedTags:
+        "Balises qui seront conservées dans les commentaires, mais non rendues lors de la création de la sortie",
+    help_cascadedModifierTags:
+        "Balises de modificateur qui doivent être copiées vers tous les enfants de la réflexion parente",
     help_readme:
         "Chemin vers le fichier lisez-moi qui doit être affiché sur la page d'index. Passez `none` pour désactiver la page d'index et commencer la documentation sur la page des globales",
     help_cname: "Définit le texte du fichier CNAME, utile pour les domaines personnalisés sur GitHub Pages",
@@ -295,7 +305,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_searchInDocuments:
         "Si activé, l'index de recherche inclura également les documents. Cela augmentera considérablement la taille de l'index de recherche",
     help_cleanOutputDir: "Si activé, TypeDoc supprimera le répertoire de sortie avant d'écrire la sortie",
-    help_titleLink: "Définit le lien vers lequel pointe le titre dans l'en-tête. Par défaut la page d'accueil de la documentation",
+    help_titleLink:
+        "Définit le lien vers lequel pointe le titre dans l'en-tête. Par défaut la page d'accueil de la documentation",
     help_navigationLinks: "Définit les liens à inclure dans l'en-tête",
     help_sidebarLinks: "Définit les liens à inclure dans la barre latérale",
     help_navigationLeaves: "Branches de l'arbre de navigation qui ne doivent pas être étendues",
@@ -303,7 +314,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_visibilityFilters:
         "Spécifie la visibilité par défaut pour les filtres intégrés et les filtres supplémentaires selon les balises de modificateur",
     help_searchCategoryBoosts: "Configure la recherche pour donner un boost de pertinence aux catégories sélectionnées",
-    help_searchGroupBoosts: "Configure la recherche pour donner un boost de pertinence aux types sélectionnés (ex: \"classe\")",
+    help_searchGroupBoosts:
+        'Configure la recherche pour donner un boost de pertinence aux types sélectionnés (ex: "classe")',
     help_jsDocCompatibility:
         "Définit les options de compatibilité pour l'analyse des commentaires qui augmentent la similarité avec les commentaires JSDoc",
     help_commentStyle: "Détermine comment TypeDoc recherche les commentaires",
@@ -321,7 +333,8 @@ export = localeUtils.buildIncompleteTranslation({
     help_groupOrder:
         "Spécifie l'ordre dans lequel les groupes apparaissent. * indique l'ordre relatif pour les groupes non présentes dans la liste",
     help_sort: "Spécifie la stratégie de tri pour les valeurs documentées",
-    help_sortEntryPoints: "Si activé, les points d'entrée seront soumis aux mêmes règles de tri que les autres réflexions",
+    help_sortEntryPoints:
+        "Si activé, les points d'entrée seront soumis aux mêmes règles de tri que les autres réflexions",
     help_kindSortOrder: "Spécifie l'ordre de tri pour les réflexions lorsqu'un 'kind' est spécifié",
     help_watch: "Surveille les fichiers pour les changements et reconstruit la documentation lors d'un changement",
     help_preserveWatchOutput: "Si activé, TypeDoc n'effacera pas l'écran entre les passes de compilation",
@@ -329,13 +342,13 @@ export = localeUtils.buildIncompleteTranslation({
     help_help: "Affiche ce message",
     help_version: "Affiche la version de TypeDoc",
     help_showConfig: "Affiche la configuration résolue et quitte",
-    help_plugin:
-        "Spécifie les plugins npm qui doivent être chargés. Omettez pour charger tous les plugins installés",
+    help_plugin: "Spécifie les plugins npm qui doivent être chargés. Omettez pour charger tous les plugins installés",
     help_logLevel: "Spécifie le niveau de journalisation à utiliser",
     help_treatWarningsAsErrors: "Si activé, tous les avertissements seront traités comme des erreurs",
     help_treatValidationWarningsAsErrors:
         "Si activé, les avertissements émis lors de la validation seront traités comme des erreurs. Cette option ne peut pas être utilisée pour désactiver treatWarningsAsErrors pour les avertissements de validation",
-    help_intentionallyNotExported: "Une liste de types qui ne doivent pas produire d'avertissements 'référencé mais non documenté'",
+    help_intentionallyNotExported:
+        "Une liste de types qui ne doivent pas produire d'avertissements 'référencé mais non documenté'",
     help_requiredToBeDocumented: "Une liste de types de réflexions qui doivent être documentés",
     help_validation: "Spécifie les étapes de validation que TypeDoc doit effectuer sur votre documentation générée",
 
@@ -362,7 +375,8 @@ export = localeUtils.buildIncompleteTranslation({
     favicon_must_have_one_of_the_following_extensions_0: "Le favicon doit avoir l'une des extensions suivantes : {0}",
     option_0_must_be_an_object: "L'option '{0}' doit être un objet non-tableau",
     option_0_must_be_a_function: "L'option '{0}' doit être une fonction",
-    option_0_must_be_object_with_urls: "{0} doit être un objet avec des labels de chaîne comme clés et des URLs comme valeurs",
+    option_0_must_be_object_with_urls:
+        "{0} doit être un objet avec des labels de chaîne comme clés et des URLs comme valeurs",
     visibility_filters_only_include_0: "visibilityFilters ne peut inclure que les clés suivantes sans @ : {0}",
     visibility_filters_must_be_booleans: "Toutes les valeurs de visibilityFilters doivent être des booléens",
     option_0_values_must_be_numbers: "Toutes les valeurs de {0} doivent être des nombres",
