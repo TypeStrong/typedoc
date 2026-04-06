@@ -356,7 +356,28 @@ export abstract class BaseRouter implements Router {
         }
     }
 
-    protected buildAnchors(
+    createAnchor(
+        target: Reflection,
+        pageTarget: RouterTarget,
+    ): string {
+        const parts = [target.name];
+        while (target.parent && target.parent !== pageTarget) {
+            target = target.parent;
+            // Avoid duplicate names for signatures and useless __type in anchors
+            if (
+                !target.kindOf(
+                    ReflectionKind.TypeLiteral |
+                        ReflectionKind.FunctionOrMethod,
+                )
+            ) {
+                parts.unshift(target.name);
+            }
+        }
+
+        return this.getSlugger(pageTarget).slug(parts.join("."));
+    }
+
+    buildAnchors(
         target: RouterTarget,
         pageTarget: RouterTarget,
     ): void {
@@ -387,24 +408,7 @@ export abstract class BaseRouter implements Router {
         }
 
         if (!target.kindOf(ReflectionKind.TypeLiteral)) {
-            let refl: Reflection | undefined = target;
-            const parts = [refl.name];
-            while (refl.parent && refl.parent !== pageTarget) {
-                refl = refl.parent;
-                // Avoid duplicate names for signatures and useless __type in anchors
-                if (
-                    !refl.kindOf(
-                        ReflectionKind.TypeLiteral |
-                            ReflectionKind.FunctionOrMethod,
-                    )
-                ) {
-                    parts.unshift(refl.name);
-                }
-            }
-
-            const anchor = this.getSlugger(pageTarget).slug(
-                parts.join("."),
-            );
+            const anchor = this.createAnchor(target, pageTarget);
 
             this.fullUrls.set(
                 target,
