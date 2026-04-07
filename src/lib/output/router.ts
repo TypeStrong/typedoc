@@ -356,7 +356,7 @@ export abstract class BaseRouter implements Router {
         }
     }
 
-    createAnchor(
+    protected createAnchor(
         target: Reflection,
         pageTarget: RouterTarget,
     ): string {
