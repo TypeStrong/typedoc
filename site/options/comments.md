@@ -17,7 +17,8 @@ intellisense in VSCode and is therefore generally not recommended.
 | --------------- | -------------------------------------- |
 | jsdoc (default) | Use block comments starting with `/**` |
 | block           | Use all block comments                 |
-| line            | Use `//` comments                      |
+| line            | Use all line (`//`) comments           |
+| triple-slash    | Use `///` comments                     |
 | all             | Use both block and line comments       |
 
 ## useTsLinkResolution

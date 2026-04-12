@@ -7,10 +7,19 @@ title: Changelog
 ### Features
 
 - Added French translations for the TypeDoc interface and help descriptions.
+- Added support for `triple-slash` comment style, which requires exactly three slashes in the comment, #3089.
 
 ### Bug Fixes
 
 - Corrected handling of icon caching for custom themes which use SVGs with a larger view box than TypeDoc's default theme.
+- Fixed short summary comment handling on module pages when the project source files use Windows line endings, #3093.
+
+### Thanks!
+
+- @avivkeller
+- @hyosua
+- @marijnh
+- @Pistonight
 
 ## v0.28.18 (2026-03-23)
 
