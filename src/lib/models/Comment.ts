@@ -467,7 +467,7 @@ export class Comment {
         let partsEnd = this.summary.findIndex((part) => {
             switch (part.kind) {
                 case "text":
-                    return part.text.includes("\n\n");
+                    return /\r?\n\r?\n/.test(part.text);
                 case "code":
                     return part.text.includes("\n");
                 case "inline-tag":
@@ -486,11 +486,11 @@ export class Comment {
 
         if (partsEnd !== -1) {
             const text = this.summary[partsEnd].text;
-            const paragraphEnd = text.indexOf("\n\n");
-            if (paragraphEnd !== -1) {
+            const paragraphEnd = text.match(/\r?\n\r?\n/);
+            if (paragraphEnd) {
                 summaryParts.push({
                     ...this.summary[partsEnd],
-                    text: text.slice(0, paragraphEnd),
+                    text: text.slice(0, paragraphEnd.index),
                 });
             } else if (!foundEnd) {
                 summaryParts.push(this.summary[partsEnd]);

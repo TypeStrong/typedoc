@@ -192,4 +192,17 @@ describe("Comment.getShortSummary", () => {
             },
         ]);
     });
+
+    it("Handles a multi-paragraph comment with Windows line endings, #3093", () => {
+        const comment = new Comment([
+            {
+                kind: "text",
+                text: "Paragraph one\r\n\r\nParagraph two",
+            },
+        ]);
+
+        equal(comment.getShortSummary(true), [
+            { kind: "text", text: "Paragraph one" },
+        ]);
+    });
 });
