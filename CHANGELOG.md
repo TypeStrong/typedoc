@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.19 (2026-04-12)
+
 ### Features
 
 - Added French translations for the TypeDoc interface and help descriptions.
