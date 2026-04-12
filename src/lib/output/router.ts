@@ -377,7 +377,7 @@ export abstract class BaseRouter implements Router {
         return this.getSlugger(pageTarget).slug(parts.join("."));
     }
 
-    buildAnchors(
+    protected buildAnchors(
         target: RouterTarget,
         pageTarget: RouterTarget,
     ): void {
