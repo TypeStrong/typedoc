@@ -78,6 +78,8 @@ export interface ApplicationEvents {
     bootstrapEnd: [Application];
     reviveProject: [ProjectReflection];
     validateProject: [ProjectReflection];
+    generateOutputsBegin: [ProjectReflection];
+    generateOutputsEnd: [ProjectReflection];
 }
 
 /**
@@ -178,20 +180,39 @@ export class Application extends AbstractComponent<
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
      * The listener will be given an instance of {@link Application}.
+     * @event
      */
     static readonly EVENT_BOOTSTRAP_END = ApplicationEvents.BOOTSTRAP_END;
 
     /**
      * Emitted after a project has been deserialized from JSON.
      * The listener will be given an instance of {@link ProjectReflection}.
+     * @event
      */
     static readonly EVENT_PROJECT_REVIVE = ApplicationEvents.REVIVE;
 
     /**
      * Emitted when validation is being run.
      * The listener will be given an instance of {@link ProjectReflection}.
+     * @event
      */
     static readonly EVENT_VALIDATE_PROJECT = ApplicationEvents.VALIDATE_PROJECT;
+
+    /**
+     * Emitted just before outputs are generated. This can be used by plugins which generate
+     * additional auxiliary output files to avoid generating output if the user has validation
+     * warnings and treat warnings as errors is enabled.
+     * @event
+     */
+    static readonly EVENT_GENERATE_OUTPUTS_BEGIN = ApplicationEvents.GENERATE_OUTPUTS_BEGIN;
+
+    /**
+     * Emitted just after outputs are generated. This can be used by plugins which generate
+     * additional auxiliary output files to avoid generating output if the user has validation
+     * warnings and treat warnings as errors is enabled.
+     * @event
+     */
+    static readonly EVENT_GENERATE_OUTPUTS_END = ApplicationEvents.GENERATE_OUTPUTS_END;
 
     /**
      * Create a new TypeDoc application instance.
@@ -712,7 +733,9 @@ export class Application extends AbstractComponent<
      * Render outputs selected with options for the specified project
      */
     public async generateOutputs(project: ProjectReflection): Promise<void> {
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_BEGIN, project);
         await this.outputs.writeOutputs(project);
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_END, project);
     }
 
     /**

@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
+
 ## v0.28.19 (2026-04-12)
 
 ### Features
