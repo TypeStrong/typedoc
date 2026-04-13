@@ -745,6 +745,7 @@ export class Application extends AbstractComponent<
         project: ProjectReflection,
         out: string,
     ): Promise<void> {
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_BEGIN, project);
         await this.outputs.writeOutput(
             {
                 name: "html",
@@ -752,6 +753,7 @@ export class Application extends AbstractComponent<
             },
             project,
         );
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_END, project);
     }
 
     /**
@@ -764,6 +766,7 @@ export class Application extends AbstractComponent<
         project: ProjectReflection,
         out: string,
     ): Promise<void> {
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_BEGIN, project);
         await this.outputs.writeOutput(
             {
                 name: "json",
@@ -771,6 +774,7 @@ export class Application extends AbstractComponent<
             },
             project,
         );
+        this.trigger(Application.EVENT_GENERATE_OUTPUTS_END, project);
     }
 
     /**
