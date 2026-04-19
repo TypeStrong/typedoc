@@ -81,6 +81,10 @@
             "syntaxKind": "modifier"
         },
         {
+            "tagName": "@alias",
+            "syntaxKind": "modifier"
+        },
+        {
             "tagName": "@document",
             "syntaxKind": "block"
         },

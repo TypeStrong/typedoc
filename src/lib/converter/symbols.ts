@@ -349,11 +349,29 @@ function convertTypeAlias(
     assert(declaration);
 
     if (ts.isTypeAliasDeclaration(declaration)) {
-        if (
-            context
-                .getComment(symbol, ReflectionKind.TypeAlias)
-                ?.hasModifier("@interface")
-        ) {
+        const comment = context.getComment(symbol, ReflectionKind.TypeAlias);
+
+        if (comment?.hasModifier("@alias")) {
+            if (ts.isTypeReferenceNode(declaration.type)) {
+                // Note: Get the symbol from the typeName here, NOT the type! The type refers to this alias,
+                // not the type alias we want to convert.
+                const type = context.getTypeAtLocation(declaration.type.typeName);
+                const aliasedSymbol = type?.aliasSymbol ?? type?.getSymbol() ?? declaration.type.typeName.symbol;
+                if (aliasedSymbol) {
+                    convertSymbol(context, aliasedSymbol, exportSymbol || symbol);
+                    return;
+                } else {
+                    context.logger.warn(
+                        i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name),
+                        declaration,
+                    );
+                }
+            } else {
+                context.logger.warn(i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name), declaration);
+            }
+        }
+
+        if (comment?.hasModifier("@interface")) {
             return convertTypeAliasAsInterface(
                 context,
                 symbol,
@@ -1004,6 +1022,19 @@ function convertVariable(
     const type = declaration
         ? context.checker.getTypeOfSymbolAtLocation(symbol, declaration)
         : context.checker.getTypeOfSymbol(symbol);
+
+    if (comment?.hasModifier("@alias")) {
+        if (
+            declaration && ts.isVariableDeclaration(declaration) && declaration.initializer &&
+            (ts.isIdentifier(declaration.initializer) || ts.isPropertyAccessExpression(declaration.initializer))
+        ) {
+            const aliasedSymbol = context.expectSymbolAtLocation(declaration.initializer);
+            convertSymbol(context, aliasedSymbol, exportSymbol || symbol);
+            return ts.SymbolFlags.Property | ts.SymbolFlags.ValueModule | ts.SymbolFlags.TypeAlias;
+        } else {
+            context.logger.warn(i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name), declaration);
+        }
+    }
 
     if (
         isEnumLike(context.checker, type, declaration) &&

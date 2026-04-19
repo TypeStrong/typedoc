@@ -690,7 +690,7 @@ export class Application extends AbstractComponent<
         const start = Date.now();
 
         // No point in validating exports when merging. Warnings will have already been emitted when
-        // creating the project jsons that this run merges together.
+        // creating the project JSONs that this run merges together.
         if (
             checks.notExported &&
             this.entryPointStrategy !== EntryPointStrategy.Merge

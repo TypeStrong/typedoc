@@ -2,7 +2,6 @@ import { deepStrictEqual as equal, ok } from "assert";
 import {
     Comment,
     CommentTag,
-    type ContainerReflection,
     LiteralType,
     Reflection,
     ReflectionKind,
@@ -13,20 +12,6 @@ import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
 import { getComment, getSigComment, query, querySig, reflToTree } from "./utils.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
-
-type NameTree = { [name: string]: NameTree | undefined };
-
-function buildNameTree(
-    refl: ContainerReflection,
-    tree: NameTree = {},
-): NameTree {
-    for (const child of refl.children || []) {
-        tree[child.name] ||= {};
-        buildNameTree(child, tree[child.name]);
-    }
-
-    return tree;
-}
 
 function getLinks(refl: Reflection) {
     ok(refl.comment);
@@ -419,11 +404,11 @@ describe("Behavior Tests", () => {
         app.options.setValue("excludeNotDocumented", true);
         app.options.setValue("excludeNotDocumentedKinds", ["Property"]);
         const project = convert("excludeNotDocumentedKinds");
-        equal(buildNameTree(project), {
+        equal(reflToTree(project), {
             NotDoc: {
-                prop: {},
+                prop: "Property",
             },
-            identity: {},
+            identity: "Function",
         });
     });
 
@@ -1525,5 +1510,26 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(ctor.signatures[0].typeParameters?.[0].comment?.summary), "ctor docs");
         // Inherits description from class's @template
         equal(Comment.combineDisplayParts(ctor.signatures[1].typeParameters?.[0].comment?.summary), "class docs");
+    });
+
+    it("Supports the @alias tag", () => {
+        const project = convert("alias");
+
+        logger.expectMessage("warn: Failed to convert BadAlias as an alias because it is not direct reference.");
+
+        equal(reflToTree(project), {
+            Math: {
+                BadAlias: "TypeAlias",
+                IsInt: "TypeAlias",
+                Vec: {
+                    "Constructor:constructor": "Constructor",
+                    mag: "Method",
+                },
+                makeVec: "Function",
+            },
+        });
+
+        const bad = query(project, "Math.BadAlias");
+        equal(bad.comment?.modifierTags, new Set(["@alias"]));
     });
 });

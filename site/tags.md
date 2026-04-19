@@ -2,6 +2,7 @@
 title: Tags
 children:
     - tags/abstract.md
+    - tags/alias.md
     - tags/alpha.md
     - tags/author.md
     - tags/beta.md
@@ -195,6 +196,7 @@ export type Foo = { a: string };
 ```
 
 - [`@abstract`](./tags/abstract.md)
+- [`@alias`](./tags/alias.md)
 - [`@alpha`](./tags/alpha.md)
 - [`@beta`](./tags/beta.md)
 - [`@class`](./tags/class.md)
