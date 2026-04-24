@@ -121,6 +121,20 @@ export class FileRegistry {
         return this.names.get(id);
     }
 
+    /**
+     * Iterate over all registered media file paths, yielding entries
+     * that do NOT have an associated reflection.
+     */
+    getMediaPaths(): Iterable<NormalizedPath> {
+        const result: NormalizedPath[] = [];
+        for (const [id, path] of this.mediaToPath.entries()) {
+            if (!this.mediaToReflection.has(id)) {
+                result.push(path);
+            }
+        }
+        return result;
+    }
+
     getNameToAbsoluteMap(): ReadonlyMap<string, string> {
         const result = new Map<string, string>();
         for (const [id, name] of this.names.entries()) {

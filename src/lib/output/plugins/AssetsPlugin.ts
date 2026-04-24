@@ -125,10 +125,6 @@ export class AssetsPlugin extends RendererComponent {
             for (const [fileName, absolute] of toCopy.entries()) {
                 if (isFile(absolute)) {
                     copySync(absolute, join(media, fileName));
-                } else {
-                    this.application.logger.warn(
-                        i18n.relative_path_0_is_not_a_file_and_will_not_be_copied_to_output(absolute),
-                    );
                 }
             }
         }
