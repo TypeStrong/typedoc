@@ -37,7 +37,16 @@
                                 "data-key": "section-Classes"
                             },
                             "children": {
-                                "h2": "Classes"
+                                "h2#classes": [
+                                    "Classes",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#classes",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
