@@ -37,7 +37,16 @@
                                 "data-key": "section-Classes"
                             },
                             "children": {
-                                "h2#classes": "Classes"
+                                "h2.tsd-anchor-link#classes": [
+                                    "Classes",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#classes",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -104,7 +113,16 @@
                                 "data-key": "section-Interfaces"
                             },
                             "children": {
-                                "h2#interfaces": "Interfaces"
+                                "h2.tsd-anchor-link#interfaces": [
+                                    "Interfaces",
+                                    {
+                                        "tag": "a.tsd-anchor-icon",
+                                        "props": {
+                                            "href": "#interfaces",
+                                            "aria-label": "Permalink"
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {

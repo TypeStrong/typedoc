@@ -61,8 +61,9 @@ export function moduleReflection(context: DefaultThemeRenderContext, mod: Declar
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + section.title}>
                             {context.icons.chevronDown()}
-                            <h2 id={sectionAnchor}>
+                            <h2 class="tsd-anchor-link" id={sectionAnchor}>
                                 {section.title}
+                                {anchorIcon(context, sectionAnchor)}
                             </h2>
                         </summary>
                         {content}

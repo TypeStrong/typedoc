@@ -2,6 +2,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import { JSX } from "#utils";
 import { type ContainerReflection } from "../../../../models/index.js";
 import { getMemberSections, isNoneSection } from "../../lib.js";
+import { anchorIcon } from "./anchor-icon.js";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {
     const sections = getMemberSections(props, (child) => !context.router.hasOwnDocument(child));
@@ -24,8 +25,9 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + section.title}>
                             {context.icons.chevronDown()}
-                            <h2 id={sectionAnchor}>
+                            <h2 class="tsd-anchor-link" id={sectionAnchor}>
                                 {section.title}
+                                {anchorIcon(context, sectionAnchor)}
                             </h2>
                         </summary>
                         <section>{section.children.map((item) => context.member(item))}</section>
