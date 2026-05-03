@@ -53,7 +53,7 @@ export = {
         `{0} is being converted as a class, but does not have any construct signatures`,
     converting_0_as_enum_requires_value_declaration:
         `Converting {0} as an enum requires a declaration which represents a non-type value`,
-    failed_to_convert_0_as_alias: "Failed to convert {0} as an alias because it is not direct reference.",
+    failed_to_convert_0_as_reexport: "Failed to convert {0} as a re-export because it is not direct reference.",
 
     comment_for_0_should_not_contain_block_or_modifier_tags:
         `The comment for {0} should not contain any block or modifier tags`,

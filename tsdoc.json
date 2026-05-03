@@ -81,10 +81,6 @@
             "syntaxKind": "modifier"
         },
         {
-            "tagName": "@alias",
-            "syntaxKind": "modifier"
-        },
-        {
             "tagName": "@document",
             "syntaxKind": "block"
         },
@@ -181,6 +177,10 @@
         },
         {
             "tagName": "@protected",
+            "syntaxKind": "modifier"
+        },
+        {
+            "tagName": "@reexport",
             "syntaxKind": "modifier"
         },
         {

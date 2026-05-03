@@ -75,7 +75,6 @@ export const tsdocModifierTags = [
 export const modifierTags = [
     ...tsdocModifierTags,
     "@abstract",
-    "@alias",
     "@class",
     "@disableGroups",
     "@enum",
@@ -93,6 +92,7 @@ export const modifierTags = [
     "@overload",
     "@private",
     "@protected",
+    "@reexport",
     "@showCategories",
     "@showGroups",
     "@useDeclaredType",

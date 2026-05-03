@@ -196,7 +196,6 @@ export type Foo = { a: string };
 ```
 
 - [`@abstract`](./tags/abstract.md)
-- [`@alias`](./tags/alias.md)
 - [`@alpha`](./tags/alpha.md)
 - [`@beta`](./tags/beta.md)
 - [`@class`](./tags/class.md)
@@ -221,6 +220,7 @@ export type Foo = { a: string };
 - [`@protected`](./tags/protected.md)
 - [`@public`](./tags/public.md)
 - [`@readonly`](./tags/readonly.md)
+- [`@reexport`](./tags/reexport.md)
 - [`@sealed`](./tags/sealed.md)
 - [`@useDeclaredType`](./tags/useDeclaredType.md)
 - [`@virtual`](./tags/virtual.md)

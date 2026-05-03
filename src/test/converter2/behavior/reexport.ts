@@ -12,16 +12,16 @@ function _makeVec(x: number, y: number, z: number): _Vec {
 }
 
 export namespace Math {
-    // /** Alias comment @alias */
+    /** Alias comment @reexport */
     export type IsInt<T extends number> = _IsInt<T>;
 
-    /** Alias comment @alias */
+    /** Alias comment @reexport */
     export const Vec = _Vec;
     export type Vec = typeof _Vec;
 
-    /** Alias comment @alias */
+    /** Alias comment @reexport */
     export const makeVec = _makeVec;
 
-    /** @alias */
+    /** @reexport */
     export type BadAlias = 123;
 }

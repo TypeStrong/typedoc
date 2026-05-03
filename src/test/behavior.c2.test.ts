@@ -1512,10 +1512,10 @@ describe("Behavior Tests", () => {
         equal(Comment.combineDisplayParts(ctor.signatures[1].typeParameters?.[0].comment?.summary), "class docs");
     });
 
-    it("Supports the @alias tag", () => {
-        const project = convert("alias");
+    it("Supports the @reexport tag", () => {
+        const project = convert("reexport");
 
-        logger.expectMessage("warn: Failed to convert BadAlias as an alias because it is not direct reference.");
+        logger.expectMessage("warn: Failed to convert BadAlias as a re-export because it is not direct reference.");
 
         equal(reflToTree(project), {
             Math: {
@@ -1530,6 +1530,6 @@ describe("Behavior Tests", () => {
         });
 
         const bad = query(project, "Math.BadAlias");
-        equal(bad.comment?.modifierTags, new Set(["@alias"]));
+        equal(bad.comment?.modifierTags, new Set(["@reexport"]));
     });
 });

@@ -351,7 +351,7 @@ function convertTypeAlias(
     if (ts.isTypeAliasDeclaration(declaration)) {
         const comment = context.getComment(symbol, ReflectionKind.TypeAlias);
 
-        if (comment?.hasModifier("@alias")) {
+        if (comment?.hasModifier("@reexport")) {
             if (ts.isTypeReferenceNode(declaration.type)) {
                 // Note: Get the symbol from the typeName here, NOT the type! The type refers to this alias,
                 // not the type alias we want to convert.
@@ -362,12 +362,15 @@ function convertTypeAlias(
                     return;
                 } else {
                     context.logger.warn(
-                        i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name),
+                        i18n.failed_to_convert_0_as_reexport(exportSymbol?.name ?? symbol.name),
                         declaration,
                     );
                 }
             } else {
-                context.logger.warn(i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name), declaration);
+                context.logger.warn(
+                    i18n.failed_to_convert_0_as_reexport(exportSymbol?.name ?? symbol.name),
+                    declaration,
+                );
             }
         }
 
@@ -1023,7 +1026,7 @@ function convertVariable(
         ? context.checker.getTypeOfSymbolAtLocation(symbol, declaration)
         : context.checker.getTypeOfSymbol(symbol);
 
-    if (comment?.hasModifier("@alias")) {
+    if (comment?.hasModifier("@reexport")) {
         if (
             declaration && ts.isVariableDeclaration(declaration) && declaration.initializer &&
             (ts.isIdentifier(declaration.initializer) || ts.isPropertyAccessExpression(declaration.initializer))
@@ -1032,7 +1035,7 @@ function convertVariable(
             convertSymbol(context, aliasedSymbol, exportSymbol || symbol);
             return ts.SymbolFlags.Property | ts.SymbolFlags.ValueModule | ts.SymbolFlags.TypeAlias;
         } else {
-            context.logger.warn(i18n.failed_to_convert_0_as_alias(exportSymbol?.name ?? symbol.name), declaration);
+            context.logger.warn(i18n.failed_to_convert_0_as_reexport(exportSymbol?.name ?? symbol.name), declaration);
         }
     }
 
