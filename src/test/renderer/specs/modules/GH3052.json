@@ -37,7 +37,7 @@
                                 "data-key": "section-Classes"
                             },
                             "children": {
-                                "h2": "Classes"
+                                "h2#classes": "Classes"
                             }
                         },
                         {

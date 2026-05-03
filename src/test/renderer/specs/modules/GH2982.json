@@ -37,7 +37,7 @@
                                 "data-key": "section-Interfaces"
                             },
                             "children": {
-                                "h2": "Interfaces"
+                                "h2#interfaces": "Interfaces"
                             }
                         },
                         {
@@ -81,7 +81,7 @@
                                 "data-key": "section-Type Aliases"
                             },
                             "children": {
-                                "h2": "Type Aliases"
+                                "h2#type-aliases": "Type Aliases"
                             }
                         },
                         {

@@ -146,7 +146,7 @@
                                 "data-key": "section-Constructors"
                             },
                             "children": {
-                                "h2": "Constructors"
+                                "h2#constructors": "Constructors"
                             }
                         },
                         {
@@ -269,7 +269,7 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties": "Properties"
                             }
                         },
                         {

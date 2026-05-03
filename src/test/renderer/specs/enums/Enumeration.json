@@ -142,7 +142,7 @@
                                 "data-key": "section-Enumeration Members"
                             },
                             "children": {
-                                "h2": "Enumeration Members"
+                                "h2#enumeration-members": "Enumeration Members"
                             }
                         },
                         {

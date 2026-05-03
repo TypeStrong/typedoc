@@ -18,12 +18,13 @@ export function members(context: DefaultThemeRenderContext, props: ContainerRefl
                 }
 
                 context.page.startNewSection(section.title);
+                const sectionAnchor = context.slugger.slug(section.title);
 
                 return (
                     <details class="tsd-panel-group tsd-member-group tsd-accordion" open>
                         <summary class="tsd-accordion-summary" data-key={"section-" + section.title}>
                             {context.icons.chevronDown()}
-                            <h2>
+                            <h2 id={sectionAnchor}>
                                 {section.title}
                             </h2>
                         </summary>

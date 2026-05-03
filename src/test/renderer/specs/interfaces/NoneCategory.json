@@ -266,7 +266,7 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties": "Properties"
                             }
                         },
                         {
@@ -333,7 +333,7 @@
                                 "data-key": "section-Properties - Other"
                             },
                             "children": {
-                                "h2": "Properties - Other"
+                                "h2#properties-other": "Properties - Other"
                             }
                         },
                         {

@@ -131,7 +131,7 @@
                                 "data-key": "section-Methods"
                             },
                             "children": {
-                                "h2": "Methods"
+                                "h2#methods": "Methods"
                             }
                         },
                         {

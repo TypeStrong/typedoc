@@ -37,7 +37,7 @@
                                 "data-key": "section-Classes"
                             },
                             "children": {
-                                "h2": "Classes"
+                                "h2#classes": "Classes"
                             }
                         },
                         {
@@ -104,7 +104,7 @@
                                 "data-key": "section-Interfaces"
                             },
                             "children": {
-                                "h2": "Interfaces"
+                                "h2#interfaces": "Interfaces"
                             }
                         },
                         {

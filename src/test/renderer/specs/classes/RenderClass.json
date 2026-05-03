@@ -281,7 +281,7 @@
                                 "data-key": "section-Constructors"
                             },
                             "children": {
-                                "h2": "Constructors"
+                                "h2#constructors": "Constructors"
                             }
                         },
                         {
@@ -450,7 +450,7 @@
                                 "data-key": "section-Properties"
                             },
                             "children": {
-                                "h2": "Properties"
+                                "h2#properties": "Properties"
                             }
                         },
                         {
@@ -525,7 +525,7 @@
                                 "data-key": "section-Accessors"
                             },
                             "children": {
-                                "h2": "Accessors"
+                                "h2#accessors": "Accessors"
                             }
                         },
                         {
@@ -788,7 +788,7 @@
                                 "data-key": "section-Methods"
                             },
                             "children": {
-                                "h2": "Methods"
+                                "h2#methods": "Methods"
                             }
                         },
                         {
