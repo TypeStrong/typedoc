@@ -16,7 +16,6 @@ if it was a re-export of the referenced symbol rather than being converted direc
 > in a better developer experience for consumers of your library using Go To Definition to navigate
 > within your library.
 
-
 ## Example
 
 Assuming that `Vector` in `utils.js` is declared as a class, this will cause TypeDoc to convert
@@ -24,7 +23,7 @@ the `Math` namespace as if the `Vector` class was declared directly within the n
 being imported from another file. Similarly, the `IsInt` type alias will be treated as a re-export.
 
 ```ts
-import { Vector as _Vector, IsInt as _IsInt } from "./utils.js"
+import { IsInt as _IsInt, Vector as _Vector } from "./utils.js";
 
 export namespace Math {
     /** @reexport */

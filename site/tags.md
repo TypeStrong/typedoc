@@ -2,7 +2,6 @@
 title: Tags
 children:
     - tags/abstract.md
-    - tags/alias.md
     - tags/alpha.md
     - tags/author.md
     - tags/beta.md
@@ -45,6 +44,7 @@ children:
     - tags/protected.md
     - tags/public.md
     - tags/readonly.md
+    - tags/reexport.md
     - tags/remarks.md
     - tags/returns.md
     - tags/sealed.md
