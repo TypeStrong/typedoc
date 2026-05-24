@@ -1047,7 +1047,7 @@
 
         cursor: pointer;
     }
-    .tsd-accordion-summary a {
+    .tsd-accordion-summary > a {
         width: calc(100% - 1.5rem);
     }
     .tsd-accordion-summary > * {
