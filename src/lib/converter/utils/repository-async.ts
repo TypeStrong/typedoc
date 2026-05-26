@@ -38,8 +38,8 @@ export function spawnAsync(command: string, args: string[]): Promise<SpawnResult
         let stderr = "";
         child.stdout.setEncoding("utf-8");
         child.stderr.setEncoding("utf-8");
-        child.stdout.on("data", (chunk) => { stdout += chunk; });
-        child.stderr.on("data", (chunk) => { stderr += chunk; });
+        child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+        child.stderr.on("data", (chunk: string) => { stderr += chunk; });
         child.once("error", (err: NodeJS.ErrnoException) => {
             resolve({ status: null, stdout, stderr, errorCode: err.code ?? "EUNKNOWN" });
         });
