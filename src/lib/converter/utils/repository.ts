@@ -3,6 +3,7 @@ import { normalizePath } from "../../utils/index.js";
 import { i18n, type Logger, NonEnumerable } from "#utils";
 import { dirname, join } from "path";
 import { existsSync } from "fs";
+import { gitAsync } from "./repository-async.js";
 
 const TEN_MEGABYTES = 1024 * 10000;
 
@@ -74,15 +75,6 @@ export class GitRepository implements Repository {
         this.path = path;
         this.gitRevision = gitRevision;
         this.urlTemplate = urlTemplate;
-
-        const out = git("-C", path, "ls-files", "-z");
-        if (out.status === 0) {
-            out.stdout.split("\0").forEach((file) => {
-                if (file !== "") {
-                    this.files.add(normalizePath(path + "/" + file));
-                }
-            });
-        }
     }
 
     /**
@@ -147,7 +139,71 @@ export class GitRepository implements Repository {
 
         if (!urlTemplate) return;
 
-        return new GitRepository(normalizePath(path), gitRevision, urlTemplate);
+        const repo = new GitRepository(normalizePath(path), gitRevision, urlTemplate);
+        const lsOut = git("-C", path, "ls-files", "-z");
+        if (lsOut.status === 0) {
+            for (const file of lsOut.stdout.split("\0")) {
+                if (file !== "") repo.files.add(normalizePath(path + "/" + file));
+            }
+        }
+        return repo;
+    }
+
+    /**
+     * Async sibling of {@link GitRepository.tryCreateRepository} that fires the four
+     * independent git calls (`branch --show-current`, `rev-parse HEAD`, `remote get-url`,
+     * `ls-files -z`) in parallel via `Promise.all`. Recovers most of the per-repo git cost
+     * on single-repo workloads; cross-repo workloads stack further savings.
+     *
+     * Returns `undefined` for repos with no commits (rev resolves to `"HEAD"`) or when no
+     * URL template can be derived.
+     *
+     * @see {@link GitRepository.tryCreateRepository} for the sync sibling.
+     */
+    static async tryCreateRepositoryAsync(
+        path: string,
+        sourceLinkTemplate: string,
+        gitRevision: string,
+        gitRemote: string,
+        logger: Logger,
+    ): Promise<GitRepository | undefined> {
+        const [branchOut, headOut, remotesOut, lsFilesOut] = await Promise.all([
+            gitRevision === "{branch}"
+                ? gitAsync("-C", path, "branch", "--show-current")
+                : Promise.resolve({ status: 0, stdout: "", stderr: "" } as const),
+            gitRevision === "" || gitRevision === "{branch}"
+                ? gitAsync("-C", path, "rev-parse", "HEAD")
+                : Promise.resolve({ status: 0, stdout: gitRevision, stderr: "" } as const),
+            sourceLinkTemplate
+                ? Promise.resolve({ status: 1, stdout: "", stderr: "" } as const)
+                : gitAsync("-C", path, "remote", "get-url", gitRemote),
+            gitAsync("-C", path, "ls-files", "-z"),
+        ]);
+
+        let rev = gitRevision;
+        if (rev === "{branch}") rev = branchOut.stdout.trim();
+        if (!rev) rev = headOut.stdout.trim();
+        if (rev === "HEAD") return; // repo with no commits
+
+        let urlTemplate: string | undefined;
+        if (sourceLinkTemplate) {
+            urlTemplate = sourceLinkTemplate;
+        } else if (remotesOut.status === 0) {
+            urlTemplate = guessSourceUrlTemplate(remotesOut.stdout.split("\n"));
+        } else {
+            logger.warn(i18n.git_remote_0_not_valid(gitRemote));
+        }
+        if (!urlTemplate) return;
+
+        const repo = new GitRepository(normalizePath(path), rev, urlTemplate);
+        if (lsFilesOut.status === 0) {
+            for (const file of lsFilesOut.stdout.split("\0")) {
+                if (file !== "") {
+                    repo.files.add(normalizePath(path + "/" + file));
+                }
+            }
+        }
+        return repo;
     }
 }
 
