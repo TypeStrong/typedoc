@@ -238,6 +238,7 @@ export class GitRepository implements Repository {
  */
 export class RepositoryManager {
     private cache = new Map<string, Repository | undefined>();
+    private asyncCache = new Map<string, Promise<Repository | undefined>>();
     private assumedRepo: Repository;
 
     constructor(
@@ -306,6 +307,67 @@ export class RepositoryManager {
         }
 
         return this.cache.get(dir);
+    }
+
+    /**
+     * Async sibling of {@link RepositoryManager.getRepository}. Returns the same
+     * Repository the sync version would, but fires git operations in parallel — the
+     * first lookup for each directory chain kicks off the underlying
+     * {@link GitRepository.tryCreateRepositoryAsync} with `Promise.all`-parallel git
+     * calls; subsequent lookups for the same directory hit the cache and return
+     * synchronously-resolved promises.
+     *
+     * @see {@link RepositoryManager.getRepository} for the sync sibling.
+     */
+    async getRepositoryAsync(fileName: string): Promise<Repository | undefined> {
+        if (this.disableGit) return this.assumedRepo;
+        return this.getRepositoryFolderAsync(normalizePath(dirname(fileName)));
+    }
+
+    private async getRepositoryFolderAsync(dir: string): Promise<Repository | undefined> {
+        const cached = this.asyncCache.get(dir);
+        if (cached) return cached;
+
+        if (existsSync(join(dir, ".git"))) {
+            const promise = (async (): Promise<Repository | undefined> => {
+                const topLevel = await gitAsync("-C", dir, "rev-parse", "--show-toplevel");
+                if (topLevel.status !== 0) return undefined;
+                const repoDir = topLevel.stdout.replace("\n", "");
+                // If git reports the toplevel as a different directory (symlink loop case),
+                // route through that slot to share work; guard against the trivial repoDir === dir
+                // case which would create a promise chaining cycle with the slot we just set.
+                if (repoDir !== dir) {
+                    const existing = this.asyncCache.get(repoDir);
+                    if (existing) return existing;
+                    const repoPromise = GitRepository.tryCreateRepositoryAsync(
+                        repoDir,
+                        this.sourceLinkTemplate,
+                        this.gitRevision,
+                        this.gitRemote,
+                        this.logger,
+                    );
+                    this.asyncCache.set(repoDir, repoPromise);
+                    return repoPromise;
+                }
+                return GitRepository.tryCreateRepositoryAsync(
+                    repoDir,
+                    this.sourceLinkTemplate,
+                    this.gitRevision,
+                    this.gitRemote,
+                    this.logger,
+                );
+            })();
+            this.asyncCache.set(dir, promise);
+            return promise;
+        }
+
+        // Recurse up; seed a resolved-undefined placeholder first to break symlink loops,
+        // then overwrite the slot once the parent lookup completes.
+        const placeholder = Promise.resolve<Repository | undefined>(undefined);
+        this.asyncCache.set(dir, placeholder);
+        const parentPromise = this.getRepositoryFolderAsync(dirname(dir));
+        this.asyncCache.set(dir, parentPromise);
+        return parentPromise;
     }
 }
 

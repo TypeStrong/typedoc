@@ -394,6 +394,15 @@ describe("RepositoryManager - git enabled", () => {
         equal(repo?.path, normalizePath(fix.cwd));
         equal(repo.getURL(ign, 1), undefined);
     });
+
+    it("getRepositoryAsync returns the same repo as the sync variant", async () => {
+        const root = normalizePath(fix.cwd);
+        const repoAsync = await manager.getRepositoryAsync(root + "/file.ts") as GitRepository;
+        const repoSync = manager.getRepository(root + "/file.ts") as GitRepository;
+        ok(repoAsync);
+        equal(repoAsync.path, repoSync.path);
+        equal(repoAsync.gitRevision, repoSync.gitRevision);
+    });
 });
 
 describe("RepositoryManager - edge cases", () => {
