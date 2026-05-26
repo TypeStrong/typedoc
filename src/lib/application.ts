@@ -457,6 +457,13 @@ export class Application extends AbstractComponent<
         this.logger.verbose(
             `Finished conversion in ${Date.now() - startConversion}ms`,
         );
+
+        const startSourceUrls = Date.now();
+        await this.converter.resolveDeferredSourceUrls();
+        this.logger.verbose(
+            `Resolving source URLs took ${Date.now() - startSourceUrls}ms`,
+        );
+
         return project;
     }
 

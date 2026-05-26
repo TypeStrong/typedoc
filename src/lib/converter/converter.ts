@@ -250,6 +250,8 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
     /** @internal @hidden */
     includePlugin: IncludePlugin;
 
+    private sourcePlugin!: SourcePlugin;
+
     constructor(owner: Application) {
         super(owner);
 
@@ -303,7 +305,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         new InheritDocPlugin(this);
         new LinkResolverPlugin(this);
         new PackagePlugin(this);
-        new SourcePlugin(this);
+        this.sourcePlugin = new SourcePlugin(this);
         new TypePlugin(this);
         this.includePlugin = new IncludePlugin(this);
         new MergeModuleWithPlugin(this);
@@ -348,6 +350,17 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         clearCommentCache();
 
         return project;
+    }
+
+    /**
+     * Resolve `source.url` for every {@link SourceReference} that was
+     * collected by {@link SourcePlugin} during conversion. The work is
+     * async because the underlying `git` lookups are async; the converter's
+     * event bus is synchronous, so this step has to run explicitly after
+     * {@link convert} returns. Safe to call multiple times.
+     */
+    async resolveDeferredSourceUrls(): Promise<void> {
+        await this.sourcePlugin.resolveDeferredUrls();
     }
 
     /** @internal */
