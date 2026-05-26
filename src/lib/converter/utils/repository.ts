@@ -171,9 +171,13 @@ export class GitRepository implements Repository {
             gitRevision === "{branch}"
                 ? gitAsync("-C", path, "branch", "--show-current")
                 : Promise.resolve({ status: 0, stdout: "", stderr: "" } as const),
+            // Also pre-fetch HEAD when {branch} is requested — branch --show-current returns
+            // empty on detached HEAD, so we keep HEAD as a fallback (matches the sync ||= flow).
             gitRevision === "" || gitRevision === "{branch}"
                 ? gitAsync("-C", path, "rev-parse", "HEAD")
                 : Promise.resolve({ status: 0, stdout: gitRevision, stderr: "" } as const),
+            // status: 1 (not 0) so the `else if (remotesOut.status === 0)` branch below
+            // doesn't try to derive a urlTemplate from this skipped slot.
             sourceLinkTemplate
                 ? Promise.resolve({ status: 1, stdout: "", stderr: "" } as const)
                 : gitAsync("-C", path, "remote", "get-url", gitRemote),
