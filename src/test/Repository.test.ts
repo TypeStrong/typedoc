@@ -197,6 +197,47 @@ describe("GitRepository.tryCreateRepositoryAsync", () => {
         ok(repo.gitRevision.length === 40);
         equal(repo.files.has(normalizePath(fix.cwd + "/file.ts")), true);
     });
+
+    it("uses an explicit sourceLinkTemplate when one is provided", async () => {
+        const repo = await GitRepository.tryCreateRepositoryAsync(
+            normalizePath(fix.cwd),
+            "https://example.com/{path}#L{line}",
+            "",
+            "origin",
+            new TestLogger(),
+        );
+        ok(repo);
+        equal(repo.urlTemplate, "https://example.com/{path}#L{line}");
+    });
+
+    it("passes through a literal gitRevision without invoking rev-parse", async () => {
+        const literalSha = "0".repeat(40);
+        const repo = await GitRepository.tryCreateRepositoryAsync(
+            normalizePath(fix.cwd),
+            "",
+            literalSha,
+            "origin",
+            new TestLogger(),
+        );
+        ok(repo);
+        equal(repo.gitRevision, literalSha);
+    });
+
+    it("returns undefined for a repo with no commits", async () => {
+        const empty = tempdirProject();
+        empty.write();
+        git(empty.cwd, "init");
+        // Intentionally no commit — HEAD will resolve to "HEAD" literal.
+        const repo = await GitRepository.tryCreateRepositoryAsync(
+            normalizePath(empty.cwd),
+            "https://example.com/{path}#L{line}",
+            "",
+            "origin",
+            new TestLogger(),
+        );
+        equal(repo, undefined);
+        empty.rm();
+    });
 });
 
 describe("RepositoryManager - no git", () => {});
