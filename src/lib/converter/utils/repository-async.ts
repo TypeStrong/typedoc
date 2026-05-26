@@ -48,3 +48,45 @@ export function spawnAsync(command: string, args: string[]): Promise<SpawnResult
         });
     });
 }
+
+/**
+ * Invoke `git` with the given arguments and resolve with its output.
+ *
+ * Thin convenience wrapper over {@link spawnAsync} that hardcodes the executable
+ * to `git`. Mirrors the no-throw contract: callers inspect `status` and `errorCode`.
+ *
+ * @param args Arguments passed to git, e.g. `gitAsync("-C", path, "rev-parse", "HEAD")`.
+ * @returns A {@link SpawnResult} describing how the git child finished.
+ */
+export function gitAsync(...args: string[]): Promise<SpawnResult> {
+    return spawnAsync("git", args);
+}
+
+let haveGitPromise: Promise<boolean> | undefined;
+
+/**
+ * Detect whether `git` is installed and on PATH. Cached after first call.
+ *
+ * Returns `true` if `git --version` exits with status 0, `false` otherwise
+ * (including when the binary is missing). Subsequent calls return the cached
+ * answer — the underlying spawn fires at most once per process.
+ *
+ * @see {@link _resetGitIsInstalledCacheForTests} for clearing the cache in tests.
+ */
+export function gitIsInstalledAsync(): Promise<boolean> {
+    haveGitPromise ??= gitAsync("--version").then((r) => r.status === 0);
+    return haveGitPromise;
+}
+
+/**
+ * Test-only: clear the {@link gitIsInstalledAsync} cache so the next call re-detects.
+ *
+ * Not part of the public API. Tests that depend on toggling git availability
+ * (e.g. simulating a missing binary) call this between cases. Production code
+ * should never call this.
+ *
+ * @internal
+ */
+export function _resetGitIsInstalledCacheForTests(): void {
+    haveGitPromise = undefined;
+}
