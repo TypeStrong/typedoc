@@ -153,7 +153,7 @@ function renderInto(buf: string[], element: JsxElement | null | undefined): void
             }
         } else {
             const stringified = typeof val === "string" ? val : JSON.stringify(val);
-            buf.push(" ", key, "=\"", stringified.replaceAll("\"", "&quot;"), "\"");
+            buf.push(" ", key, '="', stringified.replaceAll('"', "&quot;"), '"');
         }
     }
 
