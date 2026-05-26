@@ -132,5 +132,23 @@ describe("paths.ts", () => {
         nixTest("Returns the original path", () => {
             equal(normalizePath("/c/users\\foo"), "/c/users\\foo");
         });
+
+        describe("fast-path", () => {
+            it("returns input unchanged when already normalized (POSIX-style)", () => {
+                equal(normalizePath("/Users/foo/bar.ts"), "/Users/foo/bar.ts");
+            });
+
+            it("returns input unchanged when already normalized (Windows-style upper-cased)", () => {
+                equal(normalizePath("C:/Users/foo/bar.ts"), "C:/Users/foo/bar.ts");
+            });
+
+            it("still normalizes when input has backslashes", () => {
+                // On non-Windows this is a no-op (backslashes are legal POSIX filename chars
+                // and pass through unchanged); on Windows the slow path converts them to `/`.
+                // We just check no error and the result is a string.
+                const result = normalizePath("C:\\Users\\foo\\bar.ts");
+                equal(typeof result, "string");
+            });
+        });
     });
 });

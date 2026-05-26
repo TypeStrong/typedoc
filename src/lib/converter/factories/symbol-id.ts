@@ -7,8 +7,21 @@ import ts from "typescript";
 let transientCount = 0;
 const transientIds = new WeakMap<ts.Symbol, number>();
 
+// Memoizes results for the common case where callers don't pin a specific
+// declaration. When a caller passes an explicit `declaration`, the cache is
+// bypassed both on read and on write so behavior for that path is unchanged.
+const symbolIdCache = new WeakMap<ts.Symbol, ReflectionSymbolId>();
+
 // Don't use this directly, use Context.createSymbolId instead.
 export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declaration) {
+    const shouldCache = declaration === undefined;
+    if (shouldCache) {
+        const cached = symbolIdCache.get(symbol);
+        if (cached) {
+            return cached;
+        }
+    }
+
     declaration ??= symbol.declarations?.[0];
     const tsSource = declaration?.getSourceFile().fileName ?? "";
     const sourceFileName = resolveDeclarationMaps(tsSource);
@@ -49,6 +62,10 @@ export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declarati
     id.pos = pos;
     id.transientId = transientId;
     id.fileName = normalizePath(sourceFileName);
+
+    if (shouldCache) {
+        symbolIdCache.set(symbol, id);
+    }
 
     return id;
 }
