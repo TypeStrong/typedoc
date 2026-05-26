@@ -101,75 +101,87 @@ export function renderElement(element: JsxElement | null | undefined): string {
     if (!element) {
         return "";
     }
+    const buf: string[] = [];
+    renderInto(buf, element);
+    return buf.join("");
+}
+
+/**
+ * Recursive worker for {@link renderElement}. Writes into a shared
+ * `string[]` buffer instead of accumulating per-call strings, which
+ * avoids the O(n^2) allocation cost of repeated `+=` on immutable
+ * strings during deeply nested JSX renders.
+ */
+function renderInto(buf: string[], element: JsxElement | null | undefined): void {
+    if (!element) {
+        return;
+    }
 
     const { tag, props, children } = element;
-    let html = "";
 
     if (typeof tag === "function") {
         if (tag === Raw) {
-            return String((props as any).html);
+            buf.push(String((props as any).html));
+            return;
         }
         if (tag === JsxFragment) {
-            renderChildren(children);
-            return html;
+            renderChildrenInto(buf, children);
+            return;
         }
-        return renderElement(tag(Object.assign({ children }, props)));
+        renderInto(buf, tag(Object.assign({ children }, props)));
+        return;
     }
 
-    if (blockElements.has(tag) && renderPretty && html) {
-        html += "\n";
+    // NOTE: The original implementation gated this on a local `html` string
+    // that was always `""` at this point, so this newline insertion was
+    // effectively dead code. We preserve byte-identical output by gating on
+    // a captured entry-length sentinel, which is likewise always equal to
+    // `buf.length` at this point. Existing snapshot and unit tests (e.g.
+    // "Supports fragments") would break if this check actually fired.
+    const startLen = buf.length;
+    if (blockElements.has(tag) && renderPretty && buf.length > startLen) {
+        buf.push("\n");
     }
-    html += "<";
-    html += tag;
+    buf.push("<", tag);
 
     for (const [key, val] of Object.entries(props ?? {})) {
         if (val == null) continue;
 
-        if (typeof val == "boolean") {
+        if (typeof val === "boolean") {
             if (val) {
-                html += " ";
-                html += key;
+                buf.push(" ", key);
             }
         } else {
-            html += " ";
-            html += key;
-            html += '="';
-            html += (
-                typeof val === "string" ? val : JSON.stringify(val)
-            ).replaceAll('"', "&quot;");
-            html += '"';
+            const stringified = typeof val === "string" ? val : JSON.stringify(val);
+            buf.push(" ", key, "=\"", stringified.replaceAll("\"", "&quot;"), "\"");
         }
     }
 
     if (children.length) {
-        html += ">";
-        renderChildren(children);
-        html += "</";
-        html += tag;
-        html += ">";
+        buf.push(">");
+        renderChildrenInto(buf, children);
+        buf.push("</", tag, ">");
+    } else if (voidElements.has(tag)) {
+        buf.push("/>");
     } else {
-        if (voidElements.has(tag)) {
-            html += "/>";
-        } else {
-            html += "></";
-            html += tag;
-            html += ">";
-        }
+        buf.push("></", tag, ">");
     }
+}
 
-    return html;
+function renderChildrenInto(buf: string[], children: JsxChildren[]): void {
+    for (const child of children) {
+        if (typeof child === "boolean") continue;
 
-    function renderChildren(children: JsxChildren[]) {
-        for (const child of children) {
-            if (typeof child === "boolean") continue;
-
-            if (Array.isArray(child)) {
-                renderChildren(child);
-            } else if (typeof child === "string" || typeof child === "number" || typeof child === "bigint") {
-                html += escapeHtml(child.toString());
-            } else {
-                html += renderElement(child);
-            }
+        if (Array.isArray(child)) {
+            renderChildrenInto(buf, child);
+        } else if (
+            typeof child === "string" ||
+            typeof child === "number" ||
+            typeof child === "bigint"
+        ) {
+            buf.push(escapeHtml(child.toString()));
+        } else {
+            renderInto(buf, child);
         }
     }
 }
@@ -179,42 +191,60 @@ export function renderElement(element: JsxElement | null | undefined): string {
  * This is roughly equivalent to getting `innerText` on a rendered element.
  * @internal
  */
-export function renderElementToText(element: JsxElement | null | undefined) {
+export function renderElementToText(element: JsxElement | null | undefined): string {
     if (!element) {
         return "";
     }
+    const buf: string[] = [];
+    renderTextInto(buf, element);
+    return buf.join("");
+}
+
+/**
+ * Recursive worker for {@link renderElementToText}. Strips tags and writes
+ * text into a shared `string[]` buffer to avoid per-call allocation.
+ */
+function renderTextInto(buf: string[], element: JsxElement | null | undefined): void {
+    if (!element) {
+        return;
+    }
 
     const { tag, props, children } = element;
-    let html = "";
 
     if (typeof tag === "function") {
         if (tag === Raw) {
-            return String((props as any).html);
+            buf.push(String((props as any).html));
+            return;
         }
         if (tag === JsxFragment) {
-            renderChildren(children);
-            return html;
+            renderTextChildrenInto(buf, children);
+            return;
         }
-        return renderElementToText(tag(Object.assign({ children }, props)));
+        renderTextInto(buf, tag(Object.assign({ children }, props)));
+        return;
     } else if (tag === "br") {
-        return "\n";
+        buf.push("\n");
+        return;
     }
 
-    renderChildren(children);
-    return html;
+    renderTextChildrenInto(buf, children);
+}
 
-    function renderChildren(children: JsxChildren[]) {
-        for (const child of children) {
-            if (typeof child === "boolean") continue;
+function renderTextChildrenInto(buf: string[], children: JsxChildren[]): void {
+    for (const child of children) {
+        if (typeof child === "boolean") continue;
 
-            if (Array.isArray(child)) {
-                renderChildren(child);
-            } else if (typeof child === "string" || typeof child === "number" || typeof child === "bigint") {
-                // Turn non-breaking spaces into regular spaces
-                html += child.toString().replaceAll("\u00A0", " ");
-            } else {
-                html += renderElementToText(child);
-            }
+        if (Array.isArray(child)) {
+            renderTextChildrenInto(buf, child);
+        } else if (
+            typeof child === "string" ||
+            typeof child === "number" ||
+            typeof child === "bigint"
+        ) {
+            // Turn non-breaking spaces into regular spaces
+            buf.push(child.toString().replaceAll("\u00A0", " "));
+        } else {
+            renderTextInto(buf, child);
         }
     }
 }
