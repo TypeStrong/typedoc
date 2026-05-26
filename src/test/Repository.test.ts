@@ -169,6 +169,36 @@ describe("Repository", function () {
     });
 });
 
+describe("GitRepository.tryCreateRepositoryAsync", () => {
+    let fix: Project;
+
+    beforeEach(() => {
+        fix = tempdirProject();
+        fix.addFile("file.ts", "export const x = 1;\n");
+        fix.write();
+        git(fix.cwd, "init");
+        git(fix.cwd, "remote", "add", "origin", "https://github.com/TypeStrong/typedoc.git");
+        git(fix.cwd, "add", ".");
+        git(fix.cwd, "commit", "-m", "init");
+    });
+
+    afterEach(() => fix.rm());
+
+    it("returns a GitRepository with revision, url template, and files set", async () => {
+        const repo = await GitRepository.tryCreateRepositoryAsync(
+            normalizePath(fix.cwd),
+            "",
+            "",
+            "origin",
+            new TestLogger(),
+        );
+        ok(repo);
+        equal(repo.urlTemplate.startsWith("https://github.com/TypeStrong/typedoc/blob/"), true);
+        ok(repo.gitRevision.length === 40);
+        equal(repo.files.has(normalizePath(fix.cwd + "/file.ts")), true);
+    });
+});
+
 describe("RepositoryManager - no git", () => {});
 
 describe("RepositoryManager - git enabled", () => {
