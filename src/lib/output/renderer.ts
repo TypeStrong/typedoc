@@ -13,7 +13,7 @@ import type { Application } from "../application.js";
 import type { Theme } from "./theme.js";
 import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
 import type { ProjectReflection } from "../models/ProjectReflection.js";
-import { writeFileSync } from "../utils/fs.js";
+import { writeFile } from "../utils/fs.js";
 import { DefaultTheme } from "./themes/default/DefaultTheme.js";
 import { AbstractComponent, Option } from "../utils/index.js";
 import type { Comment, Reflection } from "../models/index.js";
@@ -260,6 +260,8 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
 
     renderStartTime = -1;
 
+    private pendingPageWrites: Array<{ filename: string; contents: string }> = [];
+
     markedPlugin: MarkedPlugin;
 
     constructor(owner: Application) {
@@ -346,6 +348,18 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
             this.renderDocument(outputDirectory, page, project);
         }
 
+        const writeResults = await Promise.allSettled(
+            this.pendingPageWrites.map(({ filename, contents }) => writeFile(filename, contents)),
+        );
+        for (let i = 0; i < writeResults.length; i++) {
+            if (writeResults[i].status === "rejected") {
+                this.application.logger.error(
+                    i18n.could_not_write_0(this.pendingPageWrites[i].filename),
+                );
+            }
+        }
+        this.pendingPageWrites.length = 0;
+
         this.postRenderAsyncJobs.push(async o => await this.theme!.postRender(o));
         await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));
         this.postRenderAsyncJobs = [];
@@ -391,13 +405,10 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.trigger(PageEvent.END, event);
         this.hooks.restoreMomento(momento);
 
-        try {
-            writeFileSync(event.filename, event.contents);
-        } catch (error) {
-            this.application.logger.error(
-                i18n.could_not_write_0(event.filename),
-            );
-        }
+        this.pendingPageWrites.push({
+            filename: event.filename,
+            contents: event.contents,
+        });
     }
 
     private prepareRouter(): boolean {
