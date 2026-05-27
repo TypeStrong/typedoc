@@ -260,8 +260,6 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
 
     renderStartTime = -1;
 
-    private pendingPageWrites: Array<{ filename: string; contents: string }> = [];
-
     markedPlugin: MarkedPlugin;
 
     constructor(owner: Application) {
@@ -344,21 +342,8 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.application.logger.verbose(
             `There are ${pages.length} pages to write.`,
         );
-        for (const page of pages) {
-            this.renderDocument(outputDirectory, page, project);
-        }
 
-        const writeResults = await Promise.allSettled(
-            this.pendingPageWrites.map(({ filename, contents }) => writeFile(filename, contents)),
-        );
-        for (let i = 0; i < writeResults.length; i++) {
-            if (writeResults[i].status === "rejected") {
-                this.application.logger.error(
-                    i18n.could_not_write_0(this.pendingPageWrites[i].filename),
-                );
-            }
-        }
-        this.pendingPageWrites.length = 0;
+        await Promise.all(pages.map(page => this.renderDocument(outputDirectory, page, project)));
 
         this.postRenderAsyncJobs.push(async o => await this.theme!.postRender(o));
         await Promise.all(this.postRenderAsyncJobs.map((job) => job(output)));
@@ -389,7 +374,7 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(outputDirectory: string, page: PageDefinition, project: ProjectReflection) {
+    private async renderDocument(outputDirectory: string, page: PageDefinition, project: ProjectReflection) {
         const momento = this.hooks.saveMomento();
 
         const event = new PageEvent(page.model);
@@ -405,10 +390,13 @@ export class Renderer extends AbstractComponent<Application, RendererEvents> {
         this.trigger(PageEvent.END, event);
         this.hooks.restoreMomento(momento);
 
-        this.pendingPageWrites.push({
-            filename: event.filename,
-            contents: event.contents,
-        });
+        try {
+            await writeFile(event.filename, event.contents);
+        } catch (error) {
+            this.application.logger.error(
+                i18n.could_not_write_0(event.filename),
+            );
+        }
     }
 
     private prepareRouter(): boolean {
