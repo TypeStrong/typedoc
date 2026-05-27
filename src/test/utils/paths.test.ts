@@ -142,12 +142,12 @@ describe("paths.ts", () => {
                 equal(normalizePath("C:/Users/foo/bar.ts"), "C:/Users/foo/bar.ts");
             });
 
-            it("still normalizes when input has backslashes", () => {
+            winTest("still normalizes when input has backslashes", () => {
                 // On non-Windows this is a no-op (backslashes are legal POSIX filename chars
                 // and pass through unchanged); on Windows the slow path converts them to `/`.
                 // We just check no error and the result is a string.
                 const result = normalizePath("C:\\Users\\foo\\bar.ts");
-                equal(typeof result, "string");
+                equal(result, "C:/Users/foo/bar.ts");
             });
         });
     });

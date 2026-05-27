@@ -54,14 +54,16 @@ export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declarati
         transientIds.set(symbol, transientId);
     }
 
-    const id = new ReflectionSymbolId({
-        packageName,
-        packagePath,
-        qualifiedName,
-    });
-    id.pos = pos;
-    id.transientId = transientId;
-    id.fileName = normalizePath(sourceFileName);
+    const id = new ReflectionSymbolId(
+        {
+            packageName,
+            packagePath,
+            qualifiedName,
+        },
+        pos,
+        transientId,
+        normalizePath(sourceFileName),
+    );
 
     if (shouldCache) {
         symbolIdCache.set(symbol, id);

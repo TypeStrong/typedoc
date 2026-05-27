@@ -255,20 +255,17 @@ describe("Sort", () => {
             packageName: "typedoc",
             packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "a",
-        });
-        aId.pos = 1;
+        }, 1);
         const bId = new ReflectionSymbolId({
             packageName: "typedoc",
             packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "b",
-        });
-        bId.pos = 2;
+        }, 2);
         const cId = new ReflectionSymbolId({
             packageName: "typedoc",
             packagePath: "b.ts" as NormalizedPath,
             qualifiedName: "c",
-        });
-        cId.pos = 0;
+        }, 0);
 
         const proj = new ProjectReflection("", new FileRegistry());
         const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);
@@ -294,14 +291,12 @@ describe("Sort", () => {
             packageName: "typedoc",
             packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "b",
-        });
-        bId.pos = 2;
+        }, 2);
         const cId = new ReflectionSymbolId({
             packageName: "typedoc",
             packagePath: "a.ts" as NormalizedPath,
             qualifiedName: "c",
-        });
-        cId.pos = 1;
+        }, 1);
 
         const proj = new ProjectReflection("", new FileRegistry());
         const a = new DeclarationReflection("a", ReflectionKind.Variable, proj);

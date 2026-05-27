@@ -135,14 +135,10 @@ export function nicePath(absPath: string) {
     return `./${normalizePath(relativePath)}`;
 }
 
-// Fast-path matchers used by `normalizePath` to skip the regex pipeline when
-// the input is already in the canonical TypeDoc form. The Windows variant
-// requires an upper-case drive letter followed by `/` and contains no
-// backslashes; the POSIX variant requires a leading `/` and contains no
-// backslashes. Both reject backslashes outright so any path containing
-// Windows-style separators falls through to the slow path.
+// Fast path matcher to check that the path has already been normalized
+// and can be used as is. This isn't relevant for Linux as paths do not have
+// a non-normalized form.
 const ALREADY_NORMALIZED_WIN = /^[A-Z]:\/[^\\]*$/;
-const ALREADY_NORMALIZED_POSIX = /^\/[^\\]*$/;
 
 /**
  * Normalize the given path.
@@ -169,8 +165,6 @@ export function normalizePath(path: string): NormalizedPath {
             /^([^:]+):\//,
             (_m, m1: string) => m1.toUpperCase() + ":/",
         );
-    } else if (ALREADY_NORMALIZED_POSIX.test(path)) {
-        return path as NormalizedPath;
     }
 
     return path as NormalizedPath;

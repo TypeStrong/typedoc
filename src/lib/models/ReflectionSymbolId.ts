@@ -13,6 +13,10 @@ export type ReflectionSymbolIdString = string & {
  * This exists so that TypeDoc can store a unique identifier for a `ts.Symbol` without
  * keeping a reference to the `ts.Symbol` itself. This identifier should be stable across
  * runs so long as the symbol is exported from the same file.
+ *
+ * @privateRemarks
+ * The ReflectionSymbolId class instance should be treated as immutable. All properties must
+ * be marked readonly to assist with this.
  */
 export class ReflectionSymbolId {
     /**
@@ -45,7 +49,7 @@ export class ReflectionSymbolId {
      * should not be needed when deserializing from JSON.
      * Will be set to `Infinity` if the ID was deserialized from JSON.
      */
-    pos: number = Infinity;
+    readonly pos: number;
 
     /**
      * Note: This is **not** serialized. It exists to support detection of the differences between
@@ -53,7 +57,7 @@ export class ReflectionSymbolId {
      * This will be `NaN` if the symbol reference is not transient.
      * Note: This can only be non-NaN if {@link pos} is finite.
      */
-    transientId: number = NaN;
+    readonly transientId: number;
 
     /**
      * Note: This is **not** serialized, only {@link packageName} and {@link packagePath} path
@@ -64,12 +68,18 @@ export class ReflectionSymbolId {
      * This is used by typedoc-plugin-dt-links to determine the path to read to get the source
      * code of a definitely typed package.
      */
-    fileName?: NormalizedPath;
+    readonly fileName?: NormalizedPath;
 
-    constructor(json: JSONOutput.ReflectionSymbolId) {
+    constructor(json: JSONOutput.ReflectionSymbolId);
+    /** @internal - not intended for use outside of {@link Context.createSymbolId} */
+    constructor(json: JSONOutput.ReflectionSymbolId, pos?: number, transientId?: number, fileName?: NormalizedPath);
+    constructor(json: JSONOutput.ReflectionSymbolId, pos?: number, transientId?: number, fileName?: NormalizedPath) {
         this.packageName = json.packageName;
         this.packagePath = json.packagePath;
         this.qualifiedName = json.qualifiedName;
+        this.pos = pos ?? Infinity;
+        this.transientId = transientId ?? NaN;
+        this.fileName = fileName;
     }
 
     getStableKey(): ReflectionSymbolIdString {
