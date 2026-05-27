@@ -34,9 +34,9 @@
     "dependencies": {
         "@gerrit0/mini-shiki": "^3.23.0",
         "lunr": "^2.3.9",
-        "markdown-it": "^14.1.1",
+        "markdown-it": "^14.2.0",
         "minimatch": "^10.2.5",
-        "yaml": "^2.8.3"
+        "yaml": "^2.9.0"
     },
     "peerDependencies": {
         "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x || 6.0.x"
@@ -48,15 +48,15 @@
         "@types/mocha": "^10.0.10",
         "@types/node": "18",
         "c8": "^11.0.0",
-        "dprint": "^0.53.2",
+        "dprint": "^0.54.0",
         "esbuild": "^0.28.0",
-        "eslint": "^10.2.0",
-        "mocha": "^11.7.5",
-        "puppeteer": "^24.40.0",
-        "semver": "^7.7.4",
-        "tsx": "4.21.0",
-        "typescript": "6.0.2",
-        "typescript-eslint": "^8.58.0"
+        "eslint": "^10.4.0",
+        "mocha": "^11.7.6",
+        "puppeteer": "^25.1.0",
+        "semver": "^7.8.1",
+        "tsx": "4.22.3",
+        "typescript": "6.0.3",
+        "typescript-eslint": "^8.60.0"
     },
     "files": [
         "/bin",
@@ -133,6 +133,9 @@
         "onlyBuiltDependencies": [
             "dprint",
             "esbuild"
+        ],
+        "ignoredBuiltDependencies": [
+            "puppeteer"
         ]
     }
 }

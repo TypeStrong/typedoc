@@ -42,7 +42,7 @@ class ShikiHighlighter {
     highlight(code: string, lang: string) {
         const tokens = shiki.codeToTokensWithThemes(this.highlighter, code, {
             themes: { light: this.light, dark: this.dark },
-            lang: lang as shiki.BundledLanguage,
+            lang: lang,
         });
 
         const docEls: JSX.Element[] = [];
