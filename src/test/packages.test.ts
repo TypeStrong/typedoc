@@ -3,7 +3,7 @@ import { join } from "path";
 import { normalizePath } from "../lib/utils/index.js";
 import { expandPackages } from "../lib/utils/package-manifest.js";
 
-import { tempdirProject } from "@typestrong/fs-fixture-builder";
+import { tempdirProject } from "./fs-fixture-builder.js";
 import { TestLogger } from "./TestLogger.js";
 import { createGlobString, MinimatchSet } from "../lib/utils/paths.js";
 

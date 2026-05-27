@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { project as fsProject } from "@typestrong/fs-fixture-builder";
+import { project as fsProject } from "../../../fs-fixture-builder.js";
 
 import { normalizePath, Options, TypeDocReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";

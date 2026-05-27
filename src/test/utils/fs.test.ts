@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { createServer } from "net";
-import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "../fs-fixture-builder.js";
 import { type AssertionError, deepStrictEqual as equal } from "assert";
 import { basename, dirname, join, normalize, resolve } from "path";
 import { createGlobString, glob, inferPackageEntryPointPaths, normalizePath } from "#node-utils";

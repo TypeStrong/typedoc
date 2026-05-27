@@ -1,4 +1,4 @@
-import { project } from "@typestrong/fs-fixture-builder";
+import { project } from "../../../fs-fixture-builder.js";
 
 import { PackageJsonReader } from "../../../../lib/utils/options/readers/index.js";
 import { Options } from "../../../../lib/utils/index.js";

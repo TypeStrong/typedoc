@@ -3,7 +3,7 @@ import { deepStrictEqual as equal } from "assert";
 
 import { normalizePath, Options, TSConfigReader } from "#node-utils";
 import { TestLogger } from "../../../TestLogger.js";
-import { type Project, tempdirProject } from "@typestrong/fs-fixture-builder";
+import { type Project, tempdirProject } from "../../../fs-fixture-builder.js";
 import { tmpdir } from "os";
 import { fileURLToPath } from "url";
 

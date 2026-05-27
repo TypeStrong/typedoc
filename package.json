@@ -47,7 +47,6 @@
         "@types/markdown-it": "^14.1.2",
         "@types/mocha": "^10.0.10",
         "@types/node": "18",
-        "@typestrong/fs-fixture-builder": "github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe",
         "c8": "^11.0.0",
         "dprint": "^0.53.2",
         "esbuild": "^0.28.0",
@@ -133,8 +132,7 @@
     "pnpm": {
         "onlyBuiltDependencies": [
             "dprint",
-            "esbuild",
-            "@typestrong/fs-fixture-builder"
+            "esbuild"
         ]
     }
 }

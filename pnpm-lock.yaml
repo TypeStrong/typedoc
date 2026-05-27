@@ -39,9 +39,6 @@ importers:
       '@types/node':
         specifier: '18'
         version: 18.19.113
-      '@typestrong/fs-fixture-builder':
-        specifier: github:TypeStrong/fs-fixture-builder#34113409e3a171e68ce5e2b55461ef5c35591cfe
-        version: https://codeload.github.com/TypeStrong/fs-fixture-builder/tar.gz/34113409e3a171e68ce5e2b55461ef5c35591cfe
       c8:
         specifier: ^11.0.0
         version: 11.0.0
@@ -665,11 +662,6 @@ packages:
   '@typescript-eslint/visitor-keys@8.58.0':
     resolution: {integrity: sha512-XJ9UD9+bbDo4a4epraTwG3TsNPeiB9aShrUneAVXy8q4LuwowN+qu89/6ByLMINqvIMeI9H9hOHQtg/ijrYXzQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typestrong/fs-fixture-builder@https://codeload.github.com/TypeStrong/fs-fixture-builder/tar.gz/34113409e3a171e68ce5e2b55461ef5c35591cfe':
-    resolution: {tarball: https://codeload.github.com/TypeStrong/fs-fixture-builder/tar.gz/34113409e3a171e68ce5e2b55461ef5c35591cfe}
-    version: 0.0.0
-    hasBin: true
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1992,8 +1984,6 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.58.0
       eslint-visitor-keys: 5.0.1
-
-  '@typestrong/fs-fixture-builder@https://codeload.github.com/TypeStrong/fs-fixture-builder/tar.gz/34113409e3a171e68ce5e2b55461ef5c35591cfe': {}
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
