@@ -3,6 +3,10 @@ import { JSX } from "#utils";
 import { renderElement, renderElementToText } from "../../lib/utils-common/jsx.js";
 
 describe("JSX", () => {
+    before(() => {
+        JSX.setRenderSettings({ pretty: false });
+    });
+
     it("Handles null/undefined", () => {
         equal(renderElement(null), ``);
         equal(renderElement(undefined), ``);
@@ -75,7 +79,7 @@ describe("JSX", () => {
     it("Supports <Raw /> for injecting HTML", () => {
         equal(renderElement(<JSX.Raw html="<strong>foo</strong>" />), "<strong>foo</strong>");
 
-        // This is should never be used in common usage, but it shouldn't break
+        // This should never be used in common usage, but it shouldn't break
         equal(JSX.Raw({ html: "" }), null);
     });
 

@@ -106,12 +106,6 @@ export function renderElement(element: JsxElement | null | undefined): string {
     return buf.join("");
 }
 
-/**
- * Recursive worker for {@link renderElement}. Writes into a shared
- * `string[]` buffer instead of accumulating per-call strings, which
- * avoids the O(n^2) allocation cost of repeated `+=` on immutable
- * strings during deeply nested JSX renders.
- */
 function renderInto(buf: string[], element: JsxElement | null | undefined): void {
     if (!element) {
         return;
@@ -132,14 +126,7 @@ function renderInto(buf: string[], element: JsxElement | null | undefined): void
         return;
     }
 
-    // NOTE: The original implementation gated this on a local `html` string
-    // that was always `""` at this point, so this newline insertion was
-    // effectively dead code. We preserve byte-identical output by gating on
-    // a captured entry-length sentinel, which is likewise always equal to
-    // `buf.length` at this point. Existing snapshot and unit tests (e.g.
-    // "Supports fragments") would break if this check actually fired.
-    const startLen = buf.length;
-    if (blockElements.has(tag) && renderPretty && buf.length > startLen) {
+    if (blockElements.has(tag) && renderPretty && buf.length) {
         buf.push("\n");
     }
     buf.push("<", tag);
