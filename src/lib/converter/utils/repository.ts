@@ -1,24 +1,47 @@
-import { spawnSync } from "child_process";
 import { normalizePath } from "../../utils/index.js";
-import { i18n, type Logger, NonEnumerable } from "#utils";
-import { dirname, join } from "path";
-import { existsSync } from "fs";
-import { gitAsync } from "./repository-async.js";
+import { i18n, type Logger, NonEnumerable, type NormalizedPath, NormalizedPathUtils } from "#utils";
+import { join } from "path";
+import { stat } from "node:fs/promises";
 
-const TEN_MEGABYTES = 1024 * 10000;
+import { spawn, spawnSync } from "node:child_process";
+import { relative } from "node:path";
 
-function git(...args: string[]) {
-    return spawnSync("git", args, {
-        encoding: "utf-8",
-        windowsHide: true,
-        maxBuffer: TEN_MEGABYTES,
-    });
+export interface SpawnResult {
+    status: number | null;
+    stdout: string;
+    stderr: string;
+    errorCode?: string;
 }
 
-let haveGit: boolean | undefined;
-export function gitIsInstalled() {
-    haveGit ??= git("--version").status === 0;
-    return haveGit;
+let gitIsInstalled: boolean | undefined = undefined;
+
+function gitAsync(...args: string[]) {
+    const child = spawn("git", args, { windowsHide: true });
+    const promise = new Promise<SpawnResult>((resolve) => {
+        const stdout: string[] = [];
+        const stderr: string[] = [];
+        child.stdout.setEncoding("utf-8");
+        child.stderr.setEncoding("utf-8");
+        child.stdout.on("data", (chunk: string) => {
+            stdout.push(chunk);
+        });
+        child.stderr.on("data", (chunk: string) => {
+            stderr.push(chunk);
+        });
+        child.once("error", (err: NodeJS.ErrnoException) => {
+            resolve({
+                status: null,
+                stdout: stdout.join(""),
+                stderr: stderr.join(""),
+                errorCode: err.code ?? "EUNKNOWN",
+            });
+        });
+        child.once("close", (code) => {
+            resolve({ status: code, stdout: stdout.join(""), stderr: stderr.join("") });
+        });
+    });
+
+    return { child, promise };
 }
 
 export interface Repository {
@@ -37,7 +60,7 @@ export class AssumedRepository implements Repository {
         const replacements = {
             gitRevision: this.gitRevision,
             "gitRevision:short": this.gitRevision.substring(0, 8),
-            path: fileName.substring(this.path.length + 1),
+            path: relative(this.path, fileName).replaceAll("\\", "/"),
             line,
         };
 
@@ -108,97 +131,62 @@ export class GitRepository implements Repository {
      * creates a new instance of {@link GitRepository}.
      *
      * @param path  The potential repository root.
-     * @returns A new instance of {@link GitRepository} or undefined.
+     * @returns A promise resolving to {@link GitRepository} or undefined.
      */
-    static tryCreateRepository(
-        path: string,
-        sourceLinkTemplate: string,
-        gitRevision: string,
-        gitRemote: string,
-        logger: Logger,
-    ): GitRepository | undefined {
-        if (gitRevision === "{branch}") {
-            gitRevision = git("-C", path, "branch", "--show-current").stdout.trim();
-        }
-        gitRevision ||= git("-C", path, "rev-parse", "HEAD").stdout.trim();
-        if (gitRevision == "HEAD") return; // Will only happen in a repo with no commits.
-
-        let urlTemplate: string | undefined;
-        if (sourceLinkTemplate) {
-            urlTemplate = sourceLinkTemplate;
-        } else {
-            const remotesOut = git("-C", path, "remote", "get-url", gitRemote);
-            if (remotesOut.status === 0) {
-                urlTemplate = guessSourceUrlTemplate(
-                    remotesOut.stdout.split("\n"),
-                );
-            } else {
-                logger.warn(i18n.git_remote_0_not_valid(gitRemote));
-            }
-        }
-
-        if (!urlTemplate) return;
-
-        const repo = new GitRepository(normalizePath(path), gitRevision, urlTemplate);
-        const lsOut = git("-C", path, "ls-files", "-z");
-        if (lsOut.status === 0) {
-            for (const file of lsOut.stdout.split("\0")) {
-                if (file !== "") repo.files.add(normalizePath(path + "/" + file));
-            }
-        }
-        return repo;
-    }
-
-    /**
-     * Async sibling of {@link GitRepository.tryCreateRepository} that fires the four
-     * independent git calls (`branch --show-current`, `rev-parse HEAD`, `remote get-url`,
-     * `ls-files -z`) in parallel via `Promise.all`. Recovers most of the per-repo git cost
-     * on single-repo workloads; cross-repo workloads stack further savings.
-     *
-     * Returns `undefined` for repos with no commits (rev resolves to `"HEAD"`) or when no
-     * URL template can be derived.
-     *
-     * @see {@link GitRepository.tryCreateRepository} for the sync sibling.
-     */
-    static async tryCreateRepositoryAsync(
+    static async tryCreateRepository(
         path: string,
         sourceLinkTemplate: string,
         gitRevision: string,
         gitRemote: string,
         logger: Logger,
     ): Promise<GitRepository | undefined> {
-        const [branchOut, headOut, remotesOut, lsFilesOut] = await Promise.all([
-            gitRevision === "{branch}"
-                ? gitAsync("-C", path, "branch", "--show-current")
-                : Promise.resolve({ status: 0, stdout: "", stderr: "" } as const),
-            // Also pre-fetch HEAD when {branch} is requested — branch --show-current returns
-            // empty on detached HEAD, so we keep HEAD as a fallback (matches the sync ||= flow).
-            gitRevision === "" || gitRevision === "{branch}"
-                ? gitAsync("-C", path, "rev-parse", "HEAD")
-                : Promise.resolve({ status: 0, stdout: gitRevision, stderr: "" } as const),
-            // status: 1 (not 0) so the `else if (remotesOut.status === 0)` branch below
-            // doesn't try to derive a urlTemplate from this skipped slot.
-            sourceLinkTemplate
-                ? Promise.resolve({ status: 1, stdout: "", stderr: "" } as const)
-                : gitAsync("-C", path, "remote", "get-url", gitRemote),
-            gitAsync("-C", path, "ls-files", "-z"),
-        ]);
+        // Asynchronously start getting all the git information we will need.
+        const branchPromise = gitRevision === "{branch}"
+            ? gitAsync("-C", path, "branch", "--show-current").promise
+            : Promise.resolve({ status: 0, stdout: "", stderr: "" } as const);
+        const headPromise = gitRevision === "" || gitRevision === "{branch}"
+            ? gitAsync("-C", path, "rev-parse", "HEAD").promise
+            : Promise.resolve({ status: 0, stdout: gitRevision, stderr: "" } as const);
+
+        // Assume the branch and/or head calls will get us a real branch name, and start
+        // requesting the URL and files now, even though we might not need them.
+        const getUrlCall = sourceLinkTemplate ? undefined : gitAsync("-C", path, "remote", "get-url", gitRemote);
+        const lsFilesCall = gitAsync("-C", path, "ls-files", "-z");
+
+        const [branchOut, headOut] = await Promise.all([branchPromise, headPromise]);
 
         let rev = gitRevision;
         if (rev === "{branch}") rev = branchOut.stdout.trim();
         if (!rev) rev = headOut.stdout.trim();
-        if (rev === "HEAD") return; // repo with no commits
+        if (rev === "HEAD") {
+            // If we don't have a revision, then this isn't a repository.
+            // Kill the get-url and ls-files calls in case they are still running and return undefined
+            if (getUrlCall?.child.exitCode == null) {
+                getUrlCall?.child.kill();
+            }
+            if (lsFilesCall.child.exitCode == null) {
+                lsFilesCall.child.kill();
+            }
+            return;
+        }
 
+        const remotesOut = await getUrlCall?.promise;
         let urlTemplate: string | undefined;
         if (sourceLinkTemplate) {
             urlTemplate = sourceLinkTemplate;
-        } else if (remotesOut.status === 0) {
-            urlTemplate = guessSourceUrlTemplate(remotesOut.stdout.split("\n"));
+        } else if (remotesOut!.status === 0) {
+            urlTemplate = guessSourceUrlTemplate(remotesOut!.stdout.split("\n"));
         } else {
             logger.warn(i18n.git_remote_0_not_valid(gitRemote));
         }
-        if (!urlTemplate) return;
+        if (!urlTemplate) {
+            if (lsFilesCall.child.exitCode == null) {
+                lsFilesCall.child.kill();
+            }
+            return;
+        }
 
+        const lsFilesOut = await lsFilesCall.promise;
         const repo = new GitRepository(normalizePath(path), rev, urlTemplate);
         if (lsFilesOut.status === 0) {
             for (const file of lsFilesOut.stdout.split("\0")) {
@@ -237,8 +225,7 @@ export class GitRepository implements Repository {
  * point to the actual file.
  */
 export class RepositoryManager {
-    private cache = new Map<string, Repository | undefined>();
-    private asyncCache = new Map<string, Promise<Repository | undefined>>();
+    private repositories = new Map<string, Repository | undefined>();
     private assumedRepo: Repository;
 
     constructor(
@@ -256,118 +243,116 @@ export class RepositoryManager {
         );
     }
 
-    /**
-     * Check whether the given file is placed inside a repository.
-     *
-     * @param fileName  The name of the file a repository should be looked for.
-     * @returns The found repository info or undefined.
-     */
-    getRepository(fileName: string): Repository | undefined {
+    private async discoverPossibleGitDirs(dirs: readonly NormalizedPath[]) {
+        let queue = dirs;
+        const checkedDirs = new Set<NormalizedPath>();
+        const possibleGitDirs: NormalizedPath[] = [];
+
+        while (queue.length) {
+            const dirCouldBeGitDir = await Promise.all(queue.map(async dir => {
+                checkedDirs.add(dir);
+                try {
+                    const gitStats = await stat(join(dir, ".git"));
+                    return gitStats.isDirectory();
+                } catch {
+                    return false;
+                }
+            }));
+
+            const nextQueue = new Set<NormalizedPath>();
+            for (let i = 0; i < queue.length; ++i) {
+                if (dirCouldBeGitDir[i]) {
+                    possibleGitDirs.push(queue[i]);
+                } else {
+                    const parent = NormalizedPathUtils.dirname(queue[i]);
+                    if (!checkedDirs.has(parent) && parent !== queue[i]) {
+                        nextQueue.add(NormalizedPathUtils.dirname(queue[i]));
+                    }
+                }
+            }
+            queue = Array.from(nextQueue);
+        }
+
+        return possibleGitDirs;
+    }
+
+    async initializeRepositoriesForDirs(dirs: readonly string[]) {
+        if (gitIsInstalled === undefined) {
+            gitIsInstalled = spawnSync("git", ["--version"]).status === 0;
+        }
+
+        // If we don't have git there's no point in even checking for repositories
+        if (!gitIsInstalled) {
+            return;
+        }
+
+        // Get all the directories we need to check for a git repo within
+        const possibleGitDirs = await this.discoverPossibleGitDirs(dirs.map(normalizePath));
+
+        // Now split those directories in two -- they are either a top level git directory
+        // which we should create a repository for, or they are could be a symlink to a top level git
+        // directory.
+        const symlinkedGitDirs = new Map<NormalizedPath, NormalizedPath>();
+        const topLevelGitDirs = new Set<NormalizedPath>();
+        await Promise.all(possibleGitDirs.map(async dir => {
+            const topLevel = await gitAsync("-C", dir, "rev-parse", "--show-toplevel").promise;
+            if (topLevel.status !== 0) return; // Not a git dir
+            const repoDir = normalizePath(topLevel.stdout.replace("\n", ""));
+            topLevelGitDirs.add(repoDir);
+            if (repoDir !== dir) {
+                symlinkedGitDirs.set(dir, repoDir);
+            }
+        }));
+
+        // Now we can create repositories for each important directory.
+        await Promise.all(Array.from(topLevelGitDirs, async repoDir => {
+            const repo = await GitRepository.tryCreateRepository(
+                repoDir,
+                this.sourceLinkTemplate,
+                this.gitRevision,
+                this.gitRemote,
+                this.logger,
+            );
+            this.repositories.set(repoDir, repo);
+        }));
+
+        // Save resolved symlinks
+        for (const [source, target] of symlinkedGitDirs) {
+            this.repositories.set(source, this.repositories.get(target));
+        }
+    }
+
+    getURL(fileName: NormalizedPath, line: number): string | undefined {
+        return this.getRepository(fileName)?.getURL(fileName, line);
+    }
+
+    getRepository(fileName: NormalizedPath): Repository | undefined {
         if (this.disableGit) {
             return this.assumedRepo;
         }
-        return this.getRepositoryFolder(normalizePath(dirname(fileName)));
-    }
 
-    private getRepositoryFolder(dir: string): Repository | undefined {
-        if (this.cache.has(dir)) {
-            return this.cache.get(dir);
+        const expectedDir = NormalizedPathUtils.dirname(fileName);
+        if (this.repositories.has(expectedDir)) {
+            return this.repositories.get(expectedDir);
         }
 
-        if (existsSync(join(dir, ".git"))) {
-            // This might just be a git repo, or we might be in some self-recursive symlink
-            // loop, and the repo is actually somewhere else. Ask Git where the repo actually is.
-            const repo = git("-C", dir, "rev-parse", "--show-toplevel");
-            if (repo.status === 0) {
-                const repoDir = repo.stdout.replace("\n", "");
-                // This check is only necessary if we're in a symlink loop, otherwise
-                // it will always be true.
-                if (!this.cache.has(repoDir)) {
-                    this.cache.set(
-                        repoDir,
-                        GitRepository.tryCreateRepository(
-                            repoDir,
-                            this.sourceLinkTemplate,
-                            this.gitRevision,
-                            this.gitRemote,
-                            this.logger,
-                        ),
-                    );
-                }
-
-                this.cache.set(dir, this.cache.get(repoDir));
-            } else {
-                // Not a git repo, probably corrupt.
-                this.cache.set(dir, undefined);
+        // In the case where this directory isn't in the repositories cache, try the parent paths too.
+        let working = expectedDir;
+        let parent = NormalizedPathUtils.dirname(working);
+        while (parent !== working) {
+            if (this.repositories.has(parent)) {
+                // To avoid extra dirname calls in future resolutions, save where we found the repository
+                const result = this.repositories.get(parent);
+                this.repositories.set(expectedDir, result);
+                return result;
             }
-        } else {
-            // We may be at the root of the file system, in which case there is no repo.
-            this.cache.set(dir, undefined);
-            this.cache.set(dir, this.getRepositoryFolder(dirname(dir)));
+            working = parent;
+            parent = NormalizedPathUtils.dirname(working);
         }
 
-        return this.cache.get(dir);
-    }
-
-    /**
-     * Async sibling of {@link RepositoryManager.getRepository}. Returns the same
-     * Repository the sync version would, but fires git operations in parallel — the
-     * first lookup for each directory chain kicks off the underlying
-     * {@link GitRepository.tryCreateRepositoryAsync} with `Promise.all`-parallel git
-     * calls; subsequent lookups for the same directory hit the cache and return
-     * synchronously-resolved promises.
-     *
-     * @see {@link RepositoryManager.getRepository} for the sync sibling.
-     */
-    async getRepositoryAsync(fileName: string): Promise<Repository | undefined> {
-        if (this.disableGit) return this.assumedRepo;
-        return this.getRepositoryFolderAsync(normalizePath(dirname(fileName)));
-    }
-
-    private async getRepositoryFolderAsync(dir: string): Promise<Repository | undefined> {
-        const cached = this.asyncCache.get(dir);
-        if (cached) return cached;
-
-        if (existsSync(join(dir, ".git"))) {
-            const promise = (async (): Promise<Repository | undefined> => {
-                const topLevel = await gitAsync("-C", dir, "rev-parse", "--show-toplevel");
-                if (topLevel.status !== 0) return undefined;
-                const repoDir = topLevel.stdout.replace("\n", "");
-                // If git reports the toplevel as a different directory (symlink loop case),
-                // route through that slot to share work; guard against the trivial repoDir === dir
-                // case which would create a promise chaining cycle with the slot we just set.
-                if (repoDir !== dir) {
-                    const existing = this.asyncCache.get(repoDir);
-                    if (existing) return existing;
-                    const repoPromise = GitRepository.tryCreateRepositoryAsync(
-                        repoDir,
-                        this.sourceLinkTemplate,
-                        this.gitRevision,
-                        this.gitRemote,
-                        this.logger,
-                    );
-                    this.asyncCache.set(repoDir, repoPromise);
-                    return repoPromise;
-                }
-                return GitRepository.tryCreateRepositoryAsync(
-                    repoDir,
-                    this.sourceLinkTemplate,
-                    this.gitRevision,
-                    this.gitRemote,
-                    this.logger,
-                );
-            })();
-            this.asyncCache.set(dir, promise);
-            return promise;
-        }
-
-        // Recurse up; seed a resolved-undefined placeholder first to break symlink loops,
-        // then overwrite the slot once the parent lookup completes.
-        const placeholder = Promise.resolve<Repository | undefined>(undefined);
-        this.asyncCache.set(dir, placeholder);
-        const parentPromise = this.getRepositoryFolderAsync(dirname(dir));
-        this.asyncCache.set(dir, parentPromise);
-        return parentPromise;
+        // This folder isn't in a repository, record that in case we look it up again
+        this.repositories.set(expectedDir, undefined);
+        return undefined;
     }
 }
 

@@ -21,37 +21,6 @@ const base = path.join(
 
 const app = getConverterApp();
 
-app.serializer.addSerializer({
-    priority: -1,
-    supports(obj) {
-        return obj instanceof td.SourceReference;
-    },
-    /**
-     * @param {td.SourceReference} ref
-     */
-    toObject(ref, obj) {
-        if (obj.url) {
-            obj.url = `typedoc://${
-                obj.url.substring(
-                    obj.url.indexOf(ref.fileName),
-                )
-            }`;
-        }
-        return obj;
-    },
-});
-app.serializer.addSerializer({
-    priority: -1,
-    supports(obj) {
-        return obj instanceof td.ProjectReflection;
-    },
-    /** @param {td.ProjectReflection} obj */
-    toObject(_refl, obj) {
-        delete obj.packageVersion;
-        return obj;
-    },
-});
-
 /** @type {[string, (app: td.Application) => void, (app: td.Application) => void][]} */
 const conversions = [
     [

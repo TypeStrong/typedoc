@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal, ok } from "assert";
-import { join } from "path";
+import { join, resolve } from "path";
 import ts from "typescript";
 import {
     type Application,
@@ -14,7 +14,9 @@ import type { ModelToObject } from "../lib/serialization/schema.js";
 import { createAppForTesting } from "../lib/application.js";
 import { existsSync } from "fs";
 import { diagnostics } from "../lib/utils/loggers.js";
-import { normalizePath, OptionDefaults, readFile, ValidatingFileRegistry } from "#node-utils";
+import { getCommonDirectory, normalizePath, OptionDefaults, readFile, ValidatingFileRegistry } from "#node-utils";
+import { RepositoryManager } from "../lib/converter/utils/repository.js";
+import { fileURLToPath } from "url";
 
 let converterApp: Application | undefined;
 let converterProgram: ts.Program | undefined;
@@ -40,7 +42,6 @@ export function getConverterApp() {
                     externalPattern: ["**/node_modules/**"],
                     plugin: [],
                     entryPointStrategy: EntryPointStrategy.Expand,
-                    gitRevision: "fake",
                     readme: "none",
                     skipErrorChecking: true,
                     preservedTypeAnnotationTags: ["@gh3020"],
@@ -54,6 +55,15 @@ export function getConverterApp() {
             converterApp.options,
             converterApp.logger,
             process.cwd(),
+        );
+
+        converterApp.repositories = new RepositoryManager(
+            resolve(fileURLToPath(import.meta.url), "../../../src/test/converter"),
+            "gitRevision",
+            "master",
+            "{path}#L{line}",
+            /* disableGit */ true,
+            converterApp.logger,
         );
 
         converterApp.serializer.addSerializer({
@@ -178,6 +188,16 @@ export function getConverter2Project(entries: string[], folder: string) {
 
     app.options.setValue("entryPoints", entryPoints);
     app.files = new ValidatingFileRegistry(app.options.getValue("basePath"));
+
+    app.repositories = new RepositoryManager(
+        getCommonDirectory(entryPoints),
+        "gitRevision",
+        "master",
+        "{path}",
+        /* disableGit */ true,
+        app.logger,
+    );
+
     return app.converter.convert(
         files.map((file, index) => {
             return {

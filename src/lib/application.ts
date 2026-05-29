@@ -28,7 +28,7 @@ import {
     getWatchEntryPoints,
     inferEntryPoints,
 } from "./utils/entry-point.js";
-import { nicePath, normalizePath } from "./utils/paths.js";
+import { getCommonDirectory, nicePath, normalizePath } from "./utils/paths.js";
 import { getLoadedPaths, hasBeenLoadedMultipleTimes, isDebugging } from "./utils/general.js";
 import { validateExports } from "./validation/exports.js";
 import { validateDocumentation } from "./validation/documentation.js";
@@ -45,6 +45,7 @@ import { validateFilePaths } from "./validation/filePaths.js";
 import { diagnostic, diagnostics } from "./utils/loggers.js";
 import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
 import { Internationalization } from "./internationalization/internationalization.js";
+import { RepositoryManager } from "./converter/utils/repository.js";
 
 const packageInfo = JSON.parse(
     readFileSync(
@@ -156,6 +157,14 @@ export class Application extends AbstractComponent<
      * this was the wrong place for this member to live.
      */
     files: FileRegistry = new ValidatingFileRegistry();
+
+    /**
+     * Cache of git repository information used by the SourcePlugin to get source URLs.
+     * Will be undefined before {@link convert} is called, will also be undefined if the
+     * `--disableSources` option is enabled.
+     * @internal
+     */
+    repositories: RepositoryManager | undefined = undefined;
 
     /** @internal */
     @Option("lang")
@@ -429,6 +438,8 @@ export class Application extends AbstractComponent<
             return;
         }
 
+        await this.initializeRepositories(entryPoints);
+
         const programs = unique(entryPoints.map((e) => e.program));
         this.logger.verbose(
             `Converting with ${programs.length} programs ${entryPoints.length} entry points`,
@@ -456,12 +467,6 @@ export class Application extends AbstractComponent<
         const project = this.converter.convert(entryPoints);
         this.logger.verbose(
             `Finished conversion in ${Date.now() - startConversion}ms`,
-        );
-
-        const startSourceUrls = Date.now();
-        await this.converter.resolveDeferredSourceUrls();
-        this.logger.verbose(
-            `Resolving source URLs took ${Date.now() - startSourceUrls}ms`,
         );
 
         return project;
@@ -610,7 +615,7 @@ export class Application extends AbstractComponent<
                                 ),
                             );
                         }
-                        if (successFinished) runSuccess();
+                        if (successFinished) void runSuccess();
                     },
                     2000,
                 ),
@@ -630,7 +635,7 @@ export class Application extends AbstractComponent<
             tsWatcher.close();
         };
 
-        const runSuccess = () => {
+        const runSuccess = async () => {
             if (restarting && successFinished) {
                 successFinished = false;
                 exitWatch(true);
@@ -648,6 +653,12 @@ export class Application extends AbstractComponent<
                 ) {
                     currentProgram.emit();
                 }
+
+                // We don't want to re-initialize the repository if nothing has changed to avoid
+                // unnecessary subprocess calls.
+                const lastFiles = lastProgram?.getSourceFiles().map(s => s.fileName).sort().join("\0");
+                const currentFiles = currentProgram.getSourceFiles().map(s => s.fileName).sort().join("\0");
+
                 // Save for possible re-run due to non-.ts file change
                 lastProgram = currentProgram;
 
@@ -661,14 +672,17 @@ export class Application extends AbstractComponent<
                 if (!entryPoints) {
                     return;
                 }
+                successFinished = false;
                 this.clearWatches();
+                if (!this.repositories || lastFiles !== currentFiles) {
+                    await this.initializeRepositories(entryPoints);
+                }
                 this.criticalFiles.forEach((path) => this.watchFile(path, true));
                 const project = this.converter.convert(entryPoints);
                 currentProgram = undefined;
-                successFinished = false;
                 void success(project).then(() => {
                     successFinished = true;
-                    runSuccess();
+                    return runSuccess();
                 });
             }
         };
@@ -680,7 +694,7 @@ export class Application extends AbstractComponent<
                 ts.getPreEmitDiagnostics(program.getProgram()).length === 0
             ) {
                 currentProgram = program.getProgram();
-                runSuccess();
+                void runSuccess();
             }
             origAfterProgramCreate?.(program);
         };
@@ -976,5 +990,58 @@ export class Application extends AbstractComponent<
 
         this.trigger(ApplicationEvents.REVIVE, result);
         return result;
+    }
+
+    /**
+     * @internal
+     */
+    async initializeRepositories(entryPoints: readonly DocumentationEntryPoint[]) {
+        const start = Date.now();
+        this.repositories = undefined;
+
+        if (this.options.getValue("disableSources")) {
+            return;
+        }
+
+        const disableGit = this.options.getValue("disableGit");
+        const sourceLinkTemplate = this.options.getValue("sourceLinkTemplate");
+        const gitRevision = this.options.getValue("gitRevision");
+
+        if (disableGit && !sourceLinkTemplate) {
+            this.application.logger.error(
+                i18n.disable_git_set_but_not_source_link_template(),
+            );
+            return;
+        }
+
+        if (
+            disableGit &&
+            sourceLinkTemplate.includes("{gitRevision}") &&
+            !gitRevision
+        ) {
+            this.application.logger.warn(
+                i18n.disable_git_set_and_git_revision_used(),
+            );
+        }
+
+        const basePath = this.options.getValue("displayBasePath") ||
+            getCommonDirectory(entryPoints.map(e => e.sourceFile.fileName));
+
+        this.repositories = new RepositoryManager(
+            basePath,
+            gitRevision,
+            this.options.getValue("gitRemote"),
+            sourceLinkTemplate,
+            disableGit,
+            this.logger,
+        );
+
+        const programs = unique(entryPoints.map(e => e.program));
+        const possibleRepoDirs = unique(
+            programs.map(p => p.getSourceFiles().map(s => Path.dirname(s.fileName)).flat()).flat(),
+        );
+
+        await this.repositories.initializeRepositoriesForDirs(possibleRepoDirs);
+        this.logger.verbose(`Took ${Date.now() - start}ms to initialize repositories`);
     }
 }

@@ -274,7 +274,6 @@ export async function buildRendererSpecs(specPath: string) {
 
     resetReflectionID();
     const project = getConverter2Project(["renderer"], ".");
-    await app2.converter.resolveDeferredSourceUrls();
     await app2.generateDocs(project, specPath);
     await rm(`${specPath}/assets`, { recursive: true });
     await rm(`${specPath}/.nojekyll`);

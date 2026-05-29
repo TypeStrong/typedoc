@@ -7,11 +7,8 @@ import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js"
 import { isNamedNode } from "../utils/nodes.js";
 import { relative } from "path";
 import { SourceReference } from "../../models/index.js";
-import { RepositoryManager } from "../utils/repository.js";
-import { gitIsInstalledAsync } from "../utils/repository-async.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { i18n } from "#utils";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -41,15 +38,6 @@ export class SourcePlugin extends ConverterComponent {
      */
     private fileNames = new Set<string>();
 
-    private repositories?: RepositoryManager;
-
-    /**
-     * Source references collected during {@link onBeginResolve} whose `url`
-     * must be filled in by the async post-conversion step. The event bus is
-     * synchronous, so we defer the git work to {@link resolveDeferredUrls}.
-     */
-    private deferredSources: SourceReference[] = [];
-
     constructor(owner: Converter) {
         super(owner);
         this.owner.on(ConverterEvents.END, this.onEnd.bind(this));
@@ -68,12 +56,6 @@ export class SourcePlugin extends ConverterComponent {
     }
 
     private onEnd() {
-        // NB: deliberately does NOT delete `this.repositories` — the
-        // RepositoryManager is still needed by {@link resolveDeferredUrls},
-        // which runs *after* the converter fires END (the event bus is
-        // synchronous, so all listeners — including this one — fire before
-        // `convert()` returns and before `resolveDeferredUrls` is called).
-        // `resolveDeferredUrls` does the final cleanup.
         this.fileNames.clear();
     }
 
@@ -153,33 +135,8 @@ export class SourcePlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        if (this.disableSources) return;
-
-        if (this.disableGit && !this.sourceLinkTemplate) {
-            this.application.logger.error(
-                i18n.disable_git_set_but_not_source_link_template(),
-            );
-            return;
-        }
-        if (
-            this.disableGit &&
-            this.sourceLinkTemplate.includes("{gitRevision}") &&
-            !this.gitRevision
-        ) {
-            this.application.logger.warn(
-                i18n.disable_git_set_and_git_revision_used(),
-            );
-        }
-
         const basePath = this.displayBasePath || getCommonDirectory([...this.fileNames]);
-        this.repositories ||= new RepositoryManager(
-            basePath,
-            this.gitRevision,
-            this.gitRemote,
-            this.sourceLinkTemplate,
-            this.disableGit,
-            this.application.logger,
-        );
+        const repos = this.application.repositories;
 
         for (const id in context.project.reflections) {
             const refl = context.project.reflections[id];
@@ -201,35 +158,9 @@ export class SourcePlugin extends ConverterComponent {
                 source.fileName = normalizePath(
                     relative(basePath, source.fullFileName),
                 );
-                this.deferredSources.push(source);
+                source.url = repos?.getURL(source.fullFileName, source.line);
             }
         }
-    }
-
-    /**
-     * Resolve the `url` for every {@link SourceReference} collected during
-     * {@link onBeginResolve}. The work is async because the underlying
-     * `git` lookups are async; the event bus is synchronous and ignores
-     * listener Promise returns, so this method must be called explicitly
-     * after the converter finishes.
-     */
-    async resolveDeferredUrls(): Promise<void> {
-        if (!this.repositories) {
-            this.deferredSources.length = 0;
-            return;
-        }
-        const gitOk = this.disableGit || (await gitIsInstalledAsync());
-        if (gitOk) {
-            for (const source of this.deferredSources) {
-                const repo = await this.repositories.getRepositoryAsync(
-                    source.fullFileName,
-                );
-                source.url = repo?.getURL(source.fullFileName, source.line);
-            }
-        }
-        this.deferredSources.length = 0;
-        this.fileNames.clear();
-        delete this.repositories;
     }
 }
 

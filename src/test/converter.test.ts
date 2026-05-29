@@ -197,7 +197,7 @@ describe("Converter", function () {
 
                 let result: ProjectReflection | undefined;
 
-                it(`[${file}] converts fixtures`, async function () {
+                it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
                     app.files = new FileRegistry();
@@ -209,7 +209,6 @@ describe("Converter", function () {
                     );
                     ok(entryPoints, "Failed to get entry points");
                     result = app.converter.convert(entryPoints);
-                    await app.converter.resolveDeferredSourceUrls();
                     result.name = directory;
                     after();
                 });
