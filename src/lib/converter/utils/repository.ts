@@ -167,6 +167,8 @@ export class GitRepository implements Repository {
             if (lsFilesCall.child.exitCode == null) {
                 lsFilesCall.child.kill();
             }
+            await getUrlCall?.promise;
+            await lsFilesCall.promise;
             return;
         }
 
@@ -183,6 +185,7 @@ export class GitRepository implements Repository {
             if (lsFilesCall.child.exitCode == null) {
                 lsFilesCall.child.kill();
             }
+            await lsFilesCall.promise;
             return;
         }
 
