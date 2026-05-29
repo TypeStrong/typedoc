@@ -55,8 +55,11 @@ jobs:
                   pnpm run build
             - name: Test
               run: pnpm run test:full
-            - name: Lint
-              run: pnpm run lint
+            # It would be nice to also run lint here, but the set_strict call above changes some types
+            # to loosen the requirements for plugin users. This results in some type assertions no longer
+            # being necessary which triggers errors here.
+            # - name: Lint
+            #   run: pnpm run lint
     build-windows:
         runs-on: windows-latest
         name: Node 18 Windows
