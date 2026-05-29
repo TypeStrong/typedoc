@@ -531,6 +531,21 @@
         scroll-margin-block: calc(var(--dim-header-height) + 0.5rem);
     }
 
+    math {
+        padding: 0.2em;
+        margin: 0;
+        font-size: 0.875rem;
+        border-radius: 0.8em;
+    }
+
+    math[display="block"] {
+        position: relative;
+        padding: 10px;
+        border: 1px solid var(--color-accent);
+        margin-bottom: 8px;
+        font-size: 100%;
+    }
+
     code,
     pre {
         font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
