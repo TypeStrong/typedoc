@@ -12,7 +12,16 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { assertNever, i18n, Logger, setUnion } from "#utils";
+import {
+    assertNever,
+    i18n,
+    Logger,
+    type MeaningKeyword,
+    parseDeclarationReference,
+    setUnion,
+    type SymbolReference,
+} from "#utils";
+import { resolveAliasedSymbol } from "../utils/symbols.js";
 import type { Context } from "../context.js";
 
 export interface CommentParserConfig {
@@ -39,6 +48,7 @@ export interface CommentContextOptionalChecker {
     config: CommentParserConfig;
     logger: Logger;
     checker?: ts.TypeChecker | undefined;
+    node?: ts.Node | undefined;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
 }
@@ -85,6 +95,7 @@ function getCommentIgnoringCacheNoDiscoveryId(
                 file,
                 context,
             );
+            if (!jsDoc) resolveLocalLinks(comment, context);
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
             comment = parseComment(
@@ -92,6 +103,7 @@ function getCommentIgnoringCacheNoDiscoveryId(
                 file,
                 context,
             );
+            resolveLocalLinks(comment, context);
             break;
         default:
             assertNever(ranges[0].kind);
@@ -100,6 +112,71 @@ function getCommentIgnoringCacheNoDiscoveryId(
     comment.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
     return comment;
 }
+
+function resolveLocalLinks(comment: Comment, context: CommentContextOptionalChecker) {
+    const { checker, node } = context;
+    if (!checker || !node) return;
+    for (const elt of comment.summary) {
+        if (elt.kind === "inline-tag" && elt.tag === "@link" && !elt.target) {
+            let pos = 0;
+            while (pos < elt.text.length && ts.isWhiteSpaceLike(elt.text.charCodeAt(pos))) {
+                pos++;
+            }
+            const parsed = parseDeclarationReference(elt.text, pos, elt.text.length);
+            if (parsed && parsed[0].resolutionStart === "local" && parsed[0].symbolReference) {
+                const resolved = resolveLocalLink(parsed[0].symbolReference, node, checker);
+                if (resolved) {
+                    elt.target = context.createSymbolId(resolveAliasedSymbol(resolved, checker));
+                }
+            }
+        }
+    }
+}
+
+function resolveLocalLink(ref: SymbolReference, node: ts.Node, checker: ts.TypeChecker): ts.Symbol | undefined {
+    if (!ref.path || ref.meaning?.label) return undefined;
+    let symbols: ts.Symbol[] = [];
+    const add = (sym: ts.Symbol | undefined) => {
+        if (sym) {
+            sym = resolveAliasedSymbol(sym, checker);
+            if (!symbols.includes(sym)) symbols.push(sym);
+        }
+    };
+    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Value, true));
+    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Type, true));
+    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Namespace, true));
+    for (let i = 1; i < ref.path.length && symbols.length; i++) {
+        const { path, navigation } = ref.path[i];
+        const prev = symbols;
+        symbols = [];
+        for (const sym of prev) {
+            if (navigation !== "~") {
+                add(sym.members?.get(path as ts.__String));
+            }
+            if (navigation !== "#") {
+                add(sym.exports?.get(path as ts.__String));
+            }
+        }
+    }
+    const filter = ref.meaning?.keyword && meaningSymbolFlags[ref.meaning.keyword];
+    if (filter != null) {
+        symbols = symbols.filter(sym => sym.flags & filter);
+    }
+    return symbols.length ? symbols[0] : undefined;
+}
+
+const meaningSymbolFlags: { [meaning in MeaningKeyword]?: ts.SymbolFlags } = {
+    class: ts.SymbolFlags.Class,
+    interface: ts.SymbolFlags.Interface,
+    type: ts.SymbolFlags.Type,
+    enum: ts.SymbolFlags.Enum,
+    namespace: ts.SymbolFlags.Namespace,
+    function: ts.SymbolFlags.Function,
+    var: ts.SymbolFlags.Variable,
+    constructor: ts.SymbolFlags.Constructor,
+    member: ts.SymbolFlags.ClassMember | ts.SymbolFlags.EnumMember,
+    call: ts.SymbolFlags.Signature,
+};
 
 function getCommentWithCache(
     discovered: DiscoveredComment | undefined,
@@ -128,6 +205,7 @@ function getCommentWithCache(
 function getCommentImpl(
     commentSource: DiscoveredComment | undefined,
     moduleComment: boolean,
+    node: ts.Node | undefined,
     context: CommentContext,
 ) {
     const comment = getCommentWithCache(
@@ -135,6 +213,7 @@ function getCommentImpl(
         {
             ...context,
             checker: context.config.useTsLinkResolution ? context.checker : undefined,
+            node,
         },
     );
 
@@ -205,6 +284,7 @@ export function getComment(
             !context.config.suppressCommentWarningsInDeclarationFiles,
         ),
         isModule,
+        declarations.length ? declarations[0] : undefined,
         context,
     );
 
@@ -226,6 +306,7 @@ export function getNodeComment(
     return getCommentImpl(
         discoverNodeComment(node, context.config.commentStyle),
         moduleComment,
+        node,
         context,
     );
 }
@@ -295,6 +376,7 @@ export function getSignatureComment(
     return getCommentImpl(
         discoverSignatureComment(declaration, context.checker, context.config.commentStyle),
         false,
+        declaration,
         context,
     );
 }
