@@ -266,6 +266,20 @@ function convertParameters(
         }
         paramRefl.comment ||= context.getComment(param, paramRefl.kind);
 
+        // #3111 if a parameter is a parameter property, then the parameter's comment should
+        // not have @hidden applied, the parameter is still important, it's just the property which
+        // should be hidden.
+        if (
+            declaration &&
+            (ts.getCombinedModifierFlags(declaration) &
+                (ts.ModifierFlags.Public | ts.ModifierFlags.Private | ts.ModifierFlags.Protected |
+                    ts.ModifierFlags.Readonly))
+        ) {
+            paramRefl.comment?.removeModifier("@hidden");
+            paramRefl.comment?.removeModifier("@ignore");
+            paramRefl.comment?.removeModifier("@internal");
+        }
+
         context.registerReflection(paramRefl, param);
         context.converter.trigger(
             ConverterEvents.CREATE_PARAMETER,
@@ -296,8 +310,6 @@ function convertParameters(
             declaration.type?.kind === ts.SyntaxKind.ThisType
         ) {
             paramRefl.type = new IntrinsicType("this");
-        } else if (!type) {
-            paramRefl.type = new IntrinsicType("any");
         } else {
             paramRefl.type = context.converter.convertType(
                 context.withScope(paramRefl),
@@ -360,6 +372,8 @@ export function convertParameterNodes(
         );
         if (ts.isJSDocParameterTag(param)) {
             paramRefl.comment = context.getJsDocComment(param);
+            // #3111 don't need to check for @hidden here because this is only used
+            // for cases where a parameter property is disallowed by TS.
         }
         context.registerReflection(
             paramRefl,

@@ -9,6 +9,10 @@ title: Changelog
 - Added a `@reexport` modifier tag to have TypeDoc convert variable/type references as a re-export instead of a new symbol.
 - Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
 
+### Bug Fixes
+
+- A `@hidden` tag on a constructor parameter-property will now only hide the property, not both the property and the parameter, #3111.
+
 ## v0.28.19 (2026-04-12)
 
 ### Features

@@ -2315,4 +2315,16 @@ describe("Issue Tests", () => {
         const m = querySig(project, "m");
         equal(m.type?.toString(), "Content extends object ? Content : Other");
     });
+
+    it("#3111 correctly handles @hidden on a parameter property", () => {
+        const project = convert();
+        const C = query(project, "C");
+        equal(reflToTree(C), {
+            "Constructor:constructor": "Constructor",
+            y: "Property",
+        });
+
+        const ctor = querySig(project, "C.constructor");
+        equal(ctor.parameters?.map(p => p.name), ["x", "y"]);
+    });
 });
