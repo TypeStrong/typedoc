@@ -2322,9 +2322,13 @@ describe("Issue Tests", () => {
         equal(reflToTree(C), {
             "Constructor:constructor": "Constructor",
             y: "Property",
+            method: "Method",
         });
 
         const ctor = querySig(project, "C.constructor");
         equal(ctor.parameters?.map(p => p.name), ["x", "y"]);
+
+        const method = querySig(project, "C.method");
+        equal(method.parameters, undefined);
     });
 });

@@ -4,4 +4,9 @@ export class C {
         readonly x: number,
         readonly y: boolean,
     ) {}
+
+    method(
+        /** @hidden */
+        internalHelper?: string,
+    ) {}
 }
