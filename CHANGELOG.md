@@ -7,6 +7,7 @@ title: Changelog
 ### Features
 
 - Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
+- Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#runtime-guards`), #3029.
 
 ## v0.28.19 (2026-04-12)
 
