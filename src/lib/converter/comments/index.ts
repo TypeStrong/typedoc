@@ -142,9 +142,13 @@ function resolveLocalLink(ref: SymbolReference, node: ts.Node, checker: ts.TypeC
             if (!symbols.includes(sym)) symbols.push(sym);
         }
     };
-    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Value, true));
-    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Type, true));
-    add(checker.resolveName(ref.path[0].path, node, ts.SymbolFlags.Namespace, true));
+    // SymbolFlags.All does not work here, for some reason.
+    add(checker.resolveName(
+        ref.path[0].path,
+        node,
+        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
+        true,
+    ));
     for (let i = 1; i < ref.path.length && symbols.length; i++) {
         const { path, navigation } = ref.path[i];
         const prev = symbols;
