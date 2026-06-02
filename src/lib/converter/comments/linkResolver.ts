@@ -258,7 +258,9 @@ function resolveLinkTag(
 
     if (!target && declRef) {
         // Got one, great! Try to resolve the link
-        target = resolveDeclarationReference(reflection, declRef[0]);
+        let localRoots = part.localSymbol && reflection.project.getReflectionsFromSymbolId(part.localSymbol);
+        if (localRoots && localRoots.length === 0) localRoots = undefined;
+        target = resolveDeclarationReference(reflection, declRef[0], localRoots);
         pos = declRef[1];
 
         if (target) {

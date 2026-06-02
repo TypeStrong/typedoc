@@ -21,6 +21,7 @@ function resolveReferenceReflection(ref: Reflection): Reflection {
 export function resolveDeclarationReference(
     reflection: Reflection,
     ref: DeclarationReference,
+    localRoots?: Reflection[],
 ): Reflection | undefined {
     let high: Reflection[] = [];
     let low: Reflection[] = [];
@@ -46,45 +47,47 @@ export function resolveDeclarationReference(
             ref.resolutionStart.startsWith("local") &&
                 ref.resolutionStart.length === 5,
         );
-        // TypeScript's behavior is to first try to resolve links via variable scope, and then
-        // if the link still hasn't been found, check either siblings (if comment belongs to a member)
-        // or otherwise children.
-        let refl: Reflection | undefined = reflection;
-        if (refl.kindOf(ReflectionKind.ExportContainer)) {
-            high.push(refl);
-        }
-        while (refl.parent) {
-            refl = refl.parent;
+        if (!localRoots) {
+            // TypeScript's behavior is to first try to resolve links via variable scope, and then
+            // if the link still hasn't been found, check either siblings (if comment belongs to a member)
+            // or otherwise children.
+            let refl: Reflection | undefined = reflection;
             if (refl.kindOf(ReflectionKind.ExportContainer)) {
                 high.push(refl);
-            } else {
-                low.push(refl);
+            }
+            while (refl.parent) {
+                refl = refl.parent;
+                if (refl.kindOf(ReflectionKind.ExportContainer)) {
+                    high.push(refl);
+                } else {
+                    low.push(refl);
+                }
+
+                if (
+                    refl.kindOf(ReflectionKind.Project) &&
+                    (refl as ProjectReflection).children?.length === 1
+                ) {
+                    high.push((refl as ProjectReflection).children![0]);
+                }
             }
 
-            if (
-                refl.kindOf(ReflectionKind.Project) &&
-                (refl as ProjectReflection).children?.length === 1
+            if (reflection.kindOf(ReflectionKind.SomeMember)) {
+                high.push(reflection.parent!);
+            } else if (
+                reflection.kindOf(ReflectionKind.SomeSignature) &&
+                reflection.parent!.kindOf(ReflectionKind.SomeMember)
             ) {
-                high.push((refl as ProjectReflection).children![0]);
-            }
-        }
-
-        if (reflection.kindOf(ReflectionKind.SomeMember)) {
-            high.push(reflection.parent!);
-        } else if (
-            reflection.kindOf(ReflectionKind.SomeSignature) &&
-            reflection.parent!.kindOf(ReflectionKind.SomeMember)
-        ) {
-            high.push(reflection.parent!.parent!);
-        } else if (high[0] !== reflection) {
-            if (reflection.parent instanceof ContainerReflection) {
-                high.push(
-                    ...(reflection.parent.childrenIncludingDocuments?.filter(
-                        (c) => c.name === reflection.name,
-                    ) || []),
-                );
-            } else {
-                high.push(reflection);
+                high.push(reflection.parent!.parent!);
+            } else if (high[0] !== reflection) {
+                if (reflection.parent instanceof ContainerReflection) {
+                    high.push(
+                        ...(reflection.parent.childrenIncludingDocuments?.filter(
+                            (c) => c.name === reflection.name,
+                        ) || []),
+                    );
+                } else {
+                    high.push(reflection);
+                }
             }
         }
     }
@@ -95,6 +98,11 @@ export function resolveDeclarationReference(
             high = [];
             const low2 = low;
             low = [];
+            if (localRoots) {
+                high = localRoots;
+                localRoots = undefined;
+                continue;
+            }
 
             for (const refl of high2) {
                 const resolved = resolveSymbolReferencePart(refl, part);
