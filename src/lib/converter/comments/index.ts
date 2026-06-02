@@ -12,15 +12,7 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import {
-    assertNever,
-    i18n,
-    Logger,
-    type MeaningKeyword,
-    parseDeclarationReference,
-    setUnion,
-    type SymbolReference,
-} from "#utils";
+import { assertNever, i18n, Logger, parseDeclarationReference, setUnion } from "#utils";
 import { resolveAliasedSymbol } from "../utils/symbols.js";
 import type { Context } from "../context.js";
 
@@ -123,64 +115,23 @@ function resolveLocalLinks(comment: Comment, context: CommentContextOptionalChec
                 pos++;
             }
             const parsed = parseDeclarationReference(elt.text, pos, elt.text.length);
-            if (parsed && parsed[0].resolutionStart === "local" && parsed[0].symbolReference) {
-                const resolved = resolveLocalLink(parsed[0].symbolReference, node, checker);
-                if (resolved) {
-                    elt.target = context.createSymbolId(resolveAliasedSymbol(resolved, checker));
+            if (parsed && parsed[0].resolutionStart === "local") {
+                const ref = parsed[0].symbolReference;
+                if (ref && ref.path) {
+                    const symbol = checker.resolveName(
+                        ref.path[0].path,
+                        node,
+                        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
+                        true,
+                    );
+                    if (symbol) {
+                        elt.localSymbol = context.createSymbolId(resolveAliasedSymbol(symbol, checker));
+                    }
                 }
             }
         }
     }
 }
-
-function resolveLocalLink(ref: SymbolReference, node: ts.Node, checker: ts.TypeChecker): ts.Symbol | undefined {
-    if (!ref.path || ref.meaning?.label) return undefined;
-    let symbols: ts.Symbol[] = [];
-    const add = (sym: ts.Symbol | undefined) => {
-        if (sym) {
-            sym = resolveAliasedSymbol(sym, checker);
-            if (!symbols.includes(sym)) symbols.push(sym);
-        }
-    };
-    // SymbolFlags.All does not work here, for some reason.
-    add(checker.resolveName(
-        ref.path[0].path,
-        node,
-        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
-        true,
-    ));
-    for (let i = 1; i < ref.path.length && symbols.length; i++) {
-        const { path, navigation } = ref.path[i];
-        const prev = symbols;
-        symbols = [];
-        for (const sym of prev) {
-            if (navigation !== "~") {
-                add(sym.members?.get(path as ts.__String));
-            }
-            if (navigation !== "#") {
-                add(sym.exports?.get(path as ts.__String));
-            }
-        }
-    }
-    const filter = ref.meaning?.keyword && meaningSymbolFlags[ref.meaning.keyword];
-    if (filter != null) {
-        symbols = symbols.filter(sym => sym.flags & filter);
-    }
-    return symbols.length ? symbols[0] : undefined;
-}
-
-const meaningSymbolFlags: { [meaning in MeaningKeyword]?: ts.SymbolFlags } = {
-    class: ts.SymbolFlags.Class,
-    interface: ts.SymbolFlags.Interface,
-    type: ts.SymbolFlags.Type,
-    enum: ts.SymbolFlags.Enum,
-    namespace: ts.SymbolFlags.Namespace,
-    function: ts.SymbolFlags.Function,
-    var: ts.SymbolFlags.Variable,
-    constructor: ts.SymbolFlags.Constructor,
-    member: ts.SymbolFlags.ClassMember | ts.SymbolFlags.EnumMember,
-    call: ts.SymbolFlags.Signature,
-};
 
 function getCommentWithCache(
     discovered: DiscoveredComment | undefined,

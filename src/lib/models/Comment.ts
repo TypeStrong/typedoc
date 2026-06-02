@@ -38,6 +38,7 @@ export interface InlineTagDisplayPart {
     tag: TagString;
     text: string;
     target?: Reflection | string | ReflectionSymbolId;
+    localSymbol?: ReflectionSymbolId;
     tsLinkText?: string;
 }
 
@@ -261,12 +262,14 @@ export class Comment {
                 case "code":
                     return { ...part };
                 case "inline-tag": {
+                    const localSymbol = part.localSymbol && new ReflectionSymbolId(part.localSymbol);
                     if (typeof part.target === "number") {
                         const part2 = {
                             kind: part.kind,
                             tag: part.tag,
                             text: part.text,
                             target: undefined,
+                            localSymbol,
                             tsLinkText: part.tsLinkText,
                         } satisfies InlineTagDisplayPart;
                         links.push([part.target, part2]);
@@ -280,6 +283,7 @@ export class Comment {
                             tag: part.tag,
                             text: part.text,
                             target: part.target,
+                            localSymbol,
                             tsLinkText: part.tsLinkText,
                         } satisfies InlineTagDisplayPart;
                     } else if (typeof part.target === "object") {
@@ -288,6 +292,7 @@ export class Comment {
                             tag: part.tag,
                             text: part.text,
                             target: new ReflectionSymbolId(part.target),
+                            localSymbol,
                             tsLinkText: part.tsLinkText,
                         } satisfies InlineTagDisplayPart;
                     } else {
