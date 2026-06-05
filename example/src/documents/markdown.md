@@ -88,3 +88,18 @@ To use an alert, include a blockquote in any markdown content which starts with 
 
 > [!CAUTION]
 > Advises about risks or negative outcomes of certain actions.
+
+## MathML
+
+Markdown supports inline HTML, including `<math>` elements.
+MathML can be used inline, for example
+<math><msup><mrow><mi>a</mi><mo>&InvisibleTimes;</mo><mi>x</mi></mrow><mn>2</mn></msup> <mo>+</mo> <mi>b</mi><mo>&InvisibleTimes;</mo><mi>x</mi><mo>+</mo> <mi>c</mi><mo> = </mo><mn>0</mn></math>.
+Block elements can also be used:
+
+<math display="block"><mtable columnalign="right left">
+<mtr><mtd><mtext>Area of a circle:</mtext></mtd><mtd><mi>a</mi><mo> = </mo><msup><mrow><mi>π</mi><mo>&InvisibleTimes;</mo><mi>r</mi></mrow><mn>2</mn></mtd></mtr>
+<mtr><mtd><mtext>Area of a triangle:</mtext></mtd><mtd><mi>a</mi><mo> = </mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>&InvisibleTimes;</mo><mi>w</mi><mo>&InvisibleTimes;</mo><mi>h</mi></mtd></mtr>
+</mtable></math>
+
+If you'd prefer to write equations using LaTeX expressions, you can load a markdown-it plugin using
+the [`markdownItLoader` configuration option.](https://typedoc.org/documents/Options.Output.html#markdownitloader)
