@@ -34,6 +34,33 @@ export enum ReflectionKind {
     Document = 0x800000,
 }
 
+export const ReflectionKindNames = {
+    Project: Symbol.for(ReflectionKind[ReflectionKind.Project]),
+    Module: Symbol.for(ReflectionKind[ReflectionKind.Module]),
+    Namespace: Symbol.for(ReflectionKind[ReflectionKind.Namespace]),
+    Enum: Symbol.for(ReflectionKind[ReflectionKind.Enum]),
+    EnumMember: Symbol.for(ReflectionKind[ReflectionKind.EnumMember]),
+    Variable: Symbol.for(ReflectionKind[ReflectionKind.Variable]),
+    Function: Symbol.for(ReflectionKind[ReflectionKind.Function]),
+    Class: Symbol.for(ReflectionKind[ReflectionKind.Class]),
+    Interface: Symbol.for(ReflectionKind[ReflectionKind.Interface]),
+    Constructor: Symbol.for(ReflectionKind[ReflectionKind.Constructor]),
+    Property: Symbol.for(ReflectionKind[ReflectionKind.Property]),
+    Method: Symbol.for(ReflectionKind[ReflectionKind.Method]),
+    CallSignature: Symbol.for(ReflectionKind[ReflectionKind.CallSignature]),
+    IndexSignature: Symbol.for(ReflectionKind[ReflectionKind.IndexSignature]),
+    ConstructorSignature: Symbol.for(ReflectionKind[ReflectionKind.ConstructorSignature]),
+    Parameter: Symbol.for(ReflectionKind[ReflectionKind.Parameter]),
+    TypeLiteral: Symbol.for(ReflectionKind[ReflectionKind.TypeLiteral]),
+    TypeParameter: Symbol.for(ReflectionKind[ReflectionKind.TypeParameter]),
+    Accessor: Symbol.for(ReflectionKind[ReflectionKind.Accessor]),
+    GetSignature: Symbol.for(ReflectionKind[ReflectionKind.GetSignature]),
+    SetSignature: Symbol.for(ReflectionKind[ReflectionKind.SetSignature]),
+    TypeAlias: Symbol.for(ReflectionKind[ReflectionKind.TypeAlias]),
+    Reference: Symbol.for(ReflectionKind[ReflectionKind.Reference]),
+    Document: Symbol.for(ReflectionKind[ReflectionKind.Document]),
+} as const;
+
 /** @category Reflections */
 export namespace ReflectionKind {
     export type KindString = EnumKeys<typeof ReflectionKind>;

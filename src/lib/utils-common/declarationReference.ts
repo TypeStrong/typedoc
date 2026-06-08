@@ -55,6 +55,20 @@ export function meaningToString(meaning: Meaning): string {
     return result;
 }
 
+export function symbolReferenceToString(ref: SymbolReference): string {
+    const parts: string[] = [];
+    for (const part of ref.path || []) {
+        if (parts.length) {
+            parts.push(part.navigation);
+        }
+        parts.push(part.path); // TODO escapes
+    }
+    if (ref.meaning) {
+        parts.push(meaningToString(ref.meaning));
+    }
+    return parts.join("");
+}
+
 export interface SymbolReference {
     path?: ComponentPath[];
     meaning?: Meaning;

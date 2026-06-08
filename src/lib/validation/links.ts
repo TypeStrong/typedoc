@@ -1,4 +1,4 @@
-import { i18n, type Logger } from "#utils";
+import { assert, i18n, type Logger, parseDeclarationReference, symbolReferenceToString } from "#utils";
 import {
     type Comment,
     type CommentDisplayPart,
@@ -123,6 +123,18 @@ function reportBrokenCommentLink(broken: InlineTagDisplayPart, reflection: Refle
                 reflection.getFriendlyFullName(),
                 linkText,
                 `{ "${broken.target.packageName}": { "${broken.target.qualifiedName}": "#" }}`,
+            ),
+        );
+    } else if (broken.localSymbol) {
+        const [declRef] = parseDeclarationReference(linkText, 0, linkText.length) || [];
+        assert(declRef, "We had to have successfully parsed to set localSymbol to begin with");
+        assert(declRef.resolutionStart === "local" && declRef.symbolReference);
+        const qualifiedName = symbolReferenceToString(declRef.symbolReference);
+        logger.validationWarning(
+            i18n.comment_for_0_links_to_1_not_included_in_docs_use_external_link_2(
+                reflection.getFriendlyFullName(),
+                linkText,
+                `{ "${broken.localSymbol.packageName}": { ${JSON.stringify(qualifiedName)}: "#" }}`,
             ),
         );
     } else if (linkText.startsWith("@") && !linkText.includes("!")) {

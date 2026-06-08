@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Comment, type CommentDisplayPart, ReflectionKind } from "../../models/index.js";
+import { Comment, type CommentDisplayPart, ReflectionKind, ReflectionSymbolId } from "../../models/index.js";
 import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "../../utils/options/declaration.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
@@ -87,7 +87,7 @@ function getCommentIgnoringCacheNoDiscoveryId(
                 file,
                 context,
             );
-            if (!jsDoc) resolveLocalLinks(comment, context);
+            resolveLocalLinks(comment, context);
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
             comment = parseComment(
@@ -121,11 +121,21 @@ function resolveLocalLinks(comment: Comment, context: CommentContextOptionalChec
                     const symbol = checker.resolveName(
                         ref.path[0].path,
                         node,
-                        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
-                        true,
+                        ts.SymbolFlags.All,
+                        /* excludeGlobals */ false,
                     );
                     if (symbol) {
                         elt.localSymbol = context.createSymbolId(resolveAliasedSymbol(symbol, checker));
+                        if (ref.path.length > 1 && !ref.meaning) {
+                            elt.target = new ReflectionSymbolId({
+                                packageName: elt.localSymbol.packageName,
+                                packagePath: elt.localSymbol.packagePath,
+                                qualifiedName: elt.localSymbol.qualifiedName + "." +
+                                    ref.path.slice(1).map(s => s.path).join("."),
+                            });
+                        } else if (!ref.meaning) {
+                            elt.target = elt.localSymbol;
+                        }
                     }
                 }
             }
@@ -219,7 +229,7 @@ export function getComment(
 
     const sf = declarations.find(ts.isSourceFile);
     if (sf) {
-        return getFileComment(sf, context);
+        return getFileComment(sf, { ...context, node: sf });
     }
 
     const isModule = declarations.some((decl) => {
@@ -268,7 +278,7 @@ export function getNodeComment(
 
 export function getFileComment(
     file: ts.SourceFile,
-    context: CommentContext,
+    context: CommentContextOptionalChecker,
 ): Comment | undefined {
     const quietContext = {
         ...context,
