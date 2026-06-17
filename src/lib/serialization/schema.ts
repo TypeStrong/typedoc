@@ -394,7 +394,7 @@ export interface InlineTagDisplayPart {
     tag: TagString;
     text: string;
     target?: string | ReflectionId | ReflectionSymbolId;
-    localSymbol?: ReflectionSymbolId;
+    baseSymbol?: ReflectionSymbolId;
     tsLinkText?: string;
 }
 

@@ -222,7 +222,7 @@ function resolveLinkTag(
 
                 return 1;
             })!;
-            pos = end;
+            pos = declRef?.[1] ?? end;
             defaultDisplayText = part.tsLinkText ||
                 (options.preserveLinkText ? part.text : target.name);
         } else {
@@ -258,7 +258,7 @@ function resolveLinkTag(
 
     if (!target && declRef) {
         // Got one, great! Try to resolve the link
-        let localRoots = part.localSymbol && reflection.project.getReflectionsFromSymbolId(part.localSymbol);
+        let localRoots = part.baseSymbol && reflection.project.getReflectionsFromSymbolId(part.baseSymbol);
         if (localRoots && localRoots.length === 0) localRoots = undefined;
         target = resolveDeclarationReference(reflection, declRef[0], localRoots);
         pos = declRef[1];

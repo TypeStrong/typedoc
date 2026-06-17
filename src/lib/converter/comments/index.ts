@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Comment, type CommentDisplayPart, ReflectionKind, ReflectionSymbolId } from "../../models/index.js";
+import { Comment, type CommentDisplayPart, ReflectionKind } from "../../models/index.js";
 import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "../../utils/options/declaration.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
@@ -121,20 +121,13 @@ function resolveLocalLinks(comment: Comment, context: CommentContextOptionalChec
                     const symbol = checker.resolveName(
                         ref.path[0].path,
                         node,
-                        ts.SymbolFlags.All,
+                        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
                         /* excludeGlobals */ false,
                     );
                     if (symbol) {
-                        elt.localSymbol = context.createSymbolId(resolveAliasedSymbol(symbol, checker));
-                        if (ref.path.length > 1 && !ref.meaning) {
-                            elt.target = new ReflectionSymbolId({
-                                packageName: elt.localSymbol.packageName,
-                                packagePath: elt.localSymbol.packagePath,
-                                qualifiedName: elt.localSymbol.qualifiedName + "." +
-                                    ref.path.slice(1).map(s => s.path).join("."),
-                            });
-                        } else if (!ref.meaning) {
-                            elt.target = elt.localSymbol;
+                        elt.baseSymbol = context.createSymbolId(resolveAliasedSymbol(symbol, checker));
+                        if (ref.path.length === 1 && !ref.meaning) {
+                            elt.target = elt.baseSymbol;
                         }
                     }
                 }

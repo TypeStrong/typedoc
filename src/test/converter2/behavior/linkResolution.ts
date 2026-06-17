@@ -45,6 +45,7 @@ export namespace Scoping {
  *
  * {@link E:call}
  * {@link E:call(1)}
+ * {@link E:function(1)}
  *
  * {@link B:new}
  * {@link B:new(1)}

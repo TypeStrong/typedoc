@@ -32,7 +32,7 @@ function buildNameTree(
 /**
  * Gets a shorthand description of links within a reflection's comment summary.
  * Returns an array of links:
- * 1. [string] for url targets
+ * 1. string for url targets
  * 2. [fullName, number] for signature targets
  * 3. [kindSymbol, fullName] for reflection targets
  * 4. [qualifiedName] for unresolved symbol ids
@@ -760,7 +760,7 @@ describe("Behavior Tests", () => {
 
             [ReflectionKindNames.Interface, "Meanings.C"],
             [ReflectionKindNames.TypeAlias, "Meanings.D"],
-            ["Meanings.E.E", 0],
+            [ReflectionKindNames.Function, "Meanings.E"],
             [ReflectionKindNames.Variable, "Meanings.F"],
 
             ["Meanings.B.constructor.B", 0],
@@ -771,6 +771,7 @@ describe("Behavior Tests", () => {
             [undefined],
 
             ["Meanings.E.E", 0],
+            ["Meanings.E.E", 1],
             ["Meanings.E.E", 1],
 
             ["Meanings.B.constructor.B", 0],
@@ -805,6 +806,7 @@ describe("Behavior Tests", () => {
 
     it("Handles TypeScript based link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
+
         const project = convert("linkResolutionTs");
         for (
             const [refl, target] of [
@@ -827,12 +829,12 @@ describe("Behavior Tests", () => {
             [ReflectionKindNames.Namespace, "Meanings.A"],
             [ReflectionKindNames.Enum, "Meanings.A"],
 
-            [undefined],
+            [undefined], // A:class doesn't exist, should fail
             [ReflectionKindNames.Class, "Meanings.B"],
 
             [ReflectionKindNames.Interface, "Meanings.C"],
             [ReflectionKindNames.TypeAlias, "Meanings.D"],
-            ["Meanings.E.E", 0],
+            [ReflectionKindNames.Function, "Meanings.E"],
             [ReflectionKindNames.Variable, "Meanings.F"],
 
             ["Meanings.B.constructor.B", 0],
@@ -840,9 +842,10 @@ describe("Behavior Tests", () => {
             ["Meanings.B.constructor.B", 1],
 
             [ReflectionKindNames.EnumMember, "Meanings.A.A"],
-            [undefined],
+            [undefined], // B.prop:event is intentionally not permitted by TypeDoc
 
             ["Meanings.E.E", 0],
+            ["Meanings.E.E", 1],
             ["Meanings.E.E", 1],
 
             ["Meanings.B.constructor.B", 0],
@@ -866,13 +869,15 @@ describe("Behavior Tests", () => {
         );
 
         equal(getLinks(query(project, "Navigation")), [
-            [ReflectionKindNames.Method, "Navigation.Child.foo"],
+            [ReflectionKindNames.Method, "Navigation.Child.foo"], // [ReflectionKind.Namespace, "Navigation"],
             [ReflectionKindNames.Property, "Navigation.Child.foo"],
-            [ReflectionKindNames.Class, "Navigation.Child"],
+            [undefined],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
-        equal(getLinks(foo), [[ReflectionKindNames.Method, "Navigation.Child.foo"]]);
+        equal(getLinks(foo), [
+            [ReflectionKindNames.Method, "Navigation.Child.foo"],
+        ]);
 
         const localSymbolRef = query(project, "localSymbolRef");
 

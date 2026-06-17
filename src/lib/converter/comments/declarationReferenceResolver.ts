@@ -9,7 +9,7 @@ import {
     ReflectionKind,
 } from "../../models/index.js";
 import { assertNever, filterMap } from "#utils";
-import type { ComponentPath, DeclarationReference, Meaning, MeaningKeyword } from "#utils";
+import type { ComponentPath, DeclarationReference, Meaning } from "#utils";
 
 function resolveReferenceReflection(ref: Reflection): Reflection {
     if (ref instanceof ReferenceReflection) {
@@ -131,7 +131,7 @@ function filterMapByMeaning(
     meaning: Meaning,
 ): Reflection[] {
     return filterMap(reflections, (refl): Reflection | undefined => {
-        const kwResolved = resolveKeyword(refl, meaning.keyword) || [];
+        const kwResolved = resolveKeyword(refl, meaning) || [];
         if (meaning.label) {
             return kwResolved.find((r) => r.comment?.label === meaning.label);
         }
@@ -141,9 +141,9 @@ function filterMapByMeaning(
 
 function resolveKeyword(
     refl: Reflection,
-    kw: MeaningKeyword | undefined,
+    meaning: Meaning,
 ): Reflection[] | undefined {
-    switch (kw) {
+    switch (meaning.keyword) {
         case undefined:
             return refl instanceof DeclarationReflection && refl.signatures
                 ? refl.signatures
@@ -165,6 +165,13 @@ function resolveKeyword(
             break;
         case "function":
             if (refl.kindOf(ReflectionKind.FunctionOrMethod)) {
+                // If the user uses :function, then we should target the function
+                // unless we have an index/label, in which case we should target
+                // the signatures, and the filterMapByMeaning function will further
+                // filter the signatures.
+                if (meaning.index == null && meaning.label == null) {
+                    return [refl];
+                }
                 return (refl as DeclarationReflection).signatures;
             }
             break;
@@ -219,7 +226,7 @@ function resolveKeyword(
             break;
 
         default:
-            assertNever(kw);
+            assertNever(meaning.keyword);
     }
 }
 
