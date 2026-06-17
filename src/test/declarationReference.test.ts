@@ -226,6 +226,22 @@ describe("Declaration References", () => {
                 },
             });
         });
+
+        it("Correctly handles an ambiguous grammar", () => {
+            const src = "AnotherName | A!";
+            const result = parseDeclarationReference(src, 0, src.length);
+            equal(result?.[0], {
+                moduleSource: undefined,
+                resolutionStart: "local",
+                symbolReference: {
+                    path: [
+                        { navigation: ".", path: "AnotherName" },
+                    ],
+                    meaning: undefined,
+                },
+            });
+            equal(result[1], src.indexOf(" "));
+        });
     });
 
     describe("meaningToString", () => {

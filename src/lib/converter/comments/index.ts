@@ -12,7 +12,8 @@ import {
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
 import type { FileRegistry } from "../../models/FileRegistry.js";
-import { assertNever, i18n, Logger, setUnion } from "#utils";
+import { assertNever, i18n, Logger, parseDeclarationReference, setUnion } from "#utils";
+import { resolveAliasedSymbol } from "../utils/symbols.js";
 import type { Context } from "../context.js";
 
 export interface CommentParserConfig {
@@ -39,6 +40,7 @@ export interface CommentContextOptionalChecker {
     config: CommentParserConfig;
     logger: Logger;
     checker?: ts.TypeChecker | undefined;
+    node?: ts.Node | undefined;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
 }
@@ -85,6 +87,7 @@ function getCommentIgnoringCacheNoDiscoveryId(
                 file,
                 context,
             );
+            resolveLocalLinks(comment, context);
             break;
         case ts.SyntaxKind.SingleLineCommentTrivia:
             comment = parseComment(
@@ -92,6 +95,7 @@ function getCommentIgnoringCacheNoDiscoveryId(
                 file,
                 context,
             );
+            resolveLocalLinks(comment, context);
             break;
         default:
             assertNever(ranges[0].kind);
@@ -99,6 +103,37 @@ function getCommentIgnoringCacheNoDiscoveryId(
 
     comment.inheritedFromParentDeclaration = discovered.inheritedFromParentDeclaration;
     return comment;
+}
+
+function resolveLocalLinks(comment: Comment, context: CommentContextOptionalChecker) {
+    const { checker, node } = context;
+    if (!checker || !node) return;
+    for (const elt of comment.summary) {
+        if (elt.kind === "inline-tag" && elt.tag === "@link" && !elt.target) {
+            let pos = 0;
+            while (pos < elt.text.length && ts.isWhiteSpaceLike(elt.text.charCodeAt(pos))) {
+                pos++;
+            }
+            const parsed = parseDeclarationReference(elt.text, pos, elt.text.length);
+            if (parsed && parsed[0].resolutionStart === "local") {
+                const ref = parsed[0].symbolReference;
+                if (ref && ref.path) {
+                    const symbol = checker.resolveName(
+                        ref.path[0].path,
+                        node,
+                        ts.SymbolFlags.Value | ts.SymbolFlags.Type | ts.SymbolFlags.Namespace,
+                        /* excludeGlobals */ false,
+                    );
+                    if (symbol) {
+                        elt.baseSymbol = context.createSymbolId(resolveAliasedSymbol(symbol, checker));
+                        if (ref.path.length === 1 && !ref.meaning) {
+                            elt.target = elt.baseSymbol;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 function getCommentWithCache(
@@ -128,6 +163,7 @@ function getCommentWithCache(
 function getCommentImpl(
     commentSource: DiscoveredComment | undefined,
     moduleComment: boolean,
+    node: ts.Node | undefined,
     context: CommentContext,
 ) {
     const comment = getCommentWithCache(
@@ -135,6 +171,7 @@ function getCommentImpl(
         {
             ...context,
             checker: context.config.useTsLinkResolution ? context.checker : undefined,
+            node,
         },
     );
 
@@ -185,7 +222,7 @@ export function getComment(
 
     const sf = declarations.find(ts.isSourceFile);
     if (sf) {
-        return getFileComment(sf, context);
+        return getFileComment(sf, { ...context, node: sf });
     }
 
     const isModule = declarations.some((decl) => {
@@ -205,6 +242,7 @@ export function getComment(
             !context.config.suppressCommentWarningsInDeclarationFiles,
         ),
         isModule,
+        declarations.length ? declarations[0] : undefined,
         context,
     );
 
@@ -226,13 +264,14 @@ export function getNodeComment(
     return getCommentImpl(
         discoverNodeComment(node, context.config.commentStyle),
         moduleComment,
+        node,
         context,
     );
 }
 
 export function getFileComment(
     file: ts.SourceFile,
-    context: CommentContext,
+    context: CommentContextOptionalChecker,
 ): Comment | undefined {
     const quietContext = {
         ...context,
@@ -295,6 +334,7 @@ export function getSignatureComment(
     return getCommentImpl(
         discoverSignatureComment(declaration, context.checker, context.config.commentStyle),
         false,
+        declaration,
         context,
     );
 }

@@ -55,6 +55,20 @@ export function meaningToString(meaning: Meaning): string {
     return result;
 }
 
+export function symbolReferenceToString(ref: SymbolReference): string {
+    const parts: string[] = [];
+    for (const part of ref.path || []) {
+        if (parts.length) {
+            parts.push(part.navigation);
+        }
+        parts.push(part.path); // TODO escapes
+    }
+    if (ref.meaning) {
+        parts.push(meaningToString(ref.meaning));
+    }
+    return parts.join("");
+}
+
 export interface SymbolReference {
     path?: ComponentPath[];
     meaning?: Meaning;
@@ -435,29 +449,37 @@ export function parseDeclarationReference(
     let resolutionStart: "global" | "local" = "local";
     let topLevelLocalReference = false;
 
-    const moduleSourceOrSymbolRef = parseModuleSource(source, pos, end);
-    if (moduleSourceOrSymbolRef) {
-        if (
-            moduleSourceOrSymbolRef[1] < end &&
-            source[moduleSourceOrSymbolRef[1]] === "!"
-        ) {
-            // We had a module source!
-            pos = moduleSourceOrSymbolRef[1] + 1;
-            resolutionStart = "global";
-            moduleSource = moduleSourceOrSymbolRef[0];
+    // First try to parse a symbol reference
+    const startingPos = pos;
+    const startingRef = parseSymbolReference(source, pos, end);
 
-            // We might be referencing a local of a module
-            if (source[pos] === "~") {
-                topLevelLocalReference = true;
-                pos++;
+    // If the symbol reference ends at a "!" or we failed to parse anything and the start of the
+    // link is "!" then the first component is actually a module source, so we should parse that first.
+    if ((startingRef && source[startingRef[1]] === "!") || (!startingRef && source[pos] === "!")) {
+        const moduleSourceOrSymbolRef = parseModuleSource(source, pos, end);
+        if (moduleSourceOrSymbolRef) {
+            if (
+                moduleSourceOrSymbolRef[1] < end &&
+                source[moduleSourceOrSymbolRef[1]] === "!"
+            ) {
+                // We had a module source!
+                pos = moduleSourceOrSymbolRef[1] + 1;
+                resolutionStart = "global";
+                moduleSource = moduleSourceOrSymbolRef[0];
+
+                // We might be referencing a local of a module
+                if (source[pos] === "~") {
+                    topLevelLocalReference = true;
+                    pos++;
+                }
             }
+        } else if (source[pos] === "!") {
+            pos++;
+            resolutionStart = "global";
         }
-    } else if (source[pos] === "!") {
-        pos++;
-        resolutionStart = "global";
     }
 
-    const ref = parseSymbolReference(source, pos, end);
+    const ref = pos === startingPos ? startingRef : parseSymbolReference(source, pos, end);
     if (ref) {
         symbolReference = ref[0];
         if (topLevelLocalReference && symbolReference.path?.length) {

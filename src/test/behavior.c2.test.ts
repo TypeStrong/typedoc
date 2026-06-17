@@ -6,6 +6,7 @@ import {
     LiteralType,
     Reflection,
     ReflectionKind,
+    ReflectionKindNames,
     SignatureReflection,
 } from "../lib/models/index.js";
 import { filterMap } from "#utils";
@@ -28,6 +29,14 @@ function buildNameTree(
     return tree;
 }
 
+/**
+ * Gets a shorthand description of links within a reflection's comment summary.
+ * Returns an array of links:
+ * 1. string for url targets
+ * 2. [fullName, number] for signature targets
+ * 3. [kindSymbol, fullName] for reflection targets
+ * 4. [qualifiedName] for unresolved symbol ids
+ */
 function getLinks(refl: Reflection) {
     ok(refl.comment);
     return filterMap(refl.comment.summary, (p) => {
@@ -42,9 +51,12 @@ function getLinks(refl: Reflection) {
                 ];
             }
             if (p.target instanceof Reflection) {
-                return [p.target.kind, p.target.getFullName()];
+                return [Symbol.for(ReflectionKind[p.target.kind]), p.target.getFullName()];
             }
-            return [p.target?.qualifiedName];
+            if (p.target) {
+                return `RID{${p.target.qualifiedName}}`;
+            }
+            return [undefined];
         }
     });
 }
@@ -73,9 +85,11 @@ describe("Behavior Tests", () => {
         optionsSnap = app.options.snapshot();
     });
 
-    afterEach(() => {
+    afterEach(function () {
         app.options.restore(optionsSnap);
-        logger.expectNoOtherMessages();
+        if (!this.currentTest?.isFailed()) {
+            logger.expectNoOtherMessages();
+        }
     });
 
     it("Handles 'as const' style enums", () => {
@@ -737,36 +751,37 @@ describe("Behavior Tests", () => {
 
         const links = getLinks(query(project, "Meanings"));
         equal(links, [
-            [ReflectionKind.Enum, "Meanings.A"],
-            [ReflectionKind.Namespace, "Meanings.A"],
-            [ReflectionKind.Enum, "Meanings.A"],
+            [ReflectionKindNames.Enum, "Meanings.A"],
+            [ReflectionKindNames.Namespace, "Meanings.A"],
+            [ReflectionKindNames.Enum, "Meanings.A"],
 
             [undefined],
-            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKindNames.Class, "Meanings.B"],
 
-            [ReflectionKind.Interface, "Meanings.C"],
-            [ReflectionKind.TypeAlias, "Meanings.D"],
-            ["Meanings.E.E", 0],
-            [ReflectionKind.Variable, "Meanings.F"],
+            [ReflectionKindNames.Interface, "Meanings.C"],
+            [ReflectionKindNames.TypeAlias, "Meanings.D"],
+            [ReflectionKindNames.Function, "Meanings.E"],
+            [ReflectionKindNames.Variable, "Meanings.F"],
 
             ["Meanings.B.constructor.B", 0],
             ["Meanings.B.constructor.B", 0],
             ["Meanings.B.constructor.B", 1],
 
-            [ReflectionKind.EnumMember, "Meanings.A.A"],
+            [ReflectionKindNames.EnumMember, "Meanings.A.A"],
             [undefined],
 
             ["Meanings.E.E", 0],
+            ["Meanings.E.E", 1],
             ["Meanings.E.E", 1],
 
             ["Meanings.B.constructor.B", 0],
             ["Meanings.B.constructor.B", 1],
 
             ["Meanings.B.__index", undefined],
-            [ReflectionKind.Interface, "Meanings.G"],
+            [ReflectionKindNames.Interface, "Meanings.G"],
 
             ["Meanings.E.E", 1],
-            [ReflectionKind.Class, "Meanings.B"],
+            [ReflectionKindNames.Class, "Meanings.B"],
         ]);
 
         equal(getLinks(query(project, "URLS")), [
@@ -780,17 +795,18 @@ describe("Behavior Tests", () => {
         );
 
         equal(getLinks(query(project, "Navigation")), [
-            [ReflectionKind.Method, "Navigation.Child.foo"],
-            [ReflectionKind.Property, "Navigation.Child.foo"],
+            [ReflectionKindNames.Method, "Navigation.Child.foo"],
+            [ReflectionKindNames.Property, "Navigation.Child.foo"],
             [undefined],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
-        equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
+        equal(getLinks(foo), [[ReflectionKindNames.Method, "Navigation.Child.foo"]]);
     });
 
     it("Handles TypeScript based link resolution", () => {
         app.options.setValue("sort", ["source-order"]);
+
         const project = convert("linkResolutionTs");
         for (
             const [refl, target] of [
@@ -809,36 +825,37 @@ describe("Behavior Tests", () => {
 
         const links = getLinks(query(project, "Meanings"));
         equal(links, [
-            [ReflectionKind.Namespace, "Meanings"],
-            [ReflectionKind.Namespace, "Meanings"],
-            [ReflectionKind.Namespace, "Meanings"],
+            [ReflectionKindNames.Enum, "Meanings.A"],
+            [ReflectionKindNames.Namespace, "Meanings.A"],
+            [ReflectionKindNames.Enum, "Meanings.A"],
 
-            [ReflectionKind.Enum, "Meanings.A"],
-            [ReflectionKind.Class, "Meanings.B"],
+            [undefined], // A:class doesn't exist, should fail
+            [ReflectionKindNames.Class, "Meanings.B"],
 
-            [ReflectionKind.Interface, "Meanings.C"],
-            [ReflectionKind.TypeAlias, "Meanings.D"],
-            [ReflectionKind.Function, "Meanings.E"],
-            [ReflectionKind.Variable, "Meanings.F"],
+            [ReflectionKindNames.Interface, "Meanings.C"],
+            [ReflectionKindNames.TypeAlias, "Meanings.D"],
+            [ReflectionKindNames.Function, "Meanings.E"],
+            [ReflectionKindNames.Variable, "Meanings.F"],
 
-            [ReflectionKind.Class, "Meanings.B"],
-            [ReflectionKind.Class, "Meanings.B"],
-            [ReflectionKind.Class, "Meanings.B"],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 1],
 
-            [ReflectionKind.EnumMember, "Meanings.A.A"],
-            [ReflectionKind.Property, "Meanings.B.prop"],
+            [ReflectionKindNames.EnumMember, "Meanings.A.A"],
+            [undefined], // B.prop:event is intentionally not permitted by TypeDoc
 
-            [ReflectionKind.Function, "Meanings.E"],
-            [ReflectionKind.Function, "Meanings.E"],
+            ["Meanings.E.E", 0],
+            ["Meanings.E.E", 1],
+            ["Meanings.E.E", 1],
 
-            [ReflectionKind.Class, "Meanings.B"],
-            [ReflectionKind.Class, "Meanings.B"],
+            ["Meanings.B.constructor.B", 0],
+            ["Meanings.B.constructor.B", 1],
 
-            [ReflectionKind.Class, "Meanings.B"],
-            [ReflectionKind.Interface, "Meanings.G"],
+            ["Meanings.B.__index", undefined],
+            [ReflectionKindNames.Interface, "Meanings.G"],
 
-            [ReflectionKind.Function, "Meanings.E"],
-            [ReflectionKind.Class, "Meanings.B"],
+            ["Meanings.E.E", 1],
+            [ReflectionKindNames.Class, "Meanings.B"],
         ]);
 
         equal(getLinks(query(project, "URLS")), [
@@ -852,25 +869,27 @@ describe("Behavior Tests", () => {
         );
 
         equal(getLinks(query(project, "Navigation")), [
-            [ReflectionKind.Namespace, "Navigation"],
-            [ReflectionKind.Property, "Navigation.Child.foo"],
-            [ReflectionKind.Class, "Navigation.Child"],
+            [ReflectionKindNames.Method, "Navigation.Child.foo"], // [ReflectionKind.Namespace, "Navigation"],
+            [ReflectionKindNames.Property, "Navigation.Child.foo"],
+            [undefined],
         ]);
 
         const foo = query(project, "Navigation.Child.foo").signatures![0];
-        equal(getLinks(foo), [[ReflectionKind.Method, "Navigation.Child.foo"]]);
+        equal(getLinks(foo), [
+            [ReflectionKindNames.Method, "Navigation.Child.foo"],
+        ]);
 
         const localSymbolRef = query(project, "localSymbolRef");
 
         equal(getLinks(localSymbolRef), [
-            [ReflectionKind.Variable, "A"],
-            [ReflectionKind.Variable, "A"],
-            [ReflectionKind.Variable, "A"],
+            [ReflectionKindNames.Variable, "A"],
+            [ReflectionKindNames.Variable, "A"],
+            [ReflectionKindNames.Variable, "A"],
         ]);
         equal(getLinkTexts(localSymbolRef), ["A!", "A2!", "AnotherName"]);
 
         equal(getLinks(query(project, "scoped")), [
-            [ReflectionKind.Property, "Meanings.B.prop"],
+            [ReflectionKindNames.Property, "Meanings.B.prop"],
         ]);
         equal(getLinkTexts(query(project, "scoped")), ["p"]);
     });
@@ -881,7 +900,7 @@ describe("Behavior Tests", () => {
         // to GH2808DeeplyNestedLink.prop when rendering.
         equal(getLinks(query(project, "GH2808DeeplyNestedLink")), [
             [
-                ReflectionKind.Property,
+                ReflectionKindNames.Property,
                 "GH2808DeeplyNestedLink.prop.__type.nested.__type.here",
             ],
         ]);

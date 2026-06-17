@@ -40,9 +40,11 @@ describe("Issue Tests", () => {
             );
     });
 
-    afterEach(() => {
+    afterEach(function () {
         app.options.restore(optionsSnap);
-        logger.expectNoOtherMessages();
+        if (!this.currentTest?.isFailed()) {
+            logger.expectNoOtherMessages();
+        }
     });
 
     it("#567", () => {
