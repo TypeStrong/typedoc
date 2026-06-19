@@ -1,4 +1,5 @@
 import type { Deserializer, JSONOutput } from "#serialization";
+import type { NormalizedPath } from "#utils";
 
 /**
  * Represents references of reflections to their defining source files.
@@ -8,14 +9,15 @@ import type { Deserializer, JSONOutput } from "#serialization";
 export class SourceReference {
     /**
      * The filename of the source file.
+     * This will initially be absolute before being overwritten with a base path relative path during resolution.
      */
-    fileName: string;
+    fileName: NormalizedPath;
 
     /**
      * The absolute filename of the source file.
      * @internal
      */
-    fullFileName: string;
+    fullFileName: NormalizedPath;
 
     /**
      * The one based number of the line that emitted the declaration.
@@ -32,7 +34,7 @@ export class SourceReference {
      */
     url?: string;
 
-    constructor(fileName: string, line: number, character: number) {
+    constructor(fileName: NormalizedPath, line: number, character: number) {
         this.fileName = fileName;
         this.fullFileName = fileName;
         this.line = line;
