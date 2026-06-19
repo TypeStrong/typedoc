@@ -501,7 +501,7 @@ export class Application extends AbstractComponent<
      * opposed to files that are only read *during* the conversion or
      * rendering.)
      */
-    public watchFile(path: string, shouldRestart = false) {
+    public watchFile(path: string, shouldRestart = false): void {
         this._watchFile?.(path, shouldRestart);
     }
 
@@ -707,7 +707,7 @@ export class Application extends AbstractComponent<
         });
     }
 
-    validate(project: ProjectReflection) {
+    validate(project: ProjectReflection): void {
         const checks = this.options.getValue("validation");
         const start = Date.now();
 
@@ -993,9 +993,17 @@ export class Application extends AbstractComponent<
     }
 
     /**
-     * @internal
+     * Conversion is synchronous to ensure that TypeDoc builds are completely
+     * reproducible, so the SourcePlugin, which needs git information either needs
+     * to run commands synchronously or we need to initialize the repositories which
+     * are relevant before calling {@link Converter#convert}. As of v0.28.20, we do
+     * that initialization early.
+     *
+     * This generally does not need to be called manually as {@link convert} and
+     * {@link convertAndWatch} will automatically do it, but is exposed for API users
+     * who want to primarily run TypeDoc synchronously.
      */
-    async initializeRepositories(entryPoints: readonly DocumentationEntryPoint[]) {
+    async initializeRepositories(entryPoints: readonly DocumentationEntryPoint[]): Promise<void> {
         const start = Date.now();
         this.repositories = undefined;
 
