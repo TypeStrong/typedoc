@@ -49,14 +49,14 @@
         "@types/node": "18",
         "c8": "^11.0.0",
         "dprint": "^0.54.0",
-        "esbuild": "^0.28.0",
-        "eslint": "^10.4.0",
+        "esbuild": "^0.28.1",
+        "eslint": "^10.5.0",
         "mocha": "^11.7.6",
         "puppeteer": "^25.1.0",
-        "semver": "^7.8.1",
-        "tsx": "4.22.3",
+        "semver": "^7.8.4",
+        "tsx": "4.22.4",
         "typescript": "6.0.3",
-        "typescript-eslint": "^8.60.0"
+        "typescript-eslint": "^8.61.1"
     },
     "files": [
         "/bin",
