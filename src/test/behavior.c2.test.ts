@@ -1510,6 +1510,24 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Sorts custom group and category titles with localeCompare", () => {
+        app.options.setValue("categorizeByGroup", false);
+        const project = convert("localeSortGroupCategory");
+
+        // Custom @group/@category titles are user facing strings, so they are
+        // ordered with localeCompare to stay consistent with the alphabetical
+        // reflection sort in sort.ts (see #2684). A raw code point comparison
+        // would place every uppercase letter before every lowercase one.
+        equal(
+            project.groups?.map((g) => g.title),
+            ["components", "Helpers", "Utilities"],
+        );
+        equal(
+            project.categories?.map((c) => c.title),
+            ["Adapters", "sensors", "Tools"],
+        );
+    });
+
     it("Handles different type parameter comments on class/constructor", () => {
         const project = convert("ctorTypeParam");
 
