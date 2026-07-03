@@ -295,7 +295,7 @@ export class GroupPlugin extends ConverterComponent {
             }
         }
         if (aWeight === bWeight) {
-            return a.title > b.title ? 1 : -1;
+            return a.title.localeCompare(b.title);
         }
         return aWeight - bWeight;
     }

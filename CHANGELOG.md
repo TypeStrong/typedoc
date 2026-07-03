@@ -8,6 +8,11 @@ title: Changelog
 
 - Added a `@reexport` modifier tag to have TypeDoc convert variable/type references as a re-export instead of a new symbol.
 - Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
+- Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#runtime-guards`), #3029.
+
+### Bug Fixes
+
+- Custom `@group` and `@category` titles with the same sort weight are now ordered with `localeCompare`, consistent with the `alphabetical` reflection sort, instead of by UTF-16 code point. Previously a group named `components` sorted after `Helpers` and `Utilities` because lowercase letters have higher code points than uppercase ones.
 
 ### Bug Fixes
 
