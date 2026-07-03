@@ -15,7 +15,7 @@ function execa(cmd, args) {
             stdio: "inherit",
             env: {
                 ...process.env,
-                PATH: "node_modules/.bin" + delimiter + process.env.PATH,
+                PATH: process.cwd() + "/node_modules/.bin" + delimiter + process.env.PATH,
             },
         });
         cp.once("close", code => {
