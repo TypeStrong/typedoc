@@ -12,6 +12,7 @@ title: Changelog
 
 ### Bug Fixes
 
+- When `--emit none` is used, TypeDoc will now report warnings about missing relative paths previously reported when rendering, #3078.
 - Improved performance via asynchronously performing git and file write operations, more performant JSX rendering, and source code bundling, #3103.
 - A `@hidden` tag on a constructor parameter-property will now only hide the property, not both the property and the parameter, #3111.
 - Custom `@group` and `@category` titles with the same sort weight are now ordered consistently with the `alphabetical` reflection sort, #3120.
@@ -19,9 +20,11 @@ title: Changelog
 ### Thanks!
 
 - @greymoth-jp
+- @jonathanhefner
 - @kcastellino
 - @Metbcy
 - @StoneCypher
+- @wotan-allfather
 
 ## v0.28.19 (2026-04-12)
 
