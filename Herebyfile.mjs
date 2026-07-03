@@ -15,9 +15,8 @@ function execa(cmd, args) {
         if (!isAbsolute(cmd)) {
             const pathDirs = ["node_modules/.bin"].concat(process.env.PATH?.split(delimiter) || []);
             if (process.platform === "win32") {
-                const extensionsToCheck = [""].concat(
-                    (process.env.PATHEXT || [".EXE", ".CMD", ".BAT", ".COM"].join(delimiter)).split(delimiter),
-                );
+                const extensionsToCheck = (process.env.PATHEXT || [".EXE", ".CMD", ".BAT", ".COM"].join(delimiter))
+                    .split(delimiter).concat([""]);
                 out: for (const dir of pathDirs) {
                     for (const ext of extensionsToCheck) {
                         if (existsSync(join(dir, cmd + ext))) {
@@ -176,7 +175,7 @@ export const buildJs = task({
 export const buildBrowserTranslations = task({
     name: "build:browser-translations",
     dependencies: [buildJs],
-    run: () => execa("node", ["scripts/build_browser_translations.js"]),
+    run: () => execa(process.execPath, ["scripts/build_browser_translations.js"]),
 });
 
 export const buildBrowser = task({
@@ -192,7 +191,7 @@ export const buildTypes = task({
 export const buildOptionsSchema = task({
     name: "build:options-schema",
     dependencies: [buildJs],
-    run: () => execa("node", ["scripts/generate_options_schema.js", "typedoc-config.schema.json"]),
+    run: () => execa(process.execPath, ["scripts/generate_options_schema.js", "typedoc-config.schema.json"]),
 });
 
 export const build = task({
@@ -222,7 +221,7 @@ export const watchBrowser = task({
 
 export const watchBrowserTranslations = task({
     name: "watch:browser-translations",
-    run: () => execa("node", ["scripts/build_browser_translations.js", "--watch"]),
+    run: () => execa(process.execPath, ["scripts/build_browser_translations.js", "--watch"]),
 });
 
 export const watchTypes = task({
