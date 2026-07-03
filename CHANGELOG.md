@@ -6,17 +6,22 @@ title: Changelog
 
 ### Features
 
-- Added a `@reexport` modifier tag to have TypeDoc convert variable/type references as a re-export instead of a new symbol.
-- Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
 - Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#runtime-guards`), #3029.
+- Added a `@reexport` modifier tag to have TypeDoc convert variable/type references as a re-export instead of a new symbol, #3096.
+- API: Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
 
 ### Bug Fixes
 
-- Custom `@group` and `@category` titles with the same sort weight are now ordered with `localeCompare`, consistent with the `alphabetical` reflection sort, instead of by UTF-16 code point. Previously a group named `components` sorted after `Helpers` and `Utilities` because lowercase letters have higher code points than uppercase ones.
-
-### Bug Fixes
-
+- Improved performance via asynchronously performing git and file write operations, more performant JSX rendering, and source code bundling, #3103.
 - A `@hidden` tag on a constructor parameter-property will now only hide the property, not both the property and the parameter, #3111.
+- Custom `@group` and `@category` titles with the same sort weight are now ordered consistently with the `alphabetical` reflection sort, #3120.
+
+### Thanks!
+
+- @greymoth-jp
+- @kcastellino
+- @Metbcy
+- @StoneCypher
 
 ## v0.28.19 (2026-04-12)
 
