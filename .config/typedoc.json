@@ -28,7 +28,11 @@
         }
     ],
 
-    "tsconfig": "../src/lib",
+    // I'd like to be able to set this here to avoid creating programs
+    // for the unit tests & other projects, but that ends up breaking the
+    // entry point tests due to an unfortunate interaction between the TSConfig
+    // reader and set options. Maybe something to fix with TS 7?
+    // "tsconfig": "../src/lib",
 
     "excludeExternals": true,
     "externalPattern": ["**/node_modules/**", "../src/lib/types/**"],
