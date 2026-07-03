@@ -1,13 +1,11 @@
 import path from "path";
 
+import type { CommentDisplayPart, Reflection } from "#models";
+import { isFile, normalizePath, readFile } from "#node-utils";
+import { dedent, escapeRegExp, i18n, MinimalSourceFile } from "#utils";
 import { ConverterComponent } from "../components.js";
 import { ConverterEvents } from "../converter-events.js";
-import type { CommentDisplayPart, Reflection } from "../../models/index.js";
-import { MinimalSourceFile } from "#utils";
 import type { Converter } from "../converter.js";
-import { isFile, readFile } from "../../utils/fs.js";
-import { dedent, escapeRegExp, i18n } from "#utils";
-import { normalizePath } from "#node-utils";
 
 /**
  * Handles `@include` and `@includeCode` within comments/documents.

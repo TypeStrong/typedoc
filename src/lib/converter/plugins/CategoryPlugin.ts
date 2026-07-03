@@ -1,5 +1,3 @@
-import assert from "assert";
-import { ApplicationEvents } from "../../application-events.js";
 import {
     Comment,
     ContainerReflection,
@@ -8,14 +6,15 @@ import {
     type ProjectReflection,
     ReflectionCategory,
     ReflectionKind,
-} from "../../models/index.js";
-import { getSortFunction, Option } from "../../utils/index.js";
+} from "#models";
+import { getSortFunction, isValidSortStrategy, Option } from "#node-utils";
+import { i18n } from "#utils";
+import assert from "assert";
+import { ApplicationEvents } from "../../application-events.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { i18n } from "#utils";
-import { isValidSortStrategy } from "../../utils/sort.js";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.

@@ -1,5 +1,5 @@
 import { tempdirProject } from "../fs-fixture-builder.js";
-import { type Application, normalizePath } from "../../index.js";
+import { type Application, normalizePath } from "../../lib/index.js";
 import { loadPlugins } from "../../lib/utils/plugins.js";
 import { TestLogger } from "../TestLogger.js";
 import { join, resolve } from "path";

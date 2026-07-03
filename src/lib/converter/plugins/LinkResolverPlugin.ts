@@ -1,10 +1,9 @@
-import { ConverterComponent } from "../components.js";
-import type { Context, Converter } from "../../converter/index.js";
-import { ConverterEvents } from "../converter-events.js";
-import { Option, type ValidationOptions } from "../../utils/index.js";
-import type { ProjectReflection } from "../../models/index.js";
-import { discoverAllReferenceTypes } from "../../utils/reflections.js";
+import type { ProjectReflection } from "#models";
+import { discoverAllReferenceTypes, Option, type ValidationOptions } from "#node-utils";
 import { ApplicationEvents } from "../../application-events.js";
+import type { Context, Converter } from "../../converter/index.js";
+import { ConverterComponent } from "../components.js";
+import { ConverterEvents } from "../converter-events.js";
 
 /**
  * A plugin that resolves `{@link Foo}` tags.

@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { i18n, JSX } from "#utils";
-import type { DeclarationHierarchy, Type } from "../../../../models/index.js";
+import type { DeclarationHierarchy, Type } from "#models";
 
 const isLinkedReferenceType = (type: Type) =>
     type.visit({

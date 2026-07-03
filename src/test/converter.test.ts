@@ -16,7 +16,7 @@ import {
     Serializer,
     type SomeReflection,
     SourceReference,
-} from "../index.js";
+} from "../lib/index.js";
 import type { ModelToObject } from "../lib/serialization/schema.js";
 import { getExpandedEntryPointsForPaths, normalizePath } from "../lib/utils/index.js";
 import { getConverterApp, getConverterBase, getConverterProgram } from "./programs.js";

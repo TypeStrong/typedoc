@@ -4,13 +4,7 @@
 
 import { ok } from "assert";
 import ts from "typescript";
-import {
-    DeclarationReflection,
-    IntrinsicType,
-    ReflectionKind,
-    ReflectionType,
-    SignatureReflection,
-} from "../models/index.js";
+import { DeclarationReflection, IntrinsicType, ReflectionKind, ReflectionType, SignatureReflection } from "#models";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import {

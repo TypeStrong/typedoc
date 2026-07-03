@@ -2,21 +2,15 @@ import MarkdownIt from "markdown-it";
 // @types/markdown-it is busted, this type isn't exported with ESM.
 import type md from "markdown-it" with { "resolution-mode": "require" };
 
+import { type CommentDisplayPart, Reflection, ReflectionKind, type RelativeLinkDisplayPart } from "#models";
+import { highlight, isLoadedLanguage, isSupportedLanguage, Option, type ValidationOptions } from "#node-utils";
+import { assertNever, escapeHtml, i18n, JSX, type TranslatedString } from "#utils";
+import type { BundledTheme } from "@gerrit0/mini-shiki";
 import { ContextAwareRendererComponent } from "../components.js";
 import { MarkdownEvent, type PageEvent, RendererEvent } from "../events.js";
-import { Option, type ValidationOptions } from "../../utils/index.js";
-import { highlight, isLoadedLanguage, isSupportedLanguage } from "../../utils/highlighter.js";
-import type { BundledTheme } from "@gerrit0/mini-shiki";
-import { assertNever, escapeHtml, i18n, JSX, type TranslatedString } from "#utils";
 import type { DefaultThemeRenderContext, Renderer } from "../index.js";
-import { anchorIcon } from "./default/partials/anchor-icon.js";
-import {
-    type CommentDisplayPart,
-    Reflection,
-    ReflectionKind,
-    type RelativeLinkDisplayPart,
-} from "../../models/index.js";
 import type { RouterTarget } from "../router.js";
+import { anchorIcon } from "./default/partials/anchor-icon.js";
 
 type Namable = { name: string; parent?: Namable };
 function getFriendlyFullName(target: Namable): string {

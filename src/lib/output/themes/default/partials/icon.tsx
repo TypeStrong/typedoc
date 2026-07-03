@@ -2,7 +2,7 @@
 // which is under a MIT license https://github.com/primer/octicons/blob/main/LICENSE
 
 import assert from "assert";
-import { ReflectionKind } from "../../../../models/index.js";
+import { ReflectionKind } from "#models";
 import { i18n, JSX, type TranslatedString } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 

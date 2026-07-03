@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
-import { resolveAliasedSymbol } from "../utils/symbols.js";
+import { resolveAliasedSymbol } from "../utilities/symbols.js";
 import type { Context } from "../context.js";
 
 export function* lexBlockComment(

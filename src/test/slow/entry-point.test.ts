@@ -1,7 +1,7 @@
 import { tempdirProject } from "../fs-fixture-builder.js";
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, EntryPointStrategy, normalizePath } from "../../index.js";
+import { Application, EntryPointStrategy, normalizePath } from "../../lib/index.js";
 
 describe("Entry Points", () => {
     using fixture = tempdirProject();

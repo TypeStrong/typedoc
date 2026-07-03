@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { ok } from "assert/strict";
-import { Logger, Options, TSConfigReader } from "../../index.js";
+import { Logger, Options, TSConfigReader } from "../../lib/index.js";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -8,13 +8,14 @@ import { fileURLToPath } from "url";
 describe("Internationalization", () => {
     it("Does not include strings in translatable object which are unused", () => {
         const options = new Options();
+        options.setValue("tsconfig", "src/lib");
         const tsconfigReader = new TSConfigReader();
         const logger = new Logger();
         tsconfigReader.read(options, logger, process.cwd());
 
         const defaultLocaleTs = join(
             fileURLToPath(import.meta.url),
-            "../../../lib/internationalization/locales/en.cts",
+            "../../../lib/internationalization/locales/en.ts",
         );
 
         const host: ts.LanguageServiceHost = {
@@ -49,7 +50,7 @@ describe("Internationalization", () => {
 
         const moduleSymbol = program.getTypeChecker().getSymbolAtLocation(sf)!;
         const translatable = moduleSymbol.exports?.get(
-            "export=" as ts.__String,
+            "default" as ts.__String,
         );
         ok(translatable, "Failed to get translatable symbol");
 

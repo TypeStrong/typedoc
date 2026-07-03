@@ -26,15 +26,15 @@ import {
     TypeOperatorType,
     UnionType,
     UnknownType,
-} from "../models/index.js";
+} from "#models";
 import { type TranslatedString, zip } from "#utils";
 import type { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
 import { convertParameterNodes, convertTypeParameterNodes, createSignature } from "./factories/signature.js";
 import { convertSymbol } from "./symbols.js";
-import { isObjectType, isTypeReference } from "./utils/nodes.js";
-import { removeUndefined } from "./utils/reflections.js";
+import { isObjectType, isTypeReference } from "./utilities/nodes.js";
+import { removeUndefined } from "./utilities/reflections.js";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,

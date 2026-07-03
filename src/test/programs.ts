@@ -1,21 +1,25 @@
-import { deepStrictEqual as equal, ok } from "assert";
-import { join, resolve } from "path";
-import ts from "typescript";
 import {
-    type Application,
+    diagnostics,
+    getCommonDirectory,
+    normalizePath,
+    OptionDefaults,
+    readFile,
+    TSConfigReader,
+    type TypeDocOptions,
+    ValidatingFileRegistry,
+} from "#node-utils";
+import { deepStrictEqual as equal, ok } from "assert";
+import { existsSync } from "fs";
+import { join, resolve } from "path";
+import {
+    Application,
     EntryPointStrategy,
     type JSONOutput,
     ProjectReflection,
+    RepositoryManager,
     SourceReference,
-    TSConfigReader,
-    type TypeDocOptions,
-} from "../index.js";
-import type { ModelToObject } from "../lib/serialization/schema.js";
-import { createAppForTesting } from "../lib/application.js";
-import { existsSync } from "fs";
-import { diagnostics } from "../lib/utils/loggers.js";
-import { getCommonDirectory, normalizePath, OptionDefaults, readFile, ValidatingFileRegistry } from "#node-utils";
-import { RepositoryManager } from "../lib/converter/utils/repository.js";
+} from "typedoc";
+import ts from "typescript";
 import { fileURLToPath } from "url";
 
 let converterApp: Application | undefined;
@@ -29,7 +33,7 @@ export function getConverterBase() {
 
 export function getConverterApp() {
     if (!converterApp) {
-        converterApp = createAppForTesting();
+        converterApp = Application.createAppForTesting();
         for (
             const [name, value] of Object.entries(
                 {
@@ -73,7 +77,7 @@ export function getConverterApp() {
             },
             toObject(
                 ref: SourceReference,
-                obj: ModelToObject<SourceReference>,
+                obj: JSONOutput.SourceReference,
                 _serializer,
             ) {
                 if (obj.url) {
@@ -125,7 +129,7 @@ export function getConverter2Base() {
 
 export function getConverter2App() {
     if (!converter2App) {
-        converter2App = createAppForTesting();
+        converter2App = Application.createAppForTesting();
 
         // This is a base-bones version of the TypeDocReader's read method
         // which doesn't handle a JS config, so can be done synchronously

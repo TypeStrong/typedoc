@@ -10,8 +10,7 @@ const ExitCodes = {
     Watching: 7,
 };
 
-import { i18n } from "#utils";
-import * as td from "../index.js";
+import * as td from "typedoc";
 
 void main();
 
@@ -132,14 +131,14 @@ function logRunSummary(logger: td.Logger): void {
     const { errorCount, warningCount } = logger;
     if (errorCount) {
         logger.error(
-            i18n.found_0_errors_and_1_warnings(
+            td.i18n.found_0_errors_and_1_warnings(
                 errorCount.toString(),
                 warningCount.toString(),
             ),
         );
     } else if (warningCount) {
         logger.warn(
-            i18n.found_0_errors_and_1_warnings(
+            td.i18n.found_0_errors_and_1_warnings(
                 errorCount.toString(),
                 warningCount.toString(),
             ),

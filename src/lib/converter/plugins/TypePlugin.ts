@@ -2,13 +2,15 @@ import {
     type DeclarationHierarchy,
     DeclarationReflection,
     type ProjectReflection,
+    ReferenceType,
     type Reflection,
     ReflectionKind,
-} from "../../models/index.js";
-import { ReferenceType, type SomeType, type Type } from "../../models/types.js";
+    type SomeType,
+    type Type,
+} from "#models";
+import { ApplicationEvents } from "../../application-events.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 

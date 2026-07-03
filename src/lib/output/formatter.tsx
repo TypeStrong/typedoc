@@ -1,19 +1,23 @@
 // Heavily based on https://yorickpeterse.com/articles/how-to-write-a-code-formatter/
 // Implements roughly the same algorithm as Prettier
 
-import { ok } from "assert";
-import { LiteralType, ReferenceType, type SomeType, TypeContext, type TypeVisitor } from "../models/types.js";
-import { aggregate, assertNever, JSX } from "#utils";
-import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 import {
     type DeclarationReflection,
+    LiteralType,
     type ParameterReflection,
+    ReferenceType,
     type Reflection,
     ReflectionKind,
     type SignatureReflection,
+    type SomeType,
+    TypeContext,
     type TypeParameterReflection,
-} from "../models/index.js";
+    type TypeVisitor,
+} from "#models";
+import { aggregate, assertNever, JSX } from "#utils";
+import { ok } from "assert";
 import type { Router } from "./index.js";
+import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 
 // Non breaking space
 const INDENT = "\u00A0\u00A0\u00A0\u00A0";

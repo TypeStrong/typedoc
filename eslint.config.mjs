@@ -62,12 +62,29 @@ const nodeModules = [
 
 export default defineConfig(
     {
-        files: ["src/**/*.ts"],
+        files: ["src/lib/**/*.ts", "src/lib/**/*.tsx"],
         rules: {
             "no-restricted-imports": [
                 "error",
                 {
-                    patterns: ["*/utils-common/*"],
+                    patterns: [
+                        {
+                            regex: ".*/utils-common/.*",
+                            message: "Imports of the utils-common folder should instead import #utils",
+                        },
+                        {
+                            regex: ".*/models/.*",
+                            message: "Imports of the models folder should instead import #models",
+                        },
+                        {
+                            regex: ".*/serialization/.*",
+                            message: "Imports of the serialization folder should instead import #serialization",
+                        },
+                        {
+                            regex: ".*/utils/.*",
+                            message: "Imports of the utils folder should instead import #node-utils",
+                        },
+                    ],
                 },
             ],
         },
@@ -258,6 +275,8 @@ export default defineConfig(
     {
         ignores: [
             "eslint.config.mjs",
+            "src/@types",
+            "src/frontend",
             "src/test/renderer/specs",
             "site/typedoc-plugin-redirect.js",
             "site/site-plugin.js",
@@ -268,7 +287,6 @@ export default defineConfig(
             "tmp",
             "coverage",
             "static/main.js",
-            "src/lib/output/themes/default/assets",
             "**/node_modules",
             "example",
             "src/test/converter",
@@ -279,6 +297,8 @@ export default defineConfig(
             "src/test/slow/entry-points",
             "scripts",
             "bin",
+            ".config",
+            "Herebyfile.mjs",
         ],
     },
 );

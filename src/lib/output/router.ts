@@ -1,9 +1,9 @@
 import type { Application } from "../application.js";
 import { CategoryPlugin } from "../converter/plugins/CategoryPlugin.js";
 import { GroupPlugin } from "../converter/plugins/GroupPlugin.js";
-import { type DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "../models/index.js";
+import { type DeclarationReflection, ProjectReflection, Reflection, ReflectionKind } from "#models";
 import { createNormalizedUrl } from "#node-utils";
-import { Option, type TypeDocOptionMap } from "../utils/index.js";
+import { Option, type TypeDocOptionMap } from "#node-utils";
 import { Slugger } from "./themes/default/Slugger.js";
 import { getHierarchyRoots } from "./themes/lib.js";
 

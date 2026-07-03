@@ -10,7 +10,7 @@ import {
     ReflectionKind,
     SignatureReflection,
     type TypeParameterReflection,
-} from "../../models/index.js";
+} from "#models";
 import { DefaultMap, filterMap, JSX } from "#utils";
 
 export function stringify(data: unknown) {

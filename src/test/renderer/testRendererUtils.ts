@@ -1,13 +1,12 @@
+import { rm } from "node:fs/promises";
+
 import { type Reflection, resetReflectionID } from "#models";
 import { HtmlAttributeParser, loadTestHighlighter, ParserState } from "#node-utils";
-import { rm } from "node:fs/promises";
-import { DefaultTheme, KindRouter, PageEvent, PageKind, type RenderTemplate } from "../../lib/output/index.js";
-import { type JsxChildren, type JsxElement, JsxFragment } from "../../lib/utils-common/jsx.elements.js";
-import { Raw } from "../../lib/utils-common/jsx.js";
+import { assert, JSX } from "#utils";
+import { DefaultTheme, KindRouter, PageEvent, PageKind, type RenderTemplate } from "typedoc";
 import { getConverter2App, getConverter2Project } from "../programs.js";
-import { assert } from "#utils";
 
-function shouldIgnoreElement(el: JsxElement) {
+function shouldIgnoreElement(el: JSX.Element) {
     switch (el.tag) {
         case "svg":
         case "head":
@@ -50,9 +49,9 @@ function collapseStrings(data: any[]): unknown {
 // This is a very hacky html parser only intended to handle output from markdown-it
 // for inclusion in the renderer specs. Don't use it for anything that requires actual
 // security.
-function parseHtmlToJsxElement(html: string): JsxChildren[] {
-    const stack: JsxElement[] = [];
-    const output: JsxChildren[] = [];
+function parseHtmlToJsxElement(html: string): JSX.Children[] {
+    const stack: JSX.Element[] = [];
+    const output: JSX.Children[] = [];
     let pos = 0;
     let last = 0;
 
@@ -161,7 +160,7 @@ function parseHtmlToJsxElement(html: string): JsxChildren[] {
     return output;
 }
 
-function renderElementToSnapshot(element: JsxChildren): unknown {
+function renderElementToSnapshot(element: JSX.Children): unknown {
     if (typeof element === "string" || typeof element === "number" || typeof element === "bigint") {
         return element.toString().replaceAll("\u00a0", " ");
     }
@@ -181,10 +180,10 @@ function renderElementToSnapshot(element: JsxChildren): unknown {
     const { tag, props, children } = element;
 
     if (typeof tag === "function") {
-        if (tag === Raw) {
+        if (tag === JSX.Raw) {
             return renderElementToSnapshot(parseHtmlToJsxElement(String((props as any).html)));
         }
-        if (tag === JsxFragment) {
+        if (tag === JSX.Fragment) {
             return collapseStrings(children.flatMap(renderElementToSnapshot).filter(Boolean));
         }
         return renderElementToSnapshot(tag(Object.assign({ children }, props)));
@@ -197,7 +196,7 @@ function renderElementToSnapshot(element: JsxChildren): unknown {
     for (const [key, val] of Object.entries(props ?? {})) {
         if (val == null) continue;
         if (key === "class") {
-            name += "." + val.replaceAll(" ", ".");
+            name += "." + String(val).replaceAll(" ", ".");
             continue;
         }
         if (key === "id") {

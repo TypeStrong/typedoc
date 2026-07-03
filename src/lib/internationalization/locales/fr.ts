@@ -1,6 +1,10 @@
-import localeUtils = require("../locale-utils.cjs");
+// Please DO NOT include machine generated translations here.
+// If adding a new key, leave it commented out for a native speaker
+// to update.
 
-export = localeUtils.buildIncompleteTranslation({
+import { buildIncompleteTranslation } from "../locale-utils.ts";
+
+export default buildIncompleteTranslation({
     loaded_multiple_times_0:
         "TypeDoc a été chargé plusieurs fois. Cela est généralement dû à des plugins qui ont leur propre installation de TypeDoc. Les chemins chargés sont :\n\t{0}",
     unsupported_ts_version_0:

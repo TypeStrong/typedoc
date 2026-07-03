@@ -2,7 +2,7 @@ import type { BundledTheme as ShikiTheme } from "@gerrit0/mini-shiki";
 import type { SortStrategy } from "../sort.js";
 import { isAbsolute, join, resolve } from "path";
 import type { EntryPointStrategy } from "../entry-point.js";
-import type { ReflectionKind } from "../../models/kind.js";
+import type { ReflectionKind } from "#models";
 import {
     type GlobString,
     i18n,

@@ -7,7 +7,7 @@ import {
     ReferenceReflection,
     type Reflection,
     ReflectionKind,
-} from "../../models/index.js";
+} from "#models";
 import { assertNever, filterMap } from "#utils";
 import type { ComponentPath, DeclarationReference, Meaning, MeaningKeyword } from "#utils";
 

@@ -5,7 +5,7 @@
 import type { BundledLanguage } from "@gerrit0/mini-shiki";
 import * as TagDefaults from "./tsdoc-defaults.js";
 import type { EnumKeys, TagString } from "#utils";
-import type { ReflectionKind } from "../../models/index.js";
+import type { ReflectionKind } from "#models";
 
 export const excludeNotDocumentedKinds: readonly EnumKeys<
     typeof ReflectionKind

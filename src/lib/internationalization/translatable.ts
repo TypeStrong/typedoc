@@ -1,5 +1,7 @@
+// Type only import is fine here
+// eslint-disable-next-line no-restricted-imports
 import type { blockTags, inlineTags, modifierTags } from "../utils/options/tsdoc-defaults.js";
-import translatable from "./locales/en.cjs";
+import translatable from "./locales/en.js";
 
 export type BuiltinTranslatableStringArgs =
     & {

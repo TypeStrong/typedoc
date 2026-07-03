@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     type SignatureReflection,
     TraverseProperty,
-} from "../index.js";
+} from "../lib/index.js";
 import { filterMap } from "#utils";
 import { equal } from "assert/strict";
 import type { SomeReflection } from "../lib/models/variant.js";

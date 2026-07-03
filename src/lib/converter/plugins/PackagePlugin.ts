@@ -2,7 +2,7 @@ import * as Path from "path";
 
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import type { ProjectReflection } from "../../models/index.js";
+import type { ProjectReflection } from "#models";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";

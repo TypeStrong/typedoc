@@ -1,3 +1,4 @@
+import type { Reflection } from "#models";
 import {
     Comment,
     DeclarationReflection,
@@ -5,14 +6,13 @@ import {
     ReflectionKind,
     ReflectionType,
     SignatureReflection,
-} from "../../models/index.js";
+} from "#models";
+import { Option, type ValidationOptions } from "#node-utils";
+import { DefaultMap, i18n, parseDeclarationReference, zip } from "#utils";
+import { ApplicationEvents } from "../../application-events.js";
+import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import type { Reflection } from "../../models/Reflection.js";
-import { Option, type ValidationOptions } from "../../utils/index.js";
-import { DefaultMap, i18n, parseDeclarationReference, zip } from "#utils";
-import { resolveDeclarationReference } from "../comments/declarationReferenceResolver.js";
-import { ApplicationEvents } from "../../application-events.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 

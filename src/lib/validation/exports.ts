@@ -1,6 +1,6 @@
 import { ok } from "assert";
-import type { ProjectReflection, ReferenceType } from "../models/index.js";
-import { discoverAllReferenceTypes } from "../utils/reflections.js";
+import type { ProjectReflection, ReferenceType } from "#models";
+import { discoverAllReferenceTypes } from "#node-utils";
 import { i18n, type Logger } from "#utils";
 
 function makeIntentionallyExportedHelper(

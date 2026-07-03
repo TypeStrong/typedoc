@@ -1,4 +1,4 @@
-import type { Reflection } from "../../../../models/index.js";
+import type { Reflection } from "#models";
 import { i18n, JSX } from "#utils";
 import type { PageEvent } from "../../../events.js";
 import { getDisplayName } from "../../lib.js";

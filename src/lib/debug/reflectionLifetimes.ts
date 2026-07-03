@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import type { Application } from "../application.js";
 import { ConverterEvents } from "../converter/converter-events.js";
-import { type Reflection, ReflectionKind } from "../models/index.js";
+import { type Reflection, ReflectionKind } from "#models";
 
 export function debugReflectionLifetimes(app: Application, kindFilter = ReflectionKind.All) {
     app.converter.on(ConverterEvents.CREATE_PROJECT, logCreate);

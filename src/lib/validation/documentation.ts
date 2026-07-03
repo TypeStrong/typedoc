@@ -4,7 +4,7 @@ import {
     type Reflection,
     ReflectionKind,
     ReflectionType,
-} from "../models/index.js";
+} from "#models";
 import { i18n, type Logger, removeFlag } from "#utils";
 
 export function validateDocumentation(

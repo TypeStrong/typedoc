@@ -5,14 +5,13 @@
  * them into references.
  * @module
  */
-import { i18n } from "#utils";
-import type { CommentDisplayPart, RelativeLinkDisplayPart } from "../../models/index.js";
-import type { FileId, FileRegistry } from "../../models/FileRegistry.js";
+import type { CommentDisplayPart, FileId, FileRegistry, RelativeLinkDisplayPart } from "#models";
 import { HtmlAttributeParser, ParserState, type ValidationOptions } from "#node-utils";
+import { i18n } from "#utils";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 
-import MarkdownIt from "markdown-it";
 import type { NormalizedPath, TranslatedString } from "#utils";
+import MarkdownIt from "markdown-it";
 const MdHelpers = new MarkdownIt().helpers;
 
 interface TextParserData {

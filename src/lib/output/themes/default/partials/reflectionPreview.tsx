@@ -1,4 +1,4 @@
-import { DeclarationReflection, type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { DeclarationReflection, type Reflection, ReflectionKind } from "#models";
 import { JSX } from "#utils";
 import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../../formatter.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";

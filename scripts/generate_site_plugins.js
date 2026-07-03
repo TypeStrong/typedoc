@@ -35,6 +35,8 @@ const EXCLUDED_PLUGINS = [
     // Duplicate of @to-skills/typedoc, incorrectly claims it is for auto-discovery
     // which hasn't been supported in years at this point.
     "typedoc-plugin-to-skills",
+    // Same as prior
+    "typedoc-plugin-skillit",
 ];
 
 const EXCLUDED_PLUGIN_USERS = [

@@ -1,6 +1,6 @@
 import { deepStrictEqual as equal, ok } from "assert";
 import { join } from "path";
-import { Application, EntryPointStrategy, normalizePath, ReferenceType } from "../index.js";
+import { Application, EntryPointStrategy, normalizePath, ReferenceType } from "../lib/index.js";
 import { getConverterBase } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { query } from "./utils.js";

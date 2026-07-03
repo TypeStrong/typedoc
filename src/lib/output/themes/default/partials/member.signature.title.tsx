@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import { type SignatureReflection } from "../../../../models/index.js";
+import { type SignatureReflection } from "#models";
 import { FormattedCodeBuilder, FormattedCodeGenerator, Wrap } from "../../../formatter.js";
 
 export function memberSignatureTitle(

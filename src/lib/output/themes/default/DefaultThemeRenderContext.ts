@@ -1,6 +1,6 @@
 import type { PageEvent, Renderer } from "../../index.js";
-import type { CommentDisplayPart, Reflection } from "../../../models/index.js";
-import { type Options } from "../../../utils/index.js";
+import type { CommentDisplayPart, Reflection } from "#models";
+import { type Options } from "#node-utils";
 import type { DefaultTheme } from "./DefaultTheme.js";
 import { defaultLayout } from "./layouts/default.js";
 import { index } from "./partials/index.js";

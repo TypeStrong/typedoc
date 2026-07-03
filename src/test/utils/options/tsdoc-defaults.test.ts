@@ -1,7 +1,7 @@
 import { deepEqual as equal } from "assert/strict";
 import { join } from "path";
 import ts from "typescript";
-import * as defaults from "../../../lib/utils/options/tsdoc-defaults.js";
+import { TSDocDefaults as defaults } from "#node-utils";
 import { fileURLToPath } from "url";
 import { TYPEDOC_ROOT } from "../../../lib/utils/general.js";
 import { readFile } from "../../../lib/utils/fs.js";

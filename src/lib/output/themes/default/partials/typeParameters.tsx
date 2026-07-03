@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import type { TypeParameterReflection } from "../../../../models/index.js";
+import type { TypeParameterReflection } from "#models";
 import { i18n, JSX } from "#utils";
 import { anchorTargetIfPresent } from "./anchor-icon.js";
 

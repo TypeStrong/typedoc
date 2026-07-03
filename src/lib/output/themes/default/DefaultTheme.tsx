@@ -10,7 +10,7 @@ import {
     ReflectionCategory,
     ReflectionGroup,
     ReflectionKind,
-} from "../../../models/index.js";
+} from "#models";
 import type { PageEvent, RendererEvent } from "../../events.js";
 import type { MarkedPlugin } from "../../plugins/index.js";
 import { DefaultThemeRenderContext } from "./DefaultThemeRenderContext.js";

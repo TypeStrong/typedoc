@@ -1,4 +1,4 @@
-export { CommentStyle, EmitStrategy, ParameterHint, ParameterType } from "./declaration.js";
+export { CommentStyle, EmitStrategy, ParameterHint, ParameterType, rootPackageOptions } from "./declaration.js";
 export { Option, Options } from "./options.js";
 export type { OptionsReader } from "./options.js";
 export { ArgumentsReader, PackageJsonReader, TSConfigReader, TypeDocReader } from "./readers/index.js";
@@ -29,3 +29,4 @@ export type {
 } from "./declaration.js";
 
 export * as OptionDefaults from "./defaults.js";
+export * as TSDocDefaults from "./tsdoc-defaults.js";

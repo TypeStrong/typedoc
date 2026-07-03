@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "checkJs": true,
+        "types": ["node"],
+
+        "rootDir": ".",
+        "noImplicitAny": false
+    },
+    "include": ["."]
+}

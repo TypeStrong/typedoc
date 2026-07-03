@@ -2,7 +2,7 @@ import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js"
 import type { PageEvent } from "../../../events.js";
 import { i18n, JSX } from "#utils";
 import { getHierarchyRoots } from "../../lib.js";
-import type { DeclarationReflection, ProjectReflection } from "../../../../models/index.js";
+import type { DeclarationReflection, ProjectReflection } from "#models";
 
 function fullHierarchy(
     context: DefaultThemeRenderContext,

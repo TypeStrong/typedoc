@@ -1,10 +1,9 @@
 import * as Path from "path";
 
-import { AbstractComponent } from "../utils/component.js";
-import type { ProjectReflection } from "../models/index.js";
-import type { Renderer } from "./renderer.js";
+import type { ProjectReflection } from "#models";
+import { AbstractComponent, Option } from "#node-utils";
 import { PageEvent, RendererEvent } from "./events.js";
-import { Option } from "../utils/index.js";
+import type { Renderer } from "./renderer.js";
 
 export abstract class RendererComponent extends AbstractComponent<
     Renderer,

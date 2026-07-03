@@ -1,10 +1,10 @@
+import { writeFile } from "#node-utils";
+import { JSX } from "#utils";
+import { join } from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { writeFile } from "../../utils/fs.js";
-import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { join } from "path";
-import { JSX } from "#utils";
 import type { Renderer } from "../index.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 const ICONS_JS = `
 (function() {

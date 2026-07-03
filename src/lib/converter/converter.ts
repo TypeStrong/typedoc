@@ -1,7 +1,7 @@
-import ts from "typescript";
 import { ok } from "assert";
+import ts from "typescript";
 
-import type { Application } from "../application.js";
+import type { FileRegistry } from "#models";
 import {
     Comment,
     type CommentDisplayPart,
@@ -16,52 +16,58 @@ import {
     type SignatureReflection,
     type SomeType,
     type TypeParameterReflection,
-} from "../models/index.js";
-import { Context } from "./context.js";
-import { AbstractComponent } from "../utils/component.js";
-import { getDocumentEntryPoints, Option, readFile } from "../utils/index.js";
-import { convertType } from "./types.js";
-import { ConverterEvents } from "./converter-events.js";
-import { convertSymbol } from "./symbols.js";
-import { MinimatchSet, nicePath, normalizePath } from "../utils/paths.js";
+} from "#models";
+import type { CommentStyle, DocumentationEntryPoint, ValidationOptions } from "#node-utils";
 import {
+    AbstractComponent,
+    getDocumentEntryPoints,
+    MinimatchSet,
+    nicePath,
+    normalizePath,
+    Option,
+    readFile,
+} from "#node-utils";
+import {
+    type DeclarationReference,
     type GlobString,
     hasAllFlags,
     hasAnyFlag,
     i18n,
+    meaningToString,
     MinimalSourceFile,
     type NormalizedPath,
     NormalizedPathUtils,
     partition,
     unique,
 } from "#utils";
-import type { DocumentationEntryPoint } from "../utils/entry-point.js";
+import { basename, dirname, resolve } from "path";
+import type { Application } from "../application.js";
 import { clearCommentCache, type CommentParserConfig } from "./comments/index.js";
-import type { CommentStyle, ValidationOptions } from "../utils/options/declaration.js";
-import { parseCommentString } from "./comments/parser.js";
-import { lexCommentString } from "./comments/rawLexer.js";
 import {
     type ExternalResolveResult,
     type ExternalSymbolResolver,
     resolveLinks,
     resolvePartLinks,
 } from "./comments/linkResolver.js";
-import { type DeclarationReference, meaningToString } from "#utils";
-import { basename, dirname, resolve } from "path";
-import type { FileRegistry } from "../models/FileRegistry.js";
+import { parseCommentString } from "./comments/parser.js";
+import { lexCommentString } from "./comments/rawLexer.js";
+import { Context } from "./context.js";
+import { ConverterEvents } from "./converter-events.js";
+import { convertSymbol } from "./symbols.js";
+import { convertType } from "./types.js";
 
-import { GroupPlugin } from "./plugins/GroupPlugin.js";
 import { CategoryPlugin } from "./plugins/CategoryPlugin.js";
 import { CommentPlugin } from "./plugins/CommentPlugin.js";
+import { GroupPlugin } from "./plugins/GroupPlugin.js";
 import { ImplementsPlugin } from "./plugins/ImplementsPlugin.js";
+import { IncludePlugin } from "./plugins/IncludePlugin.js";
 import { InheritDocPlugin } from "./plugins/InheritDocPlugin.js";
 import { LinkResolverPlugin } from "./plugins/LinkResolverPlugin.js";
+import { MergeModuleWithPlugin } from "./plugins/MergeModuleWithPlugin.js";
 import { PackagePlugin } from "./plugins/PackagePlugin.js";
 import { SourcePlugin } from "./plugins/SourcePlugin.js";
 import { TypePlugin } from "./plugins/TypePlugin.js";
-import { IncludePlugin } from "./plugins/IncludePlugin.js";
-import { MergeModuleWithPlugin } from "./plugins/MergeModuleWithPlugin.js";
-import { resolveAliasedSymbol } from "./utils/symbols.js";
+import { resolveAliasedSymbol } from "./utilities/symbols.js";
 
 export interface ConverterEvents {
     begin: [Context];

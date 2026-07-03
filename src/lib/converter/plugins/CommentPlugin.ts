@@ -12,8 +12,8 @@ import {
     type SourceReference,
     type TypeParameterReflection,
     type TypeVisitor,
-} from "../../models/index.js";
-import { Option } from "../../utils/index.js";
+} from "#models";
+import { Option } from "#node-utils";
 import {
     filterMap,
     i18n,

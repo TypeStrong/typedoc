@@ -1,10 +1,9 @@
+import { compressJson, writeFile } from "#node-utils";
 import * as Path from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { writeFile } from "../../utils/index.js";
-import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import type { Renderer } from "../index.js";
-import { compressJson } from "../../utils/compress.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 export class NavigationPlugin extends RendererComponent {
     constructor(owner: Renderer) {

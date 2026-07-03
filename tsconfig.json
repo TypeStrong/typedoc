@@ -1,53 +1,17 @@
 {
+    "files": [],
     "compilerOptions": {
-        "module": "Node16",
-        "lib": ["es2023"],
-        "target": "es2022",
-
-        // Add our `ts` internal types
-        "typeRoots": ["node_modules/@types", "src/lib/types"],
-        "types": ["node", "lunr", "mocha"],
-        // Speed up dev compilation time
-        "incremental": true,
-        "tsBuildInfoFile": "dist/.tsbuildinfo",
-        "skipLibCheck": false,
-
-        "strict": true,
-        "alwaysStrict": true,
-        // For tests
-        "resolveJsonModule": true,
-        // Linting
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "forceConsistentCasingInFileNames": true,
-        "noUncheckedSideEffectImports": true,
-        // Library
-        "preserveConstEnums": true,
-        "declaration": true,
-        "sourceMap": true,
-        "declarationMap": true,
-        "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        // Output
-        "outDir": "dist/",
-        "rootDir": "src/",
-        "newLine": "LF",
-        "jsx": "react",
-        "jsxFactory": "JSX.createElement",
-        "jsxFragmentFactory": "JSX.Fragment",
-        "verbatimModuleSyntax": true,
-        "isolatedModules": true
+        "noEmit": true
     },
-    "include": ["src"],
-    "exclude": [
-        "src/lib/output/themes/default/assets",
-        "src/test/converter",
-        "src/test/converter2",
-        "src/test/renderer/specs",
-        "src/test/.dot",
-        "src/test/module",
-        "src/test/packages",
-        "src/test/slow/entry-points",
-        "src/test/renderer/testProject"
+    "references": [
+        {
+            "path": "./src/lib/tsconfig.json"
+        },
+        {
+            "path": "./src/test/tsconfig.json"
+        },
+        {
+            "path": "./scripts/tsconfig.json"
+        }
     ]
 }

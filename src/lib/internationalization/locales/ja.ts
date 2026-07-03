@@ -2,9 +2,9 @@
 // If adding a new key, leave it commented out for a native speaker
 // to update.
 
-import localeUtils = require("../locale-utils.cjs");
+import { buildIncompleteTranslation } from "../locale-utils.ts";
 
-export = localeUtils.buildIncompleteTranslation({
+export default buildIncompleteTranslation({
     loaded_multiple_times_0:
         "TypeDoc が複数回読み込まれました。これは通常、TypeDoc を独自にインストールしたプラグインによって発生します。読み込まれたパスは次のとおりです:\n{0}",
     unsupported_ts_version_0:

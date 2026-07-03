@@ -7,7 +7,7 @@ import {
     type Reflection,
     ReflectionKind,
     ReflectionSymbolId,
-} from "../models/index.js";
+} from "#models";
 
 const linkTags = ["@link", "@linkcode", "@linkplain"];
 

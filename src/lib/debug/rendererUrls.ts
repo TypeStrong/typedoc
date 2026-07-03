@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
+import { Reflection, ReflectionKind, type SomeReflection } from "#models";
+import type { JSONOutput, SerializerComponent } from "#serialization";
 import { join } from "node:path";
 import type { Application } from "../application.js";
-import { Reflection, ReflectionKind, type SomeReflection } from "../models/index.js";
-import type { SerializerComponent } from "../serialization/components.js";
-import type { JSONOutput } from "../serialization/index.js";
 import type { Router } from "../output/index.js";
 
 function makeSerializer(router: Router) {

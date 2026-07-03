@@ -1,5 +1,5 @@
 import type { RenderTemplate } from "../../../index.js";
-import type { Reflection } from "../../../../models/index.js";
+import type { Reflection } from "#models";
 import { JSX } from "#utils";
 import type { PageEvent } from "../../../events.js";
 import { getDisplayName, getHierarchyRoots } from "../../lib.js";

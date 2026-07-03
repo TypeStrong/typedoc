@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX } from "#utils";
-import type { Reflection } from "../../../../models/index.js";
+import type { Reflection } from "#models";
 
 export function breadcrumbs(context: DefaultThemeRenderContext, props: Reflection): JSX.Element {
     const path: Reflection[] = [];

@@ -1,6 +1,6 @@
-import type { ProjectReflection } from "../models/index.js";
+import type { ProjectReflection } from "#models";
 import { i18n, type Logger } from "#utils";
-import { isFile } from "../utils/fs.js";
+import { isFile } from "#node-utils";
 
 export function validateFilePaths(
     project: ProjectReflection,

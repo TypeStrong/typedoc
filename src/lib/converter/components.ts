@@ -1,4 +1,4 @@
-import { AbstractComponent } from "../utils/component.js";
+import { AbstractComponent } from "#node-utils";
 import type { Converter } from "./converter.js";
 
 export abstract class ConverterComponent extends AbstractComponent<

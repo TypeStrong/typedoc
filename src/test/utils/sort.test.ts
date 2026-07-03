@@ -9,7 +9,7 @@ import {
     ReflectionSymbolId,
 } from "../../lib/models/index.js";
 import { resetReflectionID } from "../../lib/models/Reflection.js";
-import { Options } from "../../lib/utils/index.js";
+import { Options } from "#node-utils";
 import { getSortFunction, type SortStrategy } from "../../lib/utils/sort.js";
 import { FileRegistry } from "../../lib/models/FileRegistry.js";
 import type { NormalizedPath } from "#utils";

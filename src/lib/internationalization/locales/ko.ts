@@ -2,9 +2,9 @@
 // If adding a new key, leave it commented out for a native speaker
 // to update.
 
-import localeUtils = require("../locale-utils.cjs");
+import { buildIncompleteTranslation } from "../locale-utils.ts";
 
-export = localeUtils.buildIncompleteTranslation({
+export default buildIncompleteTranslation({
     // output_0_could_not_be_generated
     // output_0_generated_at_1
 

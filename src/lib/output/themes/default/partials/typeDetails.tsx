@@ -5,8 +5,8 @@ import {
     Reflection,
     ReflectionKind,
     type SignatureReflection,
-} from "../../../../models/index.js";
-import type { ReferenceType, SomeType, TypeVisitor } from "../../../../models/types.js";
+} from "#models";
+import type { ReferenceType, SomeType, TypeVisitor } from "#models";
 import { assert, i18n, JSX, type TagString } from "#utils";
 import { classNames, getKindClass } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";

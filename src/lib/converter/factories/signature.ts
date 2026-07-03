@@ -12,11 +12,11 @@ import {
     SignatureReflection,
     TypeParameterReflection,
     VarianceModifier,
-} from "../../models/index.js";
+} from "#models";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import { convertDefaultValue } from "../convert-expression.js";
-import { removeUndefined } from "../utils/reflections.js";
+import { removeUndefined } from "../utilities/reflections.js";
 
 export function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
     const type = context.checker.getDeclaredTypeOfSymbol(symbol);

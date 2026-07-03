@@ -1,4 +1,4 @@
-import { GitRepository, guessSourceUrlTemplate, RepositoryManager } from "../lib/converter/utils/repository.js";
+import { GitRepository, guessSourceUrlTemplate, RepositoryManager } from "../lib/converter/utilities/repository.js";
 import { deepStrictEqual as equal, ok } from "assert";
 import { type Project, tempdirProject } from "./fs-fixture-builder.js";
 import { spawn } from "child_process";

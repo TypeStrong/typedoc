@@ -1,0 +1,14 @@
+{
+    // This file is a bit of a hack to work with tsx. tsx does not support TypeScript's
+    // project references directly, so will end up using the compiler options in the root
+    // level tsconfig.json if it applies to the files, and otherwise using a default config.
+    // This is mostly fine for testing, but breaks transpilation for our JSX configuration
+    // as we aren't actually using React here. This file isn't used by tsc, and is just pointed
+    // to when we're running the tests with tsx.
+    "compilerOptions": {
+        "jsx": "react",
+        "jsxFactory": "JSX.createElement",
+        "jsxFragmentFactory": "JSX.Fragment"
+    },
+    "include": ["../src"]
+}

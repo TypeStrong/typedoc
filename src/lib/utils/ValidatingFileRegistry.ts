@@ -1,4 +1,4 @@
-import { type FileId, FileRegistry } from "../models/FileRegistry.js";
+import { type FileId, FileRegistry } from "#models";
 import type { Deserializer, JSONOutput } from "#serialization";
 import { i18n, type NormalizedPath, NormalizedPathUtils } from "#utils";
 import { existsSync } from "fs";

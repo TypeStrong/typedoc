@@ -5,17 +5,26 @@
     "homepage": "https://typedoc.org",
     "type": "module",
     "exports": {
-        ".": "./dist/index.js",
+        ".": {
+            "typedoc-ts": "./src/lib/index.ts",
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/index.js"
+        },
         "./tsdoc.json": "./tsdoc.json",
         "./typedoc-config.schema.json": "./typedoc-config.schema.json",
         "./package.json": "./package.json",
-        "./models": "./dist/lib/models/index.js",
-        "./browser": "./dist/browser-utils.js",
-        "./browser/*": "./dist/browser-locales/*.js",
-        "./debug": "./dist/lib/debug/index.js",
-        "./debug/*": "./dist/lib/debug/*.js"
+        "./models": {
+            "typedoc-ts": "./src/lib/models/index.ts",
+            "types": "./dist/types/models/index.d.ts",
+            "default": "./dist/models.js"
+        },
+        "./browser": {
+            "typedoc-ts": "./src/lib/browser-utils/index.ts",
+            "types": "./dist/types/browser-utils.d.ts",
+            "default": "./dist/browser-utils.js"
+        },
+        "./browser/*": "./dist/browser-locales/*.js"
     },
-    "types": "./dist/index.d.ts",
     "bin": {
         "typedoc": "bin/typedoc"
     },
@@ -51,6 +60,7 @@
         "dprint": "^0.54.0",
         "esbuild": "^0.28.1",
         "eslint": "^10.5.0",
+        "hereby": "^1.15.1",
         "mocha": "^11.7.6",
         "puppeteer": "^25.1.0",
         "semver": "^7.8.4",
@@ -71,25 +81,19 @@
         "/typedoc-config.schema.json"
     ],
     "scripts": {
-        "test": "node node_modules/mocha/bin/mocha.js --config .config/mocha.fast.json",
-        "test:cov": "c8 -r lcov mocha --config .config/mocha.fast.json",
+        "test": "hereby test",
+        "test:cov": "hereby test:cov",
         "doc:c": "node bin/typedoc --tsconfig src/test/converter/tsconfig.json",
         "doc:cd": "node --inspect-brk dist/lib/cli.js --tsconfig src/test/converter/tsconfig.json",
         "doc:c2": "node bin/typedoc --options src/test/converter2 --tsconfig src/test/converter2/tsconfig.json",
         "doc:c2d": "node --inspect-brk dist/lib/cli.js --options src/test/converter2 --tsconfig src/test/converter2/tsconfig.json",
         "example": "cd example && node ../bin/typedoc",
-        "test:full": "c8 -r lcov -r text-summary mocha --config .config/mocha.full.json",
-        "rebuild_specs": "node scripts/rebuild_specs.js",
-        "build": "pnpm build:tsc && pnpm build:locales && pnpm build:themes",
-        "build:tsc": "tsc --project .",
-        "build:themes": "node scripts/build_themes.js",
-        "build:locales": "node scripts/build_browser_translations.js",
-        "build:prod": "pnpm build:prod:tsc && pnpm build:locales && pnpm build:themes && node scripts/generate_options_schema.js typedoc-config.schema.json",
-        "build:prod:tsc": "tsc --project . --sourceMap false --declarationMap false",
-        "lint": "eslint . --max-warnings 0 && dprint check",
-        "prepack": "node scripts/set_strict.js false && pnpm build:prod",
-        "prepare": "node scripts/prepare.mjs",
-        "postpublish": "node scripts/set_strict.js true"
+        "test:full": "hereby test:full",
+        "build": "hereby build",
+        "build:prod": "hereby build:prod",
+        "lint": "hereby lint",
+        "prepack": "hereby build:prod",
+        "prepare": "node scripts/prepare.mjs"
     },
     "keywords": [
         "typescript",
@@ -114,19 +118,23 @@
     "imports": {
         "#utils": {
             "typedoc-ts": "./src/lib/utils-common/index.ts",
-            "default": "./dist/lib/utils-common/index.js"
+            "types": "./dist/types/utils-common.d.ts",
+            "default": "./dist/utils-common.js"
         },
         "#models": {
             "typedoc-ts": "./src/lib/models/index.ts",
-            "default": "./dist/lib/models/index.js"
+            "types": "./dist/types/models.d.ts",
+            "default": "./dist/models.js"
         },
         "#serialization": {
             "typedoc-ts": "./src/lib/serialization/index.ts",
-            "default": "./dist/lib/serialization/index.js"
+            "types": "./dist/types/serialization.d.ts",
+            "default": "./dist/serialization.js"
         },
         "#node-utils": {
             "typedoc-ts": "./src/lib/utils/index.ts",
-            "default": "./dist/lib/utils/index.js"
+            "types": "./dist/types/node-utils.d.ts",
+            "default": "./dist/node-utils.js"
         }
     },
     "pnpm": {

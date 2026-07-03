@@ -51,6 +51,9 @@ importers:
       eslint:
         specifier: ^10.5.0
         version: 10.5.0
+      hereby:
+        specifier: ^1.15.1
+        version: 1.15.1
       mocha:
         specifier: ^11.7.6
         version: 11.7.6
@@ -757,6 +760,11 @@ packages:
 
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
+
+  hereby@1.15.1:
+    resolution: {integrity: sha512-wD1eAhewYfU+/nN/WvkvMvZt7nzJV1bH+gusKLNpxEZ5PVE//AzHTV1ebKLw9YikOvn+LK1thBQg7aYpykZepQ==}
+    engines: {node: '>= 12.20'}
     hasBin: true
 
   html-escaper@2.0.2:
@@ -1760,6 +1768,8 @@ snapshots:
   has-flag@4.0.0: {}
 
   he@1.2.0: {}
+
+  hereby@1.15.1: {}
 
   html-escaper@2.0.2: {}
 

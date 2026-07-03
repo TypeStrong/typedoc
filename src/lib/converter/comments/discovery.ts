@@ -1,10 +1,9 @@
-import ts from "typescript";
-import { ReflectionKind } from "../../models/index.js";
-import { CommentStyle } from "../../utils/options/declaration.js";
-import { nicePath } from "../../utils/paths.js";
-import { ok } from "assert";
+import { ReflectionKind } from "#models";
+import { CommentStyle, nicePath } from "#node-utils";
 import { assertNever, filter, firstDefined, i18n, type Logger } from "#utils";
-import { resolveAliasedSymbol } from "../utils/symbols.js";
+import { ok } from "assert";
+import ts from "typescript";
+import { resolveAliasedSymbol } from "../utilities/symbols.js";
 
 const variablePropertyKinds = [
     ts.SyntaxKind.PropertyDeclaration,

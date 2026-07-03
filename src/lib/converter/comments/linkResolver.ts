@@ -6,7 +6,7 @@ import {
     Reflection,
     ReflectionKind,
     ReflectionSymbolId,
-} from "../../models/index.js";
+} from "#models";
 import { resolveDeclarationReference } from "./declarationReferenceResolver.js";
 import { type DeclarationReference, maxElementByScore, parseDeclarationReference } from "#utils";
 

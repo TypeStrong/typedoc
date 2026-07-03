@@ -1,10 +1,10 @@
-import type { ProjectReflection } from "../models/ProjectReflection.js";
 import {
     type DeclarationReflection,
     type DocumentReflection,
+    type ProjectReflection,
     Reflection,
     type ReflectionKind,
-} from "../models/index.js";
+} from "#models";
 import type { PageDefinition, PageKind, RouterTarget } from "./router.js";
 import { type Icons } from "./themes/default/partials/icon.js";
 

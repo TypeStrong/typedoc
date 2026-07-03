@@ -1,7 +1,7 @@
-import { normalizePath } from "../../utils/index.js";
+import { normalizePath } from "#node-utils";
 import { i18n, type Logger, NonEnumerable, type NormalizedPath, NormalizedPathUtils } from "#utils";
-import { join } from "path";
 import { stat } from "node:fs/promises";
+import { join } from "path";
 
 import { spawn, spawnSync } from "node:child_process";
 import { relative } from "node:path";

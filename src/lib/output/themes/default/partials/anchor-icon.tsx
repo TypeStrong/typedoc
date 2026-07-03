@@ -1,4 +1,4 @@
-import type { Reflection } from "../../../../models/index.js";
+import type { Reflection } from "#models";
 import { i18n, JSX } from "#utils";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 

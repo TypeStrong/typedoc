@@ -2,9 +2,9 @@
 // If adding a new key, leave it commented out for a native speaker
 // to update.
 
-import localeUtils = require("../locale-utils.cjs");
+import { buildIncompleteTranslation } from "../locale-utils.ts";
 
-export = localeUtils.buildIncompleteTranslation({
+export default buildIncompleteTranslation({
     loaded_multiple_times_0: "TypeDoc 已加载多次。这通常是由具有自己的 TypeDoc 安装的插件引起的。加载的路径为：\n{0}",
     unsupported_ts_version_0:
         "您正在使用不受支持的 TypeScript 版本运行！如果 TypeDoc 崩溃，这就是原因。TypeDoc 支持 {0}",

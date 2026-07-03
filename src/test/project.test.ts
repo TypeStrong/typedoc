@@ -1,4 +1,4 @@
-import { JSONOutput, splitUnquotedString } from "../index.js";
+import { JSONOutput, splitUnquotedString } from "../lib/index.js";
 import Assert from "assert";
 import { JSON_SCHEMA_VERSION } from "../lib/models/ProjectReflection.js";
 

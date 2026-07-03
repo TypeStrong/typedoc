@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX, translateTagName } from "#utils";
-import { type CommentDisplayPart, type Reflection, ReflectionKind } from "../../../../models/index.js";
+import { type CommentDisplayPart, type Reflection, ReflectionKind } from "#models";
 import { anchorIcon } from "./anchor-icon.js";
 import { join } from "../../lib.js";
 

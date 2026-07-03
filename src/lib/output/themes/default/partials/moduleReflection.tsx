@@ -5,7 +5,7 @@ import {
     ReferenceReflection,
     type Reflection,
     ReflectionKind,
-} from "../../../../models/index.js";
+} from "#models";
 import { JSX } from "#utils";
 import { classNames, getDisplayName, getMemberSections, getUniquePath, isNoneSection, join } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";

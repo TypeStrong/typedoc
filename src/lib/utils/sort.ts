@@ -3,11 +3,10 @@
  * @module
  */
 
-import { ReflectionKind } from "../models/kind.js";
-import type { DeclarationReflection } from "../models/DeclarationReflection.js";
 import type { Options } from "./options/index.js";
-import type { DocumentReflection } from "../models/index.js";
 import * as OptionDefaults from "./options/defaults.js";
+import type { DeclarationReflection, DocumentReflection } from "#models";
+import { ReflectionKind } from "#models";
 
 export const SORT_STRATEGIES = [
     "source-order",

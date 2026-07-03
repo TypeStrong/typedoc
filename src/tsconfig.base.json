@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        "module": "Node16",
+        "lib": ["es2023"],
+        "target": "es2022",
+        "composite": true,
+        // We need this because we use esbuild to build the source into a form which
+        // can't be fully resolved by TypeScript
+        "customConditions": ["typedoc-ts"],
+
+        // Add our `ts` internal types
+        "typeRoots": ["../node_modules/@types", "./@types"],
+        "types": ["node", "lunr", "mocha", "shiki", "ts-internal"],
+        // Speed up dev compilation time
+        "incremental": true,
+        "skipLibCheck": false,
+        "emitDeclarationOnly": true,
+
+        "strict": true,
+        "alwaysStrict": true,
+
+        // Linting
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "forceConsistentCasingInFileNames": true,
+        "noUncheckedSideEffectImports": true,
+
+        // Library
+        "resolveJsonModule": true,
+        "preserveConstEnums": true,
+        "declaration": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+
+        // Output
+        "newLine": "LF",
+        "jsx": "react",
+        "jsxFactory": "JSX.createElement",
+        "jsxFragmentFactory": "JSX.Fragment",
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true
+    }
+}

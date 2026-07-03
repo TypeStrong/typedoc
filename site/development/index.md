@@ -39,6 +39,19 @@ example, the [Converter](https://typedoc.org/api/classes/Converter.html) fires e
 starting conversion, when declarations are converted and when the project should
 be resolved.
 
+## Build Organization
+
+When released, TypeDoc's source is compiled into several bundles to reduce the runtime when running
+with a slow disc or antivirus software which scans on file access. The bundles are loosely coupled
+with the folders under `src/lib`. To avoid code duplication and ensure class reference stability,
+imports between bundles must always be done via the package imports defined in `package.json`.
+This is validated by `eslint`.
+
+- `utils-common` (`#utils` import) - utilities which don't depend on any Node modules
+- `utils` (`#node-utils` import) - utilities which require Node or disc access
+- `models` (`#models` import) - TypeDoc's converted class structure for reflections and types
+- `serialization` (`#serialization` import) - model serialization and deserialization code
+
 ## Tests
 
 TypeDoc has tests for individual utilities and some components, but the majority of the project is tested by converting source files into their JSON model and comparing it to a known good version. The basic example under `src/test/renderer/testProject` is rendered to HTML to test theme changes.

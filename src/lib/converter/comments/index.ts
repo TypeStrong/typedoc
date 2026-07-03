@@ -1,6 +1,9 @@
+import type { FileRegistry } from "#models";
+import { Comment, type CommentDisplayPart, ReflectionKind } from "#models";
+import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "#node-utils";
+import { assertNever, i18n, Logger, setUnion } from "#utils";
 import ts from "typescript";
-import { Comment, type CommentDisplayPart, ReflectionKind } from "../../models/index.js";
-import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "../../utils/options/declaration.js";
+import type { Context } from "../context.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
     discoverComment,
@@ -11,9 +14,6 @@ import {
 } from "./discovery.js";
 import { lexLineComments } from "./lineLexer.js";
 import { parseComment } from "./parser.js";
-import type { FileRegistry } from "../../models/FileRegistry.js";
-import { assertNever, i18n, Logger, setUnion } from "#utils";
-import type { Context } from "../context.js";
 
 export interface CommentParserConfig {
     blockTags: Set<string>;

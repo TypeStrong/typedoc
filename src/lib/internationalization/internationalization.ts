@@ -1,10 +1,21 @@
-import { ok } from "assert";
 import { addTranslations, DefaultMap, setTranslations, type TranslatedString } from "#utils";
-import { readdirSync } from "fs";
-import { join } from "path";
 import { type BuiltinTranslatableStringArgs } from "./translatable.js";
-import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+
+import de from "./locales/de.js";
+import en from "./locales/en.js";
+import fr from "./locales/fr.js";
+import ja from "./locales/ja.js";
+import ko from "./locales/ko.js";
+import zh from "./locales/zh.js";
+
+const translations = new Map<string, Record<string, string>>([
+    ["de", de],
+    ["en", en],
+    ["fr", fr],
+    ["ja", ja],
+    ["ko", ko],
+    ["zh", zh],
+]);
 
 /**
  * ### What is translatable?
@@ -52,32 +63,6 @@ export type TranslationProxy = {
     ) => TranslatedString;
 };
 
-const req = createRequire(fileURLToPath(import.meta.url));
-
-/**
- * Load TypeDoc's translations for a specified language
- */
-export function loadTranslations(lang: string): Record<string, string> {
-    // Make sure this isn't abused to load some random file by mistake
-    ok(
-        /^[A-Za-z-]+$/.test(lang),
-        "Locale names may only contain letters and dashes",
-    );
-    try {
-        return req(`./locales/${lang}.cjs`);
-    } catch {
-        return loadTranslations("en");
-    }
-}
-
-/**
- * Get languages which TypeDoc includes translations for
- */
-export function getNativelySupportedLanguages(): string[] {
-    return readdirSync(join(fileURLToPath(import.meta.url), "../locales"))
-        .map((x) => x.substring(0, x.indexOf(".")));
-}
-
 /**
  * Responsible for maintaining loaded internationalized strings.
  */
@@ -91,7 +76,7 @@ export class Internationalization {
 
     setLocale(locale: string): void {
         if (this.loadedLocale !== locale) {
-            const defaultTranslations = loadTranslations(locale);
+            const defaultTranslations = translations.get(locale) || translations.get("en") || {};
             const overrides = this.locales.get(locale);
             setTranslations({ ...defaultTranslations, ...overrides });
             this.loadedLocale = locale;
@@ -110,7 +95,7 @@ export class Internationalization {
     }
 
     getSupportedLanguages(): string[] {
-        const supported = new Set(getNativelySupportedLanguages());
+        const supported = new Set(translations.keys());
         for (const [locale, translations] of this.locales) {
             if (Object.entries(translations).length) {
                 supported.add(locale);

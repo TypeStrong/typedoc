@@ -1,65 +1,56 @@
 import * as Path from "path";
 import ts from "typescript";
 
-import { Deserializer, type JSONOutput, Serializer } from "./serialization/index.js";
-import { Converter } from "./converter/index.js";
-import { Renderer } from "./output/renderer.js";
-import { type ProjectReflection, ReflectionSymbolId } from "./models/index.js";
+import { type ProjectReflection, ReflectionSymbolId } from "#models";
 import {
     AbstractComponent,
-    FancyConsoleLogger,
-    loadPlugins,
-    type OptionsReader,
-    PackageJsonReader,
-    TSConfigReader,
-    TypeDocReader,
-    writeFile,
-} from "./utils/index.js";
-
-import { Option, Options } from "./utils/index.js";
-import { rootPackageOptions, type TypeDocOptions } from "./utils/options/declaration.js";
-import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
-import { ok } from "assert";
-import {
+    diagnostic,
+    diagnostics,
     type DocumentationEntryPoint,
     EntryPointStrategy,
+    FancyConsoleLogger,
+    getCommonDirectory,
     getEntryPoints,
+    getLoadedPaths,
     getPackageDirectories,
     getWatchEntryPoints,
+    hasBeenLoadedMultipleTimes,
     inferEntryPoints,
-} from "./utils/entry-point.js";
-import { getCommonDirectory, nicePath, normalizePath } from "./utils/paths.js";
-import { getLoadedPaths, hasBeenLoadedMultipleTimes, isDebugging } from "./utils/general.js";
-import { validateExports } from "./validation/exports.js";
-import { validateDocumentation } from "./validation/documentation.js";
-import { validateLinks } from "./validation/links.js";
-import { ApplicationEvents } from "./application-events.js";
+    isDebugging,
+    loadPlugins,
+    nicePath,
+    normalizePath,
+    Option,
+    Options,
+    type OptionsReader,
+    PackageJsonReader,
+    rootPackageOptions,
+    SUPPORTED_TYPESCRIPT_VERSIONS,
+    TSConfigReader,
+    TYPEDOC_VERSION,
+    type TypeDocOptions,
+    TypeDocReader,
+    TYPESCRIPT_ROOT,
+    ValidatingFileRegistry,
+    writeFile,
+} from "#node-utils";
+import { Deserializer, type JSONOutput, Serializer } from "#serialization";
+import { Converter } from "./converter/index.js";
+import { Renderer } from "./output/renderer.js";
+
+import { FileRegistry } from "#models";
 import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
-import { FileRegistry } from "./models/FileRegistry.js";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { createRequire } from "module";
-import { Outputs } from "./output/output.js";
-import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
-import { validateFilePaths } from "./validation/filePaths.js";
-import { diagnostic, diagnostics } from "./utils/loggers.js";
-import { ValidatingFileRegistry } from "./utils/ValidatingFileRegistry.js";
+import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
+import { ok } from "assert";
+import { ApplicationEvents } from "./application-events.js";
+import { RepositoryManager } from "./converter/utilities/repository.js";
 import { Internationalization } from "./internationalization/internationalization.js";
-import { RepositoryManager } from "./converter/utils/repository.js";
-
-const packageInfo = JSON.parse(
-    readFileSync(
-        Path.join(fileURLToPath(import.meta.url), "../../../package.json"),
-        "utf8",
-    ),
-) as {
-    version: string;
-    peerDependencies: { typescript: string };
-};
-
-const supportedVersionMajorMinor = packageInfo.peerDependencies.typescript
-    .split("||")
-    .map((version) => version.replace(/^\s*|\.x\s*$/g, ""));
+import { Outputs } from "./output/output.js";
+import { validateDocumentation } from "./validation/documentation.js";
+import { validateExports } from "./validation/exports.js";
+import { validateFilePaths } from "./validation/filePaths.js";
+import { validateLinks } from "./validation/links.js";
+import { validateMergeModuleWith } from "./validation/unusedMergeModuleWith.js";
 
 const DETECTOR = Symbol();
 
@@ -185,7 +176,7 @@ export class Application extends AbstractComponent<
     /**
      * The version number of TypeDoc.
      */
-    static readonly VERSION = packageInfo.version;
+    static readonly VERSION = TYPEDOC_VERSION;
 
     /**
      * Emitted after plugins have been loaded and options have been read, but before they have been frozen.
@@ -293,6 +284,18 @@ export class Application extends AbstractComponent<
         return app;
     }
 
+    /**
+     * Internal utility to synchronously create an application instance.
+     * Only intended for TypeDoc's unit tests.
+     * @internal
+     * @private
+     */
+    static createAppForTesting(): Application {
+        const app: Application = new Application(DETECTOR);
+        app.files = new FileRegistry();
+        return app;
+    }
+
     private async _bootstrap(options: TypeDocOptions) {
         this.options.reset();
         this.setOptions(options, /* reportErrors */ false);
@@ -377,8 +380,7 @@ export class Application extends AbstractComponent<
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath(): string {
-        const req = createRequire(import.meta.url);
-        return nicePath(Path.dirname(req.resolve("typescript")));
+        return nicePath(Path.dirname(TYPESCRIPT_ROOT));
     }
 
     public getTypeScriptVersion(): string {
@@ -420,13 +422,13 @@ export class Application extends AbstractComponent<
         }
 
         if (
-            !supportedVersionMajorMinor.some(
+            !SUPPORTED_TYPESCRIPT_VERSIONS.some(
                 (version) => version == ts.versionMajorMinor,
             )
         ) {
             this.logger.warn(
                 i18n.unsupported_ts_version_0(
-                    supportedVersionMajorMinor.join(", "),
+                    SUPPORTED_TYPESCRIPT_VERSIONS.join(", "),
                 ),
             );
         }
@@ -527,13 +529,13 @@ export class Application extends AbstractComponent<
         );
 
         if (
-            !supportedVersionMajorMinor.some(
+            !SUPPORTED_TYPESCRIPT_VERSIONS.some(
                 (version) => version == ts.versionMajorMinor,
             )
         ) {
             this.logger.warn(
                 i18n.unsupported_ts_version_0(
-                    supportedVersionMajorMinor.join(", "),
+                    SUPPORTED_TYPESCRIPT_VERSIONS.join(", "),
                 ),
             );
         }

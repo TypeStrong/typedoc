@@ -1,19 +1,22 @@
-import ts from "typescript";
-import { ApplicationEvents } from "../../application-events.js";
 import {
     type ContainerReflection,
     DeclarationReflection,
     type ProjectReflection,
+    ReferenceType,
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
+    ReflectionType,
     SignatureReflection,
-} from "../../models/index.js";
-import { ReferenceType, ReflectionType, type SomeType, type Type } from "../../models/types.js";
+    type SomeType,
+    type Type,
+} from "#models";
+import { findPackageForPath, getHumanName } from "#node-utils";
 import { filterMap, type TranslatedString, zip } from "#utils";
+import ts from "typescript";
+import { ApplicationEvents } from "../../application-events.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { findPackageForPath, getHumanName } from "../../utils/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
 

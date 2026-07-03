@@ -1,13 +1,11 @@
 // @ts-check
 
 import { writeFileSync } from "fs";
-import { ParameterType } from "../dist/index.js";
-import { addTypeDocOptions } from "../dist/lib/utils/options/sources/typedoc.js";
-import { SORT_STRATEGIES } from "../dist/lib/utils/sort.js";
-import { setTranslations } from "#utils";
-import { loadTranslations } from "../dist/lib/internationalization/internationalization.js";
+import { Internationalization } from "typedoc";
+import { addTypeDocOptions, Configuration, ParameterType, SORT_STRATEGIES } from "#node-utils";
 
-setTranslations(loadTranslations("en"));
+const i18n = new Internationalization.Internationalization();
+i18n.setLocale("en");
 
 const IGNORED_OPTIONS = new Set(["help", "version"]);
 
@@ -22,12 +20,12 @@ const schema = {
 };
 
 addTypeDocOptions({
-    /** @param {import("../dist/index.js").DeclarationOption} option */
+    /** @param {Configuration.DeclarationOption} option */
     addDeclaration(option) {
         if (IGNORED_OPTIONS.has(option.name)) return;
 
         const data = {
-            description: option.help(),
+            description: typeof option.help === "string" ? option.help : option.help(),
         };
 
         const type = option.type ?? ParameterType.String;
@@ -39,7 +37,7 @@ addTypeDocOptions({
             case ParameterType.PluginArray:
                 data.type = "array";
                 data.items = { type: "string" };
-                data.default = /** @type {import("../dist/index.js").ArrayDeclarationOption} */ (
+                data.default = /** @type {Configuration.ArrayDeclarationOption} */ (
                     option
                 ).defaultValue ?? [];
                 break;
@@ -48,19 +46,19 @@ addTypeDocOptions({
             case ParameterType.UrlOrPath:
                 data.type = "string";
                 if (!IGNORED_DEFAULT_OPTIONS.has(option.name)) {
-                    data.default = /** @type {import("../dist/index.js").StringDeclarationOption} */ (
+                    data.default = /** @type {Configuration.StringDeclarationOption} */ (
                         option
                     ).defaultValue ?? "";
                 }
                 break;
             case ParameterType.Boolean:
                 data.type = "boolean";
-                data.default = /** @type {import("../dist/index.js").BooleanDeclarationOption} */ (
+                data.default = /** @type {Configuration.BooleanDeclarationOption} */ (
                     option
                 ).defaultValue ?? false;
                 break;
             case ParameterType.Number: {
-                const decl = /** @type {import("../dist/index.js").NumberDeclarationOption} */ (
+                const decl = /** @type {Configuration.NumberDeclarationOption} */ (
                     option
                 );
                 data.type = "number";
@@ -70,7 +68,7 @@ addTypeDocOptions({
                 break;
             }
             case ParameterType.Map: {
-                const map = /** @type {import("../dist/index.js").MapDeclarationOption} */ (
+                const map = /** @type {Configuration.MapDeclarationOption} */ (
                     option
                 ).map;
                 data.enum = map instanceof Map
@@ -78,7 +76,7 @@ addTypeDocOptions({
                     : Object.keys(map)
                         .filter((key) => isNaN(+key))
                         .map((key) => typeof map[key] === "number" ? key : map[key]);
-                data.default = /** @type {import("../dist/index.js").MapDeclarationOption} */ (
+                data.default = /** @type {Configuration.MapDeclarationOption} */ (
                     option
                 ).defaultValue;
                 if (!data.enum.includes(data.default)) {
@@ -100,10 +98,9 @@ addTypeDocOptions({
                     type: "object",
                     properties: {},
                 };
-                const defaults =
-                    /** @type {import("../dist/index.js").FlagsDeclarationOption<Record<string, boolean>>} */ (
-                        option
-                    ).defaults;
+                const defaults = /** @type {Configuration.FlagsDeclarationOption<Record<string, boolean>>} */ (
+                    option
+                ).defaults;
 
                 for (const key of Object.keys(defaults)) {
                     flagsObj.properties[key] = {
@@ -116,7 +113,7 @@ addTypeDocOptions({
             }
             case ParameterType.Mixed:
             case ParameterType.Object:
-                data.default = /** @type {import("../dist/index.js").MixedDeclarationOption} */ (
+                data.default = /** @type {Configuration.MixedDeclarationOption} */ (
                     option
                 ).defaultValue;
                 break;

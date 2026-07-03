@@ -1,12 +1,7 @@
 import { classNames, getKindClass, hasTypeParameters } from "../../lib.js";
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import type { PageEvent } from "../../../events.js";
-import {
-    type ContainerReflection,
-    DeclarationReflection,
-    ReflectionKind,
-    type SignatureReflection,
-} from "../../../../models/index.js";
+import { type ContainerReflection, DeclarationReflection, ReflectionKind, type SignatureReflection } from "#models";
 import { i18n, JSX } from "#utils";
 
 export function reflectionTemplate(context: DefaultThemeRenderContext, props: PageEvent<ContainerReflection>) {

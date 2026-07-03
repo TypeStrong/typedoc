@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // @ts-check
 "use strict";
 
@@ -6,13 +5,14 @@ Error.stackTraceLimit = 50;
 import ts from "typescript";
 import fs from "fs";
 import path, { basename, join } from "path";
-import * as td from "../dist/index.js";
-import { getExpandedEntryPointsForPaths } from "../dist/lib/utils/index.js";
+import * as td from "typedoc";
 import { ok } from "assert";
 import { fileURLToPath } from "url";
-import { diagnostics } from "../dist/lib/utils/loggers.js";
-import { getConverterApp } from "../dist/test/programs.js";
-import { buildRendererSpecs } from "../dist/test/renderer/testRendererUtils.js";
+import { diagnostics, getExpandedEntryPointsForPaths } from "#node-utils";
+// @ts-ignore - expected error due to importing out of root directory, this is run with tsx, so works
+import { getConverterApp } from "../src/test/programs.ts";
+// @ts-ignore - expected error due to importing out of root directory, this is run with tsx, so works
+import { buildRendererSpecs } from "../src/test/renderer/testRendererUtils.ts";
 
 const base = path.join(
     fileURLToPath(import.meta.url),

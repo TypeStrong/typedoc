@@ -1,22 +1,21 @@
 import {
+    Comment,
     ContainerReflection,
     type DeclarationReflection,
     type DocumentReflection,
     type ProjectReflection,
     ReferenceReflection,
+    ReflectionGroup,
     ReflectionKind,
-} from "../../models/index.js";
-import { ReflectionGroup } from "../../models/ReflectionGroup.js";
+} from "#models";
+import { getSortFunction, isValidSortStrategy, Option, SORT_STRATEGIES, type SortStrategy } from "#node-utils";
+import { i18n, partition } from "#utils";
+import assert from "assert";
+import { ApplicationEvents } from "../../application-events.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { getSortFunction, isValidSortStrategy, SORT_STRATEGIES } from "../../utils/sort.js";
-import { Option, type SortStrategy } from "../../utils/index.js";
-import { Comment } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
-import { ApplicationEvents } from "../../application-events.js";
-import assert from "assert";
-import { i18n, partition } from "#utils";
 
 // Same as the defaultKindSortOrder in sort.ts
 const defaultGroupOrder = [

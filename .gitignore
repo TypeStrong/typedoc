@@ -5,6 +5,7 @@
 .baseDir.js
 .baseDir.ts
 *.swp
+*.tsbuildinfo
 yarn.lock
 .nyc_output
 yarn-error.log

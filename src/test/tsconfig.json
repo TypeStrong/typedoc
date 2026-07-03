@@ -1,0 +1,23 @@
+{
+    "extends": "../tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": ".",
+        "outDir": "../../dist/test"
+    },
+    "references": [
+        {
+            "path": "../lib/tsconfig.json"
+        }
+    ],
+    "include": ["."],
+    "exclude": [
+        "converter",
+        "converter2",
+        "renderer/specs",
+        ".dot",
+        "module",
+        "packages",
+        "slow/entry-points",
+        "renderer/testProject"
+    ]
+}

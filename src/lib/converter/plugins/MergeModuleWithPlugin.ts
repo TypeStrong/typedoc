@@ -1,6 +1,6 @@
 import { ok } from "assert";
 import { ApplicationEvents } from "../../application-events.js";
-import { Comment, type ProjectReflection, type Reflection, ReflectionKind } from "../../models/index.js";
+import { Comment, type ProjectReflection, type Reflection, ReflectionKind } from "#models";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";

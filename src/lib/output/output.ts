@@ -1,8 +1,7 @@
+import type { ProjectReflection } from "#models";
+import { nicePath, type OutputSpecification, ParameterType, type StringDeclarationOption } from "#node-utils";
 import { i18n, type TranslatedString } from "#utils";
 import type { Application } from "../application.js";
-import type { ProjectReflection } from "../models/index.js";
-import { type OutputSpecification, ParameterType, type StringDeclarationOption } from "../utils/options/declaration.js";
-import { nicePath } from "../utils/paths.js";
 
 export class Outputs {
     private outputs = new Map<

@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { JSX } from "#utils";
-import { type ContainerReflection } from "../../../../models/index.js";
+import { type ContainerReflection } from "#models";
 import { getMemberSections, isNoneSection } from "../../lib.js";
 
 export function members(context: DefaultThemeRenderContext, props: ContainerReflection) {

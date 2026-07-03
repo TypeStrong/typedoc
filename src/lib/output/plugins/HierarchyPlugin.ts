@@ -1,13 +1,11 @@
+import type { DeclarationReflection } from "#models";
+import { compressJson, writeFile } from "#node-utils";
 import * as Path from "path";
 import { RendererComponent } from "../components.js";
 import { RendererEvent } from "../events.js";
-import { writeFile } from "../../utils/index.js";
-import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-
 import type { Renderer } from "../index.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import { getHierarchyRoots, getKindClass, getUniquePath } from "../themes/lib.js";
-import type { DeclarationReflection } from "../../models/index.js";
-import { compressJson } from "../../utils/compress.js";
 
 interface JsonHierarchyElement {
     name: string;

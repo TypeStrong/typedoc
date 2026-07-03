@@ -1,6 +1,6 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
 import { i18n, JSX } from "#utils";
-import type { SignatureReflection } from "../../../../models/index.js";
+import type { SignatureReflection } from "#models";
 import { hasTypeParameters } from "../../lib.js";
 
 export function memberSignatureBody(

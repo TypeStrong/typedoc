@@ -39,7 +39,7 @@ function loadTags() {
                 }
             }
         } else {
-            throw new Error(`Unexpected node ${ts.SyntaxKind[propertyAssignment.kind]}`);
+            throw new Error(`Unexpected node ${ts.SyntaxKind[statement.kind]}`);
         }
     }
     return decls;
@@ -47,8 +47,8 @@ function loadTags() {
 
 function loadEnLocale() {
     const sourceFile = ts.createSourceFile(
-        "en.cts",
-        readFileSync("src/lib/internationalization/locales/en.cts", "utf-8"),
+        "en.ts",
+        readFileSync("src/lib/internationalization/locales/en.ts", "utf-8"),
         ts.ScriptTarget.ES2022,
         true,
     );
@@ -114,9 +114,9 @@ function loadEnLocale() {
 }
 
 function organizeLocale(langId) {
-    const langSourcePath = `src/lib/internationalization/locales/${langId}.cts`;
+    const langSourcePath = `src/lib/internationalization/locales/${langId}.ts`;
     const sourceFile = ts.createSourceFile(
-        `${langId}.cts`,
+        `${langId}.ts`,
         readFileSync(langSourcePath, "utf-8"),
         ts.ScriptTarget.ES2022,
         true,

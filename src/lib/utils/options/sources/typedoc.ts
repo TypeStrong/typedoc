@@ -2,7 +2,7 @@ import { CommentStyle, EmitStrategy, ParameterHint, ParameterType, type TypeDocO
 import * as OptionDefaults from "../defaults.js";
 import { SORT_STRATEGIES } from "../../sort.js";
 import { EntryPointStrategy } from "../../entry-point.js";
-import { ReflectionKind } from "../../../models/kind.js";
+import { ReflectionKind } from "#models";
 import { blockTags, inlineTags, modifierTags } from "../tsdoc-defaults.js";
 import { getEnumKeys, i18n, LogLevel, setDifference, Validation } from "#utils";
 import type { BundledTheme } from "@gerrit0/mini-shiki";

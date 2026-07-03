@@ -1,4 +1,4 @@
-import { type Reflection, ReflectionFlag, ReflectionFlags } from "../../../../models/index.js";
+import { type Reflection, ReflectionFlag, ReflectionFlags } from "#models";
 import { i18n, JSX, type TagString, translateTagName } from "#utils";
 import type { PageEvent, PageHeading } from "../../../events.js";
 import { classNames, getDisplayName, wbr } from "../../lib.js";

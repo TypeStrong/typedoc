@@ -1,12 +1,12 @@
+import type { Options } from "./options/options.js";
+import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
+import * as FS from "fs";
 import { join, relative, resolve } from "path";
 import ts from "typescript";
-import * as FS from "fs";
+import { addInferredDeclarationMapPaths, resolveDeclarationMaps } from "./declaration-maps.js";
+import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
 import { expandPackages } from "./package-manifest.js";
 import { deriveRootDir, getCommonDirectory, MinimatchSet, nicePath, normalizePath } from "./paths.js";
-import type { Options } from "./options/index.js";
-import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
-import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
-import { addInferredDeclarationMapPaths, resolveDeclarationMaps } from "./declaration-maps.js";
 
 /**
  * Defines how entry points are interpreted.

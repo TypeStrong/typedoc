@@ -1,7 +1,7 @@
 // This one is the source of truth, so looks a bit different from the other locales, look at another one
 // for a template to follow.
 
-export = {
+export default {
     loaded_multiple_times_0:
         "TypeDoc has been loaded multiple times. This is commonly caused by plugins which have their own installation of TypeDoc. The loaded paths are:\n\t{0}",
     unsupported_ts_version_0:

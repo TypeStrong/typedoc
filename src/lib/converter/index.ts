@@ -3,3 +3,4 @@ export type { ExternalResolveResult, ExternalSymbolResolver } from "./comments/l
 export { Context } from "./context.js";
 export { convertDefaultValue, convertExpression } from "./convert-expression.js";
 export { Converter, type ConverterEvents } from "./converter.js";
+export { RepositoryManager } from "./utilities/repository.ts";

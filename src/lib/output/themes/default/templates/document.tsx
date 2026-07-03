@@ -1,5 +1,5 @@
 import type { DefaultThemeRenderContext } from "../DefaultThemeRenderContext.js";
-import type { DocumentReflection } from "../../../../models/index.js";
+import type { DocumentReflection } from "#models";
 import type { PageEvent } from "../../../events.js";
 import { JSX } from "#utils";
 

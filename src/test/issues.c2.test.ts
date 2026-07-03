@@ -17,7 +17,7 @@ import type { InlineTagDisplayPart } from "../lib/models/Comment.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
 import { TestLogger } from "./TestLogger.js";
 import { equalKind, getComment, getLinks, getSigComment, query, querySig, reflToTree } from "./utils.js";
-import { DefaultTheme, type FileId, i18n, KindRouter, PageEvent, ReflectionSymbolId } from "../index.js";
+import { DefaultTheme, type FileId, i18n, KindRouter, PageEvent, ReflectionSymbolId } from "../lib/index.js";
 import { normalizePath, TYPEDOC_ROOT } from "#node-utils";
 import { NormalizedPathUtils } from "#utils";
 

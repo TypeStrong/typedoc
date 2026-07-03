@@ -11,12 +11,12 @@ import {
     type Reflection,
     ReflectionFlag,
     ReflectionKind,
-} from "../models/index.js";
+} from "#models";
 
 import type { Converter } from "./converter.js";
-import { isNamedNode } from "./utils/nodes.js";
+import { isNamedNode } from "./utilities/nodes.js";
 import { ConverterEvents } from "./converter-events.js";
-import { resolveAliasedSymbol } from "./utils/symbols.js";
+import { resolveAliasedSymbol } from "./utilities/symbols.js";
 import {
     type CommentContext,
     getComment,
@@ -25,7 +25,7 @@ import {
     getNodeComment,
     getSignatureComment,
 } from "./comments/index.js";
-import { getHumanName, getQualifiedName } from "../utils/tsutils.js";
+import { getHumanName, getQualifiedName } from "#node-utils";
 import { findPackageForPath, normalizePath } from "#node-utils";
 import { createSymbolIdImpl } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";

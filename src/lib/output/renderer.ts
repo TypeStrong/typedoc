@@ -9,16 +9,14 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import type { Application } from "../application.js";
-import type { Theme } from "./theme.js";
-import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
-import type { ProjectReflection } from "../models/ProjectReflection.js";
-import { writeFile } from "../utils/fs.js";
-import { DefaultTheme } from "./themes/default/DefaultTheme.js";
-import { AbstractComponent, Option } from "../utils/index.js";
-import type { Comment, Reflection } from "../models/index.js";
-import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
+import type { Comment, ProjectReflection, Reflection } from "#models";
+import { AbstractComponent, Option, writeFile } from "#node-utils";
 import { EventHooks, i18n, JSX } from "#utils";
+import type { Application } from "../application.js";
+import { IndexEvent, type MarkdownEvent, PageEvent, RendererEvent } from "./events.js";
+import type { Theme } from "./theme.js";
+import { DefaultTheme } from "./themes/default/DefaultTheme.js";
+import type { DefaultThemeRenderContext } from "./themes/default/DefaultThemeRenderContext.js";
 
 import {
     AssetsPlugin,

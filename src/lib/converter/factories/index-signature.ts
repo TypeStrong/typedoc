@@ -7,7 +7,7 @@ import {
     ReflectionKind,
     SignatureReflection,
     UnionType,
-} from "../../models/index.js";
+} from "#models";
 import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 

@@ -9,7 +9,7 @@ import {
     ReflectionFlag,
     ReflectionKind,
     type UnionType,
-} from "../models/index.js";
+} from "#models";
 import { getEnumFlags, hasAllFlags, hasAnyFlag, i18n, removeFlag } from "#utils";
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
@@ -22,9 +22,9 @@ import {
     createTypeParamReflection,
 } from "./factories/signature.js";
 import { convertJsDocAlias, convertJsDocCallback } from "./jsdoc.js";
-import { getHeritageTypes } from "./utils/nodes.js";
-import { removeUndefined } from "./utils/reflections.js";
-import { resolveAliasedSymbol } from "./utils/symbols.js";
+import { getHeritageTypes } from "./utilities/nodes.js";
+import { removeUndefined } from "./utilities/reflections.js";
+import { resolveAliasedSymbol } from "./utilities/symbols.js";
 
 const symbolConverters: {
     [K in ts.SymbolFlags]?: (

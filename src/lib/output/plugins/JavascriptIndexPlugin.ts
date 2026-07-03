@@ -1,16 +1,15 @@
-import * as Path from "path";
 import lunr from "lunr";
+import * as Path from "path";
 
-import { type Comment, type DeclarationReflection, type DocumentReflection, Reflection } from "../../models/index.js";
+import { type Comment, type DeclarationReflection, type DocumentReflection, Reflection } from "#models";
+import { compressJson, Option, writeFile } from "#node-utils";
+import { i18n } from "#utils";
+import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
+import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
 import { RendererComponent } from "../components.js";
 import { IndexEvent, RendererEvent } from "../events.js";
-import { Option, writeFile } from "../../utils/index.js";
-import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 import type { Renderer } from "../index.js";
-import { GroupPlugin } from "../../converter/plugins/GroupPlugin.js";
-import { CategoryPlugin } from "../../converter/plugins/CategoryPlugin.js";
-import { compressJson } from "../../utils/compress.js";
-import { i18n } from "#utils";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 /**
  * Keep this in sync with the interface in src/lib/output/themes/default/assets/typedoc/components/Search.ts

@@ -10,9 +10,8 @@
  * of the members described here which makes it suitable for usage in browser
  * bundles which want to use TypeDoc's JSON output in the browser.
  */
-export { Application, type ApplicationEvents } from "./lib/application.js";
+export { Application, type ApplicationEvents } from "./application.js";
 
-export { resetReflectionID } from "./lib/models/Reflection.js";
 /**
  * All symbols documented under the Models namespace are also available in the root import.
  * @primaryExport
@@ -27,12 +26,8 @@ export { resetReflectionID } from "./lib/models/Reflection.js";
  * @summary
  * TypeDoc converts source code into these object types.
  */
-export * as Models from "./lib/models/index.js";
-/**
- * All symbols documented under the Configuration namespace are also available in the root import.
- * @summary
- * Controls how TypeDoc reads option files and what options are available.
- */
+export * from "#models";
+export * as Models from "#models";
 export {
     type CommentParserConfig,
     Context,
@@ -40,10 +35,8 @@ export {
     type ConverterEvents,
     type ExternalResolveResult,
     type ExternalSymbolResolver,
-} from "./lib/converter/index.js";
-export * from "./lib/models/index.js";
-/** @primaryExport */
-export * as Configuration from "./lib/utils/options/index.js";
+    RepositoryManager,
+} from "./converter/index.js";
 
 export {
     BaseRouter,
@@ -63,7 +56,7 @@ export {
     StructureDirRouter,
     StructureRouter,
     Theme,
-} from "./lib/output/index.js";
+} from "./output/index.js";
 export type {
     Icons,
     NavigationElement,
@@ -74,52 +67,56 @@ export type {
     RenderTemplate,
     Router,
     RouterTarget,
-} from "./lib/output/index.js";
+} from "./output/index.js";
 
-export { Outputs } from "./lib/output/output.js";
+export { Outputs } from "./output/output.js";
+
+export {
+    /**
+     * All symbols documented under the Configuration namespace are also available in the root import.
+     * @summary
+     * Controls how TypeDoc reads option files and what options are available.
+     */
+    Configuration,
+    EntryPointStrategy,
+    normalizePath,
+    ValidatingFileRegistry,
+} from "#node-utils";
 
 export {
     ArgumentsReader,
+    type ArrayDeclarationOption,
+    type BooleanDeclarationOption,
     CommentStyle,
-    EntryPointStrategy,
-    normalizePath,
+    type DeclarationOption,
+    type DeclarationOptionBase,
+    type DeclarationOptionToOptionType,
+    type FlagsDeclarationOption,
+    type JsDocCompatibility,
+    type KeyToDeclaration,
+    type ManuallyValidatedOption,
+    type MapDeclarationOption,
+    type MixedDeclarationOption,
+    type NumberDeclarationOption,
+    type ObjectDeclarationOption,
     Option,
     OptionDefaults,
     Options,
+    type OptionsReader,
+    type OutputSpecification,
     PackageJsonReader,
     ParameterHint,
     ParameterType,
+    type StringDeclarationOption,
     TSConfigReader,
+    type TypeDocOptionMap,
+    type TypeDocOptions,
+    type TypeDocOptionValues,
     TypeDocReader,
-    ValidatingFileRegistry,
-} from "./lib/utils/index.js";
+    type ValidationOptions,
+} from "#node-utils";
 
-export type {
-    ArrayDeclarationOption,
-    BooleanDeclarationOption,
-    DeclarationOption,
-    DeclarationOptionBase,
-    DeclarationOptionToOptionType,
-    DocumentationEntryPoint,
-    FancyConsoleLogger,
-    FlagsDeclarationOption,
-    JsDocCompatibility,
-    KeyToDeclaration,
-    ManuallyValidatedOption,
-    MapDeclarationOption,
-    MixedDeclarationOption,
-    NumberDeclarationOption,
-    ObjectDeclarationOption,
-    OptionsReader,
-    OutputSpecification,
-    ParameterTypeToOptionTypeMap,
-    SortStrategy,
-    StringDeclarationOption,
-    TypeDocOptionMap,
-    TypeDocOptions,
-    TypeDocOptionValues,
-    ValidationOptions,
-} from "./lib/utils/index.js";
+export type { DocumentationEntryPoint, FancyConsoleLogger, SortStrategy } from "#node-utils";
 
 export {
     type ComponentPath,
@@ -155,11 +152,11 @@ export {
     Serializer,
     type SerializerComponent,
     type SerializerEvents,
-} from "./lib/serialization/index.js";
+} from "#serialization";
 
-export * as Internationalization from "./lib/internationalization/index.js";
+export * as Internationalization from "./internationalization/index.js";
 // Re-exported here so that declaration merging works as expected
-export type { TranslatableStrings } from "./lib/internationalization/internationalization.js";
+export type { TranslatableStrings } from "./internationalization/internationalization.js";
+export { TypeScript };
 
 import TypeScript from "typescript";
-export { TypeScript };

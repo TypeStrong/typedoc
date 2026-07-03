@@ -1,15 +1,13 @@
+import { Comment, type CommentDisplayPart, CommentTag, FileRegistry, type InlineTagDisplayPart } from "#models";
+import { hasDeclarationFileExtension, nicePath } from "#node-utils";
+import type { MinimalSourceFile, TagString } from "#utils";
+import { assertNever, i18n, type Logger, type NormalizedPath, removeIf, type TranslatedString } from "#utils";
 import assert, { ok } from "assert";
 import { parseDocument as parseYamlDoc } from "yaml";
 import type { CommentContextOptionalChecker, CommentParserConfig } from "./index.js";
-import { Comment, type CommentDisplayPart, CommentTag, type InlineTagDisplayPart } from "../../models/index.js";
-import type { MinimalSourceFile, TagString } from "#utils";
-import { nicePath } from "../../utils/paths.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { extractTagName } from "./tagName.js";
-import { FileRegistry } from "../../models/FileRegistry.js";
 import { textContent, TextParserReentryState } from "./textParser.js";
-import { hasDeclarationFileExtension } from "../../utils/fs.js";
-import { assertNever, i18n, type Logger, type NormalizedPath, removeIf, type TranslatedString } from "#utils";
 
 interface LookaheadGenerator<T> {
     done(): boolean;

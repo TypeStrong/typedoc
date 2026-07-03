@@ -3,7 +3,7 @@ import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
 import type { OutputSpecification } from "../index.js";
 import { normalizePath } from "../paths.js";
-import type { Application } from "../../../index.js";
+import type { Application } from "../../index.js";
 import {
     convert,
     type DeclarationOption,

@@ -1,15 +1,12 @@
-import { RendererComponent } from "../components.js";
-import { RendererEvent } from "../events.js";
-import { copySync, isFile, readFile, writeFileSync } from "../../utils/fs.js";
-import { DefaultTheme } from "../themes/default/DefaultTheme.js";
-import { getStyles } from "../../utils/highlighter.js";
+import { ReflectionKind } from "#models";
+import { copySync, getStyles, isFile, Option, readFile, TYPEDOC_ROOT, writeFileSync } from "#node-utils";
 import { type EnumKeys, getEnumKeys, i18n, type NormalizedPath } from "#utils";
 import { existsSync } from "fs";
 import { extname, join } from "path";
-import { fileURLToPath } from "url";
+import { RendererComponent } from "../components.js";
+import { RendererEvent } from "../events.js";
 import type { Renderer } from "../index.js";
-import { ReflectionKind } from "../../models/index.js";
-import { Option } from "../../utils/index.js";
+import { DefaultTheme } from "../themes/default/DefaultTheme.js";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -102,8 +99,8 @@ export class AssetsPlugin extends RendererComponent {
     private onRenderEnd(event: RendererEvent) {
         if (this.owner.theme instanceof DefaultTheme) {
             const src = join(
-                fileURLToPath(import.meta.url),
-                "../../../../../static",
+                TYPEDOC_ROOT,
+                "static",
             );
             const dest = join(event.outputDirectory, "assets");
             copySync(join(src, "style.css"), join(dest, "style.css"));

@@ -40,9 +40,12 @@
     },
 
     "mochaExplorer.nodeArgv": ["--import=tsx", "--conditions=typedoc-ts"],
+    "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
+    "mochaExplorer.env": {
+        "TSX_TSCONFIG_PATH": ".config/tsconfig.mocha.json"
+    },
 
     "eslint.workingDirectories": [".", "./example"],
-    "mochaExplorer.configFile": ".config/mocha.test-explorer.json",
     "cSpell.ignoreRegExpList": [
         // Ignore usernames in the Thanks sections of the changelog
         "/^- +@[A-Z0-9_-]+/igm",

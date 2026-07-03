@@ -1,14 +1,13 @@
 import ts from "typescript";
 
-import { DeclarationReflection, ReflectionKind, SignatureReflection } from "../../models/index.js";
+import { DeclarationReflection, ReflectionKind, SignatureReflection, SourceReference } from "#models";
+import { getCommonDirectory, normalizePath, Option } from "#node-utils";
+import { relative } from "path";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
-import { getCommonDirectory, normalizePath, Option } from "../../utils/index.js";
-import { isNamedNode } from "../utils/nodes.js";
-import { relative } from "path";
-import { SourceReference } from "../../models/index.js";
 import { ConverterEvents } from "../converter-events.js";
 import type { Converter } from "../converter.js";
+import { isNamedNode } from "../utilities/nodes.js";
 
 /**
  * A handler that attaches source file information to reflections.
