@@ -35,31 +35,6 @@ jobs:
                     dist/index.js
                     dist/lib/models/index.js
                     dist/browser-utils.js
-    build-release:
-        runs-on: ubuntu-latest
-        name: Node 22 Release
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v5
-            - name: Set up Node
-              uses: actions/setup-node@v6.3.0
-              with:
-                  node-version: 22.4.1
-            - name: Set up pnpm
-              run: npm i -g pnpm@10
-            - name: Install
-              run: pnpm install
-            - name: Build
-              run: |
-                  node scripts/set_strict.js false
-                  pnpm run build
-            - name: Test
-              run: pnpm run test:full
-            # It would be nice to also run lint here, but the set_strict call above changes some types
-            # to loosen the requirements for plugin users. This results in some type assertions no longer
-            # being necessary which triggers errors here.
-            # - name: Lint
-            #   run: pnpm run lint
     build-windows:
         runs-on: windows-latest
         name: Node 18 Windows

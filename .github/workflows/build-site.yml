@@ -21,10 +21,8 @@ jobs:
               run: npm i -g pnpm@10
             - name: Install
               run: pnpm install
-            - name: Build
-              run: pnpm run build
             - name: Build Site
-              run: ./scripts/build_site.sh
+              run: node_modules/.bin/hereby build:site
             - name: Upload static files as artifact
               id: deployment
               uses: actions/upload-pages-artifact@0ca16172ca884f0a37117fed41734f29784cc980
