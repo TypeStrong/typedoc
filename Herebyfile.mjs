@@ -145,6 +145,7 @@ export const buildJs = task({
 
 export const buildBrowserTranslations = task({
     name: "build:browser-translations",
+    dependencies: [buildJs],
     run: () => execa("node", ["scripts/build_browser_translations.js"]),
 });
 
