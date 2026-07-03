@@ -33,7 +33,7 @@ jobs:
               with:
                   entry: |
                     dist/index.js
-                    dist/lib/models/index.js
+                    dist/models.js
                     dist/browser-utils.js
     build-windows:
         runs-on: windows-latest

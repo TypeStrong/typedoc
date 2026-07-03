@@ -2,8 +2,9 @@
 import esbuild from "esbuild";
 import { task } from "hereby";
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 import { copyFile, readFile, rm, writeFile } from "node:fs/promises";
-import { delimiter } from "node:path";
+import { delimiter, isAbsolute, join } from "node:path";
 
 /**
  * @param {string} cmd
@@ -11,12 +12,41 @@ import { delimiter } from "node:path";
  */
 function execa(cmd, args) {
     return new Promise((resolve, reject) => {
+        if (!isAbsolute(cmd)) {
+            const pathDirs = ["node_modules/.bin"].concat(process.env.PATH?.split(delimiter) || []);
+            if (process.platform === "win32") {
+                const extensionsToCheck = [""].concat(
+                    (process.env.PATHEXT || [".EXE", ".CMD", ".BAT", ".COM"].join(delimiter)).split(delimiter),
+                );
+                out: for (const dir of pathDirs) {
+                    for (const ext of extensionsToCheck) {
+                        if (existsSync(join(dir, cmd + ext))) {
+                            cmd = join(dir, cmd + ext);
+                            break out;
+                        }
+                    }
+                }
+            } else {
+                for (const dir of pathDirs) {
+                    if (existsSync(join(dir, cmd))) {
+                        cmd = join(dir, cmd);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!existsSync(cmd)) {
+            throw new Error(`Failed to find ${cmd} in PATH or ${cmd} does not exist`);
+        }
+
         const cp = spawn(cmd, args, {
             stdio: "inherit",
             env: {
                 ...process.env,
                 PATH: process.cwd() + "/node_modules/.bin" + delimiter + process.env.PATH,
             },
+            windowsHide: true,
         });
         cp.once("close", code => {
             if (code === 0 || code == null) {
