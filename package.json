@@ -43,7 +43,7 @@
     "dependencies": {
         "@gerrit0/mini-shiki": "^3.23.0",
         "lunr": "^2.3.9",
-        "markdown-it": "^14.2.0",
+        "markdown-it": "^14.3.0",
         "minimatch": "^10.2.5",
         "yaml": "^2.9.0"
     },
@@ -55,18 +55,18 @@
         "@types/lunr": "^2.3.7",
         "@types/markdown-it": "^14.1.2",
         "@types/mocha": "^10.0.10",
-        "@types/node": "18",
+        "@types/node": "^18.19.130",
         "c8": "^11.0.0",
-        "dprint": "^0.54.0",
+        "dprint": "^0.55.1",
         "esbuild": "^0.28.1",
-        "eslint": "^10.5.0",
+        "eslint": "^10.6.0",
         "hereby": "^1.15.1",
-        "mocha": "^11.7.6",
-        "puppeteer": "^25.1.0",
-        "semver": "^7.8.4",
-        "tsx": "4.22.4",
+        "mocha": "12.0.0-rc.1",
+        "puppeteer": "^25.3.0",
+        "semver": "^7.8.5",
+        "tsx": "4.23.0",
         "typescript": "6.0.3",
-        "typescript-eslint": "^8.61.1"
+        "typescript-eslint": "^8.62.1"
     },
     "files": [
         "/bin",
