@@ -43,7 +43,7 @@ function execa(cmd, args) {
             stdio: "inherit",
             // Windows is special. We need to allow shell commands here to run tsc
             // as on Windows we get a tsc.cmd file
-            shell: process.platform === "win32"
+            shell: process.platform === "win32",
         });
         cp.once("close", code => {
             if (code === 0 || code == null) {
