@@ -105,6 +105,7 @@ function createJsBuild() {
         logLevel: "info",
         format: "esm",
         target: "node18",
+        sourcemap: true,
         external: [
             "typedoc",
 

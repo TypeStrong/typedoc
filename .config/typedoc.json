@@ -28,6 +28,8 @@
         }
     ],
 
+    "tsconfig": "../src/lib",
+
     "excludeExternals": true,
     "externalPattern": ["**/node_modules/**", "../src/lib/types/**"],
     "excludeInternal": false,
