@@ -4,7 +4,7 @@ import { task } from "hereby";
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { copyFile, readFile, rm, writeFile } from "node:fs/promises";
-import { delimiter, isAbsolute, join } from "node:path";
+import { delimiter, isAbsolute, join, resolve } from "node:path";
 
 /**
  * @param {string} cmd
@@ -41,11 +41,9 @@ function execa(cmd, args) {
 
         const cp = spawn(cmd, args, {
             stdio: "inherit",
-            env: {
-                ...process.env,
-                PATH: process.cwd() + "/node_modules/.bin" + delimiter + process.env.PATH,
-            },
-            windowsHide: true,
+            // Windows is special. We need to allow shell commands here to run tsc
+            // as on Windows we get a tsc.cmd file
+            shell: process.platform === "win32"
         });
         cp.once("close", code => {
             if (code === 0 || code == null) {

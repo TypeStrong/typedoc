@@ -4,7 +4,7 @@ import { join } from "path";
 import translatable from "../lib/internationalization/locales/en.js";
 import { i18n, setDifference } from "#utils";
 import { blockTags, inlineTags, modifierTags } from "../lib/utils/options/tsdoc-defaults.js";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { Internationalization } from "../lib/internationalization/internationalization.js";
 
 const allValidTranslationKeys = Object.keys(translatable);
@@ -80,7 +80,7 @@ describe("Locales", () => {
 
     for (const locale of readdirSync(localeRoot)) {
         it(`${locale} defines a valid locale`, async () => {
-            const translations = (await import(join(localeRoot, locale))).default as Record<
+            const translations = (await import(pathToFileURL(join(localeRoot, locale)).toString())).default as Record<
                 string,
                 string
             >;
