@@ -91,13 +91,6 @@ function createJsBuild() {
             "src/lib/browser-utils.ts",
             "src/lib/index.ts",
             "src/lib/cli.ts",
-
-            { in: "src/lib/internationalization/locales/de.ts", out: "locale/de" },
-            { in: "src/lib/internationalization/locales/en.ts", out: "locale/en" },
-            { in: "src/lib/internationalization/locales/fr.ts", out: "locale/fr" },
-            { in: "src/lib/internationalization/locales/ja.ts", out: "locale/ja" },
-            { in: "src/lib/internationalization/locales/ko.ts", out: "locale/ko" },
-            { in: "src/lib/internationalization/locales/zh.ts", out: "locale/zh" },
         ],
         platform: "node",
         bundle: true,
@@ -105,7 +98,6 @@ function createJsBuild() {
         logLevel: "info",
         format: "esm",
         target: "node18",
-        sourcemap: true,
         external: [
             "typedoc",
 

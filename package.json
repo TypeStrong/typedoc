@@ -74,6 +74,7 @@
         "/dist",
         "!/dist/tmp",
         "!/dist/.tsbuildinfo",
+        "!/dist/types/.tsbuildinfo",
         "!/dist/test",
         "/LICENSE",
         "/static",
