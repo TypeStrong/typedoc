@@ -9,50 +9,50 @@ importers:
   .:
     dependencies:
       '@types/lodash':
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.14
+        specifier: ^19.2.17
+        version: 19.2.17
       '@types/react-dom':
         specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
+        version: 19.2.3(@types/react@19.2.17)
       lodash:
-        specifier: ^4.17.23
-        version: 4.17.23
+        specifier: ^4.18.1
+        version: 4.18.1
       react:
-        specifier: ^19.2.4
-        version: 19.2.4
+        specifier: ^19.2.7
+        version: 19.2.7
       react-dom:
-        specifier: ^19.2.4
-        version: 19.2.4(react@19.2.4)
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
 
 packages:
 
-  '@types/lodash@4.17.23':
-    resolution: {integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==}
+  '@types/lodash@4.17.24':
+    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': ^19.2.0
 
-  '@types/react@19.2.14':
-    resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
+  '@types/react@19.2.17':
+    resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
-  react-dom@19.2.4:
-    resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
+  react-dom@19.2.7:
+    resolution: {integrity: sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ==}
     peerDependencies:
-      react: ^19.2.4
+      react: ^19.2.7
 
-  react@19.2.4:
-    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
+  react@19.2.7:
+    resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
     engines: {node: '>=0.10.0'}
 
   scheduler@0.27.0:
@@ -60,25 +60,25 @@ packages:
 
 snapshots:
 
-  '@types/lodash@4.17.23': {}
+  '@types/lodash@4.17.24': {}
 
-  '@types/react-dom@19.2.3(@types/react@19.2.14)':
+  '@types/react-dom@19.2.3(@types/react@19.2.17)':
     dependencies:
-      '@types/react': 19.2.14
+      '@types/react': 19.2.17
 
-  '@types/react@19.2.14':
+  '@types/react@19.2.17':
     dependencies:
       csstype: 3.2.3
 
   csstype@3.2.3: {}
 
-  lodash@4.17.23: {}
+  lodash@4.18.1: {}
 
-  react-dom@19.2.4(react@19.2.4):
+  react-dom@19.2.7(react@19.2.7):
     dependencies:
-      react: 19.2.4
+      react: 19.2.7
       scheduler: 0.27.0
 
-  react@19.2.4: {}
+  react@19.2.7: {}
 
   scheduler@0.27.0: {}
