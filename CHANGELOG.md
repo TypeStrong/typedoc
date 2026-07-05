@@ -4,6 +4,8 @@ title: Changelog
 
 ## Unreleased
 
+## v0.28.20 (2026-07-05)
+
 ### Features
 
 - Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#classes`), #3029.
