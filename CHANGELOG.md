@@ -6,7 +6,7 @@ title: Changelog
 
 ### Features
 
-- Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#runtime-guards`), #3029.
+- Group/category section headings (`<h2>`) in the default theme now include an `id` attribute so they can be linked to via fragment identifiers (e.g. `modules.html#classes`), #3029.
 - Added a `@reexport` modifier tag to have TypeDoc convert variable/type references as a re-export instead of a new symbol, #3096.
 - API: Introduced `generateOutputsBegin` and `generateOutputsEnd` events on `Application` for plugin use.
 
