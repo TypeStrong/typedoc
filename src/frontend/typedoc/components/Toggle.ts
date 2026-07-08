@@ -65,7 +65,15 @@ export class Toggle extends Component {
                         href = href.substring(0, href.indexOf("#"));
                     }
                     if (link.href.substring(0, href.length) == href) {
-                        setTimeout(() => this.setActive(false), 250);
+                        const hash = link.hash;
+                        setTimeout(() => {
+                            this.setActive(false);
+                            if (hash) {
+                                document
+                                    .getElementById(decodeURIComponent(hash.slice(1)))
+                                    ?.scrollIntoView();
+                            }
+                        }, 250);
                     }
                 }
             }
