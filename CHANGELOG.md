@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Bug Fixes
+
+- Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+
 ## v0.28.20 (2026-07-05)
 
 ### Features
