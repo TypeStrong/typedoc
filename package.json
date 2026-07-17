@@ -19,7 +19,7 @@
             "default": "./dist/models.js"
         },
         "./browser": {
-            "typedoc-ts": "./src/lib/browser-utils/index.ts",
+            "typedoc-ts": "./src/lib/browser-utils.ts",
             "types": "./dist/types/browser-utils.d.ts",
             "default": "./dist/browser-utils.js"
         },
