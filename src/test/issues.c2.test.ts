@@ -2316,6 +2316,35 @@ describe("Issue Tests", () => {
         equal(m.type?.toString(), "Content extends object ? Content : Other");
     });
 
+    it("#3099 removes implementation links to hidden interfaces", () => {
+        app.options.setValue("excludeInternal", true);
+        const project = convert();
+        const manager = query(project, "Manager");
+        const adjust = query(project, "Manager.adjust");
+
+        equal(manager.implementedTypes, undefined, "class implements link should be removed");
+        equal(adjust.implementationOf, undefined, "member implementationOf should be removed");
+        equal(
+            querySig(project, "Manager.adjust").implementationOf,
+            undefined,
+            "signature implementationOf should be removed",
+        );
+    });
+
+    it("#3099 removes implementation links to @hidden interfaces", () => {
+        const project = convert();
+        const manager = query(project, "HiddenManager");
+        const grow = query(project, "HiddenManager.grow");
+
+        equal(manager.implementedTypes, undefined, "class implements link should be removed");
+        equal(grow.implementationOf, undefined, "member implementationOf should be removed");
+        equal(
+            querySig(project, "HiddenManager.grow").implementationOf,
+            undefined,
+            "signature implementationOf should be removed",
+        );
+    });
+
     it("#3111 correctly handles @hidden on a parameter property", () => {
         const project = convert();
         const C = query(project, "C");
