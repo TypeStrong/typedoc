@@ -213,10 +213,20 @@ export class ImplementsPlugin extends ConverterComponent {
     private cleanUpImplements(
         project: ProjectReflection,
         reflection: DeclarationReflection,
+        removedImplementations: Set<string>,
     ) {
         // #3052, the same problem as #2978 applies for implements
         for (const child of reflection.children || []) {
-            if (child.implementationOf && !isValidRef(child.implementationOf)) {
+            if (
+                child.implementationOf &&
+                shouldRemoveImplementationLink(
+                    project,
+                    child.implementationOf,
+                    removedImplementations,
+                )
+            ) {
+                delete child.implementationOf;
+            } else if (child.implementationOf && !isValidRef(child.implementationOf)) {
                 child.implementationOf = ReferenceType.createBrokenReference(
                     child.implementationOf.name,
                     project,
@@ -225,7 +235,19 @@ export class ImplementsPlugin extends ConverterComponent {
             }
 
             for (const childSig of child.getAllSignatures()) {
-                if (childSig.implementationOf && !isValidRef(childSig.implementationOf)) {
+                if (
+                    childSig.implementationOf &&
+                    shouldRemoveImplementationLink(
+                        project,
+                        childSig.implementationOf,
+                        removedImplementations,
+                    )
+                ) {
+                    delete childSig.implementationOf;
+                } else if (
+                    childSig.implementationOf &&
+                    !isValidRef(childSig.implementationOf)
+                ) {
                     childSig.implementationOf = ReferenceType.createBrokenReference(
                         childSig.implementationOf.name,
                         project,
@@ -312,12 +334,20 @@ export class ImplementsPlugin extends ConverterComponent {
             });
         }
 
+        const removedImplementations = new Set(
+            (reflection.implementedTypes ?? []).flatMap((type) =>
+                type instanceof ReferenceType &&
+                    shouldRemoveImplementationRef(project, type)
+                    ? [type.qualifiedName]
+                    : []
+            ),
+        );
+
         // Remove hidden classes/interfaces which we inherit from
         if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
             const notHiddenType = (t: SomeType) =>
                 !(t instanceof ReferenceType) ||
-                !t.symbolId ||
-                !project.symbolIdHasBeenRemoved(t.symbolId);
+                !shouldRemoveImplementationRef(project, t);
             reflection.implementedTypes = reflection.implementedTypes?.filter(notHiddenType);
             if (!reflection.implementedTypes?.length) delete reflection.implementedTypes;
             reflection.extendedTypes = reflection.extendedTypes?.filter(notHiddenType);
@@ -333,9 +363,11 @@ export class ImplementsPlugin extends ConverterComponent {
 
         if (
             reflection.kindOf(ReflectionKind.ClassOrInterface) &&
-            (reflection.extendedTypes || reflection.implementedTypes)
+            (reflection.extendedTypes ||
+                reflection.implementedTypes ||
+                removedImplementations.size)
         ) {
-            this.cleanUpImplements(project, reflection);
+            this.cleanUpImplements(project, reflection, removedImplementations);
         }
     }
 
@@ -710,5 +742,30 @@ function findMatchingMember(
 function isValidRef(ref: ReferenceType) {
     return !!ref.reflection?.parent?.kindOf(
         ReflectionKind.ClassOrInterface | ReflectionKind.Method | ReflectionKind.Constructor,
+    );
+}
+
+function shouldRemoveImplementationRef(
+    project: ProjectReflection,
+    ref: ReferenceType,
+) {
+    return (
+        (ref.symbolId && project.symbolIdHasBeenRemoved(ref.symbolId)) ||
+        (!ref.reflection && !ref.symbolId && !ref.isIntentionallyBroken())
+    );
+}
+
+function shouldRemoveImplementationLink(
+    project: ProjectReflection,
+    ref: ReferenceType,
+    removedImplementations: Set<string>,
+) {
+    return (
+        shouldRemoveImplementationRef(project, ref) ||
+        Array.from(removedImplementations).some(
+            (name) =>
+                ref.qualifiedName === name ||
+                ref.qualifiedName.startsWith(`${name}.`),
+        )
     );
 }
