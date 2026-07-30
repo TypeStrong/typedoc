@@ -621,6 +621,83 @@ describe("Formatter", () => {
         );
     });
 
+    it("Does not quote non-ASCII member names which are valid identifiers", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        for (const name of ["café", "Größe", "日本語", "имя", "zw\u200Cnj"]) {
+            const child = new DeclarationReflection(
+                name,
+                ReflectionKind.Property,
+                refl,
+            );
+            child.type = new IntrinsicType("string");
+            refl.addChild(child);
+        }
+
+        const type = new ReflectionType(refl);
+        const text = renderElementToText(renderType(type));
+        equal(
+            text,
+            "{ café: string; Größe: string; 日本語: string; имя: string; zw\u200Cnj: string }",
+        );
+
+        const textWrap = renderElementToText(renderType(type, 0));
+        equal(
+            textWrap,
+            dedent(`
+                {
+                    café: string;
+                    Größe: string;
+                    日本語: string;
+                    имя: string;
+                    zw\u200Cnj: string;
+                }
+            `),
+        );
+    });
+
+    it("Quotes member names which are not valid identifiers", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        for (const name of ["[iterator]", "0", "a-b", "with space"]) {
+            const child = new DeclarationReflection(
+                name,
+                ReflectionKind.Property,
+                refl,
+            );
+            child.type = new IntrinsicType("string");
+            refl.addChild(child);
+        }
+
+        const type = new ReflectionType(refl);
+        const text = renderElementToText(renderType(type));
+        equal(
+            text,
+            `{ "[iterator]": string; "0": string; "a-b": string; "with space": string }`,
+        );
+    });
+
+    it("Uses TypeScript's identifier table", () => {
+        const refl = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+        );
+        const child = new DeclarationReflection(
+            "\u088F",
+            ReflectionKind.Property,
+            refl,
+        );
+        child.type = new IntrinsicType("string");
+        refl.addChild(child);
+
+        const type = new ReflectionType(refl);
+        equal(renderElementToText(renderType(type)), `{ "\u088F": string }`);
+    });
+
     it("Handles rest types", () => {
         const type = new RestType(new LiteralType("x"));
         const text = renderElementToText(renderType(type));

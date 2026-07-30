@@ -16,11 +16,34 @@ import {
 } from "#models";
 import { aggregate, assertNever, JSX } from "#utils";
 import { ok } from "assert";
+import ts from "typescript";
 import type { Router } from "./index.js";
 import { getKindClass, getUniquePath, stringify } from "./themes/lib.js";
 
 // Non breaking space
 const INDENT = "\u00A0\u00A0\u00A0\u00A0";
+
+function isIdentifierText(name: string): boolean {
+    let codePoint = name.codePointAt(0);
+    if (
+        codePoint === undefined ||
+        !ts.isIdentifierStart(codePoint, ts.ScriptTarget.Latest)
+    ) {
+        return false;
+    }
+
+    for (
+        let offset = codePoint > 0xffff ? 2 : 1;
+        offset < name.length;
+        offset += codePoint > 0xffff ? 2 : 1
+    ) {
+        codePoint = name.codePointAt(offset)!;
+        if (!ts.isIdentifierPart(codePoint, ts.ScriptTarget.Latest)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 export type FormatterNode =
     | { type: "text"; content: string }
@@ -1143,7 +1166,7 @@ export class FormattedCodeBuilder {
         reflection: Reflection,
         options: { topLevelLinks?: boolean },
     ): FormatterNode {
-        const entityName = /^[A-Z_$][\w$]*$/i.test(reflection.name)
+        const entityName = isIdentifierText(reflection.name)
             ? reflection.name
             : JSON.stringify(reflection.name);
 

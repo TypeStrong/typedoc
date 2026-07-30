@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+- Member names containing non-ASCII characters are no longer rendered as quoted strings in type signatures if they are valid identifiers.
 
 ## v0.28.20 (2026-07-05)
 
