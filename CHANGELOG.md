@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- Comment tag type annotations are now represented by TypeDoc type models, and linked `@throws` types are rendered in a grouped Throws section, #3097.
+
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.

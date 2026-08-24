@@ -377,6 +377,7 @@ export class Context {
             checker: this.checker,
             files: this.project.files,
             createSymbolId: (s, d) => this.createSymbolId(s, d),
+            convertType: (node) => this.converter.convertType(this, node),
         };
     }
 

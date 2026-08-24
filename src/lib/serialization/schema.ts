@@ -370,8 +370,9 @@ export interface Comment extends Partial<S<M.Comment, "blockTags" | "label">> {
 }
 
 /** @category Comments */
-export interface CommentTag extends S<M.CommentTag, "tag" | "name" | "typeAnnotation"> {
+export interface CommentTag extends S<M.CommentTag, "tag" | "name"> {
     content: CommentDisplayPart[];
+    typeAnnotation?: SomeType;
 }
 
 /**

@@ -4,6 +4,7 @@ import { ReflectionSymbolId } from "./ReflectionSymbolId.js";
 
 import type { Deserializer, JSONOutput, Serializer } from "#serialization";
 import type { FileId } from "./FileRegistry.js";
+import { type SomeType, UnknownType } from "./types.js";
 
 /**
  * Represents a parsed piece of a comment.
@@ -89,10 +90,10 @@ export class CommentTag {
     name?: string;
 
     /**
-     * Optional type annotation associated with this tag. TypeDoc will remove type annotations unless explicitly
-     * requested by the user with the `preservedTypeAnnotationTags` option.
+     * Optional type annotation associated with this tag. TypeDoc will remove type annotations unless the tag is
+     * included in the `preservedTypeAnnotationTags` option, which includes `@throws` by default.
      */
-    typeAnnotation?: string;
+    typeAnnotation?: SomeType;
 
     /**
      * The actual body text of this tag.
@@ -123,6 +124,7 @@ export class CommentTag {
         return (
             this.tag === other.tag &&
             this.name === other.name &&
+            this.typeAnnotation?.toString() === other.typeAnnotation?.toString() &&
             Comment.combineDisplayParts(this.content) ===
                 Comment.combineDisplayParts(other.content)
         );
@@ -142,19 +144,30 @@ export class CommentTag {
         return tag;
     }
 
-    toObject(): JSONOutput.CommentTag {
+    toObject(serializer: Serializer): JSONOutput.CommentTag {
         return {
             tag: this.tag,
             name: this.name,
             content: Comment.serializeDisplayParts(this.content),
-            typeAnnotation: this.typeAnnotation,
+            typeAnnotation: serializer.toObject(this.typeAnnotation),
         };
     }
 
     fromObject(de: Deserializer, obj: JSONOutput.CommentTag) {
         // tag already set by Comment.fromObject
         this.name = obj.name;
-        this.typeAnnotation = obj.typeAnnotation;
+        const typeAnnotation = obj.typeAnnotation as
+            | JSONOutput.SomeType
+            | string
+            | undefined;
+        this.typeAnnotation = typeof typeAnnotation === "string"
+            ? new UnknownType(
+                typeAnnotation.slice(
+                    typeAnnotation.startsWith("{") ? 1 : 0,
+                    typeAnnotation.endsWith("}") ? -1 : undefined,
+                ).trim(),
+            )
+            : de.reviveType(typeAnnotation);
         this.content = Comment.deserializeDisplayParts(de, obj.content);
     }
 }

@@ -1,4 +1,12 @@
-import { Comment, type CommentDisplayPart, CommentTag, FileRegistry, type InlineTagDisplayPart } from "#models";
+import {
+    Comment,
+    type CommentDisplayPart,
+    CommentTag,
+    FileRegistry,
+    type InlineTagDisplayPart,
+    type SomeType,
+    UnknownType,
+} from "#models";
 import { hasDeclarationFileExtension, nicePath } from "#node-utils";
 import type { MinimalSourceFile, TagString } from "#utils";
 import { assertNever, i18n, type Logger, type NormalizedPath, removeIf, type TranslatedString } from "#utils";
@@ -78,7 +86,15 @@ export function parseComment(
 
     while (!lexer.done()) {
         comment.blockTags.push(
-            blockTag(comment, lexer, context.config, warningImpl, validationWarningImpl, context.files),
+            blockTag(
+                comment,
+                lexer,
+                context.config,
+                warningImpl,
+                validationWarningImpl,
+                context.files,
+                context.convertType,
+            ),
         );
     }
 
@@ -371,6 +387,7 @@ function blockTag(
     warning: (msg: TranslatedString, token: Token) => void,
     validationWarning: (msg: TranslatedString, token: Token) => void,
     files: FileRegistry,
+    convertType: CommentContextOptionalChecker["convertType"],
 ): CommentTag {
     const blockTag = lexer.take();
     ok(
@@ -389,7 +406,7 @@ function blockTag(
         return exampleBlock(comment, lexer, config, warning, validationWarning, files);
     }
 
-    let typeAnnotation: string | undefined;
+    let typeAnnotation: SomeType | undefined;
     if (
         !lexer.done() &&
         config.preservedTypeAnnotationTags.has(tagName)
@@ -398,7 +415,17 @@ function blockTag(
             lexer.take();
         }
         if (lexer.peek().kind === TokenSyntaxKind.TypeAnnotation) {
-            typeAnnotation = lexer.take().text;
+            const token = lexer.take();
+            if (token.typeAnnotationNode && convertType) {
+                try {
+                    typeAnnotation = convertType(token.typeAnnotationNode);
+                } catch {
+                    // JSDoc permits references to types which TypeScript cannot resolve.
+                }
+            }
+            typeAnnotation ??= new UnknownType(
+                token.text.slice(1, token.text.endsWith("}") ? -1 : undefined).trim(),
+            );
         }
     }
 

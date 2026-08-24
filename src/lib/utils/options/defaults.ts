@@ -51,7 +51,7 @@ export const cascadedModifierTags: readonly TagString[] = [
     "@experimental",
 ];
 
-export const preservedTypeAnnotationTags: readonly TagString[] = [];
+export const preservedTypeAnnotationTags: readonly TagString[] = ["@throws"];
 
 export const notRenderedTags: readonly TagString[] = [
     "@showCategories",

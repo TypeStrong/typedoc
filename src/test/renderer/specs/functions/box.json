@@ -186,6 +186,49 @@
                                             ]
                                         },
                                         {
+                                            "div.tsd-throws": [
+                                                {
+                                                    "h4.tsd-throws-title": "Throws"
+                                                },
+                                                {
+                                                    "ul.tsd-throws-list": [
+                                                        {
+                                                            "li": [
+                                                                {
+                                                                    "span": {
+                                                                        "span.tsd-signature-type": "TypeError"
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "div.tsd-comment.tsd-typography": {
+                                                                        "p": "When the item cannot be boxed."
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "li": [
+                                                                {
+                                                                    "span": {
+                                                                        "tag": "a.tsd-signature-type.tsd-kind-class",
+                                                                        "props": {
+                                                                            "href": "../classes/RenderClass.json"
+                                                                        },
+                                                                        "children": "RenderClass"
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "div.tsd-comment.tsd-typography": {
+                                                                        "p": "When rendering fails."
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
                                             "aside.tsd-sources": {
                                                 "ul": {
                                                     "li": [
@@ -195,7 +238,7 @@
                                                             "props": {
                                                                 "href": "index.ts"
                                                             },
-                                                            "children": "index.ts:113"
+                                                            "children": "index.ts:115"
                                                         }
                                                     ]
                                                 }
