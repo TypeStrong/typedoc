@@ -109,6 +109,8 @@ export type UnionComments =
  * Signature comment
  * #2921 {@link !Promise}
  * @param item Item comment
+ * @throws {TypeError} When the item cannot be boxed.
+ * @throws {RenderClass} When rendering fails.
  */
 export function box<T>(item: T) {
     return { box: item };

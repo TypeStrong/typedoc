@@ -1,4 +1,4 @@
-import type { FileRegistry } from "#models";
+import type { FileRegistry, SomeType } from "#models";
 import { Comment, type CommentDisplayPart, ReflectionKind } from "#models";
 import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "#node-utils";
 import { assertNever, i18n, Logger, setUnion } from "#utils";
@@ -33,6 +33,7 @@ export interface CommentContext {
     checker: ts.TypeChecker;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
+    convertType: (node: ts.TypeNode) => SomeType;
 }
 
 export interface CommentContextOptionalChecker {
@@ -41,6 +42,7 @@ export interface CommentContextOptionalChecker {
     checker?: ts.TypeChecker | undefined;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
+    convertType?: (node: ts.TypeNode) => SomeType;
 }
 
 const jsDocCommentKinds = [

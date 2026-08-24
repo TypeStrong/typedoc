@@ -213,12 +213,16 @@ package has been deserialized from JSON in packages mode.
 ```json
 // typedoc.json
 {
-    "preservedTypeAnnotationTags": ["@fires"]
+    "preservedTypeAnnotationTags": ["@throws", "@fires"]
 }
 ```
 
 Specify block tags whose type annotations should be preserved by TypeDoc's parser,
 leading to their content being included in the rendered documentation.
+
+The `@throws` tag is included by default. Its type annotation is rendered as a
+linked TypeDoc type when TypeScript can resolve it. If this option is overridden,
+include `@throws` in the configured list to retain that behavior.
 
 ## externalSymbolLinkMappings
 

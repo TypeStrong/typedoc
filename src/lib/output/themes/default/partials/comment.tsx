@@ -61,9 +61,19 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
     const beforeTags = context.hook("comment.beforeTags", context, props.comment, props);
     const afterTags = context.hook("comment.afterTags", context, props.comment, props);
 
-    const tags = props.kindOf(ReflectionKind.SomeSignature)
+    const isSignature = props.kindOf(ReflectionKind.SomeSignature);
+    const throwsTags = isSignature
         ? props.comment.blockTags.filter(
-            (tag) => tag.tag !== "@returns" && !tag.skipRendering && !skippedTags.includes(tag.tag),
+            (tag) => tag.tag === "@throws" && !tag.skipRendering && !skippedTags.includes(tag.tag),
+        )
+        : [];
+    const tags = isSignature
+        ? props.comment.blockTags.filter(
+            (tag) =>
+                tag.tag !== "@returns" &&
+                tag.tag !== "@throws" &&
+                !tag.skipRendering &&
+                !skippedTags.includes(tag.tag),
         )
         : props.comment.blockTags.filter((tag) => !tag.skipRendering && !skippedTags.includes(tag.tag));
 
@@ -83,7 +93,9 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
                         {name}
                         {anchorIcon(context, anchor)}
                     </h4>
-                    {item.typeAnnotation && <span class="tsd-type-annotation">{item.typeAnnotation}</span>}
+                    {item.typeAnnotation && (
+                        <span class="tsd-type-annotation">{context.type(item.typeAnnotation)}</span>
+                    )}
                     <JSX.Raw html={context.markdown(item.content)} />
                 </div>
             </>
@@ -93,6 +105,19 @@ export function commentTags(context: DefaultThemeRenderContext, props: Reflectio
     return (
         <>
             {beforeTags}
+            {throwsTags.length > 0 && (
+                <div class="tsd-throws">
+                    <h4 class="tsd-throws-title">{translateTagName("@throws")}</h4>
+                    <ul class="tsd-throws-list">
+                        {throwsTags.map((item) => (
+                            <li>
+                                {item.typeAnnotation && <span>{context.type(item.typeAnnotation)}</span>}
+                                {context.displayParts(item.content)}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
             {tagsContents.length > 0 && (
                 <div class="tsd-comment tsd-typography">
                     {tagsContents}

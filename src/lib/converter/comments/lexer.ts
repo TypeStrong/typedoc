@@ -1,4 +1,5 @@
 import type { ReflectionSymbolId } from "#models";
+import type ts from "typescript";
 
 export enum TokenSyntaxKind {
     Text = "text",
@@ -15,6 +16,9 @@ export interface Token {
     text: string;
 
     pos: number;
+
+    // This comes from the compiler for preserved JSDoc type annotations.
+    typeAnnotationNode?: ts.TypeNode;
 
     // These come from the compiler for use if useTsLinkResolution is on
     tsLinkTarget?: ReflectionSymbolId;

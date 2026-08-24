@@ -21,6 +21,7 @@ export function* lexBlockComment(
             pos,
             end,
             getLinkTags(jsDoc),
+            getTypeAnnotations(jsDoc),
             checker,
             createSymbolId,
         )
@@ -44,6 +45,21 @@ export function* lexBlockComment(
         yield textToken;
     }
     return;
+}
+
+function getTypeAnnotations(jsDoc: ts.JSDoc | undefined) {
+    const result = new Map<number, ts.TypeNode>();
+
+    for (const tag of jsDoc?.tags || []) {
+        const expression = (tag as ts.JSDocTag & {
+            typeExpression?: ts.Node;
+        }).typeExpression;
+        if (expression && ts.isJSDocTypeExpression(expression)) {
+            result.set(expression.pos, expression.type);
+        }
+    }
+
+    return result;
 }
 
 function getLinkTags(
@@ -85,6 +101,7 @@ function* lexBlockComment2(
     linkTags: ReadonlyArray<
         ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain
     >,
+    typeAnnotations: ReadonlyMap<number, ts.TypeNode>,
     checker: ts.TypeChecker | undefined,
     createSymbolId: Context["createSymbolId"],
 ): Generator<Token, undefined, undefined> {
@@ -374,11 +391,20 @@ function* lexBlockComment2(
         const start = pos;
         pos += size;
 
-        return {
+        const token: Token = {
             kind,
             text: file.substring(start, pos),
             pos: start,
         };
+
+        if (kind === TokenSyntaxKind.TypeAnnotation) {
+            const node = typeAnnotations.get(start);
+            if (node) {
+                token.typeAnnotationNode = node;
+            }
+        }
+
+        return token;
     }
 
     function skipIndent(pos: number) {

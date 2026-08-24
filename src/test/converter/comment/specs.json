@@ -70,7 +70,10 @@
                             {
                                 "tag": "@gh3020",
                                 "content": [],
-                                "typeAnnotation": "{type annotation}"
+                                "typeAnnotation": {
+                                    "type": "unknown",
+                                    "name": "type annotation"
+                                }
                             }
                         ]
                     },

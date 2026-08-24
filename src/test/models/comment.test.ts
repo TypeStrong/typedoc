@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
-import { Comment, type CommentDisplayPart, CommentTag } from "../../lib/index.js";
+import { Comment, type CommentDisplayPart, CommentTag, UnknownType } from "../../lib/index.js";
 
 describe("Comment.similarTo", () => {
     it("Checks for similar summaries", () => {
@@ -30,6 +30,17 @@ describe("Comment.similarTo", () => {
         equal(a.similarTo(c), false);
         equal(a.similarTo(d), false);
         equal(a.similarTo(e), false);
+    });
+
+    it("Checks block tag type annotations", () => {
+        const a = new CommentTag("@throws", []);
+        const b = new CommentTag("@throws", []);
+        a.typeAnnotation = new UnknownType("TypeError");
+        b.typeAnnotation = new UnknownType("RangeError");
+
+        equal(a.similarTo(b), false);
+        b.typeAnnotation = new UnknownType("TypeError");
+        equal(a.similarTo(b), true);
     });
 });
 

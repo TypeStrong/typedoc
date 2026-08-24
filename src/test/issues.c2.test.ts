@@ -3,6 +3,7 @@ import {
     Comment,
     CommentTag,
     DeclarationReflection,
+    FileRegistry,
     IntrinsicType,
     LiteralType,
     type ProjectReflection,
@@ -2246,7 +2247,49 @@ describe("Issue Tests", () => {
 
         equal(btn.comment?.blockTags.length, 1);
         equal(btn.comment.blockTags[0].tag, "@fires");
-        equal(btn.comment.blockTags[0].typeAnnotation, "{CustomEvent<{id: string, source: Element}>}");
+        equal(btn.comment.blockTags[0].typeAnnotation?.type, "unknown");
+        equal(btn.comment.blockTags[0].typeAnnotation?.toString(), "CustomEvent<{id: string, source: Element}>");
+    });
+
+    it("#3097 converts throws annotations to linkable types", () => {
+        const project = convert();
+        const sig = querySig(project, "throwsExample");
+        const tags = sig.comment?.getTags("@throws") || [];
+
+        equal(tags.map((tag) => tag.typeAnnotation?.toString()), [
+            "TypeError",
+            "CustomExportedError",
+            "MissingError",
+        ]);
+        equal(tags[1].typeAnnotation?.type, "reference");
+        if (tags[1].typeAnnotation?.type === "reference") {
+            equal(tags[1].typeAnnotation.reflection, query(project, "CustomExportedError"));
+        }
+        equal(tags[2].typeAnnotation?.type, "reference");
+        if (tags[2].typeAnnotation?.type === "reference") {
+            equal(tags[2].typeAnnotation.reflection, undefined);
+        }
+
+        const projectRoot = normalizePath(TYPEDOC_ROOT);
+        const serialized = app.serializer.projectToObject(project, projectRoot);
+        const revived = app.deserializer.reviveProject(project.name, serialized, {
+            projectRoot,
+            registry: new FileRegistry(),
+        });
+        const revivedTags = querySig(revived, "throwsExample").comment?.getTags("@throws") || [];
+        equal(revivedTags.map((tag) => tag.typeAnnotation?.toString()), [
+            "TypeError",
+            "CustomExportedError",
+            "MissingError",
+        ]);
+        equal(revivedTags[1].typeAnnotation?.type, "reference");
+        if (revivedTags[1].typeAnnotation?.type === "reference") {
+            equal(revivedTags[1].typeAnnotation.reflection, query(revived, "CustomExportedError"));
+        }
+        equal(revivedTags[2].typeAnnotation?.type, "reference");
+        if (revivedTags[2].typeAnnotation?.type === "reference") {
+            equal(revivedTags[2].typeAnnotation.reflection, undefined);
+        }
     });
 
     it("#3024 places null and undefined last in unions converted from types", () => {
