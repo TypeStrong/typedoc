@@ -220,7 +220,8 @@ export class GitRepository implements Repository {
  * In order words, it is not safe to assume that just because a file is within
  * the `/project` directory, that it belongs to repo `A`. As calling git is
  * expensive (~20-300ms depending on the machine, antivirus, etc.) we check for
- * `.git` folders manually, and only call git if one is found.
+ * `.git` folders and files (for `git workspace`) manually,
+ * and only call git if one is found.
  *
  * Symlinked files have the potential to further complicate this. If TypeScript's
  * `preserveSymlinks` option is on, then this may be passed the path to a symlinked
@@ -256,7 +257,7 @@ export class RepositoryManager {
                 checkedDirs.add(dir);
                 try {
                     const gitStats = await stat(join(dir, ".git"));
-                    return gitStats.isDirectory();
+                    return gitStats.isDirectory() || gitStats.isFile();
                 } catch {
                     return false;
                 }

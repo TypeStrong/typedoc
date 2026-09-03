@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+- Support running within linked worktrees created by `git worktree`.
 
 ## v0.28.20 (2026-07-05)
 
