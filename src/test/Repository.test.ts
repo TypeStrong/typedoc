@@ -249,6 +249,7 @@ describe("RepositoryManager - no git", () => {});
 
 describe("RepositoryManager - git enabled", () => {
     let fix: Project;
+    let workdirFix: Project;
     const logger = new TestLogger();
     const manager = new RepositoryManager(
         "",
@@ -267,6 +268,7 @@ describe("RepositoryManager - git enabled", () => {
         }
 
         fix = tempdirProject();
+        workdirFix = tempdirProject();
         fix.addFile("root.txt");
         fix.addFile(".gitignore", "/ignored");
         fix.addSymlink("self", ".");
@@ -292,15 +294,18 @@ describe("RepositoryManager - git enabled", () => {
         }
         await createRepo(join(fix.cwd, "sub_repo"));
         await createRepo(fix.cwd);
+        await git(fix.cwd, "worktree", "add", workdirFix.cwd);
         await manager.initializeRepositoriesForDirs([
             fix.cwd,
             join(fix.cwd, "subfolder"),
             join(fix.cwd, "ignored"),
             join(fix.cwd, "sub_repo"),
+            workdirFix.cwd,
         ]);
     });
     after(() => {
         fix.rm();
+        workdirFix.rm();
     });
 
     afterEach(() => {
@@ -324,6 +329,26 @@ describe("RepositoryManager - git enabled", () => {
                     "sub_repo",
                     "subfolder/sub.txt",
                 ].map((f) => normalizePath(join(fix.cwd, f))),
+            ),
+        );
+    });
+
+    it("Handles a git worktree", () => {
+        const root = normalizePath(join(workdirFix.cwd, "root.txt"));
+        const repo = manager.getRepository(root);
+        ok(repo instanceof GitRepository);
+        equal(repo.getURL(root, 1), "link:root.txt");
+        equal(
+            repo.files,
+            new Set(
+                [
+                    ".gitignore",
+                    "root.txt",
+                    "self",
+                    "sub",
+                    "sub_repo",
+                    "subfolder/sub.txt",
+                ].map((f) => normalizePath(join(workdirFix.cwd, f))),
             ),
         );
     });
