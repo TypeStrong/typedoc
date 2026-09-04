@@ -547,6 +547,8 @@ export default {
     theme_menu: "Menu",
     theme_permalink: "Permalink",
     theme_folder: "Folder",
+    theme_search_pagination_previous: "Previous page of results",
+    theme_search_pagination_next: "Next page of results",
 
     // Used by the frontend JS
     // For the English translations only, these should also be added to
@@ -559,5 +561,6 @@ export default {
     theme_hierarchy_collapse: "Collapse",
     theme_search_index_not_available: "The search index is not available",
     theme_search_no_results_found_for_0: "No results found for {0}",
+    theme_search_page_0_of_1: "Page {0} of {1}",
     theme_search_placeholder: "Search the docs",
 } as const;

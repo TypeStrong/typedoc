@@ -4,6 +4,10 @@ title: Changelog
 
 ## Unreleased
 
+### Features
+
+- The search dialog now paginates results instead of silently truncating to the top 10, with buttons and `PageUp`/`PageDown` to move between pages, #3051.
+
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.

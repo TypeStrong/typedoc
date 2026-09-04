@@ -34,7 +34,28 @@ interface SearchState {
     base: string;
     data?: IData;
     index?: Index;
+    /** Full, sorted result set for the current query. */
+    results: Index.Result[];
+    /** Raw text of the query which produced {@link results}, used to highlight matches. */
+    searchText: string;
+    /** Zero-based index of the page of {@link results} currently displayed. */
+    page: number;
 }
+
+interface SearchElements {
+    trigger: HTMLButtonElement;
+    searchEl: HTMLDialogElement;
+    results: HTMLElement;
+    field: HTMLInputElement;
+    status: HTMLElement;
+    pagination: HTMLElement;
+    paginationStatus: HTMLElement;
+    paginationPrev: HTMLButtonElement;
+    paginationNext: HTMLButtonElement;
+}
+
+/** Number of results shown on a single page in the search dialog. */
+const PAGE_SIZE = 10;
 
 /** Counter to get unique IDs for options */
 let optionsIdCounter = 0;
@@ -75,16 +96,46 @@ export function initSearch() {
 
     const status = document.getElementById("tsd-search-status");
 
-    if (!(trigger && searchEl && field && results && searchScript && status)) {
+    const pagination = document.getElementById("tsd-search-pagination");
+    const paginationStatus = document.getElementById(
+        "tsd-search-pagination-status",
+    );
+    const paginationPrev = document.getElementById(
+        "tsd-search-pagination-prev",
+    ) as HTMLButtonElement | null;
+    const paginationNext = document.getElementById(
+        "tsd-search-pagination-next",
+    ) as HTMLButtonElement | null;
+
+    if (
+        !(trigger && searchEl && field && results && searchScript && status &&
+            pagination && paginationStatus && paginationPrev &&
+            paginationNext)
+    ) {
         throw new Error("Search controls missing");
     }
 
     const state: SearchState = {
         base: document.documentElement.dataset.base!,
+        results: [],
+        searchText: "",
+        page: 0,
     };
     if (!state.base.endsWith("/")) {
         state.base += "/";
     }
+
+    const elements: SearchElements = {
+        trigger,
+        searchEl,
+        results,
+        field,
+        status,
+        pagination,
+        paginationStatus,
+        paginationPrev,
+        paginationNext,
+    };
 
     searchScript.addEventListener("error", () => {
         const message = window.translations.search_index_not_available;
@@ -95,20 +146,11 @@ export function initSearch() {
     });
     updateIndex(state, status);
 
-    bindEvents({ trigger, searchEl, results, field, status }, state);
+    bindEvents(elements, state);
 }
 
-function bindEvents(
-    elements: {
-        trigger: HTMLButtonElement;
-        searchEl: HTMLDialogElement;
-        results: HTMLElement;
-        field: HTMLInputElement;
-        status: HTMLElement;
-    },
-    state: SearchState,
-) {
-    const { field, results, searchEl, status, trigger } = elements;
+function bindEvents(elements: SearchElements, state: SearchState) {
+    const { field, results, searchEl, trigger, paginationPrev, paginationNext } = elements;
 
     setUpModal(searchEl, { closeOnClick: true });
 
@@ -122,9 +164,23 @@ function bindEvents(
     field.addEventListener(
         "input",
         debounce(() => {
-            updateResults(results, field, status, state);
+            updateResults(elements, state);
         }, 200),
     );
+
+    function goToPage(dir: 1 | -1) {
+        const totalPages = Math.max(1, Math.ceil(state.results.length / PAGE_SIZE));
+        const nextPage = state.page + dir;
+        if (nextPage < 0 || nextPage >= totalPages) return;
+
+        state.page = nextPage;
+        removeVisualFocus(field);
+        renderResultsPage(elements, state);
+        results.scrollTop = 0;
+    }
+
+    paginationPrev.addEventListener("click", () => goToPage(-1));
+    paginationNext.addEventListener("click", () => goToPage(1));
 
     field.addEventListener("keydown", (e) => {
         if (
@@ -175,6 +231,14 @@ function bindEvents(
                 setNextResult(results, field, current, 1);
                 e.preventDefault();
                 break;
+            case "PageUp":
+                goToPage(-1);
+                e.preventDefault();
+                break;
+            case "PageDown":
+                goToPage(1);
+                e.preventDefault();
+                break;
         }
     });
 
@@ -202,21 +266,19 @@ function bindEvents(
     });
 }
 
-function updateResults(
-    results: HTMLElement,
-    query: HTMLInputElement,
-    status: HTMLElement,
-    state: SearchState,
-) {
+function updateResults(elements: SearchElements, state: SearchState) {
     // Don't clear results if loading state is not ready,
     // because loading or error message can be removed.
     if (!state.index || !state.data) return;
 
+    const { results, field, status } = elements;
+
     results.innerHTML = "";
     status.innerHTML = "";
-    optionsIdCounter += 1;
 
-    const searchText = query.value.trim();
+    const searchText = field.value.trim();
+    state.searchText = searchText;
+    state.page = 0;
 
     // Perform a wildcard search
     let res: Index.Result[];
@@ -249,6 +311,8 @@ function updateResults(
             ` "<strong>${escapeHtml(searchText)}</strong>" `,
         );
         updateStatusEl(status, message);
+        state.results = [];
+        updatePagination(elements, state);
         return;
     }
 
@@ -267,9 +331,25 @@ function updateResults(
 
     res.sort((a, b) => b.score - a.score);
 
-    const c = Math.min(10, res.length);
-    for (let i = 0; i < c; i++) {
-        const row = state.data.rows[Number(res[i].ref)];
+    state.results = res;
+    renderResultsPage(elements, state);
+}
+
+/**
+ * Renders the page of {@link SearchState.results} indicated by {@link SearchState.page}
+ * into the results list, and updates the pagination controls to match.
+ */
+function renderResultsPage(elements: SearchElements, state: SearchState) {
+    const { results } = elements;
+
+    results.innerHTML = "";
+    optionsIdCounter += 1;
+
+    const start = state.page * PAGE_SIZE;
+    const pageResults = state.results.slice(start, start + PAGE_SIZE);
+
+    for (let i = 0; i < pageResults.length; i++) {
+        const row = state.data!.rows[Number(pageResults[i].ref)];
         const label = window.translations[`kind_${row.kind}`].replaceAll(
             '"',
             "&quot;",
@@ -279,13 +359,13 @@ function updateResults(
         }"></use></svg>`;
 
         // Highlight the matched part of the query in the search results
-        let name = highlightMatches(row.name, searchText);
+        let name = highlightMatches(row.name, state.searchText);
         if (globalThis.DEBUG_SEARCH_WEIGHTS) {
-            name += ` (score: ${res[i].score.toFixed(2)})`;
+            name += ` (score: ${pageResults[i].score.toFixed(2)})`;
         }
         if (row.parent) {
             name = `<span class="parent">
-                ${highlightMatches(row.parent, searchText)}.</span>${name}`;
+                ${highlightMatches(row.parent, state.searchText)}.</span>${name}`;
         }
 
         const item = document.createElement("li");
@@ -303,6 +383,29 @@ function updateResults(
 
         results.appendChild(item);
     }
+
+    updatePagination(elements, state);
+}
+
+/**
+ * Shows/hides the pagination controls and keeps their labels & disabled state
+ * in sync with {@link SearchState.page}.
+ */
+function updatePagination(elements: SearchElements, state: SearchState) {
+    const { pagination, paginationStatus, paginationPrev, paginationNext } = elements;
+
+    const totalPages = Math.max(1, Math.ceil(state.results.length / PAGE_SIZE));
+    if (totalPages <= 1) {
+        pagination.hidden = true;
+        return;
+    }
+
+    pagination.hidden = false;
+    paginationStatus.textContent = window.translations.search_page_0_of_1
+        .replace("{0}", String(state.page + 1))
+        .replace("{1}", String(totalPages));
+    paginationPrev.disabled = state.page === 0;
+    paginationNext.disabled = state.page >= totalPages - 1;
 }
 
 /**

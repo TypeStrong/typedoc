@@ -1239,6 +1239,55 @@
     #tsd-search-status:not(:empty) {
         min-height: 6rem;
     }
+    #tsd-search-pagination[hidden] {
+        display: none;
+    }
+    #tsd-search-pagination {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+    }
+    #tsd-search-pagination-status {
+        font-size: 0.8em;
+        color: var(--color-text-aside);
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+    .tsd-search-pagination-button {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 1.75rem;
+        height: 1.75rem;
+        padding: 0;
+        border: none;
+        border-radius: 4px;
+        background-color: transparent;
+        color: inherit;
+        opacity: 0.8;
+        cursor: pointer;
+        transition: opacity 0.1s, background-color 0.1s;
+    }
+    .tsd-search-pagination-button:hover:not(:disabled) {
+        opacity: 1;
+        background-color: var(--color-background-secondary);
+    }
+    .tsd-search-pagination-button:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+    /* chevronDown points down by default; rotate it to point left/right for prev/next */
+    #tsd-search-pagination-prev svg {
+        transform: rotate(90deg);
+    }
+    #tsd-search-pagination-next svg {
+        transform: rotate(-90deg);
+    }
 
     .tsd-signature {
         margin: 0 0 1rem 0;
