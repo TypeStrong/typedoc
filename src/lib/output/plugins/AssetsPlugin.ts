@@ -41,6 +41,7 @@ export class AssetsPlugin extends RendererComponent {
             search_no_results_found_for_0: i18n.theme_search_no_results_found_for_0(
                 "{0}",
             ),
+            search_page_0_of_1: i18n.theme_search_page_0_of_1("{0}", "{1}"),
         };
 
         for (const key of getEnumKeys(ReflectionKind)) {

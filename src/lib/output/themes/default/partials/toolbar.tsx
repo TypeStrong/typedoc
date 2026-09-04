@@ -35,6 +35,25 @@ export const toolbar = (context: DefaultThemeRenderContext, props: PageEvent<Ref
                 />
 
                 <ul role="listbox" id="tsd-search-results"></ul>
+                <div id="tsd-search-pagination" hidden>
+                    <button
+                        type="button"
+                        id="tsd-search-pagination-prev"
+                        class="tsd-search-pagination-button"
+                        aria-label={i18n.theme_search_pagination_previous()}
+                    >
+                        {context.icons.chevronDown()}
+                    </button>
+                    <span id="tsd-search-pagination-status" aria-live="polite" aria-atomic="true"></span>
+                    <button
+                        type="button"
+                        id="tsd-search-pagination-next"
+                        class="tsd-search-pagination-button"
+                        aria-label={i18n.theme_search_pagination_next()}
+                    >
+                        {context.icons.chevronDown()}
+                    </button>
+                </div>
                 <div id="tsd-search-status" aria-live="polite" aria-atomic="true">
                     <div>{i18n.theme_preparing_search_index()}</div>
                 </div>

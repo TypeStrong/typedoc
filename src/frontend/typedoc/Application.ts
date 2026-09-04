@@ -11,6 +11,7 @@ declare global {
             hierarchy_collapse: string;
             search_index_not_available: string;
             search_no_results_found_for_0: string;
+            search_page_0_of_1: string;
 
             // Kind strings for icons
             folder: string;
@@ -45,6 +46,7 @@ window.translations ||= {
     hierarchy_collapse: "Collapse",
     search_index_not_available: "The search index is not available",
     search_no_results_found_for_0: "No results found for {0}",
+    search_page_0_of_1: "Page {0} of {1}",
 
     folder: "Folder",
     kind_1: "Project",
