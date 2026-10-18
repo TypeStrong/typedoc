@@ -2,7 +2,12 @@
 
 import * as T from "../../lib/models/types.js";
 import { strictEqual as equal } from "assert";
-import { ProjectReflection } from "../../lib/models/index.js";
+import {
+    DeclarationReflection,
+    ProjectReflection,
+    ReflectionKind,
+    SignatureReflection,
+} from "../../lib/models/index.js";
 import { FileRegistry } from "../../lib/models/FileRegistry.js";
 
 describe("Type.toString", () => {
@@ -43,6 +48,19 @@ describe("Type.toString", () => {
     });
 
     describe("Intersection types", () => {
+        it("Wraps function types", () => {
+            const declaration = new DeclarationReflection("__type", ReflectionKind.TypeLiteral);
+            const signature = new SignatureReflection("__type", ReflectionKind.CallSignature, declaration);
+            signature.type = new T.IntrinsicType("T");
+            declaration.signatures = [signature];
+            const type = new T.IntersectionType([
+                new T.ReflectionType(declaration),
+                new T.IntrinsicType("object"),
+            ]);
+
+            equal(type.toString(), "(() => T) & object");
+        });
+
         it("Does not wrap simple types", () => {
             const type = new T.IntersectionType([
                 new T.LiteralType(1),
