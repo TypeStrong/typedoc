@@ -6,6 +6,7 @@ title: Changelog
 
 ### Bug Fixes
 
+- Function types within intersections are now correctly wrapped in parentheses, #3140.
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
 
 ## v0.28.20 (2026-07-05)

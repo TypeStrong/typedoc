@@ -1132,7 +1132,8 @@ export class ReflectionType extends Type {
         }
 
         if (this.declaration.signatures?.length === 1) {
-            return where === TypeContext.arrayElement || where === TypeContext.unionElement;
+            return where === TypeContext.arrayElement || where === TypeContext.unionElement ||
+                where === TypeContext.intersectionElement;
         }
 
         return false;
