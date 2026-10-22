@@ -295,7 +295,7 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
 
         return new ReflectionType(reflection);
     },
-    convertType(context, type) {
+    convertType(context, type, node) {
         const symbol = type.getSymbol();
         if (!symbol) {
             return new IntrinsicType("Function");
@@ -319,6 +319,16 @@ const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
             type.getConstructSignatures()[0],
             symbol,
         );
+
+        // The type doesn't expose whether its construct signature is abstract,
+        // but the node TS serialized it to has the abstract modifier.
+        if (
+            node.modifiers?.some(
+                (m) => m.kind === ts.SyntaxKind.AbstractKeyword,
+            )
+        ) {
+            reflection.signatures?.[0].setFlag(ReflectionFlag.Abstract);
+        }
 
         return new ReflectionType(reflection);
     },

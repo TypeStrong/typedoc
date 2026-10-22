@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+- Abstract constructor types converted from a type, such as in type parameter constraints, are now correctly marked as `abstract`, #3141.
 
 ## v0.28.20 (2026-07-05)
 

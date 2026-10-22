@@ -2331,4 +2331,25 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3141 keeps abstract on constructor types converted from a type", () => {
+        const project = convert();
+
+        const isAbstractCtor = (type: unknown) => {
+            ok(type instanceof ReflectionType);
+            const sig = type.declaration.signatures?.[0];
+            ok(sig);
+            equalKind(sig, ReflectionKind.ConstructorSignature);
+            return sig.flags.isAbstract;
+        };
+
+        const f = querySig(project, "f").typeParameters?.[0].type;
+        ok(f?.type === "intersection");
+        equal(isAbstractCtor(f.types[1]), true);
+
+        const g = querySig(project, "g").typeParameters?.[0].type;
+        equal(isAbstractCtor(g), false);
+
+        equal(isAbstractCtor(query(project, "inferred").type), true);
+    });
 });
