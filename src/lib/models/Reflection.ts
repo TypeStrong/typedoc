@@ -473,6 +473,17 @@ export abstract class Reflection {
                 ) {
                     signaturesDeprecated = true;
                 }
+
+                const accessorSignatures = [
+                    decl.getSignature,
+                    decl.setSignature,
+                ].filter((sig): sig is SignatureReflection => sig != null);
+                if (
+                    accessorSignatures.length &&
+                    accessorSignatures.every((sig) => sig.comment?.getTag("@deprecated"))
+                ) {
+                    signaturesDeprecated = true;
+                }
             },
         });
 

@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+- `Reflection.isDeprecated` now considers accessors deprecated when their `get`/`set` signatures carry a `@deprecated` tag. Previously only `signatures` (used by methods/functions) was checked, so a `@deprecated` getter/setter was not reported as deprecated.
 
 ## v0.28.20 (2026-07-05)
 

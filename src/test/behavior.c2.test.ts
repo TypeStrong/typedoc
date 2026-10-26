@@ -529,6 +529,21 @@ describe("Behavior Tests", () => {
         );
     });
 
+    it("Marks accessors as deprecated based on their get/set signatures", () => {
+        const project = convert("deprecatedAccessor");
+        const test = query(project, "Test");
+
+        ok(query(project, "Test.getterOnly").isDeprecated());
+        ok(!query(project, "Test.setterOnly").isDeprecated());
+        ok(query(project, "Test.both").isDeprecated());
+        ok(
+            !query(project, "Test.mixed").isDeprecated(),
+            "An accessor is only deprecated if every one of its defined signatures is deprecated",
+        );
+        ok(!query(project, "Test.notDeprecated").isDeprecated());
+        ok(!test.isDeprecated());
+    });
+
     it("Handles @hideconstructor", () => {
         const project = convert("hideconstructor");
 
