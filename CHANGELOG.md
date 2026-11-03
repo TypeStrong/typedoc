@@ -7,6 +7,7 @@ title: Changelog
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.
+- Updated minimatch to v11 to resolve CVE-2026-118764, #3150.
 
 ## v0.28.20 (2026-07-05)
 
