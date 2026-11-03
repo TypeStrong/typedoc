@@ -225,6 +225,7 @@ export function glob(
     options: { includeDirectories?: boolean; followSymlinks?: boolean } = {},
 ): NormalizedPath[] {
     const mini = new Minimatch(pattern);
+    const recurseMini = new Minimatch(pattern, { flipNegate: true });
     const shouldIncludeNodeModules = pattern.includes("node_modules");
 
     const controller: DiscoverFilesController = {
@@ -243,7 +244,7 @@ export function glob(
                 return false;
             }
 
-            return mini.set.some((row) => mini.matchOne(childPath, row, /* partial */ true));
+            return recurseMini.match(childPath.join("/"), /* partial */ true);
         },
         matchDirectories: options.includeDirectories,
         followSymlinks: options.followSymlinks,
