@@ -44,7 +44,7 @@
         "@gerrit0/mini-shiki": "^3.23.0",
         "lunr": "^2.3.9",
         "markdown-it": "^14.3.0",
-        "minimatch": "^10.2.5",
+        "minimatch": "^11.0.1",
         "yaml": "^2.9.0"
     },
     "peerDependencies": {
@@ -145,6 +145,9 @@
         ],
         "ignoredBuiltDependencies": [
             "puppeteer"
-        ]
+        ],
+        "overrides": {
+            "minimatch@10": "^11.0.1"
+        }
     }
 }
