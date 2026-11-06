@@ -134,10 +134,17 @@ export function createSignature(
             typeNode = typeNode.typeExpression?.type;
         }
 
+        const declaredType = signature.getReturnType();
+        // An inherited getter's signature belongs to its declaration, but its
+        // symbol carries the read type instantiated for the derived type.
+        const returnType = kind === ReflectionKind.GetSignature && symbol
+            ? context.checker.getTypeOfSymbol(symbol)
+            : declaredType;
+
         sigRef.type = context.converter.convertType(
             sigRefCtx,
-            signature.getReturnType(),
-            typeNode,
+            returnType,
+            returnType === declaredType ? typeNode : undefined,
         );
     }
 

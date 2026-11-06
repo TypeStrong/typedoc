@@ -2331,4 +2331,24 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3148 specializes inherited getter return types", () => {
+        const project = convert();
+
+        equal(query(project, "AccessorBase.value").getSignature?.type?.toString(), "T");
+        equal(query(project, "StringAccessor.value").getSignature?.type?.toString(), "string");
+        equal(query(project, "ListAccessor.value").getSignature?.type?.toString(), "U[]");
+        equal(query(project, "NumberListAccessor.value").getSignature?.type?.toString(), "number[]");
+        equal(query(project, "StringAccessor.paired").getSignature?.type?.toString(), "string");
+        equal(query(project, "StringAccessor.self").getSignature?.type?.toString(), "this");
+        equal(querySig(project, "StringAccessor.method").type?.toString(), "string");
+
+        const wrapped = query(project, "StringAccessor.wrapped").getSignature?.type;
+        ok(wrapped instanceof ReflectionType);
+        equal(wrapped.declaration.children?.[0]?.type?.toString(), "string");
+        equal(
+            query(project, "StringAccessor.value").getSignature?.comment?.summary,
+            [{ kind: "text", text: "The inherited getter keeps its comment." }],
+        );
+    });
 });
