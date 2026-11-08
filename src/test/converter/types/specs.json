@@ -1488,14 +1488,17 @@
                                 }
                             },
                             {
-                                "type": "namedTupleMember",
-                                "name": "b",
-                                "isOptional": false,
-                                "element": {
-                                    "type": "array",
-                                    "elementType": {
-                                        "type": "literal",
-                                        "value": 456
+                                "type": "rest",
+                                "elementType": {
+                                    "type": "namedTupleMember",
+                                    "name": "b",
+                                    "isOptional": false,
+                                    "element": {
+                                        "type": "array",
+                                        "elementType": {
+                                            "type": "literal",
+                                            "value": 456
+                                        }
                                     }
                                 }
                             }

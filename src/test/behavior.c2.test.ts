@@ -1,4 +1,5 @@
 import { deepStrictEqual as equal, ok } from "assert";
+import { join } from "path";
 import {
     Comment,
     CommentTag,
@@ -8,10 +9,13 @@ import {
     SignatureReflection,
 } from "../lib/models/index.js";
 import { filterMap } from "#utils";
+import { readFile } from "#node-utils";
+import type { JSONOutput } from "typedoc";
 import { CommentStyle } from "../lib/utils/options/declaration.js";
 import { TestLogger } from "./TestLogger.js";
 import { getComment, getSigComment, query, querySig, reflToTree } from "./utils.js";
 import { getConverter2App, getConverter2Project } from "./programs.js";
+import { tempdirProject } from "./fs-fixture-builder.js";
 
 function getLinks(refl: Reflection) {
     ok(refl.comment);
@@ -930,6 +934,43 @@ describe("Behavior Tests", () => {
             query(project, "partiallyNamedTupleRest").type?.toString(),
             "[name?: string, ...number[]]",
         );
+    });
+
+    it("Renders named tuple rest elements in HTML", async () => {
+        const project = convert("namedTupleMembers");
+        using output = tempdirProject();
+
+        await app.generateDocs(project, output.cwd);
+        logger.expectMessage("info: html generated at *");
+
+        const html = readFile(join(output.cwd, "types", "NamedTupleRest.html"));
+        const signature = html.match(/<div class="tsd-signature">(.*?)<\/div>/s)?.[1];
+        equal(
+            signature?.replace(/<[^>]+>/g, ""),
+            "NamedTupleRest: [a: string, b?: number, ...rest: boolean[]]",
+        );
+    });
+
+    it("Serializes named tuple rest elements to JSON", async () => {
+        const project = convert("namedTupleMembers");
+        using output = tempdirProject();
+        const jsonPath = join(output.cwd, "docs.json");
+
+        await app.generateJson(project, jsonPath);
+        logger.expectMessage("info: json generated at *");
+
+        const json = JSON.parse(readFile(jsonPath)) as JSONOutput.ProjectReflection;
+        const type = json.children?.find((child) => child.name === "NamedTupleRest")?.type;
+        ok(type?.type === "tuple" && type.elements);
+        equal(type.elements[2], {
+            type: "rest",
+            elementType: {
+                type: "namedTupleMember",
+                name: "rest",
+                isOptional: false,
+                element: { type: "array", elementType: { type: "intrinsic", name: "boolean" } },
+            },
+        });
     });
 
     it("Handles overloads", () => {
