@@ -859,12 +859,12 @@ const restConverter: TypeConverter<ts.RestTypeNode> = {
 const namedTupleMemberConverter: TypeConverter<ts.NamedTupleMember> = {
     kind: [ts.SyntaxKind.NamedTupleMember],
     convert(context, node) {
-        const innerType = convertType(context, node.type);
-        return new NamedTupleMember(
+        const member = new NamedTupleMember(
             node.name.getText(),
             !!node.questionToken,
-            innerType,
+            convertType(context, node.type),
         );
+        return node.dotDotDotToken ? new RestType(member) : member;
     },
     // This ought to be impossible.
     convertType: requestBugReport,
