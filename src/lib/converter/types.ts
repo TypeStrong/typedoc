@@ -1048,18 +1048,20 @@ const tupleConverter = {
 
         elements = elements?.map((el, i) => {
             if (type.target.elementFlags[i] & ts.ElementFlags.Variable) {
-                // In the node case, we don't need to add the wrapping Array type... but we do here.
+                const isVariadic = Boolean(type.target.elementFlags[i] & ts.ElementFlags.Variadic);
+
+                // In the node case, we don't need to add the wrapping Array type... but we do here for Rest.
                 if (el instanceof NamedTupleMember) {
                     return new RestType(
                         new NamedTupleMember(
                             el.name,
                             el.isOptional,
-                            new ArrayType(el.element),
+                            isVariadic ? el.element : new ArrayType(el.element),
                         ),
                     );
                 }
 
-                return new RestType(new ArrayType(el));
+                return new RestType(isVariadic ? el : new ArrayType(el));
             }
 
             if (
