@@ -2331,4 +2331,16 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3157 renders variadic tuple elements without extra array wrapping", () => {
+        const project = convert();
+        const merge = querySig(project, "merge");
+        equal(merge.parameters?.[0].type?.toString(), "[...A, number?]");
+
+        const tail = querySig(project, "tail");
+        equal(tail.parameters?.[0].type?.toString(), "[string, ...T]");
+
+        const W = query(project, "W.args");
+        equal(W.type?.toString(), "[...T, number]");
+    });
 });
