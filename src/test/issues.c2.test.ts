@@ -2331,4 +2331,14 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3153 preserves type arguments on inherited members", () => {
+        const project = convert();
+        equal(query(project, "Derived.value").type?.toString(), "Box<number, string>");
+        equal(querySig(project, "Derived.select").parameters?.[0].type?.toString(), "Box<number, string>");
+        equal(query(project, "DerivedMapped.value").type?.toString(), "Mapped<Box<number, string>>");
+        equal(query(project, "DerivedClass.value").type?.toString(), "Map<string, number>");
+        equal(querySig(project, "DerivedClass.get").type?.toString(), "Map<string, number>");
+        equal(query(project, "Direct.value").type?.toString(), "Box<number>");
+    });
 });

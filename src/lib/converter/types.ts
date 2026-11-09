@@ -777,6 +777,13 @@ const referenceConverter: TypeConverter<
         return ref;
     },
     convertType(context, type, node, originalNode) {
+        // An inherited member can be declared as a type parameter even though
+        // the checked type is a reference with its own type arguments.
+        const originalReference = originalNode && ts.isTypeReferenceNode(originalNode) &&
+                !context.checker.getTypeFromTypeNode(originalNode).isTypeParameter()
+            ? originalNode
+            : undefined;
+
         // typeName.symbol handles the case where this is a union which happens to refer
         // to an enumeration. TS doesn't put the symbol on the type for some reason, but
         // does add it to the constructed type node.
@@ -798,10 +805,10 @@ const referenceConverter: TypeConverter<
         // the mapped type instantiation. Fall back to converting via the original
         // type node to avoid creating a reference which points to the mapped type.
         if (
-            originalNode && ts.isTypeReferenceNode(originalNode) && isObjectType(type) &&
+            originalReference && isObjectType(type) &&
             type.objectFlags & ts.ObjectFlags.Mapped
         ) {
-            return referenceConverter.convert(context, originalNode);
+            return referenceConverter.convert(context, originalReference);
         }
 
         let name: string;
@@ -835,8 +842,8 @@ const referenceConverter: TypeConverter<
                 ? type.aliasTypeArguments
                 : (type as ts.TypeReference).typeArguments;
 
-            const maxArgLength = originalNode && ts.isTypeReferenceNode(originalNode)
-                ? (originalNode.typeArguments?.length ?? 0)
+            const maxArgLength = originalReference
+                ? (originalReference.typeArguments?.length ?? 0)
                 : args?.length;
 
             ref.typeArguments = args
