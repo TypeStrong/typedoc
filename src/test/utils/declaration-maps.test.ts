@@ -1,4 +1,5 @@
 import { deepStrictEqual as equal } from "assert";
+import { resolve } from "path";
 import { addInferredDeclarationMapPaths, resolveDeclarationMaps } from "../../lib/utils/declaration-maps.js";
 import { normalizePath } from "#node-utils";
 
@@ -6,25 +7,31 @@ describe("declaration-maps.ts", () => {
     const winTest = process.platform === "win32" ? it : it.skip;
 
     it("resolves declaration map paths when queried with normalized paths", () => {
-        const sourceFile = normalizePath("/project/src/index.ts");
+        const rootDir = normalizePath(resolve("test-proj/src"));
+        const outDir = normalizePath(resolve("test-proj/dist"));
+        const sourceFile = normalizePath(resolve("test-proj/src/index.ts"));
+
         addInferredDeclarationMapPaths(
-            { rootDir: normalizePath("/project/src"), outDir: normalizePath("/project/dist") },
+            { rootDir, outDir },
             [sourceFile],
         );
 
-        const dtsFile = normalizePath("/project/dist/index.d.ts");
+        const dtsFile = normalizePath(resolve("test-proj/dist/index.d.ts"));
         equal(resolveDeclarationMaps(dtsFile), sourceFile);
     });
 
     winTest("resolves declaration map paths when queried with backslash Windows paths (#3146)", () => {
-        const sourceFile = normalizePath("C:/app/src/entry.ts");
+        const rootDir = normalizePath(resolve("test-proj-win/src"));
+        const outDir = normalizePath(resolve("test-proj-win/dist"));
+        const sourceFile = normalizePath(resolve("test-proj-win/src/entry.ts"));
+
         addInferredDeclarationMapPaths(
-            { rootDir: normalizePath("C:/app/src"), outDir: normalizePath("C:/app/dist") },
+            { rootDir, outDir },
             [sourceFile],
         );
 
-        // Windows-style backslashes in lookup path
-        const winDtsFile = "C:\\app\\dist\\entry.d.ts";
+        const dtsFile = normalizePath(resolve("test-proj-win/dist/entry.d.ts"));
+        const winDtsFile = dtsFile.replace(/\//g, "\\");
         equal(resolveDeclarationMaps(winDtsFile), sourceFile);
     });
 
