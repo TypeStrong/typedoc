@@ -9,7 +9,8 @@ const declarationMapCache = new Map<string, string>();
 
 export function resolveDeclarationMaps(file: string): string {
     if (!/\.d\.[cm]?ts$/.test(file)) return file;
-    if (declarationMapCache.has(file)) return declarationMapCache.get(file)!;
+    const normalizedFile = normalizePath(file);
+    if (declarationMapCache.has(normalizedFile)) return declarationMapCache.get(normalizedFile)!;
 
     const mapFile = file + ".map";
     if (!existsSync(mapFile)) return file;
@@ -44,7 +45,7 @@ export function resolveDeclarationMaps(file: string): string {
         }
 
         const result = resolve(mapFile, "..", source);
-        declarationMapCache.set(file, result);
+        declarationMapCache.set(normalizedFile, result);
         return result;
     }
 
