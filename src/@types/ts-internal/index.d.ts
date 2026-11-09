@@ -20,6 +20,11 @@ declare module "typescript" {
         id: number;
     }
 
+    export interface TypeParameter {
+        /* @internal */
+        constraint?: ts.Type;
+    }
+
     // https://github.com/microsoft/TypeScript/blob/v5.0.2/src/compiler/utilities.ts#L7432
     export function getCheckFlags(symbol: ts.Symbol): CheckFlags;
 
