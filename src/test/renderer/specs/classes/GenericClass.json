@@ -433,7 +433,11 @@
                                                         },
                                                         " ",
                                                         {
-                                                            "span.tsd-signature-type": "string"
+                                                            "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                            "props": {
+                                                                "href": "#t"
+                                                            },
+                                                            "children": "T"
                                                         },
                                                         {
                                                             "span.tsd-signature-symbol": ">"
@@ -477,7 +481,11 @@
                                                                                 },
                                                                                 " ",
                                                                                 {
-                                                                                    "span.tsd-signature-type": "string"
+                                                                                    "tag": "a.tsd-signature-type.tsd-kind-type-parameter",
+                                                                                    "props": {
+                                                                                        "href": "#t"
+                                                                                    },
+                                                                                    "children": "T"
                                                                                 }
                                                                             ]
                                                                         }

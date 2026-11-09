@@ -2331,4 +2331,17 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3156 preserves constraints on signature type parameters", () => {
+        const project = convert();
+        const constraints = (name: string) =>
+            querySig(project, name).typeParameters?.map(param => param.type?.toString());
+
+        equal(constraints("pick"), ["object", "keyof T"]);
+        equal(constraints("arrow"), [undefined, "keyof T"]);
+        equal(constraints("sub"), ["string", "T"]);
+        equal(constraints("C.constructor"), [undefined, "keyof T"]);
+        equal(constraints("C.m"), ["T", "keyof U"]);
+        equal(constraints("Derived.m"), ["string", "keyof U"]);
+    });
 });

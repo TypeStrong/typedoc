@@ -437,7 +437,6 @@ export function convertTypeParameters(
     parameters: readonly ts.TypeParameter[] | undefined,
 ) {
     return parameters?.map((param) => {
-        const constraintT = param.getConstraint();
         const defaultT = param.getDefault();
 
         // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
@@ -447,6 +446,13 @@ export function convertTypeParameters(
             ?.declarations?.find(ts.isTypeParameterDeclaration);
         const variance = getVariance(declaration?.modifiers);
 
+        // getConstraint() returns the resolved base constraint, but also initializes the
+        // declared constraint after applying any substitutions from an inherited signature.
+        const baseConstraint = param.getConstraint();
+        const constraint = declaration && ts.getEffectiveConstraintOfTypeParameter(declaration)
+            ? param.constraint ?? baseConstraint
+            : baseConstraint;
+
         const paramRefl = new TypeParameterReflection(
             param.symbol.name,
             parent,
@@ -454,8 +460,8 @@ export function convertTypeParameters(
         );
         const paramCtx = context.withScope(paramRefl);
 
-        paramRefl.type = constraintT
-            ? context.converter.convertType(paramCtx, constraintT)
+        paramRefl.type = constraint
+            ? context.converter.convertType(paramCtx, constraint)
             : void 0;
         paramRefl.default = defaultT
             ? context.converter.convertType(paramCtx, defaultT)
