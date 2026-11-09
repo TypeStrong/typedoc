@@ -2331,4 +2331,15 @@ describe("Issue Tests", () => {
         const method = querySig(project, "C.method");
         equal(method.parameters, undefined);
     });
+
+    it("#3144 escapes HTML in code blocks when highlighted with unloaded language", () => {
+        const highlighted = app.renderer.markedPlugin.getHighlighted(
+            "<script>alert(1)</script>",
+            "unloaded_lang",
+        );
+        equal(highlighted, "&lt;script&gt;alert(1)&lt;/script&gt;");
+        logger.expectMessage(
+            "warn: Unsupported highlight language unloaded_lang will not be highlighted in comment for (unknown)",
+        );
+    });
 });
