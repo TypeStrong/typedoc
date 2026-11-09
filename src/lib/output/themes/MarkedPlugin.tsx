@@ -97,7 +97,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     ),
                 );
             }
-            return text;
+            return escapeHtml(text);
         }
 
         return highlight(text, lang);
