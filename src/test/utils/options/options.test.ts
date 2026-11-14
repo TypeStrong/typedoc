@@ -4,7 +4,7 @@ import { deepStrictEqual as equal, throws } from "assert";
 import type { DeclarationOption, EmitStrategy } from "../../../lib/utils/options/index.js";
 import { LogLevel } from "#utils";
 import { TestLogger } from "../../TestLogger.js";
-import ts from "typescript";
+import { TypeScript as ts } from "typedoc";
 
 describe("Options", () => {
     let options: Options & {

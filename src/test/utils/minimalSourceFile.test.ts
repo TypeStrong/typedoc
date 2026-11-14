@@ -1,5 +1,5 @@
 import { deepStrictEqual as equal, throws } from "assert";
-import type { LineAndCharacter } from "typescript";
+import type { LineAndCharacter } from "typescript/ast";
 import { MinimalSourceFile } from "#utils";
 
 describe("MinimalSourceFile", () => {

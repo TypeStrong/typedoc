@@ -1,4 +1,4 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import {
     type CommentDisplayPart,
     type InlineTagDisplayPart,

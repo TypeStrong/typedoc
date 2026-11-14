@@ -288,7 +288,7 @@
                     "target": 18
                 },
                 {
-                    "id": 46,
+                    "id": 42,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -312,7 +312,7 @@
                     "target": 18
                 },
                 {
-                    "id": 42,
+                    "id": 44,
                     "name": "c",
                     "variant": "reference",
                     "kind": 4194304,
@@ -344,7 +344,7 @@
                     "target": 20
                 },
                 {
-                    "id": 43,
+                    "id": 45,
                     "name": "Mod",
                     "variant": "reference",
                     "kind": 4194304,
@@ -360,7 +360,7 @@
                     "target": 17
                 },
                 {
-                    "id": 45,
+                    "id": 47,
                     "name": "Mod2",
                     "variant": "reference",
                     "kind": 4194304,
@@ -384,7 +384,7 @@
                     "target": 17
                 },
                 {
-                    "id": 44,
+                    "id": 46,
                     "name": "ModDefault",
                     "variant": "reference",
                     "kind": 4194304,
@@ -400,7 +400,7 @@
                     "target": 40
                 },
                 {
-                    "id": 47,
+                    "id": 43,
                     "name": "ThisModule",
                     "variant": "reference",
                     "kind": 4194304,
@@ -434,13 +434,13 @@
                     "title": "References",
                     "children": [
                         34,
-                        46,
                         42,
-                        36,
-                        43,
-                        45,
                         44,
-                        47
+                        36,
+                        45,
+                        47,
+                        46,
+                        43
                     ]
                 }
             ],
@@ -593,7 +593,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 8,
+                    "id": 4,
                     "name": "x",
                     "variant": "declaration",
                     "kind": 32,
@@ -615,7 +615,7 @@
                     "defaultValue": "5"
                 },
                 {
-                    "id": 4,
+                    "id": 5,
                     "name": "add",
                     "variant": "declaration",
                     "kind": 64,
@@ -630,7 +630,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 5,
+                            "id": 6,
                             "name": "add",
                             "variant": "signature",
                             "kind": 4096,
@@ -645,7 +645,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 6,
+                                    "id": 7,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -656,7 +656,7 @@
                                     }
                                 },
                                 {
-                                    "id": 7,
+                                    "id": 8,
                                     "name": "y",
                                     "variant": "param",
                                     "kind": 32768,
@@ -679,13 +679,13 @@
                 {
                     "title": "Variables",
                     "children": [
-                        8
+                        4
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        4
+                        5
                     ]
                 }
             ],
@@ -1000,7 +1000,7 @@
         "4": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "add"
+            "qualifiedName": "x"
         },
         "5": {
             "packageName": "typedoc",
@@ -1010,17 +1010,17 @@
         "6": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "x"
+            "qualifiedName": "add"
         },
         "7": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "y"
+            "qualifiedName": "x"
         },
         "8": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export-with-local.ts",
-            "qualifiedName": "x"
+            "qualifiedName": "y"
         },
         "9": {
             "packageName": "typedoc",
@@ -1174,33 +1174,33 @@
         },
         "42": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/exports/export.ts",
-            "qualifiedName": "c"
+            "packagePath": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "b"
         },
         "43": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/exports/export.ts",
-            "qualifiedName": "Mod"
+            "packagePath": "src/test/converter/exports/mod.ts",
+            "qualifiedName": "ThisModule"
         },
         "44": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export.ts",
-            "qualifiedName": "ModDefault"
+            "qualifiedName": "c"
         },
         "45": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/export.ts",
-            "qualifiedName": "Mod2"
+            "qualifiedName": "Mod"
         },
         "46": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "b"
+            "packagePath": "src/test/converter/exports/export.ts",
+            "qualifiedName": "ModDefault"
         },
         "47": {
             "packageName": "typedoc",
-            "packagePath": "src/test/converter/exports/mod.ts",
-            "qualifiedName": "ThisModule"
+            "packagePath": "src/test/converter/exports/export.ts",
+            "qualifiedName": "Mod2"
         },
         "48": {
             "packageName": "typedoc",

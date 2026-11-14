@@ -735,7 +735,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 48,
+                    "id": 44,
                     "name": "DoubleKey",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -750,7 +750,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 49,
+                            "id": 45,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -768,7 +768,7 @@
                                     "operator": "keyof",
                                     "target": {
                                         "type": "reference",
-                                        "target": 49,
+                                        "target": 45,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -795,7 +795,7 @@
                             },
                             "objectType": {
                                 "type": "reference",
-                                "target": 49,
+                                "target": 45,
                                 "name": "T",
                                 "package": "typedoc",
                                 "refersToTypeParameter": true
@@ -838,7 +838,7 @@
                     }
                 },
                 {
-                    "id": 46,
+                    "id": 42,
                     "name": "Mappy",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -853,7 +853,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 47,
+                            "id": 43,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -868,7 +868,7 @@
                             "operator": "keyof",
                             "target": {
                                 "type": "reference",
-                                "target": 47,
+                                "target": 43,
                                 "name": "T",
                                 "package": "typedoc",
                                 "refersToTypeParameter": true
@@ -889,7 +889,7 @@
                             },
                             "objectType": {
                                 "type": "reference",
-                                "target": 47,
+                                "target": 43,
                                 "name": "T",
                                 "package": "typedoc",
                                 "refersToTypeParameter": true
@@ -898,7 +898,7 @@
                     }
                 },
                 {
-                    "id": 42,
+                    "id": 46,
                     "name": "doubleKey",
                     "variant": "declaration",
                     "kind": 64,
@@ -913,7 +913,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 43,
+                            "id": 47,
                             "name": "doubleKey",
                             "variant": "signature",
                             "kind": 4096,
@@ -928,7 +928,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 44,
+                                    "id": 48,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -937,14 +937,14 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 45,
+                                    "id": 49,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
                                     "flags": {},
                                     "type": {
                                         "type": "reference",
-                                        "target": 44,
+                                        "target": 48,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -973,7 +973,7 @@
                                     },
                                     "objectType": {
                                         "type": "reference",
-                                        "target": 44,
+                                        "target": 48,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -1106,14 +1106,14 @@
                 {
                     "title": "Type Aliases",
                     "children": [
-                        48,
-                        46
+                        44,
+                        42
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        42,
+                        46,
                         38
                     ]
                 }
@@ -2410,42 +2410,42 @@
         "42": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "doubleKey"
+            "qualifiedName": "Mappy"
         },
         "43": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "doubleKey"
+            "qualifiedName": "T"
         },
         "44": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "DoubleKey"
         },
         "45": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "T"
         },
         "46": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "Mappy"
+            "qualifiedName": "doubleKey"
         },
         "47": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "doubleKey"
         },
         "48": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "DoubleKey"
+            "qualifiedName": "T"
         },
         "49": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/types/mapped.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "arg"
         },
         "50": {
             "packageName": "typedoc",

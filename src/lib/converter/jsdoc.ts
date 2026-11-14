@@ -1,28 +1,28 @@
 // Converter functions for JSDoc defined types
 // @typedef
 // @callback
+//
+// TypeScript 7 reparses these tags into type alias declarations with regular
+// type nodes. The tag is still needed for the comment, which is only part of
+// the JSDoc comment that contains it.
 
 import { ok } from "assert";
-import ts from "typescript";
-import { DeclarationReflection, IntrinsicType, ReflectionKind, ReflectionType, SignatureReflection } from "#models";
+import * as ts from "../ts.js";
+import { DeclarationReflection, ReflectionKind } from "#models";
+import { getDeclarations } from "#node-utils";
 import type { Context } from "./context.js";
-import { ConverterEvents } from "./converter-events.js";
-import {
-    convertConstructSignatures,
-    convertParameterNodes,
-    convertTemplateParameterNodes,
-    createSignature,
-} from "./factories/signature.js";
+import { convertConstructSignatures, createSignature, createTypeParamReflection } from "./factories/signature.js";
 import { i18n } from "#utils";
 import { convertIndexSignatures } from "./factories/index-signature.js";
 
 // This is almost convertTypeAliasAsInterface, but unfortunately needs to be separate
-// due to type parameters being different in JSDoc comments
+// due to the comment coming from the JSDoc tag.
 function convertJsDocAliasAsInterface(
     context: Context,
     symbol: ts.Symbol,
     exportSymbol: ts.Symbol | undefined,
-    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
+    declaration: ts.TypeAliasDeclaration,
+    tag: ts.JSDocTypedefTag,
 ): undefined {
     const reflection = context.createDeclarationReflection(
         ReflectionKind.Interface,
@@ -32,12 +32,12 @@ function convertJsDocAliasAsInterface(
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
-    const type = context.checker.getTypeAtLocation(declaration);
+    const type = context.checker.getDeclaredTypeOfSymbol(symbol);
 
-    if (type.getFlags() & ts.TypeFlags.Union) {
+    if (type.flags & ts.TypeFlags.Union) {
         context.logger.warn(
             i18n.converting_union_as_interface(),
-            declaration,
+            tag,
         );
     }
 
@@ -47,7 +47,7 @@ function convertJsDocAliasAsInterface(
     }
 
     // And type parameters
-    convertTemplateParameters(rc, declaration.parent);
+    convertTemplateParameters(rc, declaration);
 
     // And maybe call signatures
     context.checker
@@ -64,24 +64,26 @@ function convertJsDocAliasAsInterface(
 export function convertJsDocAlias(
     context: Context,
     symbol: ts.Symbol,
-    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
+    declaration: ts.TypeAliasDeclaration,
+    tag: ts.JSDocTypedefTag,
     exportSymbol?: ts.Symbol,
 ) {
     if (
-        declaration.typeExpression &&
-        ts.isJSDocTypeLiteral(declaration.typeExpression)
+        tag.typeExpression &&
+        ts.isJSDocTypeLiteral(tag.typeExpression)
     ) {
-        convertJsDocInterface(context, declaration, symbol, exportSymbol);
+        convertJsDocInterface(context, declaration, tag, symbol, exportSymbol);
         return;
     }
 
-    const comment = context.getJsDocComment(declaration);
+    const comment = context.getJsDocComment(tag);
     if (comment?.hasModifier("@interface")) {
         return convertJsDocAliasAsInterface(
             context,
             symbol,
             exportSymbol,
             declaration,
+            tag,
         );
     }
 
@@ -107,12 +109,12 @@ export function convertJsDocAlias(
 
     reflection.type = context.converter.convertType(
         context.withScope(reflection),
-        declaration.typeExpression?.type,
+        declaration.type,
     );
 
     convertTemplateParameters(
         context.withScope(reflection),
-        declaration.parent,
+        declaration,
     );
 
     context.finalizeDeclarationReflection(reflection);
@@ -121,7 +123,8 @@ export function convertJsDocAlias(
 export function convertJsDocCallback(
     context: Context,
     symbol: ts.Symbol,
-    declaration: ts.JSDocCallbackTag,
+    declaration: ts.TypeAliasDeclaration,
+    tag: ts.JSDocCallbackTag,
     exportSymbol?: ts.Symbol,
 ) {
     const alias = context.createDeclarationReflection(
@@ -129,18 +132,21 @@ export function convertJsDocCallback(
         symbol,
         exportSymbol,
     );
-    alias.comment = context.getJsDocComment(declaration);
+    alias.comment = context.getJsDocComment(tag);
     context.finalizeDeclarationReflection(alias);
 
     const ac = context.withScope(alias);
 
-    alias.type = convertJsDocSignature(ac, declaration.typeExpression);
-    convertTemplateParameters(ac, declaration.parent);
+    // The callback is reparsed into a function type, which converts to a type
+    // literal with a single call signature.
+    alias.type = context.converter.convertType(ac, declaration.type);
+    convertTemplateParameters(ac, declaration);
 }
 
 function convertJsDocInterface(
     context: Context,
-    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
+    declaration: ts.TypeAliasDeclaration,
+    tag: ts.JSDocTypedefTag,
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ) {
@@ -149,7 +155,7 @@ function convertJsDocInterface(
         symbol,
         exportSymbol,
     );
-    reflection.comment = context.getJsDocComment(declaration);
+    reflection.comment = context.getJsDocComment(tag);
     context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
@@ -159,103 +165,47 @@ function convertJsDocInterface(
         context.converter.convertSymbol(rc, s);
     }
 
-    convertTemplateParameters(rc, declaration.parent);
+    convertTemplateParameters(rc, declaration);
 }
 
-function convertJsDocSignature(context: Context, node: ts.JSDocSignature) {
-    const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
-    const type = context.getTypeAtLocation(node);
-    if (!symbol || !type) {
-        return new IntrinsicType("Function");
-    }
-
-    const reflection = new DeclarationReflection(
-        "__type",
-        ReflectionKind.TypeLiteral,
-        context.scope,
-    );
-    const rc = context.withScope(reflection);
-    context.registerReflection(reflection, symbol);
-    context.converter.trigger(
-        ConverterEvents.CREATE_DECLARATION,
-        context,
-        reflection,
-    );
-
-    const signature = new SignatureReflection(
-        "__type",
-        ReflectionKind.CallSignature,
-        reflection,
-    );
-    context.project.registerSymbolId(
-        signature,
-        context.createSymbolId(symbol, node),
-    );
-    context.registerReflection(signature, void 0);
-    const signatureCtx = rc.withScope(signature);
-
-    reflection.signatures = [signature];
-    signature.type = context.converter.convertType(
-        signatureCtx,
-        node.type?.typeExpression?.type,
-    );
-    signature.parameters = convertParameterNodes(
-        signatureCtx,
-        signature,
-        node.parameters,
-    );
-    signature.typeParameters = convertTemplateParameterNodes(
-        context.withScope(reflection),
-        node.typeParameters,
-    );
-
-    return new ReflectionType(reflection);
-}
-
-function convertTemplateParameters(context: Context, node: ts.JSDoc) {
+// @template tags are reparsed into the type parameters of the alias.
+function convertTemplateParameters(context: Context, declaration: ts.TypeAliasDeclaration) {
     ok(context.scope instanceof DeclarationReflection);
-    context.scope.typeParameters = convertTemplateParameterNodes(
-        context,
-        node.tags?.filter(ts.isJSDocTemplateTag),
+    context.scope.typeParameters = declaration.typeParameters?.map((param) =>
+        createTypeParamReflection(param, context)
     );
 }
 
 function getTypedefReExportTarget(
     context: Context,
-    declaration: ts.JSDocTypedefTag | ts.JSDocEnumTag,
+    declaration: ts.TypeAliasDeclaration,
 ): ts.Symbol | undefined {
-    const typeExpression = declaration.typeExpression;
+    const type = declaration.type;
     if (
-        !ts.isJSDocTypedefTag(declaration) ||
-        !typeExpression ||
-        ts.isJSDocTypeLiteral(typeExpression) ||
-        !ts.isImportTypeNode(typeExpression.type) ||
-        !typeExpression.type.qualifier ||
-        !ts.isIdentifier(typeExpression.type.qualifier)
+        !type ||
+        !ts.isImportTypeNode(type) ||
+        !type.qualifier ||
+        !ts.isIdentifier(type.qualifier)
     ) {
         return;
     }
 
-    const targetSymbol = context.expectSymbolAtLocation(
-        typeExpression.type.qualifier,
-    );
-    const decl = targetSymbol.declarations?.[0];
+    const targetSymbol = context.expectSymbolAtLocation(type.qualifier);
+    const decl = getDeclarations(targetSymbol)[0];
 
     if (
         !decl ||
         !(
             ts.isTypeAliasDeclaration(decl) ||
-            ts.isInterfaceDeclaration(decl) ||
-            ts.isJSDocTypedefTag(decl) ||
-            ts.isJSDocCallbackTag(decl)
+            ts.isInterfaceDeclaration(decl)
         )
     ) {
         return;
     }
 
-    const targetParams = ts.getEffectiveTypeParameterDeclarations(decl);
-    const localParams = ts.getEffectiveTypeParameterDeclarations(declaration);
-    const localArgs = typeExpression.type.typeArguments || [];
+    const targetParams = decl.typeParameters ?? [];
+    const localParams = declaration.typeParameters ?? [];
+    const localArgs = type.typeArguments || [];
 
     // If we have type parameters, ensure they are forwarding parameters with no transformations.
     // This doesn't check constraints since they aren't checked in JSDoc types.

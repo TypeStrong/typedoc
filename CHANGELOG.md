@@ -4,6 +4,18 @@ title: Changelog
 
 ## Unreleased
 
+### Breaking Changes
+
+- TypeDoc now uses the TypeScript 7 API and depends on TypeScript 7.1 itself, instead of the TypeScript version installed in the documented project.
+  Projects written for TypeScript 6 can still be documented if they compile without `ignoreDeprecations`, as TypeScript 7 removes the options which TypeScript 6 deprecated.
+- The `TypeScript` export and the compiler types in TypeDoc's API, such as `Context.checker` and `Context.program`, now come from the TypeScript 7 API.
+  Plugins which use the compiler API need to be updated.
+- Watch mode now watches the files of the program and creates a new program when one of them changes, as TypeScript 7 has no watch API.
+- JSDoc `@enum` tags no longer add a declaration to the variable they document, as TypeScript 7 does not support them.
+  Variables with an `@enum` tag are still converted as enumerations.
+- Union members are listed in the order they were written when the union is declared with a type annotation.
+  Unions which TypeScript infers are listed in the order which TypeScript 7 gives them.
+
 ### Bug Fixes
 
 - Anchor links in the mobile hamburger menu now correctly scroll to their target, #3049.

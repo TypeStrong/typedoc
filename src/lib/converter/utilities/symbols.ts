@@ -1,8 +1,8 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 
 export function resolveAliasedSymbol(
     symbol: ts.Symbol,
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
 ): ts.Symbol {
     const seen = new Set<ts.Symbol>();
     while (ts.SymbolFlags.Alias & symbol.flags) {

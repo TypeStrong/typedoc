@@ -34,7 +34,7 @@ export const hidden = true;
  * This export is from a file external to the documentation that will not be included in the resulting docs.
  * No reference should be created.
  */
-export { Node } from "typescript";
+export type { Node } from "typescript/ast";
 
 // TS 3.8 namespace exports
 export * as ThisModule from "./mod.js";

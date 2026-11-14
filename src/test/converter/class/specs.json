@@ -293,7 +293,7 @@
                     ]
                 },
                 {
-                    "id": 6,
+                    "id": 2,
                     "name": "fakePrivateVariable",
                     "variant": "declaration",
                     "kind": 32,
@@ -324,7 +324,7 @@
                     "defaultValue": "\"test\""
                 },
                 {
-                    "id": 7,
+                    "id": 3,
                     "name": "fakeProtectedVariable",
                     "variant": "declaration",
                     "kind": 32,
@@ -355,7 +355,7 @@
                     "defaultValue": "\"test\""
                 },
                 {
-                    "id": 2,
+                    "id": 4,
                     "name": "fakePrivateFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -372,7 +372,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 3,
+                            "id": 5,
                             "name": "fakePrivateFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -403,7 +403,7 @@
                     ]
                 },
                 {
-                    "id": 4,
+                    "id": 6,
                     "name": "fakeProtectedFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -420,7 +420,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 5,
+                            "id": 7,
                             "name": "fakeProtectedFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -461,15 +461,15 @@
                 {
                     "title": "Variables",
                     "children": [
-                        6,
-                        7
+                        2,
+                        3
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        2,
-                        4
+                        4,
+                        6
                     ]
                 }
             ],
@@ -693,7 +693,7 @@
                             ]
                         },
                         {
-                            "id": 80,
+                            "id": 78,
                             "name": "[toStringTag]",
                             "variant": "declaration",
                             "kind": 1024,
@@ -713,7 +713,7 @@
                             "defaultValue": "\"computed\""
                         },
                         {
-                            "id": 81,
+                            "id": 79,
                             "name": "literal",
                             "variant": "declaration",
                             "kind": 1024,
@@ -733,7 +733,7 @@
                             "defaultValue": "true"
                         },
                         {
-                            "id": 78,
+                            "id": 80,
                             "name": "literal2",
                             "variant": "declaration",
                             "kind": 1024,
@@ -753,7 +753,7 @@
                             "defaultValue": "true"
                         },
                         {
-                            "id": 79,
+                            "id": 81,
                             "name": "y",
                             "variant": "declaration",
                             "kind": 1024,
@@ -783,10 +783,10 @@
                         {
                             "title": "Properties",
                             "children": [
-                                80,
-                                81,
                                 78,
-                                79
+                                79,
+                                80,
+                                81
                             ]
                         }
                     ],
@@ -2997,7 +2997,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 129,
+                    "id": 116,
                     "name": "DecoratedClass",
                     "variant": "declaration",
                     "kind": 128,
@@ -3012,21 +3012,21 @@
                     },
                     "children": [
                         {
-                            "id": 130,
+                            "id": 117,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 131,
+                                    "id": 118,
                                     "name": "DecoratedClass",
                                     "variant": "signature",
                                     "kind": 16384,
                                     "flags": {},
                                     "type": {
                                         "type": "reference",
-                                        "target": 129,
+                                        "target": 116,
                                         "name": "DecoratedClass",
                                         "package": "typedoc"
                                     }
@@ -3034,7 +3034,7 @@
                             ]
                         },
                         {
-                            "id": 132,
+                            "id": 119,
                             "name": "decoratedMethod",
                             "variant": "declaration",
                             "kind": 2048,
@@ -3049,7 +3049,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 133,
+                                    "id": 120,
                                     "name": "decoratedMethod",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -3082,13 +3082,13 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                130
+                                117
                             ]
                         },
                         {
                             "title": "Methods",
                             "children": [
-                                132
+                                119
                             ]
                         }
                     ],
@@ -3102,7 +3102,7 @@
                     ]
                 },
                 {
-                    "id": 116,
+                    "id": 121,
                     "name": "decoratorAtom",
                     "variant": "declaration",
                     "kind": 64,
@@ -3117,7 +3117,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 117,
+                            "id": 122,
                             "name": "decoratorAtom",
                             "variant": "signature",
                             "kind": 4096,
@@ -3140,7 +3140,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 118,
+                                    "id": 123,
                                     "name": "target",
                                     "variant": "param",
                                     "kind": 32768,
@@ -3157,7 +3157,7 @@
                                     }
                                 },
                                 {
-                                    "id": 119,
+                                    "id": 124,
                                     "name": "propertyKey",
                                     "variant": "param",
                                     "kind": 32768,
@@ -3177,7 +3177,7 @@
                                     }
                                 },
                                 {
-                                    "id": 120,
+                                    "id": 125,
                                     "name": "descriptor",
                                     "variant": "param",
                                     "kind": 32768,
@@ -3208,7 +3208,7 @@
                     ]
                 },
                 {
-                    "id": 124,
+                    "id": 129,
                     "name": "decoratorWithOptions",
                     "variant": "declaration",
                     "kind": 64,
@@ -3223,7 +3223,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 125,
+                            "id": 130,
                             "name": "decoratorWithOptions",
                             "variant": "signature",
                             "kind": 4096,
@@ -3246,7 +3246,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 126,
+                                    "id": 131,
                                     "name": "options",
                                     "variant": "param",
                                     "kind": 32768,
@@ -3262,14 +3262,14 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 127,
+                                            "id": 132,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
                                             "children": [
                                                 {
-                                                    "id": 128,
+                                                    "id": 133,
                                                     "name": "name",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -3300,7 +3300,7 @@
                                                 {
                                                     "title": "Properties",
                                                     "children": [
-                                                        128
+                                                        133
                                                     ]
                                                 }
                                             ]
@@ -3322,7 +3322,7 @@
                     ]
                 },
                 {
-                    "id": 121,
+                    "id": 126,
                     "name": "decoratorWithParam",
                     "variant": "declaration",
                     "kind": 64,
@@ -3337,7 +3337,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 122,
+                            "id": 127,
                             "name": "decoratorWithParam",
                             "variant": "signature",
                             "kind": 4096,
@@ -3360,7 +3360,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 123,
+                                    "id": 128,
                                     "name": "value",
                                     "variant": "param",
                                     "kind": 32768,
@@ -3397,15 +3397,15 @@
                 {
                     "title": "Classes",
                     "children": [
-                        129
+                        116
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        116,
-                        124,
-                        121
+                        121,
+                        129,
+                        126
                     ]
                 }
             ],
@@ -5367,32 +5367,32 @@
         "2": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakePrivateFunction"
+            "qualifiedName": "fakePrivateVariable"
         },
         "3": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakePrivateFunction"
+            "qualifiedName": "fakeProtectedVariable"
         },
         "4": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakeProtectedFunction"
+            "qualifiedName": "fakePrivateFunction"
         },
         "5": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakeProtectedFunction"
+            "qualifiedName": "fakePrivateFunction"
         },
         "6": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakePrivateVariable"
+            "qualifiedName": "fakeProtectedFunction"
         },
         "7": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/access.ts",
-            "qualifiedName": "fakeProtectedVariable"
+            "qualifiedName": "fakeProtectedFunction"
         },
         "8": {
             "packageName": "typedoc",
@@ -5707,22 +5707,22 @@
         "78": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/class.ts",
-            "qualifiedName": "ComputedNames.literal2"
+            "qualifiedName": "ComputedNames.[toStringTag]"
         },
         "79": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/class.ts",
-            "qualifiedName": "ComputedNames.y"
+            "qualifiedName": "ComputedNames.literal"
         },
         "80": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/class.ts",
-            "qualifiedName": "ComputedNames.[toStringTag]"
+            "qualifiedName": "ComputedNames.literal2"
         },
         "81": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/class.ts",
-            "qualifiedName": "ComputedNames.literal"
+            "qualifiedName": "ComputedNames.y"
         },
         "82": {
             "packageName": "typedoc",
@@ -5877,82 +5877,82 @@
         "116": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorAtom"
-        },
-        "117": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorAtom"
-        },
-        "118": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "target"
+            "qualifiedName": "DecoratedClass"
         },
         "119": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "propertyKey"
+            "qualifiedName": "DecoratedClass.decoratedMethod"
         },
         "120": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "descriptor"
+            "qualifiedName": "DecoratedClass.decoratedMethod"
         },
         "121": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorWithParam"
+            "qualifiedName": "decoratorAtom"
         },
         "122": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorWithParam"
+            "qualifiedName": "decoratorAtom"
         },
         "123": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "value"
+            "qualifiedName": "target"
         },
         "124": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorWithOptions"
+            "qualifiedName": "propertyKey"
         },
         "125": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "decoratorWithOptions"
+            "qualifiedName": "descriptor"
         },
         "126": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "options"
+            "qualifiedName": "decoratorWithParam"
         },
         "127": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "decoratorWithParam"
         },
         "128": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "__type.name"
+            "qualifiedName": "value"
         },
         "129": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "DecoratedClass"
+            "qualifiedName": "decoratorWithOptions"
+        },
+        "130": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/class/decorators.ts",
+            "qualifiedName": "decoratorWithOptions"
+        },
+        "131": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/class/decorators.ts",
+            "qualifiedName": "options"
         },
         "132": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "DecoratedClass.decoratedMethod"
+            "qualifiedName": "__type"
         },
         "133": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/class/decorators.ts",
-            "qualifiedName": "DecoratedClass.decoratedMethod"
+            "qualifiedName": "__type.name"
         },
         "134": {
             "packageName": "typedoc",

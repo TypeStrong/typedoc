@@ -1,5 +1,5 @@
 import { ok } from "assert";
-import ts from "typescript";
+import * as ts from "../ts.js";
 
 import type { FileRegistry } from "#models";
 import {
@@ -18,6 +18,7 @@ import {
     type TypeParameterReflection,
 } from "#models";
 import type { CommentStyle, DocumentationEntryPoint, ValidationOptions } from "#node-utils";
+import { getDeclarations, isGlobalAugmentation } from "#node-utils";
 import {
     AbstractComponent,
     getDocumentEntryPoints,
@@ -54,7 +55,7 @@ import { lexCommentString } from "./comments/rawLexer.js";
 import { Context } from "./context.js";
 import { ConverterEvents } from "./converter-events.js";
 import { convertSymbol } from "./symbols.js";
-import { convertType } from "./types.js";
+import { type ConvertibleTypeNode, convertType } from "./types.js";
 
 import { CategoryPlugin } from "./plugins/CategoryPlugin.js";
 import { CommentPlugin } from "./plugins/CommentPlugin.js";
@@ -81,7 +82,6 @@ export interface ConverterEvents {
         (
             | ts.SignatureDeclaration
             | ts.IndexSignatureDeclaration
-            | ts.JSDocSignature
         )?,
         ts.Signature?,
     ];
@@ -394,11 +394,11 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * @returns The TypeDoc type reflection representing the given node and type.
      * @internal
      */
-    convertType(context: Context, node: ts.TypeNode | undefined): SomeType;
+    convertType(context: Context, node: ConvertibleTypeNode | undefined): SomeType;
     convertType(context: Context, type: ts.Type, node?: ts.TypeNode): SomeType;
     convertType(
         context: Context,
-        typeOrNode: ts.TypeNode | ts.Type | undefined,
+        typeOrNode: ConvertibleTypeNode | ts.Type | undefined,
         maybeNode?: ts.TypeNode,
     ): SomeType {
         return convertType(context, typeOrNode, maybeNode);
@@ -641,7 +641,7 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
      * information at this point since comment discovery hasn't happened.
      * @internal
      */
-    shouldIgnore(symbol: ts.Symbol, checker: ts.TypeChecker) {
+    shouldIgnore(symbol: ts.Symbol, checker: ts.Checker) {
         symbol = resolveAliasedSymbol(symbol, checker);
         if (this.isExcluded(symbol)) {
             return true;
@@ -656,20 +656,20 @@ export class Converter extends AbstractComponent<Application, ConverterEvents> {
         );
         const cache = this.excludeCache;
 
-        return (symbol.getDeclarations() ?? []).some((node) => cache.matchesAny(node.getSourceFile().fileName));
+        return getDeclarations(symbol).some((node) => cache.matchesAny(node.getSourceFile().fileName));
     }
 
     /** @internal */
-    isExternal(symbol: ts.Symbol, checker: ts.TypeChecker) {
+    isExternal(symbol: ts.Symbol, checker: ts.Checker) {
         this.externalPatternCache ??= new MinimatchSet(this.externalPattern);
         const cache = this.externalPatternCache;
 
-        const declarations = resolveAliasedSymbol(symbol, checker).getDeclarations();
+        const declarations = getDeclarations(resolveAliasedSymbol(symbol, checker));
 
         // `undefined` has no declarations, if someone does `export default undefined`
         // the symbol ends up as having no declarations (the export symbol does, but
         // not the source symbol)
-        if (!declarations?.length) {
+        if (!declarations.length) {
             return false;
         }
 
@@ -817,7 +817,7 @@ function getSymbolForModuleLike(
     context: Context,
     node: ts.SourceFile | ts.ModuleBlock,
 ) {
-    const symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
+    const symbol = context.checker.getSymbolAtLocation(node) ?? context.checker.getSymbolOfNode(node);
 
     if (symbol) {
         return symbol;
@@ -829,15 +829,14 @@ function getSymbolForModuleLike(
     const sourceFile = node.getSourceFile();
     const globalSymbols = context.checker
         .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-        .filter((s) => s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile));
+        .filter((s) => getDeclarations(s).some((d) => d.getSourceFile() === sourceFile));
 
     // Detect declaration files with declare module "foo" as their only export
     // and lift that up one level as the source file symbol
     if (
         globalSymbols.length === 1 &&
-        globalSymbols[0]
-            .getDeclarations()
-            ?.every(
+        getDeclarations(globalSymbols[0])
+            .every(
                 (declaration) =>
                     ts.isModuleDeclaration(declaration) &&
                     ts.isStringLiteral(declaration.name),
@@ -856,7 +855,7 @@ function getExports(
 
     // The generated docs aren't great, but you really ought not be using
     // this in the first place... so it's better than nothing.
-    const exportEq = symbol?.exports?.get("export=" as ts.__String);
+    const exportEq = symbol?.getExports().get("export=" as ts.__String);
     if (exportEq) {
         // JS users might also have exported types here.
         // We need to filter for types because otherwise static methods can show up as both
@@ -866,6 +865,8 @@ function getExports(
                 .getExportsOfModule(symbol!)
                 .filter(
                     (s) =>
+                        // TypeScript 7 also lists export= itself.
+                        s.escapedName !== ts.InternalSymbolName.ExportEquals &&
                         !hasAnyFlag(
                             s.flags,
                             ts.SymbolFlags.Prototype | ts.SymbolFlags.Value,
@@ -878,11 +879,7 @@ function getExports(
             .filter((s) => !hasAllFlags(s.flags, ts.SymbolFlags.Prototype));
 
         if (result.length === 0) {
-            const globalDecl = node.statements.find(
-                (s) =>
-                    ts.isModuleDeclaration(s) &&
-                    s.flags & ts.NodeFlags.GlobalAugmentation,
-            );
+            const globalDecl = node.statements.find(isGlobalAugmentation);
 
             if (globalDecl) {
                 const globalSymbol = context.getSymbolAtLocation(globalDecl);
@@ -890,7 +887,7 @@ function getExports(
                     result = context.checker
                         .getExportsOfModule(globalSymbol)
                         .filter((exp) =>
-                            exp.declarations?.some(
+                            getDeclarations(exp).some(
                                 (d) => d.getSourceFile() === node,
                             )
                         )
@@ -903,11 +900,7 @@ function getExports(
         const sourceFile = node.getSourceFile();
         result = context.checker
             .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
-            .filter((s) =>
-                s
-                    .getDeclarations()
-                    ?.some((d) => d.getSourceFile() === sourceFile)
-            );
+            .filter((s) => getDeclarations(s).some((d) => d.getSourceFile() === sourceFile));
     }
 
     // Put symbols named "default" last, #1795
@@ -925,8 +918,6 @@ function getExports(
 
 function isDirectExport(symbol: ts.Symbol, file: ts.SourceFile): boolean {
     return (
-        symbol
-            .getDeclarations()
-            ?.every((decl) => decl.getSourceFile() === file) ?? false
+        getDeclarations(symbol).every((decl) => decl.getSourceFile() === file)
     );
 }

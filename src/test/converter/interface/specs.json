@@ -2509,7 +2509,7 @@
                     "flags": {},
                     "children": [
                         {
-                            "id": 118,
+                            "id": 116,
                             "name": "base",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2535,7 +2535,7 @@
                             }
                         },
                         {
-                            "id": 119,
+                            "id": 117,
                             "name": "base2",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2561,7 +2561,7 @@
                             }
                         },
                         {
-                            "id": 116,
+                            "id": 118,
                             "name": "child",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2606,7 +2606,7 @@
                             }
                         },
                         {
-                            "id": 117,
+                            "id": 119,
                             "name": "child3",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2636,11 +2636,11 @@
                         {
                             "title": "Properties",
                             "children": [
-                                118,
-                                119,
                                 116,
+                                117,
+                                118,
                                 115,
-                                117
+                                119
                             ]
                         }
                     ],
@@ -3236,22 +3236,22 @@
         "116": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/merging.ts",
-            "qualifiedName": "Child.child"
+            "qualifiedName": "Base.base"
         },
         "117": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/merging.ts",
-            "qualifiedName": "Child.child3"
+            "qualifiedName": "Base2.base2"
         },
         "118": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/merging.ts",
-            "qualifiedName": "Base.base"
+            "qualifiedName": "Child.child"
         },
         "119": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/interface/merging.ts",
-            "qualifiedName": "Base2.base2"
+            "qualifiedName": "Child.child3"
         }
     },
     "files": {

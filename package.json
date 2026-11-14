@@ -45,10 +45,8 @@
         "lunr": "^2.3.9",
         "markdown-it": "^14.3.0",
         "minimatch": "^10.2.5",
+        "typescript": "7.1.0-beta",
         "yaml": "^2.9.0"
-    },
-    "peerDependencies": {
-        "typescript": "5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x || 6.0.x"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
@@ -65,7 +63,6 @@
         "puppeteer": "^25.3.0",
         "semver": "^7.8.5",
         "tsx": "4.23.0",
-        "typescript": "6.0.3",
         "typescript-eslint": "^8.62.1"
     },
     "files": [

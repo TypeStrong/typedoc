@@ -1,6 +1,5 @@
 import { dirname, join, resolve } from "path";
-import * as FS from "fs";
-import ts from "typescript";
+import { readJsoncFile } from "../../jsonc.js";
 
 import type { OptionsReader } from "../options.js";
 import type { Options } from "../options.js";
@@ -71,9 +70,9 @@ export class TypeDocReader implements OptionsReader {
 
         let fileContent: any;
         if (file.endsWith(".json") || file.endsWith(".jsonc")) {
-            const readResult = ts.readConfigFile(normalizePath(file), (path) => FS.readFileSync(path, "utf-8"));
+            const readResult = readJsoncFile(normalizePath(file));
 
-            if (readResult.error) {
+            if (!readResult) {
                 logger.error(
                     i18n.failed_read_options_file_0(nicePath(file)),
                 );

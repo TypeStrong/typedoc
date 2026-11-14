@@ -1,4 +1,4 @@
-import type ts from "typescript";
+import type * as ts from "../ts.js";
 import { existsSync } from "fs";
 import { readFile } from "./fs.js";
 import { Validation } from "#utils";

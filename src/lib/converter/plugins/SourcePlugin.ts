@@ -1,7 +1,7 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 
 import { DeclarationReflection, ReflectionKind, SignatureReflection, SourceReference } from "#models";
-import { getCommonDirectory, normalizePath, Option } from "#node-utils";
+import { getCommonDirectory, getDeclarations, normalizePath, Option } from "#node-utils";
 import { relative } from "path";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
@@ -73,7 +73,7 @@ export class SourcePlugin extends ConverterComponent {
         if (this.disableSources || reflection.kindOf(ReflectionKind.TypeLiteral)) return;
 
         const symbol = context.getSymbolFromReflection(reflection);
-        for (const node of symbol?.declarations || []) {
+        for (const node of symbol ? getDeclarations(symbol) : []) {
             const sourceFile = node.getSourceFile();
             const fileName = normalizePath(sourceFile.fileName);
             this.fileNames.add(fileName);
@@ -82,8 +82,7 @@ export class SourcePlugin extends ConverterComponent {
             if (ts.isSourceFile(node)) {
                 position = { character: 0, line: 0 };
             } else {
-                position = ts.getLineAndCharacterOfPosition(
-                    sourceFile,
+                position = sourceFile.getLineAndCharacterOfPosition(
                     getLocationNode(node).getStart(),
                 );
             }
@@ -102,10 +101,7 @@ export class SourcePlugin extends ConverterComponent {
     private onSignature(
         _context: Context,
         reflection: SignatureReflection,
-        sig?:
-            | ts.SignatureDeclaration
-            | ts.IndexSignatureDeclaration
-            | ts.JSDocSignature,
+        sig?: ts.SignatureDeclaration | ts.IndexSignatureDeclaration,
     ) {
         if (this.disableSources || !sig || reflection.parent.kindOf(ReflectionKind.TypeLiteral)) return;
 
@@ -113,8 +109,7 @@ export class SourcePlugin extends ConverterComponent {
         const fileName = normalizePath(sourceFile.fileName);
         this.fileNames.add(fileName);
 
-        const position = ts.getLineAndCharacterOfPosition(
-            sourceFile,
+        const position = sourceFile.getLineAndCharacterOfPosition(
             getLocationNode(sig).getStart(),
         );
 
@@ -177,11 +172,11 @@ function replaceSourcesWithParentSources(
     }
 
     const symbol = context.getSymbolFromReflection(refl.parent);
-    if (!symbol?.declarations) {
+    if (!symbol) {
         return false;
     }
 
-    for (const decl of symbol.declarations) {
+    for (const decl of getDeclarations(symbol)) {
         const file = decl.getSourceFile();
         const pos = file.getLineAndCharacterOfPosition(decl.pos);
         const end = file.getLineAndCharacterOfPosition(decl.end);

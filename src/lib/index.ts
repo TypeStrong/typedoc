@@ -159,4 +159,4 @@ export * as Internationalization from "./internationalization/index.js";
 export type { TranslatableStrings } from "./internationalization/internationalization.js";
 export { TypeScript };
 
-import TypeScript from "typescript";
+import * as TypeScript from "./ts.js";

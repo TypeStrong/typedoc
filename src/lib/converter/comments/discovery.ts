@@ -1,8 +1,17 @@
 import { ReflectionKind } from "#models";
-import { CommentStyle, nicePath } from "#node-utils";
+import {
+    CommentStyle,
+    findAncestor,
+    getAllSuperTypeNodes,
+    getDeclarations,
+    getJSDocStart,
+    getReparsedJSDocTag,
+    getValueDeclaration,
+    nicePath,
+} from "#node-utils";
 import { assertNever, filter, firstDefined, i18n, type Logger } from "#utils";
 import { ok } from "assert";
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import { resolveAliasedSymbol } from "../utilities/symbols.js";
 
 const variablePropertyKinds = [
@@ -259,7 +268,7 @@ export function discoverComment(
     kind: ReflectionKind,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
     declarationWarnings: boolean,
 ): DiscoveredComment | undefined {
     const discovered = discoverCommentWorker(
@@ -292,7 +301,7 @@ function discoverCommentWorker(
     kind: ReflectionKind,
     logger: Logger,
     commentStyle: CommentStyle,
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
     declarationWarnings: boolean,
     wanted: ts.SyntaxKind[],
 ): DiscoveredComment | undefined {
@@ -302,9 +311,10 @@ function discoverCommentWorker(
 
     // For a module comment, we want the first one defined in the file,
     // not the last one, since that will apply to the import or declaration.
-    const reverse = !symbol.declarations?.some(ts.isSourceFile);
+    const declarations = getDeclarations(symbol);
+    const reverse = !declarations.some(ts.isSourceFile);
 
-    const wantedDeclarations = filter(symbol.declarations, (decl) => wanted.includes(decl.kind));
+    const wantedDeclarations = filter(declarations, (decl) => wanted.includes(decl.kind));
 
     const commentNodes = wantedDeclarations.flatMap((decl) => declarationToCommentNodes(decl, checker));
 
@@ -371,8 +381,7 @@ function discoverCommentWorker(
                 const locations = discovered.map(
                     ({ file, ranges: [{ pos }] }) => {
                         const path = nicePath(file.fileName);
-                        const line = ts.getLineAndCharacterOfPosition(file, pos).line +
-                            1;
+                        const line = file.getLineAndCharacterOfPosition(pos).line + 1;
                         return `${path}:${line}`;
                     },
                 );
@@ -389,8 +398,8 @@ function discoverCommentWorker(
 }
 
 export function discoverSignatureComment(
-    declaration: ts.SignatureDeclaration | ts.JSDocSignature,
-    checker: ts.TypeChecker,
+    declaration: ts.SignatureDeclaration,
+    checker: ts.Checker,
     commentStyle: CommentStyle,
 ): DiscoveredComment | undefined {
     for (
@@ -399,16 +408,18 @@ export function discoverSignatureComment(
             inheritedFromParentDeclaration,
         } of declarationToCommentNodes(declaration, checker)
     ) {
-        if (ts.isJSDocSignature(node)) {
-            const comment = node.parent.parent;
-            ok(ts.isJSDoc(comment));
+        // A @callback tag is reparsed into a function type, its comment is the JSDoc comment containing the tag.
+        const callbackTag = getReparsedJSDocTag(node);
+        if (callbackTag && ts.isJSDocCallbackTag(callbackTag)) {
+            const comment = findAncestor(callbackTag, ts.isJSDoc);
+            ok(comment);
 
             return {
                 file: node.getSourceFile(),
                 ranges: [
                     {
                         kind: ts.SyntaxKind.MultiLineCommentTrivia,
-                        pos: comment.pos,
+                        pos: getJSDocStart(comment),
                         end: comment.end,
                     },
                 ],
@@ -443,7 +454,7 @@ function findJsDocForComment(
     if (ranges[0].kind === ts.SyntaxKind.MultiLineCommentTrivia) {
         const jsDocs = ts
             .getJSDocCommentsAndTags(node)
-            .map((doc) => ts.findAncestor(doc, ts.isJSDoc)!);
+            .map((doc) => findAncestor(doc, ts.isJSDoc)!);
 
         if (ts.isSourceFile(node)) {
             if (node.statements.length) {
@@ -451,7 +462,7 @@ function findJsDocForComment(
             }
         }
 
-        return jsDocs.find((doc) => doc.pos === ranges[0].pos);
+        return jsDocs.find((doc) => getJSDocStart(doc) === ranges[0].pos);
     }
 }
 
@@ -483,7 +494,7 @@ function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
  * ```
  */
 function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
-    while (node.parent.kind === ts.SyntaxKind.ModuleDeclaration) {
+    while (ts.isModuleDeclaration(node.parent)) {
         const parent = node.parent;
         if (node.name.pos === parent.name.end + 1) {
             node = parent;
@@ -555,7 +566,7 @@ function declarationToCommentNodeIgnoringParents(
 
 function declarationToCommentNodes(
     node: ts.Declaration,
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
 ): ReadonlyArray<{ node: ts.Node; inheritedFromParentDeclaration: boolean }> {
     const commentNode = declarationToCommentNodeIgnoringParents(node);
 
@@ -579,8 +590,8 @@ function declarationToCommentNodes(
     if (ts.isMethodDeclaration(node)) {
         const symbol = checker.getSymbolAtLocation(node.name || node);
         if (symbol) {
-            overloadIndex = symbol.declarations
-                ?.filter((d) => d.kind === node.kind)
+            overloadIndex = getDeclarations(symbol)
+                .filter((d) => d.kind === node.kind)
                 .indexOf(node);
             ok(overloadIndex !== -1, "Should always find declaration");
         }
@@ -591,11 +602,11 @@ function declarationToCommentNodes(
         if (!seenSymbols.has(symbol)) {
             seenSymbols.add(symbol);
             if (overloadIndex === undefined) {
-                return symbol.declarations?.map(
+                return getDeclarations(symbol).map(
                     (node) => declarationToCommentNodeIgnoringParents(node) || node,
                 );
-            } else if (symbol.declarations?.[overloadIndex]) {
-                const parentSigNode = symbol.declarations[overloadIndex];
+            } else if (getDeclarations(symbol)[overloadIndex]) {
+                const parentSigNode = getDeclarations(symbol)[overloadIndex];
                 return [
                     declarationToCommentNodeIgnoringParents(parentSigNode) ||
                     parentSigNode,
@@ -614,8 +625,9 @@ function declarationToCommentNodes(
     // #2999 automatically pick up comments from the value symbol for shorthand assignments
     if (ts.isShorthandPropertyAssignment(node)) {
         const sourceSymbol = checker.getShorthandAssignmentValueSymbol(node);
-        if (sourceSymbol?.valueDeclaration) {
-            const commentNode = declarationToCommentNodeIgnoringParents(sourceSymbol.valueDeclaration);
+        const sourceDeclaration = sourceSymbol && getValueDeclaration(sourceSymbol);
+        if (sourceDeclaration) {
+            const commentNode = declarationToCommentNodeIgnoringParents(sourceDeclaration);
             if (commentNode) {
                 result.push(
                     {
@@ -628,8 +640,9 @@ function declarationToCommentNodes(
 
         // #3003 even more magic for handling an imported symbol which appears in a shorthand property assignment
         const originalSymbol = sourceSymbol && resolveAliasedSymbol(sourceSymbol, checker);
-        if (originalSymbol !== sourceSymbol && originalSymbol?.valueDeclaration) {
-            const commentNode = declarationToCommentNodeIgnoringParents(originalSymbol?.valueDeclaration);
+        const originalDeclaration = originalSymbol && getValueDeclaration(originalSymbol);
+        if (originalSymbol !== sourceSymbol && originalDeclaration) {
+            const commentNode = declarationToCommentNodeIgnoringParents(originalDeclaration);
             if (commentNode) {
                 result.push(
                     {
@@ -648,9 +661,9 @@ function declarationToCommentNodes(
         node.name
     ) {
         const symbol = checker.getSymbolAtLocation(node.name);
-        if (symbol && symbol.declarations![0] !== node) {
+        if (symbol && getDeclarations(symbol)[0] !== node) {
             result.push({
-                node: symbol.declarations![0],
+                node: getDeclarations(symbol)[0],
                 inheritedFromParentDeclaration: true,
             });
         }
@@ -661,7 +674,7 @@ function declarationToCommentNodes(
 
 // Lifted from the TS source, with a couple minor modifications
 function findBaseOfDeclaration<T>(
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
     declaration: ts.Declaration,
     cb: (symbol: ts.Symbol) => T[] | undefined,
 ): T[] | undefined {
@@ -672,15 +685,16 @@ function findBaseOfDeclaration<T>(
 
     const isStaticMember = ts.getCombinedModifierFlags(declaration) & ts.ModifierFlags.Static;
     return firstDefined(
-        ts.getAllSuperTypeNodes(classOrInterfaceDeclaration),
+        getAllSuperTypeNodes(classOrInterfaceDeclaration),
         (superTypeNode) => {
             const baseType = checker.getTypeAtLocation(superTypeNode);
-            const type = isStaticMember && baseType.symbol
-                ? checker.getTypeOfSymbol(baseType.symbol)
+            const baseSymbol = baseType.getSymbol();
+            const type = isStaticMember && baseSymbol
+                ? checker.getTypeOfSymbol(baseSymbol)
                 : baseType;
             const symbol = checker.getPropertyOfType(
                 type,
-                declaration.symbol!.name,
+                checker.getSymbolOfDeclaration(declaration).name,
             );
             return symbol ? cb(symbol) : undefined;
         },

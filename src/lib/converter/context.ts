@@ -1,5 +1,5 @@
 import { ok as assert } from "assert";
-import ts from "typescript";
+import * as ts from "../ts.js";
 
 import {
     Comment,
@@ -25,7 +25,7 @@ import {
     getNodeComment,
     getSignatureComment,
 } from "./comments/index.js";
-import { getHumanName, getQualifiedName } from "#node-utils";
+import { getDeclarations, getHumanName, getQualifiedName, isSourceFileDeclaration } from "#node-utils";
 import { findPackageForPath, normalizePath } from "#node-utils";
 import { createSymbolIdImpl } from "./factories/symbol-id.js";
 import { type NormalizedPath, removeIf } from "#utils";
@@ -42,8 +42,8 @@ export class Context {
     /**
      * The TypeChecker instance returned by the TypeScript compiler.
      */
-    get checker(): ts.TypeChecker {
-        return this.program.getTypeChecker();
+    get checker(): ts.Checker {
+        return this.program.getProject().checker;
     }
 
     /**
@@ -120,21 +120,27 @@ export class Context {
             // ignore
         }
         if (!nodeType) {
-            if (node.symbol) {
-                nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
-                // The TS types lie due to ts.SourceFile
-            } else if (node.parent?.symbol) {
-                nodeType = this.checker.getDeclaredTypeOfSymbol(
-                    node.parent.symbol,
-                );
-                // The TS types lie due to ts.SourceFile
-            } else if (node.parent?.parent?.symbol) {
-                nodeType = this.checker.getDeclaredTypeOfSymbol(
-                    node.parent.parent.symbol,
-                );
+            const symbol = this.checker.getSymbolOfNode(node) ??
+                (node.parent && this.checker.getSymbolOfNode(node.parent)) ??
+                (node.parent?.parent && this.checker.getSymbolOfNode(node.parent.parent));
+            if (symbol) {
+                nodeType = this.checker.getDeclaredTypeOfSymbol(symbol);
             }
         }
         return nodeType;
+    }
+
+    /**
+     * Get the type named by the name of a type reference. TypeScript 7 returns the error
+     * type for such names, where TypeScript 6 returned the declared type of the symbol.
+     */
+    getTypeOfTypeName(typeName: ts.EntityName): ts.Type {
+        const type = this.checker.getTypeAtLocation(typeName);
+        if (!type.isErrorType()) {
+            return type;
+        }
+        const symbol = this.getSymbolAtLocation(typeName);
+        return symbol ? this.checker.getDeclaredTypeOfSymbol(this.resolveAliasedSymbol(symbol)) : type;
     }
 
     getSymbolAtLocation(node: ts.Node): ts.Symbol | undefined {
@@ -148,10 +154,7 @@ export class Context {
     expectSymbolAtLocation(node: ts.Node): ts.Symbol {
         const symbol = this.getSymbolAtLocation(node);
         if (!symbol) {
-            const { line } = ts.getLineAndCharacterOfPosition(
-                node.getSourceFile(),
-                node.pos,
-            );
+            const { line } = node.getSourceFile().getLineAndCharacterOfPosition(node.pos);
             throw new Error(
                 `Expected a symbol for node with kind ${ts.SyntaxKind[node.kind]} at ${node.getSourceFile().fileName}:${
                     line + 1
@@ -239,7 +242,7 @@ export class Context {
         const path = reflection.kindOf(
                 ReflectionKind.Namespace | ReflectionKind.Module,
             )
-            ? symbol?.declarations?.find(ts.isSourceFile)?.fileName
+            ? (symbol && getDeclarations(symbol).find(isSourceFileDeclaration)?.fileName)
             : undefined;
 
         if (path) {
@@ -282,7 +285,7 @@ export class Context {
             symbol.flags & ts.SymbolFlags.TypeParameter
         );
 
-        const symbolPath = symbol.declarations?.[0]?.getSourceFile().fileName;
+        const symbolPath = getDeclarations(symbol)[0]?.getSourceFile().fileName;
         if (!symbolPath) return ref;
 
         ref.package = findPackageForPath(symbolPath)?.[0];
@@ -334,8 +337,9 @@ export class Context {
                 reflection.kindOf(ReflectionKind.SomeMember)
             ) {
                 const saved = this.project["symbolToReflectionIdMap"].get(id);
-                const parentSymbolReflection = symbol.parent &&
-                    this.getReflectionFromSymbol(symbol.parent);
+                const parentSymbol = symbol.getParent();
+                const parentSymbolReflection = parentSymbol &&
+                    this.getReflectionFromSymbol(parentSymbol);
 
                 if (
                     typeof saved === "object" &&
@@ -405,11 +409,10 @@ export class Context {
 
     getJsDocComment(
         declaration:
-            | ts.JSDocPropertyLikeTag
+            | ts.JSDocParameterOrPropertyTag
             | ts.JSDocCallbackTag
             | ts.JSDocTypedefTag
-            | ts.JSDocTemplateTag
-            | ts.JSDocEnumTag,
+            | ts.JSDocTemplateTag,
     ) {
         return getJsDocComment(
             declaration,
@@ -418,7 +421,7 @@ export class Context {
     }
 
     getSignatureComment(
-        declaration: ts.SignatureDeclaration | ts.JSDocSignature,
+        declaration: ts.SignatureDeclaration,
     ) {
         return getSignatureComment(
             declaration,

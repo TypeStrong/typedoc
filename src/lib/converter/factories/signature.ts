@@ -1,6 +1,7 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import assert from "assert";
 import {
+    ArrayType,
     DeclarationReflection,
     IntrinsicType,
     ParameterReflection,
@@ -17,6 +18,14 @@ import type { Context } from "../context.js";
 import { ConverterEvents } from "../converter-events.js";
 import { convertDefaultValue } from "../convert-expression.js";
 import { removeUndefined } from "../utilities/reflections.js";
+import {
+    getCombinedModifierFlags,
+    getDeclarations,
+    getReparsedJSDocTag,
+    getSignatureDeclaration,
+    getTypeAnnotation,
+    getValueDeclaration,
+} from "#node-utils";
 
 export function convertConstructSignatures(context: Context, symbol: ts.Symbol) {
     const type = context.checker.getDeclaredTypeOfSymbol(symbol);
@@ -58,13 +67,11 @@ export function createSignature(
         | ReflectionKind.SetSignature,
     signature: ts.Signature,
     symbol: ts.Symbol | undefined,
-    declaration?: ts.SignatureDeclaration | ts.JSDocSignature,
+    declaration?: ts.SignatureDeclaration,
 ) {
     assert(context.scope instanceof DeclarationReflection);
 
-    declaration ||= signature.getDeclaration() as
-        | ts.SignatureDeclaration
-        | undefined;
+    declaration ||= getSignatureDeclaration(signature);
 
     const sigRef = new SignatureReflection(
         kind == ReflectionKind.ConstructorSignature
@@ -107,12 +114,13 @@ export function createSignature(
     sigRef.typeParameters = convertTypeParameters(
         sigRefCtx,
         sigRef,
-        signature.typeParameters,
+        signature.getTypeParameters(),
     );
 
-    const parameterSymbols: ReadonlyArray<ts.Symbol & { type?: ts.Type }> = signature.thisParameter
-        ? [signature.thisParameter, ...signature.parameters]
-        : signature.parameters;
+    const thisParameter = signature.getThisParameter();
+    const parameterSymbols = thisParameter
+        ? [thisParameter, ...signature.getParameters()]
+        : signature.getParameters();
 
     sigRef.parameters = convertParameters(
         sigRefCtx,
@@ -123,21 +131,21 @@ export function createSignature(
 
     const predicate = context.checker.getTypePredicateOfSignature(signature);
     if (predicate) {
-        sigRef.type = convertPredicate(predicate, sigRefCtx);
+        const predicateNode = declaration && getTypeAnnotation(declaration);
+        sigRef.type = convertPredicate(
+            predicate,
+            sigRefCtx,
+            predicateNode && ts.isTypePredicateNode(predicateNode) ? predicateNode.type : undefined,
+        );
     } else if (kind == ReflectionKind.SetSignature) {
         sigRef.type = new IntrinsicType("void");
     } else if (declaration?.type?.kind === ts.SyntaxKind.ThisType) {
         sigRef.type = new IntrinsicType("this");
     } else {
-        let typeNode = declaration?.type;
-        if (typeNode && ts.isJSDocReturnTag(typeNode)) {
-            typeNode = typeNode.typeExpression?.type;
-        }
-
         sigRef.type = context.converter.convertType(
             sigRefCtx,
             signature.getReturnType(),
-            typeNode,
+            declaration && getTypeAnnotation(declaration),
         );
     }
 
@@ -176,9 +184,7 @@ export function createConstructSignatureWithType(
 ) {
     assert(context.scope instanceof DeclarationReflection);
 
-    const declaration = signature.getDeclaration() as
-        | ts.SignatureDeclaration
-        | undefined;
+    const declaration = getSignatureDeclaration(signature);
 
     const sigRef = new SignatureReflection(
         context.scope.parent!.name,
@@ -194,9 +200,10 @@ export function createConstructSignatureWithType(
         }
     }
 
-    const parameterSymbols = signature.thisParameter
-        ? [signature.thisParameter, ...signature.parameters]
-        : [...signature.parameters];
+    const thisParameter = signature.getThisParameter();
+    const parameterSymbols = thisParameter
+        ? [thisParameter, ...signature.getParameters()]
+        : [...signature.getParameters()];
 
     // Prevent a `this` parameter from appearing on constructor signature
     // as TS disallows them on regular classes.
@@ -239,10 +246,7 @@ function convertParameters(
     context: Context,
     sigRef: SignatureReflection,
     parameters: readonly ts.Symbol[],
-    parameterNodes:
-        | readonly ts.ParameterDeclaration[]
-        | readonly ts.JSDocParameterTag[]
-        | undefined,
+    parameterNodes: readonly ts.ParameterDeclaration[] | undefined,
 ) {
     // #2698 if `satisfies` is used to imply a this parameter, we might have
     // more parameters than parameter nodes and need to shift the parameterNode
@@ -250,19 +254,16 @@ function convertParameters(
     const parameterNodeOffset = parameterNodes?.length !== parameters.length ? -1 : 0;
 
     return parameters.map((param, i) => {
-        const declaration = param.valueDeclaration;
-        assert(
-            !declaration ||
-                ts.isParameter(declaration) ||
-                ts.isJSDocParameterTag(declaration),
-        );
+        const declaration = getValueDeclaration(param);
+        assert(!declaration || ts.isParameterDeclaration(declaration));
         const paramRefl = new ParameterReflection(
             /^__\d+$/.test(param.name) ? "__namedParameters" : param.name,
             ReflectionKind.Parameter,
             sigRef,
         );
-        if (declaration && ts.isJSDocParameterTag(declaration)) {
-            paramRefl.comment = context.getJsDocComment(declaration);
+        const jsDocTag = declaration && getReparsedJSDocTag(declaration);
+        if (jsDocTag && ts.isJSDocParameterTag(jsDocTag)) {
+            paramRefl.comment = context.getJsDocComment(jsDocTag);
         }
         paramRefl.comment ||= context.getComment(param, paramRefl.kind);
 
@@ -271,7 +272,7 @@ function convertParameters(
         // should be hidden.
         if (
             declaration &&
-            (ts.getCombinedModifierFlags(declaration) &
+            (getCombinedModifierFlags(declaration) &
                 (ts.ModifierFlags.Public | ts.ModifierFlags.Private | ts.ModifierFlags.Protected |
                     ts.ModifierFlags.Readonly))
         ) {
@@ -294,21 +295,12 @@ function convertParameters(
                 param,
                 declaration,
             );
-
-            if (ts.isParameter(declaration)) {
-                typeNode = declaration.type;
-            } else {
-                typeNode = declaration.typeExpression?.type;
-            }
+            typeNode = getTypeAnnotation(declaration);
         } else {
             type = context.checker.getTypeOfSymbol(param);
         }
 
-        if (
-            declaration &&
-            ts.isParameter(declaration) &&
-            declaration.type?.kind === ts.SyntaxKind.ThisType
-        ) {
+        if (declaration?.type?.kind === ts.SyntaxKind.ThisType) {
             paramRefl.type = new IntrinsicType("this");
         } else {
             paramRefl.type = context.converter.convertType(
@@ -316,17 +308,12 @@ function convertParameters(
                 type,
                 typeNode,
             );
+            if (jsDocTag && isJSDocVariadicParameterTag(jsDocTag) && paramRefl.type.type !== "array") {
+                paramRefl.type = new ArrayType(paramRefl.type);
+            }
         }
 
-        let isOptional = false;
-        if (declaration) {
-            isOptional = ts.isParameter(declaration)
-                ? !!declaration.questionToken ||
-                    ts
-                        .getJSDocParameterTags(declaration)
-                        .some((tag) => tag.isBracketed)
-                : declaration.isBracketed;
-        }
+        const isOptional = !!declaration && isOptionalParameter(declaration);
 
         if (isOptional) {
             paramRefl.type = removeUndefined(paramRefl.type);
@@ -342,10 +329,7 @@ function convertParameters(
         // unless it is a this parameter defined with @this in JSDoc.
         let isRest = param.name !== "this";
         if (declaration) {
-            isRest = ts.isParameter(declaration)
-                ? !!declaration.dotDotDotToken
-                : !!declaration.typeExpression &&
-                    ts.isJSDocVariadicType(declaration.typeExpression.type);
+            isRest = !!declaration.dotDotDotToken;
         }
 
         paramRefl.setFlag(ReflectionFlag.Rest, isRest);
@@ -360,7 +344,7 @@ function convertParameters(
 export function convertParameterNodes(
     context: Context,
     sigRef: SignatureReflection,
-    parameters: readonly (ts.JSDocParameterTag | ts.ParameterDeclaration)[],
+    parameters: readonly ts.ParameterDeclaration[],
 ) {
     return parameters.map((param) => {
         const paramRefl = new ParameterReflection(
@@ -370,8 +354,10 @@ export function convertParameterNodes(
             ReflectionKind.Parameter,
             sigRef,
         );
-        if (ts.isJSDocParameterTag(param)) {
-            paramRefl.comment = context.getJsDocComment(param);
+        // Parameters of a @callback are created from its @param tags.
+        const jsDocTag = getReparsedJSDocTag(param);
+        if (jsDocTag && ts.isJSDocParameterTag(jsDocTag)) {
+            paramRefl.comment = context.getJsDocComment(jsDocTag);
             // #3111 don't need to check for @hidden here because this is only used
             // for cases where a parameter property is disallowed by TS.
         }
@@ -387,42 +373,68 @@ export function convertParameterNodes(
 
         paramRefl.type = context.converter.convertType(
             context.withScope(paramRefl),
-            ts.isParameter(param) ? param.type : param.typeExpression?.type,
+            param.type,
         );
+        if (jsDocTag && isJSDocVariadicParameterTag(jsDocTag)) {
+            paramRefl.type = new ArrayType(paramRefl.type);
+        }
 
-        const isOptional = ts.isParameter(param)
-            ? !!param.questionToken
-            : param.isBracketed;
+        const isOptional = isOptionalParameter(param);
         if (isOptional) {
             paramRefl.type = removeUndefined(paramRefl.type);
         }
 
         paramRefl.defaultValue = convertDefaultValue(param);
         paramRefl.setFlag(ReflectionFlag.Optional, isOptional);
-        paramRefl.setFlag(
-            ReflectionFlag.Rest,
-            ts.isParameter(param)
-                ? !!param.dotDotDotToken
-                : !!param.typeExpression &&
-                    ts.isJSDocVariadicType(param.typeExpression.type),
-        );
+        paramRefl.setFlag(ReflectionFlag.Rest, !!param.dotDotDotToken);
         checkForDestructuredParameterDefaults(paramRefl, param);
         return paramRefl;
     });
 }
 
+// A @param {...T} tag is reparsed into a rest parameter of type T, which TypeDoc shows as T[].
+function isJSDocVariadicParameterTag(tag: ts.JSDocTag) {
+    return ts.isJSDocParameterTag(tag) &&
+        !!tag.typeExpression &&
+        ts.isJSDocTypeExpression(tag.typeExpression) &&
+        ts.isJSDocVariadicType(tag.typeExpression.type);
+}
+
+// In JavaScript, a parameter is optional if its @param tag puts the name in brackets.
+function isOptionalParameter(declaration: ts.ParameterDeclaration) {
+    if (declaration.questionToken) {
+        return true;
+    }
+
+    const reparsedTag = getReparsedJSDocTag(declaration);
+    if (reparsedTag && ts.isJSDocParameterTag(reparsedTag)) {
+        return reparsedTag.isBracketed;
+    }
+
+    const name = ts.isIdentifier(declaration.name) ? declaration.name.text : undefined;
+    return !!name &&
+        (declaration.parent.jsDoc ?? []).some((doc) =>
+            (doc as ts.JSDoc).tags?.some((tag) =>
+                ts.isJSDocParameterTag(tag) &&
+                ts.isIdentifier(tag.name) &&
+                tag.name.text === name &&
+                tag.isBracketed
+            )
+        );
+}
+
 function checkForDestructuredParameterDefaults(
     param: ParameterReflection,
-    decl: ts.ParameterDeclaration | ts.JSDocParameterTag | undefined,
+    decl: ts.ParameterDeclaration | undefined,
 ) {
-    if (!decl || !ts.isParameter(decl)) return;
+    if (!decl) return;
     if (param.name !== "__namedParameters") return;
     if (!ts.isObjectBindingPattern(decl.name)) return;
     if (param.type?.type !== "reflection") return;
 
     for (const child of param.type.declaration.children || []) {
         const tsChild = decl.name.elements.find(
-            (el) => (el.propertyName || el.name).getText() === child.name,
+            (el) => (el.propertyName || el.name)?.getText() === child.name,
         );
 
         if (tsChild) {
@@ -436,29 +448,35 @@ export function convertTypeParameters(
     parent: Reflection,
     parameters: readonly ts.TypeParameter[] | undefined,
 ) {
-    return parameters?.map((param) => {
-        const constraintT = param.getConstraint();
+    if (!parameters?.length) {
+        return;
+    }
+
+    return parameters.map((param) => {
+        // TypeScript 6 returned the base constraint from getConstraint.
+        const constraintT = context.checker.getBaseConstraintOfType(param);
         const defaultT = param.getDefault();
 
         // There's no way to determine directly from a ts.TypeParameter what it's variance modifiers are
         // so unfortunately we have to go back to the node for this...
-        const declaration = param
-            .getSymbol()
-            ?.declarations?.find(ts.isTypeParameterDeclaration);
+        const paramSymbol = param.getSymbol();
+        const declaration = paramSymbol && getDeclarations(paramSymbol).find(ts.isTypeParameterDeclaration);
         const variance = getVariance(declaration?.modifiers);
 
         const paramRefl = new TypeParameterReflection(
-            param.symbol.name,
+            paramSymbol?.name ?? context.checker.typeToString(param),
             parent,
             variance,
         );
         const paramCtx = context.withScope(paramRefl);
 
+        // The declared nodes let the converter recover a `keyof` constraint, which
+        // the TypeScript 7 API only returns as the resolved union of keys.
         paramRefl.type = constraintT
-            ? context.converter.convertType(paramCtx, constraintT)
+            ? context.converter.convertType(paramCtx, constraintT, declaration?.constraint)
             : void 0;
         paramRefl.default = defaultT
-            ? context.converter.convertType(paramCtx, defaultT)
+            ? context.converter.convertType(paramCtx, defaultT, declaration?.defaultType)
             : void 0;
 
         // No way to determine this from the type parameter itself, need to go back to the declaration
@@ -499,30 +517,25 @@ export function createTypeParamReflection(
     );
     const paramScope = context.withScope(paramRefl);
 
-    if (ts.isJSDocTemplateTag(param.parent)) {
-        // With a @template tag, the constraint applies only to the
-        // first type parameter declared.
-        if (param.parent.typeParameters[0].name.text === param.name.text && param.parent.constraint) {
-            paramRefl.type = context.converter.convertType(paramScope, param.parent.constraint);
-        }
-    } else {
-        paramRefl.type = param.constraint
-            ? context.converter.convertType(paramScope, param.constraint)
-            : void 0;
-    }
+    // A @template tag is reparsed into a type parameter, with the constraint
+    // applied only to the first type parameter declared by the tag.
+    paramRefl.type = param.constraint
+        ? context.converter.convertType(paramScope, param.constraint)
+        : void 0;
 
-    paramRefl.default = param.default
-        ? context.converter.convertType(paramScope, param.default)
+    paramRefl.default = param.defaultType
+        ? context.converter.convertType(paramScope, param.defaultType)
         : void 0;
 
     if (param.modifiers?.some((m) => m.kind === ts.SyntaxKind.ConstKeyword)) {
         paramRefl.flags.setFlag(ReflectionFlag.Const, true);
     }
 
-    context.registerReflection(paramRefl, param.symbol);
+    context.registerReflection(paramRefl, context.checker.getSymbolOfDeclaration(param));
 
-    if (ts.isJSDocTemplateTag(param.parent)) {
-        paramRefl.comment = context.getJsDocComment(param.parent);
+    const templateTag = getReparsedJSDocTag(param);
+    if (templateTag && ts.isJSDocTemplateTag(templateTag)) {
+        paramRefl.comment = context.getJsDocComment(templateTag);
     }
 
     context.converter.trigger(
@@ -534,54 +547,8 @@ export function createTypeParamReflection(
     return paramRefl;
 }
 
-export function convertTemplateParameterNodes(
-    context: Context,
-    nodes: readonly ts.JSDocTemplateTag[] | undefined,
-) {
-    return nodes?.flatMap((node) => {
-        return node.typeParameters.map((param, index) => {
-            const paramRefl = new TypeParameterReflection(
-                param.name.text,
-                context.scope,
-                getVariance(param.modifiers),
-            );
-            const paramScope = context.withScope(paramRefl);
-            paramRefl.type = index || !node.constraint
-                ? void 0
-                : context.converter.convertType(
-                    paramScope,
-                    node.constraint.type,
-                );
-            paramRefl.default = param.default
-                ? context.converter.convertType(paramScope, param.default)
-                : void 0;
-            if (
-                param.modifiers?.some(
-                    (m) => m.kind === ts.SyntaxKind.ConstKeyword,
-                )
-            ) {
-                paramRefl.flags.setFlag(ReflectionFlag.Const, true);
-            }
-
-            context.registerReflection(paramRefl, param.symbol);
-
-            if (ts.isJSDocTemplateTag(param.parent)) {
-                paramRefl.comment = context.getJsDocComment(param.parent);
-            }
-
-            context.converter.trigger(
-                ConverterEvents.CREATE_TYPE_PARAMETER,
-                context,
-                paramRefl,
-                param,
-            );
-            return paramRefl;
-        });
-    });
-}
-
 function getVariance(
-    modifiers: ts.ModifiersArray | undefined,
+    modifiers: ts.NodeArray<ts.ModifierLike> | undefined,
 ): VarianceModifier | undefined {
     const hasIn = modifiers?.some(
         (mod) => mod.kind === ts.SyntaxKind.InKeyword,
@@ -606,6 +573,7 @@ function getVariance(
 function convertPredicate(
     predicate: ts.TypePredicate,
     context: Context,
+    typeNode: ts.TypeNode | undefined,
 ): PredicateType {
     let name: string;
     switch (predicate.kind) {
@@ -635,7 +603,7 @@ function convertPredicate(
         name,
         asserts,
         predicate.type
-            ? context.converter.convertType(context, predicate.type)
+            ? context.converter.convertType(context, predicate.type, typeNode)
             : void 0,
     );
 }

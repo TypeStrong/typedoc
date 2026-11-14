@@ -121,7 +121,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 7,
+                    "id": 40,
                     "name": "ColumnType",
                     "variant": "declaration",
                     "kind": 8,
@@ -136,7 +136,7 @@
                     },
                     "children": [
                         {
-                            "id": 9,
+                            "id": 42,
                             "name": "NUMBER",
                             "variant": "declaration",
                             "kind": 16,
@@ -155,7 +155,7 @@
                             }
                         },
                         {
-                            "id": 8,
+                            "id": 41,
                             "name": "STRING",
                             "variant": "declaration",
                             "kind": 16,
@@ -178,8 +178,8 @@
                         {
                             "title": "Enumeration Members",
                             "children": [
-                                9,
-                                8
+                                42,
+                                41
                             ]
                         }
                     ],
@@ -189,17 +189,11 @@
                             "line": 60,
                             "character": 13,
                             "url": "typedoc://index.js#L60"
-                        },
-                        {
-                            "fileName": "index.js",
-                            "line": 58,
-                            "character": 3,
-                            "url": "typedoc://index.js#L58"
                         }
                     ]
                 },
                 {
-                    "id": 12,
+                    "id": 6,
                     "name": "AlsoInterfaceIsh",
                     "variant": "declaration",
                     "kind": 256,
@@ -214,7 +208,7 @@
                     },
                     "children": [
                         {
-                            "id": 14,
+                            "id": 8,
                             "name": "bar",
                             "variant": "declaration",
                             "kind": 1024,
@@ -241,7 +235,7 @@
                             }
                         },
                         {
-                            "id": 13,
+                            "id": 7,
                             "name": "foo",
                             "variant": "declaration",
                             "kind": 1024,
@@ -272,8 +266,8 @@
                         {
                             "title": "Properties",
                             "children": [
-                                14,
-                                13
+                                8,
+                                7
                             ]
                         }
                     ],
@@ -287,14 +281,14 @@
                     ]
                 },
                 {
-                    "id": 10,
+                    "id": 4,
                     "name": "InterfaceIsh",
                     "variant": "declaration",
                     "kind": 256,
                     "flags": {},
                     "children": [
                         {
-                            "id": 11,
+                            "id": 5,
                             "name": "foo",
                             "variant": "declaration",
                             "kind": 1024,
@@ -325,7 +319,7 @@
                         {
                             "title": "Properties",
                             "children": [
-                                11
+                                5
                             ]
                         }
                     ],
@@ -339,7 +333,7 @@
                     ]
                 },
                 {
-                    "id": 39,
+                    "id": 33,
                     "name": "Foo",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -355,21 +349,21 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 40,
+                            "id": 34,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 41,
+                                    "id": 35,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 42,
+                                            "id": 36,
                                             "name": "args",
                                             "variant": "param",
                                             "kind": 32768,
@@ -403,7 +397,7 @@
                     }
                 },
                 {
-                    "id": 25,
+                    "id": 19,
                     "name": "HasReturnTag",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -419,14 +413,14 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 26,
+                            "id": 20,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 27,
+                                    "id": 21,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -441,7 +435,7 @@
                     }
                 },
                 {
-                    "id": 37,
+                    "id": 31,
                     "name": "Identity",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -464,7 +458,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 38,
+                            "id": 32,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -481,14 +475,14 @@
                     ],
                     "type": {
                         "type": "reference",
-                        "target": 38,
+                        "target": 32,
                         "name": "T",
                         "package": "typedoc",
                         "refersToTypeParameter": true
                     }
                 },
                 {
-                    "id": 28,
+                    "id": 22,
                     "name": "IdentityFn",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -503,7 +497,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 32,
+                            "id": 26,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -513,28 +507,28 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 29,
+                            "id": 23,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 30,
+                                    "id": 24,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 31,
+                                            "id": 25,
                                             "name": "data",
                                             "variant": "param",
                                             "kind": 32768,
                                             "flags": {},
                                             "type": {
                                                 "type": "reference",
-                                                "target": 32,
+                                                "target": 26,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "refersToTypeParameter": true
@@ -543,7 +537,7 @@
                                     ],
                                     "type": {
                                         "type": "reference",
-                                        "target": 32,
+                                        "target": 26,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -554,7 +548,7 @@
                     }
                 },
                 {
-                    "id": 17,
+                    "id": 11,
                     "name": "IntersectionType",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -581,14 +575,14 @@
                             {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 18,
+                                    "id": 12,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "children": [
                                         {
-                                            "id": 19,
+                                            "id": 13,
                                             "name": "x",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -611,7 +605,7 @@
                                         {
                                             "title": "Properties",
                                             "children": [
-                                                19
+                                                13
                                             ]
                                         }
                                     ]
@@ -620,14 +614,14 @@
                             {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 20,
+                                    "id": 14,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "children": [
                                         {
-                                            "id": 21,
+                                            "id": 15,
                                             "name": "y",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -650,7 +644,7 @@
                                         {
                                             "title": "Properties",
                                             "children": [
-                                                21
+                                                15
                                             ]
                                         }
                                     ]
@@ -660,7 +654,7 @@
                     }
                 },
                 {
-                    "id": 22,
+                    "id": 16,
                     "name": "NoReturnTag",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -684,14 +678,14 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 23,
+                            "id": 17,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 24,
+                                    "id": 18,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -706,7 +700,7 @@
                     }
                 },
                 {
-                    "id": 15,
+                    "id": 9,
                     "name": "ObjectAlias",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -739,7 +733,7 @@
                     }
                 },
                 {
-                    "id": 33,
+                    "id": 27,
                     "name": "OptionalArg",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -755,21 +749,21 @@
                     "type": {
                         "type": "reflection",
                         "declaration": {
-                            "id": 34,
+                            "id": 28,
                             "name": "__type",
                             "variant": "declaration",
                             "kind": 65536,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 35,
+                                    "id": 29,
                                     "name": "__type",
                                     "variant": "signature",
                                     "kind": 4096,
                                     "flags": {},
                                     "parameters": [
                                         {
-                                            "id": 36,
+                                            "id": 30,
                                             "name": "data",
                                             "variant": "param",
                                             "kind": 32768,
@@ -800,7 +794,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 10,
                     "name": "UnionType",
                     "variant": "declaration",
                     "kind": 2097152,
@@ -836,7 +830,7 @@
                     }
                 },
                 {
-                    "id": 4,
+                    "id": 37,
                     "name": "usedFoo",
                     "variant": "declaration",
                     "kind": 64,
@@ -851,7 +845,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 5,
+                            "id": 38,
                             "name": "usedFoo",
                             "variant": "signature",
                             "kind": 4096,
@@ -880,7 +874,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 6,
+                                    "id": 39,
                                     "name": "args",
                                     "variant": "param",
                                     "kind": 32768,
@@ -916,34 +910,34 @@
                 {
                     "title": "Enumerations",
                     "children": [
-                        7
+                        40
                     ]
                 },
                 {
                     "title": "Interfaces",
                     "children": [
-                        12,
-                        10
+                        6,
+                        4
                     ]
                 },
                 {
                     "title": "Type Aliases",
                     "children": [
-                        39,
-                        25,
-                        37,
-                        28,
-                        17,
-                        22,
-                        15,
                         33,
-                        16
+                        19,
+                        31,
+                        22,
+                        11,
+                        16,
+                        9,
+                        27,
+                        10
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        4
+                        37
                     ]
                 }
             ],
@@ -986,72 +980,72 @@
         "4": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "usedFoo"
+            "qualifiedName": "InterfaceIsh"
         },
         "5": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "usedFoo"
+            "qualifiedName": "__type.foo"
         },
         "6": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "args"
+            "qualifiedName": "AlsoInterfaceIsh"
         },
         "7": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "ColumnType"
+            "qualifiedName": "__type.foo"
         },
         "8": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__object.STRING"
+            "qualifiedName": "__type.bar"
         },
         "9": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__object.NUMBER"
+            "qualifiedName": "ObjectAlias"
         },
         "10": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "InterfaceIsh"
+            "qualifiedName": "UnionType"
         },
         "11": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.foo"
+            "qualifiedName": "IntersectionType"
         },
         "12": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "AlsoInterfaceIsh"
+            "qualifiedName": "__type"
         },
         "13": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.foo"
+            "qualifiedName": "__type.x"
         },
         "14": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.bar"
+            "qualifiedName": "__type"
         },
         "15": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "ObjectAlias"
+            "qualifiedName": "__type.y"
         },
         "16": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "UnionType"
+            "qualifiedName": "NoReturnTag"
         },
         "17": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "IntersectionType"
+            "qualifiedName": "__type"
         },
         "18": {
             "packageName": "typedoc",
@@ -1061,7 +1055,7 @@
         "19": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.x"
+            "qualifiedName": "HasReturnTag"
         },
         "20": {
             "packageName": "typedoc",
@@ -1071,12 +1065,12 @@
         "21": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type.y"
+            "qualifiedName": "__type"
         },
         "22": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "NoReturnTag"
+            "qualifiedName": "IdentityFn"
         },
         "23": {
             "packageName": "typedoc",
@@ -1091,22 +1085,22 @@
         "25": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "HasReturnTag"
+            "qualifiedName": "data"
         },
         "26": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "T"
         },
         "27": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "OptionalArg"
         },
         "28": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "IdentityFn"
+            "qualifiedName": "__type"
         },
         "29": {
             "packageName": "typedoc",
@@ -1116,12 +1110,12 @@
         "30": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "data"
         },
         "31": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "data"
+            "qualifiedName": "Identity"
         },
         "32": {
             "packageName": "typedoc",
@@ -1131,7 +1125,7 @@
         "33": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "OptionalArg"
+            "qualifiedName": "Foo"
         },
         "34": {
             "packageName": "typedoc",
@@ -1146,37 +1140,37 @@
         "36": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "data"
+            "qualifiedName": "args"
         },
         "37": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "Identity"
+            "qualifiedName": "usedFoo"
         },
         "38": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "T"
+            "qualifiedName": "usedFoo"
         },
         "39": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "Foo"
+            "qualifiedName": "args"
         },
         "40": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "ColumnType"
         },
         "41": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "__type"
+            "qualifiedName": "__object.STRING"
         },
         "42": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/js/index.js",
-            "qualifiedName": "args"
+            "qualifiedName": "__object.NUMBER"
         },
         "43": {
             "packageName": "typedoc",

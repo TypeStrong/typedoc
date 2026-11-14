@@ -1,5 +1,5 @@
 import assert from "assert";
-import ts from "typescript";
+import * as ts from "../ts.js";
 import {
     DeclarationReflection,
     IntrinsicType,
@@ -11,6 +11,15 @@ import {
     type UnionType,
 } from "#models";
 import { getEnumFlags, hasAllFlags, hasAnyFlag, i18n, removeFlag } from "#utils";
+import {
+    getCombinedModifierFlags,
+    getDeclarations,
+    getReparsedJSDocTag,
+    getSignatureDeclaration,
+    getTypeAnnotation,
+    getValueDeclaration,
+    isFunctionLike,
+} from "#node-utils";
 import type { Context } from "./context.js";
 import { convertDefaultValue } from "./convert-expression.js";
 import { convertIndexSignatures } from "./factories/index-signature.js";
@@ -249,7 +258,7 @@ function convertEnumMember(
     );
 
     const defaultValue = context.checker.getConstantValue(
-        symbol.getDeclarations()![0] as ts.EnumMember,
+        getDeclarations(symbol)[0],
     );
 
     if (defaultValue !== undefined) {
@@ -272,19 +281,18 @@ function convertNamespace(
 
     // This can happen in JS land where "class" functions get tagged as a namespace too
     if (
-        symbol
-            .getDeclarations()
-            ?.some((d) => ts.isModuleDeclaration(d) || ts.isSourceFile(d)) !==
-            true
+        !getDeclarations(symbol).some((d) => ts.isModuleDeclaration(d) || ts.isSourceFile(d))
     ) {
         exportFlags = ts.SymbolFlags.ClassMember;
 
-        if (hasAnyFlag(symbol.flags, ts.SymbolFlags.Class)) {
+        // TypeScript 7 also gives `module.exports = x` the flags of a namespace,
+        // the alias converter handles it.
+        if (hasAnyFlag(symbol.flags, ts.SymbolFlags.Class | ts.SymbolFlags.Alias)) {
             return;
         }
     }
 
-    if (symbol.declarations?.some(ts.isFunctionDeclaration)) {
+    if (getDeclarations(symbol).some(ts.isFunctionDeclaration)) {
         exportFlags |= ts.SymbolFlags.PropertyOrAccessor;
     }
 
@@ -301,7 +309,7 @@ function convertNamespace(
         let nameOverride: string | undefined;
 
         // #2778 - always treat declare module "foo" as a module, not a namespace
-        const declareModule = symbol.declarations?.find(
+        const declareModule = getDeclarations(symbol).find(
             (mod): mod is ts.ModuleDeclaration => ts.isModuleDeclaration(mod) && ts.isStringLiteral(mod.name),
         );
         if (declareModule) {
@@ -331,32 +339,25 @@ function convertTypeAlias(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ): undefined {
-    const declaration = symbol
-        .getDeclarations()
-        ?.find(
-            (
-                d,
-            ): d is
-                | ts.TypeAliasDeclaration
-                | ts.JSDocTypedefTag
-                | ts.JSDocCallbackTag
-                | ts.JSDocEnumTag =>
-                ts.isTypeAliasDeclaration(d) ||
-                ts.isJSDocTypedefTag(d) ||
-                ts.isJSDocCallbackTag(d) ||
-                ts.isJSDocEnumTag(d),
-        );
+    const declaration = getDeclarations(symbol).find(ts.isTypeAliasDeclaration);
     assert(declaration);
 
-    if (ts.isTypeAliasDeclaration(declaration)) {
+    // In JavaScript, TypeScript creates type aliases for @typedef and @callback tags.
+    const jsDocTag = getReparsedJSDocTag(declaration);
+    if (jsDocTag && ts.isJSDocTypedefTag(jsDocTag)) {
+        convertJsDocAlias(context, symbol, declaration, jsDocTag, exportSymbol);
+    } else if (jsDocTag && ts.isJSDocCallbackTag(jsDocTag)) {
+        convertJsDocCallback(context, symbol, declaration, jsDocTag, exportSymbol);
+    } else {
         const comment = context.getComment(symbol, ReflectionKind.TypeAlias);
 
         if (comment?.hasModifier("@reexport")) {
             if (ts.isTypeReferenceNode(declaration.type)) {
                 // Note: Get the symbol from the typeName here, NOT the type! The type refers to this alias,
                 // not the type alias we want to convert.
-                const type = context.getTypeAtLocation(declaration.type.typeName);
-                const aliasedSymbol = type?.aliasSymbol ?? type?.getSymbol() ?? declaration.type.typeName.symbol;
+                const type = context.getTypeOfTypeName(declaration.type.typeName);
+                const aliasedSymbol = type?.getAliasSymbol() ?? type?.getSymbol() ??
+                    context.checker.getSymbolAtLocation(declaration.type.typeName);
                 if (aliasedSymbol) {
                     convertSymbol(context, aliasedSymbol, exportSymbol || symbol);
                     return;
@@ -421,13 +422,6 @@ function convertTypeAlias(
         reflection.typeParameters = declaration.typeParameters?.map((param) =>
             createTypeParamReflection(param, context.withScope(reflection))
         );
-    } else if (
-        ts.isJSDocTypedefTag(declaration) ||
-        ts.isJSDocEnumTag(declaration)
-    ) {
-        convertJsDocAlias(context, symbol, declaration, exportSymbol);
-    } else {
-        convertJsDocCallback(context, symbol, declaration, exportSymbol);
     }
 }
 
@@ -517,7 +511,7 @@ function convertTypeAliasAsInterface(
 
     const type = context.checker.getTypeAtLocation(declaration);
 
-    if (type.getFlags() & ts.TypeFlags.Union) {
+    if (type.flags & ts.TypeFlags.Union) {
         context.logger.warn(
             i18n.converting_union_as_interface(),
             declaration,
@@ -529,11 +523,7 @@ function convertTypeAliasAsInterface(
 
     // And type arguments
     if (declaration.typeParameters) {
-        reflection.typeParameters = declaration.typeParameters.map((param) => {
-            const declaration = param.symbol?.declarations?.[0];
-            assert(declaration && ts.isTypeParameterDeclaration(declaration));
-            return createTypeParamReflection(declaration, rc);
-        });
+        reflection.typeParameters = declaration.typeParameters.map((param) => createTypeParamReflection(param, rc));
     }
 
     // And maybe call signatures
@@ -571,7 +561,7 @@ function convertFunctionOrMethod(
         }
     }
 
-    const declarations = symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
+    const declarations = getDeclarations(symbol).filter(isFunctionLike);
 
     // Don't do anything if we inherited this method and it is private.
     if (
@@ -579,20 +569,14 @@ function convertFunctionOrMethod(
         isInherited(context, symbol) &&
         declarations.length > 0 &&
         hasAllFlags(
-            ts.getCombinedModifierFlags(declarations[0]),
+            getCombinedModifierFlags(declarations[0]),
             ts.ModifierFlags.Private,
         )
     ) {
         return;
     }
 
-    const locationDeclaration = symbol.parent
-        ?.getDeclarations()
-        ?.find(
-            (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
-        ) ??
-        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
-        symbol.getDeclarations()?.[0]?.getSourceFile();
+    const locationDeclaration = getLocationDeclaration(symbol);
     assert(locationDeclaration, "Missing declaration context");
 
     const type = context.checker.getTypeOfSymbolAtLocation(
@@ -612,9 +596,9 @@ function convertFunctionOrMethod(
         void 0,
     );
 
-    if (symbol.declarations?.length && isMethod) {
+    if (getDeclarations(symbol).length && isMethod) {
         // All method signatures must have the same modifier flags.
-        setModifiers(symbol, symbol.declarations[0], reflection);
+        setModifiers(symbol, getDeclarations(symbol)[0], reflection);
     }
     context.finalizeDeclarationReflection(reflection);
 
@@ -643,9 +627,8 @@ function convertClassOrInterface(
         void 0,
     );
 
-    const classDeclaration = symbol
-        .getDeclarations()
-        ?.find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
+    const classDeclaration = getDeclarations(symbol)
+        .find((d) => ts.isClassDeclaration(d) || ts.isFunctionDeclaration(d));
     if (classDeclaration) setModifiers(symbol, classDeclaration, reflection);
 
     const reflectionContext = context.withScope(reflection);
@@ -655,12 +638,11 @@ function convertClassOrInterface(
     assert(instanceType.isClassOrInterface());
 
     // We might do some inheritance - do this first so that it's set when converting properties
-    const declarations = symbol
-        .getDeclarations()
-        ?.filter(
+    const declarations = getDeclarations(symbol)
+        .filter(
             (d): d is ts.InterfaceDeclaration | ts.ClassDeclaration =>
                 ts.isInterfaceDeclaration(d) || ts.isClassDeclaration(d),
-        ) ?? [];
+        );
 
     const extendedTypes = getHeritageTypes(
         declarations,
@@ -681,9 +663,11 @@ function convertClassOrInterface(
     context.finalizeDeclarationReflection(reflection);
 
     // Convert type parameters early so that we get access them when converting the constructors if any
-    if (instanceType.typeParameters) {
-        reflection.typeParameters = instanceType.typeParameters.map((param) => {
-            const declaration = param.symbol.declarations?.[0];
+    const typeParameters = instanceType.getTypeParameters();
+    if (typeParameters.length) {
+        reflection.typeParameters = typeParameters.map((param) => {
+            const paramSymbol = param.getSymbol();
+            const declaration = paramSymbol && getDeclarations(paramSymbol)[0];
             assert(declaration && ts.isTypeParameterDeclaration(declaration));
             return createTypeParamReflection(declaration, reflectionContext);
         });
@@ -710,17 +694,18 @@ function convertClassOrInterface(
         reflectionContext.shouldBeStatic = false;
 
         const ctors = staticType.getConstructSignatures();
+        const ctorDeclaration = ctors[0] && getSignatureDeclaration(ctors[0]);
 
         const constructMember = reflectionContext.createDeclarationReflection(
             ReflectionKind.Constructor,
-            ctors[0]?.declaration?.symbol,
+            ctorDeclaration && context.checker.getSymbolOfDeclaration(ctorDeclaration),
             void 0,
             "constructor",
         );
 
         // Modifiers are the same for all constructors
-        if (ctors.length && ctors[0].declaration) {
-            setModifiers(symbol, ctors[0].declaration, constructMember);
+        if (ctorDeclaration) {
+            setModifiers(symbol, ctorDeclaration, constructMember);
         }
 
         context.finalizeDeclarationReflection(constructMember);
@@ -779,18 +764,24 @@ function convertProperty(
         return convertVariable(context, symbol, exportSymbol);
     }
 
-    const declarations = symbol.getDeclarations() ?? [];
+    const declarations = getDeclarations(symbol);
 
     // Don't do anything if we inherited this property and it is private.
     if (
         isInherited(context, symbol) &&
         declarations.length > 0 &&
         hasAllFlags(
-            ts.getCombinedModifierFlags(declarations[0]),
+            getCombinedModifierFlags(declarations[0]),
             ts.ModifierFlags.Private,
         )
     ) {
         return;
+    }
+
+    // TypeScript 7 gives members assigned a function, `fn.member = () => {}`, the flags of
+    // a property, where TypeScript 6 and earlier gave them the flags of a method.
+    if (declarations.length && declarations.every(isFunctionAssignment)) {
+        return convertFunctionOrMethod(context, symbol, exportSymbol);
     }
 
     // Special case: We pretend properties are methods if they look like methods.
@@ -803,7 +794,7 @@ function convertProperty(
         type.getCallSignatures().length &&
         declarations.length &&
         declarations.every(
-            (decl) => ts.isMethodSignature(decl) || ts.isMethodDeclaration(decl),
+            (decl) => ts.isMethodSignatureDeclaration(decl) || ts.isMethodDeclaration(decl),
         )
     ) {
         return convertFunctionOrMethod(context, symbol, exportSymbol);
@@ -815,7 +806,7 @@ function convertProperty(
         // Special case: "arrow methods" should be treated as methods.
         if (
             ts.isPropertyDeclaration(declaration) &&
-            !declaration.type &&
+            !getTypeAnnotation(declaration) &&
             declaration.initializer &&
             ts.isArrowFunction(declaration.initializer)
         ) {
@@ -836,14 +827,14 @@ function convertProperty(
         exportSymbol,
     );
 
-    const declaration = symbol.getDeclarations()?.[0];
+    const declaration = declarations[0];
     let parameterTypeNode: ts.TypeNode | undefined;
 
     if (
         declaration &&
         (ts.isPropertyDeclaration(declaration) ||
-            ts.isPropertySignature(declaration) ||
-            ts.isParameter(declaration) ||
+            ts.isPropertySignatureDeclaration(declaration) ||
+            ts.isParameterDeclaration(declaration) ||
             ts.isPropertyAccessExpression(declaration) ||
             ts.isPropertyAssignment(declaration))
     ) {
@@ -851,7 +842,7 @@ function convertProperty(
             !ts.isPropertyAccessExpression(declaration) &&
             !ts.isPropertyAssignment(declaration)
         ) {
-            parameterTypeNode = declaration.type;
+            parameterTypeNode = getTypeAnnotation(declaration);
         }
         setModifiers(symbol, declaration, reflection);
     } else {
@@ -891,18 +882,12 @@ function convertArrowAsMethod(
         exportSymbol,
         void 0,
     );
-    setModifiers(symbol, arrow.parent as ts.PropertyDeclaration, reflection);
+    setModifiers(symbol, arrow.parent, reflection);
     context.finalizeDeclarationReflection(reflection);
 
     const rc = context.withScope(reflection);
 
-    const locationDeclaration = symbol.parent
-        ?.getDeclarations()
-        ?.find(
-            (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
-        ) ??
-        symbol.parent?.getDeclarations()?.[0]?.getSourceFile() ??
-        symbol.getDeclarations()?.[0]?.getSourceFile();
+    const locationDeclaration = getLocationDeclaration(symbol);
     assert(locationDeclaration, "Missing declaration context");
 
     const type = context.checker.getTypeOfSymbolAtLocation(
@@ -933,12 +918,8 @@ function convertConstructor(context: Context, symbol: ts.Symbol): undefined {
 
     const reflectionContext = context.withScope(reflection);
 
-    const declarations = symbol.getDeclarations()?.filter(ts.isConstructorDeclaration) ?? [];
-    const signatures = declarations.map((decl) => {
-        const sig = context.checker.getSignatureFromDeclaration(decl);
-        assert(sig);
-        return sig;
-    });
+    const declarations = getDeclarations(symbol).filter(ts.isConstructorDeclaration);
+    const signatures = declarations.map((decl) => context.checker.getSignatureFromDeclaration(decl));
 
     for (const sig of signatures) {
         createSignature(
@@ -1019,7 +1000,7 @@ function convertVariable(
         return convertTypeAliasFromValueDeclaration(context, symbol, exportSymbol, ReflectionKind.Variable);
     }
 
-    const declaration = symbol.getDeclarations()?.[0];
+    const declaration = getDeclarations(symbol)[0];
 
     const comment = context.getComment(symbol, ReflectionKind.Variable);
     const type = declaration
@@ -1077,7 +1058,7 @@ function convertVariable(
     let typeNode: ts.TypeNode | undefined;
     if (declaration && ts.isVariableDeclaration(declaration)) {
         // Otherwise we might have destructuring
-        typeNode = declaration.type;
+        typeNode = getTypeAnnotation(declaration);
     }
 
     if (typeNode) {
@@ -1103,7 +1084,7 @@ function convertVariable(
 }
 
 function isEnumLike(
-    checker: ts.TypeChecker,
+    checker: ts.Checker,
     type: ts.Type,
     location?: ts.Node,
 ) {
@@ -1137,13 +1118,13 @@ function convertVariableAsEnum(
     context.finalizeDeclarationReflection(reflection);
     const rc = context.withScope(reflection);
 
-    const declaration = symbol.valueDeclaration;
+    const declaration = getValueDeclaration(symbol);
     if (!declaration) {
         context.logger.error(
             i18n.converting_0_as_enum_requires_value_declaration(
                 symbol.name,
             ),
-            symbol.declarations?.[0],
+            getDeclarations(symbol)[0],
         );
         return;
     }
@@ -1198,11 +1179,9 @@ function convertVariableAsFunction(
     symbol: ts.Symbol,
     exportSymbol?: ts.Symbol,
 ) {
-    const declaration = symbol
-        .getDeclarations()
-        ?.find(ts.isVariableDeclaration);
+    const declaration = getDeclarations(symbol).find(ts.isVariableDeclaration);
 
-    const accessDeclaration = declaration ?? symbol.valueDeclaration;
+    const accessDeclaration = declaration ?? getValueDeclaration(symbol);
 
     const type = accessDeclaration
         ? context.checker.getTypeOfSymbolAtLocation(symbol, accessDeclaration)
@@ -1267,7 +1246,7 @@ function convertFunctionProperties(
         type.getProperties().length &&
         (hasAllFlags(symbol.flags, nsFlags) ||
             !hasAnyFlag(symbol.flags, nsFlags)) &&
-        !symbol.declarations?.some(ts.isModuleDeclaration)
+        !getDeclarations(symbol).some(ts.isModuleDeclaration)
     ) {
         convertSymbols(context, type.getProperties());
 
@@ -1291,19 +1270,20 @@ function convertSymbolAsClass(
 
     context.finalizeDeclarationReflection(reflection);
 
-    if (!symbol.valueDeclaration) {
+    const valueDeclaration = getValueDeclaration(symbol);
+    if (!valueDeclaration) {
         context.logger.error(
             i18n.converting_0_as_class_requires_value_declaration(
                 symbol.name,
             ),
-            symbol.declarations?.[0],
+            getDeclarations(symbol)[0],
         );
         return;
     }
 
     const type = context.checker.getTypeOfSymbolAtLocation(
         symbol,
-        symbol.valueDeclaration,
+        valueDeclaration,
     );
 
     rc.shouldBeStatic = true;
@@ -1321,16 +1301,17 @@ function convertSymbolAsClass(
 
     const ctors = type.getConstructSignatures();
     if (ctors.length) {
+        const ctorDeclaration = getSignatureDeclaration(ctors[0]);
         const constructMember = rc.createDeclarationReflection(
             ReflectionKind.Constructor,
-            ctors[0]?.declaration?.symbol,
+            ctorDeclaration && context.checker.getSymbolOfDeclaration(ctorDeclaration),
             void 0,
             "constructor",
         );
 
         // Modifiers are the same for all constructors
-        if (ctors.length && ctors[0].declaration) {
-            setModifiers(symbol, ctors[0].declaration, constructMember);
+        if (ctorDeclaration) {
+            setModifiers(symbol, ctorDeclaration, constructMember);
         }
 
         context.finalizeDeclarationReflection(constructMember);
@@ -1356,7 +1337,7 @@ function convertSymbolAsClass(
             i18n.converting_0_as_class_without_construct_signatures(
                 reflection.getFriendlyFullName(),
             ),
-            symbol.valueDeclaration,
+            valueDeclaration,
         );
     }
 
@@ -1379,7 +1360,7 @@ function convertAccessor(
     );
     const rc = context.withScope(reflection);
 
-    const declaration = symbol.getDeclarations()?.[0];
+    const declaration = getDeclarations(symbol)[0];
     if (declaration) {
         setModifiers(symbol, declaration, reflection);
 
@@ -1393,39 +1374,33 @@ function convertAccessor(
             reflection.type = context.converter.convertType(
                 context.withScope(reflection),
                 context.checker.getTypeOfSymbol(symbol),
-                declaration.type,
+                getTypeAnnotation(declaration),
             );
         }
     }
 
     context.finalizeDeclarationReflection(reflection);
 
-    const getDeclaration = symbol.getDeclarations()?.find(ts.isGetAccessor);
+    const getDeclaration = getDeclarations(symbol).find(ts.isGetAccessorDeclaration);
     if (getDeclaration) {
-        const signature = context.checker.getSignatureFromDeclaration(getDeclaration);
-        if (signature) {
-            createSignature(
-                rc,
-                ReflectionKind.GetSignature,
-                signature,
-                symbol,
-                getDeclaration,
-            );
-        }
+        createSignature(
+            rc,
+            ReflectionKind.GetSignature,
+            context.checker.getSignatureFromDeclaration(getDeclaration),
+            symbol,
+            getDeclaration,
+        );
     }
 
-    const setDeclaration = symbol.getDeclarations()?.find(ts.isSetAccessor);
+    const setDeclaration = getDeclarations(symbol).find(ts.isSetAccessorDeclaration);
     if (setDeclaration) {
-        const signature = context.checker.getSignatureFromDeclaration(setDeclaration);
-        if (signature) {
-            createSignature(
-                rc,
-                ReflectionKind.SetSignature,
-                signature,
-                symbol,
-                setDeclaration,
-            );
-        }
+        createSignature(
+            rc,
+            ReflectionKind.SetSignature,
+            context.checker.getSignatureFromDeclaration(setDeclaration),
+            symbol,
+            setDeclaration,
+        );
     }
 }
 
@@ -1435,7 +1410,7 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     // types don't get symbols if they are inferred.
     if (!parentSymbol) return false;
 
-    const parents = parentSymbol.declarations?.slice() || [];
+    const parents: ts.Node[] = getDeclarations(parentSymbol).slice();
     const constructorDecls = parents.flatMap((parent) =>
         ts.isClassDeclaration(parent)
             ? parent.members.filter(ts.isConstructorDeclaration)
@@ -1444,13 +1419,13 @@ function isInherited(context: Context, symbol: ts.Symbol) {
     parents.push(...constructorDecls);
 
     return (
-        parents.some((d) => symbol.getDeclarations()?.some((d2) => d2.parent === d)) === false
+        parents.some((d) => getDeclarations(symbol).some((d2) => d2.parent === d)) === false
     );
 }
 
 function setModifiers(
     symbol: ts.Symbol,
-    declaration: ts.Declaration | undefined,
+    declaration: ts.Node | undefined,
     reflection: Reflection,
 ) {
     setSymbolModifiers(symbol, reflection);
@@ -1458,12 +1433,12 @@ function setModifiers(
         return;
     }
 
-    const modifiers = ts.getCombinedModifierFlags(declaration);
+    const modifiers = getCombinedModifierFlags(declaration);
 
     if (
         ts.isMethodDeclaration(declaration) ||
         ts.isPropertyDeclaration(declaration) ||
-        ts.isAccessor(declaration)
+        ts.isAccessorDeclaration(declaration)
     ) {
         if (ts.isPrivateIdentifier(declaration.name)) {
             reflection.setFlag(ReflectionFlag.Private);
@@ -1484,7 +1459,7 @@ function setModifiers(
     );
     reflection.setFlag(
         ReflectionFlag.Readonly,
-        hasAllFlags(ts.getCheckFlags(symbol), ts.CheckFlags.Readonly) ||
+        hasAllFlags(symbol.checkFlags, ts.CheckFlags.Readonly) ||
             hasAllFlags(modifiers, ts.ModifierFlags.Readonly),
     );
     reflection.setFlag(
@@ -1516,7 +1491,7 @@ function setSymbolModifiers(symbol: ts.Symbol, reflection: Reflection) {
 function shouldAutomaticallyConvertAsFunction(node: ts.Declaration): boolean {
     // const fn = () => {}
     if (ts.isVariableDeclaration(node)) {
-        if (node.type || !node.initializer) return false;
+        if (getTypeAnnotation(node) || !node.initializer) return false;
 
         return isFunctionLikeInitializer(node.initializer);
     }
@@ -1542,6 +1517,14 @@ function shouldAutomaticallyConvertAsFunction(node: ts.Declaration): boolean {
     return false;
 }
 
+function isFunctionAssignment(node: ts.Node): boolean {
+    return ts.isPropertyAccessExpression(node) &&
+        ts.isBinaryExpression(node.parent) &&
+        node.parent.left === node &&
+        node.parent.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+        (ts.isFunctionExpression(node.parent.right) || ts.isArrowFunction(node.parent.right));
+}
+
 function isFunctionLikeInitializer(node: ts.Expression): boolean {
     if (ts.isFunctionExpression(node) || ts.isArrowFunction(node)) {
         return true;
@@ -1561,9 +1544,20 @@ function isFunctionLikeInitializer(node: ts.Expression): boolean {
 function isTypeOnlyExport(symbol: ts.Symbol | undefined): boolean {
     if (!symbol) return false;
 
-    const declaration = symbol.declarations?.[0];
+    const declaration = getDeclarations(symbol)[0];
     if (!declaration) return false;
     if (!ts.isExportSpecifier(declaration)) return false;
 
-    return declaration.isTypeOnly || declaration.parent.parent.isTypeOnly;
+    return declaration.isTypeOnly || (declaration.parent.parent as ts.ExportDeclaration).isTypeOnly;
+}
+
+// The node at which the type of a member is taken: its class or interface, else the file it is declared in.
+function getLocationDeclaration(symbol: ts.Symbol): ts.Node | undefined {
+    const parent = symbol.getParent();
+    const parentDeclarations = parent ? getDeclarations(parent) : [];
+    return parentDeclarations.find(
+        (d) => ts.isClassDeclaration(d) || ts.isInterfaceDeclaration(d),
+    ) ??
+        parentDeclarations[0]?.getSourceFile() ??
+        getDeclarations(symbol)[0]?.getSourceFile();
 }

@@ -383,7 +383,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 26,
+                    "id": 19,
                     "name": "destructArrayA",
                     "variant": "declaration",
                     "kind": 32,
@@ -402,7 +402,7 @@
                     }
                 },
                 {
-                    "id": 27,
+                    "id": 20,
                     "name": "destructArrayB",
                     "variant": "declaration",
                     "kind": 32,
@@ -421,7 +421,7 @@
                     }
                 },
                 {
-                    "id": 28,
+                    "id": 21,
                     "name": "destructArrayC",
                     "variant": "declaration",
                     "kind": 32,
@@ -450,7 +450,7 @@
                     "defaultValue": "10"
                 },
                 {
-                    "id": 32,
+                    "id": 25,
                     "name": "destructArrayWithIgnoresA",
                     "variant": "declaration",
                     "kind": 32,
@@ -469,7 +469,7 @@
                     }
                 },
                 {
-                    "id": 33,
+                    "id": 26,
                     "name": "destructArrayWithIgnoresRest",
                     "variant": "declaration",
                     "kind": 32,
@@ -497,7 +497,7 @@
                     }
                 },
                 {
-                    "id": 31,
+                    "id": 24,
                     "name": "destructArrayWithRest",
                     "variant": "declaration",
                     "kind": 32,
@@ -525,7 +525,7 @@
                     }
                 },
                 {
-                    "id": 29,
+                    "id": 22,
                     "name": "destructArrayWithRestA",
                     "variant": "declaration",
                     "kind": 32,
@@ -544,7 +544,7 @@
                     }
                 },
                 {
-                    "id": 30,
+                    "id": 23,
                     "name": "destructArrayWithRestB",
                     "variant": "declaration",
                     "kind": 32,
@@ -563,7 +563,7 @@
                     }
                 },
                 {
-                    "id": 23,
+                    "id": 16,
                     "name": "destructObjectA",
                     "variant": "declaration",
                     "kind": 32,
@@ -582,7 +582,7 @@
                     }
                 },
                 {
-                    "id": 24,
+                    "id": 17,
                     "name": "destructObjectB",
                     "variant": "declaration",
                     "kind": 32,
@@ -601,7 +601,7 @@
                     }
                 },
                 {
-                    "id": 25,
+                    "id": 18,
                     "name": "destructObjectC",
                     "variant": "declaration",
                     "kind": 32,
@@ -620,7 +620,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 27,
                     "name": "drawText",
                     "variant": "declaration",
                     "kind": 64,
@@ -635,7 +635,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 17,
+                            "id": 28,
                             "name": "drawText",
                             "variant": "signature",
                             "kind": 4096,
@@ -658,7 +658,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 18,
+                                    "id": 29,
                                     "name": "__namedParameters",
                                     "variant": "param",
                                     "kind": 32768,
@@ -666,14 +666,14 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 19,
+                                            "id": 30,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
                                             "children": [
                                                 {
-                                                    "id": 22,
+                                                    "id": 31,
                                                     "name": "bold",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -687,7 +687,7 @@
                                                     "defaultValue": "false"
                                                 },
                                                 {
-                                                    "id": 21,
+                                                    "id": 32,
                                                     "name": "location",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -710,7 +710,7 @@
                                                     "defaultValue": "..."
                                                 },
                                                 {
-                                                    "id": 20,
+                                                    "id": 33,
                                                     "name": "text",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -728,9 +728,9 @@
                                                 {
                                                     "title": "Properties",
                                                     "children": [
-                                                        22,
-                                                        21,
-                                                        20
+                                                        31,
+                                                        32,
+                                                        33
                                                     ]
                                                 }
                                             ]
@@ -750,23 +750,23 @@
                 {
                     "title": "Variables",
                     "children": [
+                        19,
+                        20,
+                        21,
+                        25,
                         26,
-                        27,
-                        28,
-                        32,
-                        33,
-                        31,
-                        29,
-                        30,
-                        23,
                         24,
-                        25
+                        22,
+                        23,
+                        16,
+                        17,
+                        18
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        16
+                        27
                     ]
                 }
             ],
@@ -2106,87 +2106,87 @@
         "16": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
-            "qualifiedName": "drawText"
+            "qualifiedName": "destructObjectA"
         },
         "17": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
-            "qualifiedName": "drawText"
+            "qualifiedName": "destructObjectB"
         },
         "18": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
-            "qualifiedName": "__0"
-        },
-        "20": {
-            "packageName": "typedoc",
-            "packagePath": "",
-            "qualifiedName": "text"
-        },
-        "21": {
-            "packageName": "typedoc",
-            "packagePath": "",
-            "qualifiedName": "location"
-        },
-        "22": {
-            "packageName": "typedoc",
-            "packagePath": "",
-            "qualifiedName": "bold"
-        },
-        "23": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/variables/destructuring.ts",
-            "qualifiedName": "destructObjectA"
-        },
-        "24": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/variables/destructuring.ts",
-            "qualifiedName": "destructObjectB"
-        },
-        "25": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructObjectC"
         },
-        "26": {
+        "19": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayA"
         },
-        "27": {
+        "20": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayB"
         },
-        "28": {
+        "21": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayC"
         },
-        "29": {
+        "22": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayWithRestA"
         },
-        "30": {
+        "23": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayWithRestB"
         },
-        "31": {
+        "24": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayWithRest"
         },
-        "32": {
+        "25": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayWithIgnoresA"
         },
-        "33": {
+        "26": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "destructArrayWithIgnoresRest"
+        },
+        "27": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/variables/destructuring.ts",
+            "qualifiedName": "drawText"
+        },
+        "28": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/variables/destructuring.ts",
+            "qualifiedName": "drawText"
+        },
+        "29": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/variables/destructuring.ts",
+            "qualifiedName": "__0"
+        },
+        "31": {
+            "packageName": "typedoc",
+            "packagePath": "",
+            "qualifiedName": "bold"
+        },
+        "32": {
+            "packageName": "typedoc",
+            "packagePath": "",
+            "qualifiedName": "location"
+        },
+        "33": {
+            "packageName": "typedoc",
+            "packagePath": "",
+            "qualifiedName": "text"
         },
         "34": {
             "packageName": "typedoc",

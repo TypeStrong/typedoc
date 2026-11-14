@@ -277,10 +277,10 @@
                         "type": "reference",
                         "target": {
                             "packageName": "typescript",
-                            "packagePath": "lib/typescript.d.ts",
-                            "qualifiedName": "ts.server.ActionSet"
+                            "packagePath": "src/api/sync/api.ts",
+                            "qualifiedName": "Checker"
                         },
-                        "name": "ts.server.ActionSet",
+                        "name": "Checker",
                         "package": "typescript"
                     }
                 }

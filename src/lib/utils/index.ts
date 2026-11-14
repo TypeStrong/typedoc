@@ -58,9 +58,11 @@ export * from "./options/index.js";
 export * from "./reflections.js";
 export * from "./sort.js";
 
+export * from "./compiler.js";
 export * from "./declaration-maps.js";
 export * from "./highlighter.js";
 export * from "./html.js";
+export * from "./jsonc.js";
 export * from "./tsconfig.js";
 export * from "./tsutils.js";
 export * from "./ValidatingFileRegistry.js";

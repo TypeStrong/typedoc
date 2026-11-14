@@ -1,4 +1,4 @@
-import { SyntaxKind } from "typescript";
+import type { SyntaxKind } from "typescript/ast" with { "resolution-mode": "import" };
 
 declare global {
     interface DeclareGlobal {

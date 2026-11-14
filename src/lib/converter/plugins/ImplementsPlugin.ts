@@ -11,9 +11,9 @@ import {
     type SomeType,
     type Type,
 } from "#models";
-import { findPackageForPath, getHumanName } from "#node-utils";
+import { findPackageForPath, getDeclarations, getHumanName } from "#node-utils";
 import { filterMap, type TranslatedString, zip } from "#utils";
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import { ApplicationEvents } from "../../application-events.js";
 import { ConverterComponent } from "../components.js";
 import type { Context } from "../context.js";
@@ -359,9 +359,8 @@ export class ImplementsPlugin extends ConverterComponent {
             return;
         }
 
-        const declaration = symbol
-            .getDeclarations()
-            ?.find(
+        const declaration = getDeclarations(symbol)
+            .find(
                 (n): n is ts.ClassDeclaration | ts.InterfaceDeclaration =>
                     ts.isClassDeclaration(n) || ts.isInterfaceDeclaration(n),
             );
@@ -429,21 +428,21 @@ export class ImplementsPlugin extends ConverterComponent {
 
             for (const expr of clause.types) {
                 const parentType = context.checker.getTypeAtLocation(
-                    reflection.flags.isStatic ? expr.expression : expr,
+                    reflection.flags.isStatic ? getHeritageName(expr) : expr,
                 );
 
                 const parentProperty = findProperty(reflection, parentType);
                 if (parentProperty) {
-                    const isInherit = property
-                        .getDeclarations()
-                        ?.some((d) => d.parent !== info.declaration) ??
-                        true;
+                    const propertyDeclarations = getDeclarations(property);
+                    const isInherit = propertyDeclarations.length === 0 ||
+                        propertyDeclarations.some((d) => d.parent !== info.declaration);
 
                     createLink(
                         context,
                         reflection,
                         clause,
                         expr,
+                        parentType,
                         parentProperty,
                         isInherit,
                     );
@@ -566,13 +565,18 @@ export class ImplementsPlugin extends ConverterComponent {
     }
 }
 
-function getConstructorPackagePath(context: Context, clause: ts.ExpressionWithTypeArguments): string | undefined {
-    const symbol = context.getSymbolAtLocation(clause.expression);
+// TypeScript 7 parses heritage clauses which only name a type, such as `implements X`, as type references.
+function getHeritageName(element: ts.HeritageClauseElement): ts.Node {
+    return ts.isExpressionWithTypeArguments(element) ? element.expression : element.typeName;
+}
+
+function getConstructorPackagePath(context: Context, clause: ts.HeritageClauseElement): string | undefined {
+    const symbol = context.getSymbolAtLocation(getHeritageName(clause));
     if (!symbol) return undefined;
 
     const resolvedSymbol = context.resolveAliasedSymbol(symbol);
 
-    const symbolPath = resolvedSymbol?.declarations?.[0]?.getSourceFile().fileName;
+    const symbolPath = getDeclarations(resolvedSymbol)[0]?.getSourceFile().fileName;
     if (!symbolPath) return undefined;
 
     return findPackageForPath(symbolPath)?.[0];
@@ -619,11 +623,12 @@ function createLink(
     context: Context,
     reflection: DeclarationReflection,
     clause: ts.HeritageClause,
-    expr: ts.ExpressionWithTypeArguments,
+    expr: ts.HeritageClauseElement,
+    parentType: ts.Type,
     symbol: ts.Symbol,
     isInherit: boolean,
 ) {
-    const name = `${expr.expression.getText()}.${getHumanName(symbol.name)}`;
+    const name = `${getHeritageName(expr).getText()}.${getHumanName(symbol.name)}`;
 
     // We should always have rootSymbols, but check just in case. We use the first
     // symbol here as TypeDoc's models don't have multiple symbols for the parent
@@ -633,9 +638,9 @@ function createLink(
     // world to deal with it.
     // Note that we also need to check that the root symbol isn't this symbol.
     // This seems to happen sometimes when dealing with interface inheritance.
-    const rootSymbols = context.checker.getRootSymbols(symbol);
-    const ref = rootSymbols.length && rootSymbols[0] != symbol
-        ? context.createSymbolReference(rootSymbols[0], context, name)
+    const rootSymbol = getRootSymbol(context.checker, symbol, parentType);
+    const ref = rootSymbol !== symbol
+        ? context.createSymbolReference(rootSymbol, context, name)
         : ReferenceType.createBrokenReference(name, context.project, undefined);
 
     link(reflection);
@@ -711,4 +716,45 @@ function isValidRef(ref: ReferenceType) {
     return !!ref.reflection?.parent?.kindOf(
         ReflectionKind.ClassOrInterface | ReflectionKind.Method | ReflectionKind.Constructor,
     );
+}
+
+// TypeScript 7 has no getRootSymbols, so this follows the instantiation targets of the symbol.
+// Properties of unions and intersections have no single root and keep their own symbol.
+// Properties of mapped types, such as Partial<T>, keep the declarations of the property they map.
+function getRootSymbol(checker: ts.Checker, symbol: ts.Symbol, parentType: ts.Type): ts.Symbol {
+    const seen = new Set<ts.Symbol>([symbol]);
+    let target = symbol;
+    for (;;) {
+        const next = checker.getTargetSymbol(target);
+        if (seen.has(next)) {
+            break;
+        }
+        seen.add(next);
+        target = next;
+    }
+
+    // TypeScript 7 also instantiates the members of classes which are not generic. TypeScript 6
+    // only instantiated the members of generic instantiations, and members inherited from further up.
+    const declaredByParent = target.getParent() === parentType.getSymbol();
+    const root = isGenericInstantiation(checker, parentType) || !declaredByParent ? target : symbol;
+
+    if (root.checkFlags & ts.CheckFlags.Mapped) {
+        const declaration = getDeclarations(root)[0];
+        const origin = declaration && checker.getSymbolOfDeclaration(declaration);
+        if (origin && !seen.has(origin)) {
+            return origin;
+        }
+    }
+
+    return root;
+}
+
+// A reference to a class also has a type argument for `this`, which does not count here.
+function isGenericInstantiation(checker: ts.Checker, type: ts.Type): boolean {
+    if (!type.isTypeReference()) {
+        return false;
+    }
+    const parameters = type.getTarget().getTypeParameters();
+    const args = checker.getTypeArguments(type);
+    return parameters.some((param, i) => args[i] !== param);
 }

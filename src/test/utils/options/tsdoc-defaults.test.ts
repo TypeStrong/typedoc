@@ -1,17 +1,16 @@
 import { deepEqual as equal } from "assert/strict";
 import { join } from "path";
-import ts from "typescript";
+import { readJsoncFile } from "#node-utils";
 import { TSDocDefaults as defaults } from "#node-utils";
 import { fileURLToPath } from "url";
 import { TYPEDOC_ROOT } from "../../../lib/utils/general.js";
 import { readFile } from "../../../lib/utils/fs.js";
 
 describe("tsdoc-defaults.ts", () => {
-    const tsdoc = ts.readConfigFile(
+    const tsdoc = readJsoncFile(
         join(fileURLToPath(import.meta.url), "../../../../../tsdoc.json"),
-        ts.sys.readFile,
     );
-    const tagDefinitions = tsdoc.config?.tagDefinitions as Array<{
+    const tagDefinitions = (tsdoc?.config as { tagDefinitions?: unknown })?.tagDefinitions as Array<{
         tagName: string;
         syntaxKind: "block" | "modifier" | "inline";
     }>;
@@ -24,7 +23,7 @@ describe("tsdoc-defaults.ts", () => {
     }
 
     before(() => {
-        equal(tsdoc.error, undefined);
+        equal(tsdoc === undefined, false);
     });
 
     it("Should expose the same block tags as the tsdoc.json file", () => {

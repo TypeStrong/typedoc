@@ -1,4 +1,6 @@
-import ts from "typescript";
+import type * as ts from "../../ts.js";
+import { getTypeScriptApi } from "../compiler.js";
+import { flattenDiagnosticMessageText } from "../tsutils.js";
 import { resolve } from "path";
 import { ParameterType } from "./declaration.js";
 import type { OutputSpecification } from "../index.js";
@@ -374,19 +376,24 @@ export class Options {
         const result = { ...options };
 
         if (overrides) {
-            const tsOptions = ts.convertCompilerOptionsFromJson(overrides, ".", "typedoc-overrides.json");
+            const tsOptions = getTypeScriptApi().parseJsonConfigFileContent(
+                { compilerOptions: overrides, files: [] },
+                { configDirectory: process.cwd() },
+            );
+            // An empty files list is reported as an error, but there are no files to parse here.
+            const errors = tsOptions.errors.filter((error) => error.code !== 18002 && error.code !== 18003);
 
-            if (tsOptions.errors.length) {
-                for (const error of tsOptions.errors) {
+            if (errors.length) {
+                for (const error of errors) {
                     logger.error(
                         i18n.failed_to_apply_compilerOptions_overrides_0(
-                            ts.flattenDiagnosticMessageText(error.messageText, "\n"),
+                            flattenDiagnosticMessageText(error),
                         ),
                     );
                 }
             } else {
                 for (const key in overrides) {
-                    result[key] = tsOptions.options[key];
+                    (result as Record<string, unknown>)[key] = (tsOptions.options as Record<string, unknown>)[key];
                 }
             }
         }

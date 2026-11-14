@@ -1788,7 +1788,7 @@ describe("Issue Tests", () => {
     it("#2725 respects symbol IDs when resolving links with user configured resolver", () => {
         app.options.setValue("externalSymbolLinkMappings", {
             typescript: {
-                "ts.Node": "https://typescriptlang.org",
+                "Node": "https://typescriptlang.org",
             },
         });
         const project = convert();
@@ -2008,7 +2008,8 @@ describe("Issue Tests", () => {
     it("#2909 handles array export declarations", () => {
         const project = convert();
         const exp = query(project, "export=");
-        equal(exp.type?.toString(), "never[]");
+        // TypeScript 6 and earlier inferred never[]
+        equal(exp.type?.toString(), "any[]");
     });
 
     it("#2914 does not categorize @class constructor if class is categorized", () => {

@@ -309,6 +309,10 @@ export function discoverPackageJson(
 // dir -> package info
 const packageCache = new Map<string, [packageName: string, packageDir: string]>();
 
+// TypeScript 7 ships its lib.*.d.ts files in a package for each platform. Report them as part
+// of the typescript package, as with TypeScript 6.
+const compilerPlatformPackage = /^@typescript\/(typescript|native-preview)-/;
+
 export function findPackageForPath(sourcePath: string): readonly [packageName: string, packageDir: string] | undefined {
     // Attempt to decide package name from path if it contains "node_modules"
     let startIndex = sourcePath.lastIndexOf("node_modules/");
@@ -320,6 +324,9 @@ export function findPackageForPath(sourcePath: string): readonly [packageName: s
             stopIndex = sourcePath.indexOf("/", stopIndex + 1);
         }
         const packageName = sourcePath.substring(startIndex, stopIndex);
+        if (compilerPlatformPackage.test(packageName)) {
+            return ["typescript", sourcePath.substring(0, stopIndex)];
+        }
         return [packageName, sourcePath.substring(0, stopIndex)];
     }
 

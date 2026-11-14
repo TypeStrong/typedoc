@@ -1,4 +1,4 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import { type Token, TokenSyntaxKind } from "./lexer.js";
 import { resolveAliasedSymbol } from "../utilities/symbols.js";
 import type { Context } from "../context.js";
@@ -11,7 +11,7 @@ export function* lexBlockComment(
         throw new Error("unreachable");
     },
     jsDoc?: ts.JSDoc,
-    checker?: ts.TypeChecker,
+    checker?: ts.Checker,
 ): Generator<Token, undefined, undefined> {
     // Wrapper around our real lex function to collapse adjacent text tokens.
     let textToken: Token | undefined;
@@ -85,7 +85,7 @@ function* lexBlockComment2(
     linkTags: ReadonlyArray<
         ts.JSDocLink | ts.JSDocLinkCode | ts.JSDocLinkPlain
     >,
-    checker: ts.TypeChecker | undefined,
+    checker: ts.Checker | undefined,
     createSymbolId: Context["createSymbolId"],
 ): Generator<Token, undefined, undefined> {
     pos += 2; // Leading '/*'
@@ -356,7 +356,10 @@ function* lexBlockComment2(
             linkTags[linkTagIndex].pos === token.pos - 1
         ) {
             const link = linkTags[linkTagIndex];
-            if (link.name) {
+            // TypeScript 7 resolves an instance member, Class#member, as if it were static,
+            // so TypeDoc resolves those itself.
+            const isInstanceMemberLink = /^\{@link\w*\s+[^\s|}]*#/.test(file.slice(link.pos, link.end));
+            if (link.name && !isInstanceMemberLink) {
                 const tsTarget = checker?.getSymbolAtLocation(
                     getRightmostName(link.name),
                 );
@@ -493,10 +496,7 @@ function discoverIndent(
     return [commentHasStars, indent];
 }
 
-function getRightmostName(name: ts.EntityName | ts.JSDocMemberName) {
-    if (ts.isJSDocMemberName(name)) {
-        return name.right;
-    }
+function getRightmostName(name: ts.EntityName) {
     if (ts.isQualifiedName(name)) {
         return name.right;
     }

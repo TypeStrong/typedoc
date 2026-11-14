@@ -1,6 +1,6 @@
 // Type only import is permitted
 // eslint-disable-next-line no-restricted-imports
-import type { LineAndCharacter, SourceFileLike } from "typescript";
+import type { LineAndCharacter } from "typescript/ast";
 import { binaryFindPartition } from "./array.js";
 import type { NormalizedPath } from "./path.js";
 
@@ -16,7 +16,7 @@ export interface MinimalNode {
     getSourceFile(): MinimalSourceFile;
 }
 
-export class MinimalSourceFile implements SourceFileLike {
+export class MinimalSourceFile {
     readonly text: string;
     // This type is just string to ensure assignability from SourceFile
     readonly fileName: string;

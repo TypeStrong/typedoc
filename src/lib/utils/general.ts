@@ -11,9 +11,11 @@ export const TYPESCRIPT_ROOT = dirname(req.resolve("typescript"));
 
 export const TYPEDOC_VERSION: string = req("typedoc/package.json").version;
 
-export const SUPPORTED_TYPESCRIPT_VERSIONS = (req("typedoc/package.json").peerDependencies.typescript as string)
-    .split("||")
-    .map((version: string) => version.replace(/^\s*|\.x\s*$/g, ""));
+// TypeDoc depends on the TypeScript version that it supports, so this is the major and minor
+// version of that dependency.
+export const SUPPORTED_TYPESCRIPT_VERSIONS = [
+    /^\d+\.\d+/.exec(req("typedoc/package.json").dependencies.typescript as string)![0],
+];
 
 /**
  * This is a hack to make it possible to detect and warn about installation setups

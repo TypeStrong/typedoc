@@ -1,8 +1,9 @@
 import type { FileRegistry } from "#models";
 import { Comment, type CommentDisplayPart, ReflectionKind } from "#models";
 import type { CommentStyle, JsDocCompatibility, ValidationOptions } from "#node-utils";
+import { getDeclarations, getJSDocStart, getReparsedJSDocTag, isSourceFileDeclaration } from "#node-utils";
 import { assertNever, i18n, Logger, setUnion } from "#utils";
-import ts from "typescript";
+import * as ts from "../../ts.js";
 import type { Context } from "../context.js";
 import { lexBlockComment } from "./blockLexer.js";
 import {
@@ -30,7 +31,7 @@ export interface CommentParserConfig {
 export interface CommentContext {
     config: CommentParserConfig;
     logger: Logger;
-    checker: ts.TypeChecker;
+    checker: ts.Checker;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
 }
@@ -38,7 +39,7 @@ export interface CommentContext {
 export interface CommentContextOptionalChecker {
     config: CommentParserConfig;
     logger: Logger;
-    checker?: ts.TypeChecker | undefined;
+    checker?: ts.Checker | undefined;
     files: FileRegistry;
     createSymbolId: Context["createSymbolId"];
 }
@@ -48,7 +49,6 @@ const jsDocCommentKinds = [
     ts.SyntaxKind.JSDocCallbackTag,
     ts.SyntaxKind.JSDocTypedefTag,
     ts.SyntaxKind.JSDocTemplateTag,
-    ts.SyntaxKind.JSDocEnumTag,
 ];
 
 let commentDiscoveryId = 0;
@@ -171,19 +171,21 @@ export function getComment(
     kind: ReflectionKind,
     context: CommentContext,
 ): Comment | undefined {
-    const declarations = symbol.declarations || [];
+    const declarations = getDeclarations(symbol);
 
+    // Declarations which TypeScript created from JSDoc tags take their comment from the tag.
+    const jsDocTags = declarations.map(getReparsedJSDocTag);
     if (
-        declarations.length &&
-        declarations.every((d) => jsDocCommentKinds.includes(d.kind))
+        jsDocTags.length &&
+        jsDocTags.every((tag) => tag && jsDocCommentKinds.includes(tag.kind))
     ) {
         return getJsDocComment(
-            declarations[0] as ts.JSDocPropertyLikeTag,
+            jsDocTags[0] as ts.JSDocParameterOrPropertyTag,
             context,
         );
     }
 
-    const sf = declarations.find(ts.isSourceFile);
+    const sf = declarations.find(isSourceFileDeclaration);
     if (sf) {
         return getFileComment(sf, context);
     }
@@ -274,10 +276,10 @@ function getConstructorParamPropertyComment(
     symbol: ts.Symbol,
     context: CommentContext,
 ): Comment | undefined {
-    const decl = symbol.declarations?.find(ts.isParameter);
+    const decl = getDeclarations(symbol).find(ts.isParameterDeclaration);
     if (!decl) return;
 
-    const ctor = decl.parent;
+    const ctor = decl.parent as ts.SignatureDeclaration;
     const comment = getSignatureComment(ctor, context);
 
     const paramTag = comment?.getIdentifiedTag(symbol.name, "@param");
@@ -289,7 +291,7 @@ function getConstructorParamPropertyComment(
 }
 
 export function getSignatureComment(
-    declaration: ts.SignatureDeclaration | ts.JSDocSignature,
+    declaration: ts.SignatureDeclaration,
     context: CommentContext,
 ): Comment | undefined {
     return getCommentImpl(
@@ -343,11 +345,10 @@ function buildJsDocCommentFromParts(
 
 export function getJsDocComment(
     declaration:
-        | ts.JSDocPropertyLikeTag
+        | ts.JSDocParameterOrPropertyTag
         | ts.JSDocCallbackTag
         | ts.JSDocTypedefTag
-        | ts.JSDocTemplateTag
-        | ts.JSDocEnumTag,
+        | ts.JSDocTemplateTag,
     context: CommentContext,
 ): Comment | undefined {
     const file = declaration.getSourceFile();
@@ -375,7 +376,7 @@ export function getJsDocComment(
             ranges: [
                 {
                     kind: ts.SyntaxKind.MultiLineCommentTrivia,
-                    pos: parent.pos,
+                    pos: getJSDocStart(parent),
                     end: parent.end,
                 },
             ],
@@ -386,10 +387,6 @@ export function getJsDocComment(
     )!;
 
     // And pull out the tag we actually care about.
-    if (ts.isJSDocEnumTag(declaration)) {
-        return buildJsDocCommentFromParts(declaration, comment.getTag("@enum")?.content, comment, context);
-    }
-
     if (
         ts.isJSDocTemplateTag(declaration) &&
         declaration.comment &&

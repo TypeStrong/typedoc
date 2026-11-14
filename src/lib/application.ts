@@ -1,10 +1,11 @@
 import * as Path from "path";
-import ts from "typescript";
+import * as FS from "fs";
+import * as ts from "./ts.js";
 
 import { type ProjectReflection, ReflectionSymbolId } from "#models";
 import {
     AbstractComponent,
-    diagnostic,
+    createProgram,
     diagnostics,
     type DocumentationEntryPoint,
     EntryPointStrategy,
@@ -13,6 +14,7 @@ import {
     getEntryPoints,
     getLoadedPaths,
     getPackageDirectories,
+    getPreEmitDiagnostics,
     getWatchEntryPoints,
     hasBeenLoadedMultipleTimes,
     inferEntryPoints,
@@ -39,7 +41,7 @@ import { Converter } from "./converter/index.js";
 import { Renderer } from "./output/renderer.js";
 
 import { FileRegistry } from "#models";
-import { deriveRootDir, findTsConfigFile, glob, readFile } from "#node-utils";
+import { deriveRootDir, glob, readFile } from "#node-utils";
 import { type GlobString, i18n, Logger, LogLevel, type TranslatedString, unique } from "#utils";
 import { ok } from "assert";
 import { ApplicationEvents } from "./application-events.js";
@@ -448,7 +450,7 @@ export class Application extends AbstractComponent<
         );
 
         if (this.skipErrorChecking === false) {
-            const errors = programs.flatMap((program) => ts.getPreEmitDiagnostics(program));
+            const errors = programs.flatMap((program) => getPreEmitDiagnostics(program));
             if (errors.length) {
                 diagnostics(this.logger, errors);
                 return;
@@ -474,12 +476,14 @@ export class Application extends AbstractComponent<
         return project;
     }
 
-    private watchers = new Map<string, ts.FileWatcher>();
+    private watchers = new Map<string, FS.StatWatcher>();
     private _watchFile?: (path: string, shouldRestart?: boolean) => void;
     private criticalFiles = new Set<string>();
 
     private clearWatches() {
-        this.watchers.forEach((w) => w.close());
+        for (const path of this.watchers.keys()) {
+            FS.unwatchFile(path);
+        }
         this.watchers.clear();
     }
 
@@ -510,6 +514,10 @@ export class Application extends AbstractComponent<
     /**
      * Run a convert / watch process.
      *
+     * TypeScript 7 has no watch API, so this watches the files of the program and
+     * creates a new program when one of them changes. Files which are added to
+     * the project are picked up when the build restarts.
+     *
      * @param success Callback to run after each convert, receiving the project
      * @returns True if the watch process should be restarted due to a
      * configuration change, false for an options error
@@ -517,12 +525,15 @@ export class Application extends AbstractComponent<
     public async convertAndWatch(
         success: (project: ProjectReflection) => Promise<void>,
     ): Promise<boolean> {
-        if (
-            !this.options.getValue("preserveWatchOutput") &&
-            this.logger instanceof FancyConsoleLogger
-        ) {
-            ts.sys.clearScreen?.();
-        }
+        const clearScreen = () => {
+            if (
+                !this.options.getValue("preserveWatchOutput") &&
+                this.logger instanceof FancyConsoleLogger
+            ) {
+                process.stdout.write("\x1Bc");
+            }
+        };
+        clearScreen();
 
         this.logger.verbose(
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
@@ -560,42 +571,75 @@ export class Application extends AbstractComponent<
             return false;
         }
 
-        const tsconfigFile = findTsConfigFile(this.options.getValue("tsconfig")) ??
-            "tsconfig.json";
-
-        // We don't want to do it the first time to preserve initial debug status messages. They'll be lost
-        // after the user saves a file, but better than nothing...
-        let firstStatusReport = true;
-
-        const host = ts.createWatchCompilerHost(
-            tsconfigFile,
-            this.options.fixCompilerOptions({}, this.logger),
-            ts.sys,
-            ts.createEmitAndSemanticDiagnosticsBuilderProgram,
-            (d) => diagnostic(this.logger, d),
-            (status, newLine, _options, errorCount) => {
-                if (
-                    !firstStatusReport &&
-                    errorCount === void 0 &&
-                    !this.options.getValue("preserveWatchOutput") &&
-                    this.logger instanceof FancyConsoleLogger
-                ) {
-                    ts.sys.clearScreen?.();
-                }
-                firstStatusReport = false;
-                this.logger.info(
-                    ts.flattenDiagnosticMessageText(
-                        status.messageText,
-                        newLine,
-                    ) as TranslatedString,
-                );
-            },
-        );
-
-        let successFinished = true;
-        let currentProgram: ts.Program | undefined;
-        let lastProgram = currentProgram;
+        let program: ts.Program | undefined;
+        let lastFiles: string | undefined;
+        let building = false;
+        let rebuildQueued = false;
         let restarting = false;
+        let exitWatch: (restart: boolean) => unknown;
+
+        const build = async () => {
+            if (building) {
+                rebuildQueued = true;
+                return;
+            }
+            building = true;
+            rebuildQueued = false;
+
+            program?.dispose();
+            const current = createProgram({
+                rootNames: this.options.getFileNames(),
+                options: this.options.getCompilerOptions(this.logger),
+                projectReferences: this.options.getProjectReferences(),
+            });
+            program = current;
+
+            this.logger.resetErrors();
+            this.logger.resetWarnings();
+            this.clearWatches();
+
+            const sourceFiles = current.getSourceFileNames()
+                .filter((file) => !current.getSourceFileMetadata(file)?.isDefaultLibrary);
+            for (const file of sourceFiles) {
+                this.watchFile(file);
+            }
+            this.criticalFiles.forEach((path) => this.watchFile(path, true));
+
+            const errors = getPreEmitDiagnostics(current);
+            if (errors.length) {
+                diagnostics(this.logger, errors);
+            } else {
+                if (this.options.getValue("emit") === "both") {
+                    current.emit();
+                }
+
+                const entryPoints = getWatchEntryPoints(
+                    this.logger,
+                    this.options,
+                    current,
+                );
+                if (entryPoints) {
+                    // We don't want to re-initialize the repository if nothing has changed to avoid
+                    // unnecessary subprocess calls.
+                    const currentFiles = sourceFiles.slice().sort().join("\0");
+                    if (!this.repositories || lastFiles !== currentFiles) {
+                        await this.initializeRepositories(entryPoints);
+                    }
+                    lastFiles = currentFiles;
+
+                    const project = this.converter.convert(entryPoints);
+                    await success(project);
+                }
+            }
+
+            building = false;
+            if (restarting) {
+                current.dispose();
+                exitWatch(true);
+            } else if (rebuildQueued) {
+                void build();
+            }
+        };
 
         this._watchFile = (path: string, shouldRestart = false) => {
             this.logger.verbose(
@@ -604,108 +648,38 @@ export class Application extends AbstractComponent<
             if (this.watchers.has(path)) return;
             this.watchers.set(
                 path,
-                host.watchFile(
-                    path,
-                    (file) => {
-                        if (shouldRestart) {
-                            restartMain(file);
-                        } else if (!currentProgram) {
-                            currentProgram = lastProgram;
-                            this.logger.info(
-                                i18n.file_0_changed_rebuilding(
-                                    nicePath(file),
-                                ),
-                            );
+                FS.watchFile(path, { interval: 500 }, (curr, prev) => {
+                    if (curr.mtimeMs === prev.mtimeMs) return;
+
+                    if (shouldRestart) {
+                        if (restarting) return;
+                        this.logger.info(
+                            i18n.file_0_changed_restarting(nicePath(path)),
+                        );
+                        restarting = true;
+                        this.clearWatches();
+                        if (!building) {
+                            program?.dispose();
+                            exitWatch(true);
                         }
-                        if (successFinished) void runSuccess();
-                    },
-                    2000,
-                ),
+                        return;
+                    }
+
+                    if (!building) {
+                        clearScreen();
+                    }
+                    this.logger.info(
+                        i18n.file_0_changed_rebuilding(nicePath(path)),
+                    );
+                    void build();
+                }),
             );
         };
-
-        /** resolver for the returned promise  */
-        let exitWatch: (restart: boolean) => unknown;
-        const restartMain = (file: string) => {
-            if (restarting) return;
-            this.logger.info(
-                i18n.file_0_changed_restarting(nicePath(file)),
-            );
-            restarting = true;
-            currentProgram = undefined;
-            this.clearWatches();
-            tsWatcher.close();
-        };
-
-        const runSuccess = async () => {
-            if (restarting && successFinished) {
-                successFinished = false;
-                exitWatch(true);
-                return;
-            }
-
-            if (!currentProgram) {
-                return;
-            }
-
-            if (successFinished) {
-                if (
-                    this.options.getValue("emit") === "both" &&
-                    currentProgram !== lastProgram
-                ) {
-                    currentProgram.emit();
-                }
-
-                // We don't want to re-initialize the repository if nothing has changed to avoid
-                // unnecessary subprocess calls.
-                const lastFiles = lastProgram?.getSourceFiles().map(s => s.fileName).sort().join("\0");
-                const currentFiles = currentProgram.getSourceFiles().map(s => s.fileName).sort().join("\0");
-
-                // Save for possible re-run due to non-.ts file change
-                lastProgram = currentProgram;
-
-                this.logger.resetErrors();
-                this.logger.resetWarnings();
-                const entryPoints = getWatchEntryPoints(
-                    this.logger,
-                    this.options,
-                    currentProgram,
-                );
-                if (!entryPoints) {
-                    return;
-                }
-                successFinished = false;
-                this.clearWatches();
-                if (!this.repositories || lastFiles !== currentFiles) {
-                    await this.initializeRepositories(entryPoints);
-                }
-                this.criticalFiles.forEach((path) => this.watchFile(path, true));
-                const project = this.converter.convert(entryPoints);
-                currentProgram = undefined;
-                void success(project).then(() => {
-                    successFinished = true;
-                    return runSuccess();
-                });
-            }
-        };
-
-        const origAfterProgramCreate = host.afterProgramCreate;
-        host.afterProgramCreate = (program) => {
-            if (
-                !restarting &&
-                ts.getPreEmitDiagnostics(program.getProgram()).length === 0
-            ) {
-                currentProgram = program.getProgram();
-                void runSuccess();
-            }
-            origAfterProgramCreate?.(program);
-        };
-
-        const tsWatcher = ts.createWatchProgram(host);
 
         // Don't return to caller until the watch needs to restart
         return await new Promise((res) => {
             exitWatch = res;
+            void build();
         });
     }
 
@@ -1048,7 +1022,7 @@ export class Application extends AbstractComponent<
 
         const programs = unique(entryPoints.map(e => e.program));
         const possibleRepoDirs = unique(
-            programs.map(p => p.getSourceFiles().map(s => Path.dirname(s.fileName)).flat()).flat(),
+            programs.flatMap(p => p.getSourceFileNames().map(file => Path.dirname(file))),
         );
 
         await this.repositories.initializeRepositoriesForDirs(possibleRepoDirs);

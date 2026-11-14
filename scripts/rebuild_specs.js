@@ -2,13 +2,12 @@
 "use strict";
 
 Error.stackTraceLimit = 50;
-import ts from "typescript";
 import fs from "fs";
 import path, { basename, join } from "path";
 import * as td from "typedoc";
 import { ok } from "assert";
 import { fileURLToPath } from "url";
-import { diagnostics, getExpandedEntryPointsForPaths } from "#node-utils";
+import { createProgram, diagnostics, getExpandedEntryPointsForPaths, getPreEmitDiagnostics } from "#node-utils";
 // @ts-ignore - expected error due to importing out of root directory, this is run with tsx, so works
 import { getConverterApp } from "../src/test/programs.ts";
 // @ts-ignore - expected error due to importing out of root directory, this is run with tsx, so works
@@ -49,12 +48,15 @@ const conversions = [
  * @param {string[]} dirs
  */
 function rebuildConverterTests(dirs) {
-    const program = ts.createProgram(app.options.getFileNames(), {
-        ...app.options.getCompilerOptions(app.logger),
-        noEmit: true,
+    const program = createProgram({
+        rootNames: app.options.getFileNames(),
+        options: {
+            ...app.options.getCompilerOptions(app.logger),
+            noEmit: true,
+        },
     });
 
-    const errors = ts.getPreEmitDiagnostics(program);
+    const errors = getPreEmitDiagnostics(program);
     if (errors.length) {
         diagnostics(app.logger, errors);
         return;

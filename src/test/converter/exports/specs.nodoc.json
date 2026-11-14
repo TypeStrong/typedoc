@@ -14,7 +14,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 46,
+                    "id": 42,
                     "name": "b",
                     "variant": "reference",
                     "kind": 4194304,
@@ -38,7 +38,7 @@
                     "target": 18
                 },
                 {
-                    "id": 45,
+                    "id": 47,
                     "name": "Mod2",
                     "variant": "reference",
                     "kind": 4194304,
@@ -66,8 +66,8 @@
                 {
                     "title": "References",
                     "children": [
-                        46,
-                        45
+                        42,
+                        47
                     ]
                 }
             ],
@@ -327,15 +327,15 @@
             "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "default"
         },
-        "45": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/exports/export.ts",
-            "qualifiedName": "Mod2"
-        },
-        "46": {
+        "42": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/exports/mod.ts",
             "qualifiedName": "b"
+        },
+        "47": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/exports/export.ts",
+            "qualifiedName": "Mod2"
         }
     },
     "files": {

@@ -1,4 +1,4 @@
-import ts from "typescript";
+import * as ts from "../ts.js";
 import { resolve } from "path";
 import { nicePath } from "./paths.js";
 import { ConsoleLogger, type Logger, LogLevel, type MinimalNode, type MinimalSourceFile } from "#utils";
@@ -25,6 +25,12 @@ const messagePrefixes = {
     [LogLevel.Verbose]: color("[debug]", "gray"),
 };
 
+const diagnosticLevels: Partial<Record<number, LogLevel>> = {
+    [ts.DiagnosticCategory.Error]: LogLevel.Error,
+    [ts.DiagnosticCategory.Warning]: LogLevel.Warn,
+    [ts.DiagnosticCategory.Message]: LogLevel.Info,
+};
+
 export function diagnostics(logger: Logger, diagnostics: readonly ts.Diagnostic[]) {
     for (const d of diagnostics) {
         diagnostic(logger, d);
@@ -35,19 +41,12 @@ export function diagnostic(logger: Logger, diagnostic: ts.Diagnostic) {
     const output = ts.formatDiagnosticsWithColorAndContext([diagnostic], {
         getCanonicalFileName: resolve,
         getCurrentDirectory: () => process.cwd(),
-        getNewLine: () => ts.sys.newLine,
+        getNewLine: () => "\n",
     });
 
-    switch (diagnostic.category) {
-        case ts.DiagnosticCategory.Error:
-            logger.log(output, LogLevel.Error);
-            break;
-        case ts.DiagnosticCategory.Warning:
-            logger.log(output, LogLevel.Warn);
-            break;
-        case ts.DiagnosticCategory.Message:
-            logger.log(output, LogLevel.Info);
-            break;
+    const level = diagnosticLevels[diagnostic.category];
+    if (level !== undefined) {
+        logger.log(output, level);
     }
 }
 

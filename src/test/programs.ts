@@ -1,9 +1,11 @@
 import {
+    createProgram,
     diagnostics,
     getCommonDirectory,
+    getPreEmitDiagnostics,
     normalizePath,
     OptionDefaults,
-    readFile,
+    readJsoncFile,
     TSConfigReader,
     type TypeDocOptions,
     ValidatingFileRegistry,
@@ -18,8 +20,8 @@ import {
     ProjectReflection,
     RepositoryManager,
     SourceReference,
+    type TypeScript as ts,
 } from "typedoc";
-import ts from "typescript";
 import { fileURLToPath } from "url";
 
 let converterApp: Application | undefined;
@@ -111,12 +113,12 @@ export function getConverterApp() {
 export function getConverterProgram() {
     if (!converterProgram) {
         const app = getConverterApp();
-        converterProgram = ts.createProgram(
-            app.options.getFileNames(),
-            app.options.getCompilerOptions(app.logger),
-        );
+        converterProgram = createProgram({
+            rootNames: app.options.getFileNames(),
+            options: app.options.getCompilerOptions(app.logger),
+        });
 
-        const errors = ts.getPreEmitDiagnostics(converterProgram);
+        const errors = getPreEmitDiagnostics(converterProgram);
         diagnostics(app.logger, errors);
         equal(errors.length, 0);
     }
@@ -133,8 +135,8 @@ export function getConverter2App() {
 
         // This is a base-bones version of the TypeDocReader's read method
         // which doesn't handle a JS config, so can be done synchronously
-        const result = ts.readConfigFile(join(getConverter2Base(), "typedoc.json"), readFile);
-        for (const [name, value] of Object.entries(result.config)) {
+        const result = readJsoncFile(join(getConverter2Base(), "typedoc.json"));
+        for (const [name, value] of Object.entries(result?.config as object)) {
             converter2App.options.setValue(name as never, value as never, getConverter2Base());
         }
 
@@ -150,12 +152,12 @@ export function getConverter2App() {
 export function getConverter2Program() {
     if (!converter2Program) {
         const app = getConverter2App();
-        converter2Program = ts.createProgram(
-            app.options.getFileNames(),
-            app.options.getCompilerOptions(app.logger),
-        );
+        converter2Program = createProgram({
+            rootNames: app.options.getFileNames(),
+            options: app.options.getCompilerOptions(app.logger),
+        });
 
-        const errors = ts.getPreEmitDiagnostics(converter2Program);
+        const errors = getPreEmitDiagnostics(converter2Program);
         diagnostics(app.logger, errors);
         equal(errors.length, 0);
     }

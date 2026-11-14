@@ -1,8 +1,14 @@
 import { ReflectionSymbolId } from "#models";
-import { findPackageForPath, getQualifiedName, normalizePath, resolveDeclarationMaps } from "#node-utils";
+import {
+    findPackageForPath,
+    getDeclarations,
+    getQualifiedName,
+    normalizePath,
+    resolveDeclarationMaps,
+} from "#node-utils";
 import { type NormalizedPath } from "#utils";
 import { relative } from "node:path";
-import ts from "typescript";
+import * as ts from "../../ts.js";
 
 let transientCount = 0;
 const transientIds = new WeakMap<ts.Symbol, number>();
@@ -22,7 +28,7 @@ export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declarati
         }
     }
 
-    declaration ??= symbol.declarations?.[0];
+    declaration ??= getDeclarations(symbol)[0];
     const tsSource = declaration?.getSourceFile().fileName ?? "";
     const sourceFileName = resolveDeclarationMaps(tsSource);
     let packageName: string;
@@ -38,7 +44,7 @@ export function createSymbolIdImpl(symbol: ts.Symbol, declaration?: ts.Declarati
     }
 
     let qualifiedName: string;
-    if (symbol.declarations?.some(ts.isSourceFile)) {
+    if (getDeclarations(symbol).some(ts.isSourceFile)) {
         qualifiedName = "";
     } else {
         qualifiedName = getQualifiedName(symbol, symbol.name);

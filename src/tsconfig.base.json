@@ -10,7 +10,7 @@
 
         // Add our `ts` internal types
         "typeRoots": ["../node_modules/@types", "./@types"],
-        "types": ["node", "lunr", "mocha", "shiki", "ts-internal"],
+        "types": ["node", "lunr", "mocha", "shiki"],
         // Speed up dev compilation time
         "incremental": true,
         "skipLibCheck": false,

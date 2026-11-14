@@ -275,6 +275,7 @@ export default defineConfig(
     {
         ignores: [
             "eslint.config.mjs",
+            ".pnpmfile.cjs",
             "src/@types",
             "src/frontend",
             "src/test/renderer/specs",

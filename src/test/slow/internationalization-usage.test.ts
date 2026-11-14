@@ -1,8 +1,7 @@
-import ts from "typescript";
 import { ok } from "assert/strict";
-import { Logger, Options, TSConfigReader } from "../../lib/index.js";
+import { Logger, Options, TSConfigReader, TypeScript as ts } from "../../lib/index.js";
+import { getTypeScriptApi } from "../../lib/utils/compiler.js";
 import { join } from "path";
-import { existsSync, readFileSync } from "fs";
 import { fileURLToPath } from "url";
 
 describe("Internationalization", () => {
@@ -18,68 +17,49 @@ describe("Internationalization", () => {
             "../../../lib/internationalization/locales/en.ts",
         );
 
-        const host: ts.LanguageServiceHost = {
-            getScriptFileNames: () => options.getFileNames().slice(),
-            getScriptVersion: () => "unused",
-            getScriptSnapshot: (fileName) => {
-                if (!existsSync(fileName)) return undefined;
-                return ts.ScriptSnapshot.fromString(
-                    readFileSync(fileName, "utf-8"),
-                );
-            },
-            getCurrentDirectory: () => process.cwd(),
-            getCompilationSettings: () => options.getCompilerOptions(logger),
-            getDefaultLibFileName: (opts) => ts.getDefaultLibFilePath(opts),
-            fileExists: ts.sys.fileExists,
-            readFile: ts.sys.readFile,
-            readDirectory: ts.sys.readDirectory,
-            directoryExists: ts.sys.directoryExists,
-            getDirectories: ts.sys.getDirectories,
-        };
+        const tsconfig = join(process.cwd(), "src/lib/tsconfig.json");
+        const snapshot = getTypeScriptApi().createSnapshot({ openProjects: [tsconfig] });
+        const project = snapshot.getConfiguredProject(tsconfig);
+        ok(project, "Failed to get program for i18n analysis");
 
-        const service = ts.createLanguageService(
-            host,
-            ts.createDocumentRegistry(),
-        );
-
-        const program = service.getProgram();
-        ok(program, "Failed to get program for i18n analysis");
-
-        const sf = program.getSourceFile(defaultLocaleTs);
+        const sf = project.program.getSourceFile(defaultLocaleTs);
         ok(sf, "Failed to get source file");
 
-        const moduleSymbol = program.getTypeChecker().getSymbolAtLocation(sf)!;
-        const translatable = moduleSymbol.exports?.get(
+        const moduleSymbol = project.checker.getSymbolAtLocation(sf)!;
+        const translatable = moduleSymbol.getExports().get(
             "default" as ts.__String,
         );
         ok(translatable, "Failed to get translatable symbol");
 
-        ok(ts.isExportAssignment(translatable.valueDeclaration!));
-        ok(ts.isAsExpression(translatable.valueDeclaration.expression));
+        const declaration = translatable.valueDeclaration?.resolve();
+        ok(declaration && ts.isExportAssignment(declaration));
+        ok(ts.isAsExpression(declaration.expression));
         ok(
             ts.isObjectLiteralExpression(
-                translatable.valueDeclaration.expression.expression,
+                declaration.expression.expression,
             ),
         );
-        const translatableObj = translatable.valueDeclaration.expression.expression;
+        const translatableObj = declaration.expression.expression;
 
         translatableObj.forEachChild((child) => {
             ok(ts.isPropertyAssignment(child));
-            const refs = service.getReferencesAtPosition(
-                sf.fileName,
-                child.getStart(),
+            const refs = project.languageService.getReferencedSymbolsForNode(
+                child.name,
+                child.name.getStart(),
             );
-            const refCount = refs?.filter(
-                (ref) =>
-                    !/locales\/.*\.cts$/.test(ref.fileName) &&
-                    !ref.fileName.endsWith("translatable.ts"),
-            ).length ?? 0;
+            const refCount = refs
+                .flatMap((entry) => entry.references)
+                .filter(
+                    (ref) =>
+                        !/locales\/.*\.cts$/.test(ref.path) &&
+                        !ref.path.endsWith("translatable.ts"),
+                ).length;
             ok(
                 refCount,
                 `Translatable key ${child.name.getText()} is not referenced.`,
             );
         });
 
-        service.dispose();
+        snapshot.dispose();
     });
 });

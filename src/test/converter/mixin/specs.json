@@ -177,7 +177,7 @@
                     }
                 },
                 {
-                    "id": 82,
+                    "id": 74,
                     "name": "baseProperty",
                     "variant": "declaration",
                     "kind": 1024,
@@ -224,7 +224,7 @@
                     "defaultValue": "\"init\""
                 },
                 {
-                    "id": 78,
+                    "id": 77,
                     "name": "property1",
                     "variant": "declaration",
                     "kind": 1024,
@@ -251,7 +251,7 @@
                     }
                 },
                 {
-                    "id": 74,
+                    "id": 81,
                     "name": "property2",
                     "variant": "declaration",
                     "kind": 1024,
@@ -278,7 +278,7 @@
                     }
                 },
                 {
-                    "id": 83,
+                    "id": 75,
                     "name": "baseMethod",
                     "variant": "declaration",
                     "kind": 2048,
@@ -295,7 +295,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 84,
+                            "id": 76,
                             "name": "baseMethod",
                             "variant": "signature",
                             "kind": 4096,
@@ -364,7 +364,7 @@
                     ]
                 },
                 {
-                    "id": 79,
+                    "id": 78,
                     "name": "method1",
                     "variant": "declaration",
                     "kind": 2048,
@@ -381,7 +381,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 80,
+                            "id": 79,
                             "name": "method1",
                             "variant": "signature",
                             "kind": 4096,
@@ -398,7 +398,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 81,
+                                    "id": 80,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -439,7 +439,7 @@
                     }
                 },
                 {
-                    "id": 75,
+                    "id": 82,
                     "name": "method2",
                     "variant": "declaration",
                     "kind": 2048,
@@ -456,7 +456,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 76,
+                            "id": 83,
                             "name": "method2",
                             "variant": "signature",
                             "kind": 4096,
@@ -473,7 +473,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 77,
+                                    "id": 84,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -518,19 +518,19 @@
                 {
                     "title": "Properties",
                     "children": [
-                        82,
+                        74,
                         71,
-                        78,
-                        74
+                        77,
+                        81
                     ]
                 },
                 {
                     "title": "Methods",
                     "children": [
-                        83,
+                        75,
                         72,
-                        79,
-                        75
+                        78,
+                        82
                     ]
                 }
             ],
@@ -697,7 +697,7 @@
             },
             "children": [
                 {
-                    "id": 32,
+                    "id": 28,
                     "name": "baseProperty",
                     "variant": "declaration",
                     "kind": 1024,
@@ -724,7 +724,7 @@
                     }
                 },
                 {
-                    "id": 28,
+                    "id": 31,
                     "name": "property1",
                     "variant": "declaration",
                     "kind": 1024,
@@ -751,7 +751,7 @@
                     }
                 },
                 {
-                    "id": 33,
+                    "id": 29,
                     "name": "baseMethod",
                     "variant": "declaration",
                     "kind": 2048,
@@ -768,7 +768,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 34,
+                            "id": 30,
                             "name": "baseMethod",
                             "variant": "signature",
                             "kind": 4096,
@@ -801,7 +801,7 @@
                     }
                 },
                 {
-                    "id": 29,
+                    "id": 32,
                     "name": "method1",
                     "variant": "declaration",
                     "kind": 2048,
@@ -818,7 +818,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 30,
+                            "id": 33,
                             "name": "method1",
                             "variant": "signature",
                             "kind": 4096,
@@ -835,7 +835,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 31,
+                                    "id": 34,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -880,15 +880,15 @@
                 {
                     "title": "Properties",
                     "children": [
-                        32,
-                        28
+                        28,
+                        31
                     ]
                 },
                 {
                     "title": "Methods",
                     "children": [
-                        33,
-                        29
+                        29,
+                        32
                     ]
                 }
             ],
@@ -936,7 +936,7 @@
             },
             "children": [
                 {
-                    "id": 52,
+                    "id": 44,
                     "name": "baseProperty",
                     "variant": "declaration",
                     "kind": 1024,
@@ -963,7 +963,7 @@
                     }
                 },
                 {
-                    "id": 48,
+                    "id": 47,
                     "name": "property1",
                     "variant": "declaration",
                     "kind": 1024,
@@ -990,7 +990,7 @@
                     }
                 },
                 {
-                    "id": 44,
+                    "id": 51,
                     "name": "property2",
                     "variant": "declaration",
                     "kind": 1024,
@@ -1017,7 +1017,7 @@
                     }
                 },
                 {
-                    "id": 53,
+                    "id": 45,
                     "name": "baseMethod",
                     "variant": "declaration",
                     "kind": 2048,
@@ -1034,7 +1034,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 54,
+                            "id": 46,
                             "name": "baseMethod",
                             "variant": "signature",
                             "kind": 4096,
@@ -1067,7 +1067,7 @@
                     }
                 },
                 {
-                    "id": 49,
+                    "id": 48,
                     "name": "method1",
                     "variant": "declaration",
                     "kind": 2048,
@@ -1084,7 +1084,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 50,
+                            "id": 49,
                             "name": "method1",
                             "variant": "signature",
                             "kind": 4096,
@@ -1101,7 +1101,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 51,
+                                    "id": 50,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1142,7 +1142,7 @@
                     }
                 },
                 {
-                    "id": 45,
+                    "id": 52,
                     "name": "method2",
                     "variant": "declaration",
                     "kind": 2048,
@@ -1159,7 +1159,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 46,
+                            "id": 53,
                             "name": "method2",
                             "variant": "signature",
                             "kind": 4096,
@@ -1176,7 +1176,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 47,
+                                    "id": 54,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1215,17 +1215,17 @@
                 {
                     "title": "Properties",
                     "children": [
-                        52,
-                        48,
-                        44
+                        44,
+                        47,
+                        51
                     ]
                 },
                 {
                     "title": "Methods",
                     "children": [
-                        53,
-                        49,
-                        45
+                        45,
+                        48,
+                        52
                     ]
                 }
             ],
@@ -2225,37 +2225,37 @@
         "28": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.property1"
+            "qualifiedName": "Base.baseProperty"
         },
         "29": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.method1"
+            "qualifiedName": "Base.baseMethod"
         },
         "30": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.method1"
+            "qualifiedName": "Base.baseMethod"
         },
         "31": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "Mixin1Class.property1"
         },
         "32": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseProperty"
+            "qualifiedName": "Mixin1Class.method1"
         },
         "33": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "Mixin1Class.method1"
         },
         "34": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "arg"
         },
         "35": {
             "packageName": "typedoc",
@@ -2305,27 +2305,27 @@
         "44": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.property2"
+            "qualifiedName": "Base.baseProperty"
         },
         "45": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.method2"
+            "qualifiedName": "Base.baseMethod"
         },
         "46": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.method2"
+            "qualifiedName": "Base.baseMethod"
         },
         "47": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "Mixin1Class.property1"
         },
         "48": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.property1"
+            "qualifiedName": "Mixin1Class.method1"
         },
         "49": {
             "packageName": "typedoc",
@@ -2335,27 +2335,27 @@
         "50": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.method1"
+            "qualifiedName": "arg"
         },
         "51": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "Mixin2.property2"
         },
         "52": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseProperty"
+            "qualifiedName": "Mixin2.method2"
         },
         "53": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "Mixin2.method2"
         },
         "54": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "arg"
         },
         "55": {
             "packageName": "typedoc",
@@ -2445,27 +2445,27 @@
         "74": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.property2"
+            "qualifiedName": "Base.baseProperty"
         },
         "75": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.method2"
+            "qualifiedName": "Base.baseMethod"
         },
         "76": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin2.method2"
+            "qualifiedName": "Base.baseMethod"
         },
         "77": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "Mixin1Class.property1"
         },
         "78": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.property1"
+            "qualifiedName": "Mixin1Class.method1"
         },
         "79": {
             "packageName": "typedoc",
@@ -2475,27 +2475,27 @@
         "80": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Mixin1Class.method1"
+            "qualifiedName": "arg"
         },
         "81": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "Mixin2.property2"
         },
         "82": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseProperty"
+            "qualifiedName": "Mixin2.method2"
         },
         "83": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "Mixin2.method2"
         },
         "84": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/mixin/mixin.ts",
-            "qualifiedName": "Base.baseMethod"
+            "qualifiedName": "arg"
         }
     },
     "files": {

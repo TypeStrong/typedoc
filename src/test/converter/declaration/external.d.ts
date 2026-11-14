@@ -1,3 +1,3 @@
-import ts = require("typescript");
+import type { Checker } from "typescript/sync";
 
-export const ActionSet: ts.server.ActionSet;
+export const ActionSet: Checker;

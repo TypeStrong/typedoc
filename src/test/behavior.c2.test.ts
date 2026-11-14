@@ -1140,6 +1140,16 @@ describe("Behavior Tests", () => {
         equal(sig.parameters[1].type?.toString(), "NoInfer<C>");
     });
 
+    it("Keeps keyof for type arguments of generic base types", () => {
+        const project = convert("inheritedKeyof");
+        for (const name of ["Source", "DerivedSource", "NamedSource"]) {
+            equal(querySig(project, `${name}.on`).typeParameters?.[0].type?.toString(), "keyof Events");
+        }
+        for (const name of ["Source", "DerivedSource"]) {
+            equal(querySig(project, `${name}.listens`).parameters?.[0].type?.toString(), "keyof Events");
+        }
+    });
+
     it("Handles inferred predicate functions from TS 5.5", () => {
         const project = convert("inferredPredicates");
         const sig = querySig(project, "isNumber");

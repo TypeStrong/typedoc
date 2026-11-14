@@ -14,7 +14,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 12,
+                    "id": 2,
                     "name": "InterfaceSource",
                     "variant": "declaration",
                     "kind": 256,
@@ -29,7 +29,7 @@
                     },
                     "children": [
                         {
-                            "id": 14,
+                            "id": 4,
                             "name": "property",
                             "variant": "declaration",
                             "kind": 1024,
@@ -64,7 +64,7 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 13,
+                                "target": 3,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "InterfaceSource.T",
@@ -72,7 +72,7 @@
                             }
                         },
                         {
-                            "id": 15,
+                            "id": 5,
                             "name": "someMethod",
                             "variant": "declaration",
                             "kind": 2048,
@@ -87,7 +87,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 16,
+                                    "id": 6,
                                     "name": "someMethod",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -110,7 +110,7 @@
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 17,
+                                            "id": 7,
                                             "name": "arg",
                                             "variant": "param",
                                             "kind": 32768,
@@ -123,7 +123,7 @@
                                     ],
                                     "type": {
                                         "type": "reference",
-                                        "target": 13,
+                                        "target": 3,
                                         "name": "T",
                                         "package": "typedoc",
                                         "qualifiedName": "InterfaceSource.T",
@@ -137,13 +137,13 @@
                         {
                             "title": "Properties",
                             "children": [
-                                14
+                                4
                             ]
                         },
                         {
                             "title": "Methods",
                             "children": [
-                                15
+                                5
                             ]
                         }
                     ],
@@ -157,7 +157,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 13,
+                            "id": 3,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -174,7 +174,7 @@
                     ]
                 },
                 {
-                    "id": 18,
+                    "id": 8,
                     "name": "InterfaceTarget",
                     "variant": "declaration",
                     "kind": 256,
@@ -189,7 +189,7 @@
                     },
                     "children": [
                         {
-                            "id": 20,
+                            "id": 10,
                             "name": "property",
                             "variant": "declaration",
                             "kind": 1024,
@@ -212,7 +212,7 @@
                             ],
                             "type": {
                                 "type": "reference",
-                                "target": 19,
+                                "target": 9,
                                 "name": "T",
                                 "package": "typedoc",
                                 "qualifiedName": "InterfaceTarget.T",
@@ -220,7 +220,7 @@
                             }
                         },
                         {
-                            "id": 21,
+                            "id": 11,
                             "name": "someMethod",
                             "variant": "declaration",
                             "kind": 2048,
@@ -235,7 +235,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 22,
+                                    "id": 12,
                                     "name": "someMethod",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -258,7 +258,7 @@
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 23,
+                                            "id": 13,
                                             "name": "arg",
                                             "variant": "param",
                                             "kind": 32768,
@@ -271,7 +271,7 @@
                                     ],
                                     "type": {
                                         "type": "reference",
-                                        "target": 19,
+                                        "target": 9,
                                         "name": "T",
                                         "package": "typedoc",
                                         "qualifiedName": "InterfaceTarget.T",
@@ -285,13 +285,13 @@
                         {
                             "title": "Properties",
                             "children": [
-                                20
+                                10
                             ]
                         },
                         {
                             "title": "Methods",
                             "children": [
-                                21
+                                11
                             ]
                         }
                     ],
@@ -305,7 +305,7 @@
                     ],
                     "typeParameters": [
                         {
-                            "id": 19,
+                            "id": 9,
                             "name": "T",
                             "variant": "typeParam",
                             "kind": 131072,
@@ -322,7 +322,7 @@
                     ]
                 },
                 {
-                    "id": 2,
+                    "id": 14,
                     "name": "functionSource",
                     "variant": "declaration",
                     "kind": 64,
@@ -337,7 +337,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 3,
+                            "id": 15,
                             "name": "functionSource",
                             "variant": "signature",
                             "kind": 4096,
@@ -389,7 +389,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 4,
+                                    "id": 16,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -406,7 +406,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 5,
+                                    "id": 17,
                                     "name": "arg1",
                                     "variant": "param",
                                     "kind": 32768,
@@ -421,14 +421,14 @@
                                     },
                                     "type": {
                                         "type": "reference",
-                                        "target": 4,
+                                        "target": 16,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
                                     }
                                 },
                                 {
-                                    "id": 6,
+                                    "id": 18,
                                     "name": "arg2",
                                     "variant": "param",
                                     "kind": 32768,
@@ -443,7 +443,7 @@
                                     },
                                     "type": {
                                         "type": "reference",
-                                        "target": 4,
+                                        "target": 16,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -458,7 +458,7 @@
                     ]
                 },
                 {
-                    "id": 7,
+                    "id": 19,
                     "name": "functionTargetLocal",
                     "variant": "declaration",
                     "kind": 64,
@@ -473,7 +473,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 8,
+                            "id": 20,
                             "name": "functionTargetLocal",
                             "variant": "signature",
                             "kind": 4096,
@@ -525,7 +525,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 9,
+                                    "id": 21,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -542,7 +542,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 10,
+                                    "id": 22,
                                     "name": "arg1",
                                     "variant": "param",
                                     "kind": 32768,
@@ -557,14 +557,14 @@
                                     },
                                     "type": {
                                         "type": "reference",
-                                        "target": 9,
+                                        "target": 21,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
                                     }
                                 },
                                 {
-                                    "id": 11,
+                                    "id": 23,
                                     "name": "arg2",
                                     "variant": "param",
                                     "kind": 32768,
@@ -579,7 +579,7 @@
                                     },
                                     "type": {
                                         "type": "reference",
-                                        "target": 9,
+                                        "target": 21,
                                         "name": "T",
                                         "package": "typedoc",
                                         "refersToTypeParameter": true
@@ -598,15 +598,15 @@
                 {
                     "title": "Interfaces",
                     "children": [
-                        12,
-                        18
+                        2,
+                        8
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        2,
-                        7
+                        14,
+                        19
                     ]
                 }
             ],
@@ -992,112 +992,112 @@
         "2": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "functionSource"
+            "qualifiedName": "InterfaceSource"
         },
         "3": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "functionSource"
+            "qualifiedName": "InterfaceSource.T"
         },
         "4": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "InterfaceSource.property"
         },
         "5": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg1"
+            "qualifiedName": "InterfaceSource.someMethod"
         },
         "6": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg2"
+            "qualifiedName": "InterfaceSource.someMethod"
         },
         "7": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "functionTargetLocal"
+            "qualifiedName": "arg"
         },
         "8": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "functionTargetLocal"
+            "qualifiedName": "InterfaceTarget"
         },
         "9": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "InterfaceTarget.T"
         },
         "10": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg1"
+            "qualifiedName": "InterfaceTarget.property"
         },
         "11": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg2"
+            "qualifiedName": "InterfaceTarget.someMethod"
         },
         "12": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceSource"
+            "qualifiedName": "InterfaceTarget.someMethod"
         },
         "13": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceSource.T"
+            "qualifiedName": "arg"
         },
         "14": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceSource.property"
+            "qualifiedName": "functionSource"
         },
         "15": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceSource.someMethod"
+            "qualifiedName": "functionSource"
         },
         "16": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceSource.someMethod"
+            "qualifiedName": "T"
         },
         "17": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "arg1"
         },
         "18": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceTarget"
+            "qualifiedName": "arg2"
         },
         "19": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceTarget.T"
+            "qualifiedName": "functionTargetLocal"
         },
         "20": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceTarget.property"
+            "qualifiedName": "functionTargetLocal"
         },
         "21": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceTarget.someMethod"
+            "qualifiedName": "T"
         },
         "22": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "InterfaceTarget.someMethod"
+            "qualifiedName": "arg1"
         },
         "23": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/inheritance/inherit-doc.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "arg2"
         },
         "24": {
             "packageName": "typedoc",

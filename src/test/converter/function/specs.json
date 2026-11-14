@@ -14,7 +14,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 33,
+                    "id": 36,
                     "name": "moduleFunction",
                     "variant": "declaration",
                     "kind": 4,
@@ -29,7 +29,7 @@
                     },
                     "children": [
                         {
-                            "id": 38,
+                            "id": 37,
                             "name": "functionVariable",
                             "variant": "declaration",
                             "kind": 32,
@@ -56,7 +56,7 @@
                             }
                         },
                         {
-                            "id": 34,
+                            "id": 38,
                             "name": "append",
                             "variant": "declaration",
                             "kind": 64,
@@ -71,7 +71,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 35,
+                                    "id": 39,
                                     "name": "append",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -100,7 +100,7 @@
                             ]
                         },
                         {
-                            "id": 36,
+                            "id": 40,
                             "name": "prepend",
                             "variant": "declaration",
                             "kind": 64,
@@ -115,7 +115,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 37,
+                                    "id": 41,
                                     "name": "prepend",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -148,14 +148,14 @@
                         {
                             "title": "Variables",
                             "children": [
-                                38
+                                37
                             ]
                         },
                         {
                             "title": "Functions",
                             "children": [
-                                34,
-                                36
+                                38,
+                                40
                             ]
                         }
                     ],
@@ -175,28 +175,28 @@
                     ]
                 },
                 {
-                    "id": 63,
+                    "id": 56,
                     "name": "Predicates",
                     "variant": "declaration",
                     "kind": 128,
                     "flags": {},
                     "children": [
                         {
-                            "id": 70,
+                            "id": 63,
                             "name": "constructor",
                             "variant": "declaration",
                             "kind": 512,
                             "flags": {},
                             "signatures": [
                                 {
-                                    "id": 71,
+                                    "id": 64,
                                     "name": "Predicates",
                                     "variant": "signature",
                                     "kind": 16384,
                                     "flags": {},
                                     "type": {
                                         "type": "reference",
-                                        "target": 63,
+                                        "target": 56,
                                         "name": "Predicates",
                                         "package": "typedoc"
                                     }
@@ -204,7 +204,7 @@
                             ]
                         },
                         {
-                            "id": 74,
+                            "id": 67,
                             "name": "assertString",
                             "variant": "declaration",
                             "kind": 2048,
@@ -219,7 +219,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 75,
+                                    "id": 68,
                                     "name": "assertString",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -245,7 +245,7 @@
                             ]
                         },
                         {
-                            "id": 72,
+                            "id": 65,
                             "name": "isString",
                             "variant": "declaration",
                             "kind": 2048,
@@ -260,7 +260,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 73,
+                                    "id": 66,
                                     "name": "isString",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -286,7 +286,7 @@
                             ]
                         },
                         {
-                            "id": 67,
+                            "id": 60,
                             "name": "assert",
                             "variant": "declaration",
                             "kind": 2048,
@@ -303,7 +303,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 68,
+                                    "id": 61,
                                     "name": "assert",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -318,7 +318,7 @@
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 69,
+                                            "id": 62,
                                             "name": "x",
                                             "variant": "param",
                                             "kind": 32768,
@@ -338,7 +338,7 @@
                             ]
                         },
                         {
-                            "id": 64,
+                            "id": 57,
                             "name": "isString",
                             "variant": "declaration",
                             "kind": 2048,
@@ -355,7 +355,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 65,
+                                    "id": 58,
                                     "name": "isString",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -370,7 +370,7 @@
                                     ],
                                     "parameters": [
                                         {
-                                            "id": 66,
+                                            "id": 59,
                                             "name": "x",
                                             "variant": "param",
                                             "kind": 32768,
@@ -398,16 +398,16 @@
                         {
                             "title": "Constructors",
                             "children": [
-                                70
+                                63
                             ]
                         },
                         {
                             "title": "Methods",
                             "children": [
-                                74,
-                                72,
                                 67,
-                                64
+                                65,
+                                60,
+                                57
                             ]
                         }
                     ],
@@ -421,7 +421,7 @@
                     ]
                 },
                 {
-                    "id": 76,
+                    "id": 69,
                     "name": "all",
                     "variant": "declaration",
                     "kind": 64,
@@ -444,7 +444,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 77,
+                            "id": 70,
                             "name": "all",
                             "variant": "signature",
                             "kind": 4096,
@@ -455,6 +455,108 @@
                                     "line": 199,
                                     "character": 4,
                                     "url": "typedoc://function.ts#L199"
+                                }
+                            ],
+                            "typeParameters": [
+                                {
+                                    "id": 71,
+                                    "name": "T",
+                                    "variant": "typeParam",
+                                    "kind": 131072,
+                                    "flags": {}
+                                }
+                            ],
+                            "parameters": [
+                                {
+                                    "id": 72,
+                                    "name": "fn",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reflection",
+                                        "declaration": {
+                                            "id": 73,
+                                            "name": "__type",
+                                            "variant": "declaration",
+                                            "kind": 65536,
+                                            "flags": {},
+                                            "signatures": [
+                                                {
+                                                    "id": 74,
+                                                    "name": "__type",
+                                                    "variant": "signature",
+                                                    "kind": 4096,
+                                                    "flags": {},
+                                                    "parameters": [
+                                                        {
+                                                            "id": 75,
+                                                            "name": "item",
+                                                            "variant": "param",
+                                                            "kind": 32768,
+                                                            "flags": {},
+                                                            "type": {
+                                                                "type": "reference",
+                                                                "target": 71,
+                                                                "name": "T",
+                                                                "package": "typedoc",
+                                                                "refersToTypeParameter": true
+                                                            }
+                                                        }
+                                                    ],
+                                                    "type": {
+                                                        "type": "intrinsic",
+                                                        "name": "boolean"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "id": 76,
+                                    "name": "iterator",
+                                    "variant": "param",
+                                    "kind": 32768,
+                                    "flags": {},
+                                    "type": {
+                                        "type": "reference",
+                                        "target": {
+                                            "packageName": "typescript",
+                                            "packagePath": "lib/lib.es2015.iterable.d.ts",
+                                            "qualifiedName": "Iterable"
+                                        },
+                                        "typeArguments": [
+                                            {
+                                                "type": "reference",
+                                                "target": 71,
+                                                "name": "T",
+                                                "package": "typedoc",
+                                                "refersToTypeParameter": true
+                                            }
+                                        ],
+                                        "name": "Iterable",
+                                        "package": "typescript"
+                                    }
+                                }
+                            ],
+                            "type": {
+                                "type": "intrinsic",
+                                "name": "boolean"
+                            }
+                        },
+                        {
+                            "id": 77,
+                            "name": "all",
+                            "variant": "signature",
+                            "kind": 4096,
+                            "flags": {},
+                            "sources": [
+                                {
+                                    "fileName": "function.ts",
+                                    "line": 200,
+                                    "character": 4,
+                                    "url": "typedoc://function.ts#L200"
                                 }
                             ],
                             "typeParameters": [
@@ -512,128 +614,26 @@
                                             ]
                                         }
                                     }
-                                },
-                                {
-                                    "id": 83,
-                                    "name": "iterator",
-                                    "variant": "param",
-                                    "kind": 32768,
-                                    "flags": {},
-                                    "type": {
-                                        "type": "reference",
-                                        "target": {
-                                            "packageName": "typescript",
-                                            "packagePath": "lib/lib.es2015.iterable.d.ts",
-                                            "qualifiedName": "Iterable"
-                                        },
-                                        "typeArguments": [
-                                            {
-                                                "type": "reference",
-                                                "target": 78,
-                                                "name": "T",
-                                                "package": "typedoc",
-                                                "refersToTypeParameter": true
-                                            }
-                                        ],
-                                        "name": "Iterable",
-                                        "package": "typescript"
-                                    }
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "boolean"
-                            }
-                        },
-                        {
-                            "id": 84,
-                            "name": "all",
-                            "variant": "signature",
-                            "kind": 4096,
-                            "flags": {},
-                            "sources": [
-                                {
-                                    "fileName": "function.ts",
-                                    "line": 200,
-                                    "character": 4,
-                                    "url": "typedoc://function.ts#L200"
-                                }
-                            ],
-                            "typeParameters": [
-                                {
-                                    "id": 85,
-                                    "name": "T",
-                                    "variant": "typeParam",
-                                    "kind": 131072,
-                                    "flags": {}
-                                }
-                            ],
-                            "parameters": [
-                                {
-                                    "id": 86,
-                                    "name": "fn",
-                                    "variant": "param",
-                                    "kind": 32768,
-                                    "flags": {},
-                                    "type": {
-                                        "type": "reflection",
-                                        "declaration": {
-                                            "id": 87,
-                                            "name": "__type",
-                                            "variant": "declaration",
-                                            "kind": 65536,
-                                            "flags": {},
-                                            "signatures": [
-                                                {
-                                                    "id": 88,
-                                                    "name": "__type",
-                                                    "variant": "signature",
-                                                    "kind": 4096,
-                                                    "flags": {},
-                                                    "parameters": [
-                                                        {
-                                                            "id": 89,
-                                                            "name": "item",
-                                                            "variant": "param",
-                                                            "kind": 32768,
-                                                            "flags": {},
-                                                            "type": {
-                                                                "type": "reference",
-                                                                "target": 85,
-                                                                "name": "T",
-                                                                "package": "typedoc",
-                                                                "refersToTypeParameter": true
-                                                            }
-                                                        }
-                                                    ],
-                                                    "type": {
-                                                        "type": "intrinsic",
-                                                        "name": "boolean"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
                                 }
                             ],
                             "type": {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 90,
+                                    "id": 83,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "signatures": [
                                         {
-                                            "id": 91,
+                                            "id": 84,
                                             "name": "__type",
                                             "variant": "signature",
                                             "kind": 4096,
                                             "flags": {},
                                             "parameters": [
                                                 {
-                                                    "id": 92,
+                                                    "id": 85,
                                                     "name": "iterator",
                                                     "variant": "param",
                                                     "kind": 32768,
@@ -648,7 +648,7 @@
                                                         "typeArguments": [
                                                             {
                                                                 "type": "reference",
-                                                                "target": 85,
+                                                                "target": 78,
                                                                 "name": "T",
                                                                 "package": "typedoc",
                                                                 "refersToTypeParameter": true
@@ -671,7 +671,7 @@
                     ]
                 },
                 {
-                    "id": 39,
+                    "id": 42,
                     "name": "assertionFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -686,7 +686,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 40,
+                            "id": 43,
                             "name": "assertionFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -709,7 +709,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 41,
+                                    "id": 44,
                                     "name": "condition",
                                     "variant": "param",
                                     "kind": 32768,
@@ -737,7 +737,7 @@
                     ]
                 },
                 {
-                    "id": 45,
+                    "id": 48,
                     "name": "assertIsNonNull",
                     "variant": "declaration",
                     "kind": 64,
@@ -752,7 +752,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 46,
+                            "id": 49,
                             "name": "assertIsNonNull",
                             "variant": "signature",
                             "kind": 4096,
@@ -775,7 +775,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 47,
+                                    "id": 50,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -784,7 +784,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 48,
+                                    "id": 51,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -794,7 +794,7 @@
                                         "types": [
                                             {
                                                 "type": "reference",
-                                                "target": 47,
+                                                "target": 50,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "refersToTypeParameter": true
@@ -817,7 +817,7 @@
                                 "asserts": true,
                                 "targetType": {
                                     "type": "reference",
-                                    "target": 47,
+                                    "target": 50,
                                     "name": "T",
                                     "package": "typedoc",
                                     "refersToTypeParameter": true
@@ -827,7 +827,7 @@
                     ]
                 },
                 {
-                    "id": 53,
+                    "id": 86,
                     "name": "boolOrUndef",
                     "variant": "declaration",
                     "kind": 64,
@@ -842,7 +842,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 54,
+                            "id": 87,
                             "name": "boolOrUndef",
                             "variant": "signature",
                             "kind": 4096,
@@ -857,7 +857,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 55,
+                                    "id": 88,
                                     "name": "x",
                                     "variant": "param",
                                     "kind": 32768,
@@ -885,7 +885,7 @@
                     ]
                 },
                 {
-                    "id": 42,
+                    "id": 45,
                     "name": "checkerFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -900,7 +900,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 43,
+                            "id": 46,
                             "name": "checkerFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -923,7 +923,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 44,
+                                    "id": 47,
                                     "name": "anything",
                                     "variant": "param",
                                     "kind": 32768,
@@ -991,7 +991,7 @@
                     ]
                 },
                 {
-                    "id": 13,
+                    "id": 16,
                     "name": "functionWithDefaults",
                     "variant": "declaration",
                     "kind": 64,
@@ -1006,7 +1006,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 14,
+                            "id": 17,
                             "name": "functionWithDefaults",
                             "variant": "signature",
                             "kind": 4096,
@@ -1040,7 +1040,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 15,
+                                    "id": 18,
                                     "name": "valueA",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1060,7 +1060,7 @@
                                     "defaultValue": "\"defaultValue\""
                                 },
                                 {
-                                    "id": 16,
+                                    "id": 19,
                                     "name": "valueB",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1080,7 +1080,7 @@
                                     "defaultValue": "100"
                                 },
                                 {
-                                    "id": 17,
+                                    "id": 20,
                                     "name": "valueC",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1100,7 +1100,7 @@
                                     "defaultValue": "Number.NaN"
                                 },
                                 {
-                                    "id": 18,
+                                    "id": 21,
                                     "name": "valueD",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1120,7 +1120,7 @@
                                     "defaultValue": "true"
                                 },
                                 {
-                                    "id": 19,
+                                    "id": 22,
                                     "name": "valueE",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1148,7 +1148,7 @@
                     ]
                 },
                 {
-                    "id": 9,
+                    "id": 12,
                     "name": "functionWithOptionalValue",
                     "variant": "declaration",
                     "kind": 64,
@@ -1163,7 +1163,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 10,
+                            "id": 13,
                             "name": "functionWithOptionalValue",
                             "variant": "signature",
                             "kind": 4096,
@@ -1186,7 +1186,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 11,
+                                    "id": 14,
                                     "name": "requiredParam",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1205,7 +1205,7 @@
                                     }
                                 },
                                 {
-                                    "id": 12,
+                                    "id": 15,
                                     "name": "optionalParam",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1358,7 +1358,7 @@
                     ]
                 },
                 {
-                    "id": 20,
+                    "id": 23,
                     "name": "functionWithRest",
                     "variant": "declaration",
                     "kind": 64,
@@ -1373,7 +1373,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 21,
+                            "id": 24,
                             "name": "functionWithRest",
                             "variant": "signature",
                             "kind": 4096,
@@ -1407,7 +1407,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 22,
+                                    "id": 25,
                                     "name": "rest",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1439,7 +1439,7 @@
                     ]
                 },
                 {
-                    "id": 49,
+                    "id": 52,
                     "name": "isNonNull",
                     "variant": "declaration",
                     "kind": 64,
@@ -1454,7 +1454,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 50,
+                            "id": 53,
                             "name": "isNonNull",
                             "variant": "signature",
                             "kind": 4096,
@@ -1477,7 +1477,7 @@
                             ],
                             "typeParameters": [
                                 {
-                                    "id": 51,
+                                    "id": 54,
                                     "name": "T",
                                     "variant": "typeParam",
                                     "kind": 131072,
@@ -1486,7 +1486,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 52,
+                                    "id": 55,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1496,7 +1496,7 @@
                                         "types": [
                                             {
                                                 "type": "reference",
-                                                "target": 51,
+                                                "target": 54,
                                                 "name": "T",
                                                 "package": "typedoc",
                                                 "refersToTypeParameter": true
@@ -1519,7 +1519,7 @@
                                 "asserts": false,
                                 "targetType": {
                                     "type": "reference",
-                                    "target": 51,
+                                    "target": 54,
                                     "name": "T",
                                     "package": "typedoc",
                                     "refersToTypeParameter": true
@@ -1529,14 +1529,14 @@
                     ]
                 },
                 {
-                    "id": 56,
+                    "id": 89,
                     "name": "merged",
                     "variant": "declaration",
                     "kind": 64,
                     "flags": {},
                     "children": [
                         {
-                            "id": 58,
+                            "id": 91,
                             "name": "nsFn",
                             "variant": "declaration",
                             "kind": 2048,
@@ -1551,7 +1551,7 @@
                             ],
                             "signatures": [
                                 {
-                                    "id": 59,
+                                    "id": 92,
                                     "name": "nsFn",
                                     "variant": "signature",
                                     "kind": 4096,
@@ -1576,7 +1576,7 @@
                         {
                             "title": "Methods",
                             "children": [
-                                58
+                                91
                             ]
                         }
                     ],
@@ -1586,17 +1586,11 @@
                             "line": 209,
                             "character": 16,
                             "url": "typedoc://function.ts#L209"
-                        },
-                        {
-                            "fileName": "function.ts",
-                            "line": 210,
-                            "character": 0,
-                            "url": "typedoc://function.ts#L210"
                         }
                     ],
                     "signatures": [
                         {
-                            "id": 57,
+                            "id": 90,
                             "name": "merged",
                             "variant": "signature",
                             "kind": 4096,
@@ -1617,7 +1611,7 @@
                     ]
                 },
                 {
-                    "id": 30,
+                    "id": 33,
                     "name": "moduleFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -1638,7 +1632,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 31,
+                            "id": 34,
                             "name": "moduleFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -1661,7 +1655,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 32,
+                                    "id": 35,
                                     "name": "arg",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1688,7 +1682,7 @@
                     ]
                 },
                 {
-                    "id": 23,
+                    "id": 26,
                     "name": "multipleSignatures",
                     "variant": "declaration",
                     "kind": 64,
@@ -1739,7 +1733,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 24,
+                            "id": 27,
                             "name": "multipleSignatures",
                             "variant": "signature",
                             "kind": 4096,
@@ -1762,7 +1756,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 25,
+                                    "id": 28,
                                     "name": "value",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1787,7 +1781,7 @@
                             }
                         },
                         {
-                            "id": 26,
+                            "id": 29,
                             "name": "multipleSignatures",
                             "variant": "signature",
                             "kind": 4096,
@@ -1810,7 +1804,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 27,
+                                    "id": 30,
                                     "name": "value",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1826,14 +1820,14 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 28,
+                                            "id": 31,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
                                             "children": [
                                                 {
-                                                    "id": 29,
+                                                    "id": 32,
                                                     "name": "name",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -1864,7 +1858,7 @@
                                                 {
                                                     "title": "Properties",
                                                     "children": [
-                                                        29
+                                                        32
                                                     ]
                                                 }
                                             ]
@@ -1880,7 +1874,7 @@
                     ]
                 },
                 {
-                    "id": 60,
+                    "id": 9,
                     "name": "variableFunction",
                     "variant": "declaration",
                     "kind": 64,
@@ -1895,7 +1889,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 61,
+                            "id": 10,
                             "name": "variableFunction",
                             "variant": "signature",
                             "kind": 4096,
@@ -1929,7 +1923,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 62,
+                                    "id": 11,
                                     "name": "someParam",
                                     "variant": "param",
                                     "kind": 32768,
@@ -1960,33 +1954,33 @@
                 {
                     "title": "Namespaces",
                     "children": [
-                        33
+                        36
                     ]
                 },
                 {
                     "title": "Classes",
                     "children": [
-                        63
+                        56
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        76,
-                        39,
-                        45,
-                        53,
+                        69,
                         42,
+                        48,
+                        86,
+                        45,
                         2,
-                        13,
-                        9,
+                        16,
+                        12,
                         4,
-                        20,
-                        49,
-                        56,
-                        30,
                         23,
-                        60
+                        52,
+                        89,
+                        33,
+                        26,
+                        9
                     ]
                 }
             ],
@@ -2342,14 +2336,14 @@
             "flags": {},
             "children": [
                 {
-                    "id": 116,
+                    "id": 108,
                     "name": "BreakpointRange",
                     "variant": "declaration",
                     "kind": 256,
                     "flags": {},
                     "children": [
                         {
-                            "id": 118,
+                            "id": 110,
                             "name": "end",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2368,7 +2362,7 @@
                             }
                         },
                         {
-                            "id": 117,
+                            "id": 109,
                             "name": "start",
                             "variant": "declaration",
                             "kind": 1024,
@@ -2391,8 +2385,8 @@
                         {
                             "title": "Properties",
                             "children": [
-                                118,
-                                117
+                                110,
+                                109
                             ]
                         }
                     ],
@@ -2406,7 +2400,7 @@
                     ]
                 },
                 {
-                    "id": 108,
+                    "id": 111,
                     "name": "getBreakpoints",
                     "variant": "declaration",
                     "kind": 64,
@@ -2421,7 +2415,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 109,
+                            "id": 112,
                             "name": "getBreakpoints",
                             "variant": "signature",
                             "kind": 4096,
@@ -2437,14 +2431,14 @@
                             "type": {
                                 "type": "reflection",
                                 "declaration": {
-                                    "id": 110,
+                                    "id": 113,
                                     "name": "__type",
                                     "variant": "declaration",
                                     "kind": 65536,
                                     "flags": {},
                                     "children": [
                                         {
-                                            "id": 113,
+                                            "id": 116,
                                             "name": "large",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -2459,13 +2453,13 @@
                                             ],
                                             "type": {
                                                 "type": "reference",
-                                                "target": 116,
+                                                "target": 108,
                                                 "name": "BreakpointRange",
                                                 "package": "typedoc"
                                             }
                                         },
                                         {
-                                            "id": 112,
+                                            "id": 115,
                                             "name": "medium",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -2480,13 +2474,13 @@
                                             ],
                                             "type": {
                                                 "type": "reference",
-                                                "target": 116,
+                                                "target": 108,
                                                 "name": "BreakpointRange",
                                                 "package": "typedoc"
                                             }
                                         },
                                         {
-                                            "id": 111,
+                                            "id": 114,
                                             "name": "small",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -2501,13 +2495,13 @@
                                             ],
                                             "type": {
                                                 "type": "reference",
-                                                "target": 116,
+                                                "target": 108,
                                                 "name": "BreakpointRange",
                                                 "package": "typedoc"
                                             }
                                         },
                                         {
-                                            "id": 114,
+                                            "id": 117,
                                             "name": "xlarge",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -2522,13 +2516,13 @@
                                             ],
                                             "type": {
                                                 "type": "reference",
-                                                "target": 116,
+                                                "target": 108,
                                                 "name": "BreakpointRange",
                                                 "package": "typedoc"
                                             }
                                         },
                                         {
-                                            "id": 115,
+                                            "id": 118,
                                             "name": "xxlarge",
                                             "variant": "declaration",
                                             "kind": 1024,
@@ -2543,7 +2537,7 @@
                                             ],
                                             "type": {
                                                 "type": "reference",
-                                                "target": 116,
+                                                "target": 108,
                                                 "name": "BreakpointRange",
                                                 "package": "typedoc"
                                             }
@@ -2553,11 +2547,11 @@
                                         {
                                             "title": "Properties",
                                             "children": [
-                                                113,
-                                                112,
-                                                111,
+                                                116,
+                                                115,
                                                 114,
-                                                115
+                                                117,
+                                                118
                                             ]
                                         }
                                     ]
@@ -2571,13 +2565,13 @@
                 {
                     "title": "Interfaces",
                     "children": [
-                        116
+                        108
                     ]
                 },
                 {
                     "title": "Functions",
                     "children": [
-                        108
+                        111
                     ]
                 }
             ],
@@ -2646,87 +2640,87 @@
         "9": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithOptionalValue"
+            "qualifiedName": "variableFunction"
         },
         "10": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithOptionalValue"
+            "qualifiedName": "variableFunction"
         },
         "11": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "requiredParam"
+            "qualifiedName": "someParam"
         },
         "12": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "optionalParam"
+            "qualifiedName": "functionWithOptionalValue"
         },
         "13": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithDefaults"
+            "qualifiedName": "functionWithOptionalValue"
         },
         "14": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithDefaults"
+            "qualifiedName": "requiredParam"
         },
         "15": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "valueA"
+            "qualifiedName": "optionalParam"
         },
         "16": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "valueB"
+            "qualifiedName": "functionWithDefaults"
         },
         "17": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "valueC"
+            "qualifiedName": "functionWithDefaults"
         },
         "18": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "valueD"
+            "qualifiedName": "valueA"
         },
         "19": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "valueE"
+            "qualifiedName": "valueB"
         },
         "20": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithRest"
+            "qualifiedName": "valueC"
         },
         "21": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "functionWithRest"
+            "qualifiedName": "valueD"
         },
         "22": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "rest"
+            "qualifiedName": "valueE"
         },
         "23": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "multipleSignatures"
+            "qualifiedName": "functionWithRest"
         },
         "24": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "multipleSignatures"
+            "qualifiedName": "functionWithRest"
         },
         "25": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "value"
+            "qualifiedName": "rest"
         },
         "26": {
             "packageName": "typedoc",
@@ -2736,32 +2730,32 @@
         "27": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "value"
+            "qualifiedName": "multipleSignatures"
         },
         "28": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "value"
         },
         "29": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type.name"
+            "qualifiedName": "multipleSignatures"
         },
         "30": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction"
+            "qualifiedName": "value"
         },
         "31": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction"
+            "qualifiedName": "__type"
         },
         "32": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "__type.name"
         },
         "33": {
             "packageName": "typedoc",
@@ -2771,157 +2765,147 @@
         "34": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction.append"
+            "qualifiedName": "moduleFunction"
         },
         "35": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction.append"
+            "qualifiedName": "arg"
         },
         "36": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction.prepend"
+            "qualifiedName": "moduleFunction"
         },
         "37": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction.prepend"
+            "qualifiedName": "moduleFunction.functionVariable"
         },
         "38": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "moduleFunction.functionVariable"
+            "qualifiedName": "moduleFunction.append"
         },
         "39": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "assertionFunction"
+            "qualifiedName": "moduleFunction.append"
         },
         "40": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "assertionFunction"
+            "qualifiedName": "moduleFunction.prepend"
         },
         "41": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "condition"
+            "qualifiedName": "moduleFunction.prepend"
         },
         "42": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "checkerFunction"
+            "qualifiedName": "assertionFunction"
         },
         "43": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "checkerFunction"
+            "qualifiedName": "assertionFunction"
         },
         "44": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "anything"
+            "qualifiedName": "condition"
         },
         "45": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "assertIsNonNull"
+            "qualifiedName": "checkerFunction"
         },
         "46": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "assertIsNonNull"
+            "qualifiedName": "checkerFunction"
         },
         "47": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "anything"
         },
         "48": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "assertIsNonNull"
         },
         "49": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "isNonNull"
+            "qualifiedName": "assertIsNonNull"
         },
         "50": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "isNonNull"
+            "qualifiedName": "T"
         },
         "51": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "arg"
         },
         "52": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "arg"
+            "qualifiedName": "isNonNull"
         },
         "53": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "boolOrUndef"
+            "qualifiedName": "isNonNull"
         },
         "54": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "boolOrUndef"
+            "qualifiedName": "T"
         },
         "55": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "x"
+            "qualifiedName": "arg"
         },
         "56": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "merged"
+            "qualifiedName": "Predicates"
         },
         "57": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "merged"
+            "qualifiedName": "Predicates.isString"
         },
         "58": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "merged.nsFn"
+            "qualifiedName": "Predicates.isString"
         },
         "59": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "merged.nsFn"
+            "qualifiedName": "x"
         },
         "60": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "variableFunction"
+            "qualifiedName": "Predicates.assert"
         },
         "61": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "variableFunction"
+            "qualifiedName": "Predicates.assert"
         },
         "62": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "someParam"
-        },
-        "63": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates"
-        },
-        "64": {
-            "packageName": "typedoc",
-            "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.isString"
+            "qualifiedName": "x"
         },
         "65": {
             "packageName": "typedoc",
@@ -2931,47 +2915,57 @@
         "66": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "x"
+            "qualifiedName": "Predicates.isString"
         },
         "67": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.assert"
+            "qualifiedName": "Predicates.assertString"
         },
         "68": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.assert"
+            "qualifiedName": "Predicates.assertString"
         },
         "69": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "x"
+            "qualifiedName": "all"
+        },
+        "70": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
+            "qualifiedName": "all"
+        },
+        "71": {
+            "packageName": "typedoc",
+            "packagePath": "src/test/converter/function/function.ts",
+            "qualifiedName": "T"
         },
         "72": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.isString"
+            "qualifiedName": "fn"
         },
         "73": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.isString"
+            "qualifiedName": "__type"
         },
         "74": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.assertString"
+            "qualifiedName": "__type"
         },
         "75": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "Predicates.assertString"
+            "qualifiedName": "item"
         },
         "76": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "all"
+            "qualifiedName": "iterator"
         },
         "77": {
             "packageName": "typedoc",
@@ -3006,52 +3000,52 @@
         "83": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "iterator"
+            "qualifiedName": "__type"
         },
         "84": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "all"
+            "qualifiedName": "__type"
         },
         "85": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "T"
+            "qualifiedName": "iterator"
         },
         "86": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "fn"
+            "qualifiedName": "boolOrUndef"
         },
         "87": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "boolOrUndef"
         },
         "88": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "x"
         },
         "89": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "item"
+            "qualifiedName": "merged"
         },
         "90": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "merged"
         },
         "91": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "merged.nsFn"
         },
         "92": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/function.ts",
-            "qualifiedName": "iterator"
+            "qualifiedName": "merged.nsFn"
         },
         "93": {
             "packageName": "typedoc",
@@ -3131,57 +3125,57 @@
         "108": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "getBreakpoints"
+            "qualifiedName": "BreakpointRange"
         },
         "109": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "getBreakpoints"
+            "qualifiedName": "BreakpointRange.start"
         },
         "110": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type"
+            "qualifiedName": "BreakpointRange.end"
         },
         "111": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type.small"
+            "qualifiedName": "getBreakpoints"
         },
         "112": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type.medium"
+            "qualifiedName": "getBreakpoints"
         },
         "113": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type.large"
+            "qualifiedName": "__type"
         },
         "114": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type.xlarge"
+            "qualifiedName": "__type.small"
         },
         "115": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "__type.xxlarge"
+            "qualifiedName": "__type.medium"
         },
         "116": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "BreakpointRange"
+            "qualifiedName": "__type.large"
         },
         "117": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "BreakpointRange.start"
+            "qualifiedName": "__type.xlarge"
         },
         "118": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/function/implicit-types.ts",
-            "qualifiedName": "BreakpointRange.end"
+            "qualifiedName": "__type.xxlarge"
         }
     },
     "files": {

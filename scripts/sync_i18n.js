@@ -1,6 +1,17 @@
 import { execSync } from "child_process";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
-import ts from "typescript";
+import * as ts from "typescript/ast";
+import { API } from "typescript/sync";
+
+const api = new API();
+
+/**
+ * @param {string} fileName
+ * @param {string} path
+ */
+function parseFile(fileName, path) {
+    return api.createSourceFile(fileName, readFileSync(path, "utf-8")).sourceFile;
+}
 
 function findDescendants(node, match) {
     const visitor = (node) => {
@@ -13,12 +24,7 @@ function findDescendants(node, match) {
 }
 
 function loadTags() {
-    const sourceFile = ts.createSourceFile(
-        "tsdoc-defaults.ts",
-        readFileSync("src/lib/utils/options/tsdoc-defaults.ts", "utf-8"),
-        ts.ScriptTarget.ES2022,
-        true,
-    );
+    const sourceFile = parseFile("tsdoc-defaults.ts", "src/lib/utils/options/tsdoc-defaults.ts");
     const decls = {};
     for (const statement of sourceFile.statements) {
         if (ts.isVariableStatement(statement)) {
@@ -46,12 +52,7 @@ function loadTags() {
 }
 
 function loadEnLocale() {
-    const sourceFile = ts.createSourceFile(
-        "en.ts",
-        readFileSync("src/lib/internationalization/locales/en.ts", "utf-8"),
-        ts.ScriptTarget.ES2022,
-        true,
-    );
+    const sourceFile = parseFile("en.ts", "src/lib/internationalization/locales/en.ts");
     let indent;
     /** @type {ts.ObjectLiteralExpression | undefined} */
     const langObjectLiteral = findDescendants(sourceFile, ts.isObjectLiteralExpression);
@@ -115,12 +116,7 @@ function loadEnLocale() {
 
 function organizeLocale(langId) {
     const langSourcePath = `src/lib/internationalization/locales/${langId}.ts`;
-    const sourceFile = ts.createSourceFile(
-        `${langId}.ts`,
-        readFileSync(langSourcePath, "utf-8"),
-        ts.ScriptTarget.ES2022,
-        true,
-    );
+    const sourceFile = parseFile(`${langId}.ts`, langSourcePath);
     const sourceFileContent = sourceFile.getFullText();
     /** @type {ts.ObjectLiteralExpression | undefined} */
     const langObjectLiteral = findDescendants(sourceFile, ts.isObjectLiteralExpression);
@@ -170,3 +166,5 @@ listLocales()
         console.log(`Sync ${lang}.cts`);
         organizeLocale(lang);
     });
+
+api.close();

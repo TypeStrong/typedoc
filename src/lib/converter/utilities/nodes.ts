@@ -1,4 +1,4 @@
-import ts from "typescript";
+import * as ts from "../../ts.js";
 
 export function isNamedNode(node: unknown): node is {
     readonly name:

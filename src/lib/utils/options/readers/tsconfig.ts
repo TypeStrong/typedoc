@@ -1,6 +1,6 @@
 import { dirname, join, resolve } from "path";
 
-import ts from "typescript";
+import { readJsoncFile } from "../../jsonc.js";
 
 import type { Options, OptionsReader } from "../options.js";
 import { isFile } from "../../fs.js";
@@ -191,16 +191,14 @@ export class TSConfigReader implements OptionsReader {
         }
         this.seenTsdocPaths.add(path);
 
-        const { config, error } = ts.readConfigFile(
-            normalizePath(path),
-            ts.sys.readFile,
-        );
+        const readResult = readJsoncFile(normalizePath(path));
 
-        if (error) {
+        if (!readResult) {
             logger.error(i18n.failed_read_tsdoc_json_0(nicePath(path)));
             return;
         }
 
+        const config = readResult.config;
         if (!Validation.validate(tsDocSchema, config)) {
             logger.error(i18n.invalid_tsdoc_json_0(nicePath(path)));
             return;

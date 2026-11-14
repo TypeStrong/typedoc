@@ -258,7 +258,7 @@
             "flags": {},
             "children": [
                 {
-                    "id": 16,
+                    "id": 27,
                     "name": "drawText",
                     "variant": "declaration",
                     "kind": 64,
@@ -273,7 +273,7 @@
                     ],
                     "signatures": [
                         {
-                            "id": 17,
+                            "id": 28,
                             "name": "drawText",
                             "variant": "signature",
                             "kind": 4096,
@@ -296,7 +296,7 @@
                             ],
                             "parameters": [
                                 {
-                                    "id": 18,
+                                    "id": 29,
                                     "name": "__namedParameters",
                                     "variant": "param",
                                     "kind": 32768,
@@ -304,14 +304,14 @@
                                     "type": {
                                         "type": "reflection",
                                         "declaration": {
-                                            "id": 19,
+                                            "id": 30,
                                             "name": "__type",
                                             "variant": "declaration",
                                             "kind": 65536,
                                             "flags": {},
                                             "children": [
                                                 {
-                                                    "id": 22,
+                                                    "id": 31,
                                                     "name": "bold",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -325,7 +325,7 @@
                                                     "defaultValue": "false"
                                                 },
                                                 {
-                                                    "id": 21,
+                                                    "id": 32,
                                                     "name": "location",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -348,7 +348,7 @@
                                                     "defaultValue": "..."
                                                 },
                                                 {
-                                                    "id": 20,
+                                                    "id": 33,
                                                     "name": "text",
                                                     "variant": "declaration",
                                                     "kind": 1024,
@@ -366,9 +366,9 @@
                                                 {
                                                     "title": "Properties",
                                                     "children": [
-                                                        22,
-                                                        21,
-                                                        20
+                                                        31,
+                                                        32,
+                                                        33
                                                     ]
                                                 }
                                             ]
@@ -388,7 +388,7 @@
                 {
                     "title": "Functions",
                     "children": [
-                        16
+                        27
                     ]
                 }
             ],
@@ -1212,35 +1212,35 @@
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": ""
         },
-        "16": {
+        "27": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "drawText"
         },
-        "17": {
+        "28": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "drawText"
         },
-        "18": {
+        "29": {
             "packageName": "typedoc",
             "packagePath": "src/test/converter/variables/destructuring.ts",
             "qualifiedName": "__0"
         },
-        "20": {
+        "31": {
             "packageName": "typedoc",
             "packagePath": "",
-            "qualifiedName": "text"
+            "qualifiedName": "bold"
         },
-        "21": {
+        "32": {
             "packageName": "typedoc",
             "packagePath": "",
             "qualifiedName": "location"
         },
-        "22": {
+        "33": {
             "packageName": "typedoc",
             "packagePath": "",
-            "qualifiedName": "bold"
+            "qualifiedName": "text"
         },
         "34": {
             "packageName": "typedoc",

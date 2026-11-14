@@ -70,7 +70,14 @@ export interface DirectoryApi {
     getJsonFile(path: string): JsonFile<any> | undefined;
 }
 
-export type ProjectAPI = ReturnType<typeof projectInternal>;
+export interface ProjectAPI extends DirectoryApi {
+    readonly cwd: string;
+    readonly files: File[];
+    write(): void;
+    rm(): void;
+    copyFilesFrom(other: ProjectAPI): ProjectAPI;
+    [Symbol.dispose](): void;
+}
 
 export function file(path: string, content = ""): StringFile {
     return { type: "string", path, content };
@@ -106,7 +113,7 @@ export interface ProjectOptions {
     rootDir?: string;
 }
 
-export function tempdirProject(options: string | Partial<ProjectOptions> = "") {
+export function tempdirProject(options: string | Partial<ProjectOptions> = ""): ProjectAPI {
     if (typeof options === "string") {
         options = { name: options };
     }
@@ -117,7 +124,7 @@ export function tempdirProject(options: string | Partial<ProjectOptions> = "") {
 }
 
 export type Project = ReturnType<typeof project>;
-export function project(options: string | ProjectOptions) {
+export function project(options: string | ProjectOptions): ProjectAPI {
     if (typeof options === "string") {
         options = { name: options };
     }
@@ -125,7 +132,7 @@ export function project(options: string | ProjectOptions) {
     return projectInternal(`${rootDir}/${options.name}`);
 }
 
-function projectInternal(cwd: string) {
+function projectInternal(cwd: string): ProjectAPI {
     const files: File[] = [];
     function write() {
         for (const file of files) {
@@ -148,7 +155,7 @@ function projectInternal(cwd: string) {
             if (fs.existsSync(cwd)) throw err;
         }
     }
-    function copyFilesFrom(other: ProjectAPI) {
+    function copyFilesFrom(other: ProjectAPI): ProjectAPI {
         for (const f of other.files) {
             add(cloneFile(f));
         }
@@ -216,7 +223,7 @@ function projectInternal(cwd: string) {
     const { add, addFile, addJsonFile, addSymlink, dir, getFile, getJsonFile, addFiles } = createDirectory(
         cwd,
     );
-    const fixture = {
+    const fixture: ProjectAPI = {
         cwd,
         files,
         dir,

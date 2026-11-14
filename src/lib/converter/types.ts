@@ -1,5 +1,5 @@
 import assert from "assert";
-import ts from "typescript";
+import * as ts from "../ts.js";
 import {
     ArrayType,
     ConditionalType,
@@ -15,6 +15,7 @@ import {
     PredicateType,
     QueryType,
     ReferenceType,
+    type Reflection,
     ReflectionFlag,
     ReflectionKind,
     ReflectionType,
@@ -36,8 +37,14 @@ import { convertSymbol } from "./symbols.js";
 import { isObjectType, isTypeReference } from "./utilities/nodes.js";
 import { removeUndefined } from "./utilities/reflections.js";
 
+/**
+ * A node that can be converted to a type. Heritage clauses contain expressions with
+ * type arguments, which TypeScript 7 does not type as type nodes.
+ */
+export type ConvertibleTypeNode = ts.TypeNode | ts.ExpressionWithTypeArguments;
+
 export interface TypeConverter<
-    TNode extends ts.TypeNode = ts.TypeNode,
+    TNode extends ConvertibleTypeNode = ConvertibleTypeNode,
     TType extends ts.Type = ts.Type,
 > {
     kind: TNode["kind"][];
@@ -45,6 +52,8 @@ export interface TypeConverter<
     convert(context: Context, node: TNode): SomeType;
     // We use typeToTypeNode to figure out what method to call in the first place,
     // so we have a non-type-checkable node here, necessary for some converters.
+    // With TypeScript 7 this node is a copy which only exists in this process, so
+    // it has no symbols and cannot be passed back to the checker.
     // We *may* also have an original node which is the node the type was originally
     // retrieved from.
     convertType(
@@ -112,7 +121,7 @@ const seenTypes = new Set<number>();
 
 function maybeConvertType(
     context: Context,
-    typeOrNode: ts.Type | ts.TypeNode | undefined,
+    typeOrNode: ts.Type | ConvertibleTypeNode | undefined,
 ): SomeType | undefined {
     if (!typeOrNode) {
         return;
@@ -124,7 +133,7 @@ function maybeConvertType(
 let typeConversionDepth = 0;
 export function convertType(
     context: Context,
-    typeOrNode: ts.Type | ts.TypeNode | undefined,
+    typeOrNode: ts.Type | ConvertibleTypeNode | undefined,
     maybeNode?: ts.TypeNode,
 ): SomeType {
     if (!typeOrNode) {
@@ -147,13 +156,17 @@ export function convertType(
         return requestBugReport(context, typeOrNode);
     }
 
-    // TS 4.2 added this to enable better tracking of type aliases.
-    // We need to check it here, not just in the union checker, because typeToTypeNode
-    // will use the origin when serializing
+    // TypeScript 6 gave unions the type that they were written as, their origin, such as
+    // `A | B` where A is itself a union or `A & B` where A is a union, which the TypeScript 7
+    // API does not expose. TypeScript 7 also orders the members of a union differently. If the
+    // type was declared with such a type node, rebuild the type from the node's members.
     // aliasSymbol check is important - #2468
-    if (typeOrNode.isUnion() && typeOrNode.origin && !typeOrNode.aliasSymbol) {
-        // Don't increment typeConversionDepth as this is a transparent step to the user.
-        return convertType(context, typeOrNode.origin);
+    if (typeOrNode.isUnionType() && maybeNode && !typeOrNode.getAliasSymbol()) {
+        const rebuilt = convertUnionFromNode(context, typeOrNode, maybeNode) ??
+            convertKeyofFromNode(context, typeOrNode, maybeNode);
+        if (rebuilt) {
+            return rebuilt;
+        }
     }
 
     // IgnoreErrors is important, without it, we can't assert that we will get a node.
@@ -175,11 +188,12 @@ export function convertType(
     let converter = converters.get(node.kind);
     if (converter) {
         // Hacky fix for #2011, need to find a better way to choose the converter.
+        // TypeScript 7 also serializes a union as the intersection it was created from.
         if (
             converter === intersectionConverter &&
-            !typeOrNode.isIntersection()
+            !typeOrNode.isIntersectionType()
         ) {
-            converter = typeLiteralConverter;
+            converter = typeOrNode.isUnionType() ? unionConverter : typeLiteralConverter;
         }
 
         seenTypes.add(typeOrNode.id);
@@ -204,7 +218,8 @@ const arrayConverter: TypeConverter<ts.ArrayTypeNode, ts.TypeReference> = {
         return new ArrayType(convertType(context, node.elementType));
     },
     convertType(context, type) {
-        const params = type.aliasTypeArguments || context.checker.getTypeArguments(type);
+        const aliasTypeArguments = type.getAliasTypeArguments();
+        const params = aliasTypeArguments.length ? aliasTypeArguments : context.checker.getTypeArguments(type);
         // This is *almost* always true... except for when this type is in the constraint of a type parameter see GH#1408
         // assert(params.length === 1);
         assert(params.length > 0);
@@ -227,10 +242,10 @@ const conditionalConverter: TypeConverter<
     },
     convertType(context, type) {
         return new ConditionalType(
-            convertType(context, type.checkType),
-            convertType(context, type.extendsType),
-            convertType(context, type.resolvedTrueType),
-            convertType(context, type.resolvedFalseType),
+            convertType(context, type.getCheckType()),
+            convertType(context, type.getExtendsType()),
+            convertType(context, type.getTrueType()),
+            convertType(context, type.getFalseType()),
         );
     },
 };
@@ -238,7 +253,7 @@ const conditionalConverter: TypeConverter<
 const constructorConverter: TypeConverter<ts.ConstructorTypeNode, ts.Type> = {
     kind: [ts.SyntaxKind.ConstructorType],
     convert(context, node) {
-        const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
+        const symbol = context.getSymbolAtLocation(node) ?? context.checker.getSymbolOfNode(node);
         const type = context.getTypeAtLocation(node);
         if (!symbol || !type) {
             return new IntrinsicType("Function");
@@ -352,7 +367,7 @@ const exprWithTypeArgsConverter: TypeConverter<
 const functionTypeConverter: TypeConverter<ts.FunctionTypeNode, ts.Type> = {
     kind: [ts.SyntaxKind.FunctionType],
     convert(context, node) {
-        const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
+        const symbol = context.getSymbolAtLocation(node) ?? context.checker.getSymbolOfNode(node);
         const type = context.getTypeAtLocation(node);
         if (!symbol || !type) {
             return new IntrinsicType("Function");
@@ -468,13 +483,13 @@ const indexedAccessConverter: TypeConverter<
     },
     convertType(context, type) {
         return new IndexedAccessType(
-            convertType(context, type.objectType),
-            convertType(context, type.indexType),
+            convertType(context, type.getObjectType()),
+            convertType(context, type.getIndexType()),
         );
     },
 };
 
-const inferredConverter: TypeConverter<ts.InferTypeNode> = {
+const inferredConverter: TypeConverter<ts.InferTypeNode, ts.TypeParameter> = {
     kind: [ts.SyntaxKind.InferType],
     convert(context, node) {
         return new InferredType(
@@ -485,7 +500,8 @@ const inferredConverter: TypeConverter<ts.InferTypeNode> = {
     convertType(context, type) {
         return new InferredType(
             type.getSymbol()!.name,
-            maybeConvertType(context, type.getConstraint()),
+            // TypeScript 6 returned the base constraint from getConstraint.
+            maybeConvertType(context, context.checker.getBaseConstraintOfType(type)),
         );
     },
 };
@@ -502,7 +518,7 @@ const intersectionConverter: TypeConverter<
     },
     convertType(context, type) {
         return new IntersectionType(
-            type.types.map((type) => convertType(context, type)),
+            type.getTypes().map((type) => convertType(context, type)),
         );
     },
 };
@@ -593,7 +609,7 @@ const predicateConverter: TypeConverter<ts.TypePredicateNode, ts.Type> = {
     convert(context, node) {
         const name = ts.isThisTypeNode(node.parameterName)
             ? "this"
-            : node.parameterName.getText();
+            : node.parameterName.text;
         const asserts = !!node.assertsModifier;
         const targetType = node.type ? convertType(context, node.type) : void 0;
         return new PredicateType(name, asserts, targetType);
@@ -607,7 +623,7 @@ const predicateConverter: TypeConverter<ts.TypePredicateNode, ts.Type> = {
 const typeLiteralConverter = {
     kind: [ts.SyntaxKind.TypeLiteral],
     convert(context, node) {
-        const symbol = context.getSymbolAtLocation(node) ?? node.symbol;
+        const symbol = context.getSymbolAtLocation(node) ?? context.checker.getSymbolOfNode(node);
         const type = context.getTypeAtLocation(node);
         if (!symbol || !type) {
             return new IntrinsicType("Object");
@@ -718,10 +734,13 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
         ref.preferValues = true;
         return new QueryType(ref);
     },
-    convertType(context, type, node) {
-        // Order matters here - check the node location first so that if the typeof is targeting
-        // an instantiation expression we get the user's exprName.
-        const symbol = context.getSymbolAtLocation(node.exprName) || type.getSymbol();
+    convertType(context, type, _node, originalNode) {
+        // Check the declared node first so that if the typeof is targeting an instantiation
+        // expression we get the user's exprName. The serialized node is a copy which the
+        // checker cannot look up.
+        const symbol = (originalNode && ts.isTypeQueryNode(originalNode)
+            ? context.getSymbolAtLocation(originalNode.exprName)
+            : undefined) ?? type.getSymbol();
         assert(
             symbol,
             `Query type failed to get a symbol for: ${
@@ -745,7 +764,7 @@ const referenceConverter: TypeConverter<
 > = {
     kind: [ts.SyntaxKind.TypeReference],
     convert(context, node) {
-        const type = context.checker.getTypeAtLocation(node.typeName);
+        const type = context.getTypeOfTypeName(node.typeName);
         const isArray = context.checker.typeToTypeNode(
             type,
             void 0,
@@ -777,10 +796,11 @@ const referenceConverter: TypeConverter<
         return ref;
     },
     convertType(context, type, node, originalNode) {
-        // typeName.symbol handles the case where this is a union which happens to refer
-        // to an enumeration. TS doesn't put the symbol on the type for some reason, but
-        // does add it to the constructed type node.
-        const symbol = type.aliasSymbol ?? type.getSymbol() ?? node.typeName.symbol;
+        // A union which happens to refer to an enumeration has no symbol, but its members
+        // are enum members whose parent is the enumeration. TypeScript 6 put these symbols
+        // on the serialized node, which TypeScript 7 does not.
+        const symbol = type.getAliasSymbol() ?? type.getSymbol() ??
+            getSymbolOfSubstitution(context, type) ?? getEnumSymbolOfUnion(type);
         if (!symbol) {
             // This happens when we get a reference to a type parameter
             // created within a mapped type, `K` in: `{ [K in T]: string }`
@@ -821,19 +841,21 @@ const referenceConverter: TypeConverter<
             name,
         );
 
-        if ((type.flags & ts.TypeFlags.Substitution) && name === "NoInfer" && ref.package === "typescript") {
+        if (type.isSubstitutionType() && name === "NoInfer" && ref.package === "typescript") {
             // NoInfer<T>
             ref.typeArguments = [
-                convertType(context, (type as ts.SubstitutionType).baseType),
+                convertType(context, type.getBaseType()),
             ];
-        } else if (type.flags & ts.TypeFlags.StringMapping) {
+        } else if (type.isStringMappingType()) {
             ref.typeArguments = [
-                convertType(context, (type as ts.StringMappingType).type),
+                convertType(context, type.getTarget()),
             ];
         } else {
-            const args = type.aliasSymbol
-                ? type.aliasTypeArguments
-                : (type as ts.TypeReference).typeArguments;
+            const args = type.getAliasSymbol()
+                ? nonEmpty(type.getAliasTypeArguments())
+                : type.isTypeReference()
+                ? context.checker.getTypeArguments(type)
+                : undefined;
 
             const maxArgLength = originalNode && ts.isTypeReferenceNode(originalNode)
                 ? (originalNode.typeArguments?.length ?? 0)
@@ -876,16 +898,7 @@ const namedTupleMemberConverter: TypeConverter<ts.NamedTupleMember> = {
 //                   ^^^^^^ typeParameter.constraint
 //                          ^ questionToken
 //                              ^^^^^^ type
-const mappedConverter: TypeConverter<
-    ts.MappedTypeNode,
-    ts.Type & {
-        // Beware! Internal TS API here.
-        templateType: ts.Type;
-        typeParameter: ts.TypeParameter;
-        constraintType: ts.Type;
-        nameType?: ts.Type;
-    }
-> = {
+const mappedConverter: TypeConverter<ts.MappedTypeNode, ts.MappedType> = {
     kind: [ts.SyntaxKind.MappedType],
     convert(context, node) {
         const optionalModifier = kindToModifier(node.questionToken?.kind);
@@ -905,17 +918,19 @@ const mappedConverter: TypeConverter<
     convertType(context, type, node) {
         // This can happen if a generic function does not have a return type annotated.
         const optionalModifier = kindToModifier(node.questionToken?.kind);
-        const templateType = convertType(context, type.templateType);
+        const templateType = convertType(context, type.getTemplateType());
+        const typeParameter = type.getTypeParameter();
+        const nameType = type.getNameType();
 
         return new MappedType(
-            type.typeParameter.symbol.name || "__type",
-            convertType(context, type.typeParameter.getConstraint()),
+            typeParameter.getSymbol()?.name || "__type",
+            convertType(context, context.checker.getBaseConstraintOfType(typeParameter)),
             optionalModifier === "+"
                 ? removeUndefined(templateType)
                 : templateType,
             kindToModifier(node.readonlyToken?.kind),
             optionalModifier,
-            type.nameType ? convertType(context, type.nameType) : void 0,
+            nameType ? convertType(context, nameType) : void 0,
         );
     },
 };
@@ -930,9 +945,9 @@ const literalTypeConverter: TypeConverter<ts.LiteralTypeNode, ts.LiteralType> = 
                     node.literal.kind === ts.SyntaxKind.TrueKeyword,
                 );
             case ts.SyntaxKind.StringLiteral:
-                return new LiteralType(node.literal.text);
+                return new LiteralType((node.literal as ts.StringLiteral).text);
             case ts.SyntaxKind.NumericLiteral:
-                return new LiteralType(Number(node.literal.text));
+                return new LiteralType(Number((node.literal as ts.NumericLiteral).text));
             case ts.SyntaxKind.NullKeyword:
                 return new LiteralType(null);
             case ts.SyntaxKind.PrefixUnaryExpression: {
@@ -956,7 +971,7 @@ const literalTypeConverter: TypeConverter<ts.LiteralTypeNode, ts.LiteralType> = 
                     BigInt(node.literal.getText().replace("n", "")),
                 );
             case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
-                return new LiteralType(node.literal.text);
+                return new LiteralType((node.literal as ts.NoSubstitutionTemplateLiteral).text);
         }
 
         return requestBugReport(context, node.literal);
@@ -964,9 +979,9 @@ const literalTypeConverter: TypeConverter<ts.LiteralTypeNode, ts.LiteralType> = 
     convertType(_context, type, node) {
         switch (node.literal.kind) {
             case ts.SyntaxKind.StringLiteral:
-                return new LiteralType(node.literal.text);
+                return new LiteralType((node.literal as ts.StringLiteral).text);
             case ts.SyntaxKind.NumericLiteral:
-                return new LiteralType(+node.literal.text);
+                return new LiteralType(+(node.literal as ts.NumericLiteral).text);
             case ts.SyntaxKind.TrueKeyword:
             case ts.SyntaxKind.FalseKeyword:
                 return new LiteralType(
@@ -974,14 +989,6 @@ const literalTypeConverter: TypeConverter<ts.LiteralTypeNode, ts.LiteralType> = 
                 );
             case ts.SyntaxKind.NullKeyword:
                 return new LiteralType(null);
-        }
-
-        if (typeof type.value === "object") {
-            return new LiteralType(
-                BigInt(
-                    `${type.value.negative ? "-" : ""}${type.value.base10Value}`,
-                ),
-            );
         }
 
         return new LiteralType(type.value);
@@ -1002,9 +1009,10 @@ const templateLiteralConverter: TypeConverter<
         );
     },
     convertType(context, type) {
-        assert(type.texts.length === type.types.length + 1);
+        const types = type.getTypes();
+        assert(type.texts.length === types.length + 1);
         const parts: [SomeType, string][] = [];
-        for (const [a, b] of zip(type.types, type.texts.slice(1))) {
+        for (const [a, b] of zip(types, type.texts.slice(1))) {
             parts.push([convertType(context, a), b]);
         }
 
@@ -1029,13 +1037,14 @@ const tupleConverter = {
         return new TupleType(elements);
     },
     convertType(context, type, node) {
-        const types = type.typeArguments?.slice(0, node.elements.length);
-        let elements = types?.map((type) => convertType(context, type));
+        const target = type.getTarget();
+        const types = context.checker.getTypeArguments(type).slice(0, node.elements.length);
+        let elements = types.map((type) => convertType(context, type));
 
-        if (type.target.labeledElementDeclarations) {
-            const namedDeclarations = type.target.labeledElementDeclarations;
-            elements = elements?.map((el, i) => {
-                const namedDecl = namedDeclarations[i];
+        if (target.labeledElementDeclarations) {
+            const namedDeclarations = target.labeledElementDeclarations;
+            elements = elements.map((el, i) => {
+                const namedDecl = namedDeclarations[i]?.resolve();
                 return namedDecl
                     ? new NamedTupleMember(
                         namedDecl.name.getText(),
@@ -1046,8 +1055,8 @@ const tupleConverter = {
             });
         }
 
-        elements = elements?.map((el, i) => {
-            if (type.target.elementFlags[i] & ts.ElementFlags.Variable) {
+        elements = elements.map((el, i) => {
+            if (target.elementFlags[i] & ts.ElementFlags.Variable) {
                 // In the node case, we don't need to add the wrapping Array type... but we do here.
                 if (el instanceof NamedTupleMember) {
                     return new RestType(
@@ -1063,7 +1072,7 @@ const tupleConverter = {
             }
 
             if (
-                type.target.elementFlags[i] & ts.ElementFlags.Optional &&
+                target.elementFlags[i] & ts.ElementFlags.Optional &&
                 !(el instanceof NamedTupleMember)
             ) {
                 return new OptionalType(removeUndefined(el));
@@ -1072,7 +1081,7 @@ const tupleConverter = {
             return el;
         });
 
-        return new TupleType(elements ?? []);
+        return new TupleType(elements);
     },
 } satisfies TypeConverter<ts.TupleTypeNode, ts.TupleTypeReference>;
 
@@ -1090,7 +1099,7 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
             supportedOperatorNames[node.operator],
         );
     },
-    convertType(context, type, node) {
+    convertType(context, type, node, originalNode) {
         // readonly is only valid on array and tuple literal types.
         if (node.operator === ts.SyntaxKind.ReadonlyKeyword) {
             const resolved = resolveReference(type);
@@ -1108,12 +1117,25 @@ const typeOperatorConverter: TypeConverter<ts.TypeOperatorNode> = {
         // keyof will only show up with generic functions, otherwise it gets eagerly
         // resolved to a union of strings.
         if (node.operator === ts.SyntaxKind.KeyOfKeyword) {
-            // There's probably an interface for this somewhere... I couldn't find it.
-            const targetType = (type as ts.Type & { type: ts.Type }).type;
-            return new TypeOperatorType(
-                convertType(context, targetType),
-                "keyof",
-            );
+            if (type.isIndexType()) {
+                return new TypeOperatorType(
+                    convertType(context, type.getTarget()),
+                    "keyof",
+                );
+            }
+
+            // TypeScript 7 serializes a union of keys as the keyof type that it was created
+            // from, which the API does not expose. Use the declared type node if there is one.
+            if (
+                originalNode &&
+                ts.isTypeOperatorNode(originalNode) &&
+                originalNode.operator === ts.SyntaxKind.KeyOfKeyword
+            ) {
+                return typeOperatorConverter.convert(context, originalNode);
+            }
+            if (type.isUnionType()) {
+                return unionConverter.convertType(context, type, null!, originalNode);
+            }
         }
 
         // TS drops `unique` in `unique symbol` everywhere. If someone used it, we ought
@@ -1130,7 +1152,7 @@ const unionConverter: TypeConverter<ts.UnionTypeNode, ts.UnionType> = {
         );
     },
     convertType(context, type) {
-        const types = type.types.map((type) => convertType(context, type));
+        const types = type.getTypes().map((type) => convertType(context, type));
         normalizeUnion(types);
         sortUnion(types);
 
@@ -1193,11 +1215,205 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
     }
 }
 
-function resolveReference(type: ts.Type) {
-    if (isObjectType(type) && type.objectFlags & ts.ObjectFlags.Reference) {
-        return (type as ts.TypeReference).target;
+function resolveReference(type: ts.Type): ts.Type {
+    if (type.isTypeReference()) {
+        return type.getTarget();
     }
     return type;
+}
+
+function convertUnionFromNode(
+    context: Context,
+    type: ts.UnionType,
+    node: ts.TypeNode,
+): SomeType | undefined {
+    while (ts.isParenthesizedTypeNode(node)) {
+        node = node.type;
+    }
+    if (!ts.isUnionTypeNode(node) && !ts.isIntersectionTypeNode(node)) {
+        return;
+    }
+
+    // The node must describe the same type. It might not be the same type object if the
+    // declaration belongs to a base type which this member was inherited from, or if the
+    // signature was instantiated with its own copy of a type parameter.
+    const nodeType = context.checker.getTypeFromTypeNode(node);
+    if (
+        nodeType.id !== type.id &&
+        context.checker.typeToString(nodeType) !== context.checker.typeToString(type)
+    ) {
+        return;
+    }
+
+    if (ts.isIntersectionTypeNode(node)) {
+        return new IntersectionType(
+            node.types.map((member) =>
+                convertType(context, context.checker.getTypeFromTypeNode(member), getMemberHint(member))
+            ),
+        );
+    }
+
+    // TypeScript 6 ordered union members by creation, which put intrinsic types such as void
+    // first and kept the rest in the order they were written.
+    const constituents = new Set(type.getTypes().map((t) => t.id));
+    const members = node.types.map((member, index) => {
+        const memberType = context.checker.getTypeFromTypeNode(member);
+        const memberTypes = memberType.isUnionType() ? memberType.getTypes() : [memberType];
+        return {
+            member,
+            memberType,
+            // Without strictNullChecks, null and undefined are not part of the union.
+            included: !(memberType.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) ||
+                memberTypes.some((t) => constituents.has(t.id)),
+            order: getIntrinsicOrder(memberType) ?? index,
+        };
+    }).filter((m) => m.included);
+    members.sort((a, b) => a.order - b.order);
+
+    const types = members.map((m) => convertType(context, m.memberType, getMemberHint(m.member)));
+    normalizeUnion(types);
+    sortUnion(types);
+    return new UnionType(types);
+}
+
+// The order in which TypeScript 6 created intrinsic types, which put them first in unions.
+const intrinsicOrder = [
+    ts.TypeFlags.Any,
+    ts.TypeFlags.Unknown,
+    ts.TypeFlags.Undefined,
+    ts.TypeFlags.Null,
+    ts.TypeFlags.String,
+    ts.TypeFlags.Number,
+    ts.TypeFlags.BigInt,
+    ts.TypeFlags.Boolean | ts.TypeFlags.BooleanLiteral,
+    ts.TypeFlags.ESSymbol,
+    ts.TypeFlags.Void,
+    ts.TypeFlags.Never,
+    ts.TypeFlags.NonPrimitive,
+];
+
+function getIntrinsicOrder(type: ts.Type): number | undefined {
+    if (!type.isIntrinsicType() && !(type.flags & ts.TypeFlags.Boolean)) {
+        return;
+    }
+    const index = intrinsicOrder.findIndex((flags) => type.flags & flags);
+    return index === -1 ? undefined : index - intrinsicOrder.length;
+}
+
+/**
+ * A member inherited from a generic base type has the union of keys of the type argument
+ * where it was declared as `keyof T`, or as a type which resolves to the same union, such as
+ * `Extract<keyof T, string>`. TypeScript 6 kept `keyof` with the type argument as the origin of
+ * the union. Find the type argument for T in the base types of the class or interface being converted.
+ */
+function convertKeyofFromNode(
+    context: Context,
+    type: ts.UnionType,
+    node: ts.TypeNode,
+): SomeType | undefined {
+    while (ts.isParenthesizedTypeNode(node)) {
+        node = node.type;
+    }
+
+    const candidates: ts.Type[] = [];
+    if (ts.isTypeOperatorNode(node) && node.operator === ts.SyntaxKind.KeyOfKeyword) {
+        const declared = context.checker.getTypeFromTypeNode(node.type);
+        if (!declared.isTypeParameter()) {
+            candidates.push(declared);
+        }
+    }
+
+    const visit = (child: ts.Node): undefined => {
+        if (ts.isTypeReferenceNode(child)) {
+            const referenced = context.checker.getTypeFromTypeNode(child);
+            const argument = referenced.isTypeParameter() ? findTypeArgument(context, referenced) : undefined;
+            if (argument) {
+                candidates.push(argument);
+            }
+        }
+        child.forEachChild(visit);
+    };
+    visit(node);
+
+    const target = candidates.find((candidate) => hasKeys(context, candidate, type));
+    return target && new TypeOperatorType(convertType(context, target), "keyof");
+}
+
+function hasKeys(context: Context, target: ts.Type, keys: ts.UnionType) {
+    const names = new Set(context.checker.getPropertiesOfType(target).map((prop) => prop.name));
+    const values = keys.getTypes().map((key) =>
+        key.isStringLiteralType() || key.isNumberLiteralType() ? String(key.value) : undefined
+    );
+    return values.length === names.size && values.every((value) => value !== undefined && names.has(value));
+}
+
+function findTypeArgument(context: Context, parameter: ts.TypeParameter): ts.Type | undefined {
+    let owner: Reflection | undefined = context.scope;
+    while (owner && !owner.kindOf(ReflectionKind.ClassOrInterface)) {
+        owner = owner.parent;
+    }
+    const ownerSymbol = owner && context.getSymbolFromReflection(owner);
+    if (!ownerSymbol) {
+        return;
+    }
+
+    // Walk up the base types, mapping the type parameters of each base to the type arguments it was given.
+    const queue: [ts.Type, Map<number, ts.Type>][] = [[
+        context.checker.getDeclaredTypeOfSymbol(ownerSymbol),
+        new Map(),
+    ]];
+    const seen = new Set<number>();
+    while (queue.length) {
+        const [current, mapping] = queue.shift()!;
+        if (seen.has(current.id) || !current.isClassOrInterface()) continue;
+        seen.add(current.id);
+
+        for (const base of context.checker.getBaseTypes(current)) {
+            if (!base.isTypeReference()) continue;
+            const baseTarget = base.getTarget();
+            const args = context.checker.getTypeArguments(base).map((arg) => mapping.get(arg.id) ?? arg);
+            const parameters = baseTarget.getTypeParameters();
+            const index = parameters.indexOf(parameter);
+            if (index !== -1) {
+                return args[index];
+            }
+            queue.push([baseTarget, new Map(parameters.map((param, i) => [param.id, args[i]]))]);
+        }
+    }
+}
+
+// TypeScript 6 converted the members of a union from their types alone. The node is only passed
+// on where it is needed to rebuild the member, so that type arguments with defaults are kept.
+function getMemberHint(member: ts.TypeNode): ts.TypeNode | undefined {
+    while (ts.isParenthesizedTypeNode(member)) {
+        member = member.type;
+    }
+    if (ts.isUnionTypeNode(member) || ts.isIntersectionTypeNode(member) || ts.isTypeOperatorNode(member)) {
+        return member;
+    }
+}
+
+function nonEmpty<T>(array: readonly T[]): readonly T[] | undefined {
+    return array.length ? array : undefined;
+}
+
+// NoInfer<T> is a substitution type with an unknown constraint, as is a type parameter
+// in the check type of a conditional type, with its constraint.
+function getSymbolOfSubstitution(context: Context, type: ts.Type): ts.Symbol | undefined {
+    if (!type.isSubstitutionType()) {
+        return;
+    }
+    if (type.getConstraint().flags & ts.TypeFlags.Unknown) {
+        return context.checker.resolveName("NoInfer", ts.SymbolFlags.TypeAlias);
+    }
+    return type.getBaseType().getSymbol();
+}
+
+function getEnumSymbolOfUnion(type: ts.Type): ts.Symbol | undefined {
+    if (!type.isUnionType()) return;
+    const member = type.getTypes()[0];
+    if (!member || !(member.flags & ts.TypeFlags.EnumLiteral)) return;
+    return member.getSymbol()?.getParent();
 }
 
 function kindToModifier(
@@ -1277,32 +1493,28 @@ function normalizeUnion(types: SomeType[]) {
 }
 
 function convertTypeInlined(context: Context, type: ts.Type): SomeType {
-    if (type.isUnion()) {
-        const types = type.types.map(type => convertType(context, type));
+    if (type.isUnionType()) {
+        const types = type.getTypes().map(type => convertType(context, type));
         return new UnionType(types);
     }
 
-    if (type.isIntersection()) {
-        const types = type.types.map(type => convertType(context, type));
+    if (type.isIntersectionType()) {
+        const types = type.getTypes().map(type => convertType(context, type));
         return new IntersectionType(types);
     }
 
-    if (type.isLiteral()) {
-        return new LiteralType(
-            typeof type.value === "object"
-                ? BigInt(type.value.base10Value) * (type.value.negative ? -1n : 1n)
-                : type.value,
-        );
+    if (type.isLiteralType()) {
+        return new LiteralType(type.value);
     }
 
     if (context.checker.isArrayType(type)) {
         const elementType = convertType(context, context.checker.getTypeArguments(type as ts.TypeReference)[0]);
         return new ArrayType(elementType);
     }
-    if (isTypeReference(type) && context.checker.isTupleType(type)) {
-        const tupleNode = context.checker.typeToTypeNode(type.target, void 0, ts.NodeBuilderFlags.IgnoreErrors)!;
+    if (type.isTupleType()) {
+        const tupleNode = context.checker.typeToTypeNode(type.getTarget(), void 0, ts.NodeBuilderFlags.IgnoreErrors)!;
         if (ts.isTupleTypeNode(tupleNode)) {
-            return tupleConverter.convertType(context, type as ts.TupleTypeReference, tupleNode);
+            return tupleConverter.convertType(context, type, tupleNode);
         }
     }
 

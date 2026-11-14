@@ -1,4 +1,4 @@
-import { Node } from "typescript";
+import type { Node } from "typescript/ast" with { "resolution-mode": "import" };
 
 /**
  * {@link Node}

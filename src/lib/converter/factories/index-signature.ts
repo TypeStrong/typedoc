@@ -1,5 +1,5 @@
 import assert from "assert";
-import type ts from "typescript";
+import type * as ts from "../../ts.js";
 import {
     DeclarationReflection,
     ParameterReflection,
@@ -24,12 +24,13 @@ export function convertIndexSignatures(context: Context, type: ts.Type) {
     ][] = [];
 
     for (const indexInfo of context.checker.getIndexInfosOfType(type)) {
+        const declaration = indexInfo.declaration?.resolve();
         // Check if we've already created an index signature for this type
         if (
-            indexInfo.declaration &&
-            seenByDeclaration.has(indexInfo.declaration)
+            declaration &&
+            seenByDeclaration.has(declaration)
         ) {
-            const createdSig = seenByDeclaration.get(indexInfo.declaration)!;
+            const createdSig = seenByDeclaration.get(declaration)!;
             if (createdSig.parameters![0].type?.type !== "union") {
                 createdSig.parameters![0].type = new UnionType([
                     createdSig.parameters![0].type!,
@@ -56,18 +57,18 @@ export function convertIndexSignatures(context: Context, type: ts.Type) {
             index.setFlag(ReflectionFlag.Readonly);
         }
 
-        createdSignatures.push([indexInfo.declaration, index]);
-        if (indexInfo.declaration) {
-            seenByDeclaration.set(indexInfo.declaration, index);
+        createdSignatures.push([declaration, index]);
+        if (declaration) {
+            seenByDeclaration.set(declaration, index);
             index.comment = context.getNodeComment(
-                indexInfo.declaration,
+                declaration,
                 /* moduleComment */ false,
             );
         }
 
         index.parameters = [
             new ParameterReflection(
-                indexInfo.declaration?.parameters[0].name.getText() ?? "key",
+                declaration?.parameters[0].name.getText() ?? "key",
                 ReflectionKind.Parameter,
                 index,
             ),
@@ -78,10 +79,10 @@ export function convertIndexSignatures(context: Context, type: ts.Type) {
         );
         index.type = context.converter.convertType(
             ic,
-            indexInfo.type,
+            indexInfo.valueType,
         );
 
-        context.registerReflection(index, indexInfo.declaration?.symbol);
+        context.registerReflection(index, declaration && context.checker.getSymbolOfDeclaration(declaration));
         context.scope.indexSignatures ||= [];
         context.scope.indexSignatures.push(index);
     }

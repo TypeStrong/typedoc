@@ -2,7 +2,8 @@ import type { Options } from "./options/options.js";
 import { assertNever, type GlobString, i18n, type Logger, type NormalizedPath } from "#utils";
 import * as FS from "fs";
 import { join, relative, resolve } from "path";
-import ts from "typescript";
+import type * as ts from "../ts.js";
+import { createProgram, getRootFileNames, getTypeScriptApi } from "./compiler.js";
 import { addInferredDeclarationMapPaths, resolveDeclarationMaps } from "./declaration-maps.js";
 import { discoverPackageJson, glob, inferPackageEntryPointPaths, isDir } from "./fs.js";
 import { expandPackages } from "./package-manifest.js";
@@ -70,10 +71,10 @@ export function inferEntryPoints(logger: Logger, options: Options, programs?: ts
     const jsToTsSource = new Map<string, string>();
     for (const program of programs) {
         const opts = program.getCompilerOptions();
-        const rootDir = opts.rootDir || getCommonDirectory(program.getRootFileNames());
+        const rootDir = opts.rootDir || getCommonDirectory(getRootFileNames(program));
         const outDir = opts.outDir || rootDir;
 
-        for (const tsFile of program.getRootFileNames()) {
+        for (const tsFile of getRootFileNames(program)) {
             const jsFile = normalizePath(
                 resolve(outDir, relative(rootDir, tsFile)).replace(
                     /\.([cm]?)[tj]sx?$/,
@@ -409,11 +410,11 @@ function getEntryPrograms(
         options.getProjectReferences().length === 0;
 
     const rootProgram = noTsConfigFound
-        ? ts.createProgram({
+        ? createProgram({
             rootNames: inputFiles,
             options: options.getCompilerOptions(logger),
         })
-        : ts.createProgram({
+        : createProgram({
             rootNames: options.getFileNames(),
             options: options.getCompilerOptions(logger),
             projectReferences: options.getProjectReferences(),
@@ -427,16 +428,16 @@ function getEntryPrograms(
     const programs = [rootProgram];
     // This might be a solution style tsconfig, in which case we need to add a program for each
     // reference so that the converter can look through each of these.
-    if (rootProgram.getRootFileNames().length === 0) {
+    if (getRootFileNames(rootProgram).length === 0) {
         logger.verbose(
             "tsconfig appears to be a solution style tsconfig - creating programs for references",
         );
-        const resolvedReferences = rootProgram.getResolvedProjectReferences();
-        for (const ref of resolvedReferences ?? []) {
+        for (const reference of options.getProjectReferences()) {
+            const ref = getResolvedProjectReference(reference);
             if (!ref) continue; // This indicates bad configuration... will be reported later.
 
             programs.push(
-                ts.createProgram({
+                createProgram({
                     options: options.fixCompilerOptions(
                         ref.commandLine.options,
                         logger,
@@ -454,6 +455,13 @@ function getEntryPrograms(
     }
 
     return programs;
+}
+
+// A project reference may name a directory or a config file.
+function getResolvedProjectReference(reference: ts.ProjectReference) {
+    const configPath = isDir(reference.path) ? join(reference.path, "tsconfig.json") : reference.path;
+    if (!FS.existsSync(configPath)) return;
+    return { commandLine: getTypeScriptApi().parseConfigFile(configPath) };
 }
 
 /**
